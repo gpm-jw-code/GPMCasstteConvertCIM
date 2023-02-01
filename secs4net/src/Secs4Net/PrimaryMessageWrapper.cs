@@ -2,14 +2,18 @@
 
 namespace Secs4Net;
 
-public sealed class PrimaryMessageWrapper
+public class PrimaryMessageWrapper
 {
     private readonly SemaphoreSlim _semaphoreSlim = new(initialCount: 1);
     private readonly WeakReference<SecsGem> _secsGem;
     public SecsMessage PrimaryMessage { get; }
     public int Id { get; }
     public SecsMessage? SecondaryMessage { get; private set; }
-
+    public PrimaryMessageWrapper(SecsMessage PrimaryMessage, SecsMessage SecondaryMessage)
+    {
+        this.PrimaryMessage = PrimaryMessage;
+        this.SecondaryMessage = SecondaryMessage;
+    }
     internal PrimaryMessageWrapper(SecsGem secsGem, SecsMessage primaryMessage, int id)
     {
         _secsGem = new WeakReference<SecsGem>(secsGem);

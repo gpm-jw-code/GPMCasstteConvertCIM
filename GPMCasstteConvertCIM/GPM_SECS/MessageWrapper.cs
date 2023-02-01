@@ -14,7 +14,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS
         {
         }
 
-        public override string PrimaryMessageSML
+        public  string PrimaryMessageSML
         {
             get
             {
@@ -24,7 +24,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS
             }
         }
 
-        public override string SecondaryMessageSML
+        public  string SecondaryMessageSML
         {
             get
             {
