@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GPMCasstteConvertCIMTests",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Secs4Net", "secs4net\src\Secs4Net\Secs4Net.csproj", "{8CC7397D-A169-4564-837F-5F652A38A001}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Secs4Net.Sml", "secs4net\src\Secs4Net.Sml\Secs4Net.Sml.csproj", "{F1C1EFDA-B423-48E7-A621-66157A8B6157}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{8CC7397D-A169-4564-837F-5F652A38A001}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8CC7397D-A169-4564-837F-5F652A38A001}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8CC7397D-A169-4564-837F-5F652A38A001}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F1C1EFDA-B423-48E7-A621-66157A8B6157}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F1C1EFDA-B423-48E7-A621-66157A8B6157}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F1C1EFDA-B423-48E7-A621-66157A8B6157}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F1C1EFDA-B423-48E7-A621-66157A8B6157}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
