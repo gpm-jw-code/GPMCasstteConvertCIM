@@ -1,0 +1,42 @@
+{
+  "Ai1Compenstate": {
+    "EMethod": 0,
+    "Value": 1.0
+  },
+  "Ai2Compenstate": {
+    "EMethod": 0,
+    "Value": 1.0
+  },
+  "Ai3Compenstate": {
+    "EMethod": 0,
+    "Value": 1.0
+  },
+  "Ai4Compenstate": {
+    "EMethod": 0,
+    "Value": 1.0
+  },
+  "Ai5Compenstate": {
+    "EMethod": 0,
+    "Value": 1.0
+  },
+  "Ai6Compenstate": {
+    "EMethod": 0,
+    "Value": 1.0
+  },
+  "Ai7Compenstate": {
+    "EMethod": 0,
+    "Value": 1.0
+  },
+  "Ai8Compenstate": {
+    "EMethod": 0,
+    "Value": 1.0
+  },
+  "Ai9Compenstate": {
+    "EMethod": 0,
+    "Value": 1.0
+  },
+  "Ai9_ILSensor_Compenstate": {
+    "EMethod": 0,
+    "Value": 0.01
+  }
+}

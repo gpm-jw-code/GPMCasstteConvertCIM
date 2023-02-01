@@ -1,0 +1,25 @@
+<Project>
+  <PropertyGroup>
+    <Version>2.1.1</Version>
+    <Copyright>Copyright © secs4net 2021</Copyright>
+    <RepositoryUrl>https://github.com/mkjeff/secs4net</RepositoryUrl>
+    <Authors>mkjeff</Authors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Nullable>enable</Nullable>
+    <LangVersion>10.0</LangVersion>
+    <Deterministic>true</Deterministic>
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+	<EnablePackageValidation>true</EnablePackageValidation>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\common\IsExternalInit.cs" Link="common\IsExternalInit.cs" />
+    <Compile Include="..\..\common\NullableAttributes.cs" Link="common\NullableAttributes.cs" />
+    <Compile Include="..\..\common\Range.cs" Link="common\Range.cs" />
+    <Compile Include="..\..\common\SkipLocalsInit.cs" Link="common\SkipLocalsInit.cs" />
+  </ItemGroup>
+</Project>
