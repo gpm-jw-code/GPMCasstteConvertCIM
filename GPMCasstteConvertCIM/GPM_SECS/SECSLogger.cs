@@ -31,7 +31,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS
             _richTextBox?.Invoke((MethodInvoker)delegate
             {
                 AppendDateTime();
-                _richTextBox.SelectionColor = Color.Black;
+                _richTextBox.SelectionColor = Color.Yellow;
                 _richTextBox.AppendText($"<-- [0x{id:X8}] {msg.ToSml()}\n");
             });
         }
@@ -41,7 +41,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS
             _richTextBox?.Invoke((MethodInvoker)delegate
             {
                 AppendDateTime();
-                _richTextBox.SelectionColor = Color.Black;
+                _richTextBox.SelectionColor = Color.Green;
                 _richTextBox.AppendText($"--> [0x{id:X8}] {msg.ToSml()}\n");
             });
         }

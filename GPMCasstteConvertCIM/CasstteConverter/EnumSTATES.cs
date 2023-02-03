@@ -8,6 +8,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 {
     public class EnumSTATES
     {
+
         public enum AUTO_MANUAL_MODE
         {
             AUTO = 1,

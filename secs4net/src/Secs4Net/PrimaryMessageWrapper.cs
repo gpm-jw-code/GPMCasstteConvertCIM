@@ -1,18 +1,74 @@
 ﻿using CommunityToolkit.HighPerformance.Buffers;
-
+using System.ComponentModel;
+using Secs4Net.Sml;
 namespace Secs4Net;
 
-public class PrimaryMessageWrapper
+
+public class PrimaryMessageWrapper : INotifyPropertyChanged
 {
+    public event PropertyChangedEventHandler? PropertyChanged;
+
     private readonly SemaphoreSlim _semaphoreSlim = new(initialCount: 1);
     private readonly WeakReference<SecsGem> _secsGem;
-    public SecsMessage PrimaryMessage { get; }
+
+    private string _PrimaryMessageSML;
+    private string _SecondaryMessageSML;
+    private SecsMessage _PrimaryMessage;
+    private SecsMessage? _SecondaryMessage;
     public int Id { get; }
-    public SecsMessage? SecondaryMessage { get; private set; }
-    public PrimaryMessageWrapper(SecsMessage PrimaryMessage, SecsMessage SecondaryMessage)
+    public string PrimaryMessageSML
     {
-        this.PrimaryMessage = PrimaryMessage;
-        this.SecondaryMessage = SecondaryMessage;
+        get => _PrimaryMessageSML;
+        private set
+        {
+            _PrimaryMessageSML = value;
+            if (PropertyChanged != null)
+            {
+                PropertyChanged.Invoke(this, new PropertyChangedEventArgs("PrimaryMessageSML"));
+            }
+        }
+    }
+    public string SecondaryMessageSML
+    {
+        get=>_SecondaryMessageSML;
+        private set
+        {
+            _SecondaryMessageSML = value;
+            if (PropertyChanged != null)
+            {
+                PropertyChanged.Invoke(this, new PropertyChangedEventArgs("SecondaryMessageSML"));
+            }
+        }
+    }
+
+    public SecsMessage PrimaryMessage
+    {
+        get => _PrimaryMessage;
+        set
+        {
+            _PrimaryMessage = value;
+            if (_PrimaryMessage != null)
+            {
+                PrimaryMessageSML = _PrimaryMessage.ToSml();
+            }
+        }
+    }
+    public SecsMessage? SecondaryMessage
+    {
+        get => _SecondaryMessage;
+        set
+        {
+            _SecondaryMessage = value;
+
+            if (_SecondaryMessage != null)
+            {
+                SecondaryMessageSML = _SecondaryMessage.ToSml();
+            }
+        }
+    }
+    public PrimaryMessageWrapper()
+    {
+
     }
     internal PrimaryMessageWrapper(SecsGem secsGem, SecsMessage primaryMessage, int id)
     {

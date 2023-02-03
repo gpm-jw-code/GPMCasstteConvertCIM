@@ -33,18 +33,10 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.dgvMsgFromMCS = new System.Windows.Forms.DataGridView();
-            this.PrimaryMessageSML = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SecondaryMessageSML = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.messageWrapperBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.dgvMsgFromAGVS = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvActiveMsgToMCS = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvActiveMsgToAGVS = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn14 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label2 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -81,9 +73,20 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.rtbSystemLogShow = new System.Windows.Forms.RichTextBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.labSysTime = new System.Windows.Forms.ToolStripStatusLabel();
             this.SysTimer = new System.Windows.Forms.Timer(this.components);
+            this.primaryMessageWrapperBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+            this.primaryMessageSMLDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.secondaryMessageSMLDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.primaryMessageWrapperBindingSource2 = new System.Windows.Forms.BindingSource(this.components);
+            this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.secondaryMessageSMLDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.primaryMessageWrapperBindingSource3 = new System.Windows.Forms.BindingSource(this.components);
+            this.primaryMessageSMLDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.secondaryMessageSMLDataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.primaryMessageWrapperBindingSource4 = new System.Windows.Forms.BindingSource(this.components);
+            this.primaryMessageSMLDataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.secondaryMessageSMLDataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -99,6 +102,10 @@
             this.pnlSideLeft.SuspendLayout();
             this.panel1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.primaryMessageWrapperBindingSource1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.primaryMessageWrapperBindingSource2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.primaryMessageWrapperBindingSource3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.primaryMessageWrapperBindingSource4)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -109,7 +116,7 @@
             this.tabControl1.Location = new System.Drawing.Point(133, 32);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1427, 605);
+            this.tabControl1.Size = new System.Drawing.Size(1449, 605);
             this.tabControl1.TabIndex = 1;
             // 
             // tabPage1
@@ -124,7 +131,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1419, 577);
+            this.tabPage1.Size = new System.Drawing.Size(1441, 577);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "HOME";
             // 
@@ -152,7 +159,7 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 17F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(468, 555);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(507, 540);
             this.tableLayoutPanel2.TabIndex = 10;
             // 
             // dgvMsgFromMCS
@@ -164,9 +171,9 @@
             this.dgvMsgFromMCS.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Sunken;
             this.dgvMsgFromMCS.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvMsgFromMCS.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.PrimaryMessageSML,
-            this.SecondaryMessageSML});
-            this.dgvMsgFromMCS.DataSource = this.messageWrapperBindingSource;
+            this.primaryMessageSMLDataGridViewTextBoxColumn2,
+            this.secondaryMessageSMLDataGridViewTextBoxColumn3});
+            this.dgvMsgFromMCS.DataSource = this.primaryMessageWrapperBindingSource4;
             this.dgvMsgFromMCS.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvMsgFromMCS.GridColor = System.Drawing.Color.DarkCyan;
             this.dgvMsgFromMCS.Location = new System.Drawing.Point(4, 22);
@@ -174,22 +181,8 @@
             this.dgvMsgFromMCS.ReadOnly = true;
             this.dgvMsgFromMCS.RowHeadersVisible = false;
             this.dgvMsgFromMCS.RowTemplate.Height = 25;
-            this.dgvMsgFromMCS.Size = new System.Drawing.Size(226, 252);
+            this.dgvMsgFromMCS.Size = new System.Drawing.Size(246, 244);
             this.dgvMsgFromMCS.TabIndex = 6;
-            // 
-            // PrimaryMessageSML
-            // 
-            this.PrimaryMessageSML.DataPropertyName = "PrimaryMessageSML";
-            this.PrimaryMessageSML.HeaderText = "Primary Message";
-            this.PrimaryMessageSML.Name = "PrimaryMessageSML";
-            this.PrimaryMessageSML.ReadOnly = true;
-            // 
-            // SecondaryMessageSML
-            // 
-            this.SecondaryMessageSML.DataPropertyName = "SecondaryMessageSML";
-            this.SecondaryMessageSML.HeaderText = "Secondary Message";
-            this.SecondaryMessageSML.Name = "SecondaryMessageSML";
-            this.SecondaryMessageSML.ReadOnly = true;
             // 
             // dgvMsgFromAGVS
             // 
@@ -200,104 +193,60 @@
             this.dgvMsgFromAGVS.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Sunken;
             this.dgvMsgFromAGVS.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvMsgFromAGVS.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn6,
-            this.dataGridViewTextBoxColumn12});
-            this.dgvMsgFromAGVS.DataSource = this.messageWrapperBindingSource;
+            this.primaryMessageSMLDataGridViewTextBoxColumn,
+            this.secondaryMessageSMLDataGridViewTextBoxColumn});
+            this.dgvMsgFromAGVS.DataSource = this.primaryMessageWrapperBindingSource1;
             this.dgvMsgFromAGVS.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvMsgFromAGVS.GridColor = System.Drawing.Color.DarkCyan;
-            this.dgvMsgFromAGVS.Location = new System.Drawing.Point(4, 299);
+            this.dgvMsgFromAGVS.Location = new System.Drawing.Point(4, 291);
             this.dgvMsgFromAGVS.Name = "dgvMsgFromAGVS";
             this.dgvMsgFromAGVS.ReadOnly = true;
             this.dgvMsgFromAGVS.RowHeadersVisible = false;
             this.dgvMsgFromAGVS.RowTemplate.Height = 25;
-            this.dgvMsgFromAGVS.Size = new System.Drawing.Size(226, 252);
+            this.dgvMsgFromAGVS.Size = new System.Drawing.Size(246, 245);
             this.dgvMsgFromAGVS.TabIndex = 8;
-            // 
-            // dataGridViewTextBoxColumn6
-            // 
-            this.dataGridViewTextBoxColumn6.DataPropertyName = "PrimaryMessageSML";
-            this.dataGridViewTextBoxColumn6.HeaderText = "Message";
-            this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
-            this.dataGridViewTextBoxColumn6.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn12
-            // 
-            this.dataGridViewTextBoxColumn12.DataPropertyName = "SecondaryMessageSML";
-            this.dataGridViewTextBoxColumn12.HeaderText = "Message";
-            this.dataGridViewTextBoxColumn12.Name = "dataGridViewTextBoxColumn12";
-            this.dataGridViewTextBoxColumn12.ReadOnly = true;
             // 
             // dgvActiveMsgToMCS
             // 
             this.dgvActiveMsgToMCS.AllowUserToDeleteRows = false;
-            this.dgvActiveMsgToMCS.AllowUserToOrderColumns = true;
             this.dgvActiveMsgToMCS.AutoGenerateColumns = false;
             this.dgvActiveMsgToMCS.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvActiveMsgToMCS.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Sunken;
             this.dgvActiveMsgToMCS.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvActiveMsgToMCS.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn4,
-            this.dataGridViewTextBoxColumn10});
-            this.dgvActiveMsgToMCS.DataSource = this.messageWrapperBindingSource;
+            this.primaryMessageSMLDataGridViewTextBoxColumn1,
+            this.secondaryMessageSMLDataGridViewTextBoxColumn2});
+            this.dgvActiveMsgToMCS.DataSource = this.primaryMessageWrapperBindingSource3;
             this.dgvActiveMsgToMCS.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvActiveMsgToMCS.GridColor = System.Drawing.Color.DarkCyan;
-            this.dgvActiveMsgToMCS.Location = new System.Drawing.Point(237, 22);
+            this.dgvActiveMsgToMCS.Location = new System.Drawing.Point(257, 22);
             this.dgvActiveMsgToMCS.Name = "dgvActiveMsgToMCS";
             this.dgvActiveMsgToMCS.ReadOnly = true;
             this.dgvActiveMsgToMCS.RowHeadersVisible = false;
             this.dgvActiveMsgToMCS.RowTemplate.Height = 25;
-            this.dgvActiveMsgToMCS.Size = new System.Drawing.Size(227, 252);
+            this.dgvActiveMsgToMCS.Size = new System.Drawing.Size(246, 244);
             this.dgvActiveMsgToMCS.TabIndex = 7;
-            // 
-            // dataGridViewTextBoxColumn4
-            // 
-            this.dataGridViewTextBoxColumn4.DataPropertyName = "PrimaryMessageSML";
-            this.dataGridViewTextBoxColumn4.HeaderText = "Message";
-            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
-            this.dataGridViewTextBoxColumn4.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn10
-            // 
-            this.dataGridViewTextBoxColumn10.DataPropertyName = "SecondaryMessageSML";
-            this.dataGridViewTextBoxColumn10.HeaderText = "Message";
-            this.dataGridViewTextBoxColumn10.Name = "dataGridViewTextBoxColumn10";
-            this.dataGridViewTextBoxColumn10.ReadOnly = true;
             // 
             // dgvActiveMsgToAGVS
             // 
             this.dgvActiveMsgToAGVS.AllowUserToDeleteRows = false;
-            this.dgvActiveMsgToAGVS.AllowUserToOrderColumns = true;
             this.dgvActiveMsgToAGVS.AutoGenerateColumns = false;
             this.dgvActiveMsgToAGVS.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvActiveMsgToAGVS.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Sunken;
             this.dgvActiveMsgToAGVS.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvActiveMsgToAGVS.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn8,
-            this.dataGridViewTextBoxColumn14});
-            this.dgvActiveMsgToAGVS.DataSource = this.messageWrapperBindingSource;
+            this.dataGridViewTextBoxColumn6,
+            this.secondaryMessageSMLDataGridViewTextBoxColumn1});
+            this.dgvActiveMsgToAGVS.DataSource = this.primaryMessageWrapperBindingSource2;
             this.dgvActiveMsgToAGVS.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvActiveMsgToAGVS.GridColor = System.Drawing.Color.DarkCyan;
-            this.dgvActiveMsgToAGVS.Location = new System.Drawing.Point(237, 299);
+            this.dgvActiveMsgToAGVS.Location = new System.Drawing.Point(257, 291);
             this.dgvActiveMsgToAGVS.Name = "dgvActiveMsgToAGVS";
             this.dgvActiveMsgToAGVS.ReadOnly = true;
             this.dgvActiveMsgToAGVS.RowHeadersVisible = false;
             this.dgvActiveMsgToAGVS.RowTemplate.Height = 25;
-            this.dgvActiveMsgToAGVS.Size = new System.Drawing.Size(227, 252);
+            this.dgvActiveMsgToAGVS.Size = new System.Drawing.Size(246, 245);
             this.dgvActiveMsgToAGVS.TabIndex = 9;
-            // 
-            // dataGridViewTextBoxColumn8
-            // 
-            this.dataGridViewTextBoxColumn8.DataPropertyName = "PrimaryMessageSML";
-            this.dataGridViewTextBoxColumn8.HeaderText = "Message";
-            this.dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
-            this.dataGridViewTextBoxColumn8.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn14
-            // 
-            this.dataGridViewTextBoxColumn14.DataPropertyName = "SecondaryMessageSML";
-            this.dataGridViewTextBoxColumn14.HeaderText = "Message";
-            this.dataGridViewTextBoxColumn14.Name = "dataGridViewTextBoxColumn14";
-            this.dataGridViewTextBoxColumn14.ReadOnly = true;
             // 
             // label2
             // 
@@ -308,7 +257,7 @@
             this.label2.Location = new System.Drawing.Point(1, 1);
             this.label2.Margin = new System.Windows.Forms.Padding(0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(232, 17);
+            this.label2.Size = new System.Drawing.Size(252, 17);
             this.label2.TabIndex = 10;
             this.label2.Text = "From MCS";
             // 
@@ -318,10 +267,10 @@
             this.label4.BackColor = System.Drawing.Color.Wheat;
             this.label4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label4.Location = new System.Drawing.Point(1, 278);
+            this.label4.Location = new System.Drawing.Point(1, 270);
             this.label4.Margin = new System.Windows.Forms.Padding(0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(232, 17);
+            this.label4.Size = new System.Drawing.Size(252, 17);
             this.label4.TabIndex = 12;
             this.label4.Text = "From AGVS";
             // 
@@ -331,10 +280,10 @@
             this.label3.BackColor = System.Drawing.Color.Aquamarine;
             this.label3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label3.Location = new System.Drawing.Point(234, 1);
+            this.label3.Location = new System.Drawing.Point(254, 1);
             this.label3.Margin = new System.Windows.Forms.Padding(0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(233, 17);
+            this.label3.Size = new System.Drawing.Size(252, 17);
             this.label3.TabIndex = 11;
             this.label3.Text = "To MCS";
             // 
@@ -344,10 +293,10 @@
             this.label5.BackColor = System.Drawing.Color.Wheat;
             this.label5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label5.Location = new System.Drawing.Point(234, 278);
+            this.label5.Location = new System.Drawing.Point(254, 270);
             this.label5.Margin = new System.Windows.Forms.Padding(0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(233, 17);
+            this.label5.Size = new System.Drawing.Size(252, 17);
             this.label5.TabIndex = 13;
             this.label5.Text = "To AGVS";
             // 
@@ -397,7 +346,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 24);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1419, 577);
+            this.tabPage2.Size = new System.Drawing.Size(1441, 577);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "LOG";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -427,7 +376,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 41F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1413, 571);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1435, 571);
             this.tableLayoutPanel1.TabIndex = 2;
             // 
             // checkBox4
@@ -441,9 +390,9 @@
             this.checkBox4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.checkBox4.Font = new System.Drawing.Font("Microsoft JhengHei UI", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.checkBox4.ForeColor = System.Drawing.Color.White;
-            this.checkBox4.Location = new System.Drawing.Point(1062, 3);
+            this.checkBox4.Location = new System.Drawing.Point(1077, 3);
             this.checkBox4.Name = "checkBox4";
-            this.checkBox4.Size = new System.Drawing.Size(348, 35);
+            this.checkBox4.Size = new System.Drawing.Size(355, 35);
             this.checkBox4.TabIndex = 8;
             this.checkBox4.Text = "---";
             this.checkBox4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -460,9 +409,9 @@
             this.checkBox3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.checkBox3.Font = new System.Drawing.Font("Microsoft JhengHei UI", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.checkBox3.ForeColor = System.Drawing.Color.White;
-            this.checkBox3.Location = new System.Drawing.Point(709, 3);
+            this.checkBox3.Location = new System.Drawing.Point(719, 3);
             this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(347, 35);
+            this.checkBox3.Size = new System.Drawing.Size(352, 35);
             this.checkBox3.TabIndex = 7;
             this.checkBox3.Text = "---";
             this.checkBox3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -479,9 +428,9 @@
             this.checkBox2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.checkBox2.Font = new System.Drawing.Font("Microsoft JhengHei UI", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.checkBox2.ForeColor = System.Drawing.Color.White;
-            this.checkBox2.Location = new System.Drawing.Point(356, 3);
+            this.checkBox2.Location = new System.Drawing.Point(361, 3);
             this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(347, 35);
+            this.checkBox2.Size = new System.Drawing.Size(352, 35);
             this.checkBox2.TabIndex = 6;
             this.checkBox2.Text = "CIM<->MCS";
             this.checkBox2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -496,7 +445,7 @@
             this.rtbSecsHostLog.ForeColor = System.Drawing.Color.White;
             this.rtbSecsHostLog.Location = new System.Drawing.Point(3, 44);
             this.rtbSecsHostLog.Name = "rtbSecsHostLog";
-            this.rtbSecsHostLog.Size = new System.Drawing.Size(347, 238);
+            this.rtbSecsHostLog.Size = new System.Drawing.Size(352, 238);
             this.rtbSecsHostLog.TabIndex = 1;
             this.rtbSecsHostLog.Text = "";
             // 
@@ -507,9 +456,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.rtbSecsClientLog.BackColor = System.Drawing.SystemColors.InfoText;
             this.rtbSecsClientLog.ForeColor = System.Drawing.Color.White;
-            this.rtbSecsClientLog.Location = new System.Drawing.Point(356, 44);
+            this.rtbSecsClientLog.Location = new System.Drawing.Point(361, 44);
             this.rtbSecsClientLog.Name = "rtbSecsClientLog";
-            this.rtbSecsClientLog.Size = new System.Drawing.Size(347, 238);
+            this.rtbSecsClientLog.Size = new System.Drawing.Size(352, 238);
             this.rtbSecsClientLog.TabIndex = 2;
             this.rtbSecsClientLog.Text = "";
             // 
@@ -520,9 +469,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.rtbCasstteConvertLog.BackColor = System.Drawing.SystemColors.InfoText;
             this.rtbCasstteConvertLog.ForeColor = System.Drawing.Color.White;
-            this.rtbCasstteConvertLog.Location = new System.Drawing.Point(709, 44);
+            this.rtbCasstteConvertLog.Location = new System.Drawing.Point(719, 44);
             this.rtbCasstteConvertLog.Name = "rtbCasstteConvertLog";
-            this.rtbCasstteConvertLog.Size = new System.Drawing.Size(347, 238);
+            this.rtbCasstteConvertLog.Size = new System.Drawing.Size(352, 238);
             this.rtbCasstteConvertLog.TabIndex = 3;
             this.rtbCasstteConvertLog.Text = "";
             // 
@@ -533,9 +482,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.richTextBox3.BackColor = System.Drawing.SystemColors.InfoText;
             this.richTextBox3.ForeColor = System.Drawing.Color.White;
-            this.richTextBox3.Location = new System.Drawing.Point(1062, 44);
+            this.richTextBox3.Location = new System.Drawing.Point(1077, 44);
             this.richTextBox3.Name = "richTextBox3";
-            this.richTextBox3.Size = new System.Drawing.Size(348, 238);
+            this.richTextBox3.Size = new System.Drawing.Size(355, 238);
             this.richTextBox3.TabIndex = 4;
             this.richTextBox3.Text = "";
             // 
@@ -552,7 +501,7 @@
             this.checkBox1.ForeColor = System.Drawing.Color.White;
             this.checkBox1.Location = new System.Drawing.Point(3, 3);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(347, 35);
+            this.checkBox1.Size = new System.Drawing.Size(352, 35);
             this.checkBox1.TabIndex = 5;
             this.checkBox1.Text = "CIM<->AGVS";
             this.checkBox1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -573,7 +522,7 @@
             this.checkBox5.ForeColor = System.Drawing.Color.White;
             this.checkBox5.Location = new System.Drawing.Point(3, 288);
             this.checkBox5.Name = "checkBox5";
-            this.checkBox5.Size = new System.Drawing.Size(347, 35);
+            this.checkBox5.Size = new System.Drawing.Size(352, 35);
             this.checkBox5.TabIndex = 9;
             this.checkBox5.Text = "ModbusTcpServer";
             this.checkBox5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -588,13 +537,13 @@
             this.rtbModbusTcpServerLog.ForeColor = System.Drawing.Color.White;
             this.rtbModbusTcpServerLog.Location = new System.Drawing.Point(3, 329);
             this.rtbModbusTcpServerLog.Name = "rtbModbusTcpServerLog";
-            this.rtbModbusTcpServerLog.Size = new System.Drawing.Size(347, 239);
+            this.rtbModbusTcpServerLog.Size = new System.Drawing.Size(352, 239);
             this.rtbModbusTcpServerLog.TabIndex = 7;
             this.rtbModbusTcpServerLog.Text = "";
             // 
             // menuStrip1
             // 
-            this.menuStrip1.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.menuStrip1.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.menuStrip1.Font = new System.Drawing.Font("Microsoft JhengHei UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripComboBox1,
@@ -602,8 +551,8 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(6, 2, 0, 6);
-            this.menuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.menuStrip1.Size = new System.Drawing.Size(1560, 32);
+            this.menuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
+            this.menuStrip1.Size = new System.Drawing.Size(1582, 32);
             this.menuStrip1.TabIndex = 3;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -678,11 +627,12 @@
             // 
             // pnlSideLeft
             // 
-            this.pnlSideLeft.BackColor = System.Drawing.Color.White;
+            this.pnlSideLeft.BackColor = System.Drawing.Color.Transparent;
             this.pnlSideLeft.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pnlSideLeft.Controls.Add(this.uscConnectionStates1);
             this.pnlSideLeft.Controls.Add(this.label1);
             this.pnlSideLeft.Dock = System.Windows.Forms.DockStyle.Left;
+            this.pnlSideLeft.ForeColor = System.Drawing.Color.White;
             this.pnlSideLeft.Location = new System.Drawing.Point(0, 32);
             this.pnlSideLeft.Name = "pnlSideLeft";
             this.pnlSideLeft.Size = new System.Drawing.Size(133, 752);
@@ -691,7 +641,7 @@
             // uscConnectionStates1
             // 
             this.uscConnectionStates1.AutoSize = true;
-            this.uscConnectionStates1.BackColor = System.Drawing.Color.White;
+            this.uscConnectionStates1.BackColor = System.Drawing.Color.Transparent;
             this.uscConnectionStates1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.uscConnectionStates1.Location = new System.Drawing.Point(0, 33);
             this.uscConnectionStates1.Name = "uscConnectionStates1";
@@ -720,40 +670,36 @@
             this.panel1.Location = new System.Drawing.Point(133, 637);
             this.panel1.Name = "panel1";
             this.panel1.Padding = new System.Windows.Forms.Padding(1);
-            this.panel1.Size = new System.Drawing.Size(1427, 147);
+            this.panel1.Size = new System.Drawing.Size(1449, 147);
             this.panel1.TabIndex = 6;
             // 
             // rtbSystemLogShow
             // 
             this.rtbSystemLogShow.BackColor = System.Drawing.Color.Black;
+            this.rtbSystemLogShow.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.rtbSystemLogShow.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rtbSystemLogShow.ForeColor = System.Drawing.Color.White;
             this.rtbSystemLogShow.Location = new System.Drawing.Point(1, 1);
             this.rtbSystemLogShow.Name = "rtbSystemLogShow";
-            this.rtbSystemLogShow.Size = new System.Drawing.Size(1423, 143);
+            this.rtbSystemLogShow.Size = new System.Drawing.Size(1445, 143);
             this.rtbSystemLogShow.TabIndex = 0;
             this.rtbSystemLogShow.Text = "";
             // 
             // statusStrip1
             // 
+            this.statusStrip1.BackColor = System.Drawing.Color.Transparent;
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1,
             this.labSysTime});
             this.statusStrip1.Location = new System.Drawing.Point(0, 784);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1560, 22);
+            this.statusStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
+            this.statusStrip1.Size = new System.Drawing.Size(1582, 22);
             this.statusStrip1.TabIndex = 8;
             this.statusStrip1.Text = "statusStrip1";
             // 
-            // toolStripStatusLabel1
-            // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(1421, 17);
-            this.toolStripStatusLabel1.Spring = true;
-            this.toolStripStatusLabel1.Text = "CIM";
-            // 
             // labSysTime
             // 
+            this.labSysTime.ForeColor = System.Drawing.Color.Coral;
             this.labSysTime.Name = "labSysTime";
             this.labSysTime.Size = new System.Drawing.Size(124, 17);
             this.labSysTime.Text = "1991/10/20 10:00:00";
@@ -764,12 +710,85 @@
             this.SysTimer.Interval = 1000;
             this.SysTimer.Tick += new System.EventHandler(this.SysTimer_Tick);
             // 
+            // primaryMessageWrapperBindingSource1
+            // 
+            this.primaryMessageWrapperBindingSource1.DataSource = typeof(Secs4Net.PrimaryMessageWrapper);
+            // 
+            // primaryMessageSMLDataGridViewTextBoxColumn
+            // 
+            this.primaryMessageSMLDataGridViewTextBoxColumn.DataPropertyName = "PrimaryMessageSML";
+            this.primaryMessageSMLDataGridViewTextBoxColumn.HeaderText = "PrimaryMessageSML";
+            this.primaryMessageSMLDataGridViewTextBoxColumn.Name = "primaryMessageSMLDataGridViewTextBoxColumn";
+            this.primaryMessageSMLDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // secondaryMessageSMLDataGridViewTextBoxColumn
+            // 
+            this.secondaryMessageSMLDataGridViewTextBoxColumn.DataPropertyName = "SecondaryMessageSML";
+            this.secondaryMessageSMLDataGridViewTextBoxColumn.HeaderText = "SecondaryMessageSML";
+            this.secondaryMessageSMLDataGridViewTextBoxColumn.Name = "secondaryMessageSMLDataGridViewTextBoxColumn";
+            this.secondaryMessageSMLDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // primaryMessageWrapperBindingSource2
+            // 
+            this.primaryMessageWrapperBindingSource2.DataSource = typeof(Secs4Net.PrimaryMessageWrapper);
+            // 
+            // dataGridViewTextBoxColumn6
+            // 
+            this.dataGridViewTextBoxColumn6.DataPropertyName = "PrimaryMessageSML";
+            this.dataGridViewTextBoxColumn6.HeaderText = "PrimaryMessageSML";
+            this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
+            this.dataGridViewTextBoxColumn6.ReadOnly = true;
+            // 
+            // secondaryMessageSMLDataGridViewTextBoxColumn1
+            // 
+            this.secondaryMessageSMLDataGridViewTextBoxColumn1.DataPropertyName = "SecondaryMessageSML";
+            this.secondaryMessageSMLDataGridViewTextBoxColumn1.HeaderText = "SecondaryMessageSML";
+            this.secondaryMessageSMLDataGridViewTextBoxColumn1.Name = "secondaryMessageSMLDataGridViewTextBoxColumn1";
+            this.secondaryMessageSMLDataGridViewTextBoxColumn1.ReadOnly = true;
+            // 
+            // primaryMessageWrapperBindingSource3
+            // 
+            this.primaryMessageWrapperBindingSource3.DataSource = typeof(Secs4Net.PrimaryMessageWrapper);
+            // 
+            // primaryMessageSMLDataGridViewTextBoxColumn1
+            // 
+            this.primaryMessageSMLDataGridViewTextBoxColumn1.DataPropertyName = "PrimaryMessageSML";
+            this.primaryMessageSMLDataGridViewTextBoxColumn1.HeaderText = "PrimaryMessageSML";
+            this.primaryMessageSMLDataGridViewTextBoxColumn1.Name = "primaryMessageSMLDataGridViewTextBoxColumn1";
+            this.primaryMessageSMLDataGridViewTextBoxColumn1.ReadOnly = true;
+            // 
+            // secondaryMessageSMLDataGridViewTextBoxColumn2
+            // 
+            this.secondaryMessageSMLDataGridViewTextBoxColumn2.DataPropertyName = "SecondaryMessageSML";
+            this.secondaryMessageSMLDataGridViewTextBoxColumn2.HeaderText = "SecondaryMessageSML";
+            this.secondaryMessageSMLDataGridViewTextBoxColumn2.Name = "secondaryMessageSMLDataGridViewTextBoxColumn2";
+            this.secondaryMessageSMLDataGridViewTextBoxColumn2.ReadOnly = true;
+            // 
+            // primaryMessageWrapperBindingSource4
+            // 
+            this.primaryMessageWrapperBindingSource4.DataSource = typeof(Secs4Net.PrimaryMessageWrapper);
+            // 
+            // primaryMessageSMLDataGridViewTextBoxColumn2
+            // 
+            this.primaryMessageSMLDataGridViewTextBoxColumn2.DataPropertyName = "PrimaryMessageSML";
+            this.primaryMessageSMLDataGridViewTextBoxColumn2.HeaderText = "PrimaryMessageSML";
+            this.primaryMessageSMLDataGridViewTextBoxColumn2.Name = "primaryMessageSMLDataGridViewTextBoxColumn2";
+            this.primaryMessageSMLDataGridViewTextBoxColumn2.ReadOnly = true;
+            // 
+            // secondaryMessageSMLDataGridViewTextBoxColumn3
+            // 
+            this.secondaryMessageSMLDataGridViewTextBoxColumn3.DataPropertyName = "SecondaryMessageSML";
+            this.secondaryMessageSMLDataGridViewTextBoxColumn3.HeaderText = "SecondaryMessageSML";
+            this.secondaryMessageSMLDataGridViewTextBoxColumn3.Name = "secondaryMessageSMLDataGridViewTextBoxColumn3";
+            this.secondaryMessageSMLDataGridViewTextBoxColumn3.ReadOnly = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(1560, 806);
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
+            this.ClientSize = new System.Drawing.Size(1582, 806);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.pnlSideLeft);
@@ -801,6 +820,10 @@
             this.panel1.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.primaryMessageWrapperBindingSource1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.primaryMessageWrapperBindingSource2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.primaryMessageWrapperBindingSource3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.primaryMessageWrapperBindingSource4)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -838,17 +861,11 @@
         private ToolStripMenuItem toolStripMenuItem1;
         private BindingSource messageWrapperBindingSource;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn13;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn14;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn11;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn12;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn9;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn10;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private TableLayoutPanel tableLayoutPanel2;
@@ -865,10 +882,19 @@
         private ToolStripMenuItem modbusTCPServerToolStripMenuItem;
         private ToolStripMenuItem aGVS模擬器ToolStripMenuItem;
         private StatusStrip statusStrip1;
-        private ToolStripStatusLabel toolStripStatusLabel1;
         private ToolStripStatusLabel labSysTime;
         private System.Windows.Forms.Timer SysTimer;
-        private DataGridViewTextBoxColumn PrimaryMessageSML;
-        private DataGridViewTextBoxColumn SecondaryMessageSML;
+        private DataGridViewTextBoxColumn primaryMessageSMLDataGridViewTextBoxColumn2;
+        private DataGridViewTextBoxColumn secondaryMessageSMLDataGridViewTextBoxColumn3;
+        private BindingSource primaryMessageWrapperBindingSource4;
+        private DataGridViewTextBoxColumn primaryMessageSMLDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn secondaryMessageSMLDataGridViewTextBoxColumn;
+        private BindingSource primaryMessageWrapperBindingSource1;
+        private DataGridViewTextBoxColumn primaryMessageSMLDataGridViewTextBoxColumn1;
+        private DataGridViewTextBoxColumn secondaryMessageSMLDataGridViewTextBoxColumn2;
+        private BindingSource primaryMessageWrapperBindingSource3;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
+        private DataGridViewTextBoxColumn secondaryMessageSMLDataGridViewTextBoxColumn1;
+        private BindingSource primaryMessageWrapperBindingSource2;
     }
 }

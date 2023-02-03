@@ -11,19 +11,45 @@ namespace GPMCasstteConvertCIM.GPM_SECS
 {
     internal class SECSBase
     {
+
         public Action<ConnectionState> ConnectionChanged { get; internal set; }
+        public string name { get; }
 
         internal SecsGem? secsGem;
         internal HsmsConnection? connector;
-        internal readonly BindingList<MessageWrapper> recvBuffer = new();
-        internal readonly BindingList<MessageWrapper> sendBuffer = new();
+        internal BindingList<PrimaryMessageWrapper> recvBuffer = new(); 
+        internal BindingList<PrimaryMessageWrapper> sendBuffer = new();
+
         internal event EventHandler<PrimaryMessageWrapper> OnPrimaryMessageRecieve;
+        internal event EventHandler MsgRecvBufferOnAdded;
+        internal event EventHandler MsgSendBufferOnAdded;
+
         private ISecsGemLogger _logger;
         private CancellationTokenSource _cancellationTokenSource = new();
 
+        private DataGridView? SendBufferDgvTable;
+        private DataGridView? RevBufferDgvTable;
 
-        internal async void Active(SecsGemOptions secsGemOptions, RichTextBox? logRichTextBox = null)
+        internal SECSBase(string name)
         {
+            this.name = name;
+        }
+
+        internal async void Active(SecsGemOptions secsGemOptions, RichTextBox? logRichTextBox = null, DataGridView SendBufferDgvTable = null, DataGridView RevBufferDgvTable = null)
+        {
+            this.SendBufferDgvTable = SendBufferDgvTable;
+            this.RevBufferDgvTable = RevBufferDgvTable;
+
+            if (this.SendBufferDgvTable != null)
+            {
+                this.SendBufferDgvTable.DataSource = this.sendBuffer;
+            }
+            if (this.RevBufferDgvTable != null)
+            {
+                this.RevBufferDgvTable.DataSource = this.recvBuffer;
+            }
+
+
             _logger = new SECSLogger(logRichTextBox);
             secsGem?.Dispose();
 
@@ -54,13 +80,36 @@ namespace GPMCasstteConvertCIM.GPM_SECS
                 await foreach (PrimaryMessageWrapper primaryMessage in secsGem.GetPrimaryMessageAsync(_cancellationTokenSource.Token))
                 {
                     OnPrimaryMessageRecieve?.Invoke(this, primaryMessage);
-                    recvBuffer.Add(new MessageWrapper(primaryMessage.PrimaryMessage, primaryMessage.SecondaryMessage));
+
+                    if (primaryMessage.PrimaryMessage.ReplyExpected)
+                    {
+                        _ = Task.Factory.StartNew(async () =>
+                        {
+                            while (primaryMessage.SecondaryMessage == null)
+                            {
+                                await Task.Delay(1);
+                            }
+
+                            AddPrimaryMsgToRevBuffer(primaryMessage);
+
+                        });
+
+                    }
+                    else
+                    {
+                        AddPrimaryMsgToRevBuffer(primaryMessage);
+
+                    }
 
                 }
             }
             catch (OperationCanceledException)
             {
 
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
 
             //SecsMessage ms = new SecsMessage(1, 3)
@@ -89,9 +138,52 @@ namespace GPMCasstteConvertCIM.GPM_SECS
             {
                 SecsMessage secondaryMessage;
                 secondaryMessage = await secsGem?.SendAsync(message, cancellationToken);
-                sendBuffer.Add(new MessageWrapper(message, secondaryMessage));
+                try
+                {
+                    AddPrimaryMsgToSendBuffer(message, secondaryMessage);
+                }
+                catch (Exception ex)
+                {
+                }
                 return secondaryMessage;
             });
+        }
+
+
+        private void AddPrimaryMsgToRevBuffer(PrimaryMessageWrapper primaryMessage)
+        {
+            RevBufferDgvTable?.Invoke(new Action(() =>
+            {
+                if (recvBuffer.Count > 10)
+                {
+                    recvBuffer.Clear();
+                }
+
+                recvBuffer.Add(new PrimaryMessageWrapper()
+                {
+                    PrimaryMessage = primaryMessage.PrimaryMessage,
+                    SecondaryMessage = primaryMessage.SecondaryMessage,
+                });
+                RevBufferDgvTable?.Invalidate();
+            }));
+        }
+
+        private void AddPrimaryMsgToSendBuffer(SecsMessage primaryMsg, SecsMessage secondaryMessage)
+        {
+            SendBufferDgvTable?.Invoke(new Action(() =>
+            {
+                if (sendBuffer.Count > 10)
+                {
+                    sendBuffer.Clear();
+                }
+                sendBuffer.Add(new PrimaryMessageWrapper()
+                {
+                    PrimaryMessage = primaryMsg,
+                    SecondaryMessage = secondaryMessage,
+                });
+                SendBufferDgvTable?.Invalidate();
+            }));
+
         }
     }
 }

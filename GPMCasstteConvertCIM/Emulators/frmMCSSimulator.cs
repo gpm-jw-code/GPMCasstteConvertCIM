@@ -66,15 +66,6 @@ namespace GPMCasstteConvertCIM
         {
         }
 
-        private void Secs_host_OnPrimaryMessageRecieve(object? sender, PrimaryMessageWrapper e)
-        {
-            Task.Factory.StartNew(async () =>
-            {
-                var primarymsg = e.PrimaryMessage;
-                await e.TryReplyAsync(MsgHelper.EVENT_REPORT.EventReportAcknowledgeMessage(ACKC6.Accpeted));
-            });
-        }
-
         private void frmMCSSimulator_FormClosing(object sender, FormClosingEventArgs e)
         {
         }

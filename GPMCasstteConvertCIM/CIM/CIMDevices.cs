@@ -1,4 +1,5 @@
-﻿using GPMCasstteConvertCIM.GPM_SECS;
+﻿using GPMCasstteConvertCIM.CIM.SecsMessageHandle;
+using GPMCasstteConvertCIM.GPM_SECS;
 using GPMCasstteConvertCIM.UI_UserControls;
 using Secs4Net;
 using System;
@@ -19,11 +20,11 @@ namespace GPMCasstteConvertCIM.CIM
             MODBUS_TCP_Server
         }
 
-        internal static SECSBase secs_host = new SECSBase();
+        internal static SECSBase secs_host;
         /// <summary>
         /// 與MCS連線的SECS CLIENT
         /// </summary>
-        internal static SECSBase secs_client = new SECSBase();
+        internal static SECSBase secs_client;
         /// <summary>
         /// 轉換架1
         /// </summary>
@@ -38,50 +39,33 @@ namespace GPMCasstteConvertCIM.CIM
 
         internal static event EventHandler<ConnectionStateChangeArgs> DeviceConnectionStateOnChanged;
 
-        internal static void Connect(InitialOptions secs_host_opt, InitialOptions secs_client_opt,
+        internal static void Connect(SecsGemInitialOptions secs_host_opt, SecsGemInitialOptions secs_client_opt,
              InitialOptions casstteConverter1_opt, InitialOptions casstteConverter2_opt, InitialOptions modbusTcpServer_opt)
         {
-            secs_host = new SECSBase();
-            secs_client = new SECSBase();
 
-            casstteConverter_1 = new CasstteConverter.clsCasstteConverter(0, (UscCasstteConverter)casstteConverter1_opt.mainUI)
-            {
-                simulation_mode = false
-            };
-            casstteConverter_2 = new CasstteConverter.clsCasstteConverter(1, (UscCasstteConverter)casstteConverter2_opt.mainUI);
-
+            ////Secs host(CIM_AGVS)
+            secs_host = new SECSBase("Host_For_AGVS");
             secs_host.ConnectionChanged += SECS_H_ConnectionChangeHandle;
+            secs_host.OnPrimaryMessageRecieve += AGVSMessageHandler.PrimaryMessageOnReceivedAsync;
+            secs_host.Active(secs_host_opt.ToSecsGenOptions(), secs_host_opt.logRichTextBox, secs_host_opt.dgvSendBufferTable, secs_host_opt.dgvRevBufferTable);
+
+            ////Secs client(CIM_MCS)
+            secs_client = new SECSBase("Client_For_MCS");
             secs_client.ConnectionChanged += SECS_E_ConnectionChangeHandle;
-            secs_host.OnPrimaryMessageRecieve += Secs_host_OnPrimaryMessageRecieve;
-            secs_client.OnPrimaryMessageRecieve += MCSMessageHandler.MCSPrimaryMessageOnReceivedAsync;
+            secs_client.OnPrimaryMessageRecieve += MCSMessageHandler.PrimaryMessageOnReceivedAsync;
+            secs_client.Active(secs_client_opt.ToSecsGenOptions(), secs_client_opt.logRichTextBox, secs_client_opt.dgvSendBufferTable, secs_client_opt.dgvRevBufferTable);
 
+            ////轉換架1
+            casstteConverter_1 = new CasstteConverter.clsCasstteConverter(0, (UscCasstteConverter)casstteConverter1_opt.mainUI);
             casstteConverter_1.ConnectionStateChanged += CasstteConverter_ConnectionStateChanged;
-
-            //casstteConverter_2.ConnectionStateChanged += CasstteConverter_ConnectionStateChanged;
-
-            secs_host.Active(secs_host_opt.ToSecsGenOptions(), secs_host_opt.logRichTextBox);
-            secs_client.Active(secs_client_opt.ToSecsGenOptions(), secs_client_opt.logRichTextBox);
-
             casstteConverter_1.ActiveAsync(casstteConverter1_opt.ToMCIFOptions());
-            //casstteConverter_2.ActiveAsync(casstteConverter2_opt.ToMCIFOptions());
+
+            ////轉換架2
+            casstteConverter_2 = new CasstteConverter.clsCasstteConverter(1, (UscCasstteConverter)casstteConverter2_opt.mainUI);
+            casstteConverter_2.ConnectionStateChanged += CasstteConverter_ConnectionStateChanged;
+            casstteConverter_2.ActiveAsync(casstteConverter2_opt.ToMCIFOptions());
 
             modbus_server.Active(modbusTcpServer_opt, casstteConverter_1);
-
-
-        }
-
-
-        private static void SECS_AGVS_SIM_ConnectionChangeHandle(ConnectionState obj)
-        {
-
-        }
-        private static void SECS_MCS_SIM_ConnectionChangeHandle(ConnectionState obj)
-        {
-
-        }
-
-        private static void Secs_host_OnPrimaryMessageRecieve(object? sender, PrimaryMessageWrapper _primaryMessageWrapper)
-        {
         }
 
         private static void CasstteConverter_ConnectionStateChanged(object? sender, Common.CONNECTION_STATE connectionState)
@@ -121,6 +105,12 @@ namespace GPMCasstteConvertCIM.CIM
             public Common.CONNECTION_STATE Connection_State { get; }
         }
 
+        public class SecsGemInitialOptions : InitialOptions
+        {
+            internal DataGridView dgvSendBufferTable;
+            internal DataGridView dgvRevBufferTable;
+        }
+
         public class InitialOptions
         {
             public InitialOptions()
@@ -133,6 +123,7 @@ namespace GPMCasstteConvertCIM.CIM
             }
 
             internal RichTextBox logRichTextBox;
+
             internal object mainUI;
             public string IpAddress { get; set; }
             public int Port { get; set; }

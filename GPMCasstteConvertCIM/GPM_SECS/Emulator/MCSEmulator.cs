@@ -10,7 +10,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.Emulator
 {
     internal class MCSEmulator : ISECSEmulator
     {
-        public SECSBase secsIF { get; set; } = new SECSBase();
+        public SECSBase secsIF { get; set; } = new SECSBase("HOST_MCS_Emulator");
 
         public MCSEmulator()
         {
@@ -22,8 +22,15 @@ namespace GPMCasstteConvertCIM.GPM_SECS.Emulator
         {
             Task.Factory.StartNew(async () =>
             {
-                var primarymsg = _PrimaryMessageWrapper.PrimaryMessage;
-                await _PrimaryMessageWrapper.TryReplyAsync(EVENT_REPORT.EventReportAcknowledgeMessage(ACKC6.Accpeted));
+                SecsMessage primarymsg = _PrimaryMessageWrapper.PrimaryMessage;
+
+                var echoMsg = new SecsMessage(primarymsg.S, (byte)(primarymsg.F + 1), false)
+                {
+                    Name = primarymsg.Name,
+                    SecsItem = primarymsg.SecsItem,
+                };
+
+                bool reply_success = await _PrimaryMessageWrapper.TryReplyAsync(echoMsg);
             });
         }
 

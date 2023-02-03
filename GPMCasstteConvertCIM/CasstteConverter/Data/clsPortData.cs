@@ -4,6 +4,7 @@ using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static GPMCasstteConvertCIM.CasstteConverter.Data.clsAGVSData;
 using static GPMCasstteConvertCIM.CasstteConverter.EnumSTATES;
 using static GPMCasstteConvertCIM.GPM_SECS.SECSMessageHelper;
 
@@ -12,10 +13,11 @@ namespace GPMCasstteConvertCIM.CasstteConverter.Data
     public class clsPortData
     {
         public int PortNo { get; private set; }
-        public event EventHandler ModeChangeOnRequest;
-        public event EventHandler CarrierWaitInOnRequest;
-        public event EventHandler CarrierWaitOutOnReport;
-        public event EventHandler CarrierRemovedCompletedOnReport;
+        public event EventHandler<clsPortData> ModeChangeOnRequest;
+        public event EventHandler<clsPortData> CarrierWaitInOnRequest;
+        public event EventHandler<clsPortData> CarrierWaitOutOnReport;
+        public event EventHandler<clsPortData> CarrierRemovedCompletedOnReport;
+        public event EventHandler<clsPortData> OnValidSignalActive;
 
         public clsPortData()
         {
@@ -24,7 +26,32 @@ namespace GPMCasstteConvertCIM.CasstteConverter.Data
         public clsPortData(int PortNo)
         {
             this.PortNo = PortNo;
+
+            AGVSignals = new clsHS_Status_Signals();
+            AGVSignals.OnValidSignalActive += AGVSignals_OnValidSignalActive;
         }
+
+        private void AGVSignals_OnValidSignalActive(object? sender, EventArgs e)
+        {
+            OnValidSignalActive?.Invoke(this, this);
+        }
+
+        internal bool IsLoadHSRunning
+        {
+            get
+            {
+                return AGVSignals.AnySignalON() && L_REQ;
+            }
+        }
+        internal bool IsUnloadHSRunning
+        {
+            get
+            {
+                return AGVSignals.AnySignalON() && U_REQ;
+            }
+        }
+
+        public clsHS_Status_Signals AGVSignals { get; set; }
 
         public bool ReadyStatus { get; set; } = false;
         public bool LoadRequest { get; set; } = false;
@@ -42,6 +69,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter.Data
         public bool Manual_UnLoad_Complete { get; set; } = false;
 
 
+
         private bool _Mode_Change_Request = false;
         public bool Mode_Change_Request
         {
@@ -53,13 +81,11 @@ namespace GPMCasstteConvertCIM.CasstteConverter.Data
                     _Mode_Change_Request = value;
                     if (_Mode_Change_Request)
                     {
-                        ModeChangeOnRequest?.Invoke(this, EventArgs.Empty);
+                        ModeChangeOnRequest?.Invoke(this, this);
                     }
                 }
             }
         }
-        public bool Proceed_Reply { get; set; } = false;
-        public bool Release_Reply { get; set; } = false;
         public int PortModeStatus { get; set; }
 
         public int AGVSConnectStatus { get; set; }
@@ -196,7 +222,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter.Data
                     _CarrierWaitINSystemRequest = value;
                     if (_CarrierWaitINSystemRequest)
                     {
-                        CarrierWaitInOnRequest?.Invoke(this, EventArgs.Empty);
+                        CarrierWaitInOnRequest?.Invoke(this, this);
                     }
                 }
             }
@@ -212,7 +238,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter.Data
                     _CarrierWaitOUTSystemRequest = value;
                     if (_CarrierWaitOUTSystemRequest)
                     {
-                        CarrierWaitOutOnReport?.Invoke(this, EventArgs.Empty);
+                        CarrierWaitOutOnReport?.Invoke(this, this);
                     }
                 }
             }
@@ -228,7 +254,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter.Data
                     _CarrierRemovedCompletedReport = value;
                     if (_CarrierRemovedCompletedReport)
                     {
-                        CarrierRemovedCompletedOnReport?.Invoke(this, EventArgs.Empty);
+                        CarrierRemovedCompletedOnReport?.Invoke(this, this);
                     }
                 }
             }

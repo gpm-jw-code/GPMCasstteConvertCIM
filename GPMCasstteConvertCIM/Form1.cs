@@ -11,8 +11,6 @@ namespace GPMCasstteConvertCIM
 {
     public partial class Form1 : Form
     {
-        SECSBase secs_host = new SECSBase();
-        SECSBase secs_client = new SECSBase();
         CasstteConverter.clsCasstteConverter casstteConverter_1;
         CasstteConverter.clsCasstteConverter casstteConverter_2;
         public Form1()
@@ -49,10 +47,14 @@ namespace GPMCasstteConvertCIM
             uscConnectionStates1.InitializeConnectionState();
             EmulatorManager.Start();
 
-
-
             Utility.DevicesConnectionsOpts.SECS_HOST.logRichTextBox = rtbSecsHostLog;
+            Utility.DevicesConnectionsOpts.SECS_HOST.dgvRevBufferTable = dgvMsgFromAGVS;
+            Utility.DevicesConnectionsOpts.SECS_HOST.dgvSendBufferTable = dgvActiveMsgToAGVS;
+
             Utility.DevicesConnectionsOpts.SECS_CLIENT.logRichTextBox = rtbSecsClientLog;
+            Utility.DevicesConnectionsOpts.SECS_CLIENT.dgvRevBufferTable = dgvMsgFromMCS;
+            Utility.DevicesConnectionsOpts.SECS_CLIENT.dgvSendBufferTable = dgvActiveMsgToMCS;
+
 
             Utility.DevicesConnectionsOpts.PLCEQ1.logRichTextBox = rtbCasstteConvertLog;
             Utility.DevicesConnectionsOpts.PLCEQ1.mainUI = uscCasstteConverterUI_1;
@@ -67,11 +69,32 @@ namespace GPMCasstteConvertCIM
             CIMDevices.Connect(Utility.DevicesConnectionsOpts.SECS_HOST, Utility.DevicesConnectionsOpts.SECS_CLIENT,
                 Utility.DevicesConnectionsOpts.PLCEQ1, Utility.DevicesConnectionsOpts.PLCEQ2, Utility.DevicesConnectionsOpts.Modbus_Server);
 
-            dgvMsgFromAGVS.DataSource = CIMDevices.secs_host.recvBuffer;
-            dgvActiveMsgToAGVS.DataSource = CIMDevices.secs_host.sendBuffer;
+         
+            //dgvMsgFromAGVS.DataSource = CIMDevices.secs_host.recvBuffer;
+            //dgvActiveMsgToAGVS.DataSource = CIMDevices.secs_host.sendBuffer;
+            //dgvMsgFromMCS.DataSource = CIMDevices.secs_client.recvBuffer;
+            //dgvActiveMsgToMCS.DataSource = CIMDevices.secs_client.sendBuffer;
 
-            dgvMsgFromMCS.DataSource = CIMDevices.secs_client.recvBuffer;
-            dgvActiveMsgToMCS.DataSource = CIMDevices.secs_client.sendBuffer;
+        }
+
+        private void Secs_client_MsgRecvBufferOnAdded(object? sender, EventArgs e)
+        {
+            dgvMsgFromMCS.Invalidate();
+        }
+
+        private void Secs_client_MsgSendBufferOnAdded(object? sender, EventArgs e)
+        {
+            dgvActiveMsgToMCS.Invalidate();
+        }
+
+        private void Secs_host_MsgRecvBufferOnAdded(object? sender, EventArgs e)
+        {
+            dgvMsgFromAGVS.Invalidate();
+        }
+
+        private void Secs_host_MsgSendBufferOnAdded(object? sender, EventArgs e)
+        {
+            dgvActiveMsgToAGVS.Invalidate();
         }
 
         private void CIMDevices_DeviceConnectionStateOnChanged(object? sender, CIMDevices.ConnectionStateChangeArgs e)

@@ -23,7 +23,7 @@ namespace GPMCasstteConvertCIM
             IsActive = true,
         };
 
-        public CIMDevices.InitialOptions SECS_HOST { get; set; } = new CIMDevices.InitialOptions()
+        public CIMDevices.SecsGemInitialOptions SECS_HOST { get; set; } = new CIMDevices.SecsGemInitialOptions()
         {
             DeviceId = 0,
             IpAddress = "127.0.0.1",
@@ -31,7 +31,7 @@ namespace GPMCasstteConvertCIM
             IsActive = false,
         };
 
-        public CIMDevices.InitialOptions SECS_CLIENT { get; set; } = new CIMDevices.InitialOptions()
+        public CIMDevices.SecsGemInitialOptions SECS_CLIENT { get; set; } = new CIMDevices.SecsGemInitialOptions()
         {
             DeviceId = 1,
             IpAddress = "127.0.0.1",

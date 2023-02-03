@@ -15,7 +15,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 {
     public class clsCasstteConverter : ISECSHandShakeable
     {
-        internal bool simulation_mode = true;
+        internal bool simulation_mode = false;
         private string BitMapFileName_EQ = "src\\PLC_Bit_Map_EQ.csv";
         private string WordMapFileName_EQ = "src\\PLC_Word_Map_EQ.csv";
         private string BitMapFileName_CIM = "src\\PLC_Bit_Map_CIM.csv";
@@ -69,6 +69,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         #region 事件
 
+        /// <summary>
+        /// 手動/自動模式切換請求
+        /// </summary>
+        internal event EventHandler<AUTO_MANUAL_MODE> RackModeChangeOnRequest;
         public event EventHandler<EventArgs> EQPOnline_Local_OnRequest;
         public event EventHandler<EventArgs> EQPOnline_Remote_OnRequest;
         public event EventHandler<EventArgs> EQPOffline_OnRequset;
@@ -159,20 +163,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         {
             _ = Task.Run(async () =>
             {
-
-                CIMBitStartAddress.SplitAddress(true, out string bit_regionName, out int bit_start_address);
-                CIMBitEndAddress.SplitAddress(true, out _, out int bit_end_address);
-                int cimBitNumber = bit_end_address - bit_start_address + 1;
-                CIMWordStartAddress.SplitAddress(true, out string cim_word_regionName, out int cim_word_start_address);
-                CIMWordEndAddress.SplitAddress(true, out _, out int cim_word_end_address);
-                int cimWordNumber = cim_word_end_address - cim_word_start_address + 1;
-                EQPBitStartAddress.SplitAddress(true, out string eqp_bit_regionName, out int eqp_bit_start_address);
-                EQPBitEndAddress.SplitAddress(true, out _, out int eqp_bit_end_address);
-                int eqpBitNumber = eqp_bit_end_address - eqp_bit_start_address + 1;
-                EQPWordStartAddress.SplitAddress(true, out string eqp_word_regionName, out int eqp_word_start_address);
-                EQPWordEndAddress.SplitAddress(true, out _, out int eqp_word_end_address);
-                int eqpWordNumber = eqp_word_end_address - eqp_word_start_address + 1;
-
                 while (true)
                 {
                     try
@@ -180,7 +170,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                         Thread.Sleep(10);
                         if (_connectionState != Common.CONNECTION_STATE.CONNECTED)
                         {
-                            //SyncMemData();
                             continue;
                         }
                         Stopwatch sw = Stopwatch.StartNew();
@@ -195,10 +184,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                                 {
                                     ret_code = mcInterface.ReadBit(ref EQPMemOptions.memoryTable, EQPMemOptions.bitRegionName, EQPMemOptions.bitStartAddress_no_region, EQPMemOptions.bitSize);
                                     ret_code = mcInterface.ReadWord(ref EQPMemOptions.memoryTable, EQPMemOptions.wordRegionName, EQPMemOptions.wordStartAddress_no_region, EQPMemOptions.wordSize);
-                                }
-
-                                if (ret_code == 0)
-                                {
 
                                 }
                             }
@@ -207,7 +192,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                                 //RetryConnectAsync();
                                 continue;
                             }
-
                         }
                         sw.Stop();
 
@@ -237,7 +221,20 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     //AGVSData.TrySetPropertyValue(item.PropertyName, item.Value, out bool valChanged);
                 }
             }
+            foreach (var item in LinkBitMap)
+            {
 
+                if (item.EOwner == clsMemoryAddress.OWNER.EQP)
+                {
+                    item.Value = EQPMemOptions.memoryTable.ReadOneBit(item.Address);
+                    //EQPData.TrySetPropertyValue(item.PropertyName, item.Value, out bool valChanged);
+                }
+                else
+                {
+                    item.Value = CIMMemOptions.memoryTable.ReadOneBit(item.Address);
+                    //AGVSData.TrySetPropertyValue(item.PropertyName, item.Value, out bool valChanged);
+                }
+            }
 
             bool[] cim_bit_states = new bool[CIMMemOptions.bitSize];
             int[] cim_word_datas = new int[CIMMemOptions.wordSize];
@@ -277,7 +274,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             }
 
 
-
             //EQP 
             EQPData.EQP_RUN = (bool)LinkBitMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.EQP_RUN).Value;
             EQPData.EQP_IDLE = (bool)LinkBitMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.EQP_IDLE).Value;
@@ -299,7 +295,21 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             {
                 EQ_SCOPE port = Ports[i];
 
-                //bit data
+
+                //AGV 訊號
+                EQPData.PortDatas[i].AGVSignals.VALID = (bool)LinkBitMap.First(f => f.EOwner== clsMemoryAddress.OWNER.CIM && f.EScope == port && f.EProperty == PROPERTY.VALID).Value;
+                EQPData.PortDatas[i].AGVSignals.TR_REQ = (bool)LinkBitMap.First(f => f.EOwner == clsMemoryAddress.OWNER.CIM && f.EScope == port && f.EProperty == PROPERTY.TR_REQ).Value;
+                EQPData.PortDatas[i].AGVSignals.BUSY = (bool)LinkBitMap.First(f => f.EOwner == clsMemoryAddress.OWNER.CIM && f.EScope == port && f.EProperty == PROPERTY.BUSY).Value;
+                EQPData.PortDatas[i].AGVSignals.COMPT = (bool)LinkBitMap.First(f => f.EOwner == clsMemoryAddress.OWNER.CIM && f.EScope == port && f.EProperty == PROPERTY.COMPT).Value;
+                EQPData.PortDatas[i].AGVSignals.AGV_READY = (bool)LinkBitMap.First(f => f.EOwner == clsMemoryAddress.OWNER.CIM && f.EScope == port && f.EProperty == PROPERTY.AGV_READY).Value;
+                EQPData.PortDatas[i].AGVSignals.To_EQ_Up = (bool)LinkBitMap.First(f => f.EOwner == clsMemoryAddress.OWNER.CIM && f.EScope == port && f.EProperty == PROPERTY.To_EQ_Up).Value;
+                EQPData.PortDatas[i].AGVSignals.To_EQ_Low = (bool)LinkBitMap.First(f => f.EOwner == clsMemoryAddress.OWNER.CIM && f.EScope == port && f.EProperty == PROPERTY.To_EQ_Low).Value;
+                EQPData.PortDatas[i].AGVSignals.CMD_Reserve_Up = (bool)LinkBitMap.First(f => f.EOwner == clsMemoryAddress.OWNER.CIM && f.EScope == port && f.EProperty == PROPERTY.CMD_reserve_Up).Value;
+                EQPData.PortDatas[i].AGVSignals.CMD_Reserve_Low = (bool)LinkBitMap.First(f => f.EOwner == clsMemoryAddress.OWNER.CIM && f.EScope == port && f.EProperty == PROPERTY.CMD_reserve_Low).Value;
+
+                AGVSData.Signals[i] = EQPData.PortDatas[i].AGVSignals;
+
+                //EQP Bit data
                 EQPData.PortDatas[i].L_REQ = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.L_REQ).Value;
                 EQPData.PortDatas[i].U_REQ = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.U_REQ).Value;
                 EQPData.PortDatas[i].EQ_READY = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.EQ_READY).Value;
@@ -323,7 +333,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 EQPData.PortDatas[i].Port_Disabled_Report = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Port_Disabled_Report).Value;
                 EQPData.PortDatas[i].Port_Enabled_Report = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Port_Enabled_Report).Value;
 
-                //word data
+                //EQP word data
                 EQPData.PortDatas[i].PortModeStatus = (int)LinkWordMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Port_Type_Status).Value;
                 EQPData.PortDatas[i].Port_Auto_Manual_Mode_Status = (int)LinkWordMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Port_Auto_Manual_Mode_Status).Value;
                 EQPData.PortDatas[i].WIPInfo_BCR_ID_1 = (int)LinkWordMap.First(f => f.EScope == port && f.EProperty == PROPERTY.WIP_Information_BCR_1).Value;
@@ -340,12 +350,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         }
 
-        internal AUTO_MANUAL_MODE RackMode { get; private set; } = AUTO_MANUAL_MODE.MANUAL;
-        internal PORT_MODE PortMode { get; private set; } = PORT_MODE.INOUT;
-        /// <summary>
-        /// 手動/自動模式切換請求
-        /// </summary>
-        internal event EventHandler<AUTO_MANUAL_MODE> RackModeChangeOnRequest;
 
         /// <summary>
         /// 開啟模擬器

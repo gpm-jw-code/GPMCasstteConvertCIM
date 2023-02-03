@@ -1,21 +1,22 @@
 ﻿using GPMCasstteConvertCIM.GPM_SECS;
 using Secs4Net;
+using Secs4Net.Sml;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GPMCasstteConvertCIM.CIM
+namespace GPMCasstteConvertCIM.CIM.SecsMessageHandle
 {
     internal class MCSMessageHandler
     {
-        internal static void MCSPrimaryMessageOnReceivedAsync(object? sender, PrimaryMessageWrapper _primaryMessageWrapper)
+
+        internal static void PrimaryMessageOnReceivedAsync(object? sender, PrimaryMessageWrapper _primaryMessageWrapper)
         {
             var secs_client = sender as SECSBase;
-
-
             using SecsMessage _primaryMessage = _primaryMessageWrapper.PrimaryMessage;
+
             bool reply = false;
             if (_primaryMessage.S == 1 && _primaryMessage.F == 13) // HOST要求 [設備連線建立]
             {
@@ -44,16 +45,16 @@ namespace GPMCasstteConvertCIM.CIM
             else if (_primaryMessage.S == 2 && _primaryMessage.F == 41)
             {
                 _primaryMessage.TryGetRCMDAction(out SECSMessageHelper.RCMD cmd);
-                RCMDHandler(cmd);
+                RCMDHandler(_primaryMessageWrapper, cmd);
             }
             else if (_primaryMessage.S == 2 && _primaryMessage.F == 49)
             {
                 _primaryMessage.TryGetRCMDAction(out SECSMessageHelper.RCMD cmd);
-                RCMDHandler(cmd);
+                RCMDHandler(_primaryMessageWrapper, cmd);
             }
         }
 
-        private static void RCMDHandler(SECSMessageHelper.RCMD cmd)
+        private static void RCMDHandler(PrimaryMessageWrapper _primaryMessageWrapper, SECSMessageHelper.RCMD cmd)
         {
             switch (cmd)
             {
@@ -88,6 +89,22 @@ namespace GPMCasstteConvertCIM.CIM
                 default:
                     break;
             }
+            TransmitMsgToAGVS(_primaryMessageWrapper);
+        }
+
+        private static async void TransmitMsgToAGVS(PrimaryMessageWrapper _primaryMessageWrapper)
+        {
+            Utility.SystemLogger.Info($"[MCS SECS Message > AGVS] From MCS : {_primaryMessageWrapper.PrimaryMessage.ToSml()}");
+
+            SecsMessage secondaryMsgFromAGVS = await CIMDevices.secs_host.SendAsync(_primaryMessageWrapper.PrimaryMessage);
+
+            Utility.SystemLogger.Info($"[MCS SECS Message > AGVS] AGVS Reply : {secondaryMsgFromAGVS.ToSml()}");
+
+            //回傳給MCS
+            bool reply_to_mcs_succss = await _primaryMessageWrapper.TryReplyAsync(secondaryMsgFromAGVS);
+
+            Utility.SystemLogger.Info($"[MCS SECS Message > AGVS] Message Transfer Finish");
+
         }
     }
 }

@@ -109,6 +109,9 @@ namespace GPMCasstteConvertCIM.GPM_Modbus
             //logger.Warning("Client ");
         }
 
-
+        internal void Close()
+        {
+            tcpHandler.Disconnect();
+        }
     }
 }

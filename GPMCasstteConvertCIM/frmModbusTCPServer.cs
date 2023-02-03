@@ -203,5 +203,15 @@ namespace GPMCasstteConvertCIM
         {
 
         }
+
+        private void closeServerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _ModbusTCPServer.Close();
+        }
+
+        private void toolStripStatusLabel1_Click(object sender, EventArgs e)
+        {
+            developDropDownBtn.Visible = !developDropDownBtn.Visible;
+        }
     }
 }

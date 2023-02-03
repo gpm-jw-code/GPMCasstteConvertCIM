@@ -21,15 +21,20 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 item.CarrierWaitInOnRequest += CarrierWaitInOnRequestHandle;
                 item.CarrierWaitOutOnReport += CarrierWaitOutOnReportHandle;
                 item.CarrierRemovedCompletedOnReport += CarrierRemovedCompletedOnReportHandle;
+                item.OnValidSignalActive += AGVValidSignalActiveHandle;
             }
 
         }
 
-        private void CarrierRemovedCompletedOnReportHandle(object? sender, EventArgs e)
+        private void AGVValidSignalActiveHandle(object? sender, clsPortData portData)
+        {
+
+        }
+
+        private void CarrierRemovedCompletedOnReportHandle(object? sender, clsPortData portData)
         {
             Task.Factory.StartNew(async () =>
             {
-                clsPortData portData = sender as clsPortData;
 
                 await CarrierRemovedCompletedReply(portData);
                 //TODO 上報MCS
@@ -52,13 +57,11 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             CasstteConverter.CIMMemOptions.memoryTable.WriteOneBit(carrier_removed_com_reply_address, false);
         }
 
-        private void CarrierWaitOutOnReportHandle(object? sender, EventArgs e)
+        private void CarrierWaitOutOnReportHandle(object? sender, clsPortData portData)
         {   
             //TODO 上報MCS
             Task.Factory.StartNew(async () =>
             {
-                clsPortData portData = sender as clsPortData;
-             
                 await CarrierWaitOutReply(portData);
 
                 Console.WriteLine("Handshake:Carrier Wait Out Report HS FINISH");
@@ -84,11 +87,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         /// </summary>
         /// <param name="sender">clsPortData</param>
         /// <param name="e"></param>
-        private void CarrierWaitInOnRequestHandle(object? sender, EventArgs e)
+        private void CarrierWaitInOnRequestHandle(object? sender, clsPortData portData)
         {
             Task.Factory.StartNew(async () =>
             {
-                clsPortData portData = sender as clsPortData;
 
                 //送訊息給SECS HOST   //TODO 上報MCS
                 //var response = await CIMDevices.secs_client.SendAsync(,);

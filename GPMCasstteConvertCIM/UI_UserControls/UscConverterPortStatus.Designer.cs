@@ -51,6 +51,8 @@
             this.txbWIP_BCR_ID = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.labUnloading = new System.Windows.Forms.Label();
+            this.labLoading = new System.Windows.Forms.Label();
             this.flowLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -370,10 +372,44 @@
             this.timer1.Enabled = true;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // labUnloading
+            // 
+            this.labUnloading.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.labUnloading.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.labUnloading.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.labUnloading.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.labUnloading.Font = new System.Drawing.Font("Microsoft JhengHei UI", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labUnloading.ForeColor = System.Drawing.Color.White;
+            this.labUnloading.Location = new System.Drawing.Point(304, 8);
+            this.labUnloading.Margin = new System.Windows.Forms.Padding(1);
+            this.labUnloading.Name = "labUnloading";
+            this.labUnloading.Size = new System.Drawing.Size(58, 19);
+            this.labUnloading.TabIndex = 35;
+            this.labUnloading.Text = "Unloading";
+            this.labUnloading.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // labLoading
+            // 
+            this.labLoading.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.labLoading.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.labLoading.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.labLoading.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.labLoading.Font = new System.Drawing.Font("Microsoft JhengHei UI", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labLoading.ForeColor = System.Drawing.Color.White;
+            this.labLoading.Location = new System.Drawing.Point(244, 8);
+            this.labLoading.Margin = new System.Windows.Forms.Padding(1);
+            this.labLoading.Name = "labLoading";
+            this.labLoading.Size = new System.Drawing.Size(58, 19);
+            this.labLoading.TabIndex = 36;
+            this.labLoading.Text = "Loading";
+            this.labLoading.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // UscConverterPortStatus
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.labLoading);
+            this.Controls.Add(this.labUnloading);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.txbWIP_BCR_ID);
@@ -411,5 +447,7 @@
         private System.Windows.Forms.Timer timer1;
         private Label labUpPosition;
         private Label labDownPosition;
+        private Label labUnloading;
+        private Label labLoading;
     }
 }

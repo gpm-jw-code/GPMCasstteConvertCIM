@@ -10,7 +10,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.Emulator
 {
     internal class AGVSEmulator : ISECSEmulator
     {
-        public SECSBase secsIF { get; set; } = new SECSBase();
+        public SECSBase secsIF { get; set; } = new SECSBase("Client_AGVS_Emulator");
 
         public AGVSEmulator()
         {

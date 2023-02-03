@@ -81,9 +81,14 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             });
         }
 
-        internal static void ToBitState(this Label label, bool on)
+        /// <summary>
+        /// 依照布林狀態改變Label的背景顏色
+        /// </summary>
+        /// <param name="label"></param>
+        /// <param name="on"></param>
+        internal static void RenderBGColorByState(this Label label, bool on , Color active_color)
         {
-            label.BackColor = on ? Color.SeaGreen : Color.Gray;
+            label.BackColor = on ? active_color : Color.Gray;
         }
 
         internal static void RowColorSet(this DataGridView dgvDOTable, DataGridViewType dataSource)

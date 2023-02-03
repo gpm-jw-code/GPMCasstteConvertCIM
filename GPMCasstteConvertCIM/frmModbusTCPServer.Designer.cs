@@ -29,10 +29,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmModbusTCPServer));
             this.label1 = new System.Windows.Forms.Label();
             this.labPort = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
@@ -63,8 +64,12 @@
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.agvsEmuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.developDropDownBtn = new System.Windows.Forms.ToolStripDropDownButton();
+            this.closeServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)(this.registerBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.digitalIORegisterBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.coilRegisterBindingSource)).BeginInit();
@@ -74,6 +79,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvDOTable)).BeginInit();
             this.toolStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -105,7 +111,7 @@
             // 
             this.labConnectedClientNum.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labConnectedClientNum.AutoSize = true;
-            this.labConnectedClientNum.Location = new System.Drawing.Point(1215, 9);
+            this.labConnectedClientNum.Location = new System.Drawing.Point(1215, 6);
             this.labConnectedClientNum.Name = "labConnectedClientNum";
             this.labConnectedClientNum.Size = new System.Drawing.Size(42, 15);
             this.labConnectedClientNum.TabIndex = 2;
@@ -138,7 +144,7 @@
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1269, 392);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1269, 370);
             this.tableLayoutPanel1.TabIndex = 14;
             // 
             // label6
@@ -202,7 +208,7 @@
             this.dgvDITable.RowHeadersVisible = false;
             this.dgvDITable.RowTemplate.Height = 25;
             this.dgvDITable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvDITable.Size = new System.Drawing.Size(415, 355);
+            this.dgvDITable.Size = new System.Drawing.Size(415, 333);
             this.dgvDITable.TabIndex = 15;
             this.dgvDITable.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDITable_CellValueChanged);
             // 
@@ -233,8 +239,8 @@
             // dataGridViewTextBoxColumn3
             // 
             this.dataGridViewTextBoxColumn3.DataPropertyName = "LinkPLCAddress";
-            dataGridViewCellStyle7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.dataGridViewTextBoxColumn3.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.dataGridViewTextBoxColumn3.DefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridViewTextBoxColumn3.HeaderText = "LinkPLCAddress";
             this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
             this.dataGridViewTextBoxColumn3.ReadOnly = true;
@@ -257,20 +263,20 @@
             this.Value_Hex,
             this.LinkPLCAddress});
             this.dgvHoldingRegisterTable.DataSource = this.registerBindingSource;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft JhengHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvHoldingRegisterTable.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft JhengHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvHoldingRegisterTable.DefaultCellStyle = dataGridViewCellStyle3;
             this.dgvHoldingRegisterTable.Location = new System.Drawing.Point(848, 33);
             this.dgvHoldingRegisterTable.Name = "dgvHoldingRegisterTable";
             this.dgvHoldingRegisterTable.RowHeadersVisible = false;
             this.dgvHoldingRegisterTable.RowTemplate.Height = 25;
             this.dgvHoldingRegisterTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvHoldingRegisterTable.Size = new System.Drawing.Size(417, 355);
+            this.dgvHoldingRegisterTable.Size = new System.Drawing.Size(417, 333);
             this.dgvHoldingRegisterTable.TabIndex = 3;
             // 
             // Address
@@ -305,8 +311,8 @@
             // LinkPLCAddress
             // 
             this.LinkPLCAddress.DataPropertyName = "LinkPLCAddress";
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.LinkPLCAddress.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.LinkPLCAddress.DefaultCellStyle = dataGridViewCellStyle2;
             this.LinkPLCAddress.HeaderText = "LinkPLCAddress";
             this.LinkPLCAddress.Name = "LinkPLCAddress";
             this.LinkPLCAddress.ReadOnly = true;
@@ -333,7 +339,7 @@
             this.dgvDOTable.RowHeadersVisible = false;
             this.dgvDOTable.RowTemplate.Height = 25;
             this.dgvDOTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvDOTable.Size = new System.Drawing.Size(415, 355);
+            this.dgvDOTable.Size = new System.Drawing.Size(415, 333);
             this.dgvDOTable.TabIndex = 7;
             // 
             // addressDataGridViewTextBoxColumn1
@@ -364,8 +370,8 @@
             // dataGridViewTextBoxColumn1
             // 
             this.dataGridViewTextBoxColumn1.DataPropertyName = "LinkPLCAddress";
-            dataGridViewCellStyle8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle4;
             this.dataGridViewTextBoxColumn1.HeaderText = "LinkPLCAddress";
             this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
             this.dataGridViewTextBoxColumn1.ReadOnly = true;
@@ -373,7 +379,8 @@
             // toolStrip1
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripLabel1});
+            this.toolStripLabel1,
+            this.developDropDownBtn});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(1269, 25);
@@ -395,11 +402,30 @@
             this.agvsEmuToolStripMenuItem.Text = "AGVS";
             this.agvsEmuToolStripMenuItem.Click += new System.EventHandler(this.agvsEmuToolStripMenuItem_Click);
             // 
+            // developDropDownBtn
+            // 
+            this.developDropDownBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.developDropDownBtn.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.closeServerToolStripMenuItem});
+            this.developDropDownBtn.Image = ((System.Drawing.Image)(resources.GetObject("developDropDownBtn.Image")));
+            this.developDropDownBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.developDropDownBtn.Name = "developDropDownBtn";
+            this.developDropDownBtn.Size = new System.Drawing.Size(79, 22);
+            this.developDropDownBtn.Text = "Developer";
+            this.developDropDownBtn.Visible = false;
+            // 
+            // closeServerToolStripMenuItem
+            // 
+            this.closeServerToolStripMenuItem.Name = "closeServerToolStripMenuItem";
+            this.closeServerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.closeServerToolStripMenuItem.Text = "Close Server";
+            this.closeServerToolStripMenuItem.Click += new System.EventHandler(this.closeServerToolStripMenuItem_Click);
+            // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.richTextBox1);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.groupBox1.Location = new System.Drawing.Point(0, 417);
+            this.groupBox1.Location = new System.Drawing.Point(0, 395);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(1269, 144);
             this.groupBox1.TabIndex = 16;
@@ -417,17 +443,37 @@
             this.richTextBox1.TabIndex = 0;
             this.richTextBox1.Text = "";
             // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel1});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 539);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.ManagerRenderMode;
+            this.statusStrip1.Size = new System.Drawing.Size(1269, 22);
+            this.statusStrip1.TabIndex = 17;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(82, 17);
+            this.toolStripStatusLabel1.Text = "127.0.0.1:503";
+            this.toolStripStatusLabel1.Click += new System.EventHandler(this.toolStripStatusLabel1_Click);
+            // 
             // frmModbusTCPServer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1269, 561);
+            this.Controls.Add(this.labConnectedClientNum);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.toolStrip1);
-            this.Controls.Add(this.labConnectedClientNum);
             this.Controls.Add(this.labPort);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.statusStrip1);
+            this.DoubleBuffered = true;
             this.Name = "frmModbusTCPServer";
             this.Text = "Modbus TCP Server";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmModbusTCPServer_FormClosing);
@@ -442,6 +488,8 @@
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.groupBox1.ResumeLayout(false);
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -481,5 +529,9 @@
         private DataGridViewTextBoxColumn Description;
         private DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn1;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private StatusStrip statusStrip1;
+        private ToolStripStatusLabel toolStripStatusLabel1;
+        private ToolStripDropDownButton developDropDownBtn;
+        private ToolStripMenuItem closeServerToolStripMenuItem;
     }
 }

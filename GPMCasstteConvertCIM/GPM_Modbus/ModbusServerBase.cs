@@ -139,7 +139,10 @@ namespace GPMCasstteConvertCIM.GPM_Modbus
                 networkStream.ReadTimeout = 4000;
                 networkStream.BeginRead(client.Buffer, 0, client.Buffer.Length, ReadCallback, client);
             }
-            catch (Exception) { }
+            catch (Exception)
+            { 
+            
+            }
         }
 
         private int GetAndCleanNumberOfConnectedClients(Client client)
