@@ -26,11 +26,14 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             LoadPLCMapData();
             this.mainGUI = mainGUI;
             this.mainGUI.casstteConverter = this;
+            InterfaceClockUpdate();
             PLCMemorySyncTask();
             DataSyncTask();
 
             Handshaker = new EQPHandShakeHandler(this);
         }
+
+
         internal EQPHandShakeHandler Handshaker;
 
 
@@ -98,7 +101,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         internal event EventHandler<Common.CONNECTION_STATE>? ConnectionStateChanged;
         internal clsMemoryGroupOptions EQPMemOptions { get; private set; }
+        internal clsMemoryGroupOptions EQPOutputMemOptions { get; private set; } = new clsMemoryGroupOptions("X0", "X15", "W0", "W1", false, true);
+        internal clsMemoryGroupOptions CIMinputMemOptions { get; private set; } = new clsMemoryGroupOptions("X100", "X115", "W0", "W1", false, true);
         internal clsMemoryGroupOptions CIMMemOptions { get; private set; }
+        public bool AlarmResetFlag { get; internal set; }
 
         internal async Task<bool> ActiveAsync(McInterfaceOptions mcInterfaceOptions)
         {
@@ -159,6 +165,31 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 }
             });
         }
+
+
+        private void InterfaceClockUpdate()
+        {
+            Task.Run(async () =>
+            {
+
+                while (true)
+                {
+                    await Task.Delay(TimeSpan.FromSeconds(4));
+
+                    var interfaceClockAddress = LinkWordMap.FirstOrDefault(w => w.EOwner == clsMemoryAddress.OWNER.CIM && w.EProperty == PROPERTY.Interface_Clock);
+                    if (interfaceClockAddress != null)
+                    {
+                        int clock = (int)interfaceClockAddress.Value;
+                        int newClock = clock + 1;
+                        newClock = newClock == 256 ? 0 : newClock;
+                        CIMMemOptions.memoryTable.WriteBinary(interfaceClockAddress.Address, newClock);
+                    }
+
+                }
+
+            });
+        }
+
         private async Task PLCMemorySyncTask()
         {
             _ = Task.Run(async () =>
@@ -178,14 +209,22 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                             int ret_code = -1;
                             try
                             {
-                                ret_code = mcInterface.WriteBit(ref CIMMemOptions.memoryTable, CIMMemOptions.bitRegionName, CIMMemOptions.bitStartAddress_no_region, CIMMemOptions.bitSize);
-                                ret_code = mcInterface.WriteWord(ref CIMMemOptions.memoryTable, CIMMemOptions.wordRegionName, CIMMemOptions.wordStartAddress_no_region, CIMMemOptions.wordSize);
                                 if (monitor)
                                 {
+                                    ret_code = mcInterface.WriteBit(ref CIMMemOptions.memoryTable, CIMMemOptions.bitRegionName, CIMMemOptions.bitStartAddress_no_region, CIMMemOptions.bitSize);
+                                    ret_code = mcInterface.WriteWord(ref CIMMemOptions.memoryTable, CIMMemOptions.wordRegionName, CIMMemOptions.wordStartAddress_no_region, CIMMemOptions.wordSize);
                                     ret_code = mcInterface.ReadBit(ref EQPMemOptions.memoryTable, EQPMemOptions.bitRegionName, EQPMemOptions.bitStartAddress_no_region, EQPMemOptions.bitSize);
                                     ret_code = mcInterface.ReadWord(ref EQPMemOptions.memoryTable, EQPMemOptions.wordRegionName, EQPMemOptions.wordStartAddress_no_region, EQPMemOptions.wordSize);
-
                                 }
+                                ret_code = mcInterface.ReadBit(ref EQPOutputMemOptions.memoryTable, EQPOutputMemOptions.bitRegionName, EQPOutputMemOptions.bitStartAddress_no_region, EQPOutputMemOptions.bitSize);
+
+                                if (EQPOutputMemOptions.memoryTable.ReadOneBit("X5"))
+                                {
+                                    CIMinputMemOptions.memoryTable.WriteOneBit("X100", false);
+                                }
+
+                                ret_code = mcInterface.WriteBit(ref CIMinputMemOptions.memoryTable, CIMinputMemOptions.bitRegionName, CIMinputMemOptions.bitStartAddress_no_region, CIMinputMemOptions.bitSize); //EMO訊號
+                                //ret_code = mcInterface.WriteBit(ref EQPInputMemOptions.memoryTable, EQPInputMemOptions.bitRegionName, "X0", 1); //EMO訊號
                             }
                             catch (Exception ex)
                             {
@@ -297,7 +336,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
 
                 //AGV 訊號
-                EQPData.PortDatas[i].AGVSignals.VALID = (bool)LinkBitMap.First(f => f.EOwner== clsMemoryAddress.OWNER.CIM && f.EScope == port && f.EProperty == PROPERTY.VALID).Value;
+                EQPData.PortDatas[i].AGVSignals.VALID = (bool)LinkBitMap.First(f => f.EOwner == clsMemoryAddress.OWNER.CIM && f.EScope == port && f.EProperty == PROPERTY.VALID).Value;
                 EQPData.PortDatas[i].AGVSignals.TR_REQ = (bool)LinkBitMap.First(f => f.EOwner == clsMemoryAddress.OWNER.CIM && f.EScope == port && f.EProperty == PROPERTY.TR_REQ).Value;
                 EQPData.PortDatas[i].AGVSignals.BUSY = (bool)LinkBitMap.First(f => f.EOwner == clsMemoryAddress.OWNER.CIM && f.EScope == port && f.EProperty == PROPERTY.BUSY).Value;
                 EQPData.PortDatas[i].AGVSignals.COMPT = (bool)LinkBitMap.First(f => f.EOwner == clsMemoryAddress.OWNER.CIM && f.EScope == port && f.EProperty == PROPERTY.COMPT).Value;

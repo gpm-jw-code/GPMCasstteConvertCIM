@@ -23,6 +23,8 @@ namespace GPMCasstteConvertCIM.CIM.SecsMessageHandle
 
             var secs_host = sender as SECSBase;
             using SecsMessage _primaryMessage = _primaryMessageWrapper.PrimaryMessage;
+
+
             Utility.SystemLogger.Info($"[AGVS SECS Message > MCS] From AGVS : {_primaryMessage.ToSml()}");
             var secondaryMsg = await CIMDevices.secs_client.SendAsync(_primaryMessage);
             Utility.SystemLogger.Info($"[AGVS SECS Message > MCS] MCS Reply : {secondaryMsg.ToSml()}");

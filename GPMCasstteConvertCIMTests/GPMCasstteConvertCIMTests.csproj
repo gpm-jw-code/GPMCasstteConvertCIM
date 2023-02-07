@@ -19,4 +19,10 @@
     <ProjectReference Include="..\GPMCasstteConvertCIM\GPMCasstteConvertCIM.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="agv_task_cmd_template.ps1">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

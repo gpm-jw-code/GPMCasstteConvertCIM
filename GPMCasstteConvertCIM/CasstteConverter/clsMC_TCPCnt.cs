@@ -329,13 +329,21 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         private void ReadCallBack(IAsyncResult ar)
         {
             SocketState _state = (SocketState)ar.AsyncState;
-            int revLen = _state.stream.EndRead(ar);
-            _state.receievedDataNum += revLen;
+            try
+            {
+                int revLen = _state.stream.EndRead(ar);
+                _state.receievedDataNum += revLen;
 
-            if (_state.revText.ToUpper().Contains("D00000FFFF0300"))
+                if (_state.revText.ToUpper().Contains("D00000FFFF0300"))
+                    _state.pauseEvent.Set();
+                else
+                    _state.stream.BeginRead(_state.buffer, revLen, 1024, new AsyncCallback(ReadCallBack), _state);
+            }
+            catch (Exception ex)
+            {
                 _state.pauseEvent.Set();
-            else
-                _state.stream.BeginRead(_state.buffer, revLen, 1024, new AsyncCallback(ReadCallBack), _state);
+
+            }
         }
 
         public bool ClearBuf()

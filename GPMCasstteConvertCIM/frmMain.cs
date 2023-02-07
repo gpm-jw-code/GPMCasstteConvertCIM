@@ -9,11 +9,11 @@ using System.Windows.Forms;
 using static Secs4Net.Item;
 namespace GPMCasstteConvertCIM
 {
-    public partial class Form1 : Form
+    public partial class frmMain : Form
     {
         CasstteConverter.clsCasstteConverter casstteConverter_1;
         CasstteConverter.clsCasstteConverter casstteConverter_2;
-        public Form1()
+        public frmMain()
         {
             InitializeComponent();
             Application.ThreadException += Application_ThreadException; ;
@@ -66,9 +66,12 @@ namespace GPMCasstteConvertCIM
 
 
             CIMDevices.DeviceConnectionStateOnChanged += CIMDevices_DeviceConnectionStateOnChanged;
+
+
             CIMDevices.Connect(Utility.DevicesConnectionsOpts.SECS_HOST, Utility.DevicesConnectionsOpts.SECS_CLIENT,
                 Utility.DevicesConnectionsOpts.PLCEQ1, Utility.DevicesConnectionsOpts.PLCEQ2, Utility.DevicesConnectionsOpts.Modbus_Server);
 
+            VirtualAGVSystem.StaVirtualAGVS.Initialize();
          
             //dgvMsgFromAGVS.DataSource = CIMDevices.secs_host.recvBuffer;
             //dgvActiveMsgToAGVS.DataSource = CIMDevices.secs_host.sendBuffer;
@@ -196,6 +199,11 @@ namespace GPMCasstteConvertCIM
         private void SysTimer_Tick(object sender, EventArgs e)
         {
             labSysTime.Text = DateTime.Now.ToString();
+        }
+
+        private void aGVS¨£®Æº“¿¿æπToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            VirtualAGVSystem.StaVirtualAGVS.MainUI.Show();
         }
     }
 }

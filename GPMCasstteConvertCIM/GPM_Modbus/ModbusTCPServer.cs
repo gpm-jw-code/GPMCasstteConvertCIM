@@ -54,10 +54,19 @@ namespace GPMCasstteConvertCIM.GPM_Modbus
                         bool bolState = linkedCasstteConverter.EQPMemOptions.memoryTable.ReadOneBit(item.Address);
                         discreteInputs.localArray[item.Link_Modbus_Register_Number] = bolState;
                     }
+
                     List<CasstteConverter.Data.clsMemoryAddress> EQLinkWordAddress = linkedCasstteConverter.LinkWordMap.FindAll(ad => ad.EOwner == OWNER.EQP && ad.Link_Modbus_Register_Number != -1);
                     foreach (var item in EQLinkWordAddress)
                     {
                         int value = linkedCasstteConverter.EQPMemOptions.memoryTable.ReadBinary(item.Address);
+                        holdingRegisters.localArray[item.Link_Modbus_Register_Number] = (short)value;
+                    }
+
+
+                    List<CasstteConverter.Data.clsMemoryAddress> CIMLinkWordAddress = linkedCasstteConverter.LinkWordMap.FindAll(ad => ad.EOwner == OWNER.CIM && ad.Link_Modbus_Register_Number != -1);
+                    foreach (var item in CIMLinkWordAddress)
+                    {
+                        int value = linkedCasstteConverter.CIMMemOptions.memoryTable.ReadBinary(item.Address);
                         holdingRegisters.localArray[item.Link_Modbus_Register_Number] = (short)value;
                     }
 

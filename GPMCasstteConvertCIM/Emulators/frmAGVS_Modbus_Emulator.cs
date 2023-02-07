@@ -22,5 +22,16 @@ namespace GPMCasstteConvertCIM.Emulators
             uscagvsModbusClientEmulator1.CancelTask();
             Dispose();
         }
+
+        private void uscagvsModbusClientEmulator1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripStatusLabel1_Click(object sender, EventArgs e)
+        {
+            frmDemo demo_ = new frmDemo(uscagvsModbusClientEmulator1);
+            demo_.Show();
+        }
     }
 }

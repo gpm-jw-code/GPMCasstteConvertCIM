@@ -1,10 +1,12 @@
 ﻿using GPMCasstteConvertCIM.CIM;
 using GPMCasstteConvertCIM.GPM_Modbus;
 using GPMCasstteConvertCIM.UI_UserControls;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -13,6 +15,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static GPMCasstteConvertCIM.CasstteConverter.Data.clsMemoryAddress;
 using static GPMCasstteConvertCIM.GPM_Modbus.ModbusServerBase;
+using static GPMCasstteConvertCIM.GPM_Modbus.TCPHandler;
 
 namespace GPMCasstteConvertCIM.Emulators
 {
@@ -116,21 +119,12 @@ namespace GPMCasstteConvertCIM.Emulators
                 }
             }
 
-
-            //var DiSource = new BindingSource();
-            //DiSource.DataSource = DigitalInputs;
-            //dgvDI_EQPLC.DataSource = DiSource;
-
-            //var DoSource = new BindingSource();
-            //DoSource.DataSource = DigitalOutputs;
-            //dgvDO_AGVS.DataSource = DoSource;
-
             dgvDI_EQPLC.DataSource = DigitalInputs;
             dgvDO_AGVS.DataSource = DigitalOutputs;
             dgvHoldingRegisterMap.DataSource = holdingRegs;
 
-           
             ReadEQStates();
+
         }
 
 
@@ -194,7 +188,6 @@ namespace GPMCasstteConvertCIM.Emulators
                                     holdingRegs[i].Value = shorts[i];
                             }
 
-                            
                             //write
                             modbus.WriteMultipleCoils(0, DigitalOutputs.Select(DO => DO.State).ToArray());
                             //modbus.WriteSingleCoil(0, DigitalOutputs[0].State);
@@ -249,6 +242,237 @@ namespace GPMCasstteConvertCIM.Emulators
                 };
                 RegisterWritesQueue.Enqueue(toWriteData);
             }
+        }
+
+        private int Valid_SignalIndex = 0;
+        private int TR_REQ_SignalIndex = 1;
+        private int BUSY_SignalIndex = 2;
+        private int COMPT_SignalIndex = 3;
+        private int AGV_READY_SignalIndex = 4;
+
+        private int To_EQ_UP_SignalIndex = 8;
+        private int To_EQ_DOWN_SignalIndex = 9;
+        private int CMD_Reserve_Up_SignalIndex = 10;
+        private int CMD_Reserve_Down_SignalIndex = 11;
+
+
+        private int L_REQ_SignalIndex = 0;
+        private int U_REQ_SignalIndex = 1;
+        private int EQ_READY_SignalIndex = 2;
+        private int EQ_BUSY_SignalIndex = 3;
+
+        private int Load_Request_SignalIndex = 5;
+        private int Unload_Request_SignalIndex = 6;
+        private int Port_Exist_SignalIndex = 7;
+        private int Port_Status_Down_SignalIndex = 8;
+        private int LD_UP_POS_SignalIndex = 9;
+        private int LD_DOWN_POS_SignalIndex = 10;
+
+
+
+        #region AGV Signals
+        internal DigitalIORegister HS_IO_AGV_Valid => DigitalOutputs[Valid_SignalIndex];
+        internal DigitalIORegister HS_IO_AGV_TR_REQ => DigitalOutputs[TR_REQ_SignalIndex];
+        internal DigitalIORegister HS_IO_AGV_BUSY => DigitalOutputs[BUSY_SignalIndex];
+        internal DigitalIORegister HS_IO_AGV_COMPT => DigitalOutputs[COMPT_SignalIndex];
+        internal DigitalIORegister HS_IO_AGV_AGV_READY => DigitalOutputs[AGV_READY_SignalIndex];
+
+        internal DigitalIORegister STATE_IO_To_EQ_UP => DigitalOutputs[To_EQ_UP_SignalIndex];
+        internal DigitalIORegister STATE_IO_To_EQ_DOWN => DigitalOutputs[To_EQ_DOWN_SignalIndex];
+        internal DigitalIORegister STATE_IO_CMD_Reserve_Up => DigitalOutputs[CMD_Reserve_Up_SignalIndex];
+        internal DigitalIORegister STATE_IO_CMD_Reserve_Down => DigitalOutputs[CMD_Reserve_Down_SignalIndex];
+
+        #endregion
+
+        #region EQP Signals
+
+        internal DigitalIORegister HS_IO_EQ_L_REQ => DigitalInputs[L_REQ_SignalIndex];
+        internal DigitalIORegister HS_IO_EQ_U_REQ => DigitalInputs[U_REQ_SignalIndex];
+        internal DigitalIORegister HS_IO_EQ_EQ_READY => DigitalInputs[EQ_READY_SignalIndex];
+        internal DigitalIORegister HS_IO_EQ_EQ_BUSY => DigitalInputs[EQ_BUSY_SignalIndex];
+        internal DigitalIORegister STATE_IO_Load_Request => DigitalInputs[Load_Request_SignalIndex];
+        internal DigitalIORegister STATE_IO_Unload_Request => DigitalInputs[Unload_Request_SignalIndex];
+        internal DigitalIORegister STATE_IO_Port_Exist => DigitalInputs[Port_Exist_SignalIndex];
+        internal DigitalIORegister STATE_IO_Port_Status_Down => DigitalInputs[Port_Status_Down_SignalIndex];
+        internal DigitalIORegister STATE_IO_LD_UP_POS => DigitalInputs[LD_UP_POS_SignalIndex];
+        internal DigitalIORegister STATE_IO_LD_DOWN_POS => DigitalInputs[LD_DOWN_POS_SignalIndex];
+
+        #endregion
+
+        internal CancellationTokenSource LDULDHSCancel = new CancellationTokenSource();
+
+        public async void LoadUnloadHSSimulation(LDULD_STATE ld_uld_action)
+        {
+            LDULDHSCancel = new CancellationTokenSource();
+            Invoke(new Action(async () =>
+            {
+                STATE_IO_To_EQ_DOWN.State = STATE_IO_CMD_Reserve_Down.State = true;
+                btnStartLDSim.Enabled = btnStartULDSim.Enabled = false;
+                rtbSimulationLog.Clear();
+                ResetHSState();
+                await LD_ULD_HS(ld_uld_action);
+                ResetHSState();
+                STATE_IO_To_EQ_DOWN.State = STATE_IO_CMD_Reserve_Down.State = false;
+                btnStartLDSim.Enabled = btnStartULDSim.Enabled = true;
+                LDULDHSCancel.Cancel();
+            }));
+        }
+
+        public enum LDULD_STATE
+        {
+            LOAD, UNLOAD
+        }
+
+        private async Task<bool> LD_ULD_HS(LDULD_STATE _LDULD_STATE)
+        {
+
+            DigitalIORegister EQ_LU_SIGNAL = _LDULD_STATE == LDULD_STATE.LOAD ? HS_IO_EQ_L_REQ : HS_IO_EQ_U_REQ;
+
+            SimulationLog_INFO($"Reserve_Down State ON");
+            SimulationLog_INFO($"Start {_LDULD_STATE} 交握");
+
+            HS_IO_AGV_Valid.State = true;
+
+            bool timeout = await WaitSignalON(EQ_LU_SIGNAL);
+
+            if (timeout)
+                return false;
+
+            HS_IO_AGV_TR_REQ.State = true;
+
+            timeout = await WaitSignalON(HS_IO_EQ_EQ_READY);
+
+            if (timeout)
+                return false;
+
+            HS_IO_AGV_BUSY.State = true;
+
+            SimulationLog_INFO("AGV_動作開始(Parking)，結束後手動OFF AGV-BUSY訊號");
+            await WaitSignalOFF(HS_IO_AGV_BUSY, 260000); //模擬AGV Load/Unload作業耗時
+
+            HS_IO_AGV_AGV_READY.State = true;
+
+            timeout = await WaitSignalON(HS_IO_EQ_EQ_BUSY);
+            if (timeout)
+                return false;
+
+            timeout = await WaitSignalOFF(HS_IO_EQ_EQ_BUSY);
+            if (timeout)
+                return false;
+
+
+            HS_IO_AGV_AGV_READY.State = false;
+            HS_IO_AGV_BUSY.State = true;
+
+            SimulationLog_INFO("AGV_動作開始(MOVE)");
+            await WaitSignalOFF(HS_IO_AGV_BUSY, 260000); //模擬AGV Load/Unload作業耗時
+
+            HS_IO_AGV_COMPT.State = true;
+            timeout = await WaitSignalOFF(HS_IO_EQ_EQ_READY);
+            if (timeout)
+                return false;
+
+            HS_IO_AGV_COMPT.State = false;
+            HS_IO_AGV_TR_REQ.State = false;
+            HS_IO_AGV_Valid.State = false;
+
+            SimulationLog_INFO($"Reserve_Down State OFF");
+            return true;
+        }
+
+
+        private async Task<bool> WaitSignalON(DigitalIORegister signal, int timeout_ms = 20000)
+        {
+            if (Debugger.IsAttached)
+                timeout_ms = 60000;
+            SimulationLog_INFO($"等待 {signal.Description}({signal.Index}) ON");
+            Stopwatch timer = Stopwatch.StartNew();
+            while (!signal.State)
+            {
+                await Task.Delay(1);
+                if (timer.ElapsedMilliseconds > timeout_ms)
+                {
+                    SimulationLog_ERROR($"等待 {signal.Description}({signal.Index}) ON 發生TIMEOUT!");
+                    timer.Stop();
+                    return true;
+                }
+            }
+
+            SimulationLog_INFO($"{signal.Description}{(signal.Index)} ON!");
+            timer.Stop();
+            return false;
+        }
+        private async Task<bool> WaitSignalOFF(DigitalIORegister signal, int timeout_ms = 20000)
+        {
+            SimulationLog_INFO($"等待 {signal.Description}({signal.Index}) OFF");
+            Stopwatch timer = Stopwatch.StartNew();
+            while (signal.State)
+            {
+                await Task.Delay(1);
+                if (timer.ElapsedMilliseconds > timeout_ms)
+                {
+                    SimulationLog_ERROR($"等待 {signal.Description}({signal.Index}) OFF 發生TIMEOUT!");
+                    timer.Stop();
+                    return true;
+                }
+            }
+            SimulationLog_INFO($"{signal.Description}{(signal.Index)} OFF!");
+            timer.Stop();
+            return false;
+        }
+
+
+        private void ResetHSState()
+        {
+            HS_IO_AGV_Valid.State = false;
+            HS_IO_AGV_TR_REQ.State = false;
+            HS_IO_AGV_BUSY.State = false;
+            HS_IO_AGV_COMPT.State = false;
+            HS_IO_AGV_AGV_READY.State = false;
+        }
+
+        private async void btnStartLDSim_Click(object sender, EventArgs e)
+        {
+            //if (!STATE_IO_Load_Request.State)
+            //{
+            //    MessageBox.Show("EQP Load_Request 訊號必須為ON");
+            //    return;
+            //}
+            //if (STATE_IO_Port_Exist.State)
+            //{
+            //    MessageBox.Show("Port_Exist 訊號必須為OFF");
+            //    return;
+            //}
+            LoadUnloadHSSimulation(LDULD_STATE.LOAD);
+        }
+
+        private async void btnStartULDSim_Click(object sender, EventArgs e)
+        {
+            //if (!STATE_IO_Unload_Request.State)
+            //{
+            //    MessageBox.Show("EQP Unload_Request 訊號必須ON");
+            //    return;
+            //}
+            //if (!STATE_IO_Port_Exist.State)
+            //{
+            //    MessageBox.Show("Port_Exist 訊號必須為ON");
+            //    return;
+            //}
+            LoadUnloadHSSimulation(LDULD_STATE.UNLOAD);
+        }
+
+        private void SimulationLog_INFO(string msg)
+        {
+            rtbSimulationLog.AppendText(DateTime.Now + " " + msg + "\r\n");
+            rtbSimulationLog.ScrollToCaret();
+        }
+
+
+        private void SimulationLog_ERROR(string msg)
+        {
+            rtbSimulationLog.SelectionColor = Color.Red;
+            rtbSimulationLog.AppendText(DateTime.Now + " " + msg + "\r\n");
+            rtbSimulationLog.ScrollToCaret();
         }
 
     }

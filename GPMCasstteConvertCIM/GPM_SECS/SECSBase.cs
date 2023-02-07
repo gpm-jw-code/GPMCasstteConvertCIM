@@ -134,6 +134,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS
         /// <returns></returns>
         internal async Task<SecsMessage> SendAsync(SecsMessage message, CancellationToken cancellationToken = default)
         {
+
             return await Task.Run(async () =>
             {
                 SecsMessage secondaryMessage;

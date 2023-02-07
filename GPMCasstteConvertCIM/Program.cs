@@ -17,7 +17,7 @@ namespace GPMCasstteConvertCIM
             // see https://aka.ms/applicationconfiguration.
             Application.SetCompatibleTextRenderingDefault(false);
             ApplicationConfiguration.Initialize();
-            Application.Run(new Form1());
+            Application.Run(new frmMain());
         }
 
         private static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)

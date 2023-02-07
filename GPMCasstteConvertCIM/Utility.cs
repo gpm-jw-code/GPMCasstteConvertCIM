@@ -1,4 +1,5 @@
 ﻿using GPMCasstteConvertCIM.Emulators;
+using GPMCasstteConvertCIM.VirtualAGVSystem;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,7 @@ namespace GPMCasstteConvertCIM
         internal static frmModbusTCPServer ModbusTCPServerView = new frmModbusTCPServer();
 
         internal static DeviceConnectionOptions DevicesConnectionsOpts = new DeviceConnectionOptions();
-
+        internal static frmVirtualAGVS VirtualAGVS = new frmVirtualAGVS();
 
         internal static void LoadDeviceConnectionOpts()
         {

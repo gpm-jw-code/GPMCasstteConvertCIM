@@ -15,8 +15,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             AGVS,
             RACK,
         }
-        internal clsMemoryGroupOptions(string bitStartAddress, string bitEndAddress, string wordStartAddress, string wordEndAddress)
+        internal clsMemoryGroupOptions(string bitStartAddress, string bitEndAddress, string wordStartAddress, string wordEndAddress, bool IsBitHexTable = true, bool IsWordHexTable = true)
         {
+            this.IsBitHexTable = IsBitHexTable;
+            this.IsWordHexTable = IsWordHexTable;
             this.bitStartAddress = bitStartAddress;
             this.bitEndAddress = bitEndAddress;
             this.wordStartAddress = wordStartAddress;
@@ -35,6 +37,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         internal string bitStartAddress_no_region => bitStartAddress.Remove(0, 1);
         internal string bitEndAddress_no_region => bitEndAddress.Remove(0, 1);
 
+        public bool IsBitHexTable { get; }
+        public bool IsWordHexTable { get; }
         internal string bitStartAddress { get; private set; } = "B0000";
         internal string bitEndAddress { get; private set; } = "B00FF";
 
@@ -48,8 +52,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         {
             get
             {
-                bitStartAddress.SplitAddress(true, out _, out int startNumber);
-                bitEndAddress.SplitAddress(true, out _, out int endNumber);
+                bitStartAddress.SplitAddress(IsBitHexTable, out _, out int startNumber);
+                bitEndAddress.SplitAddress(IsBitHexTable, out _, out int endNumber);
                 return endNumber - startNumber + 1;
             }
         }
@@ -57,8 +61,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         {
             get
             {
-                wordStartAddress.SplitAddress(true, out _, out int startNumber);
-                wordEndAddress.SplitAddress(true, out _, out int endNumber);
+                wordStartAddress.SplitAddress(IsWordHexTable, out _, out int startNumber);
+                wordEndAddress.SplitAddress(IsWordHexTable, out _, out int endNumber);
                 return endNumber - startNumber + 1;
             }
         }
@@ -98,7 +102,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         }
         internal void MemoryTableIni()
         {
-            memoryTable = new MemoryTable(bitSize, true, wordSize, true, 32);
+            memoryTable = new MemoryTable(bitSize, IsBitHexTable, wordSize, IsWordHexTable, 32);
             memoryTable.SetMemoryStart(bitStartAddress, wordStartAddress);
         }
     }

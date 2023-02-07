@@ -41,6 +41,8 @@
             this.btnRun = new System.Windows.Forms.Button();
             this.uscConverterPortStatus1 = new GPMCasstteConvertCIM.UI_UserControls.UscConverterPortStatus();
             this.uscConverterPortStatus2 = new GPMCasstteConvertCIM.UI_UserControls.UscConverterPortStatus();
+            this.btnSoftwareEMO = new System.Windows.Forms.Button();
+            this.btnAlarmReset = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -53,9 +55,9 @@
             // 
             this.btnOpenMemoryTable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOpenMemoryTable.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnOpenMemoryTable.Location = new System.Drawing.Point(773, 33);
+            this.btnOpenMemoryTable.Location = new System.Drawing.Point(773, 31);
             this.btnOpenMemoryTable.Name = "btnOpenMemoryTable";
-            this.btnOpenMemoryTable.Size = new System.Drawing.Size(103, 32);
+            this.btnOpenMemoryTable.Size = new System.Drawing.Size(103, 27);
             this.btnOpenMemoryTable.TabIndex = 21;
             this.btnOpenMemoryTable.Text = "Memory Table";
             this.btnOpenMemoryTable.UseVisualStyleBackColor = true;
@@ -65,9 +67,9 @@
             // 
             this.btnOpenConvertPLCSimulator.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOpenConvertPLCSimulator.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnOpenConvertPLCSimulator.Location = new System.Drawing.Point(773, 71);
+            this.btnOpenConvertPLCSimulator.Location = new System.Drawing.Point(773, 59);
             this.btnOpenConvertPLCSimulator.Name = "btnOpenConvertPLCSimulator";
-            this.btnOpenConvertPLCSimulator.Size = new System.Drawing.Size(103, 34);
+            this.btnOpenConvertPLCSimulator.Size = new System.Drawing.Size(103, 29);
             this.btnOpenConvertPLCSimulator.TabIndex = 22;
             this.btnOpenConvertPLCSimulator.Text = "轉換架模擬器";
             this.btnOpenConvertPLCSimulator.UseVisualStyleBackColor = true;
@@ -142,9 +144,9 @@
             this.btnDown.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDown.Font = new System.Drawing.Font("Microsoft JhengHei UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnDown.ForeColor = System.Drawing.Color.White;
-            this.btnDown.Location = new System.Drawing.Point(772, 223);
+            this.btnDown.Location = new System.Drawing.Point(772, 228);
             this.btnDown.Name = "btnDown";
-            this.btnDown.Size = new System.Drawing.Size(103, 33);
+            this.btnDown.Size = new System.Drawing.Size(103, 28);
             this.btnDown.TabIndex = 29;
             this.btnDown.Text = "DOWN";
             this.btnDown.UseVisualStyleBackColor = false;
@@ -158,9 +160,9 @@
             this.btnIDLE.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnIDLE.Font = new System.Drawing.Font("Microsoft JhengHei UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnIDLE.ForeColor = System.Drawing.Color.White;
-            this.btnIDLE.Location = new System.Drawing.Point(772, 189);
+            this.btnIDLE.Location = new System.Drawing.Point(772, 199);
             this.btnIDLE.Name = "btnIDLE";
-            this.btnIDLE.Size = new System.Drawing.Size(103, 33);
+            this.btnIDLE.Size = new System.Drawing.Size(103, 28);
             this.btnIDLE.TabIndex = 28;
             this.btnIDLE.Text = "IDLE";
             this.btnIDLE.UseVisualStyleBackColor = false;
@@ -174,9 +176,9 @@
             this.btnRun.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRun.Font = new System.Drawing.Font("Microsoft JhengHei UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnRun.ForeColor = System.Drawing.Color.White;
-            this.btnRun.Location = new System.Drawing.Point(772, 155);
+            this.btnRun.Location = new System.Drawing.Point(772, 170);
             this.btnRun.Name = "btnRun";
-            this.btnRun.Size = new System.Drawing.Size(103, 33);
+            this.btnRun.Size = new System.Drawing.Size(103, 28);
             this.btnRun.TabIndex = 27;
             this.btnRun.Text = "RUN";
             this.btnRun.UseVisualStyleBackColor = false;
@@ -201,11 +203,40 @@
             this.uscConverterPortStatus2.Size = new System.Drawing.Size(379, 224);
             this.uscConverterPortStatus2.TabIndex = 28;
             // 
+            // btnSoftwareEMO
+            // 
+            this.btnSoftwareEMO.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSoftwareEMO.BackColor = System.Drawing.Color.Red;
+            this.btnSoftwareEMO.ForeColor = System.Drawing.Color.White;
+            this.btnSoftwareEMO.Location = new System.Drawing.Point(772, 88);
+            this.btnSoftwareEMO.Name = "btnSoftwareEMO";
+            this.btnSoftwareEMO.Size = new System.Drawing.Size(103, 34);
+            this.btnSoftwareEMO.TabIndex = 30;
+            this.btnSoftwareEMO.Text = "EMO";
+            this.btnSoftwareEMO.UseVisualStyleBackColor = false;
+            this.btnSoftwareEMO.Click += new System.EventHandler(this.btnSoftwareEMO_Click);
+            // 
+            // btnAlarmReset
+            // 
+            this.btnAlarmReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnAlarmReset.BackColor = System.Drawing.SystemColors.Control;
+            this.btnAlarmReset.ForeColor = System.Drawing.Color.Black;
+            this.btnAlarmReset.Location = new System.Drawing.Point(772, 121);
+            this.btnAlarmReset.Name = "btnAlarmReset";
+            this.btnAlarmReset.Size = new System.Drawing.Size(103, 34);
+            this.btnAlarmReset.TabIndex = 31;
+            this.btnAlarmReset.Text = "異常Reset";
+            this.btnAlarmReset.UseVisualStyleBackColor = false;
+            this.btnAlarmReset.Visible = false;
+            this.btnAlarmReset.Click += new System.EventHandler(this.btnAlarmReset_Click);
+            // 
             // UscCasstteConverter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
+            this.Controls.Add(this.btnAlarmReset);
+            this.Controls.Add(this.btnSoftwareEMO);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.btnDown);
             this.Controls.Add(this.uscConverterPortStatus2);
@@ -236,5 +267,7 @@
         private Label labPLCMCAddress;
         private UscConverterPortStatus uscConverterPortStatus1;
         private UscConverterPortStatus uscConverterPortStatus2;
+        private Button btnSoftwareEMO;
+        private Button btnAlarmReset;
     }
 }

@@ -76,7 +76,7 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             catch (Exception ex)
             {
             }
-            
+
 
             //txbWIP_BCR_ID.Text = eqpData.WIPINFO_BCR_ID;
             //txbWIP_LOC.Text = eqpData.WIPINFO_LOC;
@@ -129,6 +129,16 @@ namespace GPMCasstteConvertCIM.UI_UserControls
         private void btnRun_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnSoftwareEMO_Click(object sender, EventArgs e)
+        {
+            casstteConverter.CIMinputMemOptions.memoryTable.WriteOneBit("X100", true);
+        }
+
+        private void btnAlarmReset_Click(object sender, EventArgs e)
+        {
+            casstteConverter.AlarmResetFlag = true;
         }
     }
 }
