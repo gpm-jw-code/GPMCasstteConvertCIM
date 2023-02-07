@@ -216,15 +216,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                                     ret_code = mcInterface.ReadBit(ref EQPMemOptions.memoryTable, EQPMemOptions.bitRegionName, EQPMemOptions.bitStartAddress_no_region, EQPMemOptions.bitSize);
                                     ret_code = mcInterface.ReadWord(ref EQPMemOptions.memoryTable, EQPMemOptions.wordRegionName, EQPMemOptions.wordStartAddress_no_region, EQPMemOptions.wordSize);
                                 }
-                                ret_code = mcInterface.ReadBit(ref EQPOutputMemOptions.memoryTable, EQPOutputMemOptions.bitRegionName, EQPOutputMemOptions.bitStartAddress_no_region, EQPOutputMemOptions.bitSize);
-
-                                if (EQPOutputMemOptions.memoryTable.ReadOneBit("X5"))
-                                {
-                                    CIMinputMemOptions.memoryTable.WriteOneBit("X100", false);
-                                }
-
-                                ret_code = mcInterface.WriteBit(ref CIMinputMemOptions.memoryTable, CIMinputMemOptions.bitRegionName, CIMinputMemOptions.bitStartAddress_no_region, CIMinputMemOptions.bitSize); //EMO訊號
-                                //ret_code = mcInterface.WriteBit(ref EQPInputMemOptions.memoryTable, EQPInputMemOptions.bitRegionName, "X0", 1); //EMO訊號
                             }
                             catch (Exception ex)
                             {

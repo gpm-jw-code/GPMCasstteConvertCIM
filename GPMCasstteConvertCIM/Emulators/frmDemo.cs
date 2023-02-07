@@ -117,9 +117,9 @@ namespace GPMCasstteConvertCIM.Emulators
             {
 
                 bool success = await GO_TO_LD_ULD(agvc, LDULD_STATE.UNLOAD);
-                if (success)
-                    //取貨後動作
-                    await StaVirtualAGVS.TaskDispatcher.Move(CarName, AGV_ID, AfterUnload_Action.Tag);
+                //if (success)
+                //    //取貨後動作
+                //    await StaVirtualAGVS.TaskDispatcher.Move(CarName, AGV_ID, AfterUnload_Action.Tag);
 
                 Invoke(new Action(() =>
                 {
