@@ -9,7 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static GPMCasstteConvertCIM.CasstteConverter.EnumSTATES;
+using static GPMCasstteConvertCIM.CasstteConverter.Enums;
+using static GPMCasstteConvertCIM.GPM_SECS.SECSMessageHelper;
 
 namespace GPMCasstteConvertCIM
 {
@@ -81,7 +82,7 @@ namespace GPMCasstteConvertCIM
 
 
             CasstteConverter.EQPMemOptions.memoryTable.WriteBinary(RackModeRequestAddress, (int)AUTO_MANUAL_MODE.MANUAL);
-            CasstteConverter.EQPMemOptions.memoryTable.WriteBinary(PortModeRequestAddress, (int)PORT_MODE.IN);
+            CasstteConverter.EQPMemOptions.memoryTable.WriteBinary(PortModeRequestAddress, (int)PortUnitType.Input);
             CasstteConverter.EQPMemOptions.memoryTable.WriteOneBit(ModeRequestFlagAddress, true);
 
             uscMemoryTable1.Invalidate();

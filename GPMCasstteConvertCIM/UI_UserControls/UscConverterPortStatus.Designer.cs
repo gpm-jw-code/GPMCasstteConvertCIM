@@ -34,15 +34,10 @@
             this.labLoadRequestBit = new System.Windows.Forms.Label();
             this.labUnloadRequestBit = new System.Windows.Forms.Label();
             this.labPortExistBit = new System.Windows.Forms.Label();
-            this.labEQPStatusRunBit = new System.Windows.Forms.Label();
-            this.labEQPStatusIdleBit = new System.Windows.Forms.Label();
-            this.labEQPStatusDownBit = new System.Windows.Forms.Label();
             this.labL_REQBit = new System.Windows.Forms.Label();
             this.labU_REQBit = new System.Windows.Forms.Label();
             this.labReadyBit = new System.Windows.Forms.Label();
-            this.labUP_ReadyBit = new System.Windows.Forms.Label();
             this.labLOW_ReadyBit = new System.Windows.Forms.Label();
-            this.labMode_Change_Request = new System.Windows.Forms.Label();
             this.labUpPosition = new System.Windows.Forms.Label();
             this.labDownPosition = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -53,6 +48,7 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.labUnloading = new System.Windows.Forms.Label();
             this.labLoading = new System.Windows.Forms.Label();
+            this.labAutoStatus = new System.Windows.Forms.Label();
             this.flowLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -63,15 +59,10 @@
             this.flowLayoutPanel1.Controls.Add(this.labLoadRequestBit);
             this.flowLayoutPanel1.Controls.Add(this.labUnloadRequestBit);
             this.flowLayoutPanel1.Controls.Add(this.labPortExistBit);
-            this.flowLayoutPanel1.Controls.Add(this.labEQPStatusRunBit);
-            this.flowLayoutPanel1.Controls.Add(this.labEQPStatusIdleBit);
-            this.flowLayoutPanel1.Controls.Add(this.labEQPStatusDownBit);
             this.flowLayoutPanel1.Controls.Add(this.labL_REQBit);
             this.flowLayoutPanel1.Controls.Add(this.labU_REQBit);
             this.flowLayoutPanel1.Controls.Add(this.labReadyBit);
-            this.flowLayoutPanel1.Controls.Add(this.labUP_ReadyBit);
             this.flowLayoutPanel1.Controls.Add(this.labLOW_ReadyBit);
-            this.flowLayoutPanel1.Controls.Add(this.labMode_Change_Request);
             this.flowLayoutPanel1.Controls.Add(this.labUpPosition);
             this.flowLayoutPanel1.Controls.Add(this.labDownPosition);
             this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 54);
@@ -140,54 +131,6 @@
             this.labPortExistBit.Text = "Port Exist";
             this.labPortExistBit.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // labEQPStatusRunBit
-            // 
-            this.labEQPStatusRunBit.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.labEQPStatusRunBit.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.labEQPStatusRunBit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.labEQPStatusRunBit.Font = new System.Drawing.Font("Microsoft JhengHei UI", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labEQPStatusRunBit.ForeColor = System.Drawing.Color.White;
-            this.labEQPStatusRunBit.Location = new System.Drawing.Point(4, 36);
-            this.labEQPStatusRunBit.Margin = new System.Windows.Forms.Padding(1);
-            this.labEQPStatusRunBit.Name = "labEQPStatusRunBit";
-            this.labEQPStatusRunBit.Size = new System.Drawing.Size(88, 30);
-            this.labEQPStatusRunBit.TabIndex = 3;
-            this.labEQPStatusRunBit.Text = "EQP RUN";
-            this.labEQPStatusRunBit.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.labEQPStatusRunBit.Visible = false;
-            // 
-            // labEQPStatusIdleBit
-            // 
-            this.labEQPStatusIdleBit.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.labEQPStatusIdleBit.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.labEQPStatusIdleBit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.labEQPStatusIdleBit.Font = new System.Drawing.Font("Microsoft JhengHei UI", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labEQPStatusIdleBit.ForeColor = System.Drawing.Color.White;
-            this.labEQPStatusIdleBit.Location = new System.Drawing.Point(94, 36);
-            this.labEQPStatusIdleBit.Margin = new System.Windows.Forms.Padding(1);
-            this.labEQPStatusIdleBit.Name = "labEQPStatusIdleBit";
-            this.labEQPStatusIdleBit.Size = new System.Drawing.Size(88, 30);
-            this.labEQPStatusIdleBit.TabIndex = 4;
-            this.labEQPStatusIdleBit.Text = "EQP IDLE";
-            this.labEQPStatusIdleBit.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.labEQPStatusIdleBit.Visible = false;
-            // 
-            // labEQPStatusDownBit
-            // 
-            this.labEQPStatusDownBit.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.labEQPStatusDownBit.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.labEQPStatusDownBit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.labEQPStatusDownBit.Font = new System.Drawing.Font("Microsoft JhengHei UI", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labEQPStatusDownBit.ForeColor = System.Drawing.Color.White;
-            this.labEQPStatusDownBit.Location = new System.Drawing.Point(184, 36);
-            this.labEQPStatusDownBit.Margin = new System.Windows.Forms.Padding(1);
-            this.labEQPStatusDownBit.Name = "labEQPStatusDownBit";
-            this.labEQPStatusDownBit.Size = new System.Drawing.Size(88, 30);
-            this.labEQPStatusDownBit.TabIndex = 5;
-            this.labEQPStatusDownBit.Text = "EQP DOWN";
-            this.labEQPStatusDownBit.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.labEQPStatusDownBit.Visible = false;
-            // 
             // labL_REQBit
             // 
             this.labL_REQBit.BackColor = System.Drawing.SystemColors.ControlDarkDark;
@@ -195,7 +138,7 @@
             this.labL_REQBit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labL_REQBit.Font = new System.Drawing.Font("Microsoft JhengHei UI", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labL_REQBit.ForeColor = System.Drawing.Color.White;
-            this.labL_REQBit.Location = new System.Drawing.Point(274, 36);
+            this.labL_REQBit.Location = new System.Drawing.Point(4, 36);
             this.labL_REQBit.Margin = new System.Windows.Forms.Padding(1);
             this.labL_REQBit.Name = "labL_REQBit";
             this.labL_REQBit.Size = new System.Drawing.Size(88, 30);
@@ -210,7 +153,7 @@
             this.labU_REQBit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labU_REQBit.Font = new System.Drawing.Font("Microsoft JhengHei UI", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labU_REQBit.ForeColor = System.Drawing.Color.White;
-            this.labU_REQBit.Location = new System.Drawing.Point(4, 68);
+            this.labU_REQBit.Location = new System.Drawing.Point(94, 36);
             this.labU_REQBit.Margin = new System.Windows.Forms.Padding(1);
             this.labU_REQBit.Name = "labU_REQBit";
             this.labU_REQBit.Size = new System.Drawing.Size(88, 30);
@@ -225,28 +168,13 @@
             this.labReadyBit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labReadyBit.Font = new System.Drawing.Font("Microsoft JhengHei UI", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labReadyBit.ForeColor = System.Drawing.Color.White;
-            this.labReadyBit.Location = new System.Drawing.Point(94, 68);
+            this.labReadyBit.Location = new System.Drawing.Point(184, 36);
             this.labReadyBit.Margin = new System.Windows.Forms.Padding(1);
             this.labReadyBit.Name = "labReadyBit";
             this.labReadyBit.Size = new System.Drawing.Size(88, 30);
             this.labReadyBit.TabIndex = 8;
             this.labReadyBit.Text = "READY";
             this.labReadyBit.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // labUP_ReadyBit
-            // 
-            this.labUP_ReadyBit.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.labUP_ReadyBit.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.labUP_ReadyBit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.labUP_ReadyBit.Font = new System.Drawing.Font("Microsoft JhengHei UI", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labUP_ReadyBit.ForeColor = System.Drawing.Color.White;
-            this.labUP_ReadyBit.Location = new System.Drawing.Point(184, 68);
-            this.labUP_ReadyBit.Margin = new System.Windows.Forms.Padding(1);
-            this.labUP_ReadyBit.Name = "labUP_ReadyBit";
-            this.labUP_ReadyBit.Size = new System.Drawing.Size(88, 30);
-            this.labUP_ReadyBit.TabIndex = 10;
-            this.labUP_ReadyBit.Text = "UP_READY";
-            this.labUP_ReadyBit.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // labLOW_ReadyBit
             // 
@@ -255,28 +183,13 @@
             this.labLOW_ReadyBit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labLOW_ReadyBit.Font = new System.Drawing.Font("Microsoft JhengHei UI", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labLOW_ReadyBit.ForeColor = System.Drawing.Color.White;
-            this.labLOW_ReadyBit.Location = new System.Drawing.Point(274, 68);
+            this.labLOW_ReadyBit.Location = new System.Drawing.Point(274, 36);
             this.labLOW_ReadyBit.Margin = new System.Windows.Forms.Padding(1);
             this.labLOW_ReadyBit.Name = "labLOW_ReadyBit";
             this.labLOW_ReadyBit.Size = new System.Drawing.Size(88, 30);
             this.labLOW_ReadyBit.TabIndex = 11;
             this.labLOW_ReadyBit.Text = "LOW_READY";
             this.labLOW_ReadyBit.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // labMode_Change_Request
-            // 
-            this.labMode_Change_Request.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.labMode_Change_Request.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.labMode_Change_Request.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.labMode_Change_Request.Font = new System.Drawing.Font("Microsoft JhengHei UI", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labMode_Change_Request.ForeColor = System.Drawing.Color.White;
-            this.labMode_Change_Request.Location = new System.Drawing.Point(4, 100);
-            this.labMode_Change_Request.Margin = new System.Windows.Forms.Padding(1);
-            this.labMode_Change_Request.Name = "labMode_Change_Request";
-            this.labMode_Change_Request.Size = new System.Drawing.Size(88, 30);
-            this.labMode_Change_Request.TabIndex = 20;
-            this.labMode_Change_Request.Text = "Mode_Change_Request";
-            this.labMode_Change_Request.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // labUpPosition
             // 
@@ -285,7 +198,7 @@
             this.labUpPosition.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labUpPosition.Font = new System.Drawing.Font("Microsoft JhengHei UI", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labUpPosition.ForeColor = System.Drawing.Color.White;
-            this.labUpPosition.Location = new System.Drawing.Point(94, 100);
+            this.labUpPosition.Location = new System.Drawing.Point(4, 68);
             this.labUpPosition.Margin = new System.Windows.Forms.Padding(1);
             this.labUpPosition.Name = "labUpPosition";
             this.labUpPosition.Size = new System.Drawing.Size(88, 30);
@@ -300,7 +213,7 @@
             this.labDownPosition.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labDownPosition.Font = new System.Drawing.Font("Microsoft JhengHei UI", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labDownPosition.ForeColor = System.Drawing.Color.White;
-            this.labDownPosition.Location = new System.Drawing.Point(184, 100);
+            this.labDownPosition.Location = new System.Drawing.Point(94, 68);
             this.labDownPosition.Margin = new System.Windows.Forms.Padding(1);
             this.labDownPosition.Name = "labDownPosition";
             this.labDownPosition.Size = new System.Drawing.Size(88, 30);
@@ -404,10 +317,26 @@
             this.labLoading.Text = "Loading";
             this.labLoading.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // labAutoStatus
+            // 
+            this.labAutoStatus.BackColor = System.Drawing.Color.Orange;
+            this.labAutoStatus.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.labAutoStatus.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.labAutoStatus.Font = new System.Drawing.Font("Microsoft JhengHei UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labAutoStatus.ForeColor = System.Drawing.Color.White;
+            this.labAutoStatus.Location = new System.Drawing.Point(118, 8);
+            this.labAutoStatus.Margin = new System.Windows.Forms.Padding(1);
+            this.labAutoStatus.Name = "labAutoStatus";
+            this.labAutoStatus.Size = new System.Drawing.Size(92, 42);
+            this.labAutoStatus.TabIndex = 37;
+            this.labAutoStatus.Text = "MANUAL";
+            this.labAutoStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // UscConverterPortStatus
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.labAutoStatus);
             this.Controls.Add(this.labLoading);
             this.Controls.Add(this.labUnloading);
             this.Controls.Add(this.flowLayoutPanel1);
@@ -430,15 +359,10 @@
         private Label labLoadRequestBit;
         private Label labUnloadRequestBit;
         private Label labPortExistBit;
-        private Label labEQPStatusRunBit;
-        private Label labEQPStatusIdleBit;
-        private Label labEQPStatusDownBit;
         private Label labL_REQBit;
         private Label labU_REQBit;
         private Label labReadyBit;
-        private Label labUP_ReadyBit;
         private Label labLOW_ReadyBit;
-        private Label labMode_Change_Request;
         private Panel panel1;
         private Label labCurrentPortMode;
         private Label label5;
@@ -449,5 +373,6 @@
         private Label labDownPosition;
         private Label labUnloading;
         private Label labLoading;
+        private Label labAutoStatus;
     }
 }

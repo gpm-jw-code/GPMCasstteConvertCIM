@@ -31,6 +31,10 @@
             this.components = new System.ComponentModel.Container();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tlpConverterContainer = new System.Windows.Forms.TableLayoutPanel();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.btnSecsHostSendMsgTest = new System.Windows.Forms.Button();
+            this.btnOpenMCSSimulatorForm = new System.Windows.Forms.Button();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.dgvMsgFromMCS = new System.Windows.Forms.DataGridView();
             this.primaryMessageSMLDataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -52,10 +56,6 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.btnOpenMCSSimulatorForm = new System.Windows.Forms.Button();
-            this.uscCasstteConverterUI_2 = new GPMCasstteConvertCIM.UI_UserControls.UscCasstteConverter();
-            this.uscCasstteConverterUI_1 = new GPMCasstteConvertCIM.UI_UserControls.UscCasstteConverter();
-            this.btnSecsHostSendMsgTest = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.checkBox4 = new System.Windows.Forms.CheckBox();
@@ -76,9 +76,8 @@
             this.轉換架模擬器ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem_OpenConvert_1_Simulator = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem_OpenConvert_2_Simulator = new System.Windows.Forms.ToolStripMenuItem();
-            this.aGVS模擬器ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.modbusTCPServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.AGVS_modbus_sim_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aGVS派車模擬器ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlSideLeft = new System.Windows.Forms.Panel();
             this.uscConnectionStates1 = new GPMCasstteConvertCIM.UI_UserControls.UscConnectionStates();
             this.label1 = new System.Windows.Forms.Label();
@@ -87,9 +86,9 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.labSysTime = new System.Windows.Forms.ToolStripStatusLabel();
             this.SysTimer = new System.Windows.Forms.Timer(this.components);
-            this.aGVS派車模擬器ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMsgFromMCS)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.primaryMessageWrapperBindingSource4)).BeginInit();
@@ -117,24 +116,67 @@
             this.tabControl1.Location = new System.Drawing.Point(133, 32);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1449, 605);
+            this.tabControl1.Size = new System.Drawing.Size(1190, 605);
             this.tabControl1.TabIndex = 1;
             // 
             // tabPage1
             // 
             this.tabPage1.AutoScroll = true;
             this.tabPage1.BackColor = System.Drawing.Color.White;
-            this.tabPage1.Controls.Add(this.tableLayoutPanel2);
-            this.tabPage1.Controls.Add(this.btnOpenMCSSimulatorForm);
-            this.tabPage1.Controls.Add(this.uscCasstteConverterUI_2);
-            this.tabPage1.Controls.Add(this.uscCasstteConverterUI_1);
-            this.tabPage1.Controls.Add(this.btnSecsHostSendMsgTest);
+            this.tabPage1.Controls.Add(this.tlpConverterContainer);
+            this.tabPage1.Controls.Add(this.panel2);
             this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1441, 577);
+            this.tabPage1.Size = new System.Drawing.Size(1182, 577);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "HOME";
+            // 
+            // tlpConverterContainer
+            // 
+            this.tlpConverterContainer.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.tlpConverterContainer.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
+            this.tlpConverterContainer.ColumnCount = 1;
+            this.tlpConverterContainer.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlpConverterContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlpConverterContainer.Location = new System.Drawing.Point(3, 3);
+            this.tlpConverterContainer.Name = "tlpConverterContainer";
+            this.tlpConverterContainer.RowCount = 2;
+            this.tlpConverterContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlpConverterContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlpConverterContainer.Size = new System.Drawing.Size(590, 571);
+            this.tlpConverterContainer.TabIndex = 11;
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.btnSecsHostSendMsgTest);
+            this.panel2.Controls.Add(this.btnOpenMCSSimulatorForm);
+            this.panel2.Controls.Add(this.tableLayoutPanel2);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panel2.Location = new System.Drawing.Point(593, 3);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(586, 571);
+            this.panel2.TabIndex = 12;
+            // 
+            // btnSecsHostSendMsgTest
+            // 
+            this.btnSecsHostSendMsgTest.Location = new System.Drawing.Point(3, 3);
+            this.btnSecsHostSendMsgTest.Name = "btnSecsHostSendMsgTest";
+            this.btnSecsHostSendMsgTest.Size = new System.Drawing.Size(95, 22);
+            this.btnSecsHostSendMsgTest.TabIndex = 0;
+            this.btnSecsHostSendMsgTest.Text = "button1";
+            this.btnSecsHostSendMsgTest.UseVisualStyleBackColor = true;
+            this.btnSecsHostSendMsgTest.Click += new System.EventHandler(this.btnSecsHostSendMsgTest_Click);
+            // 
+            // btnOpenMCSSimulatorForm
+            // 
+            this.btnOpenMCSSimulatorForm.Location = new System.Drawing.Point(104, 3);
+            this.btnOpenMCSSimulatorForm.Name = "btnOpenMCSSimulatorForm";
+            this.btnOpenMCSSimulatorForm.Size = new System.Drawing.Size(95, 22);
+            this.btnOpenMCSSimulatorForm.TabIndex = 5;
+            this.btnOpenMCSSimulatorForm.Text = "MCS 模擬器";
+            this.btnOpenMCSSimulatorForm.UseVisualStyleBackColor = true;
+            this.btnOpenMCSSimulatorForm.Click += new System.EventHandler(this.btnOpenMCSSimulatorForm_Click);
             // 
             // tableLayoutPanel2
             // 
@@ -153,14 +195,14 @@
             this.tableLayoutPanel2.Controls.Add(this.label4, 0, 2);
             this.tableLayoutPanel2.Controls.Add(this.label3, 1, 0);
             this.tableLayoutPanel2.Controls.Add(this.label5, 1, 2);
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(894, 44);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(5, 31);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 4;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 17F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 17F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(490, 550);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(584, 537);
             this.tableLayoutPanel2.TabIndex = 10;
             // 
             // dgvMsgFromMCS
@@ -182,7 +224,7 @@
             this.dgvMsgFromMCS.ReadOnly = true;
             this.dgvMsgFromMCS.RowHeadersVisible = false;
             this.dgvMsgFromMCS.RowTemplate.Height = 25;
-            this.dgvMsgFromMCS.Size = new System.Drawing.Size(237, 249);
+            this.dgvMsgFromMCS.Size = new System.Drawing.Size(284, 243);
             this.dgvMsgFromMCS.TabIndex = 6;
             // 
             // primaryMessageSMLDataGridViewTextBoxColumn2
@@ -217,12 +259,12 @@
             this.dgvMsgFromAGVS.DataSource = this.primaryMessageWrapperBindingSource1;
             this.dgvMsgFromAGVS.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvMsgFromAGVS.GridColor = System.Drawing.Color.DarkCyan;
-            this.dgvMsgFromAGVS.Location = new System.Drawing.Point(4, 296);
+            this.dgvMsgFromAGVS.Location = new System.Drawing.Point(4, 290);
             this.dgvMsgFromAGVS.Name = "dgvMsgFromAGVS";
             this.dgvMsgFromAGVS.ReadOnly = true;
             this.dgvMsgFromAGVS.RowHeadersVisible = false;
             this.dgvMsgFromAGVS.RowTemplate.Height = 25;
-            this.dgvMsgFromAGVS.Size = new System.Drawing.Size(237, 250);
+            this.dgvMsgFromAGVS.Size = new System.Drawing.Size(284, 243);
             this.dgvMsgFromAGVS.TabIndex = 8;
             // 
             // primaryMessageSMLDataGridViewTextBoxColumn
@@ -256,12 +298,12 @@
             this.dgvActiveMsgToMCS.DataSource = this.primaryMessageWrapperBindingSource3;
             this.dgvActiveMsgToMCS.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvActiveMsgToMCS.GridColor = System.Drawing.Color.DarkCyan;
-            this.dgvActiveMsgToMCS.Location = new System.Drawing.Point(248, 22);
+            this.dgvActiveMsgToMCS.Location = new System.Drawing.Point(295, 22);
             this.dgvActiveMsgToMCS.Name = "dgvActiveMsgToMCS";
             this.dgvActiveMsgToMCS.ReadOnly = true;
             this.dgvActiveMsgToMCS.RowHeadersVisible = false;
             this.dgvActiveMsgToMCS.RowTemplate.Height = 25;
-            this.dgvActiveMsgToMCS.Size = new System.Drawing.Size(238, 249);
+            this.dgvActiveMsgToMCS.Size = new System.Drawing.Size(285, 243);
             this.dgvActiveMsgToMCS.TabIndex = 7;
             // 
             // primaryMessageSMLDataGridViewTextBoxColumn1
@@ -295,12 +337,12 @@
             this.dgvActiveMsgToAGVS.DataSource = this.primaryMessageWrapperBindingSource2;
             this.dgvActiveMsgToAGVS.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvActiveMsgToAGVS.GridColor = System.Drawing.Color.DarkCyan;
-            this.dgvActiveMsgToAGVS.Location = new System.Drawing.Point(248, 296);
+            this.dgvActiveMsgToAGVS.Location = new System.Drawing.Point(295, 290);
             this.dgvActiveMsgToAGVS.Name = "dgvActiveMsgToAGVS";
             this.dgvActiveMsgToAGVS.ReadOnly = true;
             this.dgvActiveMsgToAGVS.RowHeadersVisible = false;
             this.dgvActiveMsgToAGVS.RowTemplate.Height = 25;
-            this.dgvActiveMsgToAGVS.Size = new System.Drawing.Size(238, 250);
+            this.dgvActiveMsgToAGVS.Size = new System.Drawing.Size(285, 243);
             this.dgvActiveMsgToAGVS.TabIndex = 9;
             // 
             // dataGridViewTextBoxColumn6
@@ -330,7 +372,7 @@
             this.label2.Location = new System.Drawing.Point(1, 1);
             this.label2.Margin = new System.Windows.Forms.Padding(0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(243, 17);
+            this.label2.Size = new System.Drawing.Size(290, 17);
             this.label2.TabIndex = 10;
             this.label2.Text = "From MCS";
             // 
@@ -340,10 +382,10 @@
             this.label4.BackColor = System.Drawing.Color.Wheat;
             this.label4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label4.Location = new System.Drawing.Point(1, 275);
+            this.label4.Location = new System.Drawing.Point(1, 269);
             this.label4.Margin = new System.Windows.Forms.Padding(0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(243, 17);
+            this.label4.Size = new System.Drawing.Size(290, 17);
             this.label4.TabIndex = 12;
             this.label4.Text = "From AGVS";
             // 
@@ -353,10 +395,10 @@
             this.label3.BackColor = System.Drawing.Color.Aquamarine;
             this.label3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label3.Location = new System.Drawing.Point(245, 1);
+            this.label3.Location = new System.Drawing.Point(292, 1);
             this.label3.Margin = new System.Windows.Forms.Padding(0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(244, 17);
+            this.label3.Size = new System.Drawing.Size(291, 17);
             this.label3.TabIndex = 11;
             this.label3.Text = "To MCS";
             // 
@@ -366,52 +408,12 @@
             this.label5.BackColor = System.Drawing.Color.Wheat;
             this.label5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label5.Location = new System.Drawing.Point(245, 275);
+            this.label5.Location = new System.Drawing.Point(292, 269);
             this.label5.Margin = new System.Windows.Forms.Padding(0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(244, 17);
+            this.label5.Size = new System.Drawing.Size(291, 17);
             this.label5.TabIndex = 13;
             this.label5.Text = "To AGVS";
-            // 
-            // btnOpenMCSSimulatorForm
-            // 
-            this.btnOpenMCSSimulatorForm.Location = new System.Drawing.Point(995, 6);
-            this.btnOpenMCSSimulatorForm.Name = "btnOpenMCSSimulatorForm";
-            this.btnOpenMCSSimulatorForm.Size = new System.Drawing.Size(95, 34);
-            this.btnOpenMCSSimulatorForm.TabIndex = 5;
-            this.btnOpenMCSSimulatorForm.Text = "MCS 模擬器";
-            this.btnOpenMCSSimulatorForm.UseVisualStyleBackColor = true;
-            this.btnOpenMCSSimulatorForm.Click += new System.EventHandler(this.btnOpenMCSSimulatorForm_Click);
-            // 
-            // uscCasstteConverterUI_2
-            // 
-            this.uscCasstteConverterUI_2.BackColor = System.Drawing.Color.AliceBlue;
-            this.uscCasstteConverterUI_2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.uscCasstteConverterUI_2.Location = new System.Drawing.Point(3, 318);
-            this.uscCasstteConverterUI_2.Name = "uscCasstteConverterUI_2";
-            this.uscCasstteConverterUI_2.NameDisplay = "轉換架 # 2";
-            this.uscCasstteConverterUI_2.Size = new System.Drawing.Size(885, 269);
-            this.uscCasstteConverterUI_2.TabIndex = 4;
-            // 
-            // uscCasstteConverterUI_1
-            // 
-            this.uscCasstteConverterUI_1.BackColor = System.Drawing.Color.AliceBlue;
-            this.uscCasstteConverterUI_1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.uscCasstteConverterUI_1.Location = new System.Drawing.Point(3, 43);
-            this.uscCasstteConverterUI_1.Name = "uscCasstteConverterUI_1";
-            this.uscCasstteConverterUI_1.NameDisplay = "轉換架 # 1";
-            this.uscCasstteConverterUI_1.Size = new System.Drawing.Size(885, 269);
-            this.uscCasstteConverterUI_1.TabIndex = 3;
-            // 
-            // btnSecsHostSendMsgTest
-            // 
-            this.btnSecsHostSendMsgTest.Location = new System.Drawing.Point(894, 4);
-            this.btnSecsHostSendMsgTest.Name = "btnSecsHostSendMsgTest";
-            this.btnSecsHostSendMsgTest.Size = new System.Drawing.Size(95, 34);
-            this.btnSecsHostSendMsgTest.TabIndex = 0;
-            this.btnSecsHostSendMsgTest.Text = "button1";
-            this.btnSecsHostSendMsgTest.UseVisualStyleBackColor = true;
-            this.btnSecsHostSendMsgTest.Click += new System.EventHandler(this.btnSecsHostSendMsgTest_Click);
             // 
             // tabPage2
             // 
@@ -419,7 +421,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 24);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1441, 577);
+            this.tabPage2.Size = new System.Drawing.Size(1182, 577);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "LOG";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -449,7 +451,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 41F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1435, 571);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1176, 571);
             this.tableLayoutPanel1.TabIndex = 2;
             // 
             // checkBox4
@@ -463,9 +465,9 @@
             this.checkBox4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.checkBox4.Font = new System.Drawing.Font("Microsoft JhengHei UI", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.checkBox4.ForeColor = System.Drawing.Color.White;
-            this.checkBox4.Location = new System.Drawing.Point(1077, 3);
+            this.checkBox4.Location = new System.Drawing.Point(885, 3);
             this.checkBox4.Name = "checkBox4";
-            this.checkBox4.Size = new System.Drawing.Size(355, 35);
+            this.checkBox4.Size = new System.Drawing.Size(288, 35);
             this.checkBox4.TabIndex = 8;
             this.checkBox4.Text = "---";
             this.checkBox4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -482,9 +484,9 @@
             this.checkBox3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.checkBox3.Font = new System.Drawing.Font("Microsoft JhengHei UI", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.checkBox3.ForeColor = System.Drawing.Color.White;
-            this.checkBox3.Location = new System.Drawing.Point(719, 3);
+            this.checkBox3.Location = new System.Drawing.Point(591, 3);
             this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(352, 35);
+            this.checkBox3.Size = new System.Drawing.Size(288, 35);
             this.checkBox3.TabIndex = 7;
             this.checkBox3.Text = "---";
             this.checkBox3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -501,9 +503,9 @@
             this.checkBox2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.checkBox2.Font = new System.Drawing.Font("Microsoft JhengHei UI", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.checkBox2.ForeColor = System.Drawing.Color.White;
-            this.checkBox2.Location = new System.Drawing.Point(361, 3);
+            this.checkBox2.Location = new System.Drawing.Point(297, 3);
             this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(352, 35);
+            this.checkBox2.Size = new System.Drawing.Size(288, 35);
             this.checkBox2.TabIndex = 6;
             this.checkBox2.Text = "CIM<->MCS";
             this.checkBox2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -518,7 +520,7 @@
             this.rtbSecsHostLog.ForeColor = System.Drawing.Color.White;
             this.rtbSecsHostLog.Location = new System.Drawing.Point(3, 44);
             this.rtbSecsHostLog.Name = "rtbSecsHostLog";
-            this.rtbSecsHostLog.Size = new System.Drawing.Size(352, 238);
+            this.rtbSecsHostLog.Size = new System.Drawing.Size(288, 238);
             this.rtbSecsHostLog.TabIndex = 1;
             this.rtbSecsHostLog.Text = "";
             // 
@@ -529,9 +531,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.rtbSecsClientLog.BackColor = System.Drawing.SystemColors.InfoText;
             this.rtbSecsClientLog.ForeColor = System.Drawing.Color.White;
-            this.rtbSecsClientLog.Location = new System.Drawing.Point(361, 44);
+            this.rtbSecsClientLog.Location = new System.Drawing.Point(297, 44);
             this.rtbSecsClientLog.Name = "rtbSecsClientLog";
-            this.rtbSecsClientLog.Size = new System.Drawing.Size(352, 238);
+            this.rtbSecsClientLog.Size = new System.Drawing.Size(288, 238);
             this.rtbSecsClientLog.TabIndex = 2;
             this.rtbSecsClientLog.Text = "";
             // 
@@ -542,9 +544,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.rtbCasstteConvertLog.BackColor = System.Drawing.SystemColors.InfoText;
             this.rtbCasstteConvertLog.ForeColor = System.Drawing.Color.White;
-            this.rtbCasstteConvertLog.Location = new System.Drawing.Point(719, 44);
+            this.rtbCasstteConvertLog.Location = new System.Drawing.Point(591, 44);
             this.rtbCasstteConvertLog.Name = "rtbCasstteConvertLog";
-            this.rtbCasstteConvertLog.Size = new System.Drawing.Size(352, 238);
+            this.rtbCasstteConvertLog.Size = new System.Drawing.Size(288, 238);
             this.rtbCasstteConvertLog.TabIndex = 3;
             this.rtbCasstteConvertLog.Text = "";
             // 
@@ -555,9 +557,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.richTextBox3.BackColor = System.Drawing.SystemColors.InfoText;
             this.richTextBox3.ForeColor = System.Drawing.Color.White;
-            this.richTextBox3.Location = new System.Drawing.Point(1077, 44);
+            this.richTextBox3.Location = new System.Drawing.Point(885, 44);
             this.richTextBox3.Name = "richTextBox3";
-            this.richTextBox3.Size = new System.Drawing.Size(355, 238);
+            this.richTextBox3.Size = new System.Drawing.Size(288, 238);
             this.richTextBox3.TabIndex = 4;
             this.richTextBox3.Text = "";
             // 
@@ -574,7 +576,7 @@
             this.checkBox1.ForeColor = System.Drawing.Color.White;
             this.checkBox1.Location = new System.Drawing.Point(3, 3);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(352, 35);
+            this.checkBox1.Size = new System.Drawing.Size(288, 35);
             this.checkBox1.TabIndex = 5;
             this.checkBox1.Text = "CIM<->AGVS";
             this.checkBox1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -595,7 +597,7 @@
             this.checkBox5.ForeColor = System.Drawing.Color.White;
             this.checkBox5.Location = new System.Drawing.Point(3, 288);
             this.checkBox5.Name = "checkBox5";
-            this.checkBox5.Size = new System.Drawing.Size(352, 35);
+            this.checkBox5.Size = new System.Drawing.Size(288, 35);
             this.checkBox5.TabIndex = 9;
             this.checkBox5.Text = "ModbusTcpServer";
             this.checkBox5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -610,7 +612,7 @@
             this.rtbModbusTcpServerLog.ForeColor = System.Drawing.Color.White;
             this.rtbModbusTcpServerLog.Location = new System.Drawing.Point(3, 329);
             this.rtbModbusTcpServerLog.Name = "rtbModbusTcpServerLog";
-            this.rtbModbusTcpServerLog.Size = new System.Drawing.Size(352, 239);
+            this.rtbModbusTcpServerLog.Size = new System.Drawing.Size(288, 239);
             this.rtbModbusTcpServerLog.TabIndex = 7;
             this.rtbModbusTcpServerLog.Text = "";
             // 
@@ -619,13 +621,12 @@
             this.menuStrip1.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.menuStrip1.Font = new System.Drawing.Font("Microsoft JhengHei UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripComboBox1,
-            this.toolStripMenuItem1});
+            this.toolStripComboBox1});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(6, 2, 0, 6);
             this.menuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.menuStrip1.Size = new System.Drawing.Size(1582, 32);
+            this.menuStrip1.Size = new System.Drawing.Size(1323, 32);
             this.menuStrip1.TabIndex = 3;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -634,7 +635,7 @@
             this.toolStripComboBox1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mCS模擬器ToolStripMenuItem,
             this.轉換架模擬器ToolStripMenuItem,
-            this.aGVS模擬器ToolStripMenuItem,
+            this.AGVS_modbus_sim_ToolStripMenuItem,
             this.aGVS派車模擬器ToolStripMenuItem});
             this.toolStripComboBox1.ForeColor = System.Drawing.Color.White;
             this.toolStripComboBox1.Name = "toolStripComboBox1";
@@ -646,7 +647,7 @@
             // 
             this.mCS模擬器ToolStripMenuItem.Name = "mCS模擬器ToolStripMenuItem";
             this.mCS模擬器ToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F1;
-            this.mCS模擬器ToolStripMenuItem.Size = new System.Drawing.Size(191, 24);
+            this.mCS模擬器ToolStripMenuItem.Size = new System.Drawing.Size(239, 24);
             this.mCS模擬器ToolStripMenuItem.Text = "MCS 模擬器";
             this.mCS模擬器ToolStripMenuItem.Click += new System.EventHandler(this.btnOpenMCSSimulatorForm_Click);
             // 
@@ -656,7 +657,7 @@
             this.toolStripMenuItem_OpenConvert_1_Simulator,
             this.toolStripMenuItem_OpenConvert_2_Simulator});
             this.轉換架模擬器ToolStripMenuItem.Name = "轉換架模擬器ToolStripMenuItem";
-            this.轉換架模擬器ToolStripMenuItem.Size = new System.Drawing.Size(191, 24);
+            this.轉換架模擬器ToolStripMenuItem.Size = new System.Drawing.Size(239, 24);
             this.轉換架模擬器ToolStripMenuItem.Text = "轉換架模擬器";
             // 
             // toolStripMenuItem_OpenConvert_1_Simulator
@@ -675,29 +676,18 @@
             this.toolStripMenuItem_OpenConvert_2_Simulator.Text = "轉換架 [2]";
             this.toolStripMenuItem_OpenConvert_2_Simulator.Click += new System.EventHandler(this.toolStripMenuItem_OpenConvert_2_Simulator_Click);
             // 
-            // aGVS模擬器ToolStripMenuItem
+            // AGVS_modbus_sim_ToolStripMenuItem
             // 
-            this.aGVS模擬器ToolStripMenuItem.Name = "aGVS模擬器ToolStripMenuItem";
-            this.aGVS模擬器ToolStripMenuItem.Size = new System.Drawing.Size(239, 24);
-            this.aGVS模擬器ToolStripMenuItem.Text = "AGVS Modbus 模擬器";
-            this.aGVS模擬器ToolStripMenuItem.Click += new System.EventHandler(this.aGVS模擬器ToolStripMenuItem_Click);
+            this.AGVS_modbus_sim_ToolStripMenuItem.Name = "AGVS_modbus_sim_ToolStripMenuItem";
+            this.AGVS_modbus_sim_ToolStripMenuItem.Size = new System.Drawing.Size(239, 24);
+            this.AGVS_modbus_sim_ToolStripMenuItem.Text = "AGVS Modbus 模擬器";
             // 
-            // toolStripMenuItem1
+            // aGVS派車模擬器ToolStripMenuItem
             // 
-            this.toolStripMenuItem1.BackColor = System.Drawing.Color.Transparent;
-            this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.modbusTCPServerToolStripMenuItem});
-            this.toolStripMenuItem1.ForeColor = System.Drawing.Color.White;
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(76, 24);
-            this.toolStripMenuItem1.Text = " Debug";
-            // 
-            // modbusTCPServerToolStripMenuItem
-            // 
-            this.modbusTCPServerToolStripMenuItem.Name = "modbusTCPServerToolStripMenuItem";
-            this.modbusTCPServerToolStripMenuItem.Size = new System.Drawing.Size(225, 24);
-            this.modbusTCPServerToolStripMenuItem.Text = "Modbus TCP Server";
-            this.modbusTCPServerToolStripMenuItem.Click += new System.EventHandler(this.modbusTCPServerToolStripMenuItem_Click);
+            this.aGVS派車模擬器ToolStripMenuItem.Name = "aGVS派車模擬器ToolStripMenuItem";
+            this.aGVS派車模擬器ToolStripMenuItem.Size = new System.Drawing.Size(239, 24);
+            this.aGVS派車模擬器ToolStripMenuItem.Text = "AGVS 派車模擬器";
+            this.aGVS派車模擬器ToolStripMenuItem.Click += new System.EventHandler(this.aGVS派車模擬器ToolStripMenuItem_Click);
             // 
             // pnlSideLeft
             // 
@@ -744,7 +734,7 @@
             this.panel1.Location = new System.Drawing.Point(133, 637);
             this.panel1.Name = "panel1";
             this.panel1.Padding = new System.Windows.Forms.Padding(1);
-            this.panel1.Size = new System.Drawing.Size(1449, 147);
+            this.panel1.Size = new System.Drawing.Size(1190, 147);
             this.panel1.TabIndex = 6;
             // 
             // rtbSystemLogShow
@@ -755,7 +745,7 @@
             this.rtbSystemLogShow.ForeColor = System.Drawing.Color.White;
             this.rtbSystemLogShow.Location = new System.Drawing.Point(1, 1);
             this.rtbSystemLogShow.Name = "rtbSystemLogShow";
-            this.rtbSystemLogShow.Size = new System.Drawing.Size(1445, 143);
+            this.rtbSystemLogShow.Size = new System.Drawing.Size(1186, 143);
             this.rtbSystemLogShow.TabIndex = 0;
             this.rtbSystemLogShow.Text = "";
             // 
@@ -767,7 +757,7 @@
             this.statusStrip1.Location = new System.Drawing.Point(0, 784);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.statusStrip1.Size = new System.Drawing.Size(1582, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(1323, 22);
             this.statusStrip1.TabIndex = 8;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -784,20 +774,13 @@
             this.SysTimer.Interval = 1000;
             this.SysTimer.Tick += new System.EventHandler(this.SysTimer_Tick);
             // 
-            // aGVS派車模擬器ToolStripMenuItem
-            // 
-            this.aGVS派車模擬器ToolStripMenuItem.Name = "aGVS派車模擬器ToolStripMenuItem";
-            this.aGVS派車模擬器ToolStripMenuItem.Size = new System.Drawing.Size(239, 24);
-            this.aGVS派車模擬器ToolStripMenuItem.Text = "AGVS 派車模擬器";
-            this.aGVS派車模擬器ToolStripMenuItem.Click += new System.EventHandler(this.aGVS派車模擬器ToolStripMenuItem_Click);
-            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
-            this.ClientSize = new System.Drawing.Size(1582, 806);
+            this.ClientSize = new System.Drawing.Size(1323, 806);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.pnlSideLeft);
@@ -812,6 +795,7 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMsgFromMCS)).EndInit();
@@ -849,8 +833,6 @@
         private CheckBox checkBox1;
         private Button btnSecsHostSendMsgTest;
         private BindingSource primaryMessageWrapperBindingSource;
-        private UI_UserControls.UscCasstteConverter uscCasstteConverterUI_1;
-        private UI_UserControls.UscCasstteConverter uscCasstteConverterUI_2;
         private Button btnOpenMCSSimulatorForm;
         private MenuStrip menuStrip1;
         private ToolStripMenuItem toolStripComboBox1;
@@ -867,7 +849,6 @@
         private DataGridView dgvActiveMsgToMCS;
         private DataGridView dgvMsgFromAGVS;
         private DataGridView dgvActiveMsgToAGVS;
-        private ToolStripMenuItem toolStripMenuItem1;
         private BindingSource messageWrapperBindingSource;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn13;
@@ -888,8 +869,7 @@
         private RichTextBox rtbCasstteConvertLog;
         private RichTextBox richTextBox3;
         private CheckBox checkBox5;
-        private ToolStripMenuItem modbusTCPServerToolStripMenuItem;
-        private ToolStripMenuItem aGVS模擬器ToolStripMenuItem;
+        private ToolStripMenuItem AGVS_modbus_sim_ToolStripMenuItem;
         private StatusStrip statusStrip1;
         private ToolStripStatusLabel labSysTime;
         private System.Windows.Forms.Timer SysTimer;
@@ -906,5 +886,7 @@
         private DataGridViewTextBoxColumn secondaryMessageSMLDataGridViewTextBoxColumn1;
         private BindingSource primaryMessageWrapperBindingSource2;
         private ToolStripMenuItem aGVS派車模擬器ToolStripMenuItem;
+        private TableLayoutPanel tlpConverterContainer;
+        private Panel panel2;
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GPMCasstteConvertCIM.CasstteConverter;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,6 +13,13 @@ namespace GPMCasstteConvertCIM.Emulators
 {
     public partial class frmAGVS_Modbus_Emulator : Form
     {
+
+        public frmAGVS_Modbus_Emulator(clsCasstteConverter linkedCasstteConverter)
+        {
+            InitializeComponent();
+            uscagvsModbusClientEmulator1.casstte_convert = linkedCasstteConverter;
+        }
+
         public frmAGVS_Modbus_Emulator()
         {
             InitializeComponent();

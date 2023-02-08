@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Newtonsoft.Json;
 
 namespace GPMCasstteConvertCIM.CasstteConverter
 {
-    public class EnumSTATES
+    public class Enums
     {
+        public enum CONVERTER_TYPE
+        {
+            IN_SYS = 1,
+            SYS_2_SYS = 2
+        }
 
         public enum AUTO_MANUAL_MODE
         {
@@ -16,13 +17,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             Unknown = 999
         }
 
-        public enum PORT_MODE
-        {
-            IN = 1,
-            OUT = 2,
-            INOUT = 3,
-            Unknown = 999
-        }
 
         public enum AGVS_CONNECT_STATUS
         {

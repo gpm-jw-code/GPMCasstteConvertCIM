@@ -26,7 +26,7 @@ namespace GPMCasstteConvertCIM.VirtualAGVSystem
             this.agvc = agvc;
             Text = $"任務-{agvc.CarName}";
 
-            cmbACTION.DataSource = new List<AGVS_Dispath_Emulator.ACTION> { AGVS_Dispath_Emulator.ACTION.Move, AGVS_Dispath_Emulator.ACTION.Parking };
+            cmbACTION.DataSource = new List<AGVS_Dispath_Emulator.ACTION> { AGVS_Dispath_Emulator.ACTION.Move, AGVS_Dispath_Emulator.ACTION.Parking, AGVS_Dispath_Emulator.ACTION.Load, AGVS_Dispath_Emulator.ACTION.Unload };
             cmbACTION.SelectedItem = null;
             cmbStations.SelectedItem = null;
         }
@@ -43,7 +43,7 @@ namespace GPMCasstteConvertCIM.VirtualAGVSystem
                 cmbStations.DataSource = StaVirtualAGVS.StationList;
                 label3.Visible = cmbSlots.Visible = false;
             }
-            else if (selected_action == AGVS_Dispath_Emulator.ACTION.Parking)
+            else
             {
                 cmbStations.DataSource = StaVirtualAGVS.SlotSetList;
                 label3.Visible = cmbSlots.Visible = true;
@@ -83,7 +83,7 @@ namespace GPMCasstteConvertCIM.VirtualAGVSystem
             {
                 btnSendDispatchTask.Enabled = cmbStations.SelectedItem != null;
             }
-            else if (cmbACTION.SelectedText == AGVS_Dispath_Emulator.ACTION.Parking.ToString())
+            else
             {
                 btnSendDispatchTask.Enabled = cmbStations.SelectedItem != null && cmbSlots.SelectedItem != null;
             }
@@ -103,7 +103,7 @@ namespace GPMCasstteConvertCIM.VirtualAGVSystem
             var _selected_action = selected_action;
             _ = Task.Factory.StartNew(async () =>
             {
-                AGVS_Dispath_Emulator.ExcuteResult ret;
+                AGVS_Dispath_Emulator.ExcuteResult ret = null;
                 if (_selected_action == AGVS_Dispath_Emulator.ACTION.Move)
                 {
                     ret = await StaVirtualAGVS.TaskDispatcher.Move(agvc.CarName, agvc.AGV_ID, station);
@@ -113,6 +113,19 @@ namespace GPMCasstteConvertCIM.VirtualAGVSystem
                 {
                     ret = await StaVirtualAGVS.TaskDispatcher.Park(agvc.CarName, agvc.AGV_ID, station, slot);
                 }
+
+                if (_selected_action == AGVS_Dispath_Emulator.ACTION.Load)
+                {
+                    ret = await StaVirtualAGVS.TaskDispatcher.Load(agvc.CarName, agvc.AGV_ID, station, slot);
+                }
+                if (_selected_action == AGVS_Dispath_Emulator.ACTION.Unload)
+                {
+                    ret = await StaVirtualAGVS.TaskDispatcher.Unload(agvc.CarName, agvc.AGV_ID, station, slot);
+                }
+
+                if (ret != null)
+                    MessageBox.Show(ret.Success ? "任務派送成功" : "任務派送失敗");
+
                 Invoke(new Action(() =>
                 {
                     timer1.Enabled = btnSendDispatchTask.Enabled = true;

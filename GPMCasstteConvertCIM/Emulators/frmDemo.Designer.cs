@@ -68,7 +68,7 @@
             this.btnRunLoadDemo.Name = "btnRunLoadDemo";
             this.btnRunLoadDemo.Size = new System.Drawing.Size(136, 46);
             this.btnRunLoadDemo.TabIndex = 5;
-            this.btnRunLoadDemo.Text = "Run";
+            this.btnRunLoadDemo.Text = "放貨DEMO";
             this.btnRunLoadDemo.UseVisualStyleBackColor = true;
             this.btnRunLoadDemo.Click += new System.EventHandler(this.btnRunLoadDemo_Click);
             // 
@@ -149,7 +149,7 @@
             this.btnRunUnloadDemo.Name = "btnRunUnloadDemo";
             this.btnRunUnloadDemo.Size = new System.Drawing.Size(136, 46);
             this.btnRunUnloadDemo.TabIndex = 5;
-            this.btnRunUnloadDemo.Text = "Run";
+            this.btnRunUnloadDemo.Text = "取貨DEMO";
             this.btnRunUnloadDemo.UseVisualStyleBackColor = true;
             this.btnRunUnloadDemo.Click += new System.EventHandler(this.btnRunUnloadDemo_Click);
             // 
@@ -191,12 +191,13 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(731, 448);
+            this.ClientSize = new System.Drawing.Size(731, 260);
             this.Controls.Add(this.groupBox_UnloadDemo);
             this.Controls.Add(this.cmbDemoAGV);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.groupBox_LoadDemo);
             this.Name = "frmDemo";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "frmDemo";
             this.Load += new System.EventHandler(this.frmDemo_Load);
             this.groupBox_LoadDemo.ResumeLayout(false);

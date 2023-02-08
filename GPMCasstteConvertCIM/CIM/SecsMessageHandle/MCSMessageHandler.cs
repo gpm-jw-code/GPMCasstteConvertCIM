@@ -1,7 +1,9 @@
-﻿using GPMCasstteConvertCIM.GPM_SECS;
+﻿using GPMCasstteConvertCIM.Devices;
+using GPMCasstteConvertCIM.GPM_SECS;
 using GPMCasstteConvertCIM.Utilities;
 using Secs4Net;
 using Secs4Net.Sml;
+using static Secs4Net.Item;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +21,7 @@ namespace GPMCasstteConvertCIM.CIM.SecsMessageHandle
             using SecsMessage _primaryMessage = _primaryMessageWrapper.PrimaryMessage;
 
             bool reply = false;
-            if (_primaryMessage.S == 1 && _primaryMessage.F == 13) // HOST要求 [設備連線建立]
+            if (_primaryMessage.S == 1 && _primaryMessage.F == 13) // 
             {
                 Utility.SystemLogger?.Info($"HOST要求 [設備連線建立]_{_primaryMessage}");
                 _primaryMessage.TryGetConnectRequestParam(out string _mdln, out string _softrev);
@@ -97,7 +99,7 @@ namespace GPMCasstteConvertCIM.CIM.SecsMessageHandle
         {
             Utility.SystemLogger.Info($"[MCS SECS Message > AGVS] From MCS : {_primaryMessageWrapper.PrimaryMessage.ToSml()}");
 
-            SecsMessage secondaryMsgFromAGVS = await CIMDevices.secs_host.SendAsync(_primaryMessageWrapper.PrimaryMessage);
+            SecsMessage secondaryMsgFromAGVS = await DevicesManager.secs_host.SendAsync(_primaryMessageWrapper.PrimaryMessage);
 
             Utility.SystemLogger.Info($"[MCS SECS Message > AGVS] AGVS Reply : {secondaryMsgFromAGVS.ToSml()}");
 

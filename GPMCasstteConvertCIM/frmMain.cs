@@ -1,5 +1,7 @@
+using GPMCasstteConvertCIM.CasstteConverter;
 using GPMCasstteConvertCIM.CasstteConverter.Data;
-using GPMCasstteConvertCIM.CIM;
+using GPMCasstteConvertCIM.Devices;
+using GPMCasstteConvertCIM.Devices.Options;
 using GPMCasstteConvertCIM.Emulators;
 using GPMCasstteConvertCIM.GPM_SECS;
 using GPMCasstteConvertCIM.GPM_SECS.Emulator;
@@ -44,6 +46,8 @@ namespace GPMCasstteConvertCIM
         private void Form1_Load(object sender, EventArgs e)
         {
             Utility.LoadConfigs();
+            DevicesManager.LoadDeviceConnectionOpts();
+
             LoggerBase.logTimeUnit = Utility.SysConfigs.Log.LogFileUnit;
 
 
@@ -51,39 +55,71 @@ namespace GPMCasstteConvertCIM
             Utility.SystemLogger.Info("GPM CIM System Start");
 
             uscConnectionStates1.InitializeConnectionState();
-            EmulatorManager.Start();
 
-            Utility.DevicesConnectionsOpts.SECS_HOST.logRichTextBox = rtbSecsHostLog;
-            Utility.DevicesConnectionsOpts.SECS_HOST.dgvRevBufferTable = dgvMsgFromAGVS;
-            Utility.DevicesConnectionsOpts.SECS_HOST.dgvSendBufferTable = dgvActiveMsgToAGVS;
+            //EmulatorManager.Start();
 
-            Utility.DevicesConnectionsOpts.SECS_CLIENT.logRichTextBox = rtbSecsClientLog;
-            Utility.DevicesConnectionsOpts.SECS_CLIENT.dgvRevBufferTable = dgvMsgFromMCS;
-            Utility.DevicesConnectionsOpts.SECS_CLIENT.dgvSendBufferTable = dgvActiveMsgToMCS;
-
-
-            Utility.DevicesConnectionsOpts.PLCEQ1.logRichTextBox = rtbCasstteConvertLog;
-            Utility.DevicesConnectionsOpts.PLCEQ1.mainUI = uscCasstteConverterUI_1;
-            Utility.DevicesConnectionsOpts.PLCEQ2.logRichTextBox = rtbCasstteConvertLog;
-            Utility.DevicesConnectionsOpts.PLCEQ2.mainUI = uscCasstteConverterUI_2;
-
-            Utility.DevicesConnectionsOpts.Modbus_Server.mainUI = Utility.ModbusTCPServerView;
-            Utility.DevicesConnectionsOpts.Modbus_Server.logRichTextBox = rtbModbusTcpServerLog;
+            DevicesManager.DevicesConnectionsOpts.SECS_HOST.logRichTextBox = rtbSecsHostLog;
+            DevicesManager.DevicesConnectionsOpts.SECS_HOST.dgvRevBufferTable = dgvMsgFromAGVS;
+            DevicesManager.DevicesConnectionsOpts.SECS_HOST.dgvSendBufferTable = dgvActiveMsgToAGVS;
+            DevicesManager.DevicesConnectionsOpts.SECS_CLIENT.logRichTextBox = rtbSecsClientLog;
+            DevicesManager.DevicesConnectionsOpts.SECS_CLIENT.dgvRevBufferTable = dgvMsgFromMCS;
+            DevicesManager.DevicesConnectionsOpts.SECS_CLIENT.dgvSendBufferTable = dgvActiveMsgToMCS;
 
 
-            CIMDevices.DeviceConnectionStateOnChanged += CIMDevices_DeviceConnectionStateOnChanged;
+            foreach (Devices.Options.ConverterEQPInitialOption item in DevicesManager.DevicesConnectionsOpts.PLCEQS)
+            {
+                item.logRichTextBox = rtbCasstteConvertLog;
+                UI_UserControls.UscCasstteConverter mainUI = new UI_UserControls.UscCasstteConverter();
+                item.mainUI = mainUI;
+                tlpConverterContainer.Controls.Add(mainUI);
+                mainUI.Dock = DockStyle.Fill;
+
+                ToolStripMenuItem agvs_modbus_emu_selBtn = new ToolStripMenuItem()
+                {
+                    Text = $"¬‡¥´¨[-{item.DeviceId}({item.ConverterType})",
+                    Tag = item //ConverterEQPInitialOption
+                };
+
+                agvs_modbus_emu_selBtn.Click += Agvs_modbus_emu_selBtn_Click;
+                AGVS_modbus_sim_ToolStripMenuItem.DropDownItems.Add(agvs_modbus_emu_selBtn);
+
+            }
 
 
-            CIMDevices.Connect(Utility.DevicesConnectionsOpts.SECS_HOST, Utility.DevicesConnectionsOpts.SECS_CLIENT,
-                Utility.DevicesConnectionsOpts.PLCEQ1, Utility.DevicesConnectionsOpts.PLCEQ2, Utility.DevicesConnectionsOpts.Modbus_Server);
+            foreach (var item in DevicesManager.DevicesConnectionsOpts.Modbus_Servers)
+            {
+                item.mainUI = new frmModbusTCPServer();
+                item.logRichTextBox = rtbModbusTcpServerLog;
+            }
+
+
+            DevicesManager.DeviceConnectionStateOnChanged += CIMDevices_DeviceConnectionStateOnChanged;
+
+            DevicesManager.Connect();
+
+
+            //DevicesManager.Connect(DevicesManager.DevicesConnectionsOpts.SECS_HOST, DevicesManager.DevicesConnectionsOpts.SECS_CLIENT,
+            //    DevicesManager.DevicesConnectionsOpts.PLCEQ1, DevicesManager.DevicesConnectionsOpts.PLCEQ2, DevicesManager.DevicesConnectionsOpts.Modbus_Server);
 
             VirtualAGVSystem.StaVirtualAGVS.Initialize();
+
+
 
             //dgvMsgFromAGVS.DataSource = CIMDevices.secs_host.recvBuffer;
             //dgvActiveMsgToAGVS.DataSource = CIMDevices.secs_host.sendBuffer;
             //dgvMsgFromMCS.DataSource = CIMDevices.secs_client.recvBuffer;
             //dgvActiveMsgToMCS.DataSource = CIMDevices.secs_client.sendBuffer;
 
+        }
+
+        private void Agvs_modbus_emu_selBtn_Click(object? sender, EventArgs e)
+        {
+            ToolStripMenuItem agvs_modbus_emu_selBtn = (ToolStripMenuItem)sender;
+            ConverterEQPInitialOption opt = (ConverterEQPInitialOption)agvs_modbus_emu_selBtn.Tag;
+
+            clsCasstteConverter? linkedCasstteCV = DevicesManager.casstteConverters.FirstOrDefault(c => c.index == opt.DeviceId);
+            frmAGVS_Modbus_Emulator emu = new frmAGVS_Modbus_Emulator(linkedCasstteCV);
+            emu.Show();
         }
 
         private void Secs_client_MsgRecvBufferOnAdded(object? sender, EventArgs e)
@@ -106,17 +142,17 @@ namespace GPMCasstteConvertCIM
             dgvActiveMsgToAGVS.Invalidate();
         }
 
-        private void CIMDevices_DeviceConnectionStateOnChanged(object? sender, CIMDevices.ConnectionStateChangeArgs e)
+        private void CIMDevices_DeviceConnectionStateOnChanged(object? sender, DevicesManager.ConnectionStateChangeArgs e)
         {
             switch (e.Device_Type)
             {
-                case CIMDevices.CIM_DEVICE_TYPES.SECS_HOST:
+                case DevicesManager.CIM_DEVICE_TYPES.SECS_HOST:
                     uscConnectionStates1.SECS_TO_AGVS_ConnectionChange(e.Connection_State);
                     break;
-                case CIMDevices.CIM_DEVICE_TYPES.SECS_CLIENT:
+                case DevicesManager.CIM_DEVICE_TYPES.SECS_CLIENT:
                     uscConnectionStates1.SECS_TO_MCS_ConnectionChange(e.Connection_State);
                     break;
-                case CIMDevices.CIM_DEVICE_TYPES.CASSTTE_CONVERTER:
+                case DevicesManager.CIM_DEVICE_TYPES.CASSTTE_CONVERTER:
                     uscConnectionStates1.Converter_ConnectionChange(e.Connection_State);
                     break;
                 default:
@@ -134,7 +170,7 @@ namespace GPMCasstteConvertCIM
         {
             try
             {
-                SecsMessage? se = await CIMDevices.secs_host?.SendAsync(new SecsMessage(1, 3)
+                SecsMessage? se = await DevicesManager.secs_host?.SendAsync(new SecsMessage(1, 3)
                 {
                     Name = "S1F3",
                     SecsItem = L(
@@ -174,12 +210,12 @@ namespace GPMCasstteConvertCIM
 
         private void toolStripMenuItem_OpenConvert_1_Simulator_Click(object sender, EventArgs e)
         {
-            CIMDevices.casstteConverter_1.OpenSimulatorUI();
+            DevicesManager.casstteConverters[0].OpenSimulatorUI();
         }
 
         private void toolStripMenuItem_OpenConvert_2_Simulator_Click(object sender, EventArgs e)
         {
-            CIMDevices.casstteConverter_2.OpenSimulatorUI();
+            DevicesManager.casstteConverters[1].OpenSimulatorUI();
 
         }
 
@@ -188,16 +224,13 @@ namespace GPMCasstteConvertCIM
             Utility.ModbusTCPServerView.Show();
         }
 
-        private void aGVSº“¿¿æπToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            frmAGVS_Modbus_Emulator AGVSModbusEmulator = new frmAGVS_Modbus_Emulator();
-            AGVSModbusEmulator.Show();
-        }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            CIMDevices.casstteConverter_1.mcInterface?.Close();
-            CIMDevices.casstteConverter_2.mcInterface?.Close();
+            foreach (var item in DevicesManager.casstteConverters)
+            {
+                item.mcInterface?.Close();
+            }
 
             Environment.Exit(0);
         }

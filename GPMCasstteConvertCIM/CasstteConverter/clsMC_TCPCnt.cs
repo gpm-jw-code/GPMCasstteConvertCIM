@@ -68,7 +68,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 loTCPClinet = null;
                 bool flag = false;
                 loTCPClinet = new TcpClient();
-
+                //CancellationTokenSource cts = new CancellationTokenSource(5000);
+                //await loTCPClinet.ConnectAsync(lstrRemoteIP, lintRemotePort, cts.Token);
                 await loTCPClinet.ConnectAsync(lstrRemoteIP, lintRemotePort);
 
                 lbolIsConnected = true;
@@ -265,7 +266,11 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         {
             try
             {
-                RecvTCPSocketData( ref strResult);
+                RecvTCPSocketData(ref strResult);
+            }
+            catch (SocketException ex)
+            {
+                throw ex;
             }
             catch (Exception ex)
             {
@@ -303,7 +308,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 }
             }
         }
-        private void RecvTCPSocketData( ref string strResult)
+        private void RecvTCPSocketData(ref string strResult)
         {
             try
             {
@@ -318,7 +323,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 _state.pauseEvent.WaitOne();
 
                 strResult = _state.revText;
-               
+
             }
             catch (Exception ex)
             {
@@ -387,9 +392,19 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 }
                 return false;
             }
+
+            catch (SocketException ex)
+            {
+                throw ex;
+            }
             catch (Exception ex)
             {
-                throw new Exception(varClassName + " [ClearBuf]  " + ex.Message);
+                if (ex.Source == "System.Net.Sockets")
+                {
+                    throw new SocketException();
+                }
+                else
+                    throw new Exception(varClassName + " [ClearBuf]  " + ex.Message);
             }
         }
 

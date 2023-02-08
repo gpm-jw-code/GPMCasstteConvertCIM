@@ -121,7 +121,6 @@ namespace GPMCasstteConvertCIM.VirtualAGVSystem
             {
                 ErrorMsg = "",
                 ResponseMsg = output,
-                Success = true,
                 fileName = psFile,
             };
         }
@@ -131,11 +130,38 @@ namespace GPMCasstteConvertCIM.VirtualAGVSystem
             var psFile = CreateTaskCmdPSFile(ACTION.Parking, CarName, AGV_ID + "", Station, slot);
             var output = POWERSHELL_HELPER.Run(psFile);
             File.Delete(psFile);
+
             return new ExcuteResult
             {
                 ErrorMsg = "",
                 ResponseMsg = output,
-                Success = true,
+                fileName = psFile,
+            };
+        }
+
+        public async Task<ExcuteResult> Load(string CarName, int AGV_ID, string Station, string slot)
+        {
+            var psFile = CreateTaskCmdPSFile(ACTION.Load, CarName, AGV_ID + "", Station, slot);
+            var output = POWERSHELL_HELPER.Run(psFile);
+            if (!Debugger.IsAttached)
+                File.Delete(psFile);
+            return new ExcuteResult
+            {
+                ErrorMsg = "",
+                ResponseMsg = output,
+                fileName = psFile,
+            };
+        }
+        public async Task<ExcuteResult> Unload(string CarName, int AGV_ID, string Station, string slot)
+        {
+            var psFile = CreateTaskCmdPSFile(ACTION.Unload, CarName, AGV_ID + "", Station, slot);
+            var output = POWERSHELL_HELPER.Run(psFile);
+            if (!Debugger.IsAttached)
+                File.Delete(psFile);
+            return new ExcuteResult
+            {
+                ErrorMsg = "",
+                ResponseMsg = output,
                 fileName = psFile,
             };
         }
@@ -154,32 +180,15 @@ namespace GPMCasstteConvertCIM.VirtualAGVSystem
         }
 
 
-        private async Task<ExcuteResult> GetRequest(string _params)
-        {
-            string _url = $"{url}{_params}";
-            ExcuteResult _resutl = new ExcuteResult();
-            _resutl.url = _url;
-            using (HttpClient _client = new HttpClient())
-            {
-                try
-                {
-                    var resut = await _client.GetAsync(_url);
-                    _resutl.Success = resut.StatusCode == System.Net.HttpStatusCode.OK;
-                }
-                catch (Exception ex)
-                {
-                    _resutl.Success = false;
-                    _resutl.ErrorMsg = ex.Message;
-                }
-
-            }
-
-            return _resutl;
-        }
-
         public class ExcuteResult
         {
-            public bool Success { get; set; }
+            public bool Success
+            {
+                get
+                {
+                    return ResponseMsg.Contains("403");
+                }
+            }
             public string ResponseMsg { get; set; }
             public string ErrorMsg { get; set; }
             public string url { get; internal set; }

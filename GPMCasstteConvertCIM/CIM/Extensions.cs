@@ -1,4 +1,5 @@
 ﻿using GPMCasstteConvertCIM.CasstteConverter;
+using GPMCasstteConvertCIM.Devices;
 using GPMCasstteConvertCIM.Utilities;
 using Secs4Net;
 using System;
@@ -6,13 +7,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static GPMCasstteConvertCIM.CIM.CIMDevices;
+using static GPMCasstteConvertCIM.Devices.DevicesManager;
 
 namespace GPMCasstteConvertCIM.CIM
 {
     internal static class Extensions
     {
-        internal static SecsGemOptions ToSecsGenOptions(this InitialOptions gpmInitailOptions)
+        internal static SecsGemOptions ToSecsGenOptions(this InitialOption gpmInitailOptions)
         {
             var secs_config = Utility.SysConfigs.SECS;
             return new SecsGemOptions()
@@ -30,7 +31,7 @@ namespace GPMCasstteConvertCIM.CIM
 
         }
 
-        internal static McInterfaceOptions ToMCIFOptions(this InitialOptions gpmInitailOptions)
+        internal static McInterfaceOptions ToMCIFOptions(this InitialOption gpmInitailOptions)
         {
             return new McInterfaceOptions
             {

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static GPMCasstteConvertCIM.CasstteConverter.Data.clsAGVSData;
-using static GPMCasstteConvertCIM.CasstteConverter.EnumSTATES;
+using static GPMCasstteConvertCIM.CasstteConverter.Enums;
 using static GPMCasstteConvertCIM.GPM_SECS.SECSMessageHelper;
 
 namespace GPMCasstteConvertCIM.CasstteConverter.Data
@@ -119,7 +119,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter.Data
                 }
             }
         }
-        public AUTO_MANUAL_MODE ERackModeStatus
+        public AUTO_MANUAL_MODE EPortAutoStatus
         {
             get
             {
@@ -168,18 +168,18 @@ namespace GPMCasstteConvertCIM.CasstteConverter.Data
             }
         }
 
-        public PORT_MODE EPortModeRequest
+        public PortUnitType EPortModeRequest
         {
             get
             {
                 try
                 {
-                    return Enum.GetValues(typeof(PORT_MODE)).Cast<PORT_MODE>().First(en => PortModeRequest == (int)en);
+                    return Enum.GetValues(typeof(PortUnitType)).Cast<PortUnitType>().First(en => PortModeRequest == (int)en);
 
                 }
                 catch (Exception)
                 {
-                    return PORT_MODE.Unknown;
+                    return PortUnitType.Input;
                 }
 
             }

@@ -76,25 +76,25 @@ namespace GPMCasstteConvertCIM.CasstteConverter.Data
         public event PropertyChangedEventHandler? PropertyChanged;
         private string _Scope = "";
 
-        public EnumSTATES.EQ_SCOPE EScope { get; private set; } = EnumSTATES.EQ_SCOPE.Unknown;
+        public Enums.EQ_SCOPE EScope { get; private set; } = Enums.EQ_SCOPE.Unknown;
         public string Scope
         {
             get => _Scope;
             set
             {
                 _Scope = value;
-                EScope = Enum.GetValues(typeof(EnumSTATES.EQ_SCOPE)).Cast<EnumSTATES.EQ_SCOPE>().FirstOrDefault(s => s.ToString() == _Scope);
+                EScope = Enum.GetValues(typeof(Enums.EQ_SCOPE)).Cast<Enums.EQ_SCOPE>().FirstOrDefault(s => s.ToString() == _Scope);
             }
         }
         private string _PropertyName = "";
-        public EnumSTATES.PROPERTY EProperty { get; private set; } = EnumSTATES.PROPERTY.Unknown;
+        public Enums.PROPERTY EProperty { get; private set; } = Enums.PROPERTY.Unknown;
         public string PropertyName
         {
             get => _PropertyName;
             set
             {
                 _PropertyName = value;
-                EProperty = Enum.GetValues(typeof(EnumSTATES.PROPERTY)).Cast<EnumSTATES.PROPERTY>().FirstOrDefault(s => s.ToString() == _PropertyName);
+                EProperty = Enum.GetValues(typeof(Enums.PROPERTY)).Cast<Enums.PROPERTY>().FirstOrDefault(s => s.ToString() == _PropertyName);
             }
         }
     }

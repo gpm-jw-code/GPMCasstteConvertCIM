@@ -37,7 +37,7 @@ namespace GPMCasstteConvertCIM
         }
 
         internal ModbusTCPServer _ModbusTCPServer;
-        internal ModbusTCPServer DataModel
+        internal ModbusTCPServer ModbusTCPServer
         {
             get => _ModbusTCPServer;
             set
@@ -47,6 +47,8 @@ namespace GPMCasstteConvertCIM
                 _ModbusTCPServer.OnTCPDataSend += _ModbusTCPServer_OnTCPDataSend;
                 BindingHoldingRegisterTable();
                 BindingCoilRegisterTable();
+
+                Text = $"Modbus TCP Server - {_ModbusTCPServer.linkedCasstteConverter.converterType}";
             }
         }
 
@@ -163,19 +165,19 @@ namespace GPMCasstteConvertCIM
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            if (DataModel != null)
+            if (ModbusTCPServer != null)
             {
-                labConnectedClientNum.Text = DataModel.ConnectedClientNum.ToString();
-            }
-            for (int i = 1; i <= 255; i++)
-            {
-                digitalInputs[i - 1].State = _ModbusTCPServer.coils.localArray[i];
-                digitalOutputs[i - 1].State = _ModbusTCPServer.discreteInputs.localArray[i];
-            }
+                labConnectedClientNum.Text = ModbusTCPServer.ConnectedClientNum.ToString();
+                for (int i = 1; i <= 255; i++)
+                {
+                    digitalInputs[i - 1].State = _ModbusTCPServer.coils.localArray[i];
+                    digitalOutputs[i - 1].State = _ModbusTCPServer.discreteInputs.localArray[i];
+                }
 
-            for (int i = 1; i <= holdingRegisterList.Count; i++)
-            {
-                holdingRegisterList[i - 1].Value = _ModbusTCPServer.holdingRegisters.localArray[i];
+                for (int i = 1; i <= holdingRegisterList.Count; i++)
+                {
+                    holdingRegisterList[i - 1].Value = _ModbusTCPServer.holdingRegisters.localArray[i];
+                }
             }
 
         }
@@ -195,8 +197,8 @@ namespace GPMCasstteConvertCIM
 
         private void frmModbusTCPServer_Load(object sender, EventArgs e)
         {
-            dgvDOTable.RowColorSet( Extensions.DataGridViewType.MODBUS);
-            dgvDITable.RowColorSet( Extensions.DataGridViewType.MODBUS);
+            dgvDOTable.RowColorSet(Extensions.DataGridViewType.MODBUS);
+            dgvDITable.RowColorSet(Extensions.DataGridViewType.MODBUS);
         }
 
         private void dgvDITable_CellValueChanged(object sender, DataGridViewCellEventArgs e)

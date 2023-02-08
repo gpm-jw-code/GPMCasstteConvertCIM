@@ -33,15 +33,10 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             labLoadRequestBit.RenderBGColorByState(portData.LoadRequest, active_color);
             labUnloadRequestBit.RenderBGColorByState(portData.UnloadRequest, active_color);
             labPortExistBit.RenderBGColorByState(portData.PortExist, active_color);
-            labEQPStatusRunBit.RenderBGColorByState(portData.EQP_Status_Run, active_color);
-            labEQPStatusIdleBit.RenderBGColorByState(portData.EQP_Status_Idle, active_color);
-            labEQPStatusDownBit.RenderBGColorByState(portData.EQP_Status_Down, active_color);
             labL_REQBit.RenderBGColorByState(portData.L_REQ, active_color);
             labU_REQBit.RenderBGColorByState(portData.U_REQ, active_color);
             labReadyBit.RenderBGColorByState(portData.EQ_READY, active_color);
-            labUP_ReadyBit.RenderBGColorByState(portData.UP_READY, active_color);
             labLOW_ReadyBit.RenderBGColorByState(portData.LOW_READY, active_color);
-            labMode_Change_Request.RenderBGColorByState(portData.Mode_Change_Request, active_color);
 
             labUpPosition.RenderBGColorByState(portData.LD_UP_POS, active_color);
             labDownPosition.RenderBGColorByState(portData.LD_DOWN_POS, active_color);
@@ -49,6 +44,11 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             active_color = Color.Pink;
             labLoading.RenderBGColorByState(portData.IsLoadHSRunning, active_color);
             labUnloading.RenderBGColorByState(portData.IsUnloadHSRunning, active_color);
+
+
+            labAutoStatus.Text = portData.EPortAutoStatus.ToString();
+            labAutoStatus.BackColor = portData.EPortAutoStatus == CasstteConverter.Enums.AUTO_MANUAL_MODE.AUTO ? Color.Green : Color.Orange;
+
         }
     }
 }

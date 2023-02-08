@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -204,6 +205,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     loMCTcpCtrl.SendDataOut(str);
                 }
             }
+            catch (SocketException ex)
+            {
+
+            }
             catch (Exception ex)
             {
                 throw new Exception(strClassName + " [HwdSend]  " + ex.Message);
@@ -338,6 +343,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             {
                 loMCTcpCtrl.ReceiveData(ref strResultData);
             }
+            catch (SocketException ex)
+            {
+
+            }
             catch (Exception ex)
             {
                 throw new Exception(strClassName + " [HwdRecive]  " + ex.Message);
@@ -357,6 +366,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     return false;
                 }
                 return false;
+            }
+            catch (SocketException ex)
+            {
+                throw ex;
             }
             catch (Exception ex)
             {
@@ -444,6 +457,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     return num;
                 }
                 return (int)enErrCode;
+            }
+            catch (SocketException ex)
+            {
+                throw ex;
             }
             catch (Exception ex)
             {
@@ -539,6 +556,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     return num;
                 }
                 return (int)enErrCode;
+            }
+            catch (SocketException ex)
+            {
+                throw ex;
             }
             catch (Exception ex)
             {
@@ -689,6 +710,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 }
                 return (int)enErrCode;
             }
+            catch (SocketException ex)
+            {
+                throw ex;
+            }
             catch (Exception ex)
             {
                 lintMCComErrCode = 999;
@@ -790,6 +815,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     return num2;
                 }
                 return (int)enErrCode;
+            }
+            catch (SocketException ex)
+            {
+                throw ex;
             }
             catch (Exception ex)
             {

@@ -7,10 +7,11 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Sockets;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using static GPMCasstteConvertCIM.CasstteConverter.EnumSTATES;
+using static GPMCasstteConvertCIM.CasstteConverter.Enums;
 
 namespace GPMCasstteConvertCIM.CasstteConverter
 {
@@ -21,8 +22,9 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         private string WordMapFileName_EQ = "src\\PLC_Word_Map_EQ.csv";
         private string BitMapFileName_CIM = "src\\PLC_Bit_Map_CIM.csv";
         private string WordMapFileName_CIM = "src\\PLC_Word_Map_CIM.csv";
-        internal clsCasstteConverter(int index, UscCasstteConverter mainGUI)
+        internal clsCasstteConverter(int index, UscCasstteConverter mainGUI, CONVERTER_TYPE converterType)
         {
+            this.converterType = converterType;
             this.index = index;
             LoadPLCMapData();
             this.mainGUI = mainGUI;
@@ -66,9 +68,12 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         private Task? RetryTask;
         private Common.CONNECTION_STATE _connectionState = Common.CONNECTION_STATE.DISCONNECTED;
 
+        public CONVERTER_TYPE converterType { get; }
         public int index { get; }
 
         internal UscCasstteConverter mainGUI;
+        internal frmModbusTCPServer modbusServerGUI;
+
         internal bool monitor = true;
 
         #region 事件
@@ -217,6 +222,11 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                                     ret_code = mcInterface.ReadBit(ref EQPMemOptions.memoryTable, EQPMemOptions.bitRegionName, EQPMemOptions.bitStartAddress_no_region, EQPMemOptions.bitSize);
                                     ret_code = mcInterface.ReadWord(ref EQPMemOptions.memoryTable, EQPMemOptions.wordRegionName, EQPMemOptions.wordStartAddress_no_region, EQPMemOptions.wordSize);
                                 }
+                            }
+                            catch (SocketException ex)
+                            {
+                                _connectionState = Common.CONNECTION_STATE.DISCONNECTED;
+                                RetryConnectAsync();
                             }
                             catch (Exception ex)
                             {

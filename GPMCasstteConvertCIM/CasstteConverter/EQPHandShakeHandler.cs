@@ -47,8 +47,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         private async Task CarrierRemovedCompletedReply(clsPortData? portData)
         {
 
-            EnumSTATES.EQ_SCOPE port_no = portData.PortNo == 1 ? EnumSTATES.EQ_SCOPE.PORT1 : EnumSTATES.EQ_SCOPE.PORT2;
-            var carrier_removed_com_reply_address = CasstteConverter.LinkBitMap.First(mem => mem.EOwner == clsMemoryAddress.OWNER.CIM && mem.EScope == port_no && mem.EProperty == EnumSTATES.PROPERTY.Carrier_Removed_Completed_Report_Reply).Address;
+            Enums.EQ_SCOPE port_no = portData.PortNo == 1 ? Enums.EQ_SCOPE.PORT1 : Enums.EQ_SCOPE.PORT2;
+            var carrier_removed_com_reply_address = CasstteConverter.LinkBitMap.First(mem => mem.EOwner == clsMemoryAddress.OWNER.CIM && mem.EScope == port_no && mem.EProperty == Enums.PROPERTY.Carrier_Removed_Completed_Report_Reply).Address;
             CasstteConverter.CIMMemOptions.memoryTable.WriteOneBit(carrier_removed_com_reply_address, true);
             while (portData.CarrierRemovedCompletedReport)
             {
@@ -72,8 +72,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         private async Task CarrierWaitOutReply(clsPortData? portData)
         {
 
-            EnumSTATES.EQ_SCOPE port_no = portData.PortNo == 1 ? EnumSTATES.EQ_SCOPE.PORT1 : EnumSTATES.EQ_SCOPE.PORT2;
-            var carrier_wait_out_reply_address = CasstteConverter.LinkBitMap.First(mem => mem.EOwner == clsMemoryAddress.OWNER.CIM && mem.EScope == port_no && mem.EProperty == EnumSTATES.PROPERTY.Carrier_WawitOut_System_Reply).Address;
+            Enums.EQ_SCOPE port_no = portData.PortNo == 1 ? Enums.EQ_SCOPE.PORT1 : Enums.EQ_SCOPE.PORT2;
+            var carrier_wait_out_reply_address = CasstteConverter.LinkBitMap.First(mem => mem.EOwner == clsMemoryAddress.OWNER.CIM && mem.EScope == port_no && mem.EProperty == Enums.PROPERTY.Carrier_WawitOut_System_Reply).Address;
             CasstteConverter.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_out_reply_address, true);
             while (portData.CarrierWaitOUTSystemRequest)
             {
@@ -106,11 +106,11 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         private async Task CarrierWaitInReply(clsPortData portData, bool accpect)
         {
-            EnumSTATES.PROPERTY wait_in_ = accpect ? EnumSTATES.PROPERTY.Carrier_WaitIn_System_Accept : EnumSTATES.PROPERTY.Carrier_WaitIn_System_Refuse;
-            EnumSTATES.EQ_SCOPE port_no = portData.PortNo == 1 ? EnumSTATES.EQ_SCOPE.PORT1 : EnumSTATES.EQ_SCOPE.PORT2;
+            Enums.PROPERTY wait_in_ = accpect ? Enums.PROPERTY.Carrier_WaitIn_System_Accept : Enums.PROPERTY.Carrier_WaitIn_System_Refuse;
+            Enums.EQ_SCOPE port_no = portData.PortNo == 1 ? Enums.EQ_SCOPE.PORT1 : Enums.EQ_SCOPE.PORT2;
 
             var carrier_wait_in_result_flag_address = CasstteConverter.LinkBitMap.First(mem => mem.EOwner == clsMemoryAddress.OWNER.CIM && mem.EScope == port_no && mem.EProperty == wait_in_).Address;
-            var carrier_wait_in_reply_address = CasstteConverter.LinkBitMap.First(mem => mem.EOwner == clsMemoryAddress.OWNER.CIM && mem.EScope == port_no && mem.EProperty == EnumSTATES.PROPERTY.Carrier_WaitIn_System_Reply).Address;
+            var carrier_wait_in_reply_address = CasstteConverter.LinkBitMap.First(mem => mem.EOwner == clsMemoryAddress.OWNER.CIM && mem.EScope == port_no && mem.EProperty == Enums.PROPERTY.Carrier_WaitIn_System_Reply).Address;
 
             CasstteConverter.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_in_result_flag_address, true);
             CasstteConverter.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_in_reply_address, true);

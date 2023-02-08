@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static GPMCasstteConvertCIM.Utilities.Common;
 
 namespace GPMCasstteConvertCIM.UI_UserControls
 {
@@ -25,6 +26,16 @@ namespace GPMCasstteConvertCIM.UI_UserControls
                 PLCSimulator.CasstteConverter = MemoryTable.CasstteConverter = _casstteConverter = value;
                 uscConverterPortStatus1.portData = _casstteConverter.EQPData.PortDatas[0];
                 uscConverterPortStatus2.portData = _casstteConverter.EQPData.PortDatas[1];
+
+                if (_casstteConverter.converterType == Enums.CONVERTER_TYPE.IN_SYS)
+                {
+                    uscConverterPortStatus2.Visible = false;
+                    labNameDisplay.Text = "單一轉換架";
+                }
+                else
+                {
+                    labNameDisplay.Text = "平對平組";
+                }
 
 
             }
@@ -71,34 +82,14 @@ namespace GPMCasstteConvertCIM.UI_UserControls
                     btnDown.BackColor = btnDown_BackColor;
 
 
+                pnlBanner.BackColor = _casstteConverter.connectionState == CONNECTION_STATE.CONNECTED ? Color.FromArgb(92, 155, 155) :
+                    _casstteConverter.connectionState == CONNECTION_STATE.CONNECTING ? Color.Yellow : Color.Red;
+
                 labPLCConnectState.Text = _casstteConverter.connectionState.ToString();
             }
             catch (Exception ex)
             {
             }
-
-
-            //txbWIP_BCR_ID.Text = eqpData.WIPINFO_BCR_ID;
-            //txbWIP_LOC.Text = eqpData.WIPINFO_LOC;
-            //txbManualLoadBCR.Text = eqpData.ManualLoad_BCR_ID;
-            //txbManualUnloadBCR.Text = eqpData.ManuaUnlLoad_BCR_ID;
-
-            //labCurrentPortMode.Text = eqpData.EPortModeStatus.ToString();
-            //labCurrentRackMode.Text = eqpData.ERackModeStatus.ToString();
-
-            //labReadyStatusBit.ToBitState(eqpData.ReadyStatus);
-            //labLoadRequestBit.ToBitState(eqpData.LoadRequest);
-            //labUnloadRequestBit.ToBitState(eqpData.UnloadRequest);
-            //labPortExistBit.ToBitState(eqpData.PortExist);
-            //labEQPStatusRunBit.ToBitState(eqpData.EQP_Status_Run);
-            //labEQPStatusIdleBit.ToBitState(eqpData.EQP_Status_Idle);
-            //labEQPStatusDownBit.ToBitState(eqpData.EQP_Status_Down);
-            //labL_REQBit.ToBitState(eqpData.L_REQ);
-            //labU_REQBit.ToBitState(eqpData.U_REQ);
-            //labReadyBit.ToBitState(eqpData.READY);
-            //labUP_ReadyBit.ToBitState(eqpData.UP_READY);
-            //labLOW_ReadyBit.ToBitState(eqpData.LOW_READY);
-            //labMode_Change_Request.ToBitState(eqpData.Mode_Change_Request);
         }
 
         private void btnOpenMemoryTable_Click(object sender, EventArgs e)
@@ -139,6 +130,11 @@ namespace GPMCasstteConvertCIM.UI_UserControls
         private void btnAlarmReset_Click(object sender, EventArgs e)
         {
             casstteConverter.AlarmResetFlag = true;
+        }
+
+        private void labOpenModbusServerFom_Click(object sender, EventArgs e)
+        {
+            casstteConverter.modbusServerGUI?.Show();
         }
     }
 }

@@ -43,7 +43,7 @@ namespace GPMCasstteConvertCIM.VirtualAGVSystem
 
         public static List<string> SlotSetList = new List<string>()
         {
-            "RACK_4_1|3|4","RACK_4_2|4|6","RACK_4_7|8|9"
+           "RACK_1_3|7|11","RACK_1_4|8|12", "RACK_4_1|3|4","RACK_4_2|4|6","RACK_4_7|8|9"
         };
 
         public static AGVS_Dispath_Emulator TaskDispatcher = new AGVS_Dispath_Emulator();

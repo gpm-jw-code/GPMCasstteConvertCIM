@@ -1,3 +1,5 @@
+using Microsoft.VisualBasic.ApplicationServices;
+using System.Diagnostics;
 using System.Windows.Forms;
 
 namespace GPMCasstteConvertCIM
@@ -10,9 +12,9 @@ namespace GPMCasstteConvertCIM
         [STAThread]
         static void Main()
         {
+            CheckProgramOpenState();
             Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
             Application.ThreadException += Application_ThreadException; ;
-            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             Application.SetCompatibleTextRenderingDefault(false);
@@ -20,13 +22,19 @@ namespace GPMCasstteConvertCIM
             Application.Run(new frmMain());
         }
 
+        private static void CheckProgramOpenState()
+        {
+            var pros = Process.GetProcessesByName(Application.ProductName);
+            if (pros.Length > 1)
+            {
+                MessageBox.Show("CIM 程式已經啟動");
+                Environment.Exit(0);
+            }
+        }
+
         private static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
         {
         }
 
-        private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
-        {
-
-        }
     }
 }

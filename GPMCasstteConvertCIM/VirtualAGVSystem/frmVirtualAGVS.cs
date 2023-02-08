@@ -60,9 +60,6 @@ namespace GPMCasstteConvertCIM.VirtualAGVSystem
 
         private async void btnSetCookie_Click(object sender, EventArgs e)
         {
-            string cookies = await StaVirtualAGVS.TaskDispatcher.TryGetConnectionCookies();
-            MessageBox.Show(cookies, " Cookie", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
             StaVirtualAGVS.SetCookie(txbCookie_ConnectSid.Text, txb_Cookie_io.Text);
             MessageBox.Show("OK", "Set Cookie", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }

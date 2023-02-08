@@ -67,6 +67,12 @@ namespace GPMCasstteConvertCIM.Emulators
         }
         private void btnRunUnloadDemo_Click(object sender, EventArgs e)
         {
+            if (!agvs_modbus_emu.STATE_IO_Unload_Request.State)
+            {
+                MessageBox.Show("轉換架不允許取貨(Unload_Request OFF)", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             if (!agvs_modbus_emu.STATE_IO_Port_Exist.State)
             {
                 MessageBox.Show("轉換架上無貨物，禁止進行 UNLOAD!", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -77,6 +83,13 @@ namespace GPMCasstteConvertCIM.Emulators
         }
         private async void btnRunLoadDemo_Click(object sender, EventArgs e)
         {
+
+            if (!agvs_modbus_emu.STATE_IO_Load_Request.State)
+            {
+                MessageBox.Show("轉換架不允取放貨(Load_Request OFF)", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             if (agvs_modbus_emu.STATE_IO_Port_Exist.State)
             {
                 MessageBox.Show("轉換架上有貨物，禁止進行 LOAD!", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
