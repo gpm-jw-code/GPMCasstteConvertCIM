@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,6 +21,7 @@ namespace GPMCasstteConvertCIM.Utilities
             SECS_MSG
         }
 
+        [JsonConverter(typeof(StringEnumConverter))]
         public enum LOG_TIME_UNIT
         {
             ByDay = 24,

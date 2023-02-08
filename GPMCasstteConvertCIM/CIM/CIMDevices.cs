@@ -2,6 +2,8 @@
 using GPMCasstteConvertCIM.GPM_SECS;
 using GPMCasstteConvertCIM.UI_UserControls;
 using GPMCasstteConvertCIM.Utilities;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Secs4Net;
 using System;
 using System.Collections.Generic;
@@ -130,6 +132,8 @@ namespace GPMCasstteConvertCIM.CIM
             public int Port { get; set; }
             public ushort DeviceId { get; set; }
             public bool IsActive { get; set; }
+
+            [JsonConverter(typeof(StringEnumConverter))]
 
             public CIM_DEVICE_TYPES DeviceType { get; set; }
         }
