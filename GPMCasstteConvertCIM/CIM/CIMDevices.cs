@@ -1,6 +1,7 @@
 ﻿using GPMCasstteConvertCIM.CIM.SecsMessageHandle;
 using GPMCasstteConvertCIM.GPM_SECS;
 using GPMCasstteConvertCIM.UI_UserControls;
+using GPMCasstteConvertCIM.Utilities;
 using Secs4Net;
 using System;
 using System.Collections.Generic;

@@ -1,5 +1,6 @@
 ﻿using GPMCasstteConvertCIM.CasstteConverter.Data;
 using GPMCasstteConvertCIM.GPM_Modbus;
+using GPMCasstteConvertCIM.Utilities;
 using Secs4Net;
 using System;
 using System.Collections.Generic;

@@ -1,4 +1,5 @@
-﻿using Secs4Net;
+﻿using GPMCasstteConvertCIM.Utilities;
+using Secs4Net;
 using Secs4Net.Sml;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS
     internal class SECSLogger : LoggerBase, ISecsGemLogger
     {
 
-        internal SECSLogger(RichTextBox? richTextBox) : base(richTextBox)
+        internal SECSLogger(RichTextBox? richTextBox, string saveFolder) : base(richTextBox, saveFolder)
         {
 
         }
@@ -28,22 +29,26 @@ namespace GPMCasstteConvertCIM.GPM_SECS
 
         public void MessageIn(SecsMessage msg, int id)
         {
+            AppendDateTime(out DateTime time);
+            string log_str = $"<-- [0x{id:X8}] {msg.ToSml()}\n";
             _richTextBox?.Invoke((MethodInvoker)delegate
             {
-                AppendDateTime();
                 _richTextBox.SelectionColor = Color.Yellow;
-                _richTextBox.AppendText($"<-- [0x{id:X8}] {msg.ToSml()}\n");
+                _richTextBox.AppendText(log_str);
             });
+            WriteToFile(time, LOG_LEVEL.SECS_MSG, log_str);
         }
 
         public void MessageOut(SecsMessage msg, int id)
         {
+            AppendDateTime(out DateTime time);
+            string log_str = $"--> [0x{id:X8}] {msg.ToSml()}\n";
             _richTextBox?.Invoke((MethodInvoker)delegate
             {
-                AppendDateTime();
                 _richTextBox.SelectionColor = Color.Green;
-                _richTextBox.AppendText($"--> [0x{id:X8}] {msg.ToSml()}\n");
+                _richTextBox.AppendText(log_str);
             });
+            WriteToFile(time, LOG_LEVEL.SECS_MSG, log_str);
         }
 
         public void Info(string msg)

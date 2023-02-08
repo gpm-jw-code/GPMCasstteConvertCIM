@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GPMCasstteConvertCIM.Utilities;
 using Microsoft.Extensions.Options;
 using Secs4Net;
 
@@ -17,7 +18,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS
 
         internal SecsGem? secsGem;
         internal HsmsConnection? connector;
-        internal BindingList<PrimaryMessageWrapper> recvBuffer = new(); 
+        internal BindingList<PrimaryMessageWrapper> recvBuffer = new();
         internal BindingList<PrimaryMessageWrapper> sendBuffer = new();
 
         internal event EventHandler<PrimaryMessageWrapper> OnPrimaryMessageRecieve;
@@ -50,7 +51,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS
             }
 
 
-            _logger = new SECSLogger(logRichTextBox);
+            _logger = new SECSLogger(logRichTextBox, Path.Combine(Utility.SysConfigs.Log.SyslogFolder, "SECS"));
             secsGem?.Dispose();
 
             if (connector is not null)

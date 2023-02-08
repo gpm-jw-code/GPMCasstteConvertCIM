@@ -3,6 +3,7 @@ using GPMCasstteConvertCIM.CIM;
 using GPMCasstteConvertCIM.Emulators;
 using GPMCasstteConvertCIM.GPM_SECS;
 using GPMCasstteConvertCIM.GPM_SECS.Emulator;
+using GPMCasstteConvertCIM.Utilities;
 using Secs4Net;
 using Secs4Net.Sml;
 using System.Windows.Forms;
@@ -42,8 +43,13 @@ namespace GPMCasstteConvertCIM
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            Utility.SystemLogger = new LoggerBase(rtbSystemLogShow);
-            Utility.LoadDeviceConnectionOpts();
+            Utility.LoadConfigs();
+            LoggerBase.logTimeUnit = Utility.SysConfigs.Log.LogFileUnit;
+
+
+            Utility.SystemLogger = new LoggerBase(rtbSystemLogShow, Path.Combine(Utility.SysConfigs.Log.SyslogFolder, "Sys Log"));
+            Utility.SystemLogger.Info("GPM CIM System Start");
+
             uscConnectionStates1.InitializeConnectionState();
             EmulatorManager.Start();
 
@@ -72,7 +78,7 @@ namespace GPMCasstteConvertCIM
                 Utility.DevicesConnectionsOpts.PLCEQ1, Utility.DevicesConnectionsOpts.PLCEQ2, Utility.DevicesConnectionsOpts.Modbus_Server);
 
             VirtualAGVSystem.StaVirtualAGVS.Initialize();
-         
+
             //dgvMsgFromAGVS.DataSource = CIMDevices.secs_host.recvBuffer;
             //dgvActiveMsgToAGVS.DataSource = CIMDevices.secs_host.sendBuffer;
             //dgvMsgFromMCS.DataSource = CIMDevices.secs_client.recvBuffer;

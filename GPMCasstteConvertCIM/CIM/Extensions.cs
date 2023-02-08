@@ -1,4 +1,5 @@
 ﻿using GPMCasstteConvertCIM.CasstteConverter;
+using GPMCasstteConvertCIM.Utilities;
 using Secs4Net;
 using System;
 using System.Collections.Generic;
@@ -13,12 +14,18 @@ namespace GPMCasstteConvertCIM.CIM
     {
         internal static SecsGemOptions ToSecsGenOptions(this InitialOptions gpmInitailOptions)
         {
+            var secs_config = Utility.SysConfigs.SECS;
             return new SecsGemOptions()
             {
                 DeviceId = gpmInitailOptions.DeviceId,
                 Port = gpmInitailOptions.Port,
                 IpAddress = gpmInitailOptions.IpAddress,
                 IsActive = gpmInitailOptions.IsActive,
+                T3 = secs_config.T3,
+                T5 = secs_config.T5,
+                T6 = secs_config.T6,
+                T7 = secs_config.T7,
+                T8 = secs_config.T8
             };
 
         }

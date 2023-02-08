@@ -1,5 +1,6 @@
 ﻿using GPMCasstteConvertCIM.CasstteConverter;
 using GPMCasstteConvertCIM.CIM;
+using GPMCasstteConvertCIM.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,13 +22,13 @@ namespace GPMCasstteConvertCIM.GPM_Modbus
 
         private frmModbusTCPServer UI;
         private LoggerBase logger;
-        internal int ConnectedClientNum => tcpHandler==null? 0:tcpHandler.NumberOfConnectedClients;
+        internal int ConnectedClientNum => tcpHandler == null ? 0 : tcpHandler.NumberOfConnectedClients;
         internal void Active(CIMDevices.InitialOptions modbusTcpServer_opt, clsCasstteConverter linkedCasstteConverter)
         {
             this.linkedCasstteConverter = linkedCasstteConverter;
             UI = (frmModbusTCPServer)modbusTcpServer_opt.mainUI;
             UI.DataModel = this;
-            logger = new LoggerBase(modbusTcpServer_opt.logRichTextBox);
+            logger = new LoggerBase(modbusTcpServer_opt.logRichTextBox, Path.Combine(Utility.SysConfigs.Log.SyslogFolder, "Modbus TCP Server"));
             NumberOfConnectedClientsChanged += ModbusTCPServer_NumberOfConnectedClientsChanged;
             Port = modbusTcpServer_opt.Port;
             Listen();

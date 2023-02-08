@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GPMCasstteConvertCIM
+namespace GPMCasstteConvertCIM.Utilities
 {
     public class DeviceConnectionOptions
     {
