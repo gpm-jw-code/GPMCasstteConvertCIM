@@ -3,8 +3,8 @@ using GPMCasstteConvertCIM.CasstteConverter.Data;
 using GPMCasstteConvertCIM.Devices;
 using GPMCasstteConvertCIM.Devices.Options;
 using GPMCasstteConvertCIM.Emulators;
+using GPMCasstteConvertCIM.Emulators.SecsEmu;
 using GPMCasstteConvertCIM.GPM_SECS;
-using GPMCasstteConvertCIM.GPM_SECS.Emulator;
 using GPMCasstteConvertCIM.Utilities;
 using Secs4Net;
 using Secs4Net.Sml;
@@ -56,7 +56,7 @@ namespace GPMCasstteConvertCIM.Forms
 
             uscConnectionStates1.InitializeConnectionState();
 
-            //EmulatorManager.Start();
+            //SECSEmulatorManager.Start();
 
             DevicesManager.DevicesConnectionsOpts.SECS_HOST.logRichTextBox = rtbSecsHostLog;
             DevicesManager.DevicesConnectionsOpts.SECS_HOST.dgvRevBufferTable = dgvMsgFromAGVS;

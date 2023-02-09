@@ -98,7 +98,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS
             cmd = RCMD.REMOVE;
             try
             {
-                var cmdStr = priMsg.SecsItem[0].GetString();
+                var cmdStr = priMsg.SecsItem[2].GetString();
                 cmd = Enum.GetValues(typeof(RCMD)).Cast<RCMD>().FirstOrDefault(f => cmdStr == f.ToString());
                 return true;
             }

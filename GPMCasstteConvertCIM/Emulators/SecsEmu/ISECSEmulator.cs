@@ -1,11 +1,12 @@
-﻿using Secs4Net;
+﻿using GPMCasstteConvertCIM.GPM_SECS;
+using Secs4Net;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GPMCasstteConvertCIM.GPM_SECS.Emulator
+namespace GPMCasstteConvertCIM.Emulators.SecsEmu
 {
     internal interface ISECSEmulator
     {

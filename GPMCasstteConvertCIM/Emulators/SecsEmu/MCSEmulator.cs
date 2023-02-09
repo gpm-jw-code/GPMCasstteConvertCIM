@@ -1,4 +1,5 @@
-﻿using Secs4Net;
+﻿using GPMCasstteConvertCIM.GPM_SECS;
+using Secs4Net;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static GPMCasstteConvertCIM.GPM_SECS.SECSMessageHelper;
 
-namespace GPMCasstteConvertCIM.GPM_SECS.Emulator
+namespace GPMCasstteConvertCIM.Emulators.SecsEmu
 {
     internal class MCSEmulator : ISECSEmulator
     {

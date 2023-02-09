@@ -42,7 +42,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnTransferTask = new System.Windows.Forms.Button();
+            this.btnCarrierWaitInReject = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -142,7 +143,7 @@
             this.groupBox3.Controls.Add(this.label3);
             this.groupBox3.Controls.Add(this.textBox1);
             this.groupBox3.Controls.Add(this.label4);
-            this.groupBox3.Controls.Add(this.button1);
+            this.groupBox3.Controls.Add(this.btnTransferTask);
             this.groupBox3.Location = new System.Drawing.Point(432, 12);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(217, 126);
@@ -183,20 +184,31 @@
             this.label4.TabIndex = 1;
             this.label4.Text = "Port ID";
             // 
-            // button1
+            // btnTransferTask
             // 
-            this.button1.Location = new System.Drawing.Point(26, 79);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(175, 41);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Port Change";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnTransferTask.Location = new System.Drawing.Point(26, 79);
+            this.btnTransferTask.Name = "btnTransferTask";
+            this.btnTransferTask.Size = new System.Drawing.Size(175, 41);
+            this.btnTransferTask.TabIndex = 0;
+            this.btnTransferTask.Text = "派車任務";
+            this.btnTransferTask.UseVisualStyleBackColor = true;
+            this.btnTransferTask.Click += new System.EventHandler(this.btnTransferTask_Click);
+            // 
+            // btnCarrierWaitInReject
+            // 
+            this.btnCarrierWaitInReject.Location = new System.Drawing.Point(458, 144);
+            this.btnCarrierWaitInReject.Name = "btnCarrierWaitInReject";
+            this.btnCarrierWaitInReject.Size = new System.Drawing.Size(175, 41);
+            this.btnCarrierWaitInReject.TabIndex = 5;
+            this.btnCarrierWaitInReject.Text = "Carrier Wait In Reject";
+            this.btnCarrierWaitInReject.UseVisualStyleBackColor = true;
             // 
             // frmMCSSimulator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(762, 331);
+            this.Controls.Add(this.btnCarrierWaitInReject);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -229,6 +241,7 @@
         private Label label3;
         private TextBox textBox1;
         private Label label4;
-        private Button button1;
+        private Button btnTransferTask;
+        private Button btnCarrierWaitInReject;
     }
 }

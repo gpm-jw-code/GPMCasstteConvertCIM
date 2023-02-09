@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 using System.Security.Policy;
 using System.Xml.Linq;
+using Item = Secs4Net.Item;
 
 namespace GPMCasstteConvertCIM.GPM_SECS
 {
@@ -68,7 +69,8 @@ namespace GPMCasstteConvertCIM.GPM_SECS
             RESERVE,
             RESERVESTORAGE,
             CANCELRESERVESTORAGE,
-            TRANSFER
+            TRANSFER,
+            NOTRANSFER
         }
         public enum CEID : ushort
         {
@@ -288,6 +290,20 @@ namespace GPMCasstteConvertCIM.GPM_SECS
         /// </summary>
         public struct EVENT_REPORT
         {
+            ////Structure:
+            //L,3 
+            //1.<DATAID> 
+            //2.<CEID> 
+            //3.L,a # “a” is always 1 for this system. 
+            //  1. L,2 
+            //      1.<RPTID> 
+            //      2.L,b 
+            //          1.<V1> #Variable data 1
+            //          : 
+            //          b.<Vb> #Variable data b
+            //
+            ///////////////////////////
+
 
             public static SecsMessage ChangeOfflineModeEventReportMessage(ushort DATAID, string EqpName)
             {
@@ -336,20 +352,56 @@ namespace GPMCasstteConvertCIM.GPM_SECS
                 var msg = new SecsMessage(6, 11)
                 {
                     SecsItem = L(
-                                U4(DATAID),//DATAID,
-                                U2((ushort)CEID.OnLineRemoteModeChangeReport), //CEID
-                                L(
-                                    L(
-                                     U2(2),//RPTID,
-                                     L(
-                                         A(EqpName)
+                                  U4(DATAID),//DATAID,
+                                  U2((ushort)CEID.OnLineRemoteModeChangeReport), //CEID
+                                  L(
+                                      L(
+                                          U2(2),//RPTID,//這裡是內容
+                                          L(            //這裡是內容
+                                              A(EqpName)//這裡是內容
+                                            )           //這裡是內容
                                        )
-                                     )
-                                  )
+                                   )
                                )
                 };
                 return msg;
             }
+
+            public static SecsMessage CarrierWaitInReportMessage(string carrier_ID, string carrier_Loc, string carrier_ZoneName)
+            {
+                Item[] VIDList = new Item[]
+                {
+                    A(carrier_ID),
+                    A(carrier_Loc),
+                    A(carrier_ZoneName)
+                };
+
+                return CreateEventMsg(1, (ushort)CEID.CarrierWaitIn, RPTID: 5, VIDList);
+            }
+
+
+
+
+            public static SecsMessage CreateEventMsg(ushort DATAID, ushort CEID, ushort RPTID, Item[] VIDLIST)
+            {
+
+                SecsMessage msg = new(6, 11)
+                {
+                    SecsItem = L(
+                                  U4(DATAID),//DATAID,
+                                  U2(CEID), //CEID
+                                  L(
+                                      L(
+                                        U2(RPTID),
+                                        L(VIDLIST)
+                                        )
+                                   )
+                               )
+                };
+                return msg;
+
+            }
+
 
             public static SecsMessage EventReportAcknowledgeMessage(ACKC6 ack)
             {

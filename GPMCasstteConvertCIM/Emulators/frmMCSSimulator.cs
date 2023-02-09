@@ -1,6 +1,6 @@
 ﻿using GPMCasstteConvertCIM.CIM;
+using GPMCasstteConvertCIM.Emulators.SecsEmu;
 using GPMCasstteConvertCIM.GPM_SECS;
-using GPMCasstteConvertCIM.GPM_SECS.Emulator;
 using Secs4Net;
 using System;
 using System.Collections.Generic;
@@ -33,7 +33,7 @@ namespace GPMCasstteConvertCIM
             try
             {
                 var crMsg = MsgHelper.COMMUNICATION.EstablishCommunicationRequestMessage("Model_SN_123", "v1.2.3");
-                var secondMesg = await EmulatorManager.mcsEmulator.secsIF.secsGem.SendAsync(crMsg);
+                var secondMesg = await SECSEmulatorManager.mcsEmulator.secsIF.secsGem.SendAsync(crMsg);
 
                 if (secondMesg.TryGetConnectRequestAckResult(out MsgHelper.COMMACK ack, out string _mdln, out string softrev))
                 {
@@ -46,7 +46,7 @@ namespace GPMCasstteConvertCIM
                     // Send S1F17
 
                     var onlineReqMsg = MsgHelper.ONOFFLINE.OnLineRequestMessage();
-                    var onlineReqMsgAck = await EmulatorManager.mcsEmulator.secsIF.secsGem.SendAsync(onlineReqMsg);
+                    var onlineReqMsgAck = await SECSEmulatorManager.mcsEmulator.secsIF.secsGem.SendAsync(onlineReqMsg);
                     onlineReqMsgAck.TryGetOnlineRequestAckResult(out ONLACK online_ack);
                     if (online_ack == ONLACK.Not_Allowed)
                     {
@@ -81,7 +81,7 @@ namespace GPMCasstteConvertCIM
                 try
                 {
                     var offlineReqMsg = MsgHelper.ONOFFLINE.OffLineRequestMessage();
-                    var secondMesg = await EmulatorManager.mcsEmulator.secsIF.secsGem.SendAsync(offlineReqMsg);
+                    var secondMesg = await SECSEmulatorManager.mcsEmulator.secsIF.secsGem.SendAsync(offlineReqMsg);
 
                 }
                 catch (Exception)
@@ -93,7 +93,21 @@ namespace GPMCasstteConvertCIM
         private async void btnSendPortTypeChangeMsg_Click(object sender, EventArgs e)
         {
             var msg = MsgHelper.RemoteCommand.PortTypeChange(txbPortID.Text, (PortUnitType)cmbPortTypeSelector.SelectedItem);
-            var rpt = await EmulatorManager.mcsEmulator.secsIF.SendAsync(msg);
+            var rpt = await SECSEmulatorManager.mcsEmulator.secsIF.SendAsync(msg);
+        }
+
+        private async void btnTransferTask_Click(object sender, EventArgs e)
+        {
+            var rpt = await SECSEmulatorManager.mcsEmulator.secsIF.SendAsync(new SecsMessage(2, 49)
+            {
+                SecsItem =
+                Item.L(
+                        Item.U4(),
+                        Item.A("OBJSPEC"),
+                        Item.A(RCMD.TRANSFER.ToString()),
+                        Item.L()
+                    )
+            });
         }
     }
 

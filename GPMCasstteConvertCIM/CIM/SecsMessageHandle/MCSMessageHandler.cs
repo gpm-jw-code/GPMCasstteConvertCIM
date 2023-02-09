@@ -97,16 +97,24 @@ namespace GPMCasstteConvertCIM.CIM.SecsMessageHandle
 
         private static async void TransmitMsgToAGVS(PrimaryMessageWrapper _primaryMessageWrapper)
         {
-            Utility.SystemLogger.Info($"[MCS SECS Message > AGVS] From MCS : {_primaryMessageWrapper.PrimaryMessage.ToSml()}");
+            try
+            {
 
-            SecsMessage secondaryMsgFromAGVS = await DevicesManager.secs_host.SendAsync(_primaryMessageWrapper.PrimaryMessage);
+                Utility.SystemLogger.Info($"[MCS SECS Message > AGVS] From MCS : {_primaryMessageWrapper.PrimaryMessage.ToSml()}");
 
-            Utility.SystemLogger.Info($"[MCS SECS Message > AGVS] AGVS Reply : {secondaryMsgFromAGVS.ToSml()}");
+                SecsMessage secondaryMsgFromAGVS = await DevicesManager.secs_host.SendAsync(_primaryMessageWrapper.PrimaryMessage);
 
-            //回傳給MCS
-            bool reply_to_mcs_succss = await _primaryMessageWrapper.TryReplyAsync(secondaryMsgFromAGVS);
+                Utility.SystemLogger.Info($"[MCS SECS Message > AGVS] AGVS Reply : {secondaryMsgFromAGVS.ToSml()}");
 
-            Utility.SystemLogger.Info($"[MCS SECS Message > AGVS] Message Transfer Finish");
+                //回傳給MCS
+                bool reply_to_mcs_succss = await _primaryMessageWrapper.TryReplyAsync(secondaryMsgFromAGVS);
+
+                Utility.SystemLogger.Info($"[MCS SECS Message > AGVS] Message Transfer Finish");
+            }
+            catch (Exception ex)
+            {
+
+            }
 
         }
     }

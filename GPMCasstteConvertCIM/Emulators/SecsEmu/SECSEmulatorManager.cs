@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GPMCasstteConvertCIM.GPM_SECS.Emulator
+namespace GPMCasstteConvertCIM.Emulators.SecsEmu
 {
-    internal class EmulatorManager
+    internal class SECSEmulatorManager
     {
         internal static AGVSEmulator agvsmulator = new AGVSEmulator();
         internal static MCSEmulator mcsEmulator = new MCSEmulator();

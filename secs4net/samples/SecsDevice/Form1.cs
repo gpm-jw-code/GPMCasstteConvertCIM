@@ -16,7 +16,7 @@ public partial class Form1 : Form
     private readonly ISecsGemLogger _logger;
     private readonly BindingList<PrimaryMessageWrapper> recvBuffer = new();
     private CancellationTokenSource _cancellationTokenSource = new();
-
+    FrmGPM_MCS_Simulation gpmFrm;
     public Form1()
     {
         InitializeComponent();
@@ -31,6 +31,7 @@ public partial class Form1 : Form
         Application.ThreadException += (sender, e) => MessageBox.Show(e.Exception.ToString());
         AppDomain.CurrentDomain.UnhandledException += (sender, e) => MessageBox.Show(e.ExceptionObject.ToString());
         _logger = new SecsLogger(this);
+        gpmFrm = new FrmGPM_MCS_Simulation(_secsGem);
     }
 
     private async void btnEnable_Click(object sender, EventArgs e)
@@ -70,6 +71,7 @@ public partial class Form1 : Form
         {
             await foreach (var primaryMessage in _secsGem.GetPrimaryMessageAsync(_cancellationTokenSource.Token))
             {
+                gpmFrm.MCSPrimaryMessageHandle(primaryMessage);
                 recvBuffer.Add(primaryMessage);
             }
         }
@@ -227,5 +229,11 @@ public partial class Form1 : Form
             Error(msg, null, ex);
         }
 #endif
+    }
+
+    private void button1_Click(object sender, EventArgs e)
+    {
+        gpmFrm._secsGem = _secsGem;
+        gpmFrm.Show();
     }
 }
