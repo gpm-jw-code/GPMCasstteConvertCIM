@@ -1,4 +1,4 @@
-﻿namespace GPMCasstteConvertCIM
+﻿namespace GPMCasstteConvertCIM.Forms
 {
     partial class frmMain
     {
@@ -33,7 +33,6 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tlpConverterContainer = new System.Windows.Forms.TableLayoutPanel();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.btnSecsHostSendMsgTest = new System.Windows.Forms.Button();
             this.btnOpenMCSSimulatorForm = new System.Windows.Forms.Button();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.dgvMsgFromMCS = new System.Windows.Forms.DataGridView();
@@ -149,7 +148,6 @@
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.btnSecsHostSendMsgTest);
             this.panel2.Controls.Add(this.btnOpenMCSSimulatorForm);
             this.panel2.Controls.Add(this.tableLayoutPanel2);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Right;
@@ -158,19 +156,9 @@
             this.panel2.Size = new System.Drawing.Size(586, 571);
             this.panel2.TabIndex = 12;
             // 
-            // btnSecsHostSendMsgTest
-            // 
-            this.btnSecsHostSendMsgTest.Location = new System.Drawing.Point(3, 3);
-            this.btnSecsHostSendMsgTest.Name = "btnSecsHostSendMsgTest";
-            this.btnSecsHostSendMsgTest.Size = new System.Drawing.Size(95, 22);
-            this.btnSecsHostSendMsgTest.TabIndex = 0;
-            this.btnSecsHostSendMsgTest.Text = "button1";
-            this.btnSecsHostSendMsgTest.UseVisualStyleBackColor = true;
-            this.btnSecsHostSendMsgTest.Click += new System.EventHandler(this.btnSecsHostSendMsgTest_Click);
-            // 
             // btnOpenMCSSimulatorForm
             // 
-            this.btnOpenMCSSimulatorForm.Location = new System.Drawing.Point(104, 3);
+            this.btnOpenMCSSimulatorForm.Location = new System.Drawing.Point(6, 3);
             this.btnOpenMCSSimulatorForm.Name = "btnOpenMCSSimulatorForm";
             this.btnOpenMCSSimulatorForm.Size = new System.Drawing.Size(95, 22);
             this.btnOpenMCSSimulatorForm.TabIndex = 5;
@@ -707,21 +695,23 @@
             this.uscConnectionStates1.AutoSize = true;
             this.uscConnectionStates1.BackColor = System.Drawing.Color.Transparent;
             this.uscConnectionStates1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.uscConnectionStates1.Location = new System.Drawing.Point(0, 33);
+            this.uscConnectionStates1.Location = new System.Drawing.Point(0, 51);
             this.uscConnectionStates1.Name = "uscConnectionStates1";
             this.uscConnectionStates1.Padding = new System.Windows.Forms.Padding(1);
-            this.uscConnectionStates1.Size = new System.Drawing.Size(131, 717);
+            this.uscConnectionStates1.Size = new System.Drawing.Size(131, 699);
             this.uscConnectionStates1.TabIndex = 5;
             // 
             // label1
             // 
+            this.label1.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.label1.Dock = System.Windows.Forms.DockStyle.Top;
             this.label1.Font = new System.Drawing.Font("Microsoft JhengHei UI", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label1.ForeColor = System.Drawing.Color.WhiteSmoke;
             this.label1.Location = new System.Drawing.Point(0, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(131, 33);
+            this.label1.Size = new System.Drawing.Size(131, 51);
             this.label1.TabIndex = 6;
-            this.label1.Text = "通訊狀態";
+            this.label1.Text = "SECS/GEM \r\n通訊狀態";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // panel1
@@ -831,7 +821,6 @@
         private CheckBox checkBox3;
         private CheckBox checkBox2;
         private CheckBox checkBox1;
-        private Button btnSecsHostSendMsgTest;
         private BindingSource primaryMessageWrapperBindingSource;
         private Button btnOpenMCSSimulatorForm;
         private MenuStrip menuStrip1;

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static GPMCasstteConvertCIM.CasstteConverter.Data.clsMemoryAddress;
 
-namespace GPMCasstteConvertCIM
+namespace GPMCasstteConvertCIM.Forms
 {
     public partial class frmModbusTCPServer : Form
     {

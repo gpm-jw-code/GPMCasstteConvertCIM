@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.HighPerformance.Buffers;
 using GPMCasstteConvertCIM.CasstteConverter.Data;
 using GPMCasstteConvertCIM.CIM;
+using GPMCasstteConvertCIM.Forms;
 using GPMCasstteConvertCIM.UI_UserControls;
 using GPMCasstteConvertCIM.Utilities;
 using System;
@@ -29,13 +30,34 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             LoadPLCMapData();
             this.mainGUI = mainGUI;
             this.mainGUI.casstteConverter = this;
-            InterfaceClockUpdate();
+            EQPInterfaceClockMonitor();
+            CIMInterfaceClockUpdate();
             PLCMemorySyncTask();
             DataSyncTask();
 
             Handshaker = new EQPHandShakeHandler(this);
         }
 
+        private void EQPInterfaceClockMonitor()
+        {
+            Task.Factory.StartNew(async () =>
+            {
+                int lastInterfaceClock = -1;
+                while (true)
+                {
+                    PLCInterfaceClockDown = lastInterfaceClock == EQPData.InterfaceClock;
+                    lastInterfaceClock = EQPData.InterfaceClock;
+                    await Task.Delay(TimeSpan.FromSeconds(4));
+                }
+            });
+            EQPData.PropertyChanged += (sender, arg) =>
+            {
+                if (arg.PropertyName == nameof(EQPData.InterfaceClock))
+                {
+                    PLCInterfaceClockDown = false;
+                }
+            };
+        }
 
         internal EQPHandShakeHandler Handshaker;
 
@@ -85,7 +107,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         public event EventHandler<EventArgs> EQPOnline_Local_OnRequest;
         public event EventHandler<EventArgs> EQPOnline_Remote_OnRequest;
         public event EventHandler<EventArgs> EQPOffline_OnRequset;
-
+        public event EventHandler EQPInterfaceClockShutdown;
         #endregion
 
 
@@ -102,6 +124,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             }
         }
         internal bool Connected { get; private set; }
+        internal bool PLCInterfaceClockDown { get; private set; }
         internal Data.clsEQPData EQPData { get; private set; } = new Data.clsEQPData(2);
         internal Data.clsAGVSData AGVSData { get; private set; } = new Data.clsAGVSData();
 
@@ -173,7 +196,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         }
 
 
-        private void InterfaceClockUpdate()
+        private void CIMInterfaceClockUpdate()
         {
             Task.Run(async () =>
             {

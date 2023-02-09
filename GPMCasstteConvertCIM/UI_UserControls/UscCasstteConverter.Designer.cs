@@ -45,6 +45,7 @@
             this.btnSoftwareEMO = new System.Windows.Forms.Button();
             this.btnAlarmReset = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.labInterfaceClock = new System.Windows.Forms.Label();
             this.pnlBanner.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -105,7 +106,7 @@
             this.pnlBanner.Location = new System.Drawing.Point(0, 0);
             this.pnlBanner.Margin = new System.Windows.Forms.Padding(0);
             this.pnlBanner.Name = "pnlBanner";
-            this.pnlBanner.Size = new System.Drawing.Size(880, 27);
+            this.pnlBanner.Size = new System.Drawing.Size(904, 27);
             this.pnlBanner.TabIndex = 29;
             // 
             // labPLCConnectState
@@ -115,7 +116,7 @@
             this.labPLCConnectState.Dock = System.Windows.Forms.DockStyle.Right;
             this.labPLCConnectState.Font = new System.Drawing.Font("Microsoft JhengHei UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labPLCConnectState.ForeColor = System.Drawing.Color.Snow;
-            this.labPLCConnectState.Location = new System.Drawing.Point(547, 0);
+            this.labPLCConnectState.Location = new System.Drawing.Point(571, 0);
             this.labPLCConnectState.Margin = new System.Windows.Forms.Padding(0);
             this.labPLCConnectState.Name = "labPLCConnectState";
             this.labPLCConnectState.Padding = new System.Windows.Forms.Padding(0, 4, 0, 0);
@@ -131,7 +132,7 @@
             this.labPLCMCAddress.Dock = System.Windows.Forms.DockStyle.Right;
             this.labPLCMCAddress.Font = new System.Drawing.Font("Microsoft JhengHei UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labPLCMCAddress.ForeColor = System.Drawing.Color.Wheat;
-            this.labPLCMCAddress.Location = new System.Drawing.Point(647, 0);
+            this.labPLCMCAddress.Location = new System.Drawing.Point(671, 0);
             this.labPLCMCAddress.Margin = new System.Windows.Forms.Padding(0);
             this.labPLCMCAddress.Name = "labPLCMCAddress";
             this.labPLCMCAddress.Padding = new System.Windows.Forms.Padding(0, 6, 0, 0);
@@ -147,7 +148,7 @@
             this.labOpenModbusServerFom.Dock = System.Windows.Forms.DockStyle.Right;
             this.labOpenModbusServerFom.Font = new System.Drawing.Font("Microsoft JhengHei UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labOpenModbusServerFom.ForeColor = System.Drawing.Color.Black;
-            this.labOpenModbusServerFom.Location = new System.Drawing.Point(778, 0);
+            this.labOpenModbusServerFom.Location = new System.Drawing.Point(802, 0);
             this.labOpenModbusServerFom.Margin = new System.Windows.Forms.Padding(0);
             this.labOpenModbusServerFom.Name = "labOpenModbusServerFom";
             this.labOpenModbusServerFom.Padding = new System.Windows.Forms.Padding(0, 6, 0, 0);
@@ -166,7 +167,7 @@
             this.btnDown.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDown.Font = new System.Drawing.Font("Microsoft JhengHei UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnDown.ForeColor = System.Drawing.Color.White;
-            this.btnDown.Location = new System.Drawing.Point(1, 198);
+            this.btnDown.Location = new System.Drawing.Point(1, 296);
             this.btnDown.Name = "btnDown";
             this.btnDown.Size = new System.Drawing.Size(103, 28);
             this.btnDown.TabIndex = 29;
@@ -182,7 +183,7 @@
             this.btnIDLE.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnIDLE.Font = new System.Drawing.Font("Microsoft JhengHei UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnIDLE.ForeColor = System.Drawing.Color.White;
-            this.btnIDLE.Location = new System.Drawing.Point(1, 169);
+            this.btnIDLE.Location = new System.Drawing.Point(1, 267);
             this.btnIDLE.Name = "btnIDLE";
             this.btnIDLE.Size = new System.Drawing.Size(103, 28);
             this.btnIDLE.TabIndex = 28;
@@ -198,7 +199,7 @@
             this.btnRun.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRun.Font = new System.Drawing.Font("Microsoft JhengHei UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnRun.ForeColor = System.Drawing.Color.White;
-            this.btnRun.Location = new System.Drawing.Point(1, 140);
+            this.btnRun.Location = new System.Drawing.Point(1, 238);
             this.btnRun.Name = "btnRun";
             this.btnRun.Size = new System.Drawing.Size(103, 28);
             this.btnRun.TabIndex = 27;
@@ -232,7 +233,7 @@
             this.btnSoftwareEMO.ForeColor = System.Drawing.Color.White;
             this.btnSoftwareEMO.Location = new System.Drawing.Point(-3, 58);
             this.btnSoftwareEMO.Name = "btnSoftwareEMO";
-            this.btnSoftwareEMO.Size = new System.Drawing.Size(103, 34);
+            this.btnSoftwareEMO.Size = new System.Drawing.Size(109, 34);
             this.btnSoftwareEMO.TabIndex = 30;
             this.btnSoftwareEMO.Text = "EMO";
             this.btnSoftwareEMO.UseVisualStyleBackColor = false;
@@ -246,7 +247,7 @@
             this.btnAlarmReset.ForeColor = System.Drawing.Color.Black;
             this.btnAlarmReset.Location = new System.Drawing.Point(-3, 91);
             this.btnAlarmReset.Name = "btnAlarmReset";
-            this.btnAlarmReset.Size = new System.Drawing.Size(103, 34);
+            this.btnAlarmReset.Size = new System.Drawing.Size(109, 34);
             this.btnAlarmReset.TabIndex = 31;
             this.btnAlarmReset.Text = "異常Reset";
             this.btnAlarmReset.UseVisualStyleBackColor = false;
@@ -256,6 +257,7 @@
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.labInterfaceClock);
             this.panel1.Controls.Add(this.btnOpenMemoryTable);
             this.panel1.Controls.Add(this.btnAlarmReset);
             this.panel1.Controls.Add(this.btnDown);
@@ -264,11 +266,25 @@
             this.panel1.Controls.Add(this.btnIDLE);
             this.panel1.Controls.Add(this.btnRun);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel1.Location = new System.Drawing.Point(773, 27);
+            this.panel1.Location = new System.Drawing.Point(797, 27);
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(107, 232);
+            this.panel1.Size = new System.Drawing.Size(107, 330);
             this.panel1.TabIndex = 32;
+            // 
+            // labInterfaceClock
+            // 
+            this.labInterfaceClock.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.labInterfaceClock.BackColor = System.Drawing.Color.Red;
+            this.labInterfaceClock.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.labInterfaceClock.Font = new System.Drawing.Font("Microsoft JhengHei UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labInterfaceClock.ForeColor = System.Drawing.Color.White;
+            this.labInterfaceClock.Location = new System.Drawing.Point(1, 199);
+            this.labInterfaceClock.Name = "labInterfaceClock";
+            this.labInterfaceClock.Size = new System.Drawing.Size(103, 29);
+            this.labInterfaceClock.TabIndex = 32;
+            this.labInterfaceClock.Text = "-1";
+            this.labInterfaceClock.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // UscCasstteConverter
             // 
@@ -280,7 +296,7 @@
             this.Controls.Add(this.uscConverterPortStatus2);
             this.Controls.Add(this.uscConverterPortStatus1);
             this.Name = "UscCasstteConverter";
-            this.Size = new System.Drawing.Size(880, 259);
+            this.Size = new System.Drawing.Size(904, 357);
             this.Load += new System.EventHandler(this.UscCasstteConverter_Load);
             this.pnlBanner.ResumeLayout(false);
             this.pnlBanner.PerformLayout();
@@ -306,5 +322,6 @@
         private Button btnAlarmReset;
         private Label labOpenModbusServerFom;
         private Panel panel1;
+        private Label labInterfaceClock;
     }
 }

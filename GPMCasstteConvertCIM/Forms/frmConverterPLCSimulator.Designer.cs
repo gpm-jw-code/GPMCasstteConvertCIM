@@ -1,4 +1,4 @@
-﻿namespace GPMCasstteConvertCIM
+﻿namespace GPMCasstteConvertCIM.Forms
 {
     partial class frmConverterPLCSimulator
     {

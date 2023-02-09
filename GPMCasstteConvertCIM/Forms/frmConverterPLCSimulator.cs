@@ -12,7 +12,7 @@ using System.Windows.Forms;
 using static GPMCasstteConvertCIM.CasstteConverter.Enums;
 using static GPMCasstteConvertCIM.GPM_SECS.SECSMessageHelper;
 
-namespace GPMCasstteConvertCIM
+namespace GPMCasstteConvertCIM.Forms
 {
     public partial class frmConverterPLCSimulator : Form
     {

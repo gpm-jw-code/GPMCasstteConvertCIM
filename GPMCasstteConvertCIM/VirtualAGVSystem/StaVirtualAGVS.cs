@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace GPMCasstteConvertCIM.VirtualAGVSystem
 {
-    public class StaVirtualAGVS
+    public partial class StaVirtualAGVS
     {
         public static BindingList<clsAGVCState> AGVCList = new BindingList<clsAGVCState>() {
             new()
@@ -55,7 +55,11 @@ namespace GPMCasstteConvertCIM.VirtualAGVSystem
         {
             await Task.Delay(1);
             LoadDBParam();
-            AGVCStateFetchTaskRUn();
+
+            if (DbParameters.enable)
+            {
+                AGVCStateFetchTaskRUn();
+            }
         }
 
         private static async void AGVCStateFetchTaskRUn()
@@ -116,8 +120,18 @@ namespace GPMCasstteConvertCIM.VirtualAGVSystem
                         AGVC.Battery = Battery;
                         AGVC.TagID = CurrentPos.ToString();
                         AGVC.CSTID = CSTID;
-                        AGVC.RunState = Enum.GetValues(typeof(clsAGVCState.RUN_STATE)).Cast<clsAGVCState.RUN_STATE>().First(_E => (int)_E == AGVMainStatus);
-                        AGVC.OnlineState = Enum.GetValues(typeof(clsAGVCState.ONLINE_STATE)).Cast<clsAGVCState.ONLINE_STATE>().First(_E => (int)_E == AGVMode);
+
+                        try
+                        {
+                            AGVC.RunState = Enum.GetValues(typeof(clsAGVCState.RUN_STATE)).Cast<clsAGVCState.RUN_STATE>().First(_E => (int)_E == AGVMainStatus);
+                        }
+                        catch (Exception) { }
+                        try
+                        {
+                            AGVC.OnlineState = Enum.GetValues(typeof(clsAGVCState.ONLINE_STATE)).Cast<clsAGVCState.ONLINE_STATE>().First(_E => (int)_E == AGVMode);
+                        }
+                        catch (Exception) { }
+
                     }
 
                 }
@@ -131,24 +145,12 @@ namespace GPMCasstteConvertCIM.VirtualAGVSystem
             {
                 DbParameters = JsonConvert.DeserializeObject<clsDBParam>(File.ReadAllText(DBParamFileName));
             }
-            else
-            {
-                File.WriteAllText(DBParamFileName, JsonConvert.SerializeObject(new clsDBParam(), Formatting.Indented));
-            }
+            File.WriteAllText(DBParamFileName, JsonConvert.SerializeObject(new clsDBParam(), Formatting.Indented));
         }
 
         internal static void SetCookie(string connect_sid, string io)
         {
             TaskDispatcher.SetCookie(connect_sid, io);
-        }
-
-        public class clsDBParam
-        {
-            public string user { get; set; } = "sa";
-            public string password { get; set; } = "12345678";
-            public string server { get; set; } = "127.0.0.1";
-            public string database { get; set; } = "WebAGVSystem";
-            public int port { get; set; } = 1433;
         }
 
     }

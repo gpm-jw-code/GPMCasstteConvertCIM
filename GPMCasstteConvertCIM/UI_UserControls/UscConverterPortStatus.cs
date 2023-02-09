@@ -47,7 +47,11 @@ namespace GPMCasstteConvertCIM.UI_UserControls
 
 
             labAutoStatus.Text = portData.EPortAutoStatus.ToString();
-            labAutoStatus.BackColor = portData.EPortAutoStatus == CasstteConverter.Enums.AUTO_MANUAL_MODE.AUTO ? Color.Green : Color.Orange;
+
+            if (portData.EPortAutoStatus == CasstteConverter.Enums.AUTO_MANUAL_MODE.Unknown)
+                labAutoStatus.BackColor = Color.Gray;
+            else
+                labAutoStatus.BackColor = portData.EPortAutoStatus == CasstteConverter.Enums.AUTO_MANUAL_MODE.AUTO ? Color.Green : Color.Orange;
 
         }
     }

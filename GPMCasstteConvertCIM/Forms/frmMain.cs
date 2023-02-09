@@ -10,7 +10,7 @@ using Secs4Net;
 using Secs4Net.Sml;
 using System.Windows.Forms;
 using static Secs4Net.Item;
-namespace GPMCasstteConvertCIM
+namespace GPMCasstteConvertCIM.Forms
 {
     public partial class frmMain : Form
     {
@@ -227,6 +227,14 @@ namespace GPMCasstteConvertCIM
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
+
+            if (MessageBox.Show("確定要關閉CIM程式", "Exit APP Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+            {
+                e.Cancel = true;
+                return;
+            }
+
+
             foreach (var item in DevicesManager.casstteConverters)
             {
                 item.mcInterface?.Close();

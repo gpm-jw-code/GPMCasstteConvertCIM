@@ -1,4 +1,4 @@
-﻿namespace GPMCasstteConvertCIM
+﻿namespace GPMCasstteConvertCIM.Forms
 {
     partial class frmModbusTCPServer
     {
@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmModbusTCPServer));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmModbusTCPServer));
             this.label1 = new System.Windows.Forms.Label();
             this.labPort = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
@@ -41,6 +41,14 @@
             this.registerBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.digitalIORegisterBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.coilRegisterBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripLabel1 = new System.Windows.Forms.ToolStripDropDownButton();
+            this.agvsEmuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.developDropDownBtn = new System.Windows.Forms.ToolStripDropDownButton();
+            this.closeServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label6 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -61,25 +69,22 @@
             this.Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripLabel1 = new System.Windows.Forms.ToolStripDropDownButton();
-            this.agvsEmuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.developDropDownBtn = new System.Windows.Forms.ToolStripDropDownButton();
-            this.closeServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)(this.registerBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.digitalIORegisterBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.coilRegisterBindingSource)).BeginInit();
+            this.toolStrip1.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDITable)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvHoldingRegisterTable)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDOTable)).BeginInit();
-            this.toolStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -125,6 +130,91 @@
             // 
             this.digitalIORegisterBindingSource.DataSource = typeof(GPMCasstteConvertCIM.GPM_Modbus.DigitalIORegister);
             // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripLabel1,
+            this.developDropDownBtn});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(1269, 25);
+            this.toolStrip1.TabIndex = 15;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
+            // toolStripLabel1
+            // 
+            this.toolStripLabel1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.agvsEmuToolStripMenuItem});
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(56, 22);
+            this.toolStripLabel1.Text = "模擬器";
+            this.toolStripLabel1.Visible = false;
+            // 
+            // agvsEmuToolStripMenuItem
+            // 
+            this.agvsEmuToolStripMenuItem.Name = "agvsEmuToolStripMenuItem";
+            this.agvsEmuToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.agvsEmuToolStripMenuItem.Text = "AGVS";
+            this.agvsEmuToolStripMenuItem.Click += new System.EventHandler(this.agvsEmuToolStripMenuItem_Click);
+            // 
+            // developDropDownBtn
+            // 
+            this.developDropDownBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.developDropDownBtn.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.closeServerToolStripMenuItem});
+            this.developDropDownBtn.Image = ((System.Drawing.Image)(resources.GetObject("developDropDownBtn.Image")));
+            this.developDropDownBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.developDropDownBtn.Name = "developDropDownBtn";
+            this.developDropDownBtn.Size = new System.Drawing.Size(79, 22);
+            this.developDropDownBtn.Text = "Developer";
+            this.developDropDownBtn.Visible = false;
+            // 
+            // closeServerToolStripMenuItem
+            // 
+            this.closeServerToolStripMenuItem.Name = "closeServerToolStripMenuItem";
+            this.closeServerToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.closeServerToolStripMenuItem.Text = "Close Server";
+            this.closeServerToolStripMenuItem.Click += new System.EventHandler(this.closeServerToolStripMenuItem_Click);
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel1});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 539);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.ManagerRenderMode;
+            this.statusStrip1.Size = new System.Drawing.Size(1269, 22);
+            this.statusStrip1.TabIndex = 17;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(82, 17);
+            this.toolStripStatusLabel1.Text = "127.0.0.1:503";
+            this.toolStripStatusLabel1.Click += new System.EventHandler(this.toolStripStatusLabel1_Click);
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 25);
+            this.splitContainer1.Name = "splitContainer1";
+            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.BackColor = System.Drawing.Color.White;
+            this.splitContainer1.Panel1.Controls.Add(this.tableLayoutPanel1);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.BackColor = System.Drawing.Color.White;
+            this.splitContainer1.Panel2.Controls.Add(this.groupBox1);
+            this.splitContainer1.Size = new System.Drawing.Size(1269, 514);
+            this.splitContainer1.SplitterDistance = 329;
+            this.splitContainer1.TabIndex = 18;
+            // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
@@ -139,13 +229,13 @@
             this.tableLayoutPanel1.Controls.Add(this.dgvHoldingRegisterTable, 2, 1);
             this.tableLayoutPanel1.Controls.Add(this.dgvDOTable, 0, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 25);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1269, 370);
-            this.tableLayoutPanel1.TabIndex = 14;
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1269, 329);
+            this.tableLayoutPanel1.TabIndex = 15;
             // 
             // label6
             // 
@@ -208,9 +298,8 @@
             this.dgvDITable.RowHeadersVisible = false;
             this.dgvDITable.RowTemplate.Height = 25;
             this.dgvDITable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvDITable.Size = new System.Drawing.Size(415, 333);
+            this.dgvDITable.Size = new System.Drawing.Size(415, 292);
             this.dgvDITable.TabIndex = 15;
-            this.dgvDITable.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDITable_CellValueChanged);
             // 
             // dataGridViewTextBoxColumn2
             // 
@@ -276,7 +365,7 @@
             this.dgvHoldingRegisterTable.RowHeadersVisible = false;
             this.dgvHoldingRegisterTable.RowTemplate.Height = 25;
             this.dgvHoldingRegisterTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvHoldingRegisterTable.Size = new System.Drawing.Size(417, 333);
+            this.dgvHoldingRegisterTable.Size = new System.Drawing.Size(417, 292);
             this.dgvHoldingRegisterTable.TabIndex = 3;
             // 
             // Address
@@ -339,7 +428,7 @@
             this.dgvDOTable.RowHeadersVisible = false;
             this.dgvDOTable.RowTemplate.Height = 25;
             this.dgvDOTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvDOTable.Size = new System.Drawing.Size(415, 333);
+            this.dgvDOTable.Size = new System.Drawing.Size(415, 292);
             this.dgvDOTable.TabIndex = 7;
             // 
             // addressDataGridViewTextBoxColumn1
@@ -376,59 +465,14 @@
             this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
             this.dataGridViewTextBoxColumn1.ReadOnly = true;
             // 
-            // toolStrip1
-            // 
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripLabel1,
-            this.developDropDownBtn});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1269, 25);
-            this.toolStrip1.TabIndex = 15;
-            this.toolStrip1.Text = "toolStrip1";
-            // 
-            // toolStripLabel1
-            // 
-            this.toolStripLabel1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.agvsEmuToolStripMenuItem});
-            this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(56, 22);
-            this.toolStripLabel1.Text = "模擬器";
-            // 
-            // agvsEmuToolStripMenuItem
-            // 
-            this.agvsEmuToolStripMenuItem.Name = "agvsEmuToolStripMenuItem";
-            this.agvsEmuToolStripMenuItem.Size = new System.Drawing.Size(106, 22);
-            this.agvsEmuToolStripMenuItem.Text = "AGVS";
-            this.agvsEmuToolStripMenuItem.Click += new System.EventHandler(this.agvsEmuToolStripMenuItem_Click);
-            // 
-            // developDropDownBtn
-            // 
-            this.developDropDownBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.developDropDownBtn.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.closeServerToolStripMenuItem});
-            this.developDropDownBtn.Image = ((System.Drawing.Image)(resources.GetObject("developDropDownBtn.Image")));
-            this.developDropDownBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.developDropDownBtn.Name = "developDropDownBtn";
-            this.developDropDownBtn.Size = new System.Drawing.Size(79, 22);
-            this.developDropDownBtn.Text = "Developer";
-            this.developDropDownBtn.Visible = false;
-            // 
-            // closeServerToolStripMenuItem
-            // 
-            this.closeServerToolStripMenuItem.Name = "closeServerToolStripMenuItem";
-            this.closeServerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.closeServerToolStripMenuItem.Text = "Close Server";
-            this.closeServerToolStripMenuItem.Click += new System.EventHandler(this.closeServerToolStripMenuItem_Click);
-            // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.richTextBox1);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.groupBox1.Location = new System.Drawing.Point(0, 395);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(1269, 144);
-            this.groupBox1.TabIndex = 16;
+            this.groupBox1.Size = new System.Drawing.Size(1269, 181);
+            this.groupBox1.TabIndex = 17;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Log";
             // 
@@ -439,39 +483,20 @@
             this.richTextBox1.ForeColor = System.Drawing.Color.White;
             this.richTextBox1.Location = new System.Drawing.Point(3, 19);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(1263, 122);
+            this.richTextBox1.Size = new System.Drawing.Size(1263, 159);
             this.richTextBox1.TabIndex = 0;
             this.richTextBox1.Text = "";
-            // 
-            // statusStrip1
-            // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 539);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.ManagerRenderMode;
-            this.statusStrip1.Size = new System.Drawing.Size(1269, 22);
-            this.statusStrip1.TabIndex = 17;
-            this.statusStrip1.Text = "statusStrip1";
-            // 
-            // toolStripStatusLabel1
-            // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(82, 17);
-            this.toolStripStatusLabel1.Text = "127.0.0.1:503";
-            this.toolStripStatusLabel1.Click += new System.EventHandler(this.toolStripStatusLabel1_Click);
             // 
             // frmModbusTCPServer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1269, 561);
+            this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.labConnectedClientNum);
-            this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.labPort);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.statusStrip1);
             this.DoubleBuffered = true;
             this.Name = "frmModbusTCPServer";
@@ -481,15 +506,19 @@
             ((System.ComponentModel.ISupportInitialize)(this.registerBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.digitalIORegisterBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.coilRegisterBindingSource)).EndInit();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvDITable)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvHoldingRegisterTable)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDOTable)).EndInit();
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
             this.groupBox1.ResumeLayout(false);
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -503,35 +532,36 @@
         private Label labConnectedClientNum;
         private BindingSource registerBindingSource;
         private BindingSource coilRegisterBindingSource;
-        private TableLayoutPanel tableLayoutPanel1;
-        private Label label4;
-        private Label label5;
-        private Label label6;
         private ToolStrip toolStrip1;
         private ToolStripDropDownButton toolStripLabel1;
         private ToolStripMenuItem agvsEmuToolStripMenuItem;
         private BindingSource digitalIORegisterBindingSource;
-        private GroupBox groupBox1;
-        private RichTextBox richTextBox1;
+        private StatusStrip statusStrip1;
+        private ToolStripStatusLabel toolStripStatusLabel1;
+        private ToolStripDropDownButton developDropDownBtn;
+        private ToolStripMenuItem closeServerToolStripMenuItem;
+        private SplitContainer splitContainer1;
+        private TableLayoutPanel tableLayoutPanel1;
+        private Label label6;
+        private Label label4;
+        private Label label5;
         private DataGridView dgvDITable;
-        private DataGridView dgvHoldingRegisterTable;
-        private DataGridView dgvDOTable;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private DataGridViewTextBoxColumn descriptionDataGridViewTextBoxColumn;
         private DataGridViewCheckBoxColumn State;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
+        private DataGridView dgvHoldingRegisterTable;
         private DataGridViewTextBoxColumn Address;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
         private DataGridViewTextBoxColumn valueDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn Value_Hex;
         private DataGridViewTextBoxColumn LinkPLCAddress;
+        private DataGridView dgvDOTable;
         private DataGridViewTextBoxColumn addressDataGridViewTextBoxColumn1;
         private DataGridViewTextBoxColumn Description;
         private DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn1;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private StatusStrip statusStrip1;
-        private ToolStripStatusLabel toolStripStatusLabel1;
-        private ToolStripDropDownButton developDropDownBtn;
-        private ToolStripMenuItem closeServerToolStripMenuItem;
+        private GroupBox groupBox1;
+        private RichTextBox richTextBox1;
     }
 }

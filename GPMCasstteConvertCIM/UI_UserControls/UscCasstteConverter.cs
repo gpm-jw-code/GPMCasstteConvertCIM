@@ -1,4 +1,5 @@
 ﻿using GPMCasstteConvertCIM.CasstteConverter;
+using GPMCasstteConvertCIM.Forms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -84,12 +85,22 @@ namespace GPMCasstteConvertCIM.UI_UserControls
 
                 pnlBanner.BackColor = _casstteConverter.connectionState == CONNECTION_STATE.CONNECTED ? Color.FromArgb(92, 155, 155) :
                     _casstteConverter.connectionState == CONNECTION_STATE.CONNECTING ? Color.Yellow : Color.Red;
-
+                labPLCConnectState.ForeColor = _casstteConverter.connectionState == CONNECTION_STATE.CONNECTING ? Color.Black : Color.White;
                 labPLCConnectState.Text = _casstteConverter.connectionState.ToString();
+
+
+                InterfaceClockUIRender();
+
             }
             catch (Exception ex)
             {
             }
+        }
+
+        private void InterfaceClockUIRender()
+        {
+            labInterfaceClock.Text = _casstteConverter.EQPData.InterfaceClock.ToString();
+            labInterfaceClock.BackColor = _casstteConverter.PLCInterfaceClockDown ? Color.Red : Color.Green;
         }
 
         private void btnOpenMemoryTable_Click(object sender, EventArgs e)

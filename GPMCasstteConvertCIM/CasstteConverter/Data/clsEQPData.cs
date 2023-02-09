@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -9,23 +11,44 @@ using static GPMCasstteConvertCIM.GPM_SECS.SECSMessageHelper;
 
 namespace GPMCasstteConvertCIM.CasstteConverter.Data
 {
-    public class clsEQPData
+    public class clsEQPData : INotifyPropertyChanged
     {
         internal event EventHandler OnEQPRunStatusChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
+        private int _InterfaceClock = -1;
 
         public clsEQPData(int portNum)
         {
             for (int i = 0; i < portNum; i++)
             {
-                PortDatas.Add(new clsPortData(i+1));
+                PortDatas.Add(new clsPortData(i + 1));
             }
         }
 
-        public int InterfaceClock { get; set; } = 0;
+        public int InterfaceClock
+        {
+            get => _InterfaceClock;
+            set
+            {
+                if (_InterfaceClock != value)
+                {
+                    _InterfaceClock = value;
+                    PropertyChangedInnoke(nameof(InterfaceClock));
+                }
+            }
+        }
+
+        private void PropertyChangedInnoke(string name)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(name));
+            }
+        }
 
         public List<clsPortData> PortDatas { get; set; } = new List<clsPortData>();
-        
+
         public bool EQP_RUN { get; internal set; }
         public bool EQP_IDLE { get; internal set; }
         public bool EQP_DOWN { get; internal set; }

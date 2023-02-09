@@ -91,6 +91,7 @@
             this.labConverter.TabIndex = 6;
             this.labConverter.Text = "Converter";
             this.labConverter.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labConverter.Visible = false;
             // 
             // labAGVC
             // 
@@ -105,6 +106,7 @@
             this.labAGVC.TabIndex = 7;
             this.labAGVC.Text = "AGVC";
             this.labAGVC.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labAGVC.Visible = false;
             // 
             // UscConnectionStates
             // 
