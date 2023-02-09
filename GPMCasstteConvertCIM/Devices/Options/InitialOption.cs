@@ -18,13 +18,13 @@ namespace GPMCasstteConvertCIM.Devices
         internal RichTextBox logRichTextBox;
 
         internal object mainUI;
+        public string Name { get; set; } = "";
         public string IpAddress { get; set; }
         public int Port { get; set; }
         public ushort DeviceId { get; set; }
         public bool IsActive { get; set; }
 
         [JsonConverter(typeof(StringEnumConverter))]
-
         public CIM_DEVICE_TYPES DeviceType { get; set; }
     }
 }
