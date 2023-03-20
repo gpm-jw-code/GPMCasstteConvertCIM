@@ -35,6 +35,10 @@ namespace GPMCasstteConvertCIM.Utilities
 
         private static void LoadSysConfigs()
         {
+
+            if(!Directory.Exists(configsFolder))
+                Directory.CreateDirectory(configsFolder);
+
             string SysCofigsFile = Path.Combine(configsFolder, "SystemConfigs.json");
             if (File.Exists(SysCofigsFile))
             {
