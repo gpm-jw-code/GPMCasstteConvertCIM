@@ -21,11 +21,13 @@ namespace GPMCasstteConvertCIM.CIM.SecsMessageHandle
             using SecsMessage _primaryMessage = _primaryMessageWrapper.PrimaryMessage;
 
             bool reply = false;
+
             if (_primaryMessage.S == 1 && _primaryMessage.F == 13) // 
             {
                 Utility.SystemLogger?.Info($"HOST要求 [設備連線建立]_{_primaryMessage}");
                 _primaryMessage.TryGetConnectRequestParam(out string _mdln, out string _softrev);
-                reply = _primaryMessageWrapper.TryReplyAsync(SECSMessageHelper.COMMUNICATION.EstablishCommunicationRequestAcknowledgeMessage(SECSMessageHelper.COMMACK.Accepted, _mdln, _softrev)).Result;
+                TransmitMsgToAGVS(_primaryMessageWrapper);
+                //reply = _primaryMessageWrapper.TryReplyAsync(SECSMessageHelper.COMMUNICATION.EstablishCommunicationRequestAcknowledgeMessage(SECSMessageHelper.COMMACK.Accepted, _mdln, _softrev)).Result;
             }
             else if (_primaryMessage.S == 1 && _primaryMessage.F == 17) //HOST要求 [設備上線]
             {
@@ -54,6 +56,13 @@ namespace GPMCasstteConvertCIM.CIM.SecsMessageHandle
             {
                 _primaryMessage.TryGetRCMDAction(out SECSMessageHelper.RCMD cmd);
                 RCMDHandler(_primaryMessageWrapper, cmd);
+            }
+            else if (_primaryMessage.S == 6 && _primaryMessage.F == 11)
+            {
+                _primaryMessageWrapper.TryReplyAsync(new SecsMessage(6, 12)
+                {
+                    SecsItem = B(0)
+                }); 
             }
         }
 

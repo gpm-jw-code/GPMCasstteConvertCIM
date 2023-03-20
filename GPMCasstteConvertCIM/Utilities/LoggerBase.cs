@@ -137,21 +137,27 @@ namespace GPMCasstteConvertCIM.Utilities
 
         protected void WriteToFile(DateTime time, LOG_LEVEL log_level, string logStr)
         {
-
-            if (saveFolder == "")
+            try
             {
-                return;
+
+                if (saveFolder == "")
+                {
+                    return;
+                }
+                string folder = Path.Combine(saveFolder, log_level.ToString());
+                if (!Directory.Exists(folder))
+                    Directory.CreateDirectory(folder);
+
+                // secs_server/info/2022
+                string log_file = Path.Combine(folder, $"{DateTime.Now.ToString(FileTimeFormat)}.log");
+
+                using (StreamWriter sw = new StreamWriter(log_file, true))
+                {
+                    sw.WriteLine($"{time}|{log_level}|{logStr}");
+                }
             }
-            string folder = Path.Combine(saveFolder, log_level.ToString());
-            if (!Directory.Exists(folder))
-                Directory.CreateDirectory(folder);
-
-            // secs_server/info/2022
-            string log_file = Path.Combine(folder, $"{DateTime.Now.ToString(FileTimeFormat)}.log");
-
-            using (StreamWriter sw = new StreamWriter(log_file, true))
+            catch (Exception ex)
             {
-                sw.WriteLine($"{time}|{log_level}|{logStr}");
             }
 
         }

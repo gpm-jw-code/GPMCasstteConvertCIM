@@ -25,7 +25,7 @@ namespace GPMCasstteConvertCIM.CIM.SecsMessageHandle
 
             Utility.SystemLogger.Info($"[AGVS SECS Message > MCS] From AGVS : {_primaryMessage.ToSml()}");
 
-            SecsMessage secondaryMsg = await DevicesManager.secs_client.SendAsync(_primaryMessage);
+            SecsMessage secondaryMsg = await DevicesManager.secs_host.SendAsync(_primaryMessage);
 
             if (_primaryMessage.ReplyExpected)
             {

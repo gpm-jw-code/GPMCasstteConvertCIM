@@ -56,7 +56,7 @@ namespace GPMCasstteConvertCIM.Forms
 
             uscConnectionStates1.InitializeConnectionState();
 
-            //SECSEmulatorManager.Start();
+            SECSEmulatorManager.Start();
 
             DevicesManager.DevicesConnectionsOpts.SECS_HOST.logRichTextBox = rtbSecsHostLog;
             DevicesManager.DevicesConnectionsOpts.SECS_HOST.dgvRevBufferTable = dgvMsgFromAGVS;

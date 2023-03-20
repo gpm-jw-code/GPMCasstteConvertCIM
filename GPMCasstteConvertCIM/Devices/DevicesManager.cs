@@ -45,15 +45,16 @@ namespace GPMCasstteConvertCIM.Devices
         internal static void Connect()
         {
             ////Secs host(CIM_AGVS)
-            secs_host = new SECSBase("Host_For_AGVS");
-            secs_host.ConnectionChanged += SECS_H_ConnectionChangeHandle;
-            secs_host.OnPrimaryMessageRecieve += AGVSMessageHandler.PrimaryMessageOnReceivedAsync;
+            ///
+            secs_host = new SECSBase("Host_For_MCS");
+            secs_host.ConnectionChanged += SECS_E_ConnectionChangeHandle;
+            secs_host.OnPrimaryMessageRecieve += MCSMessageHandler.PrimaryMessageOnReceivedAsync; ;
             secs_host.Active(DevicesConnectionsOpts.SECS_HOST.ToSecsGenOptions(), DevicesConnectionsOpts.SECS_HOST.logRichTextBox, DevicesConnectionsOpts.SECS_HOST.dgvSendBufferTable, DevicesConnectionsOpts.SECS_HOST.dgvRevBufferTable);
 
             ////Secs client(CIM_MCS)
-            secs_client = new SECSBase("Client_For_MCS");
-            secs_client.ConnectionChanged += SECS_E_ConnectionChangeHandle;
-            secs_client.OnPrimaryMessageRecieve += MCSMessageHandler.PrimaryMessageOnReceivedAsync;
+            secs_client = new SECSBase("Client_For_AGVS");
+            secs_client.ConnectionChanged += SECS_H_ConnectionChangeHandle;
+            secs_client.OnPrimaryMessageRecieve += AGVSMessageHandler.PrimaryMessageOnReceivedAsync;
             secs_client.Active(DevicesConnectionsOpts.SECS_CLIENT.ToSecsGenOptions(), DevicesConnectionsOpts.SECS_CLIENT.logRichTextBox, DevicesConnectionsOpts.SECS_CLIENT.dgvSendBufferTable, DevicesConnectionsOpts.SECS_CLIENT.dgvRevBufferTable);
 
             ////轉換架1

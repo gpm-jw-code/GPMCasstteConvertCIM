@@ -24,14 +24,27 @@ namespace GPMCasstteConvertCIM.Emulators.SecsEmu
             Task.Factory.StartNew(async () =>
             {
                 SecsMessage primarymsg = _PrimaryMessageWrapper.PrimaryMessage;
-
-                var echoMsg = new SecsMessage(primarymsg.S, (byte)(primarymsg.F + 1), false)
+                if (primarymsg.S == 1 && primarymsg.F == 13)
                 {
-                    Name = primarymsg.Name,
-                    SecsItem = primarymsg.SecsItem,
-                };
+                    bool reply_success =await _PrimaryMessageWrapper.TryReplyAsync(new SecsMessage(1, 14)
+                    {
+                        SecsItem = Item.L(
+                                           Item.B(0),
+                                           primarymsg.SecsItem
+                                         )
+                    });
+                }
+                else
+                {
+                    var echoMsg = new SecsMessage(primarymsg.S, (byte)(primarymsg.F + 1), false)
+                    {
+                        Name = primarymsg.Name,
+                        SecsItem = primarymsg.SecsItem,
+                    };
+                    bool reply_success = await _PrimaryMessageWrapper.TryReplyAsync(echoMsg);
 
-                bool reply_success = await _PrimaryMessageWrapper.TryReplyAsync(echoMsg);
+                }
+
             });
         }
 

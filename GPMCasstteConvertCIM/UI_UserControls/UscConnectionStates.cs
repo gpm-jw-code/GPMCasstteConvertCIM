@@ -41,8 +41,8 @@ namespace GPMCasstteConvertCIM.UI_UserControls
 
         internal void InitializeConnectionState(Common.CONNECTION_STATE init_state = Common.CONNECTION_STATE.DISCONNECTED)
         {
-            labSECS_AGVS.ConnectionStateChange(init_state);
             labSECS_MCS.ConnectionStateChange(init_state);
+            labSECS_AGVS.ConnectionStateChange(init_state);
             labConverter.ConnectionStateChange(init_state);
             labAGVC.ConnectionStateChange(init_state);
         }

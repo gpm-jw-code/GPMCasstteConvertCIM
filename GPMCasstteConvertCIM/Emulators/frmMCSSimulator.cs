@@ -98,16 +98,65 @@ namespace GPMCasstteConvertCIM
 
         private async void btnTransferTask_Click(object sender, EventArgs e)
         {
-            var rpt = await SECSEmulatorManager.mcsEmulator.secsIF.SendAsync(new SecsMessage(2, 49)
+
+            var reply = await SECSEmulatorManager.mcsEmulator.secsIF.SendAsync(new SecsMessage(2, 49)
             {
                 SecsItem =
                 Item.L(
-                        Item.U4(),
-                        Item.A("OBJSPEC"),
+                        Item.U4(157),
+                        Item.A(""),
                         Item.A(RCMD.TRANSFER.ToString()),
-                        Item.L()
+                        Item.L(
+                                Item.L(
+                                    Item.A("COMMANDINFO"),
+                                    Item.L(
+                                        Item.L(
+                                            Item.A("COMMANDID"),
+                                            Item.A("M000081912")
+                                            ),
+                                         Item.L(
+                                            Item.A("PRIORITY"),
+                                            Item.U2(80)
+                                            ),
+                                         Item.L(
+                                            Item.A("REPLACE"),
+                                            Item.U2(0)
+                                            )
+                                     )
+                                 ),
+                                Item.L(
+                                    Item.A("TRANSFERINFO"),
+                                    Item.L(
+                                        Item.L(
+                                            Item.A("CARRIERID"),
+                                            Item.A("DL25E20290")
+                                            ),
+                                         Item.L(
+                                            Item.A("SOURCEPORT"),
+                                            Item.A("SYL0294UU01")
+                                            ),
+                                         Item.L(
+                                            Item.A("DESTPORT"),
+                                            Item.A("SYM0473CC01")
+                                            )
+                                     )
+
+
+                                )
+                            )
                     )
-            });
+            }); ;
+
+            //var rpt = await SECSEmulatorManager.mcsEmulator.secsIF.SendAsync(new SecsMessage(2, 49)
+            //{
+            //    SecsItem =
+            //    Item.L(
+            //            Item.U4(),
+            //            Item.A("OBJSPEC"),
+            //            Item.A(RCMD.TRANSFER.ToString()),
+            //            Item.L()
+            //        )
+            //});
         }
     }
 

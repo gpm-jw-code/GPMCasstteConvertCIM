@@ -24,6 +24,18 @@ namespace GPMCasstteConvertCIM.VirtualAGVSystem
                  AGV_ID= 2,
                  CarName ="AGV_2"
 
+            },
+            new clsAGVCState()
+            {
+                 AGV_ID= 3,
+                 CarName ="AGV_3"
+
+            },
+            new clsAGVCState()
+            {
+                 AGV_ID= 4,
+                 CarName ="AGV_4"
+
             }
         };
 

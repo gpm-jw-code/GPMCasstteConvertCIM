@@ -23,10 +23,10 @@ namespace GPMCasstteConvertCIM.Emulators.SecsEmu
 
             mcsEmulator.Active(new Secs4Net.SecsGemOptions
             {
-                DeviceId = 1,
+                DeviceId = 0,
                 IpAddress = "127.0.0.1",
-                Port = 5001,
-                IsActive = false,
+                Port = 5000,
+                IsActive = true,
             });
         }
 

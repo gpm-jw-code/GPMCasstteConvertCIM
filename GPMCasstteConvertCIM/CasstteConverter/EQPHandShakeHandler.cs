@@ -103,6 +103,17 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 await Task.Delay(1);
             }
             CasstteConverter.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_out_reply_address, false);
+
+            try
+            {
+
+                await DevicesManager.secs_client.SendAsync(SECSMessageHelper.EVENT_REPORT.CarrierWaitOutReportMessage(portData.WIPINFO_BCR_ID, "", ""));
+            }
+            catch (Exception ex)
+            {
+
+            }
+
         }
 
         /// <summary>
