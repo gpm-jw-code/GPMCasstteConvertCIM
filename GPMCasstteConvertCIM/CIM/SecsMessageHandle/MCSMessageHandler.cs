@@ -22,6 +22,24 @@ namespace GPMCasstteConvertCIM.CIM.SecsMessageHandle
 
             bool reply = false;
 
+
+            if (_primaryMessage.S == 2 && _primaryMessage.F == 33) // Define Report
+            {
+                SECSMessageHelper.DefineReport(_primaryMessage);
+            }
+            if (_primaryMessage.S == 2 && _primaryMessage.F == 35) // Link Event Report
+            {
+                SECSMessageHelper.LinkEventReport(_primaryMessage);
+            }
+            if (_primaryMessage.S == 2 && _primaryMessage.F == 41)
+            {
+                _primaryMessage.TryGetRCMDAction(out SECSMessageHelper.RCMD cmd);
+                RCMDHandler(_primaryMessageWrapper, cmd);
+                return;
+            }
+            TransmitMsgToAGVS(_primaryMessageWrapper);
+            return;
+
             if (_primaryMessage.S == 1 && _primaryMessage.F == 13) // 
             {
                 Utility.SystemLogger?.Info($"HOST要求 [設備連線建立]_{_primaryMessage}");
@@ -62,7 +80,7 @@ namespace GPMCasstteConvertCIM.CIM.SecsMessageHandle
                 _primaryMessageWrapper.TryReplyAsync(new SecsMessage(6, 12)
                 {
                     SecsItem = B(0)
-                }); 
+                });
             }
         }
 
@@ -83,6 +101,7 @@ namespace GPMCasstteConvertCIM.CIM.SecsMessageHandle
                 case SECSMessageHelper.RCMD.PRIORITYUPDATE:
                     break;
                 case SECSMessageHelper.RCMD.PORTTYPECHG:
+
                     break;
                 case SECSMessageHelper.RCMD.INSTALL:
                     break;
@@ -108,12 +127,33 @@ namespace GPMCasstteConvertCIM.CIM.SecsMessageHandle
         {
             try
             {
+                var primaryMsgFromMcs = _primaryMessageWrapper.PrimaryMessage;
+                Utility.SystemLogger.Info($"[MCS SECS Message > AGVS] From MCS : {primaryMsgFromMcs.ToSml()}");
 
-                Utility.SystemLogger.Info($"[MCS SECS Message > AGVS] From MCS : {_primaryMessageWrapper.PrimaryMessage.ToSml()}");
-
-                SecsMessage secondaryMsgFromAGVS = await DevicesManager.secs_host.SendAsync(_primaryMessageWrapper.PrimaryMessage);
+                SecsMessage secondaryMsgFromAGVS = await DevicesManager.secs_client_for_agvs.SendAsync(primaryMsgFromMcs);
 
                 Utility.SystemLogger.Info($"[MCS SECS Message > AGVS] AGVS Reply : {secondaryMsgFromAGVS.ToSml()}");
+
+                if (primaryMsgFromMcs.S == 1 && primaryMsgFromMcs.F == 3) //TODO 再加上 svid 2005/2009資訊 
+                {
+
+                    var SVIDItemList = primaryMsgFromMcs.SecsItem.Items.ToList();
+                    //找到2009是第幾個
+                    Item? CurrentPortStatesItems = SVIDItemList.FirstOrDefault(item => item.FirstValue<ushort>() == 2005);
+                    Item? PortTypesItems = SVIDItemList.FirstOrDefault(item => item.FirstValue<ushort>() == 2009);
+                    
+                    if (CurrentPortStatesItems != null)
+                    {
+                        int PortTypes = primaryMsgFromMcs.SecsItem.Items.ToList().FindIndex(item => item == PortTypesItems);
+                    }
+
+                    if (PortTypesItems != null)
+                    {
+                        int PortTypes = primaryMsgFromMcs.SecsItem.Items.ToList().FindIndex(item => item == PortTypesItems);
+                    }
+
+                    //secondaryMsgFromAGVS.SecsItem.Items[0][0].Items.Append();
+                }
 
                 //回傳給MCS
                 bool reply_to_mcs_succss = await _primaryMessageWrapper.TryReplyAsync(secondaryMsgFromAGVS);

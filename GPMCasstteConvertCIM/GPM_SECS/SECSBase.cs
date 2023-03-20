@@ -138,16 +138,25 @@ namespace GPMCasstteConvertCIM.GPM_SECS
 
             return await Task.Run(async () =>
             {
-                SecsMessage secondaryMessage;
-                secondaryMessage = await secsGem?.SendAsync(message, cancellationToken);
+                SecsMessage secondaryMessage = null;
+
                 try
                 {
-                    AddPrimaryMsgToSendBuffer(message, secondaryMessage);
+                    secondaryMessage = await secsGem?.SendAsync(message, cancellationToken);
+                    try
+                    {
+                        AddPrimaryMsgToSendBuffer(message, secondaryMessage);
+                    }
+                    catch (Exception ex)
+                    {
+                    }
+                    return secondaryMessage;
                 }
                 catch (Exception ex)
                 {
+                    return secondaryMessage;
                 }
-                return secondaryMessage;
+
             });
         }
 

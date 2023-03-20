@@ -14,6 +14,36 @@ namespace GPMCasstteConvertCIM.GPM_SECS
 {
     public class SECSMessageHelper
     {
+        public static void DefineReport(SecsMessage primaryMessage)
+        {
+            Item reportList = primaryMessage.SecsItem.Items[1];
+            foreach (Item report in reportList.Items)
+            {
+                ushort RPTID = report.Items[0].FirstValue<ushort>();//RPTID
+
+                foreach (Item item in report.Items[1].Items)
+                {
+                    ushort VID = item.FirstValue<ushort>();
+                }
+
+            }
+        }
+
+        public static void LinkEventReport(SecsMessage primaryMessage)
+        {
+            Item reportList = primaryMessage.SecsItem.Items[1];
+            foreach (Item report in reportList.Items)
+            {
+                ushort CEID = report.Items[0].FirstValue<ushort>();//RPTID
+
+                foreach (Item item in report.Items[1].Items)
+                {
+                    ushort RPTID = item.FirstValue<ushort>();
+                }
+
+            }
+        }
+
         public enum COMMACK : byte
         {
             Accepted = 0,

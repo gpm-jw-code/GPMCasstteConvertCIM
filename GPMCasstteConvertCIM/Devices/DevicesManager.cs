@@ -26,11 +26,14 @@ namespace GPMCasstteConvertCIM.Devices
 
         internal static DeviceConnectionOptions DevicesConnectionsOpts = new DeviceConnectionOptions();
 
-        internal static SECSBase secs_host;
         /// <summary>
-        /// 與MCS連線的SECS CLIENT
+        /// 與MCS連線的SECS HOST
         /// </summary>
-        internal static SECSBase secs_client;
+        internal static SECSBase secs_host_for_mcs;
+        /// <summary>
+        /// 與AGVSS連線的SECS CLIENT
+        /// </summary>
+        internal static SECSBase secs_client_for_agvs;
         /// <summary>
         /// 轉換架1
         /// </summary>
@@ -46,16 +49,16 @@ namespace GPMCasstteConvertCIM.Devices
         {
             ////Secs host(CIM_AGVS)
             ///
-            secs_host = new SECSBase("Host_For_MCS");
-            secs_host.ConnectionChanged += SECS_E_ConnectionChangeHandle;
-            secs_host.OnPrimaryMessageRecieve += MCSMessageHandler.PrimaryMessageOnReceivedAsync; ;
-            secs_host.Active(DevicesConnectionsOpts.SECS_HOST.ToSecsGenOptions(), DevicesConnectionsOpts.SECS_HOST.logRichTextBox, DevicesConnectionsOpts.SECS_HOST.dgvSendBufferTable, DevicesConnectionsOpts.SECS_HOST.dgvRevBufferTable);
+            secs_host_for_mcs = new SECSBase("Host_For_MCS");
+            secs_host_for_mcs.ConnectionChanged += SECS_E_ConnectionChangeHandle;
+            secs_host_for_mcs.OnPrimaryMessageRecieve += MCSMessageHandler.PrimaryMessageOnReceivedAsync; ;
+            secs_host_for_mcs.Active(DevicesConnectionsOpts.SECS_HOST.ToSecsGenOptions(), DevicesConnectionsOpts.SECS_HOST.logRichTextBox, DevicesConnectionsOpts.SECS_HOST.dgvSendBufferTable, DevicesConnectionsOpts.SECS_HOST.dgvRevBufferTable);
 
             ////Secs client(CIM_MCS)
-            secs_client = new SECSBase("Client_For_AGVS");
-            secs_client.ConnectionChanged += SECS_H_ConnectionChangeHandle;
-            secs_client.OnPrimaryMessageRecieve += AGVSMessageHandler.PrimaryMessageOnReceivedAsync;
-            secs_client.Active(DevicesConnectionsOpts.SECS_CLIENT.ToSecsGenOptions(), DevicesConnectionsOpts.SECS_CLIENT.logRichTextBox, DevicesConnectionsOpts.SECS_CLIENT.dgvSendBufferTable, DevicesConnectionsOpts.SECS_CLIENT.dgvRevBufferTable);
+            secs_client_for_agvs = new SECSBase("Client_For_AGVS");
+            secs_client_for_agvs.ConnectionChanged += SECS_H_ConnectionChangeHandle;
+            secs_client_for_agvs.OnPrimaryMessageRecieve += AGVSMessageHandler.PrimaryMessageOnReceivedAsync;
+            secs_client_for_agvs.Active(DevicesConnectionsOpts.SECS_CLIENT.ToSecsGenOptions(), DevicesConnectionsOpts.SECS_CLIENT.logRichTextBox, DevicesConnectionsOpts.SECS_CLIENT.dgvSendBufferTable, DevicesConnectionsOpts.SECS_CLIENT.dgvRevBufferTable);
 
             ////轉換架1
             ///
@@ -88,7 +91,7 @@ namespace GPMCasstteConvertCIM.Devices
         {
             var _connectionState = connectionState.ToCommonConnectionState();
             Utility.SystemLogger.Log($"SECS_TO_MCS Connecstion State Change:{connectionState}", _connectionState != Common.CONNECTION_STATE.CONNECTED ? LoggerBase.LOG_LEVEL.WARNING : LoggerBase.LOG_LEVEL.INFO);
-            DeviceConnectionStateOnChanged?.Invoke(secs_client, new ConnectionStateChangeArgs(secs_client, CIM_DEVICE_TYPES.SECS_CLIENT, _connectionState));
+            DeviceConnectionStateOnChanged?.Invoke(secs_client_for_agvs, new ConnectionStateChangeArgs(secs_client_for_agvs, CIM_DEVICE_TYPES.SECS_CLIENT, _connectionState));
             //uscConnectionStates1.SECS_E_ConnectionChange(obj);
         }
 
@@ -96,7 +99,7 @@ namespace GPMCasstteConvertCIM.Devices
         {
             var _connectionState = connectionState.ToCommonConnectionState();
             Utility.SystemLogger.Log($"SECS_TO_AGVS Connection State Change:{connectionState}", _connectionState != Common.CONNECTION_STATE.CONNECTED ? LoggerBase.LOG_LEVEL.WARNING : LoggerBase.LOG_LEVEL.INFO);
-            DeviceConnectionStateOnChanged?.Invoke(secs_host, new ConnectionStateChangeArgs(secs_host, CIM_DEVICE_TYPES.SECS_HOST, _connectionState));
+            DeviceConnectionStateOnChanged?.Invoke(secs_host_for_mcs, new ConnectionStateChangeArgs(secs_host_for_mcs, CIM_DEVICE_TYPES.SECS_HOST, _connectionState));
             //uscConnectionStates1.SECS_H_ConnectionChange(e);
         }
 

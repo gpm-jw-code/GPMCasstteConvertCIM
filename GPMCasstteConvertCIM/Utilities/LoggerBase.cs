@@ -42,6 +42,8 @@ namespace GPMCasstteConvertCIM.Utilities
         internal static LOG_TIME_UNIT logTimeUnit = LOG_TIME_UNIT.ByHour;
         internal string saveFolder { get; set; } = "";
 
+        private object lock_object = new object();
+
         protected RichTextBox? _richTextBox;
         internal LoggerBase(RichTextBox? richTextBox, string saveFolder)
         {
@@ -148,12 +150,14 @@ namespace GPMCasstteConvertCIM.Utilities
                 if (!Directory.Exists(folder))
                     Directory.CreateDirectory(folder);
 
-                // secs_server/info/2022
                 string log_file = Path.Combine(folder, $"{DateTime.Now.ToString(FileTimeFormat)}.log");
 
-                using (StreamWriter sw = new StreamWriter(log_file, true))
+                lock (lock_object)
                 {
-                    sw.WriteLine($"{time}|{log_level}|{logStr}");
+                    using (StreamWriter sw = new StreamWriter(log_file, true))
+                    {
+                        sw.WriteLine($"{time}|{log_level}|{logStr}");
+                    }
                 }
             }
             catch (Exception ex)

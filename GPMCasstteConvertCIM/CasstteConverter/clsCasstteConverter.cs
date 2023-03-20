@@ -25,6 +25,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         private string WordMapFileName_CIM = "src\\PLC_Word_Map_CIM.csv";
         internal clsCasstteConverter(int index, UscCasstteConverter mainGUI, CONVERTER_TYPE converterType)
         {
+            EQPData = new Data.clsEQPData(2, this);
             this.converterType = converterType;
             this.index = index;
             LoadPLCMapData();
@@ -125,7 +126,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         }
         internal bool Connected { get; private set; }
         internal bool PLCInterfaceClockDown { get; private set; }
-        internal Data.clsEQPData EQPData { get; private set; } = new Data.clsEQPData(2);
+        internal Data.clsEQPData EQPData { get; private set; }
         internal Data.clsAGVSData AGVSData { get; private set; } = new Data.clsAGVSData();
 
         internal event EventHandler<Common.CONNECTION_STATE>? ConnectionStateChanged;

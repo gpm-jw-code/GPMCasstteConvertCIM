@@ -18,11 +18,11 @@ namespace GPMCasstteConvertCIM.CasstteConverter.Data
 
         private int _InterfaceClock = -1;
 
-        public clsEQPData(int portNum)
+        public clsEQPData(int portNum, clsCasstteConverter clsCasstteConverter)
         {
             for (int i = 0; i < portNum; i++)
             {
-                PortDatas.Add(new clsPortData(i + 1));
+                PortDatas.Add(new clsConverterPort(i + 1, clsCasstteConverter));
             }
         }
 
@@ -47,7 +47,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter.Data
             }
         }
 
-        public List<clsPortData> PortDatas { get; set; } = new List<clsPortData>();
+        public List<clsConverterPort> PortDatas { get; set; } = new List<clsConverterPort>();
 
         public bool EQP_RUN { get; internal set; }
         public bool EQP_IDLE { get; internal set; }

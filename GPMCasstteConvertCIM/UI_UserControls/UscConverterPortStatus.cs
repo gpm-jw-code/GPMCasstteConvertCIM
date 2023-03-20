@@ -1,4 +1,5 @@
-﻿using GPMCasstteConvertCIM.CasstteConverter.Data;
+﻿using GPMCasstteConvertCIM.CasstteConverter;
+using GPMCasstteConvertCIM.Forms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,7 +15,7 @@ namespace GPMCasstteConvertCIM.UI_UserControls
 {
     public partial class UscConverterPortStatus : UserControl
     {
-        public clsPortData portData { get; set; }
+        public clsConverterPort portData { get; set; }
         public UscConverterPortStatus()
         {
             InitializeComponent();
@@ -53,6 +54,12 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             else
                 labAutoStatus.BackColor = portData.EPortAutoStatus == CasstteConverter.Enums.AUTO_MANUAL_MODE.AUTO ? Color.Green : Color.Orange;
 
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+            frmPortEventReportTest testFrom = new frmPortEventReportTest(portData);
+            testFrom.Show();
         }
     }
 }

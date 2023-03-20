@@ -5,15 +5,16 @@ using Secs4Net;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using static GPMCasstteConvertCIM.Devices.DevicesManager;
 
 namespace GPMCasstteConvertCIM.CIM
 {
-    internal static class Extensions
+    public static class Extensions
     {
-        internal static SecsGemOptions ToSecsGenOptions(this InitialOption gpmInitailOptions)
+        public static SecsGemOptions ToSecsGenOptions(this InitialOption gpmInitailOptions)
         {
             var secs_config = Utility.SysConfigs.SECS;
             return new SecsGemOptions()

@@ -56,7 +56,7 @@ namespace GPMCasstteConvertCIM.Forms
 
             uscConnectionStates1.InitializeConnectionState();
 
-            SECSEmulatorManager.Start();
+            //SECSEmulatorManager.Start();
 
             DevicesManager.DevicesConnectionsOpts.SECS_HOST.logRichTextBox = rtbSecsHostLog;
             DevicesManager.DevicesConnectionsOpts.SECS_HOST.dgvRevBufferTable = dgvMsgFromAGVS;
@@ -170,7 +170,7 @@ namespace GPMCasstteConvertCIM.Forms
         {
             try
             {
-                SecsMessage? se = await DevicesManager.secs_host?.SendAsync(new SecsMessage(1, 3)
+                SecsMessage? se = await DevicesManager.secs_host_for_mcs?.SendAsync(new SecsMessage(1, 3)
                 {
                     Name = "S1F3",
                     SecsItem = L(

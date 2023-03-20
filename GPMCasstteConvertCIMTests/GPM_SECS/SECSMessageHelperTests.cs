@@ -40,5 +40,54 @@ namespace GPMCasstteConvertCIM.GPM_SECS.Tests
         {
 
         }
+
+        [TestMethod()]
+        public void DefineReportTest()
+        {
+            SECSMessageHelper.DefineReport(new SecsMessage(2, 33, true)
+            {
+                SecsItem = Item.L(
+                                Item.U4(0),
+                                Item.L(
+                                    Item.L(
+                                        Item.U2(1),//report id
+                                        Item.L(
+                                            Item.U2(2)//vid
+                                        )
+                                   ))
+                                )
+            });
+        }
+
+        [TestMethod()]
+        public void LinkEventReportTest()
+        {
+            SECSMessageHelper.LinkEventReport(new SecsMessage(2, 35, true)
+            {
+                SecsItem = Item.L(
+                                Item.U4(0),
+                                Item.L(
+                                    Item.L(
+                                        Item.U2(1),//CEID
+                                        Item.L(
+                                            Item.U2(2)//RPTID
+                                        )
+                                       ),
+                                    Item.L(
+                                        Item.U4(2),//CEID
+                                        Item.L(
+                                            Item.U2(2)//RPTID
+                                        )
+                                       ),
+                                    Item.L(
+                                        Item.U2(3),//CEID
+                                        Item.L(
+                                            Item.U2(2)//RPTID
+                                        )
+                                       )
+                                    )
+                                )
+            });
+        }
     }
 }
