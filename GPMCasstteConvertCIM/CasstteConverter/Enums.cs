@@ -6,7 +6,13 @@ namespace GPMCasstteConvertCIM.CasstteConverter
     {
         public enum CONVERTER_TYPE
         {
+            /// <summary>
+            /// 表示單一轉換架
+            /// </summary>
             IN_SYS = 1,
+            /// <summary>
+            /// 表示平對平組
+            /// </summary>
             SYS_2_SYS = 2
         }
 
@@ -14,7 +20,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         {
             AUTO = 1,
             MANUAL = 2,
-            Unknown = 999
+            Unknown = 0
         }
 
 

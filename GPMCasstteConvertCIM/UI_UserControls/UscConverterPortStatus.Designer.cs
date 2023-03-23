@@ -50,8 +50,13 @@
             labLoading = new Label();
             labAutoStatus = new Label();
             label2 = new Label();
+            panel2 = new Panel();
+            labPortID = new Label();
+            label4 = new Label();
+            labServiceStatusText = new Label();
             flowLayoutPanel1.SuspendLayout();
             panel1.SuspendLayout();
+            panel2.SuspendLayout();
             SuspendLayout();
             // 
             // flowLayoutPanel1
@@ -66,10 +71,10 @@
             flowLayoutPanel1.Controls.Add(labLOW_ReadyBit);
             flowLayoutPanel1.Controls.Add(labUpPosition);
             flowLayoutPanel1.Controls.Add(labDownPosition);
-            flowLayoutPanel1.Location = new Point(3, 54);
+            flowLayoutPanel1.Location = new Point(3, 100);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
             flowLayoutPanel1.Padding = new Padding(3);
-            flowLayoutPanel1.Size = new Size(380, 136);
+            flowLayoutPanel1.Size = new Size(380, 107);
             flowLayoutPanel1.TabIndex = 34;
             // 
             // labReadyStatusBit
@@ -227,21 +232,21 @@
             panel1.BorderStyle = BorderStyle.FixedSingle;
             panel1.Controls.Add(labCurrentPortMode);
             panel1.Controls.Add(label5);
-            panel1.Location = new Point(3, 8);
+            panel1.Location = new Point(8, 54);
             panel1.Name = "panel1";
-            panel1.Size = new Size(111, 42);
+            panel1.Size = new Size(149, 42);
             panel1.TabIndex = 33;
             // 
             // labCurrentPortMode
             // 
-            labCurrentPortMode.BackColor = Color.White;
+            labCurrentPortMode.BackColor = Color.AntiqueWhite;
             labCurrentPortMode.BorderStyle = BorderStyle.FixedSingle;
             labCurrentPortMode.Dock = DockStyle.Fill;
             labCurrentPortMode.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
             labCurrentPortMode.Location = new Point(0, 18);
             labCurrentPortMode.Margin = new Padding(0);
             labCurrentPortMode.Name = "labCurrentPortMode";
-            labCurrentPortMode.Size = new Size(109, 22);
+            labCurrentPortMode.Size = new Size(147, 22);
             labCurrentPortMode.TabIndex = 1;
             labCurrentPortMode.Text = "label6";
             labCurrentPortMode.TextAlign = ContentAlignment.MiddleCenter;
@@ -255,16 +260,16 @@
             label5.Location = new Point(0, 0);
             label5.Margin = new Padding(0);
             label5.Name = "label5";
-            label5.Size = new Size(109, 18);
+            label5.Size = new Size(147, 18);
             label5.TabIndex = 0;
-            label5.Text = "Port Mode";
+            label5.Text = "PORT TYPE";
             label5.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // txbWIP_BCR_ID
             // 
             txbWIP_BCR_ID.BackColor = Color.Black;
             txbWIP_BCR_ID.ForeColor = Color.Yellow;
-            txbWIP_BCR_ID.Location = new Point(83, 195);
+            txbWIP_BCR_ID.Location = new Point(83, 211);
             txbWIP_BCR_ID.Name = "txbWIP_BCR_ID";
             txbWIP_BCR_ID.ReadOnly = true;
             txbWIP_BCR_ID.Size = new Size(282, 23);
@@ -275,7 +280,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            label1.Location = new Point(7, 199);
+            label1.Location = new Point(7, 214);
             label1.Name = "label1";
             label1.Size = new Size(74, 15);
             label1.TabIndex = 25;
@@ -294,7 +299,7 @@
             labUnloading.FlatStyle = FlatStyle.Flat;
             labUnloading.Font = new Font("Microsoft JhengHei UI", 7F, FontStyle.Regular, GraphicsUnit.Point);
             labUnloading.ForeColor = Color.White;
-            labUnloading.Location = new Point(304, 8);
+            labUnloading.Location = new Point(406, 6);
             labUnloading.Margin = new Padding(1);
             labUnloading.Name = "labUnloading";
             labUnloading.Size = new Size(58, 19);
@@ -310,7 +315,7 @@
             labLoading.FlatStyle = FlatStyle.Flat;
             labLoading.Font = new Font("Microsoft JhengHei UI", 7F, FontStyle.Regular, GraphicsUnit.Point);
             labLoading.ForeColor = Color.White;
-            labLoading.Location = new Point(244, 8);
+            labLoading.Location = new Point(346, 6);
             labLoading.Margin = new Padding(1);
             labLoading.Name = "labLoading";
             labLoading.Size = new Size(58, 19);
@@ -325,7 +330,7 @@
             labAutoStatus.FlatStyle = FlatStyle.Flat;
             labAutoStatus.Font = new Font("Microsoft JhengHei UI", 11F, FontStyle.Regular, GraphicsUnit.Point);
             labAutoStatus.ForeColor = Color.White;
-            labAutoStatus.Location = new Point(118, 8);
+            labAutoStatus.Location = new Point(162, 6);
             labAutoStatus.Margin = new Padding(1);
             labAutoStatus.Name = "labAutoStatus";
             labAutoStatus.Size = new Size(92, 42);
@@ -335,25 +340,76 @@
             // 
             // label2
             // 
-            label2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            label2.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             label2.BackColor = SystemColors.ActiveCaption;
             label2.BorderStyle = BorderStyle.FixedSingle;
             label2.FlatStyle = FlatStyle.Flat;
             label2.Font = new Font("Microsoft JhengHei UI", 7F, FontStyle.Regular, GraphicsUnit.Point);
             label2.ForeColor = Color.White;
-            label2.Location = new Point(244, 31);
+            label2.Location = new Point(369, 268);
             label2.Margin = new Padding(1);
             label2.Name = "label2";
-            label2.Size = new Size(118, 19);
+            label2.Size = new Size(95, 19);
             label2.TabIndex = 38;
             label2.Text = "Event Report ";
             label2.TextAlign = ContentAlignment.MiddleCenter;
             label2.Click += label2_Click;
             // 
+            // panel2
+            // 
+            panel2.BorderStyle = BorderStyle.FixedSingle;
+            panel2.Controls.Add(labPortID);
+            panel2.Controls.Add(label4);
+            panel2.Location = new Point(7, 6);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(151, 42);
+            panel2.TabIndex = 39;
+            // 
+            // labPortID
+            // 
+            labPortID.BackColor = Color.Aquamarine;
+            labPortID.BorderStyle = BorderStyle.FixedSingle;
+            labPortID.Dock = DockStyle.Fill;
+            labPortID.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            labPortID.Location = new Point(0, 18);
+            labPortID.Margin = new Padding(0);
+            labPortID.Name = "labPortID";
+            labPortID.Size = new Size(149, 22);
+            labPortID.TabIndex = 1;
+            labPortID.Text = "3F_AGVC02_PORT_2_1";
+            labPortID.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // label4
+            // 
+            label4.BackColor = Color.DarkSlateGray;
+            label4.BorderStyle = BorderStyle.FixedSingle;
+            label4.Dock = DockStyle.Top;
+            label4.ForeColor = Color.White;
+            label4.Location = new Point(0, 0);
+            label4.Margin = new Padding(0);
+            label4.Name = "label4";
+            label4.Size = new Size(149, 18);
+            label4.TabIndex = 0;
+            label4.Text = "PORT ID";
+            label4.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // labServiceStatusText
+            // 
+            labServiceStatusText.AutoSize = true;
+            labServiceStatusText.Font = new Font("Microsoft JhengHei UI", 23F, FontStyle.Bold, GraphicsUnit.Point);
+            labServiceStatusText.ForeColor = Color.Red;
+            labServiceStatusText.Location = new Point(3, 255);
+            labServiceStatusText.Name = "labServiceStatusText";
+            labServiceStatusText.Size = new Size(233, 40);
+            labServiceStatusText.TabIndex = 40;
+            labServiceStatusText.Text = "Out Of Service";
+            // 
             // UscConverterPortStatus
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(labServiceStatusText);
+            Controls.Add(panel2);
             Controls.Add(label2);
             Controls.Add(labAutoStatus);
             Controls.Add(labLoading);
@@ -363,9 +419,10 @@
             Controls.Add(txbWIP_BCR_ID);
             Controls.Add(label1);
             Name = "UscConverterPortStatus";
-            Size = new Size(371, 222);
+            Size = new Size(473, 295);
             flowLayoutPanel1.ResumeLayout(false);
             panel1.ResumeLayout(false);
+            panel2.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -393,5 +450,9 @@
         private Label labLoading;
         private Label labAutoStatus;
         private Label label2;
+        private Panel panel2;
+        private Label labPortID;
+        private Label label4;
+        private Label labServiceStatusText;
     }
 }

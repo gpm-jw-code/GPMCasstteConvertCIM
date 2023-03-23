@@ -46,7 +46,13 @@ namespace GPMCasstteConvertCIM.Forms
         private void Form1_Load(object sender, EventArgs e)
         {
             Utility.LoadConfigs();
-            DevicesManager.LoadDeviceConnectionOpts();
+            DevicesManager.LoadDeviceConnectionOpts(out bool config_error, out bool eqplc_config_error, out string errMsg);
+
+            if (config_error | eqplc_config_error)
+            {
+                MessageBox.Show($"{errMsg}，請確認參數設定", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Environment.Exit(0);
+            }
 
             LoggerBase.logTimeUnit = Utility.SysConfigs.Log.LogFileUnit;
 
@@ -102,7 +108,6 @@ namespace GPMCasstteConvertCIM.Forms
             //    DevicesManager.DevicesConnectionsOpts.PLCEQ1, DevicesManager.DevicesConnectionsOpts.PLCEQ2, DevicesManager.DevicesConnectionsOpts.Modbus_Server);
 
             VirtualAGVSystem.StaVirtualAGVS.Initialize();
-
 
 
             //dgvMsgFromAGVS.DataSource = CIMDevices.secs_host.recvBuffer;
@@ -251,6 +256,24 @@ namespace GPMCasstteConvertCIM.Forms
         private void aGVS派車模擬器ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             VirtualAGVSystem.StaVirtualAGVS.MainUI.Show();
+        }
+
+        private void btnOpenLoginFOrm_Click(object sender, EventArgs e)
+        {
+            frmUserLogin loginForm = new frmUserLogin();
+            var result = loginForm.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                btnOpenLoginFOrm.Text = "登出";
+                label6.Text = $"{StaUsersManager.CurrentUser.Name}\r\n({StaUsersManager.CurrentUser.Group})";
+                if (StaUsersManager.CurrentUser.Group == StaUsersManager.USER_GROUP.GPM_ENG | StaUsersManager.CurrentUser.Group == StaUsersManager.USER_GROUP.GPM_RD)
+                {
+                    GPMRDMenuStrip.Visible = true;
+                }
+                else
+                    GPMRDMenuStrip.Visible = false;
+            }
+
         }
     }
 }

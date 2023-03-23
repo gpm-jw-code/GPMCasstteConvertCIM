@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using static GPMCasstteConvertCIM.CasstteConverter.clsConverterPort;
 using static GPMCasstteConvertCIM.CasstteConverter.Enums;
 using static GPMCasstteConvertCIM.GPM_SECS.SECSMessageHelper;
 
@@ -18,11 +19,12 @@ namespace GPMCasstteConvertCIM.CasstteConverter.Data
 
         private int _InterfaceClock = -1;
 
-        public clsEQPData(int portNum, clsCasstteConverter clsCasstteConverter)
+        public clsEQPData(Dictionary<int, clsPortProperty> portProperties, clsCasstteConverter clsCasstteConverter)
         {
-            for (int i = 0; i < portNum; i++)
+            for (int i = 0; i < portProperties.Count; i++)
             {
-                PortDatas.Add(new clsConverterPort(i + 1, clsCasstteConverter));
+                var portProp = portProperties[i];
+                PortDatas.Add(new clsConverterPort(portProp, clsCasstteConverter));
             }
         }
 

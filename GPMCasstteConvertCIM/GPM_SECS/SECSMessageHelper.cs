@@ -172,7 +172,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS
         /// <summary>
         /// Port方向
         /// </summary>
-        public enum PortUnitType
+        public enum PortUnitType : ushort
         {
             /// <summary>
             /// 進入系統

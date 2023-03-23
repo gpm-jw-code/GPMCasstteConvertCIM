@@ -62,6 +62,16 @@ namespace SecsDevice
             }
         }
 
-
+        private async void btnS1F3_Click(object sender, EventArgs e)
+        {
+            SecsMessage rep = await _secsGem.SendAsync(new SecsMessage(1, 3)
+            {
+                SecsItem =
+                            Item.L(
+                                    Item.U2(2005),
+                                    Item.U2(2009)
+                                )
+            });
+        }
     }
 }

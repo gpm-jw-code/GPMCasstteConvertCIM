@@ -1,28 +1,32 @@
 ﻿using GPMCasstteConvertCIM.CasstteConverter.Data;
 using GPMCasstteConvertCIM.Devices;
 using GPMCasstteConvertCIM.GPM_SECS;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Secs4Net;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO.Ports;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static GPMCasstteConvertCIM.CasstteConverter.Data.clsAGVSData;
 using static GPMCasstteConvertCIM.CasstteConverter.Enums;
 using static GPMCasstteConvertCIM.GPM_SECS.SECSMessageHelper;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 using Item = Secs4Net.Item;
 
 namespace GPMCasstteConvertCIM.CasstteConverter
 {
     public class clsConverterPort
     {
-        public int PortNo { get; private set; }
         public clsCasstteConverter converterParent { get; }
 
-        public string PortID = "Port 1";
+        public class clsPortProperty
+        {
+            public int PortNo { get; set; }
+            public string PortID { get; set; } = "Port 1";
+            internal bool InSerivce { get; set; } = false;
+
+            internal PortUnitType PortType { get; set; } = PortUnitType.Input_Output;
+
+
+        }
+        public clsPortProperty Properties = new clsPortProperty();
         public event EventHandler<clsConverterPort> ModeChangeOnRequest;
         public event EventHandler<clsConverterPort> CarrierWaitInOnRequest;
         public event EventHandler<clsConverterPort> CarrierWaitOutOnReport;
@@ -33,9 +37,9 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         {
         }
 
-        public clsConverterPort(int PortNo, clsCasstteConverter converterParent)
+        public clsConverterPort(clsPortProperty property, clsCasstteConverter converterParent)
         {
-            this.PortNo = PortNo;
+            this.Properties = property;
             this.converterParent = converterParent;
 
             AGVSignals = new clsHS_Status_Signals();
@@ -116,20 +120,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         public int WIPInfo_BCR_ID_10 { get; set; }
 
 
-        public PortUnitType EPortModeStatus
-        {
-            get
-            {
-                try
-                {
-                    return Enum.GetValues(typeof(PortUnitType)).Cast<PortUnitType>().First(en => PortModeStatus == (int)en);
-                }
-                catch (Exception)
-                {
-                    return PortUnitType.Input_Output;
-                }
-            }
-        }
         public AUTO_MANUAL_MODE EPortAutoStatus
         {
             get
@@ -174,23 +164,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 catch (Exception)
                 {
                     return AUTO_MANUAL_MODE.Unknown;
-                }
-
-            }
-        }
-
-        public PortUnitType EPortModeRequest
-        {
-            get
-            {
-                try
-                {
-                    return Enum.GetValues(typeof(PortUnitType)).Cast<PortUnitType>().First(en => PortModeRequest == (int)en);
-
-                }
-                catch (Exception)
-                {
-                    return PortUnitType.Input;
                 }
 
             }
@@ -289,7 +262,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                                     Item.L(
                                      Item.U2(12),//RPTID,
                                      Item.L(
-                                         Item.A(PortID)
+                                         Item.A(Properties.PortID)
                                        )
                                      )
                                   )
@@ -309,7 +282,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                                   Item.L(
                                    Item.U2(12),//RPTID,
                                    Item.L(
-                                       Item.A(PortID)
+                                       Item.A(Properties.PortID)
                                      )
                                    )
                                 )
@@ -328,7 +301,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                                   Item.L(
                                    Item.U2(12),//RPTID,
                                    Item.L(
-                                       Item.A(PortID)
+                                       Item.A(Properties.PortID)
                                      )
                                    )
                                 )
@@ -347,7 +320,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                                   Item.L(
                                    Item.U2(12),//RPTID,
                                    Item.L(
-                                       Item.A(PortID)
+                                       Item.A(Properties.PortID)
                                      )
                                    )
                                 )
@@ -405,7 +378,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         public async Task CarrierWaitOutReply()
         {
 
-            EQ_SCOPE port_no = PortNo == 1 ? EQ_SCOPE.PORT1 : EQ_SCOPE.PORT2;
+            EQ_SCOPE port_no = Properties.PortNo == 1 ? EQ_SCOPE.PORT1 : EQ_SCOPE.PORT2;
             var carrier_wait_out_reply_address = converterParent.LinkBitMap.First(mem => mem.EOwner == clsMemoryAddress.OWNER.CIM && mem.EScope == port_no && mem.EProperty == PROPERTY.Carrier_WawitOut_System_Reply).Address;
             converterParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_out_reply_address, true);
             while (CarrierWaitOUTSystemRequest)
@@ -431,7 +404,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             bool timeout = false;
 
             PROPERTY wait_in_ = accpect ? PROPERTY.Carrier_WaitIn_System_Accept : PROPERTY.Carrier_WaitIn_System_Refuse;
-            EQ_SCOPE port_no = PortNo == 1 ? EQ_SCOPE.PORT1 : EQ_SCOPE.PORT2;
+            EQ_SCOPE port_no = Properties.PortNo == 1 ? EQ_SCOPE.PORT1 : EQ_SCOPE.PORT2;
 
             var carrier_wait_in_result_flag_address = converterParent.LinkBitMap.First(mem => mem.EOwner == clsMemoryAddress.OWNER.CIM && mem.EScope == port_no && mem.EProperty == wait_in_).Address;
             var carrier_wait_in_reply_address = converterParent.LinkBitMap.First(mem => mem.EOwner == clsMemoryAddress.OWNER.CIM && mem.EScope == port_no && mem.EProperty == PROPERTY.Carrier_WaitIn_System_Reply).Address;
@@ -461,7 +434,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             Task.Factory.StartNew(() =>
             {
                 var mcs_msg = messagePrimary.PrimaryMessage;
-                bool IsRCMD = mcs_msg.TryGetRCMDAction(out RCMD RCMD);
+                bool IsRCMD = mcs_msg.TryGetRCMDAction(out RCMD RCMD, out Item parameterGroups);
                 if (IsRCMD && RCMD == SECSMessageHelper.RCMD.TRANSFER)
                 {
                     CarrierWaitIn_Reply = true;

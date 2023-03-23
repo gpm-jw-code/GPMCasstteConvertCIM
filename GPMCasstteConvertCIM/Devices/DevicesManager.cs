@@ -1,4 +1,5 @@
-﻿using GPMCasstteConvertCIM.CIM;
+﻿using GPMCasstteConvertCIM.CasstteConverter;
+using GPMCasstteConvertCIM.CIM;
 using GPMCasstteConvertCIM.CIM.SecsMessageHandle;
 using GPMCasstteConvertCIM.Forms;
 using GPMCasstteConvertCIM.GPM_SECS;
@@ -64,7 +65,7 @@ namespace GPMCasstteConvertCIM.Devices
             ///
             foreach (var item in DevicesConnectionsOpts.PLCEQS)
             {
-                var EQ = new CasstteConverter.clsCasstteConverter(item.DeviceId, (UscCasstteConverter)item.mainUI, item.ConverterType);
+                var EQ = new CasstteConverter.clsCasstteConverter(item.DeviceId, (UscCasstteConverter)item.mainUI, item.ConverterType, item.Ports);
                 EQ.ConnectionStateChanged += CasstteConverter_ConnectionStateChanged;
                 EQ.ActiveAsync(item.ToMCIFOptions());
                 EQ.modbusServerGUI = (frmModbusTCPServer)DevicesConnectionsOpts.Modbus_Servers.First(mobus_op => mobus_op.DeviceId == item.DeviceId).mainUI;
@@ -103,18 +104,44 @@ namespace GPMCasstteConvertCIM.Devices
             //uscConnectionStates1.SECS_H_ConnectionChange(e);
         }
 
-        public static void LoadDeviceConnectionOpts()
+        public static void LoadDeviceConnectionOpts(out bool config_error, out bool eqplc_config_error, out string errorMsg)
         {
-            Directory.CreateDirectory(Utility.configsFolder);
+            errorMsg = "";
+            config_error = eqplc_config_error = false;
 
-            string deviceConnectionCofigsFile = Path.Combine(Utility.configsFolder, "DevicesConnections.json");
-            if (File.Exists(deviceConnectionCofigsFile))
+            Directory.CreateDirectory(Utility.configsFolder);
+            try
             {
-                DevicesConnectionsOpts = JsonConvert.DeserializeObject<DeviceConnectionOptions>(File.ReadAllText(deviceConnectionCofigsFile));
+                string deviceConnectionCofigsFile = Path.Combine(Utility.configsFolder, "DevicesConnections.json");
+                if (File.Exists(deviceConnectionCofigsFile))
+                {
+                    DevicesConnectionsOpts = JsonConvert.DeserializeObject<DeviceConnectionOptions>(File.ReadAllText(deviceConnectionCofigsFile));
+                }
+                File.WriteAllText(deviceConnectionCofigsFile, JsonConvert.SerializeObject(DevicesConnectionsOpts, Formatting.Indented));
+
+                //check
+                eqplc_config_error = DevicesConnectionsOpts.PLCEQS.Any(eqp => (eqp.ConverterType == Enums.CONVERTER_TYPE.IN_SYS && eqp.Ports.Count != 1) | (eqp.ConverterType == Enums.CONVERTER_TYPE.SYS_2_SYS && eqp.Ports.Count != 2));
+                if (eqplc_config_error)
+                {
+                    errorMsg = "轉換架類型與Port數量不匹配";
+                }
             }
-            File.WriteAllText(deviceConnectionCofigsFile, JsonConvert.SerializeObject(DevicesConnectionsOpts, Formatting.Indented));
+            catch (Exception ex)
+            {
+                config_error = true;
+                errorMsg = ex.Message;
+            }
+
         }
 
+        internal static List<clsConverterPort> GetAllPorts()
+        {
+            return casstteConverters.SelectMany(cst => cst.EQPData.PortDatas).ToList();
+        }
+        internal static clsConverterPort GetPortByPortID(string port_id)
+        {
+            return GetAllPorts().FirstOrDefault(port => port.Properties.PortID == port_id);
+        }
         internal class ConnectionStateChangeArgs : EventArgs
         {
             internal ConnectionStateChangeArgs(object sender, CIM_DEVICE_TYPES device_type, Common.CONNECTION_STATE connection_state)

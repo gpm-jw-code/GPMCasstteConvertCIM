@@ -28,97 +28,96 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.labSECS_MCS = new System.Windows.Forms.Label();
-            this.labSECS_AGVS = new System.Windows.Forms.Label();
-            this.labConverter = new System.Windows.Forms.Label();
-            this.labAGVC = new System.Windows.Forms.Label();
-            this.flowLayoutPanel1.SuspendLayout();
-            this.SuspendLayout();
+            flowLayoutPanel1 = new FlowLayoutPanel();
+            labSECS_MCS = new Label();
+            labSECS_AGVS = new Label();
+            labConverter = new Label();
+            labAGVC = new Label();
+            flowLayoutPanel1.SuspendLayout();
+            SuspendLayout();
             // 
             // flowLayoutPanel1
             // 
-            this.flowLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.flowLayoutPanel1.Controls.Add(this.labSECS_MCS);
-            this.flowLayoutPanel1.Controls.Add(this.labSECS_AGVS);
-            this.flowLayoutPanel1.Controls.Add(this.labConverter);
-            this.flowLayoutPanel1.Controls.Add(this.labAGVC);
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(131, 189);
-            this.flowLayoutPanel1.TabIndex = 0;
+            flowLayoutPanel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            flowLayoutPanel1.Controls.Add(labSECS_MCS);
+            flowLayoutPanel1.Controls.Add(labSECS_AGVS);
+            flowLayoutPanel1.Controls.Add(labConverter);
+            flowLayoutPanel1.Controls.Add(labAGVC);
+            flowLayoutPanel1.Location = new Point(0, 0);
+            flowLayoutPanel1.Name = "flowLayoutPanel1";
+            flowLayoutPanel1.Size = new Size(131, 93);
+            flowLayoutPanel1.TabIndex = 0;
             // 
             // labSECS_MCS
             // 
-            this.labSECS_MCS.BackColor = System.Drawing.Color.Gray;
-            this.labSECS_MCS.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.labSECS_MCS.Font = new System.Drawing.Font("Microsoft JhengHei UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.labSECS_MCS.ForeColor = System.Drawing.Color.White;
-            this.labSECS_MCS.Location = new System.Drawing.Point(2, 2);
-            this.labSECS_MCS.Margin = new System.Windows.Forms.Padding(2);
-            this.labSECS_MCS.Name = "labSECS_MCS";
-            this.labSECS_MCS.Size = new System.Drawing.Size(126, 42);
-            this.labSECS_MCS.TabIndex = 4;
-            this.labSECS_MCS.Text = "SECS<->MCS";
-            this.labSECS_MCS.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            labSECS_MCS.BackColor = Color.Gray;
+            labSECS_MCS.BorderStyle = BorderStyle.FixedSingle;
+            labSECS_MCS.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            labSECS_MCS.ForeColor = Color.White;
+            labSECS_MCS.Location = new Point(2, 2);
+            labSECS_MCS.Margin = new Padding(2);
+            labSECS_MCS.Name = "labSECS_MCS";
+            labSECS_MCS.Size = new Size(126, 42);
+            labSECS_MCS.TabIndex = 4;
+            labSECS_MCS.Text = "SECS<->MCS";
+            labSECS_MCS.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // labSECS_AGVS
             // 
-            this.labSECS_AGVS.BackColor = System.Drawing.Color.Gray;
-            this.labSECS_AGVS.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.labSECS_AGVS.Font = new System.Drawing.Font("Microsoft JhengHei UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.labSECS_AGVS.ForeColor = System.Drawing.Color.White;
-            this.labSECS_AGVS.Location = new System.Drawing.Point(2, 48);
-            this.labSECS_AGVS.Margin = new System.Windows.Forms.Padding(2);
-            this.labSECS_AGVS.Name = "labSECS_AGVS";
-            this.labSECS_AGVS.Size = new System.Drawing.Size(126, 42);
-            this.labSECS_AGVS.TabIndex = 5;
-            this.labSECS_AGVS.Text = "SECS<->AGVS";
-            this.labSECS_AGVS.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            labSECS_AGVS.BackColor = Color.Gray;
+            labSECS_AGVS.BorderStyle = BorderStyle.FixedSingle;
+            labSECS_AGVS.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            labSECS_AGVS.ForeColor = Color.White;
+            labSECS_AGVS.Location = new Point(2, 48);
+            labSECS_AGVS.Margin = new Padding(2);
+            labSECS_AGVS.Name = "labSECS_AGVS";
+            labSECS_AGVS.Size = new Size(126, 42);
+            labSECS_AGVS.TabIndex = 5;
+            labSECS_AGVS.Text = "SECS<->AGVS";
+            labSECS_AGVS.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // labConverter
             // 
-            this.labConverter.BackColor = System.Drawing.Color.Gray;
-            this.labConverter.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.labConverter.Font = new System.Drawing.Font("Microsoft JhengHei UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.labConverter.ForeColor = System.Drawing.Color.White;
-            this.labConverter.Location = new System.Drawing.Point(2, 94);
-            this.labConverter.Margin = new System.Windows.Forms.Padding(2);
-            this.labConverter.Name = "labConverter";
-            this.labConverter.Size = new System.Drawing.Size(126, 42);
-            this.labConverter.TabIndex = 6;
-            this.labConverter.Text = "Converter";
-            this.labConverter.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.labConverter.Visible = false;
+            labConverter.BackColor = Color.Gray;
+            labConverter.BorderStyle = BorderStyle.FixedSingle;
+            labConverter.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            labConverter.ForeColor = Color.White;
+            labConverter.Location = new Point(2, 94);
+            labConverter.Margin = new Padding(2);
+            labConverter.Name = "labConverter";
+            labConverter.Size = new Size(126, 42);
+            labConverter.TabIndex = 6;
+            labConverter.Text = "Converter";
+            labConverter.TextAlign = ContentAlignment.MiddleLeft;
+            labConverter.Visible = false;
             // 
             // labAGVC
             // 
-            this.labAGVC.BackColor = System.Drawing.Color.Gray;
-            this.labAGVC.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.labAGVC.Font = new System.Drawing.Font("Microsoft JhengHei UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.labAGVC.ForeColor = System.Drawing.Color.White;
-            this.labAGVC.Location = new System.Drawing.Point(2, 140);
-            this.labAGVC.Margin = new System.Windows.Forms.Padding(2);
-            this.labAGVC.Name = "labAGVC";
-            this.labAGVC.Size = new System.Drawing.Size(126, 42);
-            this.labAGVC.TabIndex = 7;
-            this.labAGVC.Text = "AGVC";
-            this.labAGVC.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.labAGVC.Visible = false;
+            labAGVC.BackColor = Color.Gray;
+            labAGVC.BorderStyle = BorderStyle.FixedSingle;
+            labAGVC.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            labAGVC.ForeColor = Color.White;
+            labAGVC.Location = new Point(2, 140);
+            labAGVC.Margin = new Padding(2);
+            labAGVC.Name = "labAGVC";
+            labAGVC.Size = new Size(126, 42);
+            labAGVC.TabIndex = 7;
+            labAGVC.Text = "AGVC";
+            labAGVC.TextAlign = ContentAlignment.MiddleLeft;
+            labAGVC.Visible = false;
             // 
             // UscConnectionStates
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSize = true;
-            this.Controls.Add(this.flowLayoutPanel1);
-            this.Name = "UscConnectionStates";
-            this.Size = new System.Drawing.Size(134, 192);
-            this.flowLayoutPanel1.ResumeLayout(false);
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            AutoSize = true;
+            Controls.Add(flowLayoutPanel1);
+            MaximumSize = new Size(134, 96);
+            MinimumSize = new Size(134, 96);
+            Name = "UscConnectionStates";
+            Size = new Size(134, 96);
+            flowLayoutPanel1.ResumeLayout(false);
+            ResumeLayout(false);
         }
 
         #endregion

@@ -25,8 +25,10 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             set
             {
                 PLCSimulator.CasstteConverter = MemoryTable.CasstteConverter = _casstteConverter = value;
+
                 uscConverterPortStatus1.portData = _casstteConverter.EQPData.PortDatas[0];
-                uscConverterPortStatus2.portData = _casstteConverter.EQPData.PortDatas[1];
+                if (_casstteConverter.EQPData.PortDatas.Count == 2)
+                    uscConverterPortStatus2.portData = _casstteConverter.EQPData.PortDatas[1];
 
                 if (_casstteConverter.converterType == Enums.CONVERTER_TYPE.IN_SYS)
                 {

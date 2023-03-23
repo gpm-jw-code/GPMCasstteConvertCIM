@@ -41,5 +41,10 @@ namespace GPMCasstteConvertCIM.Emulators
             frmDemo demo_ = new frmDemo(uscagvsModbusClientEmulator1);
             demo_.Show();
         }
+
+        private void frmAGVS_Modbus_Emulator_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -93,13 +93,15 @@ namespace GPMCasstteConvertCIM.GPM_SECS
             }
         }
 
-        public static bool TryGetRCMDAction(this SecsMessage priMsg, out RCMD cmd)
+        public static bool TryGetRCMDAction(this SecsMessage priMsg, out RCMD cmd, out Item ParameterGroups)
         {
+            ParameterGroups = null;
             cmd = RCMD.REMOVE;
             try
             {
                 var cmdStr = priMsg.SecsItem[2].GetString();
                 cmd = Enum.GetValues(typeof(RCMD)).Cast<RCMD>().FirstOrDefault(f => cmdStr == f.ToString());
+                ParameterGroups = priMsg.SecsItem[3];
                 return true;
             }
             catch (Exception)

@@ -17,8 +17,8 @@ namespace GPMCasstteConvertCIM.Devices
                 IpAddress = "192.168.1.133",
                 Port = 5123,
                 IsActive = true,
-                 DeviceId=0,
-                  ConverterType = CasstteConverter.Enums.CONVERTER_TYPE.IN_SYS
+                DeviceId=0,
+                ConverterType = CasstteConverter.Enums.CONVERTER_TYPE.IN_SYS
             },
             new ConverterEQPInitialOption
             {

@@ -26,8 +26,10 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             if (portData == null)
                 return;
             txbWIP_BCR_ID.Text = portData.WIPINFO_BCR_ID;
+            labPortID.Text = portData.Properties.PortID;
 
-            labCurrentPortMode.Text = portData.EPortModeStatus.ToString().ToUpper();
+
+            labCurrentPortMode.Text = portData.Properties.PortType.ToString().ToUpper();
             //labCurrentRackMode.Text = portData.ERackModeStatus.ToString();
             Color active_color = Color.SeaGreen;
             labReadyStatusBit.RenderBGColorByState(portData.ReadyStatus, active_color);
@@ -53,6 +55,10 @@ namespace GPMCasstteConvertCIM.UI_UserControls
                 labAutoStatus.BackColor = Color.Gray;
             else
                 labAutoStatus.BackColor = portData.EPortAutoStatus == CasstteConverter.Enums.AUTO_MANUAL_MODE.AUTO ? Color.Green : Color.Orange;
+
+
+            labServiceStatusText.Text = portData.Properties.InSerivce ? "In Service" : "Out of Service";
+            labServiceStatusText.ForeColor = portData.Properties.InSerivce ? Color.SeaGreen : Color.Red;
 
         }
 

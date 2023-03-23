@@ -1,7 +1,11 @@
-﻿namespace GPMCasstteConvertCIM.Devices
+﻿using GPMCasstteConvertCIM.CasstteConverter;
+
+namespace GPMCasstteConvertCIM.Devices
 {
     public partial class DevicesManager
     {
+        
+
         public class SecsGemInitialOption : InitialOption
         {
             internal DataGridView dgvSendBufferTable;

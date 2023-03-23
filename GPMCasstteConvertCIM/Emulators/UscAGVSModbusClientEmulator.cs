@@ -28,7 +28,7 @@ namespace GPMCasstteConvertCIM.Emulators
         CancellationTokenSource cancellationToken;
 
         internal CasstteConverter.clsCasstteConverter casstte_convert;
-
+        int SelectedPortNo = 1;
         internal class HoldingRegisterWrite
         {
             internal int startIndex;
@@ -39,6 +39,7 @@ namespace GPMCasstteConvertCIM.Emulators
         public UscAGVSModbusClientEmulator()
         {
             InitializeComponent();
+            cmbPortSelector.SelectedIndex = 0;//port1
         }
 
         private int CIM_StartHoldingRegisterNumber => casstte_convert.LinkWordMap.FindAll(mem => mem.Link_Modbus_Register_Number != -1).OrderBy(mem => mem.Link_Modbus_Register_Number).ToList().FirstOrDefault(mem => mem.EOwner == OWNER.CIM).Link_Modbus_Register_Number - 1;
@@ -259,11 +260,24 @@ namespace GPMCasstteConvertCIM.Emulators
         private int CMD_Reserve_Down_SignalIndex = 11;
 
 
+
+        private int Valid_SignalIndex_Port2 => Valid_SignalIndex + 13;
+        private int TR_REQ_SignalIndex_Port2 => TR_REQ_SignalIndex + 13;
+        private int BUSY_SignalIndex_Port2 => BUSY_SignalIndex + 13;
+        private int COMPT_SignalIndex_Port2 => COMPT_SignalIndex + 13;
+        private int AGV_READY_SignalIndex_Port2 => AGV_READY_SignalIndex + 13;
+
+        private int To_EQ_UP_SignalIndex_Port2 => To_EQ_UP_SignalIndex + 13;
+        private int To_EQ_DOWN_SignalIndex_Port2 => To_EQ_DOWN_SignalIndex + 13;
+        private int CMD_Reserve_Up_SignalIndex_Port2 => CMD_Reserve_Up_SignalIndex + 13;
+        private int CMD_Reserve_Down_SignalIndex_Port2 => CMD_Reserve_Down_SignalIndex + 13;
+
+
+
         private int L_REQ_SignalIndex = 0;
         private int U_REQ_SignalIndex = 1;
         private int EQ_READY_SignalIndex = 2;
         private int EQ_BUSY_SignalIndex = 3;
-
         private int Load_Request_SignalIndex = 5;
         private int Unload_Request_SignalIndex = 6;
         private int Port_Exist_SignalIndex = 7;
@@ -273,37 +287,55 @@ namespace GPMCasstteConvertCIM.Emulators
 
 
 
-        #region AGV Signals
-        internal DigitalIORegister HS_IO_AGV_Valid => DigitalOutputs[Valid_SignalIndex];
-        internal DigitalIORegister HS_IO_AGV_TR_REQ => DigitalOutputs[TR_REQ_SignalIndex];
-        internal DigitalIORegister HS_IO_AGV_BUSY => DigitalOutputs[BUSY_SignalIndex];
-        internal DigitalIORegister HS_IO_AGV_COMPT => DigitalOutputs[COMPT_SignalIndex];
-        internal DigitalIORegister HS_IO_AGV_AGV_READY => DigitalOutputs[AGV_READY_SignalIndex];
+        private int L_REQ_SignalIndex_Port2 => L_REQ_SignalIndex + 12;
+        private int U_REQ_SignalIndex_Port2 => U_REQ_SignalIndex + 12;
+        private int EQ_READY_SignalIndex_Port2 => EQ_READY_SignalIndex + 12;
+        private int EQ_BUSY_SignalIndex_Port2 => EQ_BUSY_SignalIndex + 12;
+        private int Load_Request_SignalIndex_Port2 => Load_Request_SignalIndex + 12;
+        private int Unload_Request_SignalIndex_Port2 => Unload_Request_SignalIndex + 12;
+        private int Port_Exist_SignalIndex_Port2 => Port_Exist_SignalIndex + 12;
+        private int Port_Status_Down_SignalIndex_Port2 => Port_Status_Down_SignalIndex + 12;
+        private int LD_UP_POS_SignalIndex_Port2 => LD_UP_POS_SignalIndex + 12;
+        private int LD_DOWN_POS_SignalIndex_Port2 => LD_DOWN_POS_SignalIndex + 12;
 
-        internal DigitalIORegister STATE_IO_To_EQ_UP => DigitalOutputs[To_EQ_UP_SignalIndex];
-        internal DigitalIORegister STATE_IO_To_EQ_DOWN => DigitalOutputs[To_EQ_DOWN_SignalIndex];
-        internal DigitalIORegister STATE_IO_CMD_Reserve_Up => DigitalOutputs[CMD_Reserve_Up_SignalIndex];
-        internal DigitalIORegister STATE_IO_CMD_Reserve_Down => DigitalOutputs[CMD_Reserve_Down_SignalIndex];
+
+
+
+        #region AGV Signals
+        internal DigitalIORegister HS_IO_AGV_Valid => DigitalOutputs[SelectedPortNo == 1 ? Valid_SignalIndex : Valid_SignalIndex_Port2];
+        internal DigitalIORegister HS_IO_AGV_TR_REQ => DigitalOutputs[SelectedPortNo == 1 ? TR_REQ_SignalIndex : TR_REQ_SignalIndex_Port2];
+        internal DigitalIORegister HS_IO_AGV_BUSY => DigitalOutputs[SelectedPortNo == 1 ? BUSY_SignalIndex : BUSY_SignalIndex_Port2];
+        internal DigitalIORegister HS_IO_AGV_COMPT => DigitalOutputs[SelectedPortNo == 1 ? COMPT_SignalIndex : COMPT_SignalIndex_Port2];
+        internal DigitalIORegister HS_IO_AGV_AGV_READY => DigitalOutputs[SelectedPortNo == 1 ? AGV_READY_SignalIndex : AGV_READY_SignalIndex_Port2];
+
+        internal DigitalIORegister STATE_IO_To_EQ_UP => DigitalOutputs[SelectedPortNo == 1 ? To_EQ_UP_SignalIndex : To_EQ_UP_SignalIndex_Port2];
+        internal DigitalIORegister STATE_IO_To_EQ_DOWN => DigitalOutputs[SelectedPortNo == 1 ? To_EQ_DOWN_SignalIndex : To_EQ_DOWN_SignalIndex_Port2];
+        internal DigitalIORegister STATE_IO_CMD_Reserve_Up => DigitalOutputs[SelectedPortNo == 1 ? CMD_Reserve_Up_SignalIndex : CMD_Reserve_Up_SignalIndex_Port2];
+        internal DigitalIORegister STATE_IO_CMD_Reserve_Down => DigitalOutputs[SelectedPortNo == 1 ? CMD_Reserve_Down_SignalIndex : CMD_Reserve_Down_SignalIndex_Port2];
 
         #endregion
 
         #region EQP Signals
 
-        internal DigitalIORegister HS_IO_EQ_L_REQ => DigitalInputs[L_REQ_SignalIndex];
-        internal DigitalIORegister HS_IO_EQ_U_REQ => DigitalInputs[U_REQ_SignalIndex];
-        internal DigitalIORegister HS_IO_EQ_EQ_READY => DigitalInputs[EQ_READY_SignalIndex];
-        internal DigitalIORegister HS_IO_EQ_EQ_BUSY => DigitalInputs[EQ_BUSY_SignalIndex];
-        internal DigitalIORegister STATE_IO_Load_Request => DigitalInputs[Load_Request_SignalIndex];
-        internal DigitalIORegister STATE_IO_Unload_Request => DigitalInputs[Unload_Request_SignalIndex];
-        internal DigitalIORegister STATE_IO_Port_Exist => DigitalInputs[Port_Exist_SignalIndex];
-        internal DigitalIORegister STATE_IO_Port_Status_Down => DigitalInputs[Port_Status_Down_SignalIndex];
-        internal DigitalIORegister STATE_IO_LD_UP_POS => DigitalInputs[LD_UP_POS_SignalIndex];
-        internal DigitalIORegister STATE_IO_LD_DOWN_POS => DigitalInputs[LD_DOWN_POS_SignalIndex];
+        internal DigitalIORegister HS_IO_EQ_L_REQ => DigitalInputs[SelectedPortNo == 1 ? L_REQ_SignalIndex : L_REQ_SignalIndex_Port2];
+        internal DigitalIORegister HS_IO_EQ_U_REQ => DigitalInputs[SelectedPortNo == 1 ? U_REQ_SignalIndex : U_REQ_SignalIndex_Port2];
+        internal DigitalIORegister HS_IO_EQ_EQ_READY => DigitalInputs[SelectedPortNo == 1 ? EQ_READY_SignalIndex : EQ_READY_SignalIndex_Port2];
+        internal DigitalIORegister HS_IO_EQ_EQ_BUSY => DigitalInputs[SelectedPortNo == 1 ? EQ_BUSY_SignalIndex : EQ_BUSY_SignalIndex_Port2];
+        internal DigitalIORegister STATE_IO_Load_Request => DigitalInputs[SelectedPortNo == 1 ? Load_Request_SignalIndex : Load_Request_SignalIndex_Port2];
+        internal DigitalIORegister STATE_IO_Unload_Request => DigitalInputs[SelectedPortNo == 1 ? Unload_Request_SignalIndex : Unload_Request_SignalIndex_Port2];
+        internal DigitalIORegister STATE_IO_Port_Exist => DigitalInputs[SelectedPortNo == 1 ? Port_Exist_SignalIndex : Port_Exist_SignalIndex_Port2];
+        internal DigitalIORegister STATE_IO_Port_Status_Down => DigitalInputs[SelectedPortNo == 1 ? Port_Status_Down_SignalIndex : Port_Status_Down_SignalIndex_Port2];
+        internal DigitalIORegister STATE_IO_LD_UP_POS => DigitalInputs[SelectedPortNo == 1 ? LD_UP_POS_SignalIndex : LD_UP_POS_SignalIndex_Port2];
+        internal DigitalIORegister STATE_IO_LD_DOWN_POS => DigitalInputs[SelectedPortNo == 1 ? LD_DOWN_POS_SignalIndex : LD_DOWN_POS_SignalIndex_Port2];
 
         #endregion
 
         internal CancellationTokenSource LDULDHSCancel = new CancellationTokenSource();
 
+        private void cmbPortSelector_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SelectedPortNo = cmbPortSelector.SelectedIndex + 1;
+        }
         public async void LoadUnloadHSSimulation(LDULD_STATE ld_uld_action)
         {
             LDULDHSCancel = new CancellationTokenSource();
@@ -351,15 +383,15 @@ namespace GPMCasstteConvertCIM.Emulators
             HS_IO_AGV_BUSY.State = true;
 
             SimulationLog_INFO("AGV_動作開始(Parking)，結束後手動OFF AGV-BUSY訊號");
-            await WaitSignalOFF(HS_IO_AGV_BUSY, 260000); //模擬AGV Load/Unload作業耗時
+            await WaitSignalOFF(HS_IO_AGV_BUSY, 30000); //模擬AGV Load/Unload作業耗時
 
             HS_IO_AGV_AGV_READY.State = true;
 
-            timeout = await WaitSignalON(HS_IO_EQ_EQ_BUSY);
+            timeout = await WaitSignalON(HS_IO_EQ_EQ_BUSY,10000);
             if (timeout)
                 return false;
 
-            timeout = await WaitSignalOFF(HS_IO_EQ_EQ_BUSY);
+            timeout = await WaitSignalOFF(HS_IO_EQ_EQ_BUSY,30000);
             if (timeout)
                 return false;
 
@@ -368,7 +400,7 @@ namespace GPMCasstteConvertCIM.Emulators
             HS_IO_AGV_BUSY.State = true;
 
             SimulationLog_INFO("AGV_動作開始(MOVE)");
-            await WaitSignalOFF(HS_IO_AGV_BUSY, 260000); //模擬AGV Load/Unload作業耗時
+            await WaitSignalOFF(HS_IO_AGV_BUSY, 30000); //模擬AGV Load/Unload作業耗時
 
             HS_IO_AGV_COMPT.State = true;
             timeout = await WaitSignalOFF(HS_IO_EQ_EQ_READY);
@@ -384,10 +416,10 @@ namespace GPMCasstteConvertCIM.Emulators
         }
 
 
-        private async Task<bool> WaitSignalON(DigitalIORegister signal, int timeout_ms = 20000)
+        private async Task<bool> WaitSignalON(DigitalIORegister signal, int timeout_ms = 5000)
         {
-            if (Debugger.IsAttached)
-                timeout_ms = 60000;
+            //if (Debugger.IsAttached)
+            //    timeout_ms = 60000;
             SimulationLog_INFO($"等待 {signal.Description}({signal.Index}) ON");
             Stopwatch timer = Stopwatch.StartNew();
             while (!signal.State)
@@ -405,7 +437,7 @@ namespace GPMCasstteConvertCIM.Emulators
             timer.Stop();
             return false;
         }
-        private async Task<bool> WaitSignalOFF(DigitalIORegister signal, int timeout_ms = 20000)
+        private async Task<bool> WaitSignalOFF(DigitalIORegister signal, int timeout_ms = 5000)
         {
             SimulationLog_INFO($"等待 {signal.Description}({signal.Index}) OFF");
             Stopwatch timer = Stopwatch.StartNew();
@@ -478,5 +510,9 @@ namespace GPMCasstteConvertCIM.Emulators
             rtbSimulationLog.ScrollToCaret();
         }
 
+        private void btnStopTest_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -31,7 +31,6 @@
             components = new System.ComponentModel.Container();
             timer1 = new System.Windows.Forms.Timer(components);
             btnOpenMemoryTable = new Button();
-            btnOpenConvertPLCSimulator = new Button();
             labNameDisplay = new Label();
             pnlBanner = new Panel();
             labPLCConnectState = new Label();
@@ -66,18 +65,6 @@
             btnOpenMemoryTable.Text = "Memory Table";
             btnOpenMemoryTable.UseVisualStyleBackColor = true;
             btnOpenMemoryTable.Click += btnOpenMemoryTable_Click;
-            // 
-            // btnOpenConvertPLCSimulator
-            // 
-            btnOpenConvertPLCSimulator.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnOpenConvertPLCSimulator.FlatStyle = FlatStyle.Flat;
-            btnOpenConvertPLCSimulator.Location = new Point(1, 29);
-            btnOpenConvertPLCSimulator.Name = "btnOpenConvertPLCSimulator";
-            btnOpenConvertPLCSimulator.Size = new Size(103, 29);
-            btnOpenConvertPLCSimulator.TabIndex = 22;
-            btnOpenConvertPLCSimulator.Text = "轉換架模擬器";
-            btnOpenConvertPLCSimulator.UseVisualStyleBackColor = true;
-            btnOpenConvertPLCSimulator.Click += btnOpenConvertPLCSimulator_Click;
             // 
             // labNameDisplay
             // 
@@ -208,22 +195,22 @@
             // 
             // uscConverterPortStatus1
             // 
-            uscConverterPortStatus1.BackColor = Color.FromArgb(224, 224, 224);
+            uscConverterPortStatus1.BackColor = SystemColors.InactiveCaption;
             uscConverterPortStatus1.BorderStyle = BorderStyle.FixedSingle;
-            uscConverterPortStatus1.Location = new Point(3, 32);
+            uscConverterPortStatus1.Location = new Point(3, 29);
             uscConverterPortStatus1.Name = "uscConverterPortStatus1";
             uscConverterPortStatus1.portData = null;
-            uscConverterPortStatus1.Size = new Size(379, 224);
+            uscConverterPortStatus1.Size = new Size(392, 322);
             uscConverterPortStatus1.TabIndex = 27;
             // 
             // uscConverterPortStatus2
             // 
-            uscConverterPortStatus2.BackColor = Color.FromArgb(224, 224, 224);
+            uscConverterPortStatus2.BackColor = SystemColors.InactiveCaption;
             uscConverterPortStatus2.BorderStyle = BorderStyle.FixedSingle;
-            uscConverterPortStatus2.Location = new Point(388, 32);
+            uscConverterPortStatus2.Location = new Point(401, 29);
             uscConverterPortStatus2.Name = "uscConverterPortStatus2";
             uscConverterPortStatus2.portData = null;
-            uscConverterPortStatus2.Size = new Size(379, 224);
+            uscConverterPortStatus2.Size = new Size(392, 322);
             uscConverterPortStatus2.TabIndex = 28;
             // 
             // btnSoftwareEMO
@@ -231,7 +218,7 @@
             btnSoftwareEMO.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             btnSoftwareEMO.BackColor = Color.Red;
             btnSoftwareEMO.ForeColor = Color.White;
-            btnSoftwareEMO.Location = new Point(-3, 58);
+            btnSoftwareEMO.Location = new Point(-1, 34);
             btnSoftwareEMO.Name = "btnSoftwareEMO";
             btnSoftwareEMO.Size = new Size(109, 34);
             btnSoftwareEMO.TabIndex = 30;
@@ -245,7 +232,7 @@
             btnAlarmReset.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             btnAlarmReset.BackColor = SystemColors.Control;
             btnAlarmReset.ForeColor = Color.Black;
-            btnAlarmReset.Location = new Point(-3, 91);
+            btnAlarmReset.Location = new Point(-1, 67);
             btnAlarmReset.Name = "btnAlarmReset";
             btnAlarmReset.Size = new Size(109, 34);
             btnAlarmReset.TabIndex = 31;
@@ -261,7 +248,6 @@
             panel1.Controls.Add(btnOpenMemoryTable);
             panel1.Controls.Add(btnAlarmReset);
             panel1.Controls.Add(btnDown);
-            panel1.Controls.Add(btnOpenConvertPLCSimulator);
             panel1.Controls.Add(btnSoftwareEMO);
             panel1.Controls.Add(btnIDLE);
             panel1.Controls.Add(btnRun);
@@ -307,7 +293,6 @@
         #endregion
         private System.Windows.Forms.Timer timer1;
         private Button btnOpenMemoryTable;
-        private Button btnOpenConvertPLCSimulator;
         private Label labNameDisplay;
         private Panel pnlBanner;
         private Button btnDown;
