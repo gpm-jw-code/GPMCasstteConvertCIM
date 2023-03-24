@@ -72,6 +72,16 @@ namespace GPMCasstteConvertCIM.CasstteConverter.Data
         public string Explanation { get; set; }
         public string Owner { get; set; }
         public int Link_Modbus_Register_Number { get; set; }
+        public string Link_Modbus_Address_Hex
+        {
+            get
+            {
+                if (Link_Modbus_Register_Number == -1)
+                    return "";
+                string hex= Link_Modbus_Register_Number.ToString("X4");
+                return (EOwner == OWNER.EQP ? "Y" : "X") + hex;
+            }
+        }
 
         public event PropertyChangedEventHandler? PropertyChanged;
         private string _Scope = "";

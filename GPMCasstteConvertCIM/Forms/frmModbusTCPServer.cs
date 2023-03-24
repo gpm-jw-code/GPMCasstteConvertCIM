@@ -54,12 +54,12 @@ namespace GPMCasstteConvertCIM.Forms
 
         private void _ModbusTCPServer_OnTCPDataSend(object? sender, byte[] e)
         {
-            WriteLog(string.Format("{0} --> (FC{1}){2}", DateTime.Now, e[7], string.Join(" ", e.Select(b => b.ToString("X2")))), Color.LightBlue);
+            WriteLog(string.Format("{0} Server-->Client (FC{1}){2}", DateTime.Now, e[7], string.Join(" ", e.Select(b => b.ToString("X2")))), Color.LightBlue);
         }
 
         private void _ModbusTCPServer_OnMessageReceieved(object? sender, NetworkConnectionParameter e)
         {
-            WriteLog(string.Format("{0} <-- (FC{1}){2}", DateTime.Now, e.bytes[7], string.Join(" ", e.bytes.Select(b => b.ToString("X2")))), Color.Orange);
+            WriteLog(string.Format("{0} Server<--Client (FC{1}){2}", DateTime.Now, e.bytes[7], string.Join(" ", e.bytes.Select(b => b.ToString("X2")))), Color.Orange);
         }
         private delegate void WriteLogDelagate(string msg, Color foreColor);
         private void WriteLog(string msg, Color foreColor)
@@ -113,7 +113,7 @@ namespace GPMCasstteConvertCIM.Forms
             for (int i = 1; i <= 255; i++)
             {
                 var plc_Address = DI_modbus_linked_addresses.FirstOrDefault(m => m.Link_Modbus_Register_Number == i);
-                DigitalIORegister DI = new DigitalIORegister()
+                DigitalIORegister DI = new DigitalIORegister(DigitalIORegister.IO_TYPE.INPUT)
                 {
                     Index = i,
                     State = _ModbusTCPServer.discreteInputs.localArray[i],
@@ -125,7 +125,7 @@ namespace GPMCasstteConvertCIM.Forms
 
 
                 plc_Address = modbus_linked_addresses.FirstOrDefault(m => m.Link_Modbus_Register_Number == i);
-                var DO = new DigitalIORegister
+                var DO = new DigitalIORegister(DigitalIORegister.IO_TYPE.OUTPUT)
                 {
                     Index = i,
                     State = _ModbusTCPServer.coils.localArray[i],
@@ -146,14 +146,14 @@ namespace GPMCasstteConvertCIM.Forms
 
         private void DO_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
-            var row = dgvDOTable.Rows.Cast<DataGridViewRow>().FirstOrDefault(row => row.Cells[0].Value.ToString() == (sender as RegisterBase).Address.ToString());
+            var row = dgvDOTable.Rows.Cast<DataGridViewRow>().FirstOrDefault(row => row.Cells[0].Value.ToString() == (sender as RegisterBase).AddressHex.ToString());
             row.DefaultCellStyle.BackColor = (sender as DigitalIORegister).State ? Color.Lime : Color.White;
             row.Cells[3].Style.BackColor = Color.FromArgb(224, 224, 224);
         }
 
         private void Di_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
-            var row = dgvDITable.Rows.Cast<DataGridViewRow>().FirstOrDefault(row => row.Cells[0].Value.ToString() == (sender as RegisterBase).Address.ToString());
+            var row = dgvDITable.Rows.Cast<DataGridViewRow>().FirstOrDefault(row => row.Cells[0].Value.ToString() == (sender as RegisterBase).AddressHex);
             row.DefaultCellStyle.BackColor = (sender as DigitalIORegister).State ? Color.Lime : Color.White;
             row.Cells[3].Style.BackColor = Color.FromArgb(224, 224, 224);
         }
@@ -170,7 +170,7 @@ namespace GPMCasstteConvertCIM.Forms
                 labConnectedClientNum.Text = ModbusTCPServer.ConnectedClientNum.ToString();
                 for (int i = 1; i <= 255; i++)
                 {
-                    digitalInputs[i - 1].State = _ModbusTCPServer.coils.localArray[i];
+                    digitalInputs[i - 1].State = _ModbusTCPServer.coils.localArray[i + 1];
                     digitalOutputs[i - 1].State = _ModbusTCPServer.discreteInputs.localArray[i];
                 }
 

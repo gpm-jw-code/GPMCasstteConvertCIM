@@ -32,22 +32,13 @@
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             coilRegisterBindingSource = new BindingSource(components);
             dgvHoldingRegisterMap = new DataGridView();
-            dataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
-            Value = new DataGridViewTextBoxColumn();
             digitalIORegisterBindingSource = new BindingSource(components);
             holdingRegisterBindingSource = new BindingSource(components);
             tableLayoutPanel1 = new TableLayoutPanel();
             dgvDI_EQPLC = new DataGridView();
-            dataGridViewTextBoxColumn7 = new DataGridViewTextBoxColumn();
-            Description = new DataGridViewTextBoxColumn();
-            State = new DataGridViewCheckBoxColumn();
             label1 = new Label();
             label2 = new Label();
             dgvDO_AGVS = new DataGridView();
-            dataGridViewTextBoxColumn4 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn3 = new DataGridViewTextBoxColumn();
-            dataGridViewCheckBoxColumn1 = new DataGridViewCheckBoxColumn();
             label3 = new Label();
             panel1 = new Panel();
             groupBox1 = new GroupBox();
@@ -57,6 +48,15 @@
             btnStartLDSim = new Button();
             btnStartULDSim = new Button();
             rtbSimulationLog = new RichTextBox();
+            dataGridViewTextBoxColumn7 = new DataGridViewTextBoxColumn();
+            Description = new DataGridViewTextBoxColumn();
+            State = new DataGridViewCheckBoxColumn();
+            dataGridViewTextBoxColumn4 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn3 = new DataGridViewTextBoxColumn();
+            dataGridViewCheckBoxColumn1 = new DataGridViewCheckBoxColumn();
+            dataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
+            Value = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)coilRegisterBindingSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvHoldingRegisterMap).BeginInit();
             ((System.ComponentModel.ISupportInitialize)digitalIORegisterBindingSource).BeginInit();
@@ -82,27 +82,6 @@
             dgvHoldingRegisterMap.Size = new Size(616, 322);
             dgvHoldingRegisterMap.TabIndex = 1;
             dgvHoldingRegisterMap.CellDoubleClick += dgvHoldingRegisterMap_CellDoubleClick;
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            dataGridViewTextBoxColumn2.DataPropertyName = "Address";
-            dataGridViewTextBoxColumn2.HeaderText = "Register";
-            dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            dataGridViewTextBoxColumn2.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            dataGridViewTextBoxColumn1.DataPropertyName = "Description";
-            dataGridViewTextBoxColumn1.HeaderText = "Description";
-            dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            dataGridViewTextBoxColumn1.ReadOnly = true;
-            // 
-            // Value
-            // 
-            Value.DataPropertyName = "Value";
-            Value.HeaderText = "Value";
-            Value.Name = "Value";
-            Value.ReadOnly = true;
             // 
             // digitalIORegisterBindingSource
             // 
@@ -150,27 +129,6 @@
             dgvDI_EQPLC.Size = new Size(616, 322);
             dgvDI_EQPLC.TabIndex = 6;
             // 
-            // dataGridViewTextBoxColumn7
-            // 
-            dataGridViewTextBoxColumn7.DataPropertyName = "Address";
-            dataGridViewTextBoxColumn7.HeaderText = "Register";
-            dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
-            dataGridViewTextBoxColumn7.ReadOnly = true;
-            // 
-            // Description
-            // 
-            Description.DataPropertyName = "Description";
-            Description.HeaderText = "Description";
-            Description.Name = "Description";
-            Description.ReadOnly = true;
-            // 
-            // State
-            // 
-            State.DataPropertyName = "State";
-            State.HeaderText = "State";
-            State.Name = "State";
-            State.ReadOnly = true;
-            // 
             // label1
             // 
             label1.BackColor = Color.DarkGoldenrod;
@@ -216,27 +174,6 @@
             dgvDO_AGVS.Size = new Size(616, 322);
             dgvDO_AGVS.TabIndex = 5;
             dgvDO_AGVS.CellMouseDoubleClick += DataGridView_CellMouseDoubleClick;
-            // 
-            // dataGridViewTextBoxColumn4
-            // 
-            dataGridViewTextBoxColumn4.DataPropertyName = "Address";
-            dataGridViewTextBoxColumn4.HeaderText = "Register";
-            dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
-            dataGridViewTextBoxColumn4.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn3
-            // 
-            dataGridViewTextBoxColumn3.DataPropertyName = "Description";
-            dataGridViewTextBoxColumn3.HeaderText = "Description";
-            dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-            dataGridViewTextBoxColumn3.ReadOnly = true;
-            // 
-            // dataGridViewCheckBoxColumn1
-            // 
-            dataGridViewCheckBoxColumn1.DataPropertyName = "State";
-            dataGridViewCheckBoxColumn1.HeaderText = "State";
-            dataGridViewCheckBoxColumn1.Name = "dataGridViewCheckBoxColumn1";
-            dataGridViewCheckBoxColumn1.ReadOnly = true;
             // 
             // label3
             // 
@@ -333,6 +270,69 @@
             rtbSimulationLog.TabIndex = 2;
             rtbSimulationLog.Text = "";
             // 
+            // dataGridViewTextBoxColumn7
+            // 
+            dataGridViewTextBoxColumn7.DataPropertyName = "AddressHex";
+            dataGridViewTextBoxColumn7.HeaderText = "Address";
+            dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
+            dataGridViewTextBoxColumn7.ReadOnly = true;
+            // 
+            // Description
+            // 
+            Description.DataPropertyName = "Description";
+            Description.HeaderText = "Description";
+            Description.Name = "Description";
+            Description.ReadOnly = true;
+            // 
+            // State
+            // 
+            State.DataPropertyName = "State";
+            State.HeaderText = "State";
+            State.Name = "State";
+            State.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn4
+            // 
+            dataGridViewTextBoxColumn4.DataPropertyName = "AddressHex";
+            dataGridViewTextBoxColumn4.HeaderText = "Address";
+            dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            dataGridViewTextBoxColumn4.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            dataGridViewTextBoxColumn3.DataPropertyName = "Description";
+            dataGridViewTextBoxColumn3.HeaderText = "Description";
+            dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            dataGridViewTextBoxColumn3.ReadOnly = true;
+            // 
+            // dataGridViewCheckBoxColumn1
+            // 
+            dataGridViewCheckBoxColumn1.DataPropertyName = "State";
+            dataGridViewCheckBoxColumn1.HeaderText = "State";
+            dataGridViewCheckBoxColumn1.Name = "dataGridViewCheckBoxColumn1";
+            dataGridViewCheckBoxColumn1.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            dataGridViewTextBoxColumn2.DataPropertyName = "AddressHex";
+            dataGridViewTextBoxColumn2.HeaderText = "Address";
+            dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            dataGridViewTextBoxColumn2.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            dataGridViewTextBoxColumn1.DataPropertyName = "Description";
+            dataGridViewTextBoxColumn1.HeaderText = "Description";
+            dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            dataGridViewTextBoxColumn1.ReadOnly = true;
+            // 
+            // Value
+            // 
+            Value.DataPropertyName = "Value";
+            Value.HeaderText = "Value";
+            Value.Name = "Value";
+            Value.ReadOnly = true;
+            // 
             // UscAGVSModbusClientEmulator
             // 
             AutoScaleDimensions = new SizeF(7F, 16F);
@@ -370,16 +370,7 @@
         private DataGridView dgvDO_AGVS;
         private DataGridView dgvDI_EQPLC;
         private BindingSource digitalIORegisterBindingSource;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
-        private DataGridViewTextBoxColumn Description;
-        private DataGridViewCheckBoxColumn State;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
-        private DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn1;
         private Label label3;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private DataGridViewTextBoxColumn Value;
         private Panel panel1;
         private RichTextBox rtbSimulationLog;
         private Button btnStartULDSim;
@@ -389,5 +380,14 @@
         private ComboBox cmbPortSelector;
         private Button button1;
         private Button btnStopTest;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private DataGridViewTextBoxColumn Value;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
+        private DataGridViewTextBoxColumn Description;
+        private DataGridViewCheckBoxColumn State;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
+        private DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn1;
     }
 }

@@ -98,7 +98,7 @@ namespace GPMCasstteConvertCIM.GPM_Modbus
         }
 
 
-        private void ModbusTCPServer_CoilsOnChanged(object? sender, int function_code)
+        private void ModbusTCPServer_CoilsOnChanged(object? sender, ModbusProtocol revData)
         {
             ///要把Coil Data同步到PLC Memory 
             Task.Factory.StartNew(() =>
@@ -107,7 +107,8 @@ namespace GPMCasstteConvertCIM.GPM_Modbus
                 foreach (var item in CIMLinkAddress)
                 {
                     int register_num = item.Link_Modbus_Register_Number;
-                    bool state = coils.localArray[register_num];
+                    var localCoilsAry = coils.localArray;
+                    bool state = localCoilsAry[register_num + 1];
                     linkedCasstteConverter.CIMMemOptions.memoryTable.WriteOneBit(item.Address, state);
                 }
 

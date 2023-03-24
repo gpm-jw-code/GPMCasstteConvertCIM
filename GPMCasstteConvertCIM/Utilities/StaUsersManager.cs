@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
@@ -50,6 +51,17 @@ namespace GPMCasstteConvertCIM.Utilities
 
         internal static bool TryLogin(string name, string pw, out User user)
         {
+
+            if (Debugger.IsAttached)
+            {
+                user = CurrentUser = new User()
+                {
+                    Group = USER_GROUP.GPM_RD,
+                    Name = "Developer"
+                };
+                return true;
+            }
+
             user = Users.Values.SelectMany(v => v).FirstOrDefault(user => user.Name == name && user.Password == pw);
             bool success = user != null;
             CurrentUser = success ? user : new User()
@@ -58,6 +70,14 @@ namespace GPMCasstteConvertCIM.Utilities
             };
 
             return success;
+        }
+
+        internal static void Logout()
+        {
+            CurrentUser = new User()
+            {
+                Group = USER_GROUP.VISITOR
+            };
         }
     }
 }

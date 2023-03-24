@@ -100,9 +100,11 @@
             // 
             // frmUserLogin
             // 
+            AcceptButton = btnLogin;
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
+            CancelButton = btnCancel;
             ClientSize = new Size(268, 199);
             Controls.Add(btnCancel);
             Controls.Add(btnLogin);

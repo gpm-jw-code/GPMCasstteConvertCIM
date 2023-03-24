@@ -320,7 +320,7 @@ namespace GPMCasstteConvertCIM.GPM_Modbus
         /// <summary>
         /// 
         /// </summary>
-        public event EventHandler<int> CoilsOnChanged;
+        public event EventHandler<ModbusProtocol> CoilsOnChanged;
         public event EventHandler<int> HoldingRegisterOnChanged;
         public event EventHandler<NetworkConnectionParameter> OnTCPDataReceieved;
         public event EventHandler<byte[]> OnTCPDataSend;
@@ -726,7 +726,7 @@ namespace GPMCasstteConvertCIM.GPM_Modbus
                     if (!FunctionCode5Disabled)
                     {
                         this.WriteSingleCoil(receiveData, sendData, stream, portIn, ipAddressIn);
-                        CoilsOnChanged?.Invoke(this, 5);
+                        CoilsOnChanged?.Invoke(this, receiveData);
                     }
                     else
                     {
@@ -756,7 +756,7 @@ namespace GPMCasstteConvertCIM.GPM_Modbus
                     if (!FunctionCode15Disabled)
                     {
                         this.WriteMultipleCoils(receiveData, sendData, stream, portIn, ipAddressIn);
-                        CoilsOnChanged?.Invoke(this, 15);
+                        CoilsOnChanged?.Invoke(this, receiveData);
                     }
                     else
                     {

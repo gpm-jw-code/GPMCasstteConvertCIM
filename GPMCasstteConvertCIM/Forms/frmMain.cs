@@ -21,6 +21,7 @@ namespace GPMCasstteConvertCIM.Forms
             InitializeComponent();
             Application.ThreadException += Application_ThreadException; ;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+            GPMRDMenuStrip.Visible = false;
 
         }
 
@@ -260,6 +261,19 @@ namespace GPMCasstteConvertCIM.Forms
 
         private void btnOpenLoginFOrm_Click(object sender, EventArgs e)
         {
+
+            if (StaUsersManager.CurrentUser.Group != StaUsersManager.USER_GROUP.VISITOR)
+            {
+                var logout_confirm_result = MessageBox.Show("½T©w­nµn¥X?", "Logout Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                if (logout_confirm_result == DialogResult.OK)
+                {
+                    StaUsersManager.Logout();
+                    btnOpenLoginFOrm.Text = "Login";
+                    label6.Text = "VISITOR";
+                }
+                return;
+            }
+
             frmUserLogin loginForm = new frmUserLogin();
             var result = loginForm.ShowDialog();
             if (result == DialogResult.OK)

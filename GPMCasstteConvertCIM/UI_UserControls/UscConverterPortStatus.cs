@@ -39,7 +39,7 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             labL_REQBit.RenderBGColorByState(portData.L_REQ, active_color);
             labU_REQBit.RenderBGColorByState(portData.U_REQ, active_color);
             labReadyBit.RenderBGColorByState(portData.EQ_READY, active_color);
-            labLOW_ReadyBit.RenderBGColorByState(portData.LOW_READY, active_color);
+            labBusyBit.RenderBGColorByState(portData.EQ_BUSY, active_color);
 
             labUpPosition.RenderBGColorByState(portData.LD_UP_POS, active_color);
             labDownPosition.RenderBGColorByState(portData.LD_DOWN_POS, active_color);

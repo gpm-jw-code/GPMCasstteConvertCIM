@@ -26,6 +26,12 @@ namespace GPMCasstteConvertCIM.Emulators
         BindingList<DigitalIORegister> DigitalOutputs = new BindingList<DigitalIORegister>();
         BindingList<HoldingRegister> holdingRegs = new BindingList<HoldingRegister>();
         CancellationTokenSource cancellationToken;
+        public enum WRITE_METHOD
+        {
+            REAL_TIME,
+            MANUAL
+        }
+        private WRITE_METHOD WriteMethod = WRITE_METHOD.MANUAL;
 
         internal CasstteConverter.clsCasstteConverter casstte_convert;
         int SelectedPortNo = 1;
@@ -65,7 +71,7 @@ namespace GPMCasstteConvertCIM.Emulators
                 CasstteConverter.Data.clsMemoryAddress? di_address = modbus_linked_addresses.FirstOrDefault(m => m.Link_Modbus_Register_Number == i);
                 if (di_address != null)
                 {
-                    DigitalInputs.Add(new DigitalIORegister
+                    DigitalInputs.Add(new DigitalIORegister(DigitalIORegister.IO_TYPE.OUTPUT)
                     {
                         Index = i,
                         State = (bool)di_address.Value,
@@ -74,7 +80,7 @@ namespace GPMCasstteConvertCIM.Emulators
                 }
                 else
                 {
-                    DigitalInputs.Add(new DigitalIORegister
+                    DigitalInputs.Add(new DigitalIORegister(DigitalIORegister.IO_TYPE.OUTPUT)
                     {
                         Index = i,
                         State = false,
@@ -85,7 +91,7 @@ namespace GPMCasstteConvertCIM.Emulators
                 CasstteConverter.Data.clsMemoryAddress? do_address = DI_modbus_linked_addresses.FirstOrDefault(m => m.Link_Modbus_Register_Number == i);
                 if (do_address != null)
                 {
-                    DigitalOutputs.Add(new DigitalIORegister
+                    DigitalOutputs.Add(new DigitalIORegister(DigitalIORegister.IO_TYPE.INPUT)
                     {
                         Index = i,
                         State = (bool)do_address.Value,
@@ -94,7 +100,7 @@ namespace GPMCasstteConvertCIM.Emulators
                 }
                 else
                 {
-                    DigitalOutputs.Add(new DigitalIORegister
+                    DigitalOutputs.Add(new DigitalIORegister(DigitalIORegister.IO_TYPE.INPUT)
                     {
                         Index = i,
                         State = false,
@@ -127,12 +133,12 @@ namespace GPMCasstteConvertCIM.Emulators
             dgvDO_AGVS.DataSource = DigitalOutputs;
             dgvHoldingRegisterMap.DataSource = holdingRegs;
 
-            ReadEQStates();
+            ExchangeSignalsWorker();
 
         }
 
 
-        private async void ReadEQStates()
+        private async void ExchangeSignalsWorker()
         {
             cancellationToken = new CancellationTokenSource();
             await Task.Run(async () =>
@@ -141,7 +147,11 @@ namespace GPMCasstteConvertCIM.Emulators
                 {
                     while (true)
                     {
+
+
                         await Task.Delay(200, cancellationToken.Token);
+                        if (WriteMethod == WRITE_METHOD.MANUAL)
+                            continue;
 
 
                         while (RegisterWritesQueue.Count != 0)
@@ -214,9 +224,21 @@ namespace GPMCasstteConvertCIM.Emulators
         {
             DataGridView dgv = (DataGridView)sender;
             DataGridViewRow row = dgv.Rows[e.RowIndex];
+
             DigitalIORegister reg = (DigitalIORegister)row.DataBoundItem;
             reg.State = !reg.State;
+
+            if (WriteMethod == WRITE_METHOD.MANUAL)
+            {
+                WriteSingleCoil(reg);
+            }
+
             row.DefaultCellStyle.BackColor = reg.State ? Color.Lime : Color.White;
+        }
+
+        private void WriteSingleCoil(DigitalIORegister reg)
+        {
+            modbus.WriteSingleCoil(reg.Index, reg.State);
         }
 
         internal void CancelTask()
@@ -387,11 +409,12 @@ namespace GPMCasstteConvertCIM.Emulators
 
             HS_IO_AGV_AGV_READY.State = true;
 
-            timeout = await WaitSignalON(HS_IO_EQ_EQ_BUSY,10000);
+            timeout = await WaitSignalON(HS_IO_EQ_EQ_BUSY, 10000);
             if (timeout)
                 return false;
 
-            timeout = await WaitSignalOFF(HS_IO_EQ_EQ_BUSY,30000);
+            //等待EQ動作結束
+            timeout = await WaitSignalOFF(HS_IO_EQ_EQ_BUSY, Debugger.IsAttached ? 360000 : 30000);
             if (timeout)
                 return false;
 

@@ -37,7 +37,7 @@
             labL_REQBit = new Label();
             labU_REQBit = new Label();
             labReadyBit = new Label();
-            labLOW_ReadyBit = new Label();
+            labBusyBit = new Label();
             labUpPosition = new Label();
             labDownPosition = new Label();
             panel1 = new Panel();
@@ -68,7 +68,7 @@
             flowLayoutPanel1.Controls.Add(labL_REQBit);
             flowLayoutPanel1.Controls.Add(labU_REQBit);
             flowLayoutPanel1.Controls.Add(labReadyBit);
-            flowLayoutPanel1.Controls.Add(labLOW_ReadyBit);
+            flowLayoutPanel1.Controls.Add(labBusyBit);
             flowLayoutPanel1.Controls.Add(labUpPosition);
             flowLayoutPanel1.Controls.Add(labDownPosition);
             flowLayoutPanel1.Location = new Point(3, 100);
@@ -182,20 +182,20 @@
             labReadyBit.Text = "READY";
             labReadyBit.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // labLOW_ReadyBit
+            // labBusyBit
             // 
-            labLOW_ReadyBit.BackColor = SystemColors.ControlDarkDark;
-            labLOW_ReadyBit.BorderStyle = BorderStyle.FixedSingle;
-            labLOW_ReadyBit.FlatStyle = FlatStyle.Flat;
-            labLOW_ReadyBit.Font = new Font("Microsoft JhengHei UI", 7F, FontStyle.Regular, GraphicsUnit.Point);
-            labLOW_ReadyBit.ForeColor = Color.White;
-            labLOW_ReadyBit.Location = new Point(274, 36);
-            labLOW_ReadyBit.Margin = new Padding(1);
-            labLOW_ReadyBit.Name = "labLOW_ReadyBit";
-            labLOW_ReadyBit.Size = new Size(88, 30);
-            labLOW_ReadyBit.TabIndex = 11;
-            labLOW_ReadyBit.Text = "LOW_READY";
-            labLOW_ReadyBit.TextAlign = ContentAlignment.MiddleCenter;
+            labBusyBit.BackColor = SystemColors.ControlDarkDark;
+            labBusyBit.BorderStyle = BorderStyle.FixedSingle;
+            labBusyBit.FlatStyle = FlatStyle.Flat;
+            labBusyBit.Font = new Font("Microsoft JhengHei UI", 7F, FontStyle.Regular, GraphicsUnit.Point);
+            labBusyBit.ForeColor = Color.White;
+            labBusyBit.Location = new Point(274, 36);
+            labBusyBit.Margin = new Padding(1);
+            labBusyBit.Name = "labBusyBit";
+            labBusyBit.Size = new Size(88, 30);
+            labBusyBit.TabIndex = 11;
+            labBusyBit.Text = "BUSY";
+            labBusyBit.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // labUpPosition
             // 
@@ -437,7 +437,7 @@
         private Label labL_REQBit;
         private Label labU_REQBit;
         private Label labReadyBit;
-        private Label labLOW_ReadyBit;
+        private Label labBusyBit;
         private Panel panel1;
         private Label labCurrentPortMode;
         private Label label5;
