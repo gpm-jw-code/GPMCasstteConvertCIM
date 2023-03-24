@@ -108,7 +108,7 @@ namespace GPMCasstteConvertCIM.Forms
 
         private void ckbMonitor_CheckedChanged(object sender, EventArgs e)
         {
-            CasstteConverter.monitor= ckbMonitor.Checked;
+            CasstteConverter.monitor = ckbMonitor.Checked;
         }
     }
 }

@@ -35,6 +35,9 @@ namespace GPMCasstteConvertCIM.Devices
         /// 與AGVSS連線的SECS CLIENT
         /// </summary>
         internal static SECSBase secs_client_for_agvs;
+
+        internal static SECSBase secs_for_mcs_test = new SECSBase("mcs_test");
+
         /// <summary>
         /// 轉換架1
         /// </summary>
@@ -48,6 +51,18 @@ namespace GPMCasstteConvertCIM.Devices
 
         internal static void Connect()
         {
+
+            secs_for_mcs_test.OnPrimaryMessageRecieve += MCSMessageHandler.PrimaryMessageOnReceivedAsync;
+            secs_for_mcs_test.ConnectionChanged += new Action<ConnectionState>((state) => { });
+            secs_for_mcs_test.Active(new SecsGemOptions()
+            {
+                DeviceId = 1,
+                Port = 9000,
+                IsActive = false,
+                IpAddress = "127.0.0.1",
+
+            });
+
             ////Secs host(CIM_AGVS)
             ///
             secs_host_for_mcs = new SECSBase("Host_For_MCS");

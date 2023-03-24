@@ -67,8 +67,15 @@ namespace SecsDevice
             SecsMessage rep = await _secsGem.SendAsync(new SecsMessage(1, 3)
             {
                 SecsItem =
-                            Item.L(
+                            Item.L( 
+                                    Item.U2(2001), 
+                                    Item.U2(2002),
+                                    Item.U2(2003),
+                                    Item.U2(2004),
                                     Item.U2(2005),
+                                    Item.U2(2006),
+                                    Item.U2(2007),
+                                    Item.U2(2008),
                                     Item.U2(2009)
                                 )
             });

@@ -71,7 +71,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         internal List<clsMemoryAddress> WIP_LOC_ID_Addresses => LinkWordMap.FindAll(ad => ad.PropertyName.Contains("WIPInfo_Loc_ID_"));
         internal List<clsMemoryAddress> ManualLoad_BCR_ID_Addresses => LinkWordMap.FindAll(ad => ad.PropertyName.Contains("ManualLoad_BCR_ID"));
         internal List<clsMemoryAddress> ManuaUnlLoad_BCR_ID_Addresses => LinkWordMap.FindAll(ad => ad.PropertyName.Contains("ManualUnload_BCR_ID"));
-        internal clsMemoryAddress EQPInterfaceClockAddress => LinkWordMap.FirstOrDefault(lp => lp.EOwner == clsMemoryAddress.OWNER.EQP && lp.PropertyName == "InterfaceClock");
+        internal clsMemoryAddress EQPInterfaceClockAddress => LinkWordMap.FirstOrDefault(lp => lp.EOwner == clsMemoryAddress.OWNER.EQP && lp.EProperty == PROPERTY.Interface_Clock);
 
         internal string CIMWordStartAddress => LinkWordMap.FirstOrDefault(lp => lp.EOwner == clsMemoryAddress.OWNER.CIM)?.Address;
         internal string CIMWordEndAddress => LinkWordMap.LastOrDefault(lp => lp.EOwner == clsMemoryAddress.OWNER.CIM)?.Address;
@@ -358,7 +358,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 EQPData.Alarm_Code_33_48 = (int)LinkWordMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.Alarm_Code_33_48).Value;
 
                 //PORTS
-                EQ_SCOPE[] Ports = EQPData.PortDatas.Count ==1 ? new EQ_SCOPE[1] { EQ_SCOPE.PORT1 } : new EQ_SCOPE[2] { EQ_SCOPE.PORT1, EQ_SCOPE.PORT2 };
+                EQ_SCOPE[] Ports = EQPData.PortDatas.Count == 1 ? new EQ_SCOPE[1] { EQ_SCOPE.PORT1 } : new EQ_SCOPE[2] { EQ_SCOPE.PORT1, EQ_SCOPE.PORT2 };
                 for (int i = 0; i < Ports.Length; i++)
                 {
                     EQ_SCOPE port = Ports[i];
@@ -388,7 +388,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     EQPData.PortDatas[i].PortExist = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Port_Exist).Value;
                     bool port_status_down = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Port_Status_Down).Value;
                     EQPData.PortDatas[i].PortStatusDown = port_status_down;
-                    EQPData.PortDatas[i].Properties.InSerivce = !port_status_down;
+
                     EQPData.PortDatas[i].LD_UP_POS = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.LD_UP_POS).Value;
                     EQPData.PortDatas[i].LD_DOWN_POS = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.LD_DOWN_POS).Value;
                     EQPData.PortDatas[i].DoorOpened = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Door_Opened).Value;
@@ -404,8 +404,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     EQPData.PortDatas[i].Port_Enabled_Report = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Port_Enabled_Report).Value;
 
                     //EQP word data
-                    var portTypeInt = (int)LinkWordMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Port_Type_Status).Value;
-                    EQPData.PortDatas[i].Properties.PortType = Enum.GetValues(typeof(GPM_SECS.SECSMessageHelper.PortUnitType)).Cast<GPM_SECS.SECSMessageHelper.PortUnitType>().First(etype => (int)etype == portTypeInt);
+                    EQPData.PortDatas[i].PortType = (int)LinkWordMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Port_Type_Status).Value;
 
                     EQPData.PortDatas[i].PortModeStatus = (int)LinkWordMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Port_Type_Status).Value;
                     EQPData.PortDatas[i].Port_Auto_Manual_Mode_Status = (int)LinkWordMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Port_Auto_Manual_Mode_Status).Value;

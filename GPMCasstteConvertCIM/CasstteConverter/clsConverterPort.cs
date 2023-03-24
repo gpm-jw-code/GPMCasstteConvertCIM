@@ -190,7 +190,23 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         }
 
         public bool EQ_BUSY { get; internal set; }
-        public bool PortStatusDown { get; internal set; }
+        private bool _PortStatusDown = false;
+        public bool PortStatusDown
+        {
+            get => _PortStatusDown;
+            set
+            {
+                if (_PortStatusDown != value)
+                {
+                    _PortStatusDown = value;
+                    if (_PortStatusDown)
+                        PortOutOfServiceReport();
+                    else
+                        PortInServiceReport();
+                    Properties.InSerivce = !_PortStatusDown;
+                }
+            }
+        }
         public bool LD_UP_POS { get; internal set; }
         public bool LD_DOWN_POS { get; internal set; }
         public bool DoorOpened { get; internal set; }
@@ -249,7 +265,23 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         public bool Port_Disabled_Report { get; internal set; }
         public bool Port_Enabled_Report { get; internal set; }
         public int Port_Auto_Manual_Mode_Status { get; internal set; }
-
+        private int _PortType = 0;
+        public int PortType
+        {
+            get => _PortType;
+            set
+            {
+                if (_PortType != value)
+                {
+                    _PortType = value;
+                    if (_PortType == 0)
+                        PortTypeInputReport();
+                    if (_PortType == 1)
+                        PortTypeOutputReport();
+                    Properties.PortType = Enum.GetValues(typeof(GPM_SECS.SECSMessageHelper.PortUnitType)).Cast<GPM_SECS.SECSMessageHelper.PortUnitType>().First(etype => (int)etype == _PortType);
+                }
+            }
+        }
 
         public async void PortOutOfServiceReport()
         {
@@ -273,28 +305,33 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         public async void PortInServiceReport()
         {
-            var msg = new SecsMessage(6, 11)
+            _ = Task.Run(async () =>
             {
-                SecsItem = Item.L(
-                              Item.U4(0),//DATAID,
-                              Item.U2((ushort)CEID.PortInServiceReport), //CEID
-                              Item.L(
+                var msg = new SecsMessage(6, 11)
+                {
+                    SecsItem = Item.L(
+                                  Item.U4(0),//DATAID,
+                                  Item.U2((ushort)CEID.PortInServiceReport), //CEID
                                   Item.L(
-                                   Item.U2(12),//RPTID,
-                                   Item.L(
-                                       Item.A(Properties.PortID)
-                                     )
-                                   )
-                                )
-                             )
-            };
-            var replyMsg = await DevicesManager.secs_host_for_mcs.SendAsync(msg);
+                                      Item.L(
+                                       Item.U2(12),//RPTID,
+                                       Item.L(
+                                           Item.A(Properties.PortID)
+                                         )
+                                       )
+                                    )
+                                 )
+                };
+                var replyMsg = await DevicesManager.secs_host_for_mcs.SendAsync(msg);
+            });
         }
         public async void PortTypeInputReport()
         {
-            var msg = new SecsMessage(6, 11)
+            _ = Task.Run(async () =>
             {
-                SecsItem = Item.L(
+                var msg = new SecsMessage(6, 11)
+                {
+                    SecsItem = Item.L(
                               Item.U4(0),//DATAID,
                               Item.U2((ushort)CEID.PortTypeInputReport), //CEID
                               Item.L(
@@ -306,14 +343,17 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                                    )
                                 )
                              )
-            };
-            var replyMsg = await DevicesManager.secs_host_for_mcs.SendAsync(msg);
+                };
+                var replyMsg = await DevicesManager.secs_host_for_mcs.SendAsync(msg);
+            });
         }
         public async void PortTypeOutputReport()
         {
-            var msg = new SecsMessage(6, 11)
+            _ = Task.Run(async () =>
             {
-                SecsItem = Item.L(
+                var msg = new SecsMessage(6, 11)
+                {
+                    SecsItem = Item.L(
                               Item.U4(0),//DATAID,
                               Item.U2((ushort)CEID.PortTypeOutputReport), //CEID
                               Item.L(
@@ -325,8 +365,9 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                                    )
                                 )
                              )
-            };
-            var replyMsg = await DevicesManager.secs_host_for_mcs.SendAsync(msg);
+                };
+                var replyMsg = await DevicesManager.secs_host_for_mcs.SendAsync(msg);
+            });
         }
         private bool CarrierWaitIn_Reply = false;
         private bool CarrierWaitIn_Accept = false;

@@ -210,6 +210,7 @@ namespace GPMCasstteConvertCIM.Forms
 
         private void btnOpenMCSSimulatorForm_Click(object sender, EventArgs e)
         {
+            SECSEmulatorManager.StartMCSSecsEmu();
             frmMCSSimulator fm = new frmMCSSimulator();
             fm.Show();
         }

@@ -68,10 +68,6 @@ namespace GPMCasstteConvertCIM.GPM_SECS
                 ConnectionChanged(connector.State);
                 var cs = connector.State.ToString();
                 _logger.Info($"Connection State Change>{cs}");
-                //base.Invoke((MethodInvoker)delegate
-                //{
-                //    lbStatus.Text = _connector.State.ToString();
-                //});
             };
 
             _ = connector.StartAsync(_cancellationTokenSource.Token);
