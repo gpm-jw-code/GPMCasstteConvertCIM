@@ -199,7 +199,7 @@
             uscConverterPortStatus1.BorderStyle = BorderStyle.FixedSingle;
             uscConverterPortStatus1.Location = new Point(3, 29);
             uscConverterPortStatus1.Name = "uscConverterPortStatus1";
-            uscConverterPortStatus1.portData = null;
+            uscConverterPortStatus1.CstCVPort = null;
             uscConverterPortStatus1.Size = new Size(392, 322);
             uscConverterPortStatus1.TabIndex = 27;
             // 
@@ -209,7 +209,7 @@
             uscConverterPortStatus2.BorderStyle = BorderStyle.FixedSingle;
             uscConverterPortStatus2.Location = new Point(401, 29);
             uscConverterPortStatus2.Name = "uscConverterPortStatus2";
-            uscConverterPortStatus2.portData = null;
+            uscConverterPortStatus2.CstCVPort = null;
             uscConverterPortStatus2.Size = new Size(392, 322);
             uscConverterPortStatus2.TabIndex = 28;
             // 

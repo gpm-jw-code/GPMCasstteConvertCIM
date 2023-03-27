@@ -19,11 +19,21 @@ namespace GPMCasstteConvertCIM.GPM_Modbus
             R400001 = 400001,
         }
 
-        internal clsCasstteConverter linkedCasstteConverter { get; private set; }
+        internal clsCasstteConverter linkedCasstteConverter { get;  set; }
 
-        private frmModbusTCPServer UI;
+        public frmModbusTCPServer UI;
         private LoggerBase logger;
         internal int ConnectedClientNum => tcpHandler == null ? 0 : tcpHandler.NumberOfConnectedClients;
+        internal void Active(string ip, int port, frmModbusTCPServer ui)
+        {
+            Port = port; 
+            UI = ui;
+            UI.ModbusTCPServer = this;
+            Listen();
+            UI.Port = Port;
+            //CoilsOnChanged += ModbusTCPServer_CoilsOnChanged;
+        }
+
         internal void Active(InitialOption modbusTcpServer_opt, clsCasstteConverter linkedCasstteConverter)
         {
             this.linkedCasstteConverter = linkedCasstteConverter;
@@ -34,7 +44,6 @@ namespace GPMCasstteConvertCIM.GPM_Modbus
             Port = modbusTcpServer_opt.Port;
             Listen();
             UI.Port = Port;
-            CoilsOnChanged += ModbusTCPServer_CoilsOnChanged;
             HoldingRegisterOnChanged += ModbusTCPServer_HoldingRegisterOnChanged;
             logger.Info($"Modbus TCP Server Listening...(tcp://0.0.0.0:{Port})");
             SyncPLCMemory();
@@ -95,23 +104,6 @@ namespace GPMCasstteConvertCIM.GPM_Modbus
             });
         }
 
-
-        private void ModbusTCPServer_CoilsOnChanged(object? sender, ModbusProtocol revData)
-        {
-            ///要把Coil Data同步到PLC Memory 
-            Task.Factory.StartNew(() =>
-            {
-                List<CasstteConverter.Data.clsMemoryAddress> CIMLinkAddress = linkedCasstteConverter.LinkBitMap.FindAll(ad => ad.EOwner == OWNER.CIM && ad.Link_Modbus_Register_Number != -1);
-                foreach (var item in CIMLinkAddress)
-                {
-                    int register_num = item.Link_Modbus_Register_Number;
-                    var localCoilsAry = coils.localArray;
-                    bool state = localCoilsAry[register_num + 1];
-                    linkedCasstteConverter.CIMMemOptions.memoryTable.WriteOneBit(item.Address, state);
-                }
-
-            });
-        }
 
         private void ModbusTCPServer_NumberOfConnectedClientsChanged()
         {

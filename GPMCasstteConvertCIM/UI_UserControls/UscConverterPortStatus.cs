@@ -15,7 +15,7 @@ namespace GPMCasstteConvertCIM.UI_UserControls
 {
     public partial class UscConverterPortStatus : UserControl
     {
-        public clsConverterPort portData { get; set; }
+        public clsConverterPort CstCVPort { get; set; }
         public UscConverterPortStatus()
         {
             InitializeComponent();
@@ -23,49 +23,54 @@ namespace GPMCasstteConvertCIM.UI_UserControls
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            if (portData == null)
+            if (CstCVPort == null)
                 return;
-            txbWIP_BCR_ID.Text = portData.WIPINFO_BCR_ID;
-            labPortID.Text = portData.Properties.PortID;
+            txbWIP_BCR_ID.Text = CstCVPort.WIPINFO_BCR_ID;
+            labPortID.Text = CstCVPort.Properties.PortID;
 
 
-            labCurrentPortMode.Text = portData.Properties.PortType.ToString().ToUpper();
+            labCurrentPortMode.Text = CstCVPort.Properties.PortType.ToString().ToUpper();
             //labCurrentRackMode.Text = portData.ERackModeStatus.ToString();
             Color active_color = Color.SeaGreen;
-            labReadyStatusBit.RenderBGColorByState(portData.ReadyStatus, active_color);
-            labLoadRequestBit.RenderBGColorByState(portData.LoadRequest, active_color);
-            labUnloadRequestBit.RenderBGColorByState(portData.UnloadRequest, active_color);
-            labPortExistBit.RenderBGColorByState(portData.PortExist, active_color);
-            labL_REQBit.RenderBGColorByState(portData.L_REQ, active_color);
-            labU_REQBit.RenderBGColorByState(portData.U_REQ, active_color);
-            labReadyBit.RenderBGColorByState(portData.EQ_READY, active_color);
-            labBusyBit.RenderBGColorByState(portData.EQ_BUSY, active_color);
+            labReadyStatusBit.RenderBGColorByState(CstCVPort.ReadyStatus, active_color);
+            labLoadRequestBit.RenderBGColorByState(CstCVPort.LoadRequest, active_color);
+            labUnloadRequestBit.RenderBGColorByState(CstCVPort.UnloadRequest, active_color);
+            labPortExistBit.RenderBGColorByState(CstCVPort.PortExist, active_color);
+            labL_REQBit.RenderBGColorByState(CstCVPort.L_REQ, active_color);
+            labU_REQBit.RenderBGColorByState(CstCVPort.U_REQ, active_color);
+            labReadyBit.RenderBGColorByState(CstCVPort.EQ_READY, active_color);
+            labBusyBit.RenderBGColorByState(CstCVPort.EQ_BUSY, active_color);
 
-            labUpPosition.RenderBGColorByState(portData.LD_UP_POS, active_color);
-            labDownPosition.RenderBGColorByState(portData.LD_DOWN_POS, active_color);
+            labUpPosition.RenderBGColorByState(CstCVPort.LD_UP_POS, active_color);
+            labDownPosition.RenderBGColorByState(CstCVPort.LD_DOWN_POS, active_color);
 
             active_color = Color.Pink;
-            labLoading.RenderBGColorByState(portData.IsLoadHSRunning, active_color);
-            labUnloading.RenderBGColorByState(portData.IsUnloadHSRunning, active_color);
+            labLoading.RenderBGColorByState(CstCVPort.IsLoadHSRunning, active_color);
+            labUnloading.RenderBGColorByState(CstCVPort.IsUnloadHSRunning, active_color);
 
 
-            labAutoStatus.Text = portData.EPortAutoStatus.ToString();
+            labAutoStatus.Text = CstCVPort.EPortAutoStatus.ToString();
 
-            if (portData.EPortAutoStatus == CasstteConverter.Enums.AUTO_MANUAL_MODE.Unknown)
+            if (CstCVPort.EPortAutoStatus == CasstteConverter.Enums.AUTO_MANUAL_MODE.Unknown)
                 labAutoStatus.BackColor = Color.Gray;
             else
-                labAutoStatus.BackColor = portData.EPortAutoStatus == CasstteConverter.Enums.AUTO_MANUAL_MODE.AUTO ? Color.Green : Color.Orange;
+                labAutoStatus.BackColor = CstCVPort.EPortAutoStatus == CasstteConverter.Enums.AUTO_MANUAL_MODE.AUTO ? Color.Green : Color.Orange;
 
 
-            labServiceStatusText.Text = portData.Properties.InSerivce ? "In Service" : "Out of Service";
-            labServiceStatusText.ForeColor = portData.Properties.InSerivce ? Color.SeaGreen : Color.Red;
+            labServiceStatusText.Text = CstCVPort.Properties.InSerivce ? "In Service" : "Out of Service";
+            labServiceStatusText.ForeColor = CstCVPort.Properties.InSerivce ? Color.SeaGreen : Color.Red;
 
         }
 
         private void label2_Click(object sender, EventArgs e)
         {
-            frmPortEventReportTest testFrom = new frmPortEventReportTest(portData);
+            frmPortEventReportTest testFrom = new frmPortEventReportTest(CstCVPort);
             testFrom.Show();
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+            CstCVPort.modbus_server.UI.Show();
         }
     }
 }

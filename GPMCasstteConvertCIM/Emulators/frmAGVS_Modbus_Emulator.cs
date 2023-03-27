@@ -14,10 +14,10 @@ namespace GPMCasstteConvertCIM.Emulators
     public partial class frmAGVS_Modbus_Emulator : Form
     {
 
-        public frmAGVS_Modbus_Emulator(clsCasstteConverter linkedCasstteConverter)
+        public frmAGVS_Modbus_Emulator(clsConverterPort linkedCasstteConverterPort)
         {
             InitializeComponent();
-            uscagvsModbusClientEmulator1.casstte_convert = linkedCasstteConverter;
+            uscagvsModbusClientEmulator1.casstte_port = linkedCasstteConverterPort;
         }
 
         public frmAGVS_Modbus_Emulator()

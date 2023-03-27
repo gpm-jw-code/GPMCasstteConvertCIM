@@ -80,20 +80,26 @@ namespace GPMCasstteConvertCIM.Devices
             ///
             foreach (var item in DevicesConnectionsOpts.PLCEQS)
             {
-                var EQ = new CasstteConverter.clsCasstteConverter(item.DeviceId, (UscCasstteConverter)item.mainUI, item.ConverterType, item.Ports);
-                EQ.ConnectionStateChanged += CasstteConverter_ConnectionStateChanged;
-                EQ.ActiveAsync(item.ToMCIFOptions());
-                EQ.modbusServerGUI = (frmModbusTCPServer)DevicesConnectionsOpts.Modbus_Servers.First(mobus_op => mobus_op.DeviceId == item.DeviceId).mainUI;
-                casstteConverters.Add(EQ);
+                try
+                {
+                    var EQ = new CasstteConverter.clsCasstteConverter(item.DeviceId, (UscCasstteConverter)item.mainUI, item.ConverterType, item.Ports);
+                    EQ.ConnectionStateChanged += CasstteConverter_ConnectionStateChanged;
+                    EQ.ActiveAsync(item.ToMCIFOptions());
+                    casstteConverters.Add(EQ);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
             }
 
 
-            foreach (var item in DevicesConnectionsOpts.Modbus_Servers)
-            {
-                var modbus_server = new GPM_Modbus.ModbusTCPServer();
-                modbus_server.Active(item, casstteConverters.First(cc => cc.index == item.DeviceId));
-                modbus_servers.Add(modbus_server);
-            }
+            //foreach (var item in DevicesConnectionsOpts.Modbus_Servers)
+            //{
+            //    var modbus_server = new GPM_Modbus.ModbusTCPServer();
+            //    modbus_server.Active(item, casstteConverters.First(cc => cc.index == item.DeviceId));
+            //    modbus_servers.Add(modbus_server);
+            //}
         }
 
         private static void CasstteConverter_ConnectionStateChanged(object? sender, Common.CONNECTION_STATE connectionState)

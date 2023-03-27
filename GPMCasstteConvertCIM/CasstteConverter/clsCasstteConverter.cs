@@ -32,6 +32,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             LoadPLCMapData();
             this.mainGUI = mainGUI;
             this.mainGUI.casstteConverter = this;
+            PortModbusServersActive();
             EQPInterfaceClockMonitor();
             CIMInterfaceClockUpdate();
             PLCMemorySyncTask();
@@ -39,6 +40,15 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
             Handshaker = new EQPHandShakeHandler(this);
         }
+
+        private void PortModbusServersActive()
+        {
+            foreach (var item in EQPData.PortDatas)
+            {
+                item.ModbusServerActive();
+            }
+        }
+
 
         private void EQPInterfaceClockMonitor()
         {

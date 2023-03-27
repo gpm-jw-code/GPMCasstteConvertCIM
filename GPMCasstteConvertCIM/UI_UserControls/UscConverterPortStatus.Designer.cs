@@ -54,6 +54,7 @@
             labPortID = new Label();
             label4 = new Label();
             labServiceStatusText = new Label();
+            label3 = new Label();
             flowLayoutPanel1.SuspendLayout();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
@@ -404,10 +405,23 @@
             labServiceStatusText.TabIndex = 40;
             labServiceStatusText.Text = "Out Of Service";
             // 
+            // label3
+            // 
+            label3.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            label3.AutoSize = true;
+            label3.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            label3.Location = new Point(412, 32);
+            label3.Name = "label3";
+            label3.Size = new Size(52, 15);
+            label3.TabIndex = 41;
+            label3.Text = "IO LINK";
+            label3.Click += label3_Click;
+            // 
             // UscConverterPortStatus
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(label3);
             Controls.Add(labServiceStatusText);
             Controls.Add(panel2);
             Controls.Add(label2);
@@ -454,5 +468,6 @@
         private Label labPortID;
         private Label label4;
         private Label labServiceStatusText;
+        private Label label3;
     }
 }

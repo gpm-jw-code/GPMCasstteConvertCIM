@@ -1,5 +1,6 @@
 ﻿using GPMCasstteConvertCIM.CasstteConverter.Data;
 using GPMCasstteConvertCIM.Devices;
+using GPMCasstteConvertCIM.Forms;
 using GPMCasstteConvertCIM.GPM_Modbus;
 using GPMCasstteConvertCIM.GPM_SECS;
 using Newtonsoft.Json;
@@ -7,7 +8,9 @@ using Newtonsoft.Json.Converters;
 using Secs4Net;
 using System.Diagnostics;
 using static GPMCasstteConvertCIM.CasstteConverter.Data.clsAGVSData;
+using static GPMCasstteConvertCIM.CasstteConverter.Data.clsMemoryAddress;
 using static GPMCasstteConvertCIM.CasstteConverter.Enums;
+using static GPMCasstteConvertCIM.GPM_Modbus.ModbusServerBase;
 using static GPMCasstteConvertCIM.GPM_SECS.SECSMessageHelper;
 using Item = Secs4Net.Item;
 
@@ -50,6 +53,15 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
             AGVSignals = new clsHS_Status_Signals();
             AGVSignals.OnValidSignalActive += AGVSignals_OnValidSignalActive;
+        }
+
+        public void ModbusServerActive()
+        {
+            if (Properties.ModbusServer_Enable)
+            {
+                BuildServer(new frmModbusTCPServer());
+                SyncRegisterData();
+            }
         }
 
         private void AGVSignals_OnValidSignalActive(object? sender, EventArgs e)
@@ -289,7 +301,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             }
         }
 
-        public ModbusTCPServer modbus_server { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public ModbusTCPServer modbus_server { get; set; }
 
         public async void PortOutOfServiceReport()
         {
@@ -497,18 +509,76 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             });
         }
 
-        public bool BuildServer()
+        public bool BuildServer(frmModbusTCPServer ui)
         {
-            modbus_server = new ModbusTCPServer();
-            modbus_server.Active(new InitialOption
+            try
             {
-                IpAddress = Properties.ModbusServer_IP,
-                Port = Properties.ModbusServer_PORT,
-                IsActive = false,
-                DeviceType = DevicesManager.CIM_DEVICE_TYPES.MODBUS_TCP_Server,
+                modbus_server = new ModbusTCPServer();
+                modbus_server.CoilsOnChanged += Modbus_server_CoilsOnChanged;
+                modbus_server.linkedCasstteConverter = converterParent;
+                ui.ModbusTCPServer = modbus_server;
+                modbus_server.Active(Properties.ModbusServer_IP, Properties.ModbusServer_PORT, ui);
 
-            }, converterParent);
-            return true;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private void Modbus_server_CoilsOnChanged(object? sender, ModbusProtocol e)
+        {
+            ///要把Coil Data同步到PLC Memory 
+            Task.Factory.StartNew(() =>
+            {
+                string portNoName = $"PORT{Properties.PortNo + 1}";
+                List<CasstteConverter.Data.clsMemoryAddress> CIMLinkAddress = converterParent.LinkBitMap.FindAll(ad => ad.EOwner == OWNER.CIM && ad.EScope.ToString() == portNoName && ad.Link_Modbus_Register_Number != -1);
+                foreach (var item in CIMLinkAddress)
+                {
+                    int register_num = item.Link_Modbus_Register_Number;
+                    var localCoilsAry = modbus_server.coils.localArray;
+                    bool state = localCoilsAry[register_num + 1];
+                    converterParent.CIMMemOptions.memoryTable.WriteOneBit(item.Address, state);
+                }
+
+            });
+        }
+
+        public void SyncRegisterData()
+        {
+            Task.Run(async () =>
+            {
+                string portNoName = $"PORT{Properties.PortNo + 1}";
+                while (true)
+                {
+
+                    List<clsMemoryAddress> EQLinkBitAddress = converterParent.LinkBitMap.FindAll(ad => ad.EOwner == OWNER.EQP && ad.EScope.ToString() == portNoName && ad.Link_Modbus_Register_Number != -1);
+                    foreach (var item in EQLinkBitAddress)
+                    {
+                        bool bolState = converterParent.EQPMemOptions.memoryTable.ReadOneBit(item.Address);
+                        modbus_server.discreteInputs.localArray[item.Link_Modbus_Register_Number] = bolState;
+                    }
+
+                    List<clsMemoryAddress> EQLinkWordAddress = converterParent.LinkWordMap.FindAll(ad => ad.EOwner == OWNER.EQP && ad.EScope.ToString() == portNoName && ad.Link_Modbus_Register_Number != -1);
+                    foreach (var item in EQLinkWordAddress)
+                    {
+                        int value = converterParent.EQPMemOptions.memoryTable.ReadBinary(item.Address);
+                        modbus_server.holdingRegisters.localArray[item.Link_Modbus_Register_Number] = (short)value;
+                    }
+
+
+                    List<clsMemoryAddress> CIMLinkWordAddress = converterParent.LinkWordMap.FindAll(ad => ad.EOwner == OWNER.CIM && ad.EScope.ToString() == portNoName && ad.Link_Modbus_Register_Number != -1);
+                    foreach (var item in CIMLinkWordAddress)
+                    {
+                        int value = converterParent.CIMMemOptions.memoryTable.ReadBinary(item.Address);
+                        modbus_server.holdingRegisters.localArray[item.Link_Modbus_Register_Number] = (short)value;
+                    }
+
+                    await Task.Delay(10);
+                }
+
+            });
         }
     }
 }

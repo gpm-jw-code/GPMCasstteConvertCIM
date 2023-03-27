@@ -39,17 +39,17 @@ B124,EQP,,Boolean,,,,,,,,,,,,B,292,B124
 B125,EQP,,Boolean,,,,,,,,,,,,B,293,B125
 B126,EQP,,Boolean,,,,,,,,,,,,B,294,B126
 B127,EQP,,Boolean,,,,,,,,,,,,B,295,B127
-B128,EQP,L_REQ,Boolean,,PORT2,L_REQ,1,,,,,,,,B,296,B128
-B129,EQP,U_REQ,Boolean,,PORT2,U_REQ,2,,,,,,,,B,297,B129
-B12A,EQP,EQ_READY,Boolean,,PORT2,EQ_READY,3,,,,,,,,B,298,B12A
-B12B,EQP,EQ_BUSY,Boolean,,PORT2,EQ_BUSY,4,,,,,,,,B,299,B12B
-B12C,EQP,,Boolean,,PORT2,,5,,,,,,,,B,300,B12C
-B12D,EQP,Load_Request,Boolean,,PORT2,Load_Request,6,,,,,,,,B,301,B12D
-B12E,EQP,Unload_Request,Boolean,,PORT2,Unload_Request,7,,,,,,,,B,302,B12E
-B12F,EQP,Port_Exist,Boolean,,PORT2,Port_Exist,8,,,,,,,,B,303,B12F
-B130,EQP,Port Status Down,Boolean,,PORT2,Port_Status_Down,11,,,,,,,,B,304,B130
-B131,EQP,LD_UP_POS,Boolean,,PORT2,LD_UP_POS,9,,,,,,,,B,305,B131
-B132,EQP,LD_DOWN_POS,Boolean,,PORT2,LD_DOWN_POS,10,,,,,,,,B,306,B132
+B128,EQP,L_REQ,Boolean,,PORT2,L_REQ,13,,,,,,,,B,296,B128
+B129,EQP,U_REQ,Boolean,,PORT2,U_REQ,14,,,,,,,,B,297,B129
+B12A,EQP,EQ_READY,Boolean,,PORT2,EQ_READY,15,,,,,,,,B,298,B12A
+B12B,EQP,EQ_BUSY,Boolean,,PORT2,EQ_BUSY,16,,,,,,,,B,299,B12B
+B12C,EQP,,Boolean,,PORT2,,17,,,,,,,,B,300,B12C
+B12D,EQP,Load_Request,Boolean,,PORT2,Load_Request,18,,,,,,,,B,301,B12D
+B12E,EQP,Unload_Request,Boolean,,PORT2,Unload_Request,19,,,,,,,,B,302,B12E
+B12F,EQP,Port_Exist,Boolean,,PORT2,Port_Exist,20,,,,,,,,B,303,B12F
+B130,EQP,Port Status Down,Boolean,,PORT2,Port_Status_Down,23,,,,,,,,B,304,B130
+B131,EQP,LD_UP_POS,Boolean,,PORT2,LD_UP_POS,21,,,,,,,,B,305,B131
+B132,EQP,LD_DOWN_POS,Boolean,,PORT2,LD_DOWN_POS,22,,,,,,,,B,306,B132
 B133,EQP,Door Opened,Boolean,,PORT2,Door_Opened,,,,,,,,,B,307,B133
 B134,EQP,,Boolean,,PORT2,,,,,,,,,,B,308,B134
 B135,EQP,,Boolean,,PORT2,,,,,,,,,,B,309,B135

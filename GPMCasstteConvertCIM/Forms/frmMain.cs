@@ -83,14 +83,19 @@ namespace GPMCasstteConvertCIM.Forms
                 tlpConverterContainer.Controls.Add(mainUI);
                 mainUI.Dock = DockStyle.Fill;
 
-                ToolStripMenuItem agvs_modbus_emu_selBtn = new ToolStripMenuItem()
+                foreach (clsConverterPort.clsPortProperty port in item.Ports.Values)
                 {
-                    Text = $"Âà´«¬[-{item.DeviceId}({item.ConverterType})",
-                    Tag = item //ConverterEQPInitialOption
-                };
 
-                agvs_modbus_emu_selBtn.Click += Agvs_modbus_emu_selBtn_Click;
-                AGVS_modbus_sim_ToolStripMenuItem.DropDownItems.Add(agvs_modbus_emu_selBtn);
+                    ToolStripMenuItem agvs_modbus_emu_selBtn = new ToolStripMenuItem()
+                    {
+                        Text = $"Âà´«¬[-{item.DeviceId}({item.ConverterType})-Port{port.PortNo}",
+                        Tag = port //ConverterEQPInitialOption
+                    };
+
+                    agvs_modbus_emu_selBtn.Click += Agvs_modbus_emu_selBtn_Click;
+                    AGVS_modbus_sim_ToolStripMenuItem.DropDownItems.Add(agvs_modbus_emu_selBtn);
+                }
+
 
             }
 
@@ -126,10 +131,10 @@ namespace GPMCasstteConvertCIM.Forms
         private void Agvs_modbus_emu_selBtn_Click(object? sender, EventArgs e)
         {
             ToolStripMenuItem agvs_modbus_emu_selBtn = (ToolStripMenuItem)sender;
-            ConverterEQPInitialOption opt = (ConverterEQPInitialOption)agvs_modbus_emu_selBtn.Tag;
+            clsConverterPort.clsPortProperty opt = (clsConverterPort.clsPortProperty)agvs_modbus_emu_selBtn.Tag;
 
-            clsCasstteConverter? linkedCasstteCV = DevicesManager.casstteConverters.FirstOrDefault(c => c.index == opt.DeviceId);
-            frmAGVS_Modbus_Emulator emu = new frmAGVS_Modbus_Emulator(linkedCasstteCV);
+            clsConverterPort? port = DevicesManager.GetAllPorts().FirstOrDefault(c => c.Properties.PortID == opt.PortID);
+            frmAGVS_Modbus_Emulator emu = new frmAGVS_Modbus_Emulator(port);
             emu.Show();
         }
 
