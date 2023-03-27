@@ -36,9 +36,7 @@ namespace GPMCasstteConvertCIM.GPM_Modbus
             UI.Port = Port;
             CoilsOnChanged += ModbusTCPServer_CoilsOnChanged;
             HoldingRegisterOnChanged += ModbusTCPServer_HoldingRegisterOnChanged;
-
             logger.Info($"Modbus TCP Server Listening...(tcp://0.0.0.0:{Port})");
-
             SyncPLCMemory();
         }
 

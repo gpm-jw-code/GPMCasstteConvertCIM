@@ -1,5 +1,6 @@
 ﻿using GPMCasstteConvertCIM.CasstteConverter.Data;
 using GPMCasstteConvertCIM.Devices;
+using GPMCasstteConvertCIM.GPM_Modbus;
 using GPMCasstteConvertCIM.GPM_SECS;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -12,7 +13,7 @@ using Item = Secs4Net.Item;
 
 namespace GPMCasstteConvertCIM.CasstteConverter
 {
-    public class clsConverterPort
+    public class clsConverterPort : IModbusHSable
     {
         public clsCasstteConverter converterParent { get; }
 
@@ -21,6 +22,11 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             public int PortNo { get; set; }
             public string PortID { get; set; } = "Port 1";
             internal bool InSerivce { get; set; } = false;
+
+            public string ModbusServer_IP { get; set; } = "127.0.0.1";
+            public int ModbusServer_PORT { get; set; } = 1502;
+
+            public bool ModbusServer_Enable = true;
 
             internal PortUnitType PortType { get; set; } = PortUnitType.Input_Output;
 
@@ -283,6 +289,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             }
         }
 
+        public ModbusTCPServer modbus_server { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
         public async void PortOutOfServiceReport()
         {
             var msg = new SecsMessage(6, 11)
@@ -489,7 +497,18 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             });
         }
 
+        public bool BuildServer()
+        {
+            modbus_server = new ModbusTCPServer();
+            modbus_server.Active(new InitialOption
+            {
+                IpAddress = Properties.ModbusServer_IP,
+                Port = Properties.ModbusServer_PORT,
+                IsActive = false,
+                DeviceType = DevicesManager.CIM_DEVICE_TYPES.MODBUS_TCP_Server,
 
-
+            }, converterParent);
+            return true;
+        }
     }
 }

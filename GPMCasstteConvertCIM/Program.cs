@@ -22,7 +22,9 @@ namespace GPMCasstteConvertCIM
             ApplicationConfiguration.Initialize();
             Application.Run(new frmMain());
         }
-
+        private static void BuildHttpService()
+        {
+        }
         private static void CheckProgramOpenState()
         {
             var pros = Process.GetProcessesByName(Application.ProductName);

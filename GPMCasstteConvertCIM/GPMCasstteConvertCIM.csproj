@@ -35,6 +35,10 @@
     <Reference Include="Secs4Net.Sml">
       <HintPath>src\Secs4Net.Sml.dll</HintPath>
     </Reference>
+    <Reference Include="websocket-sharp">
+      <HintPath>src\websocket-sharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>

@@ -1,3 +1,5 @@
+using GPMCasstteConvertCIM.API.TcpSupport;
+using GPMCasstteConvertCIM.API.WebsocketSupport;
 using GPMCasstteConvertCIM.CasstteConverter;
 using GPMCasstteConvertCIM.CasstteConverter.Data;
 using GPMCasstteConvertCIM.Devices;
@@ -110,6 +112,9 @@ namespace GPMCasstteConvertCIM.Forms
 
             VirtualAGVSystem.StaVirtualAGVS.Initialize();
 
+            SystemAPI systemAPI = new SystemAPI();
+            systemAPI.Start();
+            WebsocketMiddleware.ServerBuild();
 
             //dgvMsgFromAGVS.DataSource = CIMDevices.secs_host.recvBuffer;
             //dgvActiveMsgToAGVS.DataSource = CIMDevices.secs_host.sendBuffer;
