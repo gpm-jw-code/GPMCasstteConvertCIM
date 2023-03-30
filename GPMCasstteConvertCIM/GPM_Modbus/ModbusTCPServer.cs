@@ -19,14 +19,14 @@ namespace GPMCasstteConvertCIM.GPM_Modbus
             R400001 = 400001,
         }
 
-        internal clsCasstteConverter linkedCasstteConverter { get;  set; }
+        internal clsCasstteConverter linkedCasstteConverter { get; set; }
 
-        public frmModbusTCPServer UI;
+        internal frmModbusTCPServer UI;
         private LoggerBase logger;
         internal int ConnectedClientNum => tcpHandler == null ? 0 : tcpHandler.NumberOfConnectedClients;
         internal void Active(string ip, int port, frmModbusTCPServer ui)
         {
-            Port = port; 
+            Port = port;
             UI = ui;
             UI.ModbusTCPServer = this;
             Listen();

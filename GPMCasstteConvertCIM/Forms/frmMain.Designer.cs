@@ -75,7 +75,7 @@
             toolStripMenuItem_OpenConvert_1_Simulator = new ToolStripMenuItem();
             toolStripMenuItem_OpenConvert_2_Simulator = new ToolStripMenuItem();
             AGVS_modbus_sim_ToolStripMenuItem = new ToolStripMenuItem();
-            aGVS派車模擬器ToolStripMenuItem = new ToolStripMenuItem();
+            aGVSEmuToolStripMenuItem = new ToolStripMenuItem();
             pnlSideLeft = new Panel();
             btnOpenLoginFOrm = new Button();
             label6 = new Label();
@@ -588,7 +588,7 @@
             // 
             // toolStripComboBox1
             // 
-            toolStripComboBox1.DropDownItems.AddRange(new ToolStripItem[] { mCS模擬器ToolStripMenuItem, 轉換架模擬器ToolStripMenuItem, AGVS_modbus_sim_ToolStripMenuItem, aGVS派車模擬器ToolStripMenuItem });
+            toolStripComboBox1.DropDownItems.AddRange(new ToolStripItem[] { mCS模擬器ToolStripMenuItem, 轉換架模擬器ToolStripMenuItem, AGVS_modbus_sim_ToolStripMenuItem, aGVSEmuToolStripMenuItem });
             toolStripComboBox1.ForeColor = Color.White;
             toolStripComboBox1.Name = "toolStripComboBox1";
             toolStripComboBox1.ShowShortcutKeys = false;
@@ -634,10 +634,10 @@
             // 
             // aGVS派車模擬器ToolStripMenuItem
             // 
-            aGVS派車模擬器ToolStripMenuItem.Name = "aGVS派車模擬器ToolStripMenuItem";
-            aGVS派車模擬器ToolStripMenuItem.Size = new Size(239, 24);
-            aGVS派車模擬器ToolStripMenuItem.Text = "AGVS 派車模擬器";
-            aGVS派車模擬器ToolStripMenuItem.Click += aGVS派車模擬器ToolStripMenuItem_Click;
+            aGVSEmuToolStripMenuItem.Name = "aGVS派車模擬器ToolStripMenuItem";
+            aGVSEmuToolStripMenuItem.Size = new Size(239, 24);
+            aGVSEmuToolStripMenuItem.Text = "AGVS 派車模擬器";
+            aGVSEmuToolStripMenuItem.Click += aGVS派車模擬器ToolStripMenuItem_Click;
             // 
             // pnlSideLeft
             // 
@@ -859,7 +859,7 @@
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
         private DataGridViewTextBoxColumn secondaryMessageSMLDataGridViewTextBoxColumn1;
         private BindingSource primaryMessageWrapperBindingSource2;
-        private ToolStripMenuItem aGVS派車模擬器ToolStripMenuItem;
+        private ToolStripMenuItem aGVSEmuToolStripMenuItem;
         private TableLayoutPanel tlpConverterContainer;
         private Panel panel2;
         private UI_UserControls.UscConnectionStates uscConnectionStates1;

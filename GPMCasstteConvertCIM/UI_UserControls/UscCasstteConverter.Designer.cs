@@ -35,7 +35,6 @@
             pnlBanner = new Panel();
             labPLCConnectState = new Label();
             labPLCMCAddress = new Label();
-            labOpenModbusServerFom = new Label();
             btnDown = new Button();
             btnIDLE = new Button();
             btnRun = new Button();
@@ -88,7 +87,6 @@
             pnlBanner.Controls.Add(labPLCConnectState);
             pnlBanner.Controls.Add(labNameDisplay);
             pnlBanner.Controls.Add(labPLCMCAddress);
-            pnlBanner.Controls.Add(labOpenModbusServerFom);
             pnlBanner.Dock = DockStyle.Top;
             pnlBanner.Location = new Point(0, 0);
             pnlBanner.Margin = new Padding(0);
@@ -103,7 +101,7 @@
             labPLCConnectState.Dock = DockStyle.Right;
             labPLCConnectState.Font = new Font("Microsoft JhengHei UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
             labPLCConnectState.ForeColor = Color.Snow;
-            labPLCConnectState.Location = new Point(571, 0);
+            labPLCConnectState.Location = new Point(669, 0);
             labPLCConnectState.Margin = new Padding(0);
             labPLCConnectState.Name = "labPLCConnectState";
             labPLCConnectState.Padding = new Padding(0, 4, 0, 0);
@@ -119,7 +117,7 @@
             labPLCMCAddress.Dock = DockStyle.Right;
             labPLCMCAddress.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
             labPLCMCAddress.ForeColor = Color.Wheat;
-            labPLCMCAddress.Location = new Point(671, 0);
+            labPLCMCAddress.Location = new Point(769, 0);
             labPLCMCAddress.Margin = new Padding(0);
             labPLCMCAddress.Name = "labPLCMCAddress";
             labPLCMCAddress.Padding = new Padding(0, 6, 0, 0);
@@ -127,23 +125,6 @@
             labPLCMCAddress.TabIndex = 31;
             labPLCMCAddress.Text = "255.255.255.255:5123";
             labPLCMCAddress.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // labOpenModbusServerFom
-            // 
-            labOpenModbusServerFom.AutoSize = true;
-            labOpenModbusServerFom.BackColor = Color.Transparent;
-            labOpenModbusServerFom.Dock = DockStyle.Right;
-            labOpenModbusServerFom.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            labOpenModbusServerFom.ForeColor = Color.Black;
-            labOpenModbusServerFom.Location = new Point(802, 0);
-            labOpenModbusServerFom.Margin = new Padding(0);
-            labOpenModbusServerFom.Name = "labOpenModbusServerFom";
-            labOpenModbusServerFom.Padding = new Padding(0, 6, 0, 0);
-            labOpenModbusServerFom.Size = new Size(98, 21);
-            labOpenModbusServerFom.TabIndex = 32;
-            labOpenModbusServerFom.Text = "Modbus Server";
-            labOpenModbusServerFom.TextAlign = ContentAlignment.MiddleLeft;
-            labOpenModbusServerFom.Click += labOpenModbusServerFom_Click;
             // 
             // btnDown
             // 
@@ -197,9 +178,9 @@
             // 
             uscConverterPortStatus1.BackColor = SystemColors.InactiveCaption;
             uscConverterPortStatus1.BorderStyle = BorderStyle.FixedSingle;
+            uscConverterPortStatus1.CstCVPort = null;
             uscConverterPortStatus1.Location = new Point(3, 29);
             uscConverterPortStatus1.Name = "uscConverterPortStatus1";
-            uscConverterPortStatus1.CstCVPort = null;
             uscConverterPortStatus1.Size = new Size(392, 322);
             uscConverterPortStatus1.TabIndex = 27;
             // 
@@ -207,9 +188,9 @@
             // 
             uscConverterPortStatus2.BackColor = SystemColors.InactiveCaption;
             uscConverterPortStatus2.BorderStyle = BorderStyle.FixedSingle;
+            uscConverterPortStatus2.CstCVPort = null;
             uscConverterPortStatus2.Location = new Point(401, 29);
             uscConverterPortStatus2.Name = "uscConverterPortStatus2";
-            uscConverterPortStatus2.CstCVPort = null;
             uscConverterPortStatus2.Size = new Size(392, 322);
             uscConverterPortStatus2.TabIndex = 28;
             // 
@@ -304,7 +285,6 @@
         private UscConverterPortStatus uscConverterPortStatus2;
         private Button btnSoftwareEMO;
         private Button btnAlarmReset;
-        private Label labOpenModbusServerFom;
         private Panel panel1;
         private Label labInterfaceClock;
     }

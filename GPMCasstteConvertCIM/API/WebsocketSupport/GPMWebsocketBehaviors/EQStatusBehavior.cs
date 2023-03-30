@@ -29,18 +29,27 @@ namespace GPMCasstteConvertCIM.API.WebsocketSupport.GPMWebsocketBehaviors
             {
                 while (true)
                 {
-                    await Task.Delay(1000);
-                    if (base.State == WebSocketState.Open)
+                    try
+                    {
+                        if (base.State == WebSocketState.Open)
+                        {
+
+                            IEnumerable<CasstteConverter.Data.clsEQPData> eqdatas = DevicesManager.casstteConverters.Select(eq => eq.EQPData);
+                            string json = JsonConvert.SerializeObject(eqdatas);
+                            Send(json);
+                        }
+                        else if (State == WebSocketState.Closed)
+                        {
+                            break;
+                        }
+                    }
+                    catch (Exception ex)
                     {
 
-                        IEnumerable<CasstteConverter.Data.clsEQPData> eqdatas = DevicesManager.casstteConverters.Select(eq => eq.EQPData);
-                        string json = JsonConvert.SerializeObject(eqdatas);
-                        Send(json);
+                        throw ex;
                     }
-                    else if (State == WebSocketState.Closed)
-                    {
-                        break;
-                    }
+                    await Task.Delay(1000);
+                   
                 }
 
             });

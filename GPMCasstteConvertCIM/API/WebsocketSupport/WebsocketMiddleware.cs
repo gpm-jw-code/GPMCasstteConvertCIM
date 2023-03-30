@@ -17,7 +17,7 @@ namespace GPMCasstteConvertCIM.API.WebsocketSupport
         {
             Task.Run(() =>
             {
-                WebSocketServer server = new WebSocketServer(25231);
+                WebSocketServer server = new WebSocketServer(11441);
                 server.AddWebSocketService<EQStatusBehavior>("/eq_status");
                 server.Start();
             });
