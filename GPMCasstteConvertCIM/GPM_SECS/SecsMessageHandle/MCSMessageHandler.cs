@@ -13,7 +13,7 @@ using GPMCasstteConvertCIM.CasstteConverter;
 using System.Diagnostics;
 using static GPMCasstteConvertCIM.GPM_SECS.SECSMessageHelper;
 
-namespace GPMCasstteConvertCIM.CIM.SecsMessageHandle
+namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
 {
     internal class MCSMessageHandler
     {
@@ -28,16 +28,16 @@ namespace GPMCasstteConvertCIM.CIM.SecsMessageHandle
 
             if (_primaryMessage.S == 2 && _primaryMessage.F == 33) // Define Report
             {
-                SECSMessageHelper.DefineReport(_primaryMessage);
+                DefineReport(_primaryMessage);
             }
             if (_primaryMessage.S == 2 && _primaryMessage.F == 35) // Link Event Report
             {
-                SECSMessageHelper.LinkEventReport(_primaryMessage);
+                LinkEventReport(_primaryMessage);
             }
             if (_primaryMessage.S == 2 && _primaryMessage.F == 41)
             {
-                _primaryMessage.TryGetRCMDAction_S2F41(out SECSMessageHelper.RCMD cmd, out Item parameterGroups);
-                if (cmd == SECSMessageHelper.RCMD.PORTTYPECHG)
+                _primaryMessage.TryGetRCMDAction_S2F41(out RCMD cmd, out Item parameterGroups);
+                if (cmd == RCMD.PORTTYPECHG)
                 {
                     PortTypeChangeHandler(parameterGroups, _primaryMessageWrapper);
                     return;
@@ -253,7 +253,7 @@ namespace GPMCasstteConvertCIM.CIM.SecsMessageHandle
             {
                 return L(
                             A(port.Properties.PortID),
-                            U2((ushort)(port.Properties.PortType))
+                            U2((ushort)port.Properties.PortType)
                         );
             }
 

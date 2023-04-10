@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.HighPerformance.Buffers;
 using GPMCasstteConvertCIM.CasstteConverter.Data;
-using GPMCasstteConvertCIM.CIM;
+using GPMCasstteConvertCIM.Devices;
 using GPMCasstteConvertCIM.Forms;
 using GPMCasstteConvertCIM.UI_UserControls;
 using GPMCasstteConvertCIM.Utilities;

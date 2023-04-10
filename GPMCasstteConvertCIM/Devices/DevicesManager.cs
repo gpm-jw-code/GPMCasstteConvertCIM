@@ -1,8 +1,7 @@
 ﻿using GPMCasstteConvertCIM.CasstteConverter;
-using GPMCasstteConvertCIM.CIM;
-using GPMCasstteConvertCIM.CIM.SecsMessageHandle;
 using GPMCasstteConvertCIM.Forms;
 using GPMCasstteConvertCIM.GPM_SECS;
+using GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle;
 using GPMCasstteConvertCIM.UI_UserControls;
 using GPMCasstteConvertCIM.Utilities;
 using Newtonsoft.Json;

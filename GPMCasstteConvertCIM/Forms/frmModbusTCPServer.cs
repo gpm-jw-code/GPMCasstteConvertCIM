@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static GPMCasstteConvertCIM.CasstteConverter.Data.clsMemoryAddress;
+using static GPMCasstteConvertCIM.UI_UserControls.Extensions;
 
 namespace GPMCasstteConvertCIM.Forms
 {
@@ -197,8 +198,8 @@ namespace GPMCasstteConvertCIM.Forms
 
         private void frmModbusTCPServer_Load(object sender, EventArgs e)
         {
-            dgvDOTable.RowColorSet(Extensions.DataGridViewType.MODBUS);
-            dgvDITable.RowColorSet(Extensions.DataGridViewType.MODBUS);
+            dgvDOTable.RowColorSet(DataGridViewType.MODBUS);
+            dgvDITable.RowColorSet(DataGridViewType.MODBUS);
         }
 
         private void dgvDITable_CellValueChanged(object sender, DataGridViewCellEventArgs e)

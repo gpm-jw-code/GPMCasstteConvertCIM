@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GPMCasstteConvertCIM.CIM.SecsMessageHandle
+namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
 {
     internal class AGVSMessageHandler
     {

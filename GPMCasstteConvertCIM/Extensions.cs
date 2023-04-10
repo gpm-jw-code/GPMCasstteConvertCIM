@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static GPMCasstteConvertCIM.Devices.DevicesManager;
 
-namespace GPMCasstteConvertCIM.CIM
+namespace GPMCasstteConvertCIM
 {
     public static class Extensions
     {
@@ -44,7 +44,7 @@ namespace GPMCasstteConvertCIM.CIM
             };
 
         }
-        internal static Common.CONNECTION_STATE ToCommonConnectionState(this Secs4Net.ConnectionState secs_connectionState)
+        internal static Common.CONNECTION_STATE ToCommonConnectionState(this ConnectionState secs_connectionState)
         {
             switch (secs_connectionState)
             {

@@ -1,5 +1,4 @@
-﻿using GPMCasstteConvertCIM.CIM;
-using GPMCasstteConvertCIM.Emulators.SecsEmu;
+﻿using GPMCasstteConvertCIM.Emulators.SecsEmu;
 using GPMCasstteConvertCIM.GPM_SECS;
 using Secs4Net;
 using System;
