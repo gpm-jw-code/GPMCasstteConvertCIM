@@ -78,23 +78,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         internal List<clsMemoryAddress> LinkWordMap { get; private set; } = new List<clsMemoryAddress>();
 
         internal List<clsMemoryAddress> WIP_Port1_BCR_ID_Addresses => LinkWordMap.FindAll(ad => ad.PropertyName.Contains("WIPInfo_Port1_BCR_ID_"));
-        internal List<clsMemoryAddress> WIP_LOC_ID_Addresses => LinkWordMap.FindAll(ad => ad.PropertyName.Contains("WIPInfo_Loc_ID_"));
-        internal List<clsMemoryAddress> ManualLoad_BCR_ID_Addresses => LinkWordMap.FindAll(ad => ad.PropertyName.Contains("ManualLoad_BCR_ID"));
-        internal List<clsMemoryAddress> ManuaUnlLoad_BCR_ID_Addresses => LinkWordMap.FindAll(ad => ad.PropertyName.Contains("ManualUnload_BCR_ID"));
         internal clsMemoryAddress EQPInterfaceClockAddress => LinkWordMap.FirstOrDefault(lp => lp.EOwner == clsMemoryAddress.OWNER.EQP && lp.EProperty == PROPERTY.Interface_Clock);
-
-        internal string CIMWordStartAddress => LinkWordMap.FirstOrDefault(lp => lp.EOwner == clsMemoryAddress.OWNER.CIM)?.Address;
-        internal string CIMWordEndAddress => LinkWordMap.LastOrDefault(lp => lp.EOwner == clsMemoryAddress.OWNER.CIM)?.Address;
-
-
-        internal string CIMBitStartAddress => LinkBitMap.FirstOrDefault(lp => lp.EOwner == clsMemoryAddress.OWNER.CIM)?.Address;
-        internal string CIMBitEndAddress => LinkBitMap.LastOrDefault(lp => lp.EOwner == clsMemoryAddress.OWNER.CIM)?.Address;
-
-        internal string EQPWordStartAddress => LinkWordMap.FirstOrDefault(lp => lp.EOwner == clsMemoryAddress.OWNER.EQP)?.Address;
-        internal string EQPWordEndAddress => LinkWordMap.LastOrDefault(lp => lp.EOwner == clsMemoryAddress.OWNER.EQP)?.Address;
-
-        internal string EQPBitStartAddress => LinkBitMap.FirstOrDefault(lp => lp.EOwner == clsMemoryAddress.OWNER.EQP)?.Address;
-        internal string EQPBitEndAddress => LinkBitMap.LastOrDefault(lp => lp.EOwner == clsMemoryAddress.OWNER.EQP)?.Address;
 
         public McInterfaceOptions mcInterfaceOptions { get; private set; } = new McInterfaceOptions();
         internal clsMCE71Interface? mcInterface = new clsMCE71Interface();
@@ -285,6 +269,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             try
             {
 
+                //讀取
                 foreach (var item in LinkWordMap)
                 {
 
@@ -299,6 +284,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                         //AGVSData.TrySetPropertyValue(item.PropertyName, item.Value, out bool valChanged);
                     }
                 }
+                //寫入
                 foreach (var item in LinkBitMap)
                 {
 

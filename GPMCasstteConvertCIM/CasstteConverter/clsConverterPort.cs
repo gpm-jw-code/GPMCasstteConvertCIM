@@ -22,6 +22,9 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         public class clsPortProperty
         {
+            /// <summary>
+            /// (Zero-Based)
+            /// </summary>
             public int PortNo { get; set; }
             public string PortID { get; set; } = "Port 1";
             internal bool InSerivce { get; set; } = false;
@@ -279,7 +282,53 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         }
         public bool Port_Mode_Change_Accept { get; internal set; }
         public bool Port_Mode_Changed_Refuse { get; internal set; }
-        public bool Port_Mode_Changed_Report { get; internal set; }
+        public bool _Port_Mode_Changed_Report = false;
+        public bool Port_Mode_Changed_Report
+        {
+            get => _Port_Mode_Changed_Report;
+            set
+            {
+                if (_Port_Mode_Changed_Report != value)
+                {
+                    _Port_Mode_Changed_Report = value;
+                    if (_Port_Mode_Changed_Report)
+                    {
+                        PortModeChangedReportHandshake();
+                    }
+                }
+            }
+        }
+
+
+        private async void PortModeChangedReportHandshake()
+        {
+            _ = Task.Factory.StartNew(() =>
+            {
+                string portScope = $"PORT{Properties.PortNo + 1}";
+                clsMemoryAddress cim_to_eq_reply_adress = converterParent.LinkBitMap.First(i => i.EScope.ToString() == portScope && i.EProperty == PROPERTY.Port_Mode_Changed_Report_Reply);
+                clsMemoryAddress eq_to_cim_report_adress = converterParent.LinkBitMap.First(i => i.EScope.ToString() == portScope && i.EProperty == PROPERTY.Port_Mode_Changed_Report);
+
+                //ON CIM BIT
+                converterParent.CIMMemOptions.memoryTable.WriteOneBit(cim_to_eq_reply_adress.Address,true);
+                CancellationTokenSource cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+                bool timeout = false;
+                //等待EQ OFF BIT
+                while ((bool)eq_to_cim_report_adress.Value)
+                {
+                    Thread.Sleep(1);
+                    if (cts.IsCancellationRequested)
+                    {
+                        timeout = true;//T3 Timeout
+                        break;
+                    }
+                }
+                //OFF CIM BIT
+                converterParent.CIMMemOptions.memoryTable.WriteOneBit(cim_to_eq_reply_adress.Address,false);
+                cts.Dispose();
+
+            });
+        }
+
         public bool Port_Disabled_Report { get; internal set; }
         public bool Port_Enabled_Report { get; internal set; }
         public int Port_Auto_Manual_Mode_Status { get; internal set; }
