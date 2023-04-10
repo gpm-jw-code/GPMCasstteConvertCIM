@@ -54,6 +54,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             LD_UP_POS,
             LD_DOWN_POS,
             Door_Opened,
+            TB_DOWN_POS,
             Carrier_WaitIn_System_Request,
             Carrier_WaitOut_System_Report,
             Carrier_Removed_Completed_Report,
