@@ -1,4 +1,4 @@
-﻿Memory (Hex),Owner,Data Name,Data Format,Explanation,Device,Code_Property,Modbus_Register,,,,,,,,Memory Type _ 1,Memory Address,
+Memory (Hex),Owner,Data Name,Data Format,Explanation,Device,Code_Property,Modbus_Register,,,,,,,,Memory Type _ 1,Memory Address,
 B100,EQP,EQP Status Run,Boolean,5.2.1 Status Report by EQ,EQ,EQP_RUN,,,,,,,,,B,256,B100
 B101,EQP,EQP Status Idle,Boolean,5.2.1 Status Report by EQ,EQ,EQP_IDLE,,,,,,,,,B,257,B101
 B102,EQP,EQP Status Down,Boolean,5.2.1 Status Report by EQ,EQ,EQP_DOWN,,,,,,,,,B,258,B102
@@ -15,7 +15,7 @@ B10C,EQP,Port Status Down,Boolean,,PORT1,Port_Status_Down,11,,,,,,,,B,268,B10C
 B10D,EQP,LD_UP_POS,Boolean,,PORT1,LD_UP_POS,9,,,,,,,,B,269,B10D
 B10E,EQP,LD_DOWN_POS,Boolean,,PORT1,LD_DOWN_POS,10,,,,,,,,B,270,B10E
 B10F,EQP,Door Opened,Boolean,,PORT1,Door_Opened,,,,,,,,,B,271,B10F
-B110,EQP,,Boolean,6.1 Rack Load Request,PORT1,,,,,,,,,,B,272,B110
+B110,EQP,TB_DOWN_POS,Boolean,6.1 Rack Load Request,PORT1,TB_DOWN_POS,12,,,,,,,,B,272,B110
 B111,EQP,,Boolean,6.1 Rack Unload Request,PORT1,,,,,,,,,,B,273,B111
 B112,EQP,,Boolean,6.2 Change Mode CMD,PORT1,,,,,,,,,,B,274,B112
 B113,EQP,,Boolean,6.3 Manual Load Complete,PORT1,,,,,,,,,,B,275,B113
@@ -51,7 +51,7 @@ B130,EQP,Port Status Down,Boolean,,PORT2,Port_Status_Down,11,,,,,,,,B,304,B130
 B131,EQP,LD_UP_POS,Boolean,,PORT2,LD_UP_POS,9,,,,,,,,B,305,B131
 B132,EQP,LD_DOWN_POS,Boolean,,PORT2,LD_DOWN_POS,10,,,,,,,,B,306,B132
 B133,EQP,Door Opened,Boolean,,PORT2,Door_Opened,,,,,,,,,B,307,B133
-B134,EQP,,Boolean,,PORT2,,,,,,,,,,B,308,B134
+B134,EQP,TB_DOWN_POS,Boolean,,PORT2,TB_DOWN_POS,12,,,,,,,,B,308,B134
 B135,EQP,,Boolean,,PORT2,,,,,,,,,,B,309,B135
 B136,EQP,,Boolean,,PORT2,,,,,,,,,,B,310,B136
 B137,EQP,,Boolean,,PORT2,,,,,,,,,,B,311,B137

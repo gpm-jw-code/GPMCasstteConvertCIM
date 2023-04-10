@@ -228,6 +228,9 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         public bool LD_UP_POS { get; internal set; }
         public bool LD_DOWN_POS { get; internal set; }
         public bool DoorOpened { get; internal set; }
+        public bool TB_DOWN_POS { get; internal set; }
+
+
 
         private bool _CarrierWaitINSystemRequest;
         public bool CarrierWaitINSystemRequest
