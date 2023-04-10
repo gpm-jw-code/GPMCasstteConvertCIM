@@ -1,8 +1,8 @@
 ﻿Memory (Hex),Owner,Data Name,Data Format,Explanation,Device,Code_Property,Modbus_Register,,,,,,,,5000
 W0000,AGVS,Interface Clock ,Binary,6.1 Alive Check,AGVS,Interface_Clock,55,,,,,,,,5000
 W0001,AGVS,,,,,,56,,,,,,,,5000
-W0002,AGVS,Port1 - Port Mode Status Request,Binary,7.6 Port Mode Change Request,AGVS,,57,,,,,,,,5000
-W0003,AGVS,Port2 - Port Mode Status Request,Binary,7.6 Port Mode Change Request,AGVS,,58,,,,,,,,5000
+W0002,AGVS,Port1 - Port Mode Status Request,Binary,7.6 Port Mode Change Request,PORT1,Port_Type_Status,57,,,,,,,,5000
+W0003,AGVS,Port2 - Port Mode Status Request,Binary,7.6 Port Mode Change Request,PORT2,Port_Type_Status,58,,,,,,,,5000
 W0004,AGVS,,,,,,59,,,,,,,,5000
 W0005,AGVS,,,,,,60,,,,,,,,5000
 W0006,AGVS,AGVS Message Download Index,Binary,6.4.1 AGVS Message Display,AGVS,,61,,,,,,,,5000

@@ -67,8 +67,8 @@ namespace SecsDevice
             SecsMessage rep = await _secsGem.SendAsync(new SecsMessage(1, 3)
             {
                 SecsItem =
-                            Item.L( 
-                                    Item.U2(2001), 
+                            Item.L(
+                                    Item.U2(2001),
                                     Item.U2(2002),
                                     Item.U2(2003),
                                     Item.U2(2004),
@@ -78,6 +78,27 @@ namespace SecsDevice
                                     Item.U2(2008),
                                     Item.U2(2009)
                                 )
+            });
+        }
+
+        private async void btnS2F41PortTypeChange_Click(object sender, EventArgs e)
+        {
+            SecsMessage rep = await _secsGem.SendAsync(new SecsMessage(2, 41)
+            {
+                SecsItem =
+                Item.L(
+                        Item.A("PORTTYPECHG"),
+                        Item.L(
+                            Item.L(
+                                   Item.A("PORTID"),
+                                   Item.A("3F_AGVC02_PORT_2_1")
+                            ),
+                            Item.L(
+                                   Item.A("PORTUNITTYPE"),
+                                   Item.U2(1)
+                            )
+                       )
+                  )
             });
         }
     }

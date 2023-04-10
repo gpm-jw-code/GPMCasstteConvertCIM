@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GPMCasstteConvertCIM.CasstteConverter;
 using System.Diagnostics;
+using static GPMCasstteConvertCIM.GPM_SECS.SECSMessageHelper;
 
 namespace GPMCasstteConvertCIM.CIM.SecsMessageHandle
 {
@@ -35,16 +36,19 @@ namespace GPMCasstteConvertCIM.CIM.SecsMessageHandle
             }
             if (_primaryMessage.S == 2 && _primaryMessage.F == 41)
             {
-                _primaryMessage.TryGetRCMDAction(out SECSMessageHelper.RCMD cmd, out Item parameterGroups);
+                _primaryMessage.TryGetRCMDAction_S2F41(out SECSMessageHelper.RCMD cmd, out Item parameterGroups);
                 if (cmd == SECSMessageHelper.RCMD.PORTTYPECHG)
-                    PortTypeChangeHandler(parameterGroups);
+                {
+                    PortTypeChangeHandler(parameterGroups, _primaryMessageWrapper);
+                    return;
+                }
             }
 
             TransmitMsgToAGVS(_primaryMessageWrapper);
 
         }
 
-        private static void PortTypeChangeHandler(Item parameterGroups)
+        private async static void PortTypeChangeHandler(Item parameterGroups, PrimaryMessageWrapper _primaryMessageWrapper)
         {
             //L(
             //  L(
@@ -60,11 +64,13 @@ namespace GPMCasstteConvertCIM.CIM.SecsMessageHandle
 
             string port_id = parameterGroups.Items[0].Items[1].GetString();
             ushort port_type = parameterGroups.Items[1].Items[1].FirstValue<ushort>();
-
             clsConverterPort port = DevicesManager.GetPortByPortID(port_id);
+            bool accept = await port.Mode_Change_RequestAsync(port_type == 0 ? PortUnitType.Input : PortUnitType.Output);
 
-            port.Mode_Change_Request = true;
-
+            //TODO SEND REPLY TO MCS(PORTTYPECHANGE ack)
+            _primaryMessageWrapper.TryReplyAsync(new SecsMessage(2, 42, false)
+            {
+            });
         }
 
         private static async void TransmitMsgToAGVS(PrimaryMessageWrapper _primaryMessageWrapper)
