@@ -281,6 +281,7 @@ namespace GPMCasstteConvertCIM.Forms
                     StaUsersManager.Logout();
                     btnOpenLoginFOrm.Text = "Login";
                     label6.Text = "VISITOR";
+                    GPMRDMenuStrip.Visible = false;
                 }
                 return;
             }

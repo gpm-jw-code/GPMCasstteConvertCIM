@@ -404,6 +404,7 @@
             labServiceStatusText.Size = new Size(233, 40);
             labServiceStatusText.TabIndex = 40;
             labServiceStatusText.Text = "Out Of Service";
+            labServiceStatusText.Visible = false;
             // 
             // label3
             // 
