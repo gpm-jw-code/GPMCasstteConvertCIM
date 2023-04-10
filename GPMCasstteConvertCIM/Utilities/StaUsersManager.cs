@@ -20,7 +20,7 @@ namespace GPMCasstteConvertCIM.Utilities
         internal class User
         {
             public USER_GROUP Group { get; set; }
-            public string Name { get; set; }
+            public string Name { get; set; } = "";
             public string Password { get; set; }
         }
 
@@ -62,7 +62,7 @@ namespace GPMCasstteConvertCIM.Utilities
                 return true;
             }
 
-            user = Users.Values.SelectMany(v => v).FirstOrDefault(user => user.Name == name && user.Password == pw);
+            user = Users.Values.SelectMany(v => v).FirstOrDefault(user => user.Name.ToUpper() == name.ToUpper() && user.Password == pw);
             bool success = user != null;
             CurrentUser = success ? user : new User()
             {
