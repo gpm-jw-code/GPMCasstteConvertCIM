@@ -358,6 +358,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 await Task.Delay(10);
                 if (cts.IsCancellationRequested)
                 {
+                    VirtualMemoryTable.WriteOneBit(cim_2_eq_port_mode_change_req_address_name, false);
+                    VirtualMemoryTable.WriteBinary(port_type_data_address_name, 0);
                     return false;
                 }
             }
@@ -369,6 +371,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 await Task.Delay(10);
                 if (cts.IsCancellationRequested)
                 {
+                    VirtualMemoryTable.WriteBinary(port_type_data_address_name, 0);
                     return false;
                 }
             }
