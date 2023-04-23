@@ -632,9 +632,9 @@
             AGVS_modbus_sim_ToolStripMenuItem.Size = new Size(239, 24);
             AGVS_modbus_sim_ToolStripMenuItem.Text = "AGVS Modbus 模擬器";
             // 
-            // aGVS派車模擬器ToolStripMenuItem
+            // aGVSEmuToolStripMenuItem
             // 
-            aGVSEmuToolStripMenuItem.Name = "aGVS派車模擬器ToolStripMenuItem";
+            aGVSEmuToolStripMenuItem.Name = "aGVSEmuToolStripMenuItem";
             aGVSEmuToolStripMenuItem.Size = new Size(239, 24);
             aGVSEmuToolStripMenuItem.Text = "AGVS 派車模擬器";
             aGVSEmuToolStripMenuItem.Click += aGVS派車模擬器ToolStripMenuItem_Click;

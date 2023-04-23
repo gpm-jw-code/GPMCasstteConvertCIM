@@ -15,6 +15,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static GPMCasstteConvertCIM.CasstteConverter.Data.clsMemoryAddress;
+using static GPMCasstteConvertCIM.Emulators.UscAGVSModbusClientEmulator;
 using static GPMCasstteConvertCIM.GPM_Modbus.ModbusServerBase;
 using static GPMCasstteConvertCIM.GPM_Modbus.TCPHandler;
 
@@ -66,7 +67,7 @@ namespace GPMCasstteConvertCIM.Emulators
 
 
             string PortName = $"PORT{casstte_port.Properties.PortNo + 1}";
-            List<CasstteConverter.Data.clsMemoryAddress> modbus_linked_addresses = casstte_port.converterParent.LinkBitMap.FindAll(mem => mem.EOwner == OWNER.EQP && mem.EScope.ToString()== PortName && mem.Link_Modbus_Register_Number != -1);
+            List<CasstteConverter.Data.clsMemoryAddress> modbus_linked_addresses = casstte_port.converterParent.LinkBitMap.FindAll(mem => mem.EOwner == OWNER.EQP && mem.EScope.ToString() == PortName && mem.Link_Modbus_Register_Number != -1);
             List<CasstteConverter.Data.clsMemoryAddress> DI_modbus_linked_addresses = casstte_port.converterParent.LinkBitMap.FindAll(mem => mem.EOwner == OWNER.CIM && mem.EScope.ToString() == PortName && mem.Link_Modbus_Register_Number != -1);
             List<CasstteConverter.Data.clsMemoryAddress> word_address = casstte_port.converterParent.LinkWordMap.FindAll(mem => mem.Link_Modbus_Register_Number != -1).OrderBy(mem => mem.Link_Modbus_Register_Number).ToList();
 
@@ -93,12 +94,12 @@ namespace GPMCasstteConvertCIM.Emulators
                     });
                 }
 
-                CasstteConverter.Data.clsMemoryAddress? do_address = DI_modbus_linked_addresses.FirstOrDefault(m => m.Link_Modbus_Register_Number == i);
+                CasstteConverter.Data.clsMemoryAddress? do_address = DI_modbus_linked_addresses.FirstOrDefault(m => m.Link_Modbus_Register_Number == i-1);
                 if (do_address != null)
                 {
                     DigitalOutputs.Add(new DigitalIORegister(DigitalIORegister.IO_TYPE.INPUT)
                     {
-                        Index = i,
+                        Index = i - 1,
                         State = (bool)do_address.Value,
                         Description = do_address.DataName
                     });
@@ -107,7 +108,7 @@ namespace GPMCasstteConvertCIM.Emulators
                 {
                     DigitalOutputs.Add(new DigitalIORegister(DigitalIORegister.IO_TYPE.INPUT)
                     {
-                        Index = i,
+                        Index = i - 1,
                         State = false,
                         Description = ""
                     });
@@ -152,9 +153,7 @@ namespace GPMCasstteConvertCIM.Emulators
                 {
                     while (true)
                     {
-
-
-                        await Task.Delay(200, cancellationToken.Token);
+                        await Task.Delay(100, cancellationToken.Token);
                         if (WriteMethod == WRITE_METHOD.MANUAL)
                             continue;
 
@@ -275,16 +274,16 @@ namespace GPMCasstteConvertCIM.Emulators
             }
         }
 
-        private int Valid_SignalIndex = 0;
-        private int TR_REQ_SignalIndex = 1;
-        private int BUSY_SignalIndex = 2;
-        private int COMPT_SignalIndex = 3;
-        private int AGV_READY_SignalIndex = 4;
+        private int Valid_SignalIndex = 16;
+        private int TR_REQ_SignalIndex = 17;
+        private int BUSY_SignalIndex = 18;
+        private int COMPT_SignalIndex = 19;
+        private int AGV_READY_SignalIndex = 20;
 
-        private int To_EQ_UP_SignalIndex = 8;
-        private int To_EQ_DOWN_SignalIndex = 9;
-        private int CMD_Reserve_Up_SignalIndex = 10;
-        private int CMD_Reserve_Down_SignalIndex = 11;
+        private int To_EQ_UP_SignalIndex = 24;
+        private int To_EQ_DOWN_SignalIndex = 25;
+        private int CMD_Reserve_Up_SignalIndex = 26;
+        private int CMD_Reserve_Down_SignalIndex = 27;
 
 
 
@@ -368,15 +367,19 @@ namespace GPMCasstteConvertCIM.Emulators
             LDULDHSCancel = new CancellationTokenSource();
             Invoke(new Action(async () =>
             {
-                STATE_IO_To_EQ_DOWN.State = STATE_IO_CMD_Reserve_Down.State = true;
+                WriteMethod = WRITE_METHOD.REAL_TIME;
+                await Task.Delay(1000);
+                STATE_IO_To_EQ_UP.State = STATE_IO_CMD_Reserve_Up.State = true;
                 btnStartLDSim.Enabled = btnStartULDSim.Enabled = false;
                 rtbSimulationLog.Clear();
                 ResetHSState();
                 await LD_ULD_HS(ld_uld_action);
                 ResetHSState();
-                STATE_IO_To_EQ_DOWN.State = STATE_IO_CMD_Reserve_Down.State = false;
+                STATE_IO_To_EQ_UP.State = STATE_IO_CMD_Reserve_Up.State = false;
                 btnStartLDSim.Enabled = btnStartULDSim.Enabled = true;
                 LDULDHSCancel.Cancel();
+                await Task.Delay(1000);
+                WriteMethod = WRITE_METHOD.MANUAL;
             }));
         }
 
@@ -414,7 +417,7 @@ namespace GPMCasstteConvertCIM.Emulators
 
             HS_IO_AGV_AGV_READY.State = true;
 
-            timeout = await WaitSignalON(HS_IO_EQ_EQ_BUSY, 10000);
+            timeout = await WaitSignalON(HS_IO_EQ_EQ_BUSY, 30000);
             if (timeout)
                 return false;
 
