@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GPMCasstteConvertCIM.Alarm;
 using GPMCasstteConvertCIM.Utilities;
 using Microsoft.Extensions.Options;
 using Secs4Net;
@@ -131,11 +132,9 @@ namespace GPMCasstteConvertCIM.GPM_SECS
         /// <returns></returns>
         internal async Task<SecsMessage> SendAsync(SecsMessage message, CancellationToken cancellationToken = default)
         {
-
             return await Task.Run(async () =>
             {
-                SecsMessage secondaryMessage = null;
-
+                SecsMessage? secondaryMessage = null;
                 try
                 {
                     secondaryMessage = await secsGem?.SendAsync(message, cancellationToken);
@@ -145,6 +144,15 @@ namespace GPMCasstteConvertCIM.GPM_SECS
                     }
                     catch (Exception ex)
                     {
+
+                    }
+                    if (secondaryMessage.S == 6 && secondaryMessage.F == 12)
+                    {
+                        secondaryMessage.TryGetEventReportAckResult(out SECSMessageHelper.ACKC6 ack);
+                        if (ack != SECSMessageHelper.ACKC6.Accpeted)
+                        {
+                            AlarmManager.AddWarning(ALARM_CODES.EVENT_REPORT_COMPLETED_BUT_ACK_IS_SYSTEM_ERROR_65, "SECS BASE");
+                        }
                     }
                     return secondaryMessage;
                 }
@@ -152,7 +160,6 @@ namespace GPMCasstteConvertCIM.GPM_SECS
                 {
                     return secondaryMessage;
                 }
-
             });
         }
 

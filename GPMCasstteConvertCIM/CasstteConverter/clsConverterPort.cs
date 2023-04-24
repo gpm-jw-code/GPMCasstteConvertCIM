@@ -1,4 +1,5 @@
-﻿using GPMCasstteConvertCIM.CasstteConverter.Data;
+﻿using GPMCasstteConvertCIM.Alarm;
+using GPMCasstteConvertCIM.CasstteConverter.Data;
 using GPMCasstteConvertCIM.Devices;
 using GPMCasstteConvertCIM.Forms;
 using GPMCasstteConvertCIM.GPM_Modbus;
@@ -41,6 +42,18 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         }
 
+        public class HandShakeResult
+        {
+            public bool Finish;
+            public string Message;
+            public bool Timeout;
+
+            public void Reset()
+            {
+                Finish = Timeout = false;
+                Message = "";
+            }
+        }
 
         public clsPortProperty Properties = new clsPortProperty();
         public event EventHandler<clsConverterPort> ModeChangeOnRequest;
@@ -48,6 +61,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         public event EventHandler<clsConverterPort> CarrierWaitOutOnReport;
         public event EventHandler<clsConverterPort> CarrierRemovedCompletedOnReport;
         public event EventHandler<clsConverterPort> OnValidSignalActive;
+        public string PortNameWithEQName => converterParent.Name + $"-[{Properties.PortID}]";
 
         public string portNoName => $"PORT{Properties.PortNo + 1}";
 
@@ -185,39 +199,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 }
             }
         }
-        public AGVS_CONNECT_STATUS EAGVSConnectStatus
-        {
-            get
-            {
-                try
-                {
-                    return Enum.GetValues(typeof(AGVS_CONNECT_STATUS)).Cast<AGVS_CONNECT_STATUS>().First(en => AGVSConnectStatus == (int)en);
-
-                }
-                catch (Exception)
-                {
-                    return AGVS_CONNECT_STATUS.Unknown;
-                }
-
-            }
-        }
-
-        public AUTO_MANUAL_MODE ERackModeRequest
-        {
-            get
-            {
-                try
-                {
-                    return Enum.GetValues(typeof(AUTO_MANUAL_MODE)).Cast<AUTO_MANUAL_MODE>().First(en => RackModeRequest == (int)en);
-
-                }
-                catch (Exception)
-                {
-                    return AUTO_MANUAL_MODE.Unknown;
-                }
-
-            }
-        }
 
         public string WIPINFO_BCR_ID
         {
@@ -275,7 +256,14 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     _CarrierWaitINSystemRequest = value;
                     if (_CarrierWaitINSystemRequest)
                     {
-                        CarrierWaitInOnRequest?.Invoke(this, this);
+                        Task.Factory.StartNew(async () =>
+                        {
+                            bool timeout = await CarrierWaitInReply();
+                            if (timeout)
+                            {
+                                AlarmManager.AddAlarm(ALARM_CODES.CarrierWaitIn_HS_EQ_Timeout, PortNameWithEQName);
+                            }
+                        });
                     }
                 }
             }
@@ -291,7 +279,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     _CarrierWaitOUTSystemRequest = value;
                     if (_CarrierWaitOUTSystemRequest)
                     {
-                        CarrierWaitOutOnReport?.Invoke(this, this);
+                        CarrierWaitOutReply();
                     }
                 }
             }
@@ -307,7 +295,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     _CarrierRemovedCompletedReport = value;
                     if (_CarrierRemovedCompletedReport)
                     {
-                        CarrierRemovedCompletedOnReport?.Invoke(this, this);
+                        CarrierRemovedCompletedReply();
+
                     }
                 }
             }
@@ -428,6 +417,12 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         public ModbusTCPServer modbus_server { get; set; }
 
+
+        public async void PortReport()
+        {
+
+        }
+
         public async void PortOutOfServiceReport()
         {
             var msg = new SecsMessage(6, 11)
@@ -446,8 +441,11 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                                )
             };
             var replyMsg = await DevicesManager.secs_host_for_mcs.SendAsync(msg);
+            if (replyMsg == null)
+            {
+                AlarmManager.AddAlarm(ALARM_CODES.MCS_PORT_OUT_SERVICE_REPORT_FAIL, this.PortNameWithEQName);
+            }
         }
-
         public async void PortInServiceReport()
         {
             _ = Task.Run(async () =>
@@ -468,6 +466,11 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                                  )
                 };
                 var replyMsg = await DevicesManager.secs_host_for_mcs.SendAsync(msg);
+                if (replyMsg == null)
+                {
+
+                    AlarmManager.AddAlarm(ALARM_CODES.MCS_PORT_IN_SERVICE_REPORT_FAIL, this.PortNameWithEQName);
+                }
             });
         }
         public async void PortTypeInputReport()
@@ -533,6 +536,12 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 try
                 {
                     var msc_reply = await DevicesManager.secs_host_for_mcs.SendAsync(EVENT_REPORT.CarrierWaitInReportMessage(WIPINFO_BCR_ID, "", ""));
+                    if (msc_reply == null)
+                    {
+                        AlarmManager.AddAlarm(ALARM_CODES.CARRIER_WAIT_IN_BUT_MCS_DISCONNECT, PortNameWithEQName);
+                        AlarmManager.AddAlarm(ALARM_CODES.MCS_CARRIER_WAITIN_REPORT_FAIL, PortNameWithEQName);
+                        return false;
+                    }
                     isEventReportAck = true;
                 }
                 catch (Exception ex)
@@ -560,36 +569,77 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             DevicesManager.secs_host_for_mcs.OnPrimaryMessageRecieve -= Secs_client_OnPrimaryMessageRecieve;
             return CarrierWaitIn_Accept && CarrierWaitIn_Reply;
         }
+        public async Task CarrierRemovedCompletedReply()
+        {
+            var carrier_removed_com_reply_address = PortCIMBitAddress[PROPERTY.Carrier_Removed_Completed_Report_Reply];
 
+            //上報MCS
+            _ = Task.Factory.StartNew(async () =>
+            {
+                try
+                {
+                    var response = await DevicesManager.secs_host_for_mcs.SendAsync(EVENT_REPORT.CarrierRemovedCompletedReportMessage(WIPINFO_BCR_ID, "", ""));
+                    if (response == null)
+                        AlarmManager.AddWarning(ALARM_CODES.MCS_CARRIER_REMOVED_COMPLETED_REPORT_FAIL, PortNameWithEQName);
+                }
+                catch (Exception ex)
+                {
+                    AlarmManager.AddWarning(ALARM_CODES.MCS_CARRIER_REMOVED_COMPLETED_REPORT_FAIL, PortNameWithEQName);
+                }
+
+            });
+
+            converterParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_removed_com_reply_address, true);
+            CancellationTokenSource cst = new CancellationTokenSource(TimeSpan.FromSeconds(5000));
+            while (CarrierRemovedCompletedReport)
+            {
+                if (cst.IsCancellationRequested)
+                {
+                    AlarmManager.AddWarning(ALARM_CODES.CarrierRemovedCompolete_HS_EQ_Timeout, PortNameWithEQName);
+                    break;
+                }
+                await Task.Delay(1);
+            }
+            converterParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_removed_com_reply_address, false);
+        }
         public async Task CarrierWaitOutReply()
         {
 
-            EQ_SCOPE port_no = Properties.PortNo == 1 ? EQ_SCOPE.PORT1 : EQ_SCOPE.PORT2;
             var carrier_wait_out_reply_address = PortCIMBitAddress[PROPERTY.Carrier_WawitOut_System_Reply];
             converterParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_out_reply_address, true);
+            CancellationTokenSource cst = new CancellationTokenSource(TimeSpan.FromSeconds(5));
             while (CarrierWaitOUTSystemRequest)
             {
+                if (cst.IsCancellationRequested)
+                {
+                    AlarmManager.AddWarning(ALARM_CODES.CarrierWaitOut_HS_EQ_Timeout, PortNameWithEQName);
+                    break;
+                }
                 await Task.Delay(1);
             }
             converterParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_out_reply_address, false);
 
             try
             {
-
-                await DevicesManager.secs_client_for_agvs.SendAsync(EVENT_REPORT.CarrierWaitOutReportMessage(WIPINFO_BCR_ID, "", ""));
+                var response = await DevicesManager.secs_host_for_mcs.SendAsync(EVENT_REPORT.CarrierWaitOutReportMessage(WIPINFO_BCR_ID, "", ""));
+                if (response == null)
+                    AlarmManager.AddWarning(ALARM_CODES.MCS_CARRIER_WAITOUT_REPORT_FAIL, PortNameWithEQName);
             }
             catch (Exception ex)
             {
-
+                AlarmManager.AddWarning(ALARM_CODES.MCS_CARRIER_WAITOUT_REPORT_FAIL, PortNameWithEQName);
             }
 
         }
-
-        public async Task<bool> CarrierWaitInReply(bool accpect, int T_timeout = 5000)
+        public HandShakeResult CarrierWaitOutHSResult = new HandShakeResult();
+        public async Task<bool> CarrierWaitInReply(int T_timeout = 5000)
         {
+            //送訊息給SECS HOST 
+            bool mcs_accpet = await WaitMCSAccpectCarrierIn();
+            //寫結果
+            CarrierWaitOutHSResult.Reset();
             bool timeout = false;
-
-            PROPERTY wait_in_ = accpect ? PROPERTY.Carrier_WaitIn_System_Accept : PROPERTY.Carrier_WaitIn_System_Refuse;
+            PROPERTY wait_in_ = mcs_accpet ? PROPERTY.Carrier_WaitIn_System_Accept : PROPERTY.Carrier_WaitIn_System_Refuse;
             var carrier_wait_in_result_flag_address = PortCIMBitAddress[wait_in_];
             var carrier_wait_in_reply_address = PortCIMBitAddress[PROPERTY.Carrier_WaitIn_System_Reply];
 
@@ -628,6 +678,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 {
                     CarrierWaitIn_Reply = true;
                     CarrierWaitIn_Accept = false;
+
+                    AlarmManager.AddWarning(ALARM_CODES.CARRIER_WAIT_IN_BUT_MCS_REJECT, PortNameWithEQName);
                 }
             });
         }

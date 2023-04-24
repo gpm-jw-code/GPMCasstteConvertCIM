@@ -77,11 +77,11 @@ namespace GPMCasstteConvertCIM.Devices
 
             ////轉換架1
             ///
-            foreach (var item in DevicesConnectionsOpts.PLCEQS)
+            foreach (Options.ConverterEQPInitialOption item in DevicesConnectionsOpts.PLCEQS)
             {
                 try
                 {
-                    var EQ = new CasstteConverter.clsCasstteConverter(item.DeviceId, (UscCasstteConverter)item.mainUI, item.ConverterType, item.Ports);
+                    var EQ = new CasstteConverter.clsCasstteConverter(item.DeviceId, item.Name, (UscCasstteConverter)item.mainUI, item.ConverterType, item.Ports);
                     EQ.ConnectionStateChanged += CasstteConverter_ConnectionStateChanged;
                     EQ.ActiveAsync(item.ToMCIFOptions());
                     casstteConverters.Add(EQ);

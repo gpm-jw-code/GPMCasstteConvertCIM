@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -13,7 +14,7 @@ namespace GPMCasstteConvertCIM.UI_UserControls
 {
     public partial class UscAlarmShow : UserControl
     {
-        public List<clsAlarmDto> alarms => AlarmManager.AlarmList;
+        public List<clsAlarmDto> alarms => AlarmManager.AllAlarms;
         private bool hasAlarm => alarms.Count > 0;
         private int playingAlarmIndex = 0;
         public bool showAlarmResetBtn
@@ -27,6 +28,13 @@ namespace GPMCasstteConvertCIM.UI_UserControls
         {
             InitializeComponent();
 
+            AlarmManager.onAlarmAdded += AlarmManager_onAlarmAdded;
+
+        }
+
+        private void AlarmManager_onAlarmAdded(object? sender, clsAlarmDto e)
+        {
+
         }
 
         private void alarm_loop_play_timer_Tick(object sender, EventArgs e)
@@ -34,6 +42,7 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             labAlarmCount.Text = alarms.Count.ToString();
             if (!hasAlarm)
             {
+                UIRenderByAlarmLevel(ALARM_LEVEL.None);
                 playingAlarmIndex = 0;
                 return;
             }
@@ -45,7 +54,7 @@ namespace GPMCasstteConvertCIM.UI_UserControls
                 labAlarmLevel.Text = alarm.Level.ToString();
                 labClassify.Text = alarm.Classify;
                 labDescription.Text = alarm.Description;
-
+                labEQPName.Text = alarm.EQPName;
                 UIRenderByAlarmLevel(alarm.Level);
             }
 
@@ -63,7 +72,7 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             Color textColor = Color.Black;
             if (level == ALARM_LEVEL.None)
             {
-                bgColor = Color.LightPink;
+                bgColor = Color.Gray;
                 textColor = Color.Black;
             }
             else if (level == ALARM_LEVEL.WARNING)
@@ -93,7 +102,8 @@ namespace GPMCasstteConvertCIM.UI_UserControls
         private void btnAlarmReset_Click(object sender, EventArgs e)
         {
             AlarmManager.ClearAlarm();
-            labAlarmTime.Text = labClassify.Text = labDescription.Text = labAlarmLevel.Text = "";
+            labAlarmCount.Text = "0";
+            labAlarmTime.Text = labClassify.Text = labDescription.Text = labEQPName.Text = labAlarmLevel.Text = "";
             UIRenderByAlarmLevel(ALARM_LEVEL.None);
         }
     }

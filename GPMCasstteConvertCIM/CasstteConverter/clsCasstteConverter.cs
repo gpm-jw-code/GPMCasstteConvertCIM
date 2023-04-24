@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.HighPerformance.Buffers;
+using GPMCasstteConvertCIM.Alarm;
 using GPMCasstteConvertCIM.CasstteConverter.Data;
 using GPMCasstteConvertCIM.Devices;
 using GPMCasstteConvertCIM.Forms;
@@ -24,8 +25,9 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         private string WordMapFileName_EQ = "src\\PLC_Word_Map_EQ.csv";
         private string BitMapFileName_CIM = "src\\PLC_Bit_Map_CIM.csv";
         private string WordMapFileName_CIM = "src\\PLC_Word_Map_CIM.csv";
-        internal clsCasstteConverter(int index, UscCasstteConverter mainGUI, CONVERTER_TYPE converterType, Dictionary<int, clsPortProperty> portProperties)
+        internal clsCasstteConverter(int index, string name, UscCasstteConverter mainGUI, CONVERTER_TYPE converterType, Dictionary<int, clsPortProperty> portProperties)
         {
+            this.Name = name;
             EQPData = new Data.clsEQPData(portProperties, this);
             this.converterType = converterType;
             this.index = index;
@@ -38,7 +40,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             PLCMemorySyncTask();
             DataSyncTask();
 
-            Handshaker = new EQPHandShakeHandler(this);
         }
 
         private void PortModbusServersActive()
@@ -50,14 +51,24 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         }
 
 
-        private void EQPInterfaceClockMonitor()
+        private async void EQPInterfaceClockMonitor()
         {
-            Task.Factory.StartNew(async () =>
+            await Task.Delay(4000);
+            _ = Task.Factory.StartNew(async () =>
             {
                 int lastInterfaceClock = -1;
                 while (true)
                 {
                     PLCInterfaceClockDown = lastInterfaceClock == EQPData.InterfaceClock;
+                    if (PLCInterfaceClockDown)
+                    {
+                        if (lastInterfaceClock != -1)
+                            AlarmManager.AddWarning(ALARM_CODES.ALIVE_CLOCK_EQP_DOWN, Name, false);
+                    }
+                    else
+                    {
+                        AlarmManager.TryRemoveAlarm(ALARM_CODES.ALIVE_CLOCK_EQP_DOWN, Name);
+                    }
                     lastInterfaceClock = EQPData.InterfaceClock;
                     await Task.Delay(TimeSpan.FromSeconds(4));
                 }
@@ -66,12 +77,11 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             {
                 if (arg.PropertyName == nameof(EQPData.InterfaceClock))
                 {
+                    //AlarmManager.TryRemoveAlarm(ALARM_CODES.ALIVE_CLOCK_EQP_DOWN, Name);
                     PLCInterfaceClockDown = false;
                 }
             };
         }
-
-        internal EQPHandShakeHandler Handshaker;
 
 
         internal List<clsMemoryAddress> LinkBitMap { get; private set; } = new List<clsMemoryAddress>();
@@ -121,6 +131,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         }
         internal bool Connected { get; private set; }
         internal bool PLCInterfaceClockDown { get; private set; }
+        public string Name { get; set; } = "";
         internal Data.clsEQPData EQPData { get; private set; }
         internal Data.clsAGVSData AGVSData { get; private set; } = new Data.clsAGVSData();
 

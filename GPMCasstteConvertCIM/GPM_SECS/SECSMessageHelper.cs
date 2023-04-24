@@ -421,7 +421,17 @@ namespace GPMCasstteConvertCIM.GPM_SECS
                 return CreateEventMsg(1, (ushort)CEID.CarrierWaitOut, RPTID: 5, VIDList);
             }
 
+            public static SecsMessage CarrierRemovedCompletedReportMessage(string carrier_ID, string carrier_Loc, string carrier_ZoneName)
+            {
+                Item[] VIDList = new Item[]
+               {
+                    A(carrier_ID),
+                    A(carrier_Loc),
+                    A(carrier_ZoneName)
+               };
 
+                return CreateEventMsg(1, (ushort)CEID.CarrierRemovedCompletedReport, RPTID: 4, VIDList);
+            }
 
 
 
@@ -454,6 +464,8 @@ namespace GPMCasstteConvertCIM.GPM_SECS
                 };
                 return msg;
             }
+
+           
         }
     }
 }

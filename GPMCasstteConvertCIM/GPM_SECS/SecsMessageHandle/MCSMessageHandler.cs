@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using GPMCasstteConvertCIM.CasstteConverter;
 using System.Diagnostics;
 using static GPMCasstteConvertCIM.GPM_SECS.SECSMessageHelper;
+using GPMCasstteConvertCIM.Alarm;
 
 namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
 {
@@ -89,18 +90,29 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                 else
                 {
                     replyMessage = await DevicesManager.secs_client_for_agvs.SendAsync(primaryMsgFromMcs);
-                }
 
-                await Task.Delay(100);
-                Utility.SystemLogger.Info($"[MCS SECS Message > AGVS] AGVS Reply : {replyMessage.ToSml()}");
-                //回傳給MCS
-                bool reply_to_mcs_succss = await _primaryMessageWrapper.TryReplyAsync(replyMessage);
-                Utility.SystemLogger.Info($"[MCS SECS Message > AGVS] Message Transfer Finish");
+                }
+                if (replyMessage == null)
+                {
+                    _AddAlarm(ALARM_CODES.TRANSFER_MCS_MSG_TO_AGVS_BUT_AGVS_NO_REPLY);
+                }
+                else
+                {
+                    await Task.Delay(100);
+                    Utility.SystemLogger.Info($"[MCS SECS Message > AGVS] AGVS Reply : {replyMessage.ToSml()}");
+                    //回傳給MCS
+                    bool reply_to_mcs_succss = await _primaryMessageWrapper.TryReplyAsync(replyMessage);
+                    if (reply_to_mcs_succss)
+                        Utility.SystemLogger.Info($"[MCS SECS Message > AGVS] Message Transfer Finish");
+                    else
+                        _AddAlarm(ALARM_CODES.AGVS_REPLY_MCS_MSG_BUT_ERROR_WHEN_REPLY_TO_MCS);
+                }
 
             }
             catch (Exception ex)
             {
-
+                
+                _AddAlarm(ALARM_CODES.CODE_EXCEPTION_WHEN_TRANSFER_MSG_TO_AGVS);
             }
 
         }
@@ -168,7 +180,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                 };
                 return replyMessage;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return new SecsMessage(1, 4, false) { };
             }
@@ -260,9 +272,9 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
             return ports.Select(port => GetPortTypeInfo(port)).ToArray();
         }
 
-        internal static void PortOutofServiceReportHandler(object? sender, clsConverterPort port)
+        private static void _AddAlarm(ALARM_CODES alarm_code)
         {
-
+            AlarmManager.AddAlarm(alarm_code, "MCSMessage Transfer");
         }
     }
 }

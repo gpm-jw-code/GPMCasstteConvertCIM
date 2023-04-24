@@ -121,13 +121,15 @@ namespace GPMCasstteConvertCIM.Forms
             SystemAPI systemAPI = new SystemAPI();
             systemAPI.Start();
             WebsocketMiddleware.ServerBuild();
-
+            uscAlarmTable1.BindData(AlarmManager.AlarmsList);
+            AlarmManager.onAlarmAdded += (sender, arg) => { uscAlarmTable1.alarmListBinding.ResetBindings(); };
             //dgvMsgFromAGVS.DataSource = CIMDevices.secs_host.recvBuffer;
             //dgvActiveMsgToAGVS.DataSource = CIMDevices.secs_host.sendBuffer;
             //dgvMsgFromMCS.DataSource = CIMDevices.secs_client.recvBuffer;
             //dgvActiveMsgToMCS.DataSource = CIMDevices.secs_client.sendBuffer;
 
         }
+
 
         private void Agvs_modbus_emu_selBtn_Click(object? sender, EventArgs e)
         {
@@ -166,18 +168,21 @@ namespace GPMCasstteConvertCIM.Forms
                 case DevicesManager.CIM_DEVICE_TYPES.SECS_HOST:
                     uscConnectionStates1.SECS_TO_AGVS_ConnectionChange(e.Connection_State);
                     if (e.Connection_State == Common.CONNECTION_STATE.DISCONNECTED)
-                        AlarmManager.AddAlarm(ALARM_CODES.CONNECTION_ERROR_AGVS);
+                        AlarmManager.AddAlarm(ALARM_CODES.CONNECTION_ERROR_AGVS, "AGVS", false);
                     break;
                 case DevicesManager.CIM_DEVICE_TYPES.SECS_CLIENT:
                     uscConnectionStates1.SECS_TO_MCS_ConnectionChange(e.Connection_State);
                     if (e.Connection_State == Common.CONNECTION_STATE.DISCONNECTED)
                     {
-                        AlarmManager.AddAlarm(ALARM_CODES.CONNECTION_ERROR_MCS);
+                        AlarmManager.AddAlarm(ALARM_CODES.CONNECTION_ERROR_MCS, "MCS", false);
                     }
                     break;
                 case DevicesManager.CIM_DEVICE_TYPES.CASSTTE_CONVERTER:
                     uscConnectionStates1.Converter_ConnectionChange(e.Connection_State);
-                    AlarmManager.AddAlarm(ALARM_CODES.CONNECTION_ERROR_CONVERT);
+                    if (e.Connection_State == Common.CONNECTION_STATE.DISCONNECTED)
+                    {
+                        AlarmManager.AddAlarm(ALARM_CODES.CONNECTION_ERROR_CONVERT, ((clsCasstteConverter)sender).Name, false);
+                    }
                     break;
                 default:
                     break;
@@ -310,6 +315,11 @@ namespace GPMCasstteConvertCIM.Forms
                     uscAlarmShow1.showAlarmResetBtn = GPMRDMenuStrip.Visible = false;
                 ResumeLayout();
             }
+
+        }
+
+        private void tabControl1_DrawItem(object sender, DrawItemEventArgs e)
+        {
 
         }
     }
