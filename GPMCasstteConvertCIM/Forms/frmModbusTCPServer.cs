@@ -1,4 +1,5 @@
-﻿using GPMCasstteConvertCIM.Emulators;
+﻿using GPMCasstteConvertCIM.CasstteConverter.Data;
+using GPMCasstteConvertCIM.Emulators;
 using GPMCasstteConvertCIM.GPM_Modbus;
 using GPMCasstteConvertCIM.UI_UserControls;
 using System;
@@ -27,7 +28,22 @@ namespace GPMCasstteConvertCIM.Forms
         public frmModbusTCPServer()
         {
             InitializeComponent();
+            dgvDITable.CellFormatting += DgvTable_CellFormatting;
+            dgvDOTable.CellFormatting += DgvTable_CellFormatting;
         }
+
+        private void DgvTable_CellFormatting(object? sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                DataGridView dgv = (DataGridView)sender;
+                DigitalIORegister addressDto = dgv.Rows[e.RowIndex].DataBoundItem as DigitalIORegister;
+                bool active = (bool)addressDto.State;
+                dgv.Rows[e.RowIndex].DefaultCellStyle.BackColor = active ? Color.Lime : Color.White;
+            }
+        }
+
+      
 
         public int Port
         {
@@ -121,7 +137,6 @@ namespace GPMCasstteConvertCIM.Forms
                     Description = plc_Address?.DataName,
                     LinkPLCAddress = plc_Address?.Address
                 };
-                DI.PropertyChanged += Di_PropertyChanged;
                 digitalInputs.Add(DI);
 
 
@@ -134,7 +149,6 @@ namespace GPMCasstteConvertCIM.Forms
                     LinkPLCAddress = plc_Address?.Address
 
                 };
-                DO.PropertyChanged += DO_PropertyChanged;
                 digitalOutputs.Add(DO);
             }
             //var source = new BindingSource()
@@ -145,20 +159,7 @@ namespace GPMCasstteConvertCIM.Forms
             dgvDOTable.DataSource = digitalOutputs;
         }
 
-        private void DO_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-        {
-            var row = dgvDOTable.Rows.Cast<DataGridViewRow>().FirstOrDefault(row => row.Cells[0].Value.ToString() == (sender as RegisterBase).AddressHex.ToString());
-            row.DefaultCellStyle.BackColor = (sender as DigitalIORegister).State ? Color.Lime : Color.White;
-            row.Cells[3].Style.BackColor = Color.FromArgb(224, 224, 224);
-        }
-
-        private void Di_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-        {
-            var row = dgvDITable.Rows.Cast<DataGridViewRow>().FirstOrDefault(row => row.Cells[0].Value.ToString() == (sender as RegisterBase).AddressHex);
-            row.DefaultCellStyle.BackColor = (sender as DigitalIORegister).State ? Color.Lime : Color.White;
-            row.Cells[3].Style.BackColor = Color.FromArgb(224, 224, 224);
-        }
-
+      
         private void label1_Click(object sender, EventArgs e)
         {
 

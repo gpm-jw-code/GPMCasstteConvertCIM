@@ -75,7 +75,7 @@ namespace GPMCasstteConvertCIM.Forms
             DevicesManager.DevicesConnectionsOpts.SECS_CLIENT.dgvRevBufferTable = dgvMsgFromMCS;
             DevicesManager.DevicesConnectionsOpts.SECS_CLIENT.dgvSendBufferTable = dgvActiveMsgToMCS;
 
-
+            tlpConverterContainer.SuspendLayout();
             foreach (Devices.Options.ConverterEQPInitialOption item in DevicesManager.DevicesConnectionsOpts.PLCEQS)
             {
                 item.logRichTextBox = rtbCasstteConvertLog;
@@ -99,6 +99,7 @@ namespace GPMCasstteConvertCIM.Forms
 
 
             }
+            tlpConverterContainer.ResumeLayout();
 
 
             foreach (var item in DevicesManager.DevicesConnectionsOpts.Modbus_Servers)
@@ -137,7 +138,10 @@ namespace GPMCasstteConvertCIM.Forms
             clsConverterPort.clsPortProperty opt = (clsConverterPort.clsPortProperty)agvs_modbus_emu_selBtn.Tag;
 
             clsConverterPort? port = DevicesManager.GetAllPorts().FirstOrDefault(c => c.Properties.PortID == opt.PortID);
-            frmAGVS_Modbus_Emulator emu = new frmAGVS_Modbus_Emulator(port);
+            frmAGVS_Modbus_Emulator emu = new frmAGVS_Modbus_Emulator(port)
+            {
+                Text = $"AGV•Ê¥§º“¿¿-{port.Properties.ModbusServer_IP}:{port.Properties.ModbusServer_PORT}({port.PortNameWithEQName})"
+            };
             emu.Show();
         }
 
