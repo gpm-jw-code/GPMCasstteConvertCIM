@@ -43,7 +43,7 @@ namespace GPMCasstteConvertCIM.Forms
             }
         }
 
-      
+
 
         public int Port
         {
@@ -159,7 +159,7 @@ namespace GPMCasstteConvertCIM.Forms
             dgvDOTable.DataSource = digitalOutputs;
         }
 
-      
+
         private void label1_Click(object sender, EventArgs e)
         {
 

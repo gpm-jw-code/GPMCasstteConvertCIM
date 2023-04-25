@@ -24,7 +24,7 @@ namespace GPMCasstteConvertCIM.Forms
             InitializeComponent();
             Application.ThreadException += Application_ThreadException; ;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-            GPMRDMenuStrip.Visible = false;
+            toolStripComboBox_Emulators.Visible = false;
 
         }
 
@@ -298,7 +298,7 @@ namespace GPMCasstteConvertCIM.Forms
                     StaUsersManager.Logout();
                     btnOpenLoginFOrm.Text = "Login";
                     label6.Text = "VISITOR";
-                    GPMRDMenuStrip.Visible = false;
+                    toolStripComboBox_Emulators.Visible = false;
                 }
                 return;
             }
@@ -313,10 +313,10 @@ namespace GPMCasstteConvertCIM.Forms
                 SuspendLayout();
                 if (StaUsersManager.CurrentUser.Group == StaUsersManager.USER_GROUP.GPM_ENG | StaUsersManager.CurrentUser.Group == StaUsersManager.USER_GROUP.GPM_RD)
                 {
-                    uscAlarmShow1.showAlarmResetBtn = GPMRDMenuStrip.Visible = true;
+                    uscAlarmShow1.showAlarmResetBtn = toolStripComboBox_Emulators.Visible = true;
                 }
                 else
-                    uscAlarmShow1.showAlarmResetBtn = GPMRDMenuStrip.Visible = false;
+                    uscAlarmShow1.showAlarmResetBtn = toolStripComboBox_Emulators.Visible = false;
                 ResumeLayout();
             }
 

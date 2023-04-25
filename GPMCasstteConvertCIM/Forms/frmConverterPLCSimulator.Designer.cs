@@ -28,146 +28,144 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.uscMemoryTable1 = new GPMCasstteConvertCIM.UI_UserControls.UscMemoryTable();
-            this.btnWIP_BCR_ID_Write = new System.Windows.Forms.Button();
-            this.txbWIP_BCR_ID = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.btnSendChangeToManModeReq = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.ckbIsEQPAlive = new System.Windows.Forms.CheckBox();
-            this.EQPInterfaceClockTimer = new System.Windows.Forms.Timer(this.components);
-            this.ckbMonitor = new System.Windows.Forms.CheckBox();
-            this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.SuspendLayout();
+            components = new System.ComponentModel.Container();
+            uscMemoryTable1 = new UI_UserControls.UscMemoryTable();
+            btnWIP_BCR_ID_Write = new Button();
+            txbWIP_BCR_ID = new TextBox();
+            label1 = new Label();
+            btnSendChangeToManModeReq = new Button();
+            groupBox1 = new GroupBox();
+            groupBox2 = new GroupBox();
+            ckbIsEQPAlive = new CheckBox();
+            EQPInterfaceClockTimer = new System.Windows.Forms.Timer(components);
+            ckbMonitor = new CheckBox();
+            groupBox1.SuspendLayout();
+            groupBox2.SuspendLayout();
+            SuspendLayout();
             // 
             // uscMemoryTable1
             // 
-            this.uscMemoryTable1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.uscMemoryTable1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.uscMemoryTable1.Location = new System.Drawing.Point(12, 70);
-            this.uscMemoryTable1.Name = "uscMemoryTable1";
-            this.uscMemoryTable1.Size = new System.Drawing.Size(1309, 462);
-            this.uscMemoryTable1.TabIndex = 0;
+            uscMemoryTable1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            uscMemoryTable1.BorderStyle = BorderStyle.FixedSingle;
+            uscMemoryTable1.Editable = true;
+            uscMemoryTable1.Location = new Point(12, 70);
+            uscMemoryTable1.Name = "uscMemoryTable1";
+            uscMemoryTable1.Size = new Size(1140, 790);
+            uscMemoryTable1.TabIndex = 0;
             // 
             // btnWIP_BCR_ID_Write
             // 
-            this.btnWIP_BCR_ID_Write.Location = new System.Drawing.Point(258, 12);
-            this.btnWIP_BCR_ID_Write.Name = "btnWIP_BCR_ID_Write";
-            this.btnWIP_BCR_ID_Write.Size = new System.Drawing.Size(75, 23);
-            this.btnWIP_BCR_ID_Write.TabIndex = 1;
-            this.btnWIP_BCR_ID_Write.Text = "Write";
-            this.btnWIP_BCR_ID_Write.UseVisualStyleBackColor = true;
-            this.btnWIP_BCR_ID_Write.Click += new System.EventHandler(this.btnWIP_BCR_ID_Write_Click);
+            btnWIP_BCR_ID_Write.Location = new Point(258, 12);
+            btnWIP_BCR_ID_Write.Name = "btnWIP_BCR_ID_Write";
+            btnWIP_BCR_ID_Write.Size = new Size(75, 23);
+            btnWIP_BCR_ID_Write.TabIndex = 1;
+            btnWIP_BCR_ID_Write.Text = "Write";
+            btnWIP_BCR_ID_Write.UseVisualStyleBackColor = true;
+            btnWIP_BCR_ID_Write.Click += btnWIP_BCR_ID_Write_Click;
             // 
             // txbWIP_BCR_ID
             // 
-            this.txbWIP_BCR_ID.Location = new System.Drawing.Point(92, 12);
-            this.txbWIP_BCR_ID.MaxLength = 20;
-            this.txbWIP_BCR_ID.Name = "txbWIP_BCR_ID";
-            this.txbWIP_BCR_ID.Size = new System.Drawing.Size(160, 23);
-            this.txbWIP_BCR_ID.TabIndex = 21;
-            this.txbWIP_BCR_ID.Text = "ABCDEFGHIJ1234567890";
+            txbWIP_BCR_ID.Location = new Point(92, 12);
+            txbWIP_BCR_ID.MaxLength = 20;
+            txbWIP_BCR_ID.Name = "txbWIP_BCR_ID";
+            txbWIP_BCR_ID.Size = new Size(160, 23);
+            txbWIP_BCR_ID.TabIndex = 21;
+            txbWIP_BCR_ID.Text = "ABCDEFGHIJ1234567890";
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(16, 16);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(70, 15);
-            this.label1.TabIndex = 20;
-            this.label1.Text = "WIP BCR ID";
+            label1.AutoSize = true;
+            label1.Location = new Point(16, 16);
+            label1.Name = "label1";
+            label1.Size = new Size(70, 15);
+            label1.TabIndex = 20;
+            label1.Text = "WIP BCR ID";
             // 
             // btnSendChangeToManModeReq
             // 
-            this.btnSendChangeToManModeReq.Location = new System.Drawing.Point(20, 22);
-            this.btnSendChangeToManModeReq.Name = "btnSendChangeToManModeReq";
-            this.btnSendChangeToManModeReq.Size = new System.Drawing.Size(160, 26);
-            this.btnSendChangeToManModeReq.TabIndex = 31;
-            this.btnSendChangeToManModeReq.Text = "Send Change Request";
-            this.btnSendChangeToManModeReq.UseVisualStyleBackColor = true;
-            this.btnSendChangeToManModeReq.Click += new System.EventHandler(this.btnSendChangeToManModeReq_Click);
+            btnSendChangeToManModeReq.Location = new Point(20, 22);
+            btnSendChangeToManModeReq.Name = "btnSendChangeToManModeReq";
+            btnSendChangeToManModeReq.Size = new Size(160, 26);
+            btnSendChangeToManModeReq.TabIndex = 31;
+            btnSendChangeToManModeReq.Text = "Send Change Request";
+            btnSendChangeToManModeReq.UseVisualStyleBackColor = true;
+            btnSendChangeToManModeReq.Click += btnSendChangeToManModeReq_Click;
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.btnSendChangeToManModeReq);
-            this.groupBox1.Location = new System.Drawing.Point(545, 12);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(200, 52);
-            this.groupBox1.TabIndex = 32;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Change To Manual Mode ";
+            groupBox1.Controls.Add(btnSendChangeToManModeReq);
+            groupBox1.Location = new Point(545, 12);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(200, 52);
+            groupBox1.TabIndex = 32;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Change To Manual Mode ";
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.ckbIsEQPAlive);
-            this.groupBox2.Location = new System.Drawing.Point(339, 12);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(200, 52);
-            this.groupBox2.TabIndex = 33;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "EQP Alive Check";
+            groupBox2.Controls.Add(ckbIsEQPAlive);
+            groupBox2.Location = new Point(339, 12);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Size = new Size(200, 52);
+            groupBox2.TabIndex = 33;
+            groupBox2.TabStop = false;
+            groupBox2.Text = "EQP Alive Check";
             // 
             // ckbIsEQPAlive
             // 
-            this.ckbIsEQPAlive.AutoSize = true;
-            this.ckbIsEQPAlive.Location = new System.Drawing.Point(15, 29);
-            this.ckbIsEQPAlive.Name = "ckbIsEQPAlive";
-            this.ckbIsEQPAlive.Size = new System.Drawing.Size(53, 19);
-            this.ckbIsEQPAlive.TabIndex = 32;
-            this.ckbIsEQPAlive.Text = "Alive";
-            this.ckbIsEQPAlive.UseVisualStyleBackColor = true;
-            this.ckbIsEQPAlive.CheckedChanged += new System.EventHandler(this.ckbIsEQPAlive_CheckedChanged);
+            ckbIsEQPAlive.AutoSize = true;
+            ckbIsEQPAlive.Location = new Point(15, 29);
+            ckbIsEQPAlive.Name = "ckbIsEQPAlive";
+            ckbIsEQPAlive.Size = new Size(53, 19);
+            ckbIsEQPAlive.TabIndex = 32;
+            ckbIsEQPAlive.Text = "Alive";
+            ckbIsEQPAlive.UseVisualStyleBackColor = true;
+            ckbIsEQPAlive.CheckedChanged += ckbIsEQPAlive_CheckedChanged;
             // 
             // EQPInterfaceClockTimer
             // 
-            this.EQPInterfaceClockTimer.Interval = 4000;
-            this.EQPInterfaceClockTimer.Tick += new System.EventHandler(this.EQPInterfaceClockTimer_Tick);
+            EQPInterfaceClockTimer.Interval = 4000;
+            EQPInterfaceClockTimer.Tick += EQPInterfaceClockTimer_Tick;
             // 
             // ckbMonitor
             // 
-            this.ckbMonitor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.ckbMonitor.Appearance = System.Windows.Forms.Appearance.Button;
-            this.ckbMonitor.AutoSize = true;
-            this.ckbMonitor.Checked = true;
-            this.ckbMonitor.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ckbMonitor.FlatAppearance.CheckedBackColor = System.Drawing.Color.Lime;
-            this.ckbMonitor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ckbMonitor.Location = new System.Drawing.Point(1258, 16);
-            this.ckbMonitor.Name = "ckbMonitor";
-            this.ckbMonitor.Size = new System.Drawing.Size(63, 25);
-            this.ckbMonitor.TabIndex = 34;
-            this.ckbMonitor.Text = "Monitor";
-            this.ckbMonitor.UseVisualStyleBackColor = true;
-            this.ckbMonitor.CheckedChanged += new System.EventHandler(this.ckbMonitor_CheckedChanged);
+            ckbMonitor.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            ckbMonitor.Appearance = Appearance.Button;
+            ckbMonitor.AutoSize = true;
+            ckbMonitor.Checked = true;
+            ckbMonitor.CheckState = CheckState.Checked;
+            ckbMonitor.FlatAppearance.CheckedBackColor = Color.Lime;
+            ckbMonitor.FlatStyle = FlatStyle.Flat;
+            ckbMonitor.Location = new Point(1089, 16);
+            ckbMonitor.Name = "ckbMonitor";
+            ckbMonitor.Size = new Size(63, 25);
+            ckbMonitor.TabIndex = 34;
+            ckbMonitor.Text = "Monitor";
+            ckbMonitor.UseVisualStyleBackColor = true;
+            ckbMonitor.CheckedChanged += ckbMonitor_CheckedChanged;
             // 
             // frmConverterPLCSimulator
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1333, 544);
-            this.Controls.Add(this.ckbMonitor);
-            this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.txbWIP_BCR_ID);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.btnWIP_BCR_ID_Write);
-            this.Controls.Add(this.uscMemoryTable1);
-            this.DoubleBuffered = true;
-            this.Name = "frmConverterPLCSimulator";
-            this.Text = "轉換架_PLC模擬器";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmConverterPLCSimulator_FormClosing);
-            this.Load += new System.EventHandler(this.frmConverterPLCSimulator_Load);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(1164, 872);
+            Controls.Add(ckbMonitor);
+            Controls.Add(groupBox2);
+            Controls.Add(groupBox1);
+            Controls.Add(txbWIP_BCR_ID);
+            Controls.Add(label1);
+            Controls.Add(btnWIP_BCR_ID_Write);
+            Controls.Add(uscMemoryTable1);
+            DoubleBuffered = true;
+            Name = "frmConverterPLCSimulator";
+            Text = "轉換架_PLC模擬器";
+            FormClosing += frmConverterPLCSimulator_FormClosing;
+            Load += frmConverterPLCSimulator_Load;
+            groupBox1.ResumeLayout(false);
+            groupBox2.ResumeLayout(false);
+            groupBox2.PerformLayout();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion

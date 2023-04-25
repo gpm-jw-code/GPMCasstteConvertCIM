@@ -30,10 +30,10 @@
         {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmModbusTCPServer));
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             label1 = new Label();
             labPort = new Label();
             timer1 = new System.Windows.Forms.Timer(components);
@@ -54,23 +54,23 @@
             label4 = new Label();
             label5 = new Label();
             dgvDITable = new DataGridView();
-            dgvHoldingRegisterTable = new DataGridView();
-            dgvDOTable = new DataGridView();
-            groupBox1 = new GroupBox();
-            richTextBox1 = new RichTextBox();
-            addressDataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
-            Description = new DataGridViewTextBoxColumn();
-            dataGridViewCheckBoxColumn1 = new DataGridViewCheckBoxColumn();
-            dataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
             dataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
             descriptionDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             State = new DataGridViewCheckBoxColumn();
             dataGridViewTextBoxColumn3 = new DataGridViewTextBoxColumn();
+            dgvHoldingRegisterTable = new DataGridView();
             Address = new DataGridViewTextBoxColumn();
             dataGridViewTextBoxColumn4 = new DataGridViewTextBoxColumn();
             valueDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             Value_Hex = new DataGridViewTextBoxColumn();
             LinkPLCAddress = new DataGridViewTextBoxColumn();
+            dgvDOTable = new DataGridView();
+            addressDataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
+            Description = new DataGridViewTextBoxColumn();
+            dataGridViewCheckBoxColumn1 = new DataGridViewCheckBoxColumn();
+            dataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
+            groupBox1 = new GroupBox();
+            richTextBox1 = new RichTextBox();
             ((System.ComponentModel.ISupportInitialize)registerBindingSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)digitalIORegisterBindingSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)coilRegisterBindingSource).BeginInit();
@@ -116,7 +116,7 @@
             // 
             labConnectedClientNum.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             labConnectedClientNum.AutoSize = true;
-            labConnectedClientNum.Location = new Point(1215, 6);
+            labConnectedClientNum.Location = new Point(1214, 6);
             labConnectedClientNum.Name = "labConnectedClientNum";
             labConnectedClientNum.Size = new Size(42, 15);
             labConnectedClientNum.TabIndex = 2;
@@ -135,7 +135,7 @@
             toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripLabel1, developDropDownBtn });
             toolStrip1.Location = new Point(0, 0);
             toolStrip1.Name = "toolStrip1";
-            toolStrip1.Size = new Size(1269, 25);
+            toolStrip1.Size = new Size(1268, 25);
             toolStrip1.TabIndex = 15;
             toolStrip1.Text = "toolStrip1";
             // 
@@ -175,10 +175,10 @@
             // statusStrip1
             // 
             statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel1 });
-            statusStrip1.Location = new Point(0, 539);
+            statusStrip1.Location = new Point(0, 669);
             statusStrip1.Name = "statusStrip1";
             statusStrip1.RenderMode = ToolStripRenderMode.ManagerRenderMode;
-            statusStrip1.Size = new Size(1269, 22);
+            statusStrip1.Size = new Size(1268, 22);
             statusStrip1.TabIndex = 17;
             statusStrip1.Text = "statusStrip1";
             // 
@@ -206,8 +206,8 @@
             // 
             splitContainer1.Panel2.BackColor = Color.White;
             splitContainer1.Panel2.Controls.Add(groupBox1);
-            splitContainer1.Size = new Size(1269, 514);
-            splitContainer1.SplitterDistance = 329;
+            splitContainer1.Size = new Size(1268, 644);
+            splitContainer1.SplitterDistance = 412;
             splitContainer1.TabIndex = 18;
             // 
             // tableLayoutPanel1
@@ -229,7 +229,7 @@
             tableLayoutPanel1.RowCount = 2;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 28F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel1.Size = new Size(1269, 329);
+            tableLayoutPanel1.Size = new Size(1268, 412);
             tableLayoutPanel1.TabIndex = 15;
             // 
             // label6
@@ -240,7 +240,7 @@
             label6.ForeColor = Color.White;
             label6.Location = new Point(848, 1);
             label6.Name = "label6";
-            label6.Size = new Size(417, 28);
+            label6.Size = new Size(416, 28);
             label6.TabIndex = 17;
             label6.Text = "Holding Register";
             label6.TextAlign = ContentAlignment.MiddleCenter;
@@ -287,110 +287,8 @@
             dgvDITable.RowHeadersVisible = false;
             dgvDITable.RowTemplate.Height = 25;
             dgvDITable.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvDITable.Size = new Size(415, 292);
+            dgvDITable.Size = new Size(415, 375);
             dgvDITable.TabIndex = 15;
-            // 
-            // dgvHoldingRegisterTable
-            // 
-            dgvHoldingRegisterTable.AllowUserToDeleteRows = false;
-            dgvHoldingRegisterTable.AllowUserToOrderColumns = true;
-            dgvHoldingRegisterTable.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            dgvHoldingRegisterTable.AutoGenerateColumns = false;
-            dgvHoldingRegisterTable.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvHoldingRegisterTable.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCells;
-            dgvHoldingRegisterTable.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvHoldingRegisterTable.Columns.AddRange(new DataGridViewColumn[] { Address, dataGridViewTextBoxColumn4, valueDataGridViewTextBoxColumn, Value_Hex, LinkPLCAddress });
-            dgvHoldingRegisterTable.DataSource = registerBindingSource;
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = Color.White;
-            dataGridViewCellStyle3.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle3.ForeColor = Color.Black;
-            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
-            dgvHoldingRegisterTable.DefaultCellStyle = dataGridViewCellStyle3;
-            dgvHoldingRegisterTable.Location = new Point(848, 33);
-            dgvHoldingRegisterTable.Name = "dgvHoldingRegisterTable";
-            dgvHoldingRegisterTable.RowHeadersVisible = false;
-            dgvHoldingRegisterTable.RowTemplate.Height = 25;
-            dgvHoldingRegisterTable.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvHoldingRegisterTable.Size = new Size(417, 292);
-            dgvHoldingRegisterTable.TabIndex = 3;
-            // 
-            // dgvDOTable
-            // 
-            dgvDOTable.AllowUserToDeleteRows = false;
-            dgvDOTable.AllowUserToOrderColumns = true;
-            dgvDOTable.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            dgvDOTable.AutoGenerateColumns = false;
-            dgvDOTable.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvDOTable.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCells;
-            dgvDOTable.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvDOTable.Columns.AddRange(new DataGridViewColumn[] { addressDataGridViewTextBoxColumn1, Description, dataGridViewCheckBoxColumn1, dataGridViewTextBoxColumn1 });
-            dgvDOTable.DataSource = digitalIORegisterBindingSource;
-            dgvDOTable.Location = new Point(4, 33);
-            dgvDOTable.Name = "dgvDOTable";
-            dgvDOTable.RowHeadersVisible = false;
-            dgvDOTable.RowTemplate.Height = 25;
-            dgvDOTable.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvDOTable.Size = new Size(415, 292);
-            dgvDOTable.TabIndex = 7;
-            // 
-            // groupBox1
-            // 
-            groupBox1.Controls.Add(richTextBox1);
-            groupBox1.Dock = DockStyle.Fill;
-            groupBox1.Location = new Point(0, 0);
-            groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(1269, 181);
-            groupBox1.TabIndex = 17;
-            groupBox1.TabStop = false;
-            groupBox1.Text = "Log";
-            // 
-            // richTextBox1
-            // 
-            richTextBox1.BackColor = Color.Black;
-            richTextBox1.Dock = DockStyle.Fill;
-            richTextBox1.ForeColor = Color.White;
-            richTextBox1.Location = new Point(3, 19);
-            richTextBox1.Name = "richTextBox1";
-            richTextBox1.Size = new Size(1263, 159);
-            richTextBox1.TabIndex = 0;
-            richTextBox1.Text = "";
-            // 
-            // addressDataGridViewTextBoxColumn1
-            // 
-            addressDataGridViewTextBoxColumn1.DataPropertyName = "AddressHex";
-            addressDataGridViewTextBoxColumn1.FillWeight = 20F;
-            addressDataGridViewTextBoxColumn1.HeaderText = "Address";
-            addressDataGridViewTextBoxColumn1.Name = "addressDataGridViewTextBoxColumn1";
-            addressDataGridViewTextBoxColumn1.ReadOnly = true;
-            // 
-            // Description
-            // 
-            Description.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            Description.DataPropertyName = "Description";
-            Description.HeaderText = "Description";
-            Description.Name = "Description";
-            Description.ReadOnly = true;
-            Description.Width = 96;
-            // 
-            // dataGridViewCheckBoxColumn1
-            // 
-            dataGridViewCheckBoxColumn1.DataPropertyName = "State";
-            dataGridViewCheckBoxColumn1.FlatStyle = FlatStyle.Popup;
-            dataGridViewCheckBoxColumn1.HeaderText = "State";
-            dataGridViewCheckBoxColumn1.Name = "dataGridViewCheckBoxColumn1";
-            dataGridViewCheckBoxColumn1.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            dataGridViewTextBoxColumn1.DataPropertyName = "LinkPLCAddress";
-            dataGridViewCellStyle4.BackColor = Color.FromArgb(224, 224, 224);
-            dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle4;
-            dataGridViewTextBoxColumn1.HeaderText = "LinkPLCAddress";
-            dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            dataGridViewTextBoxColumn1.ReadOnly = true;
             // 
             // dataGridViewTextBoxColumn2
             // 
@@ -424,6 +322,33 @@
             dataGridViewTextBoxColumn3.HeaderText = "LinkPLCAddress";
             dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
             dataGridViewTextBoxColumn3.ReadOnly = true;
+            // 
+            // dgvHoldingRegisterTable
+            // 
+            dgvHoldingRegisterTable.AllowUserToDeleteRows = false;
+            dgvHoldingRegisterTable.AllowUserToOrderColumns = true;
+            dgvHoldingRegisterTable.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dgvHoldingRegisterTable.AutoGenerateColumns = false;
+            dgvHoldingRegisterTable.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvHoldingRegisterTable.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCells;
+            dgvHoldingRegisterTable.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvHoldingRegisterTable.Columns.AddRange(new DataGridViewColumn[] { Address, dataGridViewTextBoxColumn4, valueDataGridViewTextBoxColumn, Value_Hex, LinkPLCAddress });
+            dgvHoldingRegisterTable.DataSource = registerBindingSource;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = Color.White;
+            dataGridViewCellStyle3.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle3.ForeColor = Color.Black;
+            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
+            dgvHoldingRegisterTable.DefaultCellStyle = dataGridViewCellStyle3;
+            dgvHoldingRegisterTable.Location = new Point(848, 33);
+            dgvHoldingRegisterTable.Name = "dgvHoldingRegisterTable";
+            dgvHoldingRegisterTable.RowHeadersVisible = false;
+            dgvHoldingRegisterTable.RowTemplate.Height = 25;
+            dgvHoldingRegisterTable.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvHoldingRegisterTable.Size = new Size(416, 375);
+            dgvHoldingRegisterTable.TabIndex = 3;
             // 
             // Address
             // 
@@ -463,11 +388,86 @@
             LinkPLCAddress.Name = "LinkPLCAddress";
             LinkPLCAddress.ReadOnly = true;
             // 
+            // dgvDOTable
+            // 
+            dgvDOTable.AllowUserToDeleteRows = false;
+            dgvDOTable.AllowUserToOrderColumns = true;
+            dgvDOTable.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dgvDOTable.AutoGenerateColumns = false;
+            dgvDOTable.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvDOTable.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCells;
+            dgvDOTable.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvDOTable.Columns.AddRange(new DataGridViewColumn[] { addressDataGridViewTextBoxColumn1, Description, dataGridViewCheckBoxColumn1, dataGridViewTextBoxColumn1 });
+            dgvDOTable.DataSource = digitalIORegisterBindingSource;
+            dgvDOTable.Location = new Point(4, 33);
+            dgvDOTable.Name = "dgvDOTable";
+            dgvDOTable.RowHeadersVisible = false;
+            dgvDOTable.RowTemplate.Height = 25;
+            dgvDOTable.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvDOTable.Size = new Size(415, 375);
+            dgvDOTable.TabIndex = 7;
+            // 
+            // addressDataGridViewTextBoxColumn1
+            // 
+            addressDataGridViewTextBoxColumn1.DataPropertyName = "AddressHex";
+            addressDataGridViewTextBoxColumn1.FillWeight = 20F;
+            addressDataGridViewTextBoxColumn1.HeaderText = "Address";
+            addressDataGridViewTextBoxColumn1.Name = "addressDataGridViewTextBoxColumn1";
+            addressDataGridViewTextBoxColumn1.ReadOnly = true;
+            // 
+            // Description
+            // 
+            Description.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            Description.DataPropertyName = "Description";
+            Description.HeaderText = "Description";
+            Description.Name = "Description";
+            Description.ReadOnly = true;
+            Description.Width = 96;
+            // 
+            // dataGridViewCheckBoxColumn1
+            // 
+            dataGridViewCheckBoxColumn1.DataPropertyName = "State";
+            dataGridViewCheckBoxColumn1.FlatStyle = FlatStyle.Popup;
+            dataGridViewCheckBoxColumn1.HeaderText = "State";
+            dataGridViewCheckBoxColumn1.Name = "dataGridViewCheckBoxColumn1";
+            dataGridViewCheckBoxColumn1.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            dataGridViewTextBoxColumn1.DataPropertyName = "LinkPLCAddress";
+            dataGridViewCellStyle4.BackColor = Color.FromArgb(224, 224, 224);
+            dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewTextBoxColumn1.HeaderText = "LinkPLCAddress";
+            dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            dataGridViewTextBoxColumn1.ReadOnly = true;
+            // 
+            // groupBox1
+            // 
+            groupBox1.Controls.Add(richTextBox1);
+            groupBox1.Dock = DockStyle.Fill;
+            groupBox1.Location = new Point(0, 0);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(1268, 228);
+            groupBox1.TabIndex = 17;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Log";
+            // 
+            // richTextBox1
+            // 
+            richTextBox1.BackColor = Color.Black;
+            richTextBox1.Dock = DockStyle.Fill;
+            richTextBox1.ForeColor = Color.White;
+            richTextBox1.Location = new Point(3, 19);
+            richTextBox1.Name = "richTextBox1";
+            richTextBox1.Size = new Size(1262, 206);
+            richTextBox1.TabIndex = 0;
+            richTextBox1.Text = "";
+            // 
             // frmModbusTCPServer
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1269, 561);
+            ClientSize = new Size(1268, 691);
             Controls.Add(splitContainer1);
             Controls.Add(labConnectedClientNum);
             Controls.Add(toolStrip1);

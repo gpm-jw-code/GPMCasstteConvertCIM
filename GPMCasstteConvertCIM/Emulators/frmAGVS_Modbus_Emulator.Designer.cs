@@ -41,7 +41,7 @@
             uscagvsModbusClientEmulator1.Font = new Font("微軟正黑體", 9F, FontStyle.Regular, GraphicsUnit.Point);
             uscagvsModbusClientEmulator1.Location = new Point(12, 41);
             uscagvsModbusClientEmulator1.Name = "uscagvsModbusClientEmulator1";
-            uscagvsModbusClientEmulator1.Size = new Size(1124, 659);
+            uscagvsModbusClientEmulator1.Size = new Size(1122, 721);
             uscagvsModbusClientEmulator1.TabIndex = 0;
             uscagvsModbusClientEmulator1.Load += uscagvsModbusClientEmulator1_Load;
             // 
@@ -51,7 +51,7 @@
             statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel1 });
             statusStrip1.Location = new Point(0, 0);
             statusStrip1.Name = "statusStrip1";
-            statusStrip1.Size = new Size(1150, 22);
+            statusStrip1.Size = new Size(1148, 22);
             statusStrip1.TabIndex = 1;
             statusStrip1.Text = "statusStrip1";
             // 
@@ -66,7 +66,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 16F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1150, 710);
+            ClientSize = new Size(1148, 772);
             Controls.Add(statusStrip1);
             Controls.Add(uscagvsModbusClientEmulator1);
             Font = new Font("微軟正黑體", 9F, FontStyle.Regular, GraphicsUnit.Point);
