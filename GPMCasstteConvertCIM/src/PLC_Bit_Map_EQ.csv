@@ -14,7 +14,7 @@ B10B,EQP,Port_Exist,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Exist,8,,,,,,,,
 B10C,EQP,Port Status Down,Boolean,,PORT1,Port_Status_Down,11,,,,,,,,B,268,B10C
 B10D,EQP,LD_UP_POS,Boolean,,PORT1,LD_UP_POS,9,,,,,,,,B,269,B10D
 B10E,EQP,LD_DOWN_POS,Boolean,,PORT1,LD_DOWN_POS,10,,,,,,,,B,270,B10E
-B10F,EQP,Door Opened,Boolean,,PORT1,Door_Opened,,,,,,,,,B,271,B10F
+B10F,EQP,Door Opened,Boolean,,PORT1,Door_Opened,13,,,,,,,,B,271,B10F
 B110,EQP,TB_DOWN_POS,Boolean,6.1 Rack Load Request,PORT1,TB_DOWN_POS,12,,,,,,,,B,272,B110
 B111,EQP,,Boolean,6.1 Rack Unload Request,PORT1,,,,,,,,,,B,273,B111
 B112,EQP,,Boolean,6.2 Change Mode CMD,PORT1,,,,,,,,,,B,274,B112
@@ -50,7 +50,7 @@ B12F,EQP,Port_Exist,Boolean,,PORT2,Port_Exist,8,,,,,,,,B,303,B12F
 B130,EQP,Port Status Down,Boolean,,PORT2,Port_Status_Down,11,,,,,,,,B,304,B130
 B131,EQP,LD_UP_POS,Boolean,,PORT2,LD_UP_POS,9,,,,,,,,B,305,B131
 B132,EQP,LD_DOWN_POS,Boolean,,PORT2,LD_DOWN_POS,10,,,,,,,,B,306,B132
-B133,EQP,Door Opened,Boolean,,PORT2,Door_Opened,,,,,,,,,B,307,B133
+B133,EQP,Door Opened,Boolean,,PORT2,Door_Opened,13,,,,,,,,B,307,B133
 B134,EQP,TB_DOWN_POS,Boolean,,PORT2,TB_DOWN_POS,12,,,,,,,,B,308,B134
 B135,EQP,,Boolean,,PORT2,,,,,,,,,,B,309,B135
 B136,EQP,,Boolean,,PORT2,,,,,,,,,,B,310,B136
