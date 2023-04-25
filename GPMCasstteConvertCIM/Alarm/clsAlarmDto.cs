@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GPMCasstteConvertCIM.CasstteConverter;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Policy;
@@ -15,6 +16,14 @@ namespace GPMCasstteConvertCIM.Alarm
         public string Classify { get; set; } = string.Empty;
         public string EQPName { get; set; } = string.Empty;
         public ALARM_CODES Code { get; set; }
+        public int Code_int
+        {
+            get => (int)Code;
+            set
+            {
+                Code = Enum.GetValues(typeof(ALARM_CODES)).Cast<ALARM_CODES>().FirstOrDefault(c => (int)c == value);
+            }
+        }
         public double Duration { get; set; }
         public clsAlarmDto(ALARM_CODES code, string classify, string description)
         {
@@ -31,7 +40,7 @@ namespace GPMCasstteConvertCIM.Alarm
 
     public enum ALARM_CODES
     {
-        CONNECTION_ERROR_CONVERT,
+        CONNECTION_ERROR_CONVERT = 4100,
         CONNECTION_ERROR_MCS,
         CONNECTION_ERROR_AGVS,
         HANDSHAKE_ERROR_CARRIER_WAIT_IN,

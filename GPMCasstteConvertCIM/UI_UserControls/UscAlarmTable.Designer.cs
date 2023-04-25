@@ -32,7 +32,7 @@
             dataGridView1 = new DataGridView();
             timeDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             levelDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            codeDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            Code_int = new DataGridViewTextBoxColumn();
             classifyDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             descriptionDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             eQPNameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
@@ -44,14 +44,18 @@
             // 
             // dataGridView1
             // 
+            dataGridView1.AllowUserToAddRows = false;
+            dataGridView1.AllowUserToDeleteRows = false;
+            dataGridView1.AllowUserToOrderColumns = true;
             dataGridView1.AutoGenerateColumns = false;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { timeDataGridViewTextBoxColumn, levelDataGridViewTextBoxColumn, codeDataGridViewTextBoxColumn, classifyDataGridViewTextBoxColumn, descriptionDataGridViewTextBoxColumn, eQPNameDataGridViewTextBoxColumn, durationDataGridViewTextBoxColumn });
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { timeDataGridViewTextBoxColumn, levelDataGridViewTextBoxColumn, Code_int, classifyDataGridViewTextBoxColumn, descriptionDataGridViewTextBoxColumn, eQPNameDataGridViewTextBoxColumn, durationDataGridViewTextBoxColumn });
             dataGridView1.DataSource = clsAlarmDtoBindingSource;
             dataGridView1.Dock = DockStyle.Fill;
             dataGridView1.Location = new Point(0, 0);
             dataGridView1.Name = "dataGridView1";
+            dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersVisible = false;
             dataGridView1.RowTemplate.Height = 25;
             dataGridView1.Size = new Size(1084, 467);
@@ -60,52 +64,64 @@
             // 
             // timeDataGridViewTextBoxColumn
             // 
+            timeDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             timeDataGridViewTextBoxColumn.DataPropertyName = "Time";
-            timeDataGridViewTextBoxColumn.FillWeight = 44F;
-            timeDataGridViewTextBoxColumn.HeaderText = "Time";
+            timeDataGridViewTextBoxColumn.HeaderText = "時間";
             timeDataGridViewTextBoxColumn.Name = "timeDataGridViewTextBoxColumn";
+            timeDataGridViewTextBoxColumn.ReadOnly = true;
+            timeDataGridViewTextBoxColumn.Width = 56;
             // 
             // levelDataGridViewTextBoxColumn
             // 
+            levelDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             levelDataGridViewTextBoxColumn.DataPropertyName = "Level";
-            levelDataGridViewTextBoxColumn.FillWeight = 33F;
-            levelDataGridViewTextBoxColumn.HeaderText = "Level";
+            levelDataGridViewTextBoxColumn.HeaderText = "警報類型";
             levelDataGridViewTextBoxColumn.Name = "levelDataGridViewTextBoxColumn";
+            levelDataGridViewTextBoxColumn.ReadOnly = true;
+            levelDataGridViewTextBoxColumn.Width = 80;
             // 
-            // codeDataGridViewTextBoxColumn
+            // Code_int
             // 
-            codeDataGridViewTextBoxColumn.DataPropertyName = "Code";
-            codeDataGridViewTextBoxColumn.FillWeight = 33F;
-            codeDataGridViewTextBoxColumn.HeaderText = "Code";
-            codeDataGridViewTextBoxColumn.Name = "codeDataGridViewTextBoxColumn";
+            Code_int.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            Code_int.DataPropertyName = "Code_int";
+            Code_int.HeaderText = "異常碼";
+            Code_int.Name = "Code_int";
+            Code_int.ReadOnly = true;
+            Code_int.Width = 68;
             // 
             // classifyDataGridViewTextBoxColumn
             // 
+            classifyDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             classifyDataGridViewTextBoxColumn.DataPropertyName = "Classify";
-            classifyDataGridViewTextBoxColumn.FillWeight = 44F;
-            classifyDataGridViewTextBoxColumn.HeaderText = "Classify";
+            classifyDataGridViewTextBoxColumn.HeaderText = "異常分類";
             classifyDataGridViewTextBoxColumn.Name = "classifyDataGridViewTextBoxColumn";
+            classifyDataGridViewTextBoxColumn.ReadOnly = true;
+            classifyDataGridViewTextBoxColumn.Width = 80;
             // 
             // descriptionDataGridViewTextBoxColumn
             // 
-            descriptionDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             descriptionDataGridViewTextBoxColumn.DataPropertyName = "Description";
-            descriptionDataGridViewTextBoxColumn.HeaderText = "Description";
+            descriptionDataGridViewTextBoxColumn.HeaderText = "異常描述";
             descriptionDataGridViewTextBoxColumn.Name = "descriptionDataGridViewTextBoxColumn";
+            descriptionDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // eQPNameDataGridViewTextBoxColumn
             // 
+            eQPNameDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             eQPNameDataGridViewTextBoxColumn.DataPropertyName = "EQPName";
-            eQPNameDataGridViewTextBoxColumn.FillWeight = 44F;
-            eQPNameDataGridViewTextBoxColumn.HeaderText = "EQPName";
+            eQPNameDataGridViewTextBoxColumn.HeaderText = "設備名稱";
             eQPNameDataGridViewTextBoxColumn.Name = "eQPNameDataGridViewTextBoxColumn";
+            eQPNameDataGridViewTextBoxColumn.ReadOnly = true;
+            eQPNameDataGridViewTextBoxColumn.Width = 80;
             // 
             // durationDataGridViewTextBoxColumn
             // 
+            durationDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             durationDataGridViewTextBoxColumn.DataPropertyName = "Duration";
-            durationDataGridViewTextBoxColumn.FillWeight = 33F;
-            durationDataGridViewTextBoxColumn.HeaderText = "Duration";
+            durationDataGridViewTextBoxColumn.HeaderText = "歷時";
             durationDataGridViewTextBoxColumn.Name = "durationDataGridViewTextBoxColumn";
+            durationDataGridViewTextBoxColumn.ReadOnly = true;
+            durationDataGridViewTextBoxColumn.Width = 56;
             // 
             // clsAlarmDtoBindingSource
             // 
@@ -130,7 +146,7 @@
         private BindingSource clsAlarmDtoBindingSource;
         private DataGridViewTextBoxColumn timeDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn levelDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn codeDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn Code_int;
         private DataGridViewTextBoxColumn classifyDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn descriptionDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn eQPNameDataGridViewTextBoxColumn;

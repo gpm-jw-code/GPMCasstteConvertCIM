@@ -54,6 +54,8 @@
             label4 = new Label();
             label3 = new Label();
             label5 = new Label();
+            tabPage3 = new TabPage();
+            uscAlarmTable1 = new UI_UserControls.UscAlarmTable();
             tabPage2 = new TabPage();
             tableLayoutPanel1 = new TableLayoutPanel();
             checkBox4 = new CheckBox();
@@ -66,7 +68,6 @@
             checkBox1 = new CheckBox();
             checkBox5 = new CheckBox();
             rtbModbusTcpServerLog = new RichTextBox();
-            tabPage3 = new TabPage();
             messageWrapperBindingSource = new BindingSource(components);
             primaryMessageWrapperBindingSource = new BindingSource(components);
             GPMRDMenuStrip = new MenuStrip();
@@ -88,7 +89,6 @@
             labSysTime = new ToolStripStatusLabel();
             SysTimer = new System.Windows.Forms.Timer(components);
             uscAlarmShow1 = new UI_UserControls.UscAlarmShow();
-            uscAlarmTable1 = new UI_UserControls.UscAlarmTable();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             panel2.SuspendLayout();
@@ -101,9 +101,9 @@
             ((System.ComponentModel.ISupportInitialize)primaryMessageWrapperBindingSource3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvActiveMsgToAGVS).BeginInit();
             ((System.ComponentModel.ISupportInitialize)primaryMessageWrapperBindingSource2).BeginInit();
+            tabPage3.SuspendLayout();
             tabPage2.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
-            tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)messageWrapperBindingSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)primaryMessageWrapperBindingSource).BeginInit();
             GPMRDMenuStrip.SuspendLayout();
@@ -115,8 +115,8 @@
             // tabControl1
             // 
             tabControl1.Controls.Add(tabPage1);
-            tabControl1.Controls.Add(tabPage2);
             tabControl1.Controls.Add(tabPage3);
+            tabControl1.Controls.Add(tabPage2);
             tabControl1.Dock = DockStyle.Fill;
             tabControl1.HotTrack = true;
             tabControl1.ItemSize = new Size(96, 30);
@@ -127,6 +127,7 @@
             tabControl1.SizeMode = TabSizeMode.Fixed;
             tabControl1.TabIndex = 1;
             tabControl1.DrawItem += tabControl1_DrawItem;
+            tabControl1.SelectedIndexChanged += tabControl1_SelectedIndexChanged;
             // 
             // tabPage1
             // 
@@ -393,6 +394,26 @@
             label5.TabIndex = 13;
             label5.Text = "To AGVS";
             // 
+            // tabPage3
+            // 
+            tabPage3.Controls.Add(uscAlarmTable1);
+            tabPage3.Location = new Point(4, 34);
+            tabPage3.Name = "tabPage3";
+            tabPage3.Padding = new Padding(3);
+            tabPage3.Size = new Size(1165, 318);
+            tabPage3.TabIndex = 2;
+            tabPage3.Text = "系統警報";
+            tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // uscAlarmTable1
+            // 
+            uscAlarmTable1.BackColor = Color.White;
+            uscAlarmTable1.Dock = DockStyle.Fill;
+            uscAlarmTable1.Location = new Point(3, 3);
+            uscAlarmTable1.Name = "uscAlarmTable1";
+            uscAlarmTable1.Size = new Size(1159, 312);
+            uscAlarmTable1.TabIndex = 0;
+            // 
             // tabPage2
             // 
             tabPage2.Controls.Add(tableLayoutPanel1);
@@ -581,17 +602,6 @@
             rtbModbusTcpServerLog.Size = new Size(283, 109);
             rtbModbusTcpServerLog.TabIndex = 7;
             rtbModbusTcpServerLog.Text = "";
-            // 
-            // tabPage3
-            // 
-            tabPage3.Controls.Add(uscAlarmTable1);
-            tabPage3.Location = new Point(4, 34);
-            tabPage3.Name = "tabPage3";
-            tabPage3.Padding = new Padding(3);
-            tabPage3.Size = new Size(1165, 318);
-            tabPage3.TabIndex = 2;
-            tabPage3.Text = "系統警報";
-            tabPage3.UseVisualStyleBackColor = true;
             // 
             // GPMRDMenuStrip
             // 
@@ -783,15 +793,6 @@
             uscAlarmShow1.Size = new Size(1173, 74);
             uscAlarmShow1.TabIndex = 10;
             // 
-            // uscAlarmTable1
-            // 
-            uscAlarmTable1.BackColor = Color.White;
-            uscAlarmTable1.Dock = DockStyle.Fill;
-            uscAlarmTable1.Location = new Point(3, 3);
-            uscAlarmTable1.Name = "uscAlarmTable1";
-            uscAlarmTable1.Size = new Size(1159, 312);
-            uscAlarmTable1.TabIndex = 0;
-            // 
             // frmMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -825,9 +826,9 @@
             ((System.ComponentModel.ISupportInitialize)primaryMessageWrapperBindingSource3).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvActiveMsgToAGVS).EndInit();
             ((System.ComponentModel.ISupportInitialize)primaryMessageWrapperBindingSource2).EndInit();
+            tabPage3.ResumeLayout(false);
             tabPage2.ResumeLayout(false);
             tableLayoutPanel1.ResumeLayout(false);
-            tabPage3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)messageWrapperBindingSource).EndInit();
             ((System.ComponentModel.ISupportInitialize)primaryMessageWrapperBindingSource).EndInit();
             GPMRDMenuStrip.ResumeLayout(false);

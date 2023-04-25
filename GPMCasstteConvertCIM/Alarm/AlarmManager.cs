@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -33,29 +34,15 @@ namespace GPMCasstteConvertCIM.Alarm
              {  ALARM_CODES.CODE_EXCEPTION_WHEN_TRANSFER_MSG_TO_AGVS, new clsAlarmDto( ALARM_CODES.CODE_EXCEPTION_WHEN_TRANSFER_MSG_TO_AGVS,"MCS MSG TRANSFER","轉送MCS SECS訊息至AGVS的過程中發生程式例外") },
              {  ALARM_CODES.EVENT_REPORT_COMPLETED_BUT_ACK_IS_SYSTEM_ERROR_65, new clsAlarmDto( ALARM_CODES.EVENT_REPORT_COMPLETED_BUT_ACK_IS_SYSTEM_ERROR_65,"SECS_EVENT_REPORT","Event Report MCS回傳System_Error(ACKC6 = 65)") },
         };
-        public static List<clsAlarmDto> WarningsList { get; set; } = new List<clsAlarmDto>();
         public static List<clsAlarmDto> AlarmsList { get; set; } = new List<clsAlarmDto>();
 
         public static event EventHandler<clsAlarmDto> onAlarmAdded;
 
-        public static List<clsAlarmDto> AllAlarms
-        {
-            set
-            {
 
-            }
-            get
-            {
-                List<clsAlarmDto> output = new List<clsAlarmDto>();
-                output.AddRange(WarningsList);
-                output.AddRange(AlarmsList);
-                return output.OrderByDescending(al => al.Time).ToList();
-            }
-        }
-      
+
         public static void AddWarning(ALARM_CODES alarm_code, string EQPName, bool add_new_one_when_exist_same_code = true)
         {
-            lock (WarningsList)
+            lock (AlarmsList)
             {
                 if (AlarmCodes.TryGetValue(alarm_code, out clsAlarmDto alarmDeffined))
                 {
@@ -69,9 +56,9 @@ namespace GPMCasstteConvertCIM.Alarm
                     newAalrm.Level = ALARM_LEVEL.WARNING;
                     newAalrm.EQPName = EQPName;
                     if (add_new_one_when_exist_same_code)
-                        WarningsList.Add(newAalrm);
+                        AlarmsList.Insert(0, newAalrm);
                     else
-                        AddToWarningList(newAalrm);
+                        TryUpdate(newAalrm);
                     onAlarmAdded?.Invoke("", newAalrm);
                 }
                 else
@@ -96,9 +83,9 @@ namespace GPMCasstteConvertCIM.Alarm
                     newAalrm.EQPName = EQPName;
 
                     if (add_new_one_when_exist_same_code)
-                        AlarmsList.Add(newAalrm);
+                        AlarmsList.Insert(0, newAalrm);
                     else
-                        AddToAlarmList(newAalrm);
+                        TryUpdate(newAalrm);
 
                     onAlarmAdded?.Invoke("", newAalrm);
                 }
@@ -108,11 +95,11 @@ namespace GPMCasstteConvertCIM.Alarm
             }
 
         }
-        private static void AddToWarningList(clsAlarmDto alarmDto)
+        private static void TryUpdate(clsAlarmDto alarmDto)
         {
-            var alarmExist = WarningsList.FirstOrDefault(alarm => alarm.Code.ToString() == alarmDto.Code.ToString() && alarm.EQPName == alarmDto.EQPName);
+            var alarmExist = AlarmsList.FirstOrDefault(alarm => alarm.Level == alarmDto.Level && alarm.Code.ToString() == alarmDto.Code.ToString() && alarm.EQPName == alarmDto.EQPName);
             if (alarmExist == null)
-                WarningsList.Add(alarmDto);
+                AlarmsList.Insert(0, alarmDto);
             else
             {
                 alarmExist.Duration += (DateTime.Now - alarmExist.Time).TotalSeconds;
@@ -120,18 +107,7 @@ namespace GPMCasstteConvertCIM.Alarm
             }
 
         }
-        private static void AddToAlarmList(clsAlarmDto alarmDto)
-        {
-            var alarmExist = AlarmsList.FirstOrDefault(alarm => alarm.Code.ToString() == alarmDto.Code.ToString() && alarm.EQPName == alarmDto.EQPName);
-            if (alarmExist == null)
-                AlarmsList.Add(alarmDto);
-            else
-            {
-                alarmExist.Duration += (DateTime.Now - alarmExist.Time).TotalSeconds;
-                alarmExist.Time = alarmDto.Time;
-            }
 
-        }
 
         private static void AddUndefinedAlarm(ALARM_CODES alarmCode, ALARM_LEVEL level = ALARM_LEVEL.WARNING, string eQPName = "")
         {
@@ -142,18 +118,13 @@ namespace GPMCasstteConvertCIM.Alarm
             alarm.Classify = "Unknown";
             alarm.Description = alarmCode.ToString();
             alarm.EQPName = eQPName;
-            if (level == ALARM_LEVEL.WARNING)
-                WarningsList.Add(alarm);
-            else if (level == ALARM_LEVEL.ALARM)
-                AlarmsList.Add(alarm);
-
+            AlarmsList.Add(alarm);
             onAlarmAdded?.Invoke("", alarm);
         }
 
         internal static void ClearAlarm()
         {
             AlarmsList.Clear();
-            WarningsList.Clear();
             onAlarmAdded?.Invoke("", null);
 
         }
@@ -161,12 +132,6 @@ namespace GPMCasstteConvertCIM.Alarm
 
         internal static void TryRemoveAlarm(ALARM_CODES alarmCode, string EQPName)
         {
-            var warnings = WarningsList.FindAll(alarm => alarm.Code == alarmCode && alarm.EQPName == EQPName);
-            foreach (var alarm in warnings)
-            {
-                WarningsList.Remove(alarm);
-            }
-
             var alarms = AlarmsList.FindAll(alarm => alarm.Code == alarmCode && alarm.EQPName == EQPName);
             foreach (var alarm in alarms)
             {

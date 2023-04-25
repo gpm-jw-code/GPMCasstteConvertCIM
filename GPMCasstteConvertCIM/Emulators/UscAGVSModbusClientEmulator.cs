@@ -1,4 +1,5 @@
 ﻿using GPMCasstteConvertCIM.CasstteConverter;
+using GPMCasstteConvertCIM.CasstteConverter.Data;
 using GPMCasstteConvertCIM.Devices;
 using GPMCasstteConvertCIM.GPM_Modbus;
 using GPMCasstteConvertCIM.UI_UserControls;
@@ -33,7 +34,7 @@ namespace GPMCasstteConvertCIM.Emulators
             REAL_TIME,
             MANUAL
         }
-        private WRITE_METHOD WriteMethod = WRITE_METHOD.MANUAL;
+        private WRITE_METHOD WriteMethod = WRITE_METHOD.REAL_TIME;
 
         internal clsConverterPort casstte_port;
         int SelectedPortNo = 1;
@@ -48,7 +49,22 @@ namespace GPMCasstteConvertCIM.Emulators
         {
             InitializeComponent();
             cmbPortSelector.SelectedIndex = 0;//port1
+
+            dgvDI_EQPLC.CellFormatting += DatagridView_CellFormatting;
+            dgvDO_AGVS.CellFormatting += DatagridView_CellFormatting;
         }
+
+        private void DatagridView_CellFormatting(object? sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                DataGridView dgv = (DataGridView)sender;
+                DigitalIORegister addressDto = dgv.Rows[e.RowIndex].DataBoundItem as DigitalIORegister;
+                bool active = (bool)addressDto.State;
+                dgv.Rows[e.RowIndex].DefaultCellStyle.BackColor = active ? Color.Lime : Color.White;
+            }
+        }
+
 
         private int CIM_StartHoldingRegisterNumber => casstte_port.converterParent.LinkWordMap.FindAll(mem => mem.Link_Modbus_Register_Number != -1).OrderBy(mem => mem.Link_Modbus_Register_Number).ToList().FirstOrDefault(mem => mem.EOwner == OWNER.CIM).Link_Modbus_Register_Number - 1;
 
@@ -170,12 +186,6 @@ namespace GPMCasstteConvertCIM.Emulators
                             {
                                 bool IsChanged = DigitalInputs[i].State != states[i];
                                 DigitalInputs[i].State = states[i];
-
-                                if (IsChanged)
-                                    Invoke(new Action(() =>
-                                    {
-                                        dgvDI_EQPLC.Rows[i].DefaultCellStyle.BackColor = DigitalInputs[i].State ? Color.Lime : Color.White;
-                                    }));
                             }
 
 
@@ -237,7 +247,6 @@ namespace GPMCasstteConvertCIM.Emulators
                 WriteSingleCoil(reg);
             }
 
-            row.DefaultCellStyle.BackColor = reg.State ? Color.Lime : Color.White;
         }
 
         private void WriteSingleCoil(DigitalIORegister reg)
@@ -379,7 +388,6 @@ namespace GPMCasstteConvertCIM.Emulators
                 btnStartLDSim.Enabled = btnStartULDSim.Enabled = true;
                 LDULDHSCancel.Cancel();
                 await Task.Delay(1000);
-                WriteMethod = WRITE_METHOD.MANUAL;
             }));
         }
 

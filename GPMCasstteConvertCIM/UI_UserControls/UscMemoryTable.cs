@@ -33,6 +33,20 @@ namespace GPMCasstteConvertCIM.UI_UserControls
         public UscMemoryTable()
         {
             InitializeComponent();
+
+            dgvEQPBitMap.CellFormatting += DgvEQPBitMap_CellFormatting;
+            dgvCIMBitMap.CellFormatting += DgvEQPBitMap_CellFormatting;
+        }
+
+        private void DgvEQPBitMap_CellFormatting(object? sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                DataGridView dgv = (DataGridView)sender;
+                clsMemoryAddress addressDto = dgv.Rows[e.RowIndex].DataBoundItem as clsMemoryAddress;
+                bool active = (bool)addressDto.Value;
+                dgv.Rows[e.RowIndex].DefaultCellStyle.BackColor = active ? Color.Lime : Color.White;
+            }
         }
 
         public List<clsMemoryAddress> bitMemoryAddressList
@@ -41,13 +55,11 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             {
                 foreach (clsMemoryAddress item in value.FindAll(v => v.EOwner == clsMemoryAddress.OWNER.EQP))
                 {
-                    item.PropertyChanged += Item_PropertyChanged;
                     eqp_bitMemoryAddressList.Add(item);
                 }
 
                 foreach (clsMemoryAddress item in value.FindAll(v => v.EOwner == clsMemoryAddress.OWNER.CIM))
                 {
-                    item.PropertyChanged += Item_PropertyChanged;
                     cim_bitMemoryAddressList.Add(item);
                 }
 
@@ -57,21 +69,7 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             }
         }
 
-        private void Item_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-        {
-            try
-            {
-                clsMemoryAddress memState = sender as clsMemoryAddress;
-                DataGridView dgv = memState.EOwner == clsMemoryAddress.OWNER.EQP ? dgvEQPBitMap : dgvCIMBitMap;
-                var row = dgv.Rows.Cast<DataGridViewRow>().FirstOrDefault(r => (r.DataBoundItem as clsMemoryAddress).Address == memState.Address);
-                row.DefaultCellStyle.BackColor = (bool)memState.Value ? Color.Lime : Color.White;
-            }
-            catch (NullReferenceException ex)
-            {
-
-            }
-        }
-
+     
         public List<clsMemoryAddress> wordMemoryAddressList
         {
             set

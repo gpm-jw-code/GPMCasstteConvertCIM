@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -24,18 +25,21 @@ namespace GPMCasstteConvertCIM.Forms
             string name = txbAccount.Text;
             string pw = txbPassword.Text;
 
-            if (name == "")
+            if (!Debugger.IsAttached)
             {
-                MessageBox.Show("請輸入帳號!");
-                return;
-            }
+                if (name == "")
+                {
+                    MessageBox.Show("請輸入帳號!");
+                    return;
+                }
 
-            if (pw == "")
-            {
-                MessageBox.Show("請輸入密碼");
-                return;
+                if (pw == "")
+                {
+                    MessageBox.Show("請輸入密碼");
+                    return;
+                }
             }
-
+          
             bool success = StaUsersManager.TryLogin(name, pw, out User user);
             if (!success)
             {

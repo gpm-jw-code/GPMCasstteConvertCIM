@@ -14,7 +14,7 @@ namespace GPMCasstteConvertCIM.UI_UserControls
 {
     public partial class UscAlarmShow : UserControl
     {
-        public List<clsAlarmDto> alarms => AlarmManager.AllAlarms;
+        public List<clsAlarmDto> alarms => AlarmManager.AlarmsList;
         private bool hasAlarm => alarms.Count > 0;
         private int playingAlarmIndex = 0;
         public bool showAlarmResetBtn
