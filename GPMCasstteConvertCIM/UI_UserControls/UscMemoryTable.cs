@@ -41,13 +41,13 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             {
                 foreach (clsMemoryAddress item in value.FindAll(v => v.EOwner == clsMemoryAddress.OWNER.EQP))
                 {
-                    //item.PropertyChanged += Item_PropertyChanged;
+                    item.PropertyChanged += Item_PropertyChanged;
                     eqp_bitMemoryAddressList.Add(item);
                 }
 
                 foreach (clsMemoryAddress item in value.FindAll(v => v.EOwner == clsMemoryAddress.OWNER.CIM))
                 {
-                    //item.PropertyChanged += Item_PropertyChanged;
+                    item.PropertyChanged += Item_PropertyChanged;
                     cim_bitMemoryAddressList.Add(item);
                 }
 
