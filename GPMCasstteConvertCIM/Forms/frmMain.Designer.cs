@@ -86,6 +86,7 @@
             statusStrip1 = new StatusStrip();
             labSysTime = new ToolStripStatusLabel();
             SysTimer = new System.Windows.Forms.Timer(components);
+            uscAlarmShow1 = new UI_UserControls.UscAlarmShow();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             panel2.SuspendLayout();
@@ -113,10 +114,10 @@
             tabControl1.Controls.Add(tabPage1);
             tabControl1.Controls.Add(tabPage2);
             tabControl1.Dock = DockStyle.Fill;
-            tabControl1.Location = new Point(133, 32);
+            tabControl1.Location = new Point(133, 71);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(1173, 430);
+            tabControl1.Size = new Size(1173, 391);
             tabControl1.TabIndex = 1;
             // 
             // tabPage1
@@ -128,7 +129,7 @@
             tabPage1.Location = new Point(4, 24);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(1165, 402);
+            tabPage1.Size = new Size(1165, 363);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "HOME";
             // 
@@ -145,7 +146,7 @@
             tlpConverterContainer.RowCount = 2;
             tlpConverterContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tlpConverterContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tlpConverterContainer.Size = new Size(416, 396);
+            tlpConverterContainer.Size = new Size(416, 357);
             tlpConverterContainer.TabIndex = 11;
             // 
             // panel2
@@ -154,7 +155,7 @@
             panel2.Dock = DockStyle.Right;
             panel2.Location = new Point(419, 3);
             panel2.Name = "panel2";
-            panel2.Size = new Size(743, 396);
+            panel2.Size = new Size(743, 357);
             panel2.TabIndex = 12;
             // 
             // tableLayoutPanel2
@@ -179,7 +180,7 @@
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 17F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel2.Size = new Size(733, 390);
+            tableLayoutPanel2.Size = new Size(733, 319);
             tableLayoutPanel2.TabIndex = 10;
             // 
             // dgvMsgFromMCS
@@ -199,7 +200,7 @@
             dgvMsgFromMCS.ReadOnly = true;
             dgvMsgFromMCS.RowHeadersVisible = false;
             dgvMsgFromMCS.RowTemplate.Height = 25;
-            dgvMsgFromMCS.Size = new Size(359, 169);
+            dgvMsgFromMCS.Size = new Size(359, 134);
             dgvMsgFromMCS.TabIndex = 6;
             // 
             // primaryMessageSMLDataGridViewTextBoxColumn2
@@ -232,12 +233,12 @@
             dgvMsgFromAGVS.DataSource = primaryMessageWrapperBindingSource1;
             dgvMsgFromAGVS.Dock = DockStyle.Fill;
             dgvMsgFromAGVS.GridColor = Color.DarkCyan;
-            dgvMsgFromAGVS.Location = new Point(4, 216);
+            dgvMsgFromAGVS.Location = new Point(4, 181);
             dgvMsgFromAGVS.Name = "dgvMsgFromAGVS";
             dgvMsgFromAGVS.ReadOnly = true;
             dgvMsgFromAGVS.RowHeadersVisible = false;
             dgvMsgFromAGVS.RowTemplate.Height = 25;
-            dgvMsgFromAGVS.Size = new Size(359, 170);
+            dgvMsgFromAGVS.Size = new Size(359, 134);
             dgvMsgFromAGVS.TabIndex = 8;
             // 
             // primaryMessageSMLDataGridViewTextBoxColumn
@@ -274,7 +275,7 @@
             dgvActiveMsgToMCS.ReadOnly = true;
             dgvActiveMsgToMCS.RowHeadersVisible = false;
             dgvActiveMsgToMCS.RowTemplate.Height = 25;
-            dgvActiveMsgToMCS.Size = new Size(359, 169);
+            dgvActiveMsgToMCS.Size = new Size(359, 134);
             dgvActiveMsgToMCS.TabIndex = 7;
             // 
             // primaryMessageSMLDataGridViewTextBoxColumn1
@@ -306,12 +307,12 @@
             dgvActiveMsgToAGVS.DataSource = primaryMessageWrapperBindingSource2;
             dgvActiveMsgToAGVS.Dock = DockStyle.Fill;
             dgvActiveMsgToAGVS.GridColor = Color.DarkCyan;
-            dgvActiveMsgToAGVS.Location = new Point(370, 216);
+            dgvActiveMsgToAGVS.Location = new Point(370, 181);
             dgvActiveMsgToAGVS.Name = "dgvActiveMsgToAGVS";
             dgvActiveMsgToAGVS.ReadOnly = true;
             dgvActiveMsgToAGVS.RowHeadersVisible = false;
             dgvActiveMsgToAGVS.RowTemplate.Height = 25;
-            dgvActiveMsgToAGVS.Size = new Size(359, 170);
+            dgvActiveMsgToAGVS.Size = new Size(359, 134);
             dgvActiveMsgToAGVS.TabIndex = 9;
             // 
             // dataGridViewTextBoxColumn6
@@ -351,7 +352,7 @@
             label4.BackColor = Color.Wheat;
             label4.BorderStyle = BorderStyle.FixedSingle;
             label4.Dock = DockStyle.Fill;
-            label4.Location = new Point(1, 195);
+            label4.Location = new Point(1, 160);
             label4.Margin = new Padding(0);
             label4.Name = "label4";
             label4.Size = new Size(365, 17);
@@ -377,7 +378,7 @@
             label5.BackColor = Color.Wheat;
             label5.BorderStyle = BorderStyle.FixedSingle;
             label5.Dock = DockStyle.Fill;
-            label5.Location = new Point(367, 195);
+            label5.Location = new Point(367, 160);
             label5.Margin = new Padding(0);
             label5.Name = "label5";
             label5.Size = new Size(365, 17);
@@ -390,7 +391,7 @@
             tabPage2.Location = new Point(4, 24);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(1165, 402);
+            tabPage2.Size = new Size(1165, 363);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "LOG";
             tabPage2.UseVisualStyleBackColor = true;
@@ -420,7 +421,7 @@
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 41F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.Size = new Size(1159, 396);
+            tableLayoutPanel1.Size = new Size(1159, 357);
             tableLayoutPanel1.TabIndex = 2;
             // 
             // checkBox4
@@ -487,7 +488,7 @@
             rtbSecsHostLog.ForeColor = Color.White;
             rtbSecsHostLog.Location = new Point(3, 44);
             rtbSecsHostLog.Name = "rtbSecsHostLog";
-            rtbSecsHostLog.Size = new Size(283, 151);
+            rtbSecsHostLog.Size = new Size(283, 131);
             rtbSecsHostLog.TabIndex = 1;
             rtbSecsHostLog.Text = "";
             // 
@@ -498,7 +499,7 @@
             rtbSecsClientLog.ForeColor = Color.White;
             rtbSecsClientLog.Location = new Point(292, 44);
             rtbSecsClientLog.Name = "rtbSecsClientLog";
-            rtbSecsClientLog.Size = new Size(283, 151);
+            rtbSecsClientLog.Size = new Size(283, 131);
             rtbSecsClientLog.TabIndex = 2;
             rtbSecsClientLog.Text = "";
             // 
@@ -509,7 +510,7 @@
             rtbCasstteConvertLog.ForeColor = Color.White;
             rtbCasstteConvertLog.Location = new Point(581, 44);
             rtbCasstteConvertLog.Name = "rtbCasstteConvertLog";
-            rtbCasstteConvertLog.Size = new Size(283, 151);
+            rtbCasstteConvertLog.Size = new Size(283, 131);
             rtbCasstteConvertLog.TabIndex = 3;
             rtbCasstteConvertLog.Text = "";
             // 
@@ -520,7 +521,7 @@
             richTextBox3.ForeColor = Color.White;
             richTextBox3.Location = new Point(870, 44);
             richTextBox3.Name = "richTextBox3";
-            richTextBox3.Size = new Size(286, 151);
+            richTextBox3.Size = new Size(286, 131);
             richTextBox3.TabIndex = 4;
             richTextBox3.Text = "";
             // 
@@ -554,7 +555,7 @@
             checkBox5.FlatStyle = FlatStyle.Flat;
             checkBox5.Font = new Font("Microsoft JhengHei UI", 15F, FontStyle.Regular, GraphicsUnit.Point);
             checkBox5.ForeColor = Color.White;
-            checkBox5.Location = new Point(3, 201);
+            checkBox5.Location = new Point(3, 181);
             checkBox5.Name = "checkBox5";
             checkBox5.Size = new Size(283, 35);
             checkBox5.TabIndex = 9;
@@ -567,9 +568,9 @@
             rtbModbusTcpServerLog.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             rtbModbusTcpServerLog.BackColor = SystemColors.InfoText;
             rtbModbusTcpServerLog.ForeColor = Color.White;
-            rtbModbusTcpServerLog.Location = new Point(3, 242);
+            rtbModbusTcpServerLog.Location = new Point(3, 222);
             rtbModbusTcpServerLog.Name = "rtbModbusTcpServerLog";
-            rtbModbusTcpServerLog.Size = new Size(283, 151);
+            rtbModbusTcpServerLog.Size = new Size(283, 132);
             rtbModbusTcpServerLog.TabIndex = 7;
             rtbModbusTcpServerLog.Text = "";
             // 
@@ -752,6 +753,17 @@
             SysTimer.Interval = 1000;
             SysTimer.Tick += SysTimer_Tick;
             // 
+            // uscAlarmShow1
+            // 
+            uscAlarmShow1.AutoSize = true;
+            uscAlarmShow1.BackColor = Color.FromArgb(255, 128, 0);
+            uscAlarmShow1.Dock = DockStyle.Top;
+            uscAlarmShow1.ForeColor = Color.Black;
+            uscAlarmShow1.Location = new Point(133, 32);
+            uscAlarmShow1.Name = "uscAlarmShow1";
+            uscAlarmShow1.Size = new Size(1173, 39);
+            uscAlarmShow1.TabIndex = 10;
+            // 
             // frmMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -760,6 +772,7 @@
             BackColor = Color.FromArgb(51, 51, 51);
             ClientSize = new Size(1306, 631);
             Controls.Add(tabControl1);
+            Controls.Add(uscAlarmShow1);
             Controls.Add(panel1);
             Controls.Add(pnlSideLeft);
             Controls.Add(statusStrip1);
@@ -865,5 +878,6 @@
         private UI_UserControls.UscConnectionStates uscConnectionStates1;
         private Label label6;
         private Button btnOpenLoginFOrm;
+        private UI_UserControls.UscAlarmShow uscAlarmShow1;
     }
 }

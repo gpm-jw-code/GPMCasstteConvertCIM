@@ -1,3 +1,4 @@
+using GPMCasstteConvertCIM.Alarm;
 using GPMCasstteConvertCIM.API.TcpSupport;
 using GPMCasstteConvertCIM.API.WebsocketSupport;
 using GPMCasstteConvertCIM.CasstteConverter;
@@ -164,12 +165,19 @@ namespace GPMCasstteConvertCIM.Forms
             {
                 case DevicesManager.CIM_DEVICE_TYPES.SECS_HOST:
                     uscConnectionStates1.SECS_TO_AGVS_ConnectionChange(e.Connection_State);
+                    if (e.Connection_State == Common.CONNECTION_STATE.DISCONNECTED)
+                        AlarmManager.AddAlarm(ALARM_CODES.CONNECTION_ERROR_AGVS);
                     break;
                 case DevicesManager.CIM_DEVICE_TYPES.SECS_CLIENT:
                     uscConnectionStates1.SECS_TO_MCS_ConnectionChange(e.Connection_State);
+                    if (e.Connection_State == Common.CONNECTION_STATE.DISCONNECTED)
+                    {
+                        AlarmManager.AddAlarm(ALARM_CODES.CONNECTION_ERROR_MCS);
+                    }
                     break;
                 case DevicesManager.CIM_DEVICE_TYPES.CASSTTE_CONVERTER:
                     uscConnectionStates1.Converter_ConnectionChange(e.Connection_State);
+                    AlarmManager.AddAlarm(ALARM_CODES.CONNECTION_ERROR_CONVERT);
                     break;
                 default:
                     break;
@@ -292,12 +300,15 @@ namespace GPMCasstteConvertCIM.Forms
             {
                 btnOpenLoginFOrm.Text = "µn¥X";
                 label6.Text = $"{StaUsersManager.CurrentUser.Name}\r\n({StaUsersManager.CurrentUser.Group})";
+
+                SuspendLayout();
                 if (StaUsersManager.CurrentUser.Group == StaUsersManager.USER_GROUP.GPM_ENG | StaUsersManager.CurrentUser.Group == StaUsersManager.USER_GROUP.GPM_RD)
                 {
-                    GPMRDMenuStrip.Visible = true;
+                    uscAlarmShow1.showAlarmResetBtn = GPMRDMenuStrip.Visible = true;
                 }
                 else
-                    GPMRDMenuStrip.Visible = false;
+                    uscAlarmShow1.showAlarmResetBtn = GPMRDMenuStrip.Visible = false;
+                ResumeLayout();
             }
 
         }

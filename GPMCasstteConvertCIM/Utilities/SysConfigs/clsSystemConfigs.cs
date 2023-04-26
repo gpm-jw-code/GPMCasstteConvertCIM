@@ -8,6 +8,7 @@ namespace GPMCasstteConvertCIM.Utilities.SysConfigs
 {
     public class clsSystemConfigs
     {
+        public bool Simulation { get; set; } = true;
         public clsLogConfigs Log { get; set; } = new clsLogConfigs();
         public clsSECSConfigs SECS { get; set; } = new clsSECSConfigs();
     }
