@@ -49,7 +49,7 @@
             labUnloading = new Label();
             labLoading = new Label();
             labAutoStatus = new Label();
-            label2 = new Label();
+            labPortEventRepShow = new Label();
             panel2 = new Panel();
             labPortID = new Label();
             label4 = new Label();
@@ -339,22 +339,23 @@
             labAutoStatus.Text = "MANUAL";
             labAutoStatus.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // label2
+            // labPortEventRepShow
             // 
-            label2.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            label2.BackColor = SystemColors.ActiveCaption;
-            label2.BorderStyle = BorderStyle.FixedSingle;
-            label2.FlatStyle = FlatStyle.Flat;
-            label2.Font = new Font("Microsoft JhengHei UI", 7F, FontStyle.Regular, GraphicsUnit.Point);
-            label2.ForeColor = Color.White;
-            label2.Location = new Point(369, 268);
-            label2.Margin = new Padding(1);
-            label2.Name = "label2";
-            label2.Size = new Size(95, 19);
-            label2.TabIndex = 38;
-            label2.Text = "Event Report ";
-            label2.TextAlign = ContentAlignment.MiddleCenter;
-            label2.Click += label2_Click;
+            labPortEventRepShow.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            labPortEventRepShow.BackColor = SystemColors.ActiveCaption;
+            labPortEventRepShow.BorderStyle = BorderStyle.FixedSingle;
+            labPortEventRepShow.FlatStyle = FlatStyle.Flat;
+            labPortEventRepShow.Font = new Font("Microsoft JhengHei UI", 7F, FontStyle.Regular, GraphicsUnit.Point);
+            labPortEventRepShow.ForeColor = Color.White;
+            labPortEventRepShow.Location = new Point(369, 255);
+            labPortEventRepShow.Margin = new Padding(1);
+            labPortEventRepShow.Name = "labPortEventRepShow";
+            labPortEventRepShow.Size = new Size(95, 39);
+            labPortEventRepShow.TabIndex = 38;
+            labPortEventRepShow.Text = "Event Report ";
+            labPortEventRepShow.TextAlign = ContentAlignment.MiddleCenter;
+            labPortEventRepShow.Visible = false;
+            labPortEventRepShow.Click += label2_Click;
             // 
             // panel2
             // 
@@ -425,7 +426,7 @@
             Controls.Add(label3);
             Controls.Add(labServiceStatusText);
             Controls.Add(panel2);
-            Controls.Add(label2);
+            Controls.Add(labPortEventRepShow);
             Controls.Add(labAutoStatus);
             Controls.Add(labLoading);
             Controls.Add(labUnloading);
@@ -464,7 +465,7 @@
         private Label labUnloading;
         private Label labLoading;
         private Label labAutoStatus;
-        private Label label2;
+        private Label labPortEventRepShow;
         private Panel panel2;
         private Label labPortID;
         private Label label4;
