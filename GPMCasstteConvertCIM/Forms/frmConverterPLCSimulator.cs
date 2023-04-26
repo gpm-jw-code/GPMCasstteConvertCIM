@@ -6,11 +6,13 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static GPMCasstteConvertCIM.CasstteConverter.Enums;
 using static GPMCasstteConvertCIM.GPM_SECS.SECSMessageHelper;
+using static System.Windows.Forms.AxHost;
 
 namespace GPMCasstteConvertCIM.Forms
 {
@@ -30,9 +32,9 @@ namespace GPMCasstteConvertCIM.Forms
             CasstteConverter.EQPMemOptions.memoryTable.WriteBinary(e.Address, (int)e.Value);
         }
 
-        private void UscMemoryTable1_bitValueOnChanged(object? sender, clsMemoryAddress e)
+        private void UscMemoryTable1_bitValueOnChanged(object? sender, (string bitAddress, bool state) e)
         {
-            CasstteConverter.EQPMemOptions.memoryTable.WriteOneBit(e.Address, (bool)e.Value);
+            CasstteConverter.EQPMemOptions.memoryTable.WriteOneBit(e.bitAddress, e.state);
         }
 
         private void frmConverterPLCSimulator_Load(object sender, EventArgs e)

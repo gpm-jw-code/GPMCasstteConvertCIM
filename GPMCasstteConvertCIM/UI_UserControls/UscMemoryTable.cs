@@ -13,14 +13,22 @@ namespace GPMCasstteConvertCIM.UI_UserControls
 {
     public partial class UscMemoryTable : UserControl
     {
-        public bool Editable = true;
+        private bool _Editable = true;
+        public bool Editable
+        {
+            get => _Editable;
+            set
+            {
+                dgvEQPBitMap.Columns["valueTogglebtn"].Visible = _Editable = value;
+            }
+        }
         private BindingList<clsMemoryAddress> eqp_bitMemoryAddressList = new BindingList<clsMemoryAddress>();
         private BindingList<clsMemoryAddress> eqp_wordMemoryAddressList = new BindingList<clsMemoryAddress>();
 
         private BindingList<clsMemoryAddress> cim_bitMemoryAddressList = new BindingList<clsMemoryAddress>();
         private BindingList<clsMemoryAddress> cim_wordMemoryAddressList = new BindingList<clsMemoryAddress>();
 
-        internal event EventHandler<clsMemoryAddress> bitValueOnChanged;
+        internal event EventHandler<(string bitAddress, bool state)> bitValueOnChanged;
         internal event EventHandler<clsMemoryAddress> wordValueOnChanged;
         public UscMemoryTable()
         {
@@ -33,13 +41,13 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             {
                 foreach (clsMemoryAddress item in value.FindAll(v => v.EOwner == clsMemoryAddress.OWNER.EQP))
                 {
-                    item.PropertyChanged += Item_PropertyChanged;
+                    //item.PropertyChanged += Item_PropertyChanged;
                     eqp_bitMemoryAddressList.Add(item);
                 }
 
                 foreach (clsMemoryAddress item in value.FindAll(v => v.EOwner == clsMemoryAddress.OWNER.CIM))
                 {
-                    item.PropertyChanged += Item_PropertyChanged;
+                    //item.PropertyChanged += Item_PropertyChanged;
                     cim_bitMemoryAddressList.Add(item);
                 }
 
@@ -88,10 +96,13 @@ namespace GPMCasstteConvertCIM.UI_UserControls
         {
             if (!Editable | e.ColumnIndex < 0 | e.RowIndex < 0)
                 return;
+            Invoke(new Action(() =>
+            {
 
-            clsMemoryAddress? addressData = dgvEQPBitMap.Rows[e.RowIndex].DataBoundItem as clsMemoryAddress;
-            addressData.Value = !(bool)addressData.Value;
-            bitValueOnChanged?.Invoke(this, addressData);
+                clsMemoryAddress? addressData = dgvEQPBitMap.Rows[e.RowIndex].DataBoundItem as clsMemoryAddress;
+                addressData.Value = !(bool)addressData.Value;
+                bitValueOnChanged?.Invoke(this, (addressData.Address, (bool)addressData.Value));
+            }));
         }
 
         private void dgvWordMap_CellEndEdit(object sender, DataGridViewCellEventArgs e)
@@ -132,6 +143,19 @@ namespace GPMCasstteConvertCIM.UI_UserControls
         {
             dgvCIMBitMap.RowColorSet(Extensions.DataGridViewType.PLC);
             dgvEQPBitMap.RowColorSet(Extensions.DataGridViewType.PLC);
+        }
+
+        private void dgvEQPBitMap_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.ColumnIndex == 4)
+            {
+                clsMemoryAddress? addressData = dgvEQPBitMap.Rows[e.RowIndex].DataBoundItem as clsMemoryAddress;
+                bool state = !(bool)addressData.Value;
+                eqp_bitMemoryAddressList[e.RowIndex].Value = state;
+
+                bitValueOnChanged?.Invoke(this, (addressData.Address, state));
+
+            }
         }
     }
 }

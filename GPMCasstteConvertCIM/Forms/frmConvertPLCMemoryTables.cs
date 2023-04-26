@@ -22,6 +22,7 @@ namespace GPMCasstteConvertCIM.Forms
                 _CasstteConverter = value;
                 uscMemoryTable1.bitMemoryAddressList = CasstteConverter?.LinkBitMap;
                 uscMemoryTable1.wordMemoryAddressList = CasstteConverter?.LinkWordMap;
+                uscMemoryTable1.Editable = false;
             }
         }
 

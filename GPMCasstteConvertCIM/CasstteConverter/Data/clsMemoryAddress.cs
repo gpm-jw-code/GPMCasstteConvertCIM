@@ -78,7 +78,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter.Data
             {
                 if (Link_Modbus_Register_Number == -1)
                     return "";
-                string hex= Link_Modbus_Register_Number.ToString("X4");
+                string hex = Link_Modbus_Register_Number.ToString("X4");
                 return (EOwner == OWNER.EQP ? "Y" : "X") + hex;
             }
         }
@@ -98,6 +98,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter.Data
         }
         private string _PropertyName = "";
         public Enums.PROPERTY EProperty { get; private set; } = Enums.PROPERTY.Unknown;
+        public string ToggleBtnText { get; set; } = "Toggle";
         public string PropertyName
         {
             get => _PropertyName;
