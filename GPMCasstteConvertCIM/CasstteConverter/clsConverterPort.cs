@@ -249,11 +249,11 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 if (_PortStatusDown != value)
                 {
                     _PortStatusDown = value;
-                    if (_PortStatusDown)
+                    if (!_PortStatusDown)
                         PortOutOfServiceReport();
                     else
                         PortInServiceReport();
-                    Properties.InSerivce = !_PortStatusDown;
+                    Properties.InSerivce = _PortStatusDown;
                 }
             }
         }
