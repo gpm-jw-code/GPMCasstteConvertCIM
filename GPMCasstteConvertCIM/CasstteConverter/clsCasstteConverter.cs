@@ -255,6 +255,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                             }
                             catch (SocketException ex)
                             {
+                                ResetEQPHandshakeBits();
                                 _connectionState = Common.CONNECTION_STATE.DISCONNECTED;
                                 RetryConnectAsync();
                             }
@@ -273,6 +274,19 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
                 }
             });
+        }
+        private void ResetEQPHandshakeBits()
+        {
+            foreach (clsConverterPort port in EQPData.PortDatas)
+            {
+                string Load_Request_address = port.PortEQBitAddress[PROPERTY.Load_Request];
+                string Unload_Request_address = port.PortEQBitAddress[PROPERTY.Unload_Request];
+                string Port_Status_Down_address = port.PortEQBitAddress[PROPERTY.Port_Status_Down];
+
+                EQPMemOptions.memoryTable.WriteOneBit(Load_Request_address, false);
+                EQPMemOptions.memoryTable.WriteOneBit(Unload_Request_address, false);
+                EQPMemOptions.memoryTable.WriteOneBit(Port_Status_Down_address, false);
+            }
         }
 
         private void SyncMemData()
