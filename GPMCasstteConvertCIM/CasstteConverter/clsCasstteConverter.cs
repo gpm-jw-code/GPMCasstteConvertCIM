@@ -63,7 +63,12 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     if (PLCInterfaceClockDown)
                     {
                         if (lastInterfaceClock != -1)
+                        {
+
                             AlarmManager.AddWarning(ALARM_CODES.ALIVE_CLOCK_EQP_DOWN, Name, false);
+                            ResetEQPHandshakeBits();
+
+                        }
                     }
                     else
                     {
@@ -255,7 +260,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                             }
                             catch (SocketException ex)
                             {
-                                ResetEQPHandshakeBits();
+                                //ResetEQPHandshakeBits();
                                 _connectionState = Common.CONNECTION_STATE.DISCONNECTED;
                                 RetryConnectAsync();
                             }
