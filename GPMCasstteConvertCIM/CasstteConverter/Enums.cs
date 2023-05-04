@@ -34,7 +34,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         public enum EQ_SCOPE
         {
             Unknown,
-            AGVS, EQ, PORT1, PORT2
+            AGVS,
+            EQ,
+            PORT1, 
+            PORT2,
         }
 
         public enum PROPERTY

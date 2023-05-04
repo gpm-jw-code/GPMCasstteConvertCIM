@@ -8,6 +8,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
     <FileVersion>1.0.0.1</FileVersion>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -45,6 +46,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Interop.ACTMULTILib.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="src\agv_task_cmd_template.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

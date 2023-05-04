@@ -32,20 +32,60 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         internal string GROUP_Name { get; set; } = "AGVS";
         internal readonly GROUP_TYPE memGoupType = GROUP_TYPE.AGVS;
 
-        internal string bitRegionName => bitStartAddress.Substring(0, 1);
+        internal string bitRegionName
+        {
+            get
+            {
+                char ss = bitStartAddress.First(chr => int.TryParse(chr.ToString(), out int _v));
+                var indexEndOfWordRegName = bitStartAddress.IndexOf(ss);
+                return bitStartAddress.Substring(0, indexEndOfWordRegName);
+            }
+        }
 
-        internal string bitStartAddress_no_region => bitStartAddress.Remove(0, 1);
-        internal string bitEndAddress_no_region => bitEndAddress.Remove(0, 1);
+        internal string bitStartAddress_no_region
+        {
+            get
+            {
+                return bitStartAddress.Substring(bitRegionName.Length, bitStartAddress.Length - bitRegionName.Length);
+            }
+        }
+        internal string bitEndAddress_no_region
+        {
+            get
+            {
+                return bitEndAddress.Substring(bitRegionName.Length, bitEndAddress.Length - bitRegionName.Length);
+            }
+        }
 
         public bool IsBitHexTable { get; }
         public bool IsWordHexTable { get; }
         internal string bitStartAddress { get; private set; } = "B0000";
         internal string bitEndAddress { get; private set; } = "B00FF";
 
-        internal string wordRegionName => wordStartAddress.Substring(0, 1);
+        internal string wordRegionName
+        {
+            get
+            {
+                char ss = wordStartAddress.First(chr => int.TryParse(chr.ToString(), out int _v));
+                var indexEndOfWordRegName = wordStartAddress.IndexOf(ss);
+                return wordStartAddress.Substring(0, indexEndOfWordRegName );
+            }
+        }
 
-        internal string wordStartAddress_no_region => wordStartAddress.Remove(0, 1);
-        internal string wordEndAddress_no_region => wordEndAddress.Remove(0, 1);
+        internal string wordStartAddress_no_region
+        {
+            get
+            {
+                return wordStartAddress.Substring(wordRegionName.Length, wordStartAddress.Length - wordRegionName.Length);
+            }
+        }
+        internal string wordEndAddress_no_region
+        {
+            get
+            {
+                return wordEndAddress.Substring(wordRegionName.Length, wordEndAddress.Length - wordRegionName.Length);
+            }
+        }
         internal string wordStartAddress { get; private set; } = "W0000";
         internal string wordEndAddress { get; private set; } = "W03CF";
         internal int bitSize

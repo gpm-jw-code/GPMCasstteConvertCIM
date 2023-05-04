@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static GPMCasstteConvertCIM.CasstteConverter.clsCasstteConverter;
 using static GPMCasstteConvertCIM.CasstteConverter.clsConverterPort;
 using static GPMCasstteConvertCIM.CasstteConverter.Enums;
 using static GPMCasstteConvertCIM.Devices.DevicesManager;
@@ -21,7 +22,6 @@ namespace GPMCasstteConvertCIM.Devices.Options
 
         public ConverterEQPInitialOption()
         {
-
             DeviceType = CIM_DEVICE_TYPES.CASSTTE_CONVERTER;
         }
 
