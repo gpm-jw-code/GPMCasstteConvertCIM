@@ -31,8 +31,12 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             MX,
             MC
         }
+        public clsCasstteConverter()
+        {
 
-        internal clsCasstteConverter(int index, string name, UscCasstteConverter mainGUI, CONVERTER_TYPE converterType, Dictionary<int, clsPortProperty> portProperties, PLC_CONN_INTERFACE _interface = PLC_CONN_INTERFACE.MX)
+        }
+        internal clsCasstteConverter(int index, string name, UscCasstteConverter mainGUI, CONVERTER_TYPE converterType, Dictionary<int, clsPortProperty> portProperties
+            , PLC_CONN_INTERFACE _interface = PLC_CONN_INTERFACE.MC)
         {
             this.Name = name;
             EQPData = new Data.clsEQPData(portProperties, this);
@@ -155,8 +159,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         internal event EventHandler<Common.CONNECTION_STATE>? ConnectionStateChanged;
         internal clsMemoryGroupOptions EQPMemOptions { get; private set; }
-        internal clsMemoryGroupOptions EQPOutputMemOptions { get; private set; } = new clsMemoryGroupOptions("X0", "X15", "W0", "W1", false, true);
-        internal clsMemoryGroupOptions CIMinputMemOptions { get; private set; } = new clsMemoryGroupOptions("X100", "X115", "W0", "W1", false, true);
+        internal clsMemoryGroupOptions EQPOutputMemOptions { get; private set; }/* = new clsMemoryGroupOptions("X0", "X15", "W0", "W1", false, true);*/
+        internal clsMemoryGroupOptions CIMinputMemOptions { get; private set; }/* = new clsMemoryGroupOptions("X100", "X115", "W0", "W1", false, true);*/
         internal clsMemoryGroupOptions CIMMemOptions { get; private set; }
         public bool AlarmResetFlag { get; internal set; }
 
@@ -508,7 +512,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         {
             mainGUI?.OpenConvertPLCSumulator();
         }
-        private void LoadPLCMapData()
+        public void LoadPLCMapData()
         {
             try
             {
