@@ -18,15 +18,49 @@ namespace GPMCasstteConvertCIM.Devices
                 Port = 5123,
                 IsActive = true,
                 DeviceId=0,
-                ConverterType = CasstteConverter.Enums.CONVERTER_TYPE.IN_SYS
+                ConverterType = CasstteConverter.Enums.CONVERTER_TYPE.IN_SYS,
+                Ports = new Dictionary<int, CasstteConverter.clsConverterPort.clsPortProperty>()
+                {
+                    { 0 , new CasstteConverter.clsConverterPort.clsPortProperty(){
+                         ModbusServer_Enable = true,
+                          PortNo= 0,
+                           PortID = "3F_AGVC02_PORT_1_1",
+                            ModbusServer_IP="127.0.0.1",
+                             ModbusServer_PORT = 1501,
+                              PortType = GPM_SECS.SECSMessageHelper.PortUnitType.Input_Output
+
+                    }
+                    }
+                }
             },
             new ConverterEQPInitialOption
             {
                 IpAddress = "192.168.0.106",
                 Port = 5123,
                 IsActive = true,
-                 DeviceId=1,
-                  ConverterType = CasstteConverter.Enums.CONVERTER_TYPE.SYS_2_SYS
+                DeviceId=1,
+                ConverterType = CasstteConverter.Enums.CONVERTER_TYPE.SYS_2_SYS,
+                 Ports = new Dictionary<int, CasstteConverter.clsConverterPort.clsPortProperty>()
+                {
+                    { 0 , new CasstteConverter.clsConverterPort.clsPortProperty(){
+                         ModbusServer_Enable = true,
+                          PortNo= 0,
+                           PortID = "3F_AGVC02_PORT_2_1",
+                            ModbusServer_IP="127.0.0.1",
+                             ModbusServer_PORT = 1502,
+                              PortType = GPM_SECS.SECSMessageHelper.PortUnitType.Input
+
+                    }},
+                    { 1 , new CasstteConverter.clsConverterPort.clsPortProperty(){
+                         ModbusServer_Enable = true,
+                          PortNo= 1,
+                           PortID = "3F_AGVC02_PORT_2_2",
+                            ModbusServer_IP="127.0.0.1",
+                             ModbusServer_PORT = 1503,
+                              PortType = GPM_SECS.SECSMessageHelper.PortUnitType.Output
+
+                    }}
+                }
             },
         };
 

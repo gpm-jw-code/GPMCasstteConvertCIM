@@ -75,13 +75,12 @@ namespace GPMCasstteConvertCIM.Devices
             secs_client_for_agvs.OnPrimaryMessageRecieve += AGVSMessageHandler.PrimaryMessageOnReceivedAsync;
             secs_client_for_agvs.Active(DevicesConnectionsOpts.SECS_CLIENT.ToSecsGenOptions(), DevicesConnectionsOpts.SECS_CLIENT.logRichTextBox, DevicesConnectionsOpts.SECS_CLIENT.dgvSendBufferTable, DevicesConnectionsOpts.SECS_CLIENT.dgvRevBufferTable);
 
-            ////轉換架1
-            ///
+       
             foreach (Options.ConverterEQPInitialOption item in DevicesConnectionsOpts.PLCEQS)
             {
                 try
                 {
-                    var EQ = new CasstteConverter.clsCasstteConverter(item.DeviceId, item.Name, (UscCasstteConverter)item.mainUI, item.ConverterType, item.Ports);
+                    var EQ = new CasstteConverter.clsCasstteConverter(item.Name, (UscCasstteConverter)item.mainUI, item.ConverterType, item.Ports);
                     EQ.ConnectionStateChanged += CasstteConverter_ConnectionStateChanged;
                     EQ.ActiveAsync(item.ToMCIFOptions());
                     casstteConverters.Add(EQ);

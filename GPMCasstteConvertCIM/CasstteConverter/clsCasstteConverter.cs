@@ -35,14 +35,32 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         {
 
         }
-        internal clsCasstteConverter(int index, string name, UscCasstteConverter mainGUI, CONVERTER_TYPE converterType, Dictionary<int, clsPortProperty> portProperties
+
+
+        internal clsCasstteConverter( string name, UscCasstteConverter mainGUI, Dictionary<int, clsPortProperty> portProperties
+           )
+        {
+            this.Name = name;
+            EQPData = new Data.clsEQPData(portProperties, this);
+            this.plcInterface = PLC_CONN_INTERFACE.MX;
+            LoadPLCMapData();
+            this.mainGUI = mainGUI;
+            this.mainGUI.casstteConverter = this;
+            PortModbusServersActive();
+            EQPInterfaceClockMonitor();
+            CIMInterfaceClockUpdate();
+            PLCMemorySyncTask();
+            DataSyncTask();
+
+        }
+
+        internal clsCasstteConverter( string name, UscCasstteConverter mainGUI, CONVERTER_TYPE converterType, Dictionary<int, clsPortProperty> portProperties
             , PLC_CONN_INTERFACE _interface = PLC_CONN_INTERFACE.MX)
         {
             this.Name = name;
             EQPData = new Data.clsEQPData(portProperties, this);
             this.plcInterface = _interface;
             this.converterType = converterType;
-            this.index = index;
             LoadPLCMapData();
             this.mainGUI = mainGUI;
             this.mainGUI.casstteConverter = this;
@@ -76,10 +94,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     {
                         if (lastInterfaceClock != -1)
                         {
-
                             AlarmManager.AddWarning(ALARM_CODES.ALIVE_CLOCK_EQP_DOWN, Name, false);
                             ResetEQPHandshakeBits();
-
                         }
                     }
                     else
@@ -116,7 +132,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         private Common.CONNECTION_STATE _connectionState = Common.CONNECTION_STATE.DISCONNECTED;
 
         public CONVERTER_TYPE converterType { get; }
-        public int index { get; }
 
         internal UscCasstteConverter mainGUI;
         internal frmModbusTCPServer modbusServerGUI;
@@ -164,7 +179,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         internal clsMemoryGroupOptions CIMMemOptions { get; private set; }
         public bool AlarmResetFlag { get; internal set; }
 
-        internal async Task<bool> ActiveAsync(McInterfaceOptions InterfaceOptions)
+        virtual internal async Task<bool> ActiveAsync(McInterfaceOptions InterfaceOptions)
         {
             await Task.Delay(1);
             try
@@ -177,8 +192,16 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 {
                     if (plcInterface == PLC_CONN_INTERFACE.MX)
                     {
+                        try
+                        {
 
-                        mxInterface = new CIMComponent.MXCompHandler();
+                            mxInterface = new CIMComponent.MXCompHandler();
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message, "PLC Active Error.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return false;
+                        }
                         connRetCode = mxInterface.Open(1);
                         if (connRetCode == 0)
                         {
@@ -232,10 +255,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     Stopwatch stopwatch = Stopwatch.StartNew();
                     SyncMemData();
                     stopwatch.Stop();
-                    if (index == 0)
-                    {
-
-                    }
                 }
             });
         }
@@ -342,7 +361,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             }
         }
 
-        private void SyncMemData()
+        protected void SyncMemData()
         {
             try
             {
@@ -415,85 +434,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     eqpWordData[i].Value = eqp_word_datas[i];
                 }
 
-
-                //EQP 
-                EQPData.EQP_RUN = (bool)LinkBitMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.EQP_RUN).Value;
-                EQPData.EQP_IDLE = (bool)LinkBitMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.EQP_IDLE).Value;
-                EQPData.EQP_DOWN = (bool)LinkBitMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.EQP_DOWN).Value;
-                EQPData.InterfaceClock = (int)LinkWordMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.Interface_Clock).Value;
-                EQPData.EQP_ON_OFFLine_Mode_Status = (int)LinkWordMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.EQP_ON_OFFLine_Mode_Status).Value;
-                EQPData.Warning_Report_Index = (int)LinkWordMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.Warning_Report_Index).Value;
-                EQPData.Warning_Code_1_16 = (int)LinkWordMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.Warning_Code_1_16).Value;
-                EQPData.Warning_Code_17_32 = (int)LinkWordMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.Warning_Code_17_32).Value;
-                EQPData.Warning_Code_33_48 = (int)LinkWordMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.Warning_Code_33_48).Value;
-                EQPData.Alarm_Report_Index = (int)LinkWordMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.Alarm_Report_Index).Value;
-                EQPData.Alarm_Code_1_16 = (int)LinkWordMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.Alarm_Code_1_16).Value;
-                EQPData.Alarm_Code_17_32 = (int)LinkWordMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.Alarm_Code_17_32).Value;
-                EQPData.Alarm_Code_33_48 = (int)LinkWordMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.Alarm_Code_33_48).Value;
-
-                //PORTS
-                EQ_SCOPE[] Ports = EQPData.PortDatas.Count == 1 ? new EQ_SCOPE[1] { EQ_SCOPE.PORT1 } : new EQ_SCOPE[2] { EQ_SCOPE.PORT1, EQ_SCOPE.PORT2 };
-                for (int i = 0; i < Ports.Length; i++)
-                {
-                    EQ_SCOPE port = Ports[i];
-
-
-                    //AGV 訊號
-                    EQPData.PortDatas[i].AGVSignals.VALID = (bool)LinkBitMap.First(f => f.EOwner == clsMemoryAddress.OWNER.CIM && f.EScope == port && f.EProperty == PROPERTY.VALID).Value;
-                    EQPData.PortDatas[i].AGVSignals.TR_REQ = (bool)LinkBitMap.First(f => f.EOwner == clsMemoryAddress.OWNER.CIM && f.EScope == port && f.EProperty == PROPERTY.TR_REQ).Value;
-                    EQPData.PortDatas[i].AGVSignals.BUSY = (bool)LinkBitMap.First(f => f.EOwner == clsMemoryAddress.OWNER.CIM && f.EScope == port && f.EProperty == PROPERTY.BUSY).Value;
-                    EQPData.PortDatas[i].AGVSignals.COMPT = (bool)LinkBitMap.First(f => f.EOwner == clsMemoryAddress.OWNER.CIM && f.EScope == port && f.EProperty == PROPERTY.COMPT).Value;
-                    EQPData.PortDatas[i].AGVSignals.AGV_READY = (bool)LinkBitMap.First(f => f.EOwner == clsMemoryAddress.OWNER.CIM && f.EScope == port && f.EProperty == PROPERTY.AGV_READY).Value;
-                    EQPData.PortDatas[i].AGVSignals.To_EQ_Up = (bool)LinkBitMap.First(f => f.EOwner == clsMemoryAddress.OWNER.CIM && f.EScope == port && f.EProperty == PROPERTY.To_EQ_Up).Value;
-                    EQPData.PortDatas[i].AGVSignals.To_EQ_Low = (bool)LinkBitMap.First(f => f.EOwner == clsMemoryAddress.OWNER.CIM && f.EScope == port && f.EProperty == PROPERTY.To_EQ_Low).Value;
-                    EQPData.PortDatas[i].AGVSignals.CMD_Reserve_Up = (bool)LinkBitMap.First(f => f.EOwner == clsMemoryAddress.OWNER.CIM && f.EScope == port && f.EProperty == PROPERTY.CMD_reserve_Up).Value;
-                    EQPData.PortDatas[i].AGVSignals.CMD_Reserve_Low = (bool)LinkBitMap.First(f => f.EOwner == clsMemoryAddress.OWNER.CIM && f.EScope == port && f.EProperty == PROPERTY.CMD_reserve_Low).Value;
-
-                    AGVSData.Signals[i] = EQPData.PortDatas[i].AGVSignals;
-
-                    //EQP Bit data
-                    EQPData.PortDatas[i].L_REQ = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.L_REQ).Value;
-                    EQPData.PortDatas[i].U_REQ = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.U_REQ).Value;
-                    EQPData.PortDatas[i].EQ_READY = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.EQ_READY).Value;
-                    EQPData.PortDatas[i].EQ_BUSY = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.EQ_BUSY).Value;
-                    EQPData.PortDatas[i].LoadRequest = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Load_Request).Value;
-                    EQPData.PortDatas[i].UnloadRequest = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Unload_Request).Value;
-
-                    EQPData.PortDatas[i].PortExist = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Port_Exist).Value;
-                    bool port_status_down = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Port_Status_Down).Value;
-                    EQPData.PortDatas[i].PortStatusDown = port_status_down;
-
-                    EQPData.PortDatas[i].LD_UP_POS = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.LD_UP_POS).Value;
-                    EQPData.PortDatas[i].LD_DOWN_POS = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.LD_DOWN_POS).Value;
-                    EQPData.PortDatas[i].DoorOpened = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Door_Opened).Value;
-                    EQPData.PortDatas[i].TB_DOWN_POS = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.TB_DOWN_POS).Value;
-
-                    EQPData.PortDatas[i].CarrierWaitINSystemRequest = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Carrier_WaitIn_System_Request).Value;
-                    EQPData.PortDatas[i].CarrierWaitOUTSystemRequest = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Carrier_WaitOut_System_Report).Value;
-                    EQPData.PortDatas[i].CarrierRemovedCompletedReport = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Carrier_Removed_Completed_Report).Value;
-
-                    EQPData.PortDatas[i].Port_Mode_Change_Accept = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Port_Mode_Change_Accept).Value;
-                    EQPData.PortDatas[i].Port_Mode_Changed_Refuse = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Port_Mode_Changed_Refuse).Value;
-                    EQPData.PortDatas[i].Port_Mode_Changed_Report = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Port_Mode_Changed_Report).Value;
-                    EQPData.PortDatas[i].Port_Disabled_Report = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Port_Disabled_Report).Value;
-                    EQPData.PortDatas[i].Port_Enabled_Report = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Port_Enabled_Report).Value;
-
-                    //EQP word data
-                    EQPData.PortDatas[i].PortType = (int)LinkWordMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Port_Type_Status).Value;
-
-                    EQPData.PortDatas[i].PortModeStatus = (int)LinkWordMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Port_Type_Status).Value;
-                    EQPData.PortDatas[i].Port_Auto_Manual_Mode_Status = (int)LinkWordMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Port_Auto_Manual_Mode_Status).Value;
-                    EQPData.PortDatas[i].WIPInfo_BCR_ID_1 = (int)LinkWordMap.First(f => f.EScope == port && f.EProperty == PROPERTY.WIP_Information_BCR_1).Value;
-                    EQPData.PortDatas[i].WIPInfo_BCR_ID_2 = (int)LinkWordMap.First(f => f.EScope == port && f.EProperty == PROPERTY.WIP_Information_BCR_2).Value;
-                    EQPData.PortDatas[i].WIPInfo_BCR_ID_3 = (int)LinkWordMap.First(f => f.EScope == port && f.EProperty == PROPERTY.WIP_Information_BCR_3).Value;
-                    EQPData.PortDatas[i].WIPInfo_BCR_ID_4 = (int)LinkWordMap.First(f => f.EScope == port && f.EProperty == PROPERTY.WIP_Information_BCR_4).Value;
-                    EQPData.PortDatas[i].WIPInfo_BCR_ID_5 = (int)LinkWordMap.First(f => f.EScope == port && f.EProperty == PROPERTY.WIP_Information_BCR_5).Value;
-                    EQPData.PortDatas[i].WIPInfo_BCR_ID_6 = (int)LinkWordMap.First(f => f.EScope == port && f.EProperty == PROPERTY.WIP_Information_BCR_6).Value;
-                    EQPData.PortDatas[i].WIPInfo_BCR_ID_7 = (int)LinkWordMap.First(f => f.EScope == port && f.EProperty == PROPERTY.WIP_Information_BCR_7).Value;
-                    EQPData.PortDatas[i].WIPInfo_BCR_ID_8 = (int)LinkWordMap.First(f => f.EScope == port && f.EProperty == PROPERTY.WIP_Information_BCR_8).Value;
-                    EQPData.PortDatas[i].WIPInfo_BCR_ID_9 = (int)LinkWordMap.First(f => f.EScope == port && f.EProperty == PROPERTY.WIP_Information_BCR_9).Value;
-                    EQPData.PortDatas[i].WIPInfo_BCR_ID_10 = (int)LinkWordMap.First(f => f.EScope == port && f.EProperty == PROPERTY.WIP_Information_BCR_10).Value;
-                }
+                PLCMemoryDatatToEQDataDTO();
 
             }
             catch (Exception ex)
@@ -504,6 +445,88 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         }
 
+        virtual protected void PLCMemoryDatatToEQDataDTO()
+        {
+            //EQP 
+            EQPData.EQP_RUN = (bool)LinkBitMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.EQP_RUN).Value;
+            EQPData.EQP_IDLE = (bool)LinkBitMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.EQP_IDLE).Value;
+            EQPData.EQP_DOWN = (bool)LinkBitMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.EQP_DOWN).Value;
+            EQPData.InterfaceClock = (int)LinkWordMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.Interface_Clock).Value;
+            EQPData.EQP_ON_OFFLine_Mode_Status = (int)LinkWordMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.EQP_ON_OFFLine_Mode_Status).Value;
+            EQPData.Warning_Report_Index = (int)LinkWordMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.Warning_Report_Index).Value;
+            EQPData.Warning_Code_1_16 = (int)LinkWordMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.Warning_Code_1_16).Value;
+            EQPData.Warning_Code_17_32 = (int)LinkWordMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.Warning_Code_17_32).Value;
+            EQPData.Warning_Code_33_48 = (int)LinkWordMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.Warning_Code_33_48).Value;
+            EQPData.Alarm_Report_Index = (int)LinkWordMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.Alarm_Report_Index).Value;
+            EQPData.Alarm_Code_1_16 = (int)LinkWordMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.Alarm_Code_1_16).Value;
+            EQPData.Alarm_Code_17_32 = (int)LinkWordMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.Alarm_Code_17_32).Value;
+            EQPData.Alarm_Code_33_48 = (int)LinkWordMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.Alarm_Code_33_48).Value;
+
+            //PORTS
+            EQ_SCOPE[] Ports = EQPData.PortDatas.Count == 1 ? new EQ_SCOPE[1] { EQ_SCOPE.PORT1 } : new EQ_SCOPE[2] { EQ_SCOPE.PORT1, EQ_SCOPE.PORT2 };
+            for (int i = 0; i < Ports.Length; i++)
+            {
+                EQ_SCOPE port = Ports[i];
+
+
+                //AGV 訊號
+                EQPData.PortDatas[i].AGVSignals.VALID = (bool)LinkBitMap.First(f => f.EOwner == clsMemoryAddress.OWNER.CIM && f.EScope == port && f.EProperty == PROPERTY.VALID).Value;
+                EQPData.PortDatas[i].AGVSignals.TR_REQ = (bool)LinkBitMap.First(f => f.EOwner == clsMemoryAddress.OWNER.CIM && f.EScope == port && f.EProperty == PROPERTY.TR_REQ).Value;
+                EQPData.PortDatas[i].AGVSignals.BUSY = (bool)LinkBitMap.First(f => f.EOwner == clsMemoryAddress.OWNER.CIM && f.EScope == port && f.EProperty == PROPERTY.BUSY).Value;
+                EQPData.PortDatas[i].AGVSignals.COMPT = (bool)LinkBitMap.First(f => f.EOwner == clsMemoryAddress.OWNER.CIM && f.EScope == port && f.EProperty == PROPERTY.COMPT).Value;
+                EQPData.PortDatas[i].AGVSignals.AGV_READY = (bool)LinkBitMap.First(f => f.EOwner == clsMemoryAddress.OWNER.CIM && f.EScope == port && f.EProperty == PROPERTY.AGV_READY).Value;
+                EQPData.PortDatas[i].AGVSignals.To_EQ_Up = (bool)LinkBitMap.First(f => f.EOwner == clsMemoryAddress.OWNER.CIM && f.EScope == port && f.EProperty == PROPERTY.To_EQ_Up).Value;
+                EQPData.PortDatas[i].AGVSignals.To_EQ_Low = (bool)LinkBitMap.First(f => f.EOwner == clsMemoryAddress.OWNER.CIM && f.EScope == port && f.EProperty == PROPERTY.To_EQ_Low).Value;
+                EQPData.PortDatas[i].AGVSignals.CMD_Reserve_Up = (bool)LinkBitMap.First(f => f.EOwner == clsMemoryAddress.OWNER.CIM && f.EScope == port && f.EProperty == PROPERTY.CMD_reserve_Up).Value;
+                EQPData.PortDatas[i].AGVSignals.CMD_Reserve_Low = (bool)LinkBitMap.First(f => f.EOwner == clsMemoryAddress.OWNER.CIM && f.EScope == port && f.EProperty == PROPERTY.CMD_reserve_Low).Value;
+
+                AGVSData.Signals[i] = EQPData.PortDatas[i].AGVSignals;
+
+                //EQP Bit data
+                EQPData.PortDatas[i].L_REQ = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.L_REQ).Value;
+                EQPData.PortDatas[i].U_REQ = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.U_REQ).Value;
+                EQPData.PortDatas[i].EQ_READY = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.EQ_READY).Value;
+                EQPData.PortDatas[i].EQ_BUSY = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.EQ_BUSY).Value;
+                EQPData.PortDatas[i].LoadRequest = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Load_Request).Value;
+                EQPData.PortDatas[i].UnloadRequest = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Unload_Request).Value;
+
+                EQPData.PortDatas[i].PortExist = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Port_Exist).Value;
+                bool port_status_down = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Port_Status_Down).Value;
+                EQPData.PortDatas[i].PortStatusDown = port_status_down;
+
+                EQPData.PortDatas[i].LD_UP_POS = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.LD_UP_POS).Value;
+                EQPData.PortDatas[i].LD_DOWN_POS = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.LD_DOWN_POS).Value;
+                EQPData.PortDatas[i].DoorOpened = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Door_Opened).Value;
+                EQPData.PortDatas[i].TB_DOWN_POS = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.TB_DOWN_POS).Value;
+
+                EQPData.PortDatas[i].CarrierWaitINSystemRequest = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Carrier_WaitIn_System_Request).Value;
+                EQPData.PortDatas[i].CarrierWaitOUTSystemRequest = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Carrier_WaitOut_System_Report).Value;
+                EQPData.PortDatas[i].CarrierRemovedCompletedReport = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Carrier_Removed_Completed_Report).Value;
+
+                EQPData.PortDatas[i].Port_Mode_Change_Accept = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Port_Mode_Change_Accept).Value;
+                EQPData.PortDatas[i].Port_Mode_Changed_Refuse = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Port_Mode_Changed_Refuse).Value;
+                EQPData.PortDatas[i].Port_Mode_Changed_Report = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Port_Mode_Changed_Report).Value;
+                EQPData.PortDatas[i].Port_Disabled_Report = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Port_Disabled_Report).Value;
+                EQPData.PortDatas[i].Port_Enabled_Report = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Port_Enabled_Report).Value;
+
+                //EQP word data
+                EQPData.PortDatas[i].PortType = (int)LinkWordMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Port_Type_Status).Value;
+
+                EQPData.PortDatas[i].PortModeStatus = (int)LinkWordMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Port_Type_Status).Value;
+                EQPData.PortDatas[i].Port_Auto_Manual_Mode_Status = (int)LinkWordMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Port_Auto_Manual_Mode_Status).Value;
+                EQPData.PortDatas[i].WIPInfo_BCR_ID_1 = (int)LinkWordMap.First(f => f.EScope == port && f.EProperty == PROPERTY.WIP_Information_BCR_1).Value;
+                EQPData.PortDatas[i].WIPInfo_BCR_ID_2 = (int)LinkWordMap.First(f => f.EScope == port && f.EProperty == PROPERTY.WIP_Information_BCR_2).Value;
+                EQPData.PortDatas[i].WIPInfo_BCR_ID_3 = (int)LinkWordMap.First(f => f.EScope == port && f.EProperty == PROPERTY.WIP_Information_BCR_3).Value;
+                EQPData.PortDatas[i].WIPInfo_BCR_ID_4 = (int)LinkWordMap.First(f => f.EScope == port && f.EProperty == PROPERTY.WIP_Information_BCR_4).Value;
+                EQPData.PortDatas[i].WIPInfo_BCR_ID_5 = (int)LinkWordMap.First(f => f.EScope == port && f.EProperty == PROPERTY.WIP_Information_BCR_5).Value;
+                EQPData.PortDatas[i].WIPInfo_BCR_ID_6 = (int)LinkWordMap.First(f => f.EScope == port && f.EProperty == PROPERTY.WIP_Information_BCR_6).Value;
+                EQPData.PortDatas[i].WIPInfo_BCR_ID_7 = (int)LinkWordMap.First(f => f.EScope == port && f.EProperty == PROPERTY.WIP_Information_BCR_7).Value;
+                EQPData.PortDatas[i].WIPInfo_BCR_ID_8 = (int)LinkWordMap.First(f => f.EScope == port && f.EProperty == PROPERTY.WIP_Information_BCR_8).Value;
+                EQPData.PortDatas[i].WIPInfo_BCR_ID_9 = (int)LinkWordMap.First(f => f.EScope == port && f.EProperty == PROPERTY.WIP_Information_BCR_9).Value;
+                EQPData.PortDatas[i].WIPInfo_BCR_ID_10 = (int)LinkWordMap.First(f => f.EScope == port && f.EProperty == PROPERTY.WIP_Information_BCR_10).Value;
+            }
+        }
+
 
         /// <summary>
         /// 開啟模擬器
@@ -512,7 +535,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         {
             mainGUI?.OpenConvertPLCSumulator();
         }
-        public void LoadPLCMapData()
+        virtual public void LoadPLCMapData()
         {
             try
             {

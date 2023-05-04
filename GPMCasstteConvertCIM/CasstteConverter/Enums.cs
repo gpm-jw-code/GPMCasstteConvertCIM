@@ -36,8 +36,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             Unknown,
             AGVS,
             EQ,
-            PORT1, 
+            PORT1,
             PORT2,
+            LOAD_PORT,
+            UNLOAD_PORT
         }
 
         public enum PROPERTY
