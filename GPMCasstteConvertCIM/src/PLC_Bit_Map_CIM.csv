@@ -1,65 +1,417 @@
-﻿Memory (Hex),Owner,Data Name,Data Format,Explanation,Device,Code_Property,Modbus_Register,,,,,,,,Memory Type _ 1,Memory Address,
-B0,AGVS,,Boolean,,,,,,,,,,,,B,0,B0
-B1,AGVS,,Boolean,,,,,,,,,,,,B,1,B1
-B2,AGVS,,Boolean,,,,,,,,,,,,B,2,B2
-B3,AGVS,,Boolean,,,,,,,,,,,,B,3,B3
-B4,AGVS,VALID,Boolean,5.2.2 Status Download by AGVS,PORT1,VALID,16,,,,,,,,B,4,B4
-B5,AGVS,TR-REQ,Boolean,5.2.2 Status Download by AGVS,PORT1,TR_REQ,17,,,,,,,,B,5,B5
-B6,AGVS,BUSY,Boolean,5.2.2 Status Download by AGVS,PORT1,BUSY,18,,,,,,,,B,6,B6
-B7,AGVS,COMPT,Boolean,5.2.2 Status Download by AGVS,PORT1,COMPT,19,,,,,,,,B,7,B7
-B8,AGVS,AGV_READY,Boolean,,PORT1,AGV_READY,20,,,,,,,,B,8,B8
-B9,AGVS,,Boolean,,,,,,,,,,,,B,9,B9
-BA,AGVS,,Boolean,,,,,,,,,,,,B,10,BA
-BB,AGVS,,Boolean,,,,,,,,,,,,B,11,BB
-BC,AGVS,Port Mode Change Request,Boolean,,PORT1,Port_Mode_Change_Request,,,,,,,,,B,12,BC
-BD,AGVS,Port Mode Changed Report Reply,Boolean,,PORT1,Port_Mode_Changed_Report_Reply,,,,,,,,,B,13,BD
-BE,AGVS,Port Disabled Report Reply,Boolean,,PORT1,Port_Disabled_Report_Reply,,,,,,,,,B,14,BE
-BF,AGVS,Port Enbled Report Reply,Boolean,,PORT1,Port_Enbled_Report_Reply,,,,,,,,,B,15,BF
-B10,AGVS,,Boolean,6.1 Rack Load Request,PORT1,,,,,,,,,,B,16,B10
-B11,AGVS,Carrier WaitIn System Reply,Boolean,6.1 Rack Unload Request,PORT1,Carrier_WaitIn_System_Reply,,,,,,,,,B,17,B11
-B12,AGVS,Carrier WaitIn System Accept,Boolean,6.2 Change Mode CMD,PORT1,Carrier_WaitIn_System_Accept,,,,,,,,,B,18,B12
-B13,AGVS,Carrier WaitIn System Refuse,Boolean,6.3 Manual Load Complete,PORT1,Carrier_WaitIn_System_Refuse,,,,,,,,,B,19,B13
-B14,AGVS,Carrier WawitOut System Reply,Boolean,6.3 Manual Unload Complete,PORT1,Carrier_WawitOut_System_Reply,,,,,,,,,B,20,B14
-B15,AGVS,Carrier Removed Completed Report Reply,Boolean,6.4 Mode Change Request,PORT1,Carrier_Removed_Completed_Report_Reply,,,,,,,,,B,21,B15
-B16,AGVS,Carrier Force In System Reply,Boolean,6.4 Mode Change Request,PORT1,Carrier_Force_In_System_Reply,,,,,,,,,B,22,B16
-B17,AGVS,To EQ Up,Boolean,,PORT1,To_EQ_Up,24,,,,,,,,B,23,B17
-B18,AGVS,To EQ Low,Boolean,,PORT1,To_EQ_Low,25,,,,,,,,B,24,B18
-B19,AGVS,CMD reserve Up,Boolean,,PORT1,CMD_reserve_Up,26,,,,,,,,B,25,B19
-B1A,AGVS,CMD reserve Low,Boolean,6.5 Proceed Request,PORT1,CMD_reserve_Low,27,,,,,,,,B,26,B1A
-B1B,AGVS,,Boolean,6.6 Release Request,,,,,,,,,,,B,27,B1B
-B1C,AGVS,VALID,Boolean,,PORT2,VALID,16,,,,,,,,B,28,B1C
-B1D,AGVS,TR-REQ,Boolean,,PORT2,TR_REQ,17,,,,,,,,B,29,B1D
-B1E,AGVS,BUSY,Boolean,,PORT2,BUSY,18,,,,,,,,B,30,B1E
-B1F,AGVS,COMPT,Boolean,,PORT2,COMPT,19,,,,,,,,B,31,B1F
-B20,AGVS,AGV_READY,Boolean,,PORT2,AGV_READY,20,,,,,,,,B,32,B20
-B21,AGVS,,Boolean,,PORT2,,,,,,,,,,B,33,B21
-B22,AGVS,Port Mode Change Request,Boolean,,PORT2,Port_Mode_Change_Request,,,,,,,,,B,34,B22
-B23,AGVS,Port Mode Changed Report Reply,Boolean,,PORT2,Port_Mode_Changed_Report_Reply,,,,,,,,,B,35,B23
-B24,AGVS,Port Disabled Report Reply,Boolean,,PORT2,Port_Disabled_Report_Reply,,,,,,,,,B,36,B24
-B25,AGVS,Port Enabled Report Reply,Boolean,,PORT2,Port_Enbled_Report_Reply,,,,,,,,,B,37,B25
-B26,AGVS,,Boolean,,PORT2,,,,,,,,,,B,38,B26
-B27,AGVS,Carrier WaitIn System Reply,Boolean,,PORT2,Carrier_WaitIn_System_Reply,,,,,,,,,B,39,B27
-B28,AGVS,Carrier WaitIn System Accept,Boolean,,PORT2,Carrier_WaitIn_System_Accept,,,,,,,,,B,40,B28
-B29,AGVS,Carrier WaitIn System Refuse,Boolean,,PORT2,Carrier_WaitIn_System_Refuse,,,,,,,,,B,41,B29
-B2A,AGVS,Carrier WawitOut System Reply,Boolean,,PORT2,Carrier_WawitOut_System_Reply,,,,,,,,,B,42,B2A
-B2B,AGVS,Carrier Removed Completed Report Reply,Boolean,,PORT2,Carrier_Removed_Completed_Report_Reply,,,,,,,,,B,43,B2B
-B2C,AGVS,Carrier Force In System Reply,Boolean,,PORT2,Carrier_Force_In_System_Reply,,,,,,,,,B,44,B2C
-B2D,AGVS,To EQ Up,Boolean,,PORT2,To_EQ_Up,24,,,,,,,,B,45,B2D
-B2E,AGVS,To EQ Low,Boolean,,PORT2,To_EQ_Low,25,,,,,,,,B,46,B2E
-B2F,AGVS,CMD reserve Up,Boolean,,PORT2,CMD_reserve_Up,26,,,,,,,,B,47,B2F
-B30,AGVS,CMD reserve Low,Boolean,,PORT2,CMD_reserve_Low,27,,,,,,,,B,48,B30
-B31,AGVS,,Boolean,,,,,,,,,,,,B,49,B31
-B32,AGVS,,Boolean,,,,,,,,,,,,B,50,B32
-B33,AGVS,,Boolean,,,,,,,,,,,,B,51,B33
-B34,AGVS,,Boolean,,,,,,,,,,,,B,52,B34
-B35,AGVS,,Boolean,,,,,,,,,,,,B,53,B35
-B36,AGVS,,Boolean,,,,,,,,,,,,B,54,B36
-B37,AGVS,,Boolean,,,,,,,,,,,,B,55,B37
-B38,AGVS,,Boolean,,,,,,,,,,,,B,56,B38
-B39,AGVS,,Boolean,,,,,,,,,,,,B,57,B39
-B3A,AGVS,,Boolean,,,,,,,,,,,,B,58,B3A
-B3B,AGVS,,Boolean,,,,,,,,,,,,B,59,B3B
-B3C,AGVS,,Boolean,,,,,,,,,,,,B,60,B3C
-B3D,AGVS,,Boolean,,,,,,,,,,,,B,61,B3D
-B3E,AGVS,,Boolean,,,,,,,,,,,,B,62,B3E
-B3F,AGVS,,Boolean,,,,,,,,,,,,B,63,B3F
+MemoY (Hex),Owner,Data Name,Data Format,Explanation,Device,Code_Property,Modbus_Register,,,,,,,,MemoY Type _ 1,MemoY Address,
+Y0000,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Up,16,,,,,,,,Y,0,Y0
+Y0001,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Low,17,,,,,,,,Y,1,Y1
+Y0002,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Up,18,,,,,,,,Y,2,Y2
+Y0003,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Low,19,,,,,,,,Y,3,Y3
+Y0004,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,4,Y4
+Y0005,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,5,Y5
+Y0006,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,6,Y6
+Y0007,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,7,Y7
+Y0008,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Up,16,,,,,,,,Y,8,Y8
+Y0009,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Low,17,,,,,,,,Y,9,Y9
+Y000A,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Up,18,,,,,,,,Y,10,YA
+Y000B,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Low,19,,,,,,,,Y,11,YB
+Y000C,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,12,YC
+Y000D,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,13,YD
+Y000E,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,14,YE
+Y000F,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,15,YF
+Y0010,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Up,16,,,,,,,,Y,16,Y10
+Y0011,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Low,17,,,,,,,,Y,17,Y11
+Y0012,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Up,18,,,,,,,,Y,18,Y12
+Y0013,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Low,19,,,,,,,,Y,19,Y13
+Y0014,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,20,Y14
+Y0015,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,21,Y15
+Y0016,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,22,Y16
+Y0017,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,23,Y17
+Y0018,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Up,16,,,,,,,,Y,24,Y18
+Y0019,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Low,17,,,,,,,,Y,25,Y19
+Y001A,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Up,18,,,,,,,,Y,26,Y1A
+Y001B,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Low,19,,,,,,,,Y,27,Y1B
+Y001C,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,28,Y1C
+Y001D,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,29,Y1D
+Y001E,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,30,Y1E
+Y001F,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,31,Y1F
+Y0020,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Up,16,,,,,,,,Y,32,Y20
+Y0021,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Low,17,,,,,,,,Y,33,Y21
+Y0022,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Up,18,,,,,,,,Y,34,Y22
+Y0023,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Low,19,,,,,,,,Y,35,Y23
+Y0024,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,36,Y24
+Y0025,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,37,Y25
+Y0026,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,38,Y26
+Y0027,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,39,Y27
+Y0028,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Up,16,,,,,,,,Y,40,Y28
+Y0029,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Low,17,,,,,,,,Y,41,Y29
+Y002A,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Up,18,,,,,,,,Y,42,Y2A
+Y002B,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Low,19,,,,,,,,Y,43,Y2B
+Y002C,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,44,Y2C
+Y002D,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,45,Y2D
+Y002E,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,46,Y2E
+Y002F,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,47,Y2F
+Y0030,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Up,16,,,,,,,,Y,48,Y30
+Y0031,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Low,17,,,,,,,,Y,49,Y31
+Y0032,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Up,18,,,,,,,,Y,50,Y32
+Y0033,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Low,19,,,,,,,,Y,51,Y33
+Y0034,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,52,Y34
+Y0035,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,53,Y35
+Y0036,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,54,Y36
+Y0037,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,55,Y37
+Y0038,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Up,16,,,,,,,,Y,56,Y38
+Y0039,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Low,17,,,,,,,,Y,57,Y39
+Y003A,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Up,18,,,,,,,,Y,58,Y3A
+Y003B,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Low,19,,,,,,,,Y,59,Y3B
+Y003C,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,60,Y3C
+Y003D,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,61,Y3D
+Y003E,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,62,Y3E
+Y003F,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,63,Y3F
+Y0040,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Up,16,,,,,,,,Y,64,Y40
+Y0041,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Low,17,,,,,,,,Y,65,Y41
+Y0042,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Up,18,,,,,,,,Y,66,Y42
+Y0043,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Low,19,,,,,,,,Y,67,Y43
+Y0044,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,68,Y44
+Y0045,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,69,Y45
+Y0046,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,70,Y46
+Y0047,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,71,Y47
+Y0048,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Up,16,,,,,,,,Y,72,Y48
+Y0049,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Low,17,,,,,,,,Y,73,Y49
+Y004A,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Up,18,,,,,,,,Y,74,Y4A
+Y004B,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Low,19,,,,,,,,Y,75,Y4B
+Y004C,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,76,Y4C
+Y004D,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,77,Y4D
+Y004E,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,78,Y4E
+Y004F,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,79,Y4F
+Y0050,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Up,16,,,,,,,,Y,80,Y50
+Y0051,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Low,17,,,,,,,,Y,81,Y51
+Y0052,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Up,18,,,,,,,,Y,82,Y52
+Y0053,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Low,19,,,,,,,,Y,83,Y53
+Y0054,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,84,Y54
+Y0055,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,85,Y55
+Y0056,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,86,Y56
+Y0057,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,87,Y57
+Y0058,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Up,16,,,,,,,,Y,88,Y58
+Y0059,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Low,17,,,,,,,,Y,89,Y59
+Y005A,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Up,18,,,,,,,,Y,90,Y5A
+Y005B,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Low,19,,,,,,,,Y,91,Y5B
+Y005C,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,92,Y5C
+Y005D,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,93,Y5D
+Y005E,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,94,Y5E
+Y005F,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,95,Y5F
+Y0060,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Up,16,,,,,,,,Y,96,Y60
+Y0061,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Low,17,,,,,,,,Y,97,Y61
+Y0062,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Up,18,,,,,,,,Y,98,Y62
+Y0063,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Low,19,,,,,,,,Y,99,Y63
+Y0064,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,100,Y64
+Y0065,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,101,Y65
+Y0066,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,102,Y66
+Y0067,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,103,Y67
+Y0068,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Up,16,,,,,,,,Y,104,Y68
+Y0069,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Low,17,,,,,,,,Y,105,Y69
+Y006A,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Up,18,,,,,,,,Y,106,Y6A
+Y006B,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Low,19,,,,,,,,Y,107,Y6B
+Y006C,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,108,Y6C
+Y006D,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,109,Y6D
+Y006E,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,110,Y6E
+Y006F,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,111,Y6F
+Y0070,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Up,16,,,,,,,,Y,112,Y70
+Y0071,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Low,17,,,,,,,,Y,113,Y71
+Y0072,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Up,18,,,,,,,,Y,114,Y72
+Y0073,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Low,19,,,,,,,,Y,115,Y73
+Y0074,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,116,Y74
+Y0075,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,117,Y75
+Y0076,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,118,Y76
+Y0077,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,119,Y77
+Y0078,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Up,16,,,,,,,,Y,120,Y78
+Y0079,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Low,17,,,,,,,,Y,121,Y79
+Y007A,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Up,18,,,,,,,,Y,122,Y7A
+Y007B,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Low,19,,,,,,,,Y,123,Y7B
+Y007C,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,124,Y7C
+Y007D,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,125,Y7D
+Y007E,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,126,Y7E
+Y007F,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,127,Y7F
+Y0080,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Up,16,,,,,,,,Y,128,Y80
+Y0081,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Low,17,,,,,,,,Y,129,Y81
+Y0082,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Up,18,,,,,,,,Y,130,Y82
+Y0083,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Low,19,,,,,,,,Y,131,Y83
+Y0084,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,132,Y84
+Y0085,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,133,Y85
+Y0086,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,134,Y86
+Y0087,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,135,Y87
+Y0088,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Up,16,,,,,,,,Y,136,Y88
+Y0089,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Low,17,,,,,,,,Y,137,Y89
+Y008A,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Up,18,,,,,,,,Y,138,Y8A
+Y008B,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Low,19,,,,,,,,Y,139,Y8B
+Y008C,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,140,Y8C
+Y008D,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,141,Y8D
+Y008E,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,142,Y8E
+Y008F,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,143,Y8F
+Y0090,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Up,16,,,,,,,,Y,144,Y90
+Y0091,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Low,17,,,,,,,,Y,145,Y91
+Y0092,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Up,18,,,,,,,,Y,146,Y92
+Y0093,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Low,19,,,,,,,,Y,147,Y93
+Y0094,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,148,Y94
+Y0095,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,149,Y95
+Y0096,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,150,Y96
+Y0097,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,151,Y97
+Y0098,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Up,16,,,,,,,,Y,152,Y98
+Y0099,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Low,17,,,,,,,,Y,153,Y99
+Y009A,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Up,18,,,,,,,,Y,154,Y9A
+Y009B,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Low,19,,,,,,,,Y,155,Y9B
+Y009C,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,156,Y9C
+Y009D,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,157,Y9D
+Y009E,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,158,Y9E
+Y009F,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,159,Y9F
+Y00A0,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,160,YA0
+Y00A1,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,161,YA1
+Y00A2,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,162,YA2
+Y00A3,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,163,YA3
+Y00A4,AGVS,VALID,Boolean,,PORT1,VALID,20,,,,,,,,Y,164,YA4
+Y00A5,AGVS,TR-REQ,Boolean,,PORT1,TR_REQ,21,,,,,,,,Y,165,YA5
+Y00A6,AGVS,BUSY,Boolean,,PORT1,BUSY,22,,,,,,,,Y,166,YA6
+Y00A7,AGVS,COMPT,Boolean,,PORT1,COMPT,23,,,,,,,,Y,167,YA7
+Y00A8,AGVS,AGV_READY,Boolean,,PORT1,AGV_READY,24,,,,,,,,Y,168,YA8
+Y00A9,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,169,YA9
+Y00AA,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,170,YAA
+Y00AB,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,171,YAB
+Y00AC,AGVS,Port Mode Change Request,Boolean,,PORT1,Port_Mode_Change_Request,,,,,,,,,Y,172,YAC
+Y00AD,AGVS,Port Mode Changed Report Reply,Boolean,,PORT1,Port_Mode_Changed_Report_Reply,,,,,,,,,Y,173,YAD
+Y00AE,AGVS,Port Disabled Report Reply,Boolean,,PORT1,Port_Disabled_Report_Reply,,,,,,,,,Y,174,YAE
+Y00AF,AGVS,Port Enbled Report Reply,Boolean,,PORT1,Port_Enbled_Report_Reply,,,,,,,,,Y,175,YAF
+Y00B0,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,176,YB0
+Y00B1,AGVS,Carrier WaitIn System Reply,Boolean,,PORT1,Carrier_WaitIn_System_Reply,,,,,,,,,Y,177,YB1
+Y00B2,AGVS,Carrier WaitIn System Accept,Boolean,,PORT1,Carrier_WaitIn_System_Accept,,,,,,,,,Y,178,YB2
+Y00B3,AGVS,Carrier WaitIn System Refuse,Boolean,,PORT1,Carrier_WaitIn_System_Refuse,,,,,,,,,Y,179,YB3
+Y00B4,AGVS,Carrier WawitOut System Reply,Boolean,,PORT1,Carrier_WawitOut_System_Reply,,,,,,,,,Y,180,YB4
+Y00B5,AGVS,Carrier Removed Completed Report Reply,Boolean,,PORT1,Carrier_Removed_Completed_Report_Reply,,,,,,,,,Y,181,YB5
+Y00B6,AGVS,Carrier Force In System Reply,Boolean,,PORT1,Carrier_Force_In_System_Reply,,,,,,,,,Y,182,YB6
+Y00B7,AGVS,To EQ Up,Boolean,,PORT1,To_EQ_Up,16,,,,,,,,Y,183,YB7
+Y00B8,AGVS,To EQ Low,Boolean,,PORT1,To_EQ_Low,17,,,,,,,,Y,184,YB8
+Y00B9,AGVS,CMD reserve Up,Boolean,,PORT1,CMD_reserve_Up,18,,,,,,,,Y,185,YB9
+Y00BA,AGVS,CMD reserve Low,Boolean,,PORT1,CMD_reserve_Low,19,,,,,,,,Y,186,YBA
+Y00BB,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,187,YBB
+Y00BC,AGVS,VALID,Boolean,,PORT1,VALID,20,,,,,,,,Y,188,YBC
+Y00BD,AGVS,TR-REQ,Boolean,,PORT1,TR_REQ,21,,,,,,,,Y,189,YBD
+Y00BE,AGVS,BUSY,Boolean,,PORT1,BUSY,22,,,,,,,,Y,190,YBE
+Y00BF,AGVS,COMPT,Boolean,,PORT1,COMPT,23,,,,,,,,Y,191,YBF
+Y00C0,AGVS,AGV_READY,Boolean,,PORT1,AGV_READY,24,,,,,,,,Y,192,YC0
+Y00C1,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,193,YC1
+Y00C2,AGVS,Port Mode Change Request,Boolean,,PORT1,Port_Mode_Change_Request,,,,,,,,,Y,194,YC2
+Y00C3,AGVS,Port Mode Changed Report Reply,Boolean,,PORT1,Port_Mode_Changed_Report_Reply,,,,,,,,,Y,195,YC3
+Y00C4,AGVS,Port Disabled Report Reply,Boolean,,PORT1,Port_Disabled_Report_Reply,,,,,,,,,Y,196,YC4
+Y00C5,AGVS,Port Enabled Report Reply,Boolean,,PORT1,Port_Enbled_Report_Reply,,,,,,,,,Y,197,YC5
+Y00C6,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,198,YC6
+Y00C7,AGVS,Carrier WaitIn System Reply,Boolean,,PORT1,Carrier_WaitIn_System_Reply,,,,,,,,,Y,199,YC7
+Y00C8,AGVS,Carrier WaitIn System Accept,Boolean,,PORT1,Carrier_WaitIn_System_Accept,,,,,,,,,Y,200,YC8
+Y00C9,AGVS,Carrier WaitIn System Refuse,Boolean,,PORT1,Carrier_WaitIn_System_Refuse,,,,,,,,,Y,201,YC9
+Y00CA,AGVS,Carrier WawitOut System Reply,Boolean,,PORT1,Carrier_WawitOut_System_Reply,,,,,,,,,Y,202,YCA
+Y00CB,AGVS,Carrier Removed Completed Report Reply,Boolean,,PORT1,Carrier_Removed_Completed_Report_Reply,,,,,,,,,Y,203,YCB
+Y00CC,AGVS,Carrier Force In System Reply,Boolean,,PORT1,Carrier_Force_In_System_Reply,,,,,,,,,Y,204,YCC
+Y00CD,AGVS,To EQ Up,Boolean,,PORT1,To_EQ_Up,16,,,,,,,,Y,205,YCD
+Y00CE,AGVS,To EQ Low,Boolean,,PORT1,To_EQ_Low,17,,,,,,,,Y,206,YCE
+Y00CF,AGVS,CMD reserve Up,Boolean,,PORT1,CMD_reserve_Up,18,,,,,,,,Y,207,YCF
+Y00D0,AGVS,CMD reserve Low,Boolean,,PORT1,CMD_reserve_Low,19,,,,,,,,Y,208,YD0
+Y00D1,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,209,YD1
+Y00D2,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,210,YD2
+Y00D3,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,211,YD3
+Y00D4,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,212,YD4
+Y00D5,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,213,YD5
+Y00D6,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,214,YD6
+Y00D7,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,215,YD7
+Y00D8,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,216,YD8
+Y00D9,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,217,YD9
+Y00DA,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,218,YDA
+Y00DB,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,219,YDB
+Y00DC,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,220,YDC
+Y00DD,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,221,YDD
+Y00DE,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,222,YDE
+Y00DF,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,223,YDF
+Y00E0,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,224,YE0
+Y00E1,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,225,YE1
+Y00E2,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,226,YE2
+Y00E3,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,227,YE3
+Y00E4,AGVS,VALID,Boolean,,PORT1,VALID,20,,,,,,,,Y,228,YE4
+Y00E5,AGVS,TR-REQ,Boolean,,PORT1,TR_REQ,21,,,,,,,,Y,229,YE5
+Y00E6,AGVS,BUSY,Boolean,,PORT1,BUSY,22,,,,,,,,Y,230,YE6
+Y00E7,AGVS,COMPT,Boolean,,PORT1,COMPT,23,,,,,,,,Y,231,YE7
+Y00E8,AGVS,AGV_READY,Boolean,,PORT1,AGV_READY,24,,,,,,,,Y,232,YE8
+Y00E9,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,233,YE9
+Y00EA,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,234,YEA
+Y00EB,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,235,YEB
+Y00EC,AGVS,Port Mode Change Request,Boolean,,PORT1,Port_Mode_Change_Request,,,,,,,,,Y,236,YEC
+Y00ED,AGVS,Port Mode Changed Report Reply,Boolean,,PORT1,Port_Mode_Changed_Report_Reply,,,,,,,,,Y,237,YED
+Y00EE,AGVS,Port Disabled Report Reply,Boolean,,PORT1,Port_Disabled_Report_Reply,,,,,,,,,Y,238,YEE
+Y00EF,AGVS,Port Enbled Report Reply,Boolean,,PORT1,Port_Enbled_Report_Reply,,,,,,,,,Y,239,YEF
+Y00F0,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,240,YF0
+Y00F1,AGVS,Carrier WaitIn System Reply,Boolean,,PORT1,Carrier_WaitIn_System_Reply,,,,,,,,,Y,241,YF1
+Y00F2,AGVS,Carrier WaitIn System Accept,Boolean,,PORT1,Carrier_WaitIn_System_Accept,,,,,,,,,Y,242,YF2
+Y00F3,AGVS,Carrier WaitIn System Refuse,Boolean,,PORT1,Carrier_WaitIn_System_Refuse,,,,,,,,,Y,243,YF3
+Y00F4,AGVS,Carrier WawitOut System Reply,Boolean,,PORT1,Carrier_WawitOut_System_Reply,,,,,,,,,Y,244,YF4
+Y00F5,AGVS,Carrier Removed Completed Report Reply,Boolean,,PORT1,Carrier_Removed_Completed_Report_Reply,,,,,,,,,Y,245,YF5
+Y00F6,AGVS,Carrier Force In System Reply,Boolean,,PORT1,Carrier_Force_In_System_Reply,,,,,,,,,Y,246,YF6
+Y00F7,AGVS,To EQ Up,Boolean,,PORT1,To_EQ_Up,16,,,,,,,,Y,247,YF7
+Y00F8,AGVS,To EQ Low,Boolean,,PORT1,To_EQ_Low,17,,,,,,,,Y,248,YF8
+Y00F9,AGVS,CMD reserve Up,Boolean,,PORT1,CMD_reserve_Up,18,,,,,,,,Y,249,YF9
+Y00FA,AGVS,CMD reserve Low,Boolean,,PORT1,CMD_reserve_Low,19,,,,,,,,Y,250,YFA
+Y00FB,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,251,YFB
+Y00FC,AGVS,VALID,Boolean,,PORT1,VALID,20,,,,,,,,Y,252,YFC
+Y00FD,AGVS,TR-REQ,Boolean,,PORT1,TR_REQ,21,,,,,,,,Y,253,YFD
+Y00FE,AGVS,BUSY,Boolean,,PORT1,BUSY,22,,,,,,,,Y,254,YFE
+Y00FF,AGVS,COMPT,Boolean,,PORT1,COMPT,23,,,,,,,,Y,255,YFF
+Y0100,AGVS,AGV_READY,Boolean,,PORT1,AGV_READY,24,,,,,,,,Y,256,Y100
+Y0101,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,257,Y101
+Y0102,AGVS,Port Mode Change Request,Boolean,,PORT1,Port_Mode_Change_Request,,,,,,,,,Y,258,Y102
+Y0103,AGVS,Port Mode Changed Report Reply,Boolean,,PORT1,Port_Mode_Changed_Report_Reply,,,,,,,,,Y,259,Y103
+Y0104,AGVS,Port Disabled Report Reply,Boolean,,PORT1,Port_Disabled_Report_Reply,,,,,,,,,Y,260,Y104
+Y0105,AGVS,Port Enabled Report Reply,Boolean,,PORT1,Port_Enbled_Report_Reply,,,,,,,,,Y,261,Y105
+Y0106,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,262,Y106
+Y0107,AGVS,Carrier WaitIn System Reply,Boolean,,PORT1,Carrier_WaitIn_System_Reply,,,,,,,,,Y,263,Y107
+Y0108,AGVS,Carrier WaitIn System Accept,Boolean,,PORT1,Carrier_WaitIn_System_Accept,,,,,,,,,Y,264,Y108
+Y0109,AGVS,Carrier WaitIn System Refuse,Boolean,,PORT1,Carrier_WaitIn_System_Refuse,,,,,,,,,Y,265,Y109
+Y010A,AGVS,Carrier WawitOut System Reply,Boolean,,PORT1,Carrier_WawitOut_System_Reply,,,,,,,,,Y,266,Y10A
+Y010B,AGVS,Carrier Removed Completed Report Reply,Boolean,,PORT1,Carrier_Removed_Completed_Report_Reply,,,,,,,,,Y,267,Y10B
+Y010C,AGVS,Carrier Force In System Reply,Boolean,,PORT1,Carrier_Force_In_System_Reply,,,,,,,,,Y,268,Y10C
+Y010D,AGVS,To EQ Up,Boolean,,PORT1,To_EQ_Up,16,,,,,,,,Y,269,Y10D
+Y010E,AGVS,To EQ Low,Boolean,,PORT1,To_EQ_Low,17,,,,,,,,Y,270,Y10E
+Y010F,AGVS,CMD reserve Up,Boolean,,PORT1,CMD_reserve_Up,18,,,,,,,,Y,271,Y10F
+Y0110,AGVS,CMD reserve Low,Boolean,,PORT1,CMD_reserve_Low,19,,,,,,,,Y,272,Y110
+Y0111,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,273,Y111
+Y0112,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,274,Y112
+Y0113,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,275,Y113
+Y0114,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,276,Y114
+Y0115,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,277,Y115
+Y0116,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,278,Y116
+Y0117,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,279,Y117
+Y0118,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,280,Y118
+Y0119,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,281,Y119
+Y011A,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,282,Y11A
+Y011B,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,283,Y11B
+Y011C,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,284,Y11C
+Y011D,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,285,Y11D
+Y011E,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,286,Y11E
+Y011F,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,287,Y11F
+Y0120,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,288,Y120
+Y0121,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,289,Y121
+Y0122,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,290,Y122
+Y0123,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,291,Y123
+Y0124,AGVS,VALID,Boolean,,PORT1,VALID,20,,,,,,,,Y,292,Y124
+Y0125,AGVS,TR-REQ,Boolean,,PORT1,TR_REQ,21,,,,,,,,Y,293,Y125
+Y0126,AGVS,BUSY,Boolean,,PORT1,BUSY,22,,,,,,,,Y,294,Y126
+Y0127,AGVS,COMPT,Boolean,,PORT1,COMPT,23,,,,,,,,Y,295,Y127
+Y0128,AGVS,AGV_READY,Boolean,,PORT1,AGV_READY,24,,,,,,,,Y,296,Y128
+Y0129,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,297,Y129
+Y012A,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,298,Y12A
+Y012B,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,299,Y12B
+Y012C,AGVS,Port Mode Change Request,Boolean,,PORT1,Port_Mode_Change_Request,,,,,,,,,Y,300,Y12C
+Y012D,AGVS,Port Mode Changed Report Reply,Boolean,,PORT1,Port_Mode_Changed_Report_Reply,,,,,,,,,Y,301,Y12D
+Y012E,AGVS,Port Disabled Report Reply,Boolean,,PORT1,Port_Disabled_Report_Reply,,,,,,,,,Y,302,Y12E
+Y012F,AGVS,Port Enbled Report Reply,Boolean,,PORT1,Port_Enbled_Report_Reply,,,,,,,,,Y,303,Y12F
+Y0130,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,304,Y130
+Y0131,AGVS,Carrier WaitIn System Reply,Boolean,,PORT1,Carrier_WaitIn_System_Reply,,,,,,,,,Y,305,Y131
+Y0132,AGVS,Carrier WaitIn System Accept,Boolean,,PORT1,Carrier_WaitIn_System_Accept,,,,,,,,,Y,306,Y132
+Y0133,AGVS,Carrier WaitIn System Refuse,Boolean,,PORT1,Carrier_WaitIn_System_Refuse,,,,,,,,,Y,307,Y133
+Y0134,AGVS,Carrier WawitOut System Reply,Boolean,,PORT1,Carrier_WawitOut_System_Reply,,,,,,,,,Y,308,Y134
+Y0135,AGVS,Carrier Removed Completed Report Reply,Boolean,,PORT1,Carrier_Removed_Completed_Report_Reply,,,,,,,,,Y,309,Y135
+Y0136,AGVS,Carrier Force In System Reply,Boolean,,PORT1,Carrier_Force_In_System_Reply,,,,,,,,,Y,310,Y136
+Y0137,AGVS,To EQ Up,Boolean,,PORT1,To_EQ_Up,16,,,,,,,,Y,311,Y137
+Y0138,AGVS,To EQ Low,Boolean,,PORT1,To_EQ_Low,17,,,,,,,,Y,312,Y138
+Y0139,AGVS,CMD reserve Up,Boolean,,PORT1,CMD_reserve_Up,18,,,,,,,,Y,313,Y139
+Y013A,AGVS,CMD reserve Low,Boolean,,PORT1,CMD_reserve_Low,19,,,,,,,,Y,314,Y13A
+Y013B,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,315,Y13B
+Y013C,AGVS,VALID,Boolean,,PORT1,VALID,20,,,,,,,,Y,316,Y13C
+Y013D,AGVS,TR-REQ,Boolean,,PORT1,TR_REQ,21,,,,,,,,Y,317,Y13D
+Y013E,AGVS,BUSY,Boolean,,PORT1,BUSY,22,,,,,,,,Y,318,Y13E
+Y013F,AGVS,COMPT,Boolean,,PORT1,COMPT,23,,,,,,,,Y,319,Y13F
+Y0140,AGVS,AGV_READY,Boolean,,PORT1,AGV_READY,24,,,,,,,,Y,320,Y140
+Y0141,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,321,Y141
+Y0142,AGVS,Port Mode Change Request,Boolean,,PORT1,Port_Mode_Change_Request,,,,,,,,,Y,322,Y142
+Y0143,AGVS,Port Mode Changed Report Reply,Boolean,,PORT1,Port_Mode_Changed_Report_Reply,,,,,,,,,Y,323,Y143
+Y0144,AGVS,Port Disabled Report Reply,Boolean,,PORT1,Port_Disabled_Report_Reply,,,,,,,,,Y,324,Y144
+Y0145,AGVS,Port Enabled Report Reply,Boolean,,PORT1,Port_Enbled_Report_Reply,,,,,,,,,Y,325,Y145
+Y0146,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,326,Y146
+Y0147,AGVS,Carrier WaitIn System Reply,Boolean,,PORT1,Carrier_WaitIn_System_Reply,,,,,,,,,Y,327,Y147
+Y0148,AGVS,Carrier WaitIn System Accept,Boolean,,PORT1,Carrier_WaitIn_System_Accept,,,,,,,,,Y,328,Y148
+Y0149,AGVS,Carrier WaitIn System Refuse,Boolean,,PORT1,Carrier_WaitIn_System_Refuse,,,,,,,,,Y,329,Y149
+Y014A,AGVS,Carrier WawitOut System Reply,Boolean,,PORT1,Carrier_WawitOut_System_Reply,,,,,,,,,Y,330,Y14A
+Y014B,AGVS,Carrier Removed Completed Report Reply,Boolean,,PORT1,Carrier_Removed_Completed_Report_Reply,,,,,,,,,Y,331,Y14B
+Y014C,AGVS,Carrier Force In System Reply,Boolean,,PORT1,Carrier_Force_In_System_Reply,,,,,,,,,Y,332,Y14C
+Y014D,AGVS,To EQ Up,Boolean,,PORT1,To_EQ_Up,16,,,,,,,,Y,333,Y14D
+Y014E,AGVS,To EQ Low,Boolean,,PORT1,To_EQ_Low,17,,,,,,,,Y,334,Y14E
+Y014F,AGVS,CMD reserve Up,Boolean,,PORT1,CMD_reserve_Up,18,,,,,,,,Y,335,Y14F
+Y0150,AGVS,CMD reserve Low,Boolean,,PORT1,CMD_reserve_Low,19,,,,,,,,Y,336,Y150
+Y0151,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,337,Y151
+Y0152,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,338,Y152
+Y0153,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,339,Y153
+Y0154,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,340,Y154
+Y0155,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,341,Y155
+Y0156,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,342,Y156
+Y0157,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,343,Y157
+Y0158,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,344,Y158
+Y0159,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,345,Y159
+Y015A,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,346,Y15A
+Y015B,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,347,Y15B
+Y015C,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,348,Y15C
+Y015D,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,349,Y15D
+Y015E,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,350,Y15E
+Y015F,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,351,Y15F
+Y0160,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,352,Y160
+Y0161,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,353,Y161
+Y0162,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,354,Y162
+Y0163,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,355,Y163
+Y0164,AGVS,VALID,Boolean,,PORT1,VALID,20,,,,,,,,Y,356,Y164
+Y0165,AGVS,TR-REQ,Boolean,,PORT1,TR_REQ,21,,,,,,,,Y,357,Y165
+Y0166,AGVS,BUSY,Boolean,,PORT1,BUSY,22,,,,,,,,Y,358,Y166
+Y0167,AGVS,COMPT,Boolean,,PORT1,COMPT,23,,,,,,,,Y,359,Y167
+Y0168,AGVS,AGV_READY,Boolean,,PORT1,AGV_READY,24,,,,,,,,Y,360,Y168
+Y0169,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,361,Y169
+Y016A,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,362,Y16A
+Y016B,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,363,Y16B
+Y016C,AGVS,Port Mode Change Request,Boolean,,PORT1,Port_Mode_Change_Request,,,,,,,,,Y,364,Y16C
+Y016D,AGVS,Port Mode Changed Report Reply,Boolean,,PORT1,Port_Mode_Changed_Report_Reply,,,,,,,,,Y,365,Y16D
+Y016E,AGVS,Port Disabled Report Reply,Boolean,,PORT1,Port_Disabled_Report_Reply,,,,,,,,,Y,366,Y16E
+Y016F,AGVS,Port Enbled Report Reply,Boolean,,PORT1,Port_Enbled_Report_Reply,,,,,,,,,Y,367,Y16F
+Y0170,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,368,Y170
+Y0171,AGVS,Carrier WaitIn System Reply,Boolean,,PORT1,Carrier_WaitIn_System_Reply,,,,,,,,,Y,369,Y171
+Y0172,AGVS,Carrier WaitIn System Accept,Boolean,,PORT1,Carrier_WaitIn_System_Accept,,,,,,,,,Y,370,Y172
+Y0173,AGVS,Carrier WaitIn System Refuse,Boolean,,PORT1,Carrier_WaitIn_System_Refuse,,,,,,,,,Y,371,Y173
+Y0174,AGVS,Carrier WawitOut System Reply,Boolean,,PORT1,Carrier_WawitOut_System_Reply,,,,,,,,,Y,372,Y174
+Y0175,AGVS,Carrier Removed Completed Report Reply,Boolean,,PORT1,Carrier_Removed_Completed_Report_Reply,,,,,,,,,Y,373,Y175
+Y0176,AGVS,Carrier Force In System Reply,Boolean,,PORT1,Carrier_Force_In_System_Reply,,,,,,,,,Y,374,Y176
+Y0177,AGVS,To EQ Up,Boolean,,PORT1,To_EQ_Up,16,,,,,,,,Y,375,Y177
+Y0178,AGVS,To EQ Low,Boolean,,PORT1,To_EQ_Low,17,,,,,,,,Y,376,Y178
+Y0179,AGVS,CMD reserve Up,Boolean,,PORT1,CMD_reserve_Up,18,,,,,,,,Y,377,Y179
+Y017A,AGVS,CMD reserve Low,Boolean,,PORT1,CMD_reserve_Low,19,,,,,,,,Y,378,Y17A
+Y017B,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,379,Y17B
+Y017C,AGVS,VALID,Boolean,,PORT1,VALID,20,,,,,,,,Y,380,Y17C
+Y017D,AGVS,TR-REQ,Boolean,,PORT1,TR_REQ,21,,,,,,,,Y,381,Y17D
+Y017E,AGVS,BUSY,Boolean,,PORT1,BUSY,22,,,,,,,,Y,382,Y17E
+Y017F,AGVS,COMPT,Boolean,,PORT1,COMPT,23,,,,,,,,Y,383,Y17F
+Y0180,AGVS,AGV_READY,Boolean,,PORT1,AGV_READY,24,,,,,,,,Y,384,Y180
+Y0181,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,385,Y181
+Y0182,AGVS,Port Mode Change Request,Boolean,,PORT1,Port_Mode_Change_Request,,,,,,,,,Y,386,Y182
+Y0183,AGVS,Port Mode Changed Report Reply,Boolean,,PORT1,Port_Mode_Changed_Report_Reply,,,,,,,,,Y,387,Y183
+Y0184,AGVS,Port Disabled Report Reply,Boolean,,PORT1,Port_Disabled_Report_Reply,,,,,,,,,Y,388,Y184
+Y0185,AGVS,Port Enabled Report Reply,Boolean,,PORT1,Port_Enbled_Report_Reply,,,,,,,,,Y,389,Y185
+Y0186,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,390,Y186
+Y0187,AGVS,Carrier WaitIn System Reply,Boolean,,PORT1,Carrier_WaitIn_System_Reply,,,,,,,,,Y,391,Y187
+Y0188,AGVS,Carrier WaitIn System Accept,Boolean,,PORT1,Carrier_WaitIn_System_Accept,,,,,,,,,Y,392,Y188
+Y0189,AGVS,Carrier WaitIn System Refuse,Boolean,,PORT1,Carrier_WaitIn_System_Refuse,,,,,,,,,Y,393,Y189
+Y018A,AGVS,Carrier WawitOut System Reply,Boolean,,PORT1,Carrier_WawitOut_System_Reply,,,,,,,,,Y,394,Y18A
+Y018B,AGVS,Carrier Removed Completed Report Reply,Boolean,,PORT1,Carrier_Removed_Completed_Report_Reply,,,,,,,,,Y,395,Y18B
+Y018C,AGVS,Carrier Force In System Reply,Boolean,,PORT1,Carrier_Force_In_System_Reply,,,,,,,,,Y,396,Y18C
+Y018D,AGVS,To EQ Up,Boolean,,PORT1,To_EQ_Up,16,,,,,,,,Y,397,Y18D
+Y018E,AGVS,To EQ Low,Boolean,,PORT1,To_EQ_Low,17,,,,,,,,Y,398,Y18E
+Y018F,AGVS,CMD reserve Up,Boolean,,PORT1,CMD_reserve_Up,18,,,,,,,,Y,399,Y18F
+Y0190,AGVS,CMD reserve Low,Boolean,,PORT1,CMD_reserve_Low,19,,,,,,,,Y,400,Y190
+Y0191,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,401,Y191
+Y0192,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,402,Y192
+Y0193,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,403,Y193
+Y0194,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,404,Y194
+Y0195,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,405,Y195
+Y0196,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,406,Y196
+Y0197,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,407,Y197
+Y0198,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,408,Y198
+Y0199,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,409,Y199
+Y019A,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,410,Y19A
+Y019B,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,411,Y19B
+Y019C,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,412,Y19C
+Y019D,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,413,Y19D
+Y019E,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,414,Y19E
+Y019F,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,415,Y19F
