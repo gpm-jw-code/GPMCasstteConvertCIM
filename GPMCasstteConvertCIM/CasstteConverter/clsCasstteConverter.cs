@@ -36,7 +36,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         }
         internal clsCasstteConverter(int index, string name, UscCasstteConverter mainGUI, CONVERTER_TYPE converterType, Dictionary<int, clsPortProperty> portProperties
-            , PLC_CONN_INTERFACE _interface = PLC_CONN_INTERFACE.MC)
+            , PLC_CONN_INTERFACE _interface = PLC_CONN_INTERFACE.MX)
         {
             this.Name = name;
             EQPData = new Data.clsEQPData(portProperties, this);
