@@ -62,12 +62,13 @@
             dataGridView1.ColumnHeadersHeight = 42;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { EqName, PortName, dataGridViewCheckBoxColumn1, unloadRequestDataGridViewCheckBoxColumn, portExistDataGridViewCheckBoxColumn, lDUPPOSDataGridViewCheckBoxColumn, lDDOWNPOSDataGridViewCheckBoxColumn, portStatusDownDataGridViewCheckBoxColumn });
             dataGridView1.DataSource = clsConverterPortBindingSource;
-            dataGridView1.Location = new Point(3, 3);
+            dataGridView1.Dock = DockStyle.Fill;
+            dataGridView1.Location = new Point(0, 0);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersVisible = false;
             dataGridView1.RowTemplate.Height = 25;
-            dataGridView1.Size = new Size(1026, 580);
+            dataGridView1.Size = new Size(1031, 586);
             dataGridView1.TabIndex = 0;
             // 
             // EqName
@@ -137,7 +138,7 @@
             BackColor = SystemColors.ButtonShadow;
             Controls.Add(dataGridView1);
             Name = "UscEQStatus";
-            Size = new Size(1032, 586);
+            Size = new Size(1031, 586);
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ((System.ComponentModel.ISupportInitialize)clsConverterPortBindingSource).EndInit();
             ResumeLayout(false);
