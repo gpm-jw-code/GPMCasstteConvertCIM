@@ -41,7 +41,6 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
             PortModbusServersActive();
             EQPInterfaceClockMonitor();
             CIMInterfaceClockUpdate();
-            PLCMemorySyncTask();
             DataSyncTask();
         }
         public override void LoadPLCMapData()
@@ -65,16 +64,7 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
 
 
         }
-        protected override async Task PLCMemorySyncTask()
-        {
-            _ = Task.Run(async () =>
-            {
-                //while (true)
-                //{
-                //    Thread.Sleep(10);
-                //}
-            });
-        }
+
 
         protected override void SyncMemData()
         {
