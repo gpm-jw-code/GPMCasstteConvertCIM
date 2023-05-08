@@ -14,6 +14,14 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
     {
         internal new UscEQStatus mainGUI;
         internal List<clsCCLinkIE_Station> Stations { get; set; } = new List<clsCCLinkIE_Station>();
+
+        public List<clsConverterPort> AllEqPortList
+        {
+            get
+            {
+                return Stations.SelectMany(eq => eq.PortDatas.Select(st => (clsConverterPort)st)).ToList();
+            }
+        }
         public clsCCLinkIE_Master(string name, UscEQStatus ui)
         {
             this.Name = name;
@@ -24,17 +32,16 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
             DataSyncTask();
         }
 
+
+
         protected override void PLCMemoryDatatToEQDataDTO()
         {
         }
 
-        public List<clsConverterPort> AllEqPortList
+        protected override void SyncMemData()
         {
-            get
-            {
-                return Stations.SelectMany(eq => eq.PortDatas.Select(st => (clsConverterPort)st)).ToList();
-            }
+            base.SyncMemData();
+            mainGUI.BindingPorts?.ResetBindings();
         }
-
     }
 }
