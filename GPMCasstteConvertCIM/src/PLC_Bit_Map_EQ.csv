@@ -1,4 +1,4 @@
-Memory (Hex),Owner,Data Name,Data Format,Explanation,Device,Code_Property,Modbus_Register,,,,,,,,Memory Type _ 1,Memory Address,
+Memory (Hex),Owner,Data Name,Data Format,Explanation,Device,Code_Property,Modbus_Register,EQ_Name,,,,,,,Memory Type _ 1,Memory Address,
 X0000,EQP,Load Request ,Boolean,5.2.1 Status Report by EQ,PORT1,Load_Request,1,STK,,,,,,,X,0,X0
 X0001,EQP,Unload Request,Boolean,5.2.1 Status Report by EQ,PORT1,Unload_Request,2,STK,,,,,,,X,1,X1
 X0002,EQP,Port Exist,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Exist,3,STK,,,,,,,X,2,X2
@@ -21,22 +21,22 @@ X0012,EQP,Port Exist,Boolean,5.2.1 Status Report by EQ,PORT2,Port_Exist,3,STK,,,
 X0013,EQP,UP_POS,Boolean,5.2.1 Status Report by EQ,PORT2,LD_UP_POS,4,STK,,,,,,,X,19,X13
 X0014,EQP,DOWN_POS,Boolean,5.2.1 Status Report by EQ,PORT2,LD_DOWN_POS,5,STK,,,,,,,X,20,X14
 X0015,EQP,EQP Status Down,Boolean,5.2.1 Status Report by EQ,PORT2,Port_Status_Down,6,STK,,,,,,,X,21,X15
-X0016,EQP,,Boolean,,PORT1,,,,,,,,,,X,22,X16
-X0017,EQP,,Boolean,,PORT1,,,,,,,,,,X,23,X17
-X0018,EQP,,Boolean,,PORT1,,,,,,,,,,X,24,X18
-X0019,EQP,,Boolean,,PORT1,,,,,,,,,,X,25,X19
-X001A,EQP,,Boolean,,PORT1,,,,,,,,,,X,26,X1A
-X001B,EQP,,Boolean,,PORT1,,,,,,,,,,X,27,X1B
-X001C,EQP,,Boolean,,PORT1,,,,,,,,,,X,28,X1C
-X001D,EQP,,Boolean,,PORT1,,,,,,,,,,X,29,X1D
-X001E,EQP,,Boolean,,PORT1,,,,,,,,,,X,30,X1E
-X001F,EQP,,Boolean,,PORT1,,,,,,,,,,X,31,X1F
-X0020,EQP,Load Request ,Boolean,5.2.1 Status Report by EQ,PORT1,Load_Request,1,,,,,,,,X,32,X20
-X0021,EQP,Unload Request,Boolean,5.2.1 Status Report by EQ,PORT1,Unload_Request,2,,,,,,,,X,33,X21
-X0022,EQP,Port Exist,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Exist,3,,,,,,,,X,34,X22
-X0023,EQP,UP_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_UP_POS,4,,,,,,,,X,35,X23
-X0024,EQP,DOWN_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_DOWN_POS,5,,,,,,,,X,36,X24
-X0025,EQP,EQP Status Down,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Status_Down,6,,,,,,,,X,37,X25
+X0016,EQP,,Boolean,,PORT2,,,,,,,,,,X,22,X16
+X0017,EQP,,Boolean,,PORT2,,,,,,,,,,X,23,X17
+X0018,EQP,,Boolean,,PORT2,,,,,,,,,,X,24,X18
+X0019,EQP,,Boolean,,PORT2,,,,,,,,,,X,25,X19
+X001A,EQP,,Boolean,,PORT2,,,,,,,,,,X,26,X1A
+X001B,EQP,,Boolean,,PORT2,,,,,,,,,,X,27,X1B
+X001C,EQP,,Boolean,,PORT2,,,,,,,,,,X,28,X1C
+X001D,EQP,,Boolean,,PORT2,,,,,,,,,,X,29,X1D
+X001E,EQP,,Boolean,,PORT2,,,,,,,,,,X,30,X1E
+X001F,EQP,,Boolean,,PORT2,,,,,,,,,,X,31,X1F
+X0020,EQP,Load Request ,Boolean,5.2.1 Status Report by EQ,PORT1,Load_Request,1,QV,,,,,,,X,32,X20
+X0021,EQP,Unload Request,Boolean,5.2.1 Status Report by EQ,PORT1,Unload_Request,2,QV,,,,,,,X,33,X21
+X0022,EQP,Port Exist,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Exist,3,QV,,,,,,,X,34,X22
+X0023,EQP,UP_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_UP_POS,4,QV,,,,,,,X,35,X23
+X0024,EQP,DOWN_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_DOWN_POS,5,QV,,,,,,,X,36,X24
+X0025,EQP,EQP Status Down,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Status_Down,6,QV,,,,,,,X,37,X25
 X0026,EQP,,Boolean,,PORT1,,,,,,,,,,X,38,X26
 X0027,EQP,,Boolean,,PORT1,,,,,,,,,,X,39,X27
 X0028,EQP,,Boolean,,PORT1,,,,,,,,,,X,40,X28
@@ -47,28 +47,28 @@ X002C,EQP,,Boolean,,PORT1,,,,,,,,,,X,44,X2C
 X002D,EQP,,Boolean,,PORT1,,,,,,,,,,X,45,X2D
 X002E,EQP,,Boolean,,PORT1,,,,,,,,,,X,46,X2E
 X002F,EQP,,Boolean,,PORT1,,,,,,,,,,X,47,X2F
-X0030,EQP,Load Request ,Boolean,5.2.1 Status Report by EQ,PORT1,Load_Request,1,,,,,,,,X,48,X30
-X0031,EQP,Unload Request,Boolean,5.2.1 Status Report by EQ,PORT1,Unload_Request,2,,,,,,,,X,49,X31
-X0032,EQP,Port Exist,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Exist,3,,,,,,,,X,50,X32
-X0033,EQP,UP_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_UP_POS,4,,,,,,,,X,51,X33
-X0034,EQP,DOWN_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_DOWN_POS,5,,,,,,,,X,52,X34
-X0035,EQP,EQP Status Down,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Status_Down,6,,,,,,,,X,53,X35
-X0036,EQP,,Boolean,,PORT1,,,,,,,,,,X,54,X36
-X0037,EQP,,Boolean,,PORT1,,,,,,,,,,X,55,X37
-X0038,EQP,,Boolean,,PORT1,,,,,,,,,,X,56,X38
-X0039,EQP,,Boolean,,PORT1,,,,,,,,,,X,57,X39
-X003A,EQP,,Boolean,,PORT1,,,,,,,,,,X,58,X3A
-X003B,EQP,,Boolean,,PORT1,,,,,,,,,,X,59,X3B
-X003C,EQP,,Boolean,,PORT1,,,,,,,,,,X,60,X3C
-X003D,EQP,,Boolean,,PORT1,,,,,,,,,,X,61,X3D
-X003E,EQP,,Boolean,,PORT1,,,,,,,,,,X,62,X3E
-X003F,EQP,,Boolean,,PORT1,,,,,,,,,,X,63,X3F
-X0040,EQP,Load Request ,Boolean,5.2.1 Status Report by EQ,PORT1,Load_Request,1,,,,,,,,X,64,X40
-X0041,EQP,Unload Request,Boolean,5.2.1 Status Report by EQ,PORT1,Unload_Request,2,,,,,,,,X,65,X41
-X0042,EQP,Port Exist,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Exist,3,,,,,,,,X,66,X42
-X0043,EQP,UP_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_UP_POS,4,,,,,,,,X,67,X43
-X0044,EQP,DOWN_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_DOWN_POS,5,,,,,,,,X,68,X44
-X0045,EQP,EQP Status Down,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Status_Down,6,,,,,,,,X,69,X45
+X0030,EQP,Load Request ,Boolean,5.2.1 Status Report by EQ,PORT2,Load_Request,1,QV,,,,,,,X,48,X30
+X0031,EQP,Unload Request,Boolean,5.2.1 Status Report by EQ,PORT2,Unload_Request,2,QV,,,,,,,X,49,X31
+X0032,EQP,Port Exist,Boolean,5.2.1 Status Report by EQ,PORT2,Port_Exist,3,QV,,,,,,,X,50,X32
+X0033,EQP,UP_POS,Boolean,5.2.1 Status Report by EQ,PORT2,LD_UP_POS,4,QV,,,,,,,X,51,X33
+X0034,EQP,DOWN_POS,Boolean,5.2.1 Status Report by EQ,PORT2,LD_DOWN_POS,5,QV,,,,,,,X,52,X34
+X0035,EQP,EQP Status Down,Boolean,5.2.1 Status Report by EQ,PORT2,Port_Status_Down,6,QV,,,,,,,X,53,X35
+X0036,EQP,,Boolean,,PORT2,,,,,,,,,,X,54,X36
+X0037,EQP,,Boolean,,PORT2,,,,,,,,,,X,55,X37
+X0038,EQP,,Boolean,,PORT2,,,,,,,,,,X,56,X38
+X0039,EQP,,Boolean,,PORT2,,,,,,,,,,X,57,X39
+X003A,EQP,,Boolean,,PORT2,,,,,,,,,,X,58,X3A
+X003B,EQP,,Boolean,,PORT2,,,,,,,,,,X,59,X3B
+X003C,EQP,,Boolean,,PORT2,,,,,,,,,,X,60,X3C
+X003D,EQP,,Boolean,,PORT2,,,,,,,,,,X,61,X3D
+X003E,EQP,,Boolean,,PORT2,,,,,,,,,,X,62,X3E
+X003F,EQP,,Boolean,,PORT2,,,,,,,,,,X,63,X3F
+X0040,EQP,Load Request ,Boolean,5.2.1 Status Report by EQ,PORT1,Load_Request,1,AOI_1,,,,,,,X,64,X40
+X0041,EQP,Unload Request,Boolean,5.2.1 Status Report by EQ,PORT1,Unload_Request,2,AOI_1,,,,,,,X,65,X41
+X0042,EQP,Port Exist,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Exist,3,AOI_1,,,,,,,X,66,X42
+X0043,EQP,UP_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_UP_POS,4,AOI_1,,,,,,,X,67,X43
+X0044,EQP,DOWN_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_DOWN_POS,5,AOI_1,,,,,,,X,68,X44
+X0045,EQP,EQP Status Down,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Status_Down,6,AOI_1,,,,,,,X,69,X45
 X0046,EQP,,Boolean,,PORT1,,,,,,,,,,X,70,X46
 X0047,EQP,,Boolean,,PORT1,,,,,,,,,,X,71,X47
 X0048,EQP,,Boolean,,PORT1,,,,,,,,,,X,72,X48
@@ -79,246 +79,246 @@ X004C,EQP,,Boolean,,PORT1,,,,,,,,,,X,76,X4C
 X004D,EQP,,Boolean,,PORT1,,,,,,,,,,X,77,X4D
 X004E,EQP,,Boolean,,PORT1,,,,,,,,,,X,78,X4E
 X004F,EQP,,Boolean,,PORT1,,,,,,,,,,X,79,X4F
-X0050,EQP,Load Request ,Boolean,5.2.1 Status Report by EQ,PORT1,Load_Request,1,,,,,,,,X,80,X50
-X0051,EQP,Unload Request,Boolean,5.2.1 Status Report by EQ,PORT1,Unload_Request,2,,,,,,,,X,81,X51
-X0052,EQP,Port Exist,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Exist,3,,,,,,,,X,82,X52
-X0053,EQP,UP_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_UP_POS,4,,,,,,,,X,83,X53
-X0054,EQP,DOWN_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_DOWN_POS,5,,,,,,,,X,84,X54
-X0055,EQP,EQP Status Down,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Status_Down,6,,,,,,,,X,85,X55
-X0056,EQP,,Boolean,,PORT1,,,,,,,,,,X,86,X56
-X0057,EQP,,Boolean,,PORT1,,,,,,,,,,X,87,X57
-X0058,EQP,,Boolean,,PORT1,,,,,,,,,,X,88,X58
-X0059,EQP,,Boolean,,PORT1,,,,,,,,,,X,89,X59
-X005A,EQP,,Boolean,,PORT1,,,,,,,,,,X,90,X5A
-X005B,EQP,,Boolean,,PORT1,,,,,,,,,,X,91,X5B
-X005C,EQP,,Boolean,,PORT1,,,,,,,,,,X,92,X5C
-X005D,EQP,,Boolean,,PORT1,,,,,,,,,,X,93,X5D
-X005E,EQP,,Boolean,,PORT1,,,,,,,,,,X,94,X5E
-X005F,EQP,,Boolean,,PORT1,,,,,,,,,,X,95,X5F
-X0060,EQP,Load Request ,Boolean,5.2.1 Status Report by EQ,PORT1,Load_Request,1,,,,,,,,X,96,X60
-X0061,EQP,Unload Request,Boolean,5.2.1 Status Report by EQ,PORT1,Unload_Request,2,,,,,,,,X,97,X61
-X0062,EQP,Port Exist,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Exist,3,,,,,,,,X,98,X62
-X0063,EQP,UP_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_UP_POS,4,,,,,,,,X,99,X63
-X0064,EQP,DOWN_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_DOWN_POS,5,,,,,,,,X,100,X64
-X0065,EQP,EQP Status Down,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Status_Down,6,,,,,,,,X,101,X65
-X0066,EQP,,Boolean,,PORT1,,,,,,,,,,X,102,X66
-X0067,EQP,,Boolean,,PORT1,,,,,,,,,,X,103,X67
-X0068,EQP,,Boolean,,PORT1,,,,,,,,,,X,104,X68
-X0069,EQP,,Boolean,,PORT1,,,,,,,,,,X,105,X69
-X006A,EQP,,Boolean,,PORT1,,,,,,,,,,X,106,X6A
-X006B,EQP,,Boolean,,PORT1,,,,,,,,,,X,107,X6B
-X006C,EQP,,Boolean,,PORT1,,,,,,,,,,X,108,X6C
-X006D,EQP,,Boolean,,PORT1,,,,,,,,,,X,109,X6D
-X006E,EQP,,Boolean,,PORT1,,,,,,,,,,X,110,X6E
-X006F,EQP,,Boolean,,PORT1,,,,,,,,,,X,111,X6F
-X0070,EQP,Load Request ,Boolean,5.2.1 Status Report by EQ,PORT1,Load_Request,1,,,,,,,,X,112,X70
-X0071,EQP,Unload Request,Boolean,5.2.1 Status Report by EQ,PORT1,Unload_Request,2,,,,,,,,X,113,X71
-X0072,EQP,Port Exist,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Exist,3,,,,,,,,X,114,X72
-X0073,EQP,UP_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_UP_POS,4,,,,,,,,X,115,X73
-X0074,EQP,DOWN_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_DOWN_POS,5,,,,,,,,X,116,X74
-X0075,EQP,EQP Status Down,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Status_Down,6,,,,,,,,X,117,X75
-X0076,EQP,,Boolean,,PORT1,,,,,,,,,,X,118,X76
-X0077,EQP,,Boolean,,PORT1,,,,,,,,,,X,119,X77
-X0078,EQP,,Boolean,,PORT1,,,,,,,,,,X,120,X78
-X0079,EQP,,Boolean,,PORT1,,,,,,,,,,X,121,X79
-X007A,EQP,,Boolean,,PORT1,,,,,,,,,,X,122,X7A
-X007B,EQP,,Boolean,,PORT1,,,,,,,,,,X,123,X7B
-X007C,EQP,,Boolean,,PORT1,,,,,,,,,,X,124,X7C
-X007D,EQP,,Boolean,,PORT1,,,,,,,,,,X,125,X7D
-X007E,EQP,,Boolean,,PORT1,,,,,,,,,,X,126,X7E
-X007F,EQP,,Boolean,,PORT1,,,,,,,,,,X,127,X7F
-X0080,EQP,Load Request ,Boolean,5.2.1 Status Report by EQ,PORT1,Load_Request,1,,,,,,,,X,128,X80
-X0081,EQP,Unload Request,Boolean,5.2.1 Status Report by EQ,PORT1,Unload_Request,2,,,,,,,,X,129,X81
-X0082,EQP,Port Exist,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Exist,3,,,,,,,,X,130,X82
-X0083,EQP,UP_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_UP_POS,4,,,,,,,,X,131,X83
-X0084,EQP,DOWN_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_DOWN_POS,5,,,,,,,,X,132,X84
-X0085,EQP,EQP Status Down,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Status_Down,6,,,,,,,,X,133,X85
-X0086,EQP,,Boolean,,PORT1,,,,,,,,,,X,134,X86
-X0087,EQP,,Boolean,,PORT1,,,,,,,,,,X,135,X87
-X0088,EQP,,Boolean,,PORT1,,,,,,,,,,X,136,X88
-X0089,EQP,,Boolean,,PORT1,,,,,,,,,,X,137,X89
-X008A,EQP,,Boolean,,PORT1,,,,,,,,,,X,138,X8A
-X008B,EQP,,Boolean,,PORT1,,,,,,,,,,X,139,X8B
-X008C,EQP,,Boolean,,PORT1,,,,,,,,,,X,140,X8C
-X008D,EQP,,Boolean,,PORT1,,,,,,,,,,X,141,X8D
-X008E,EQP,,Boolean,,PORT1,,,,,,,,,,X,142,X8E
-X008F,EQP,,Boolean,,PORT1,,,,,,,,,,X,143,X8F
-X0090,EQP,Load Request ,Boolean,5.2.1 Status Report by EQ,PORT1,Load_Request,1,,,,,,,,X,144,X90
-X0091,EQP,Unload Request,Boolean,5.2.1 Status Report by EQ,PORT1,Unload_Request,2,,,,,,,,X,145,X91
-X0092,EQP,Port Exist,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Exist,3,,,,,,,,X,146,X92
-X0093,EQP,UP_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_UP_POS,4,,,,,,,,X,147,X93
-X0094,EQP,DOWN_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_DOWN_POS,5,,,,,,,,X,148,X94
-X0095,EQP,EQP Status Down,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Status_Down,6,,,,,,,,X,149,X95
-X0096,EQP,,Boolean,,PORT1,,,,,,,,,,X,150,X96
-X0097,EQP,,Boolean,,PORT1,,,,,,,,,,X,151,X97
-X0098,EQP,,Boolean,,PORT1,,,,,,,,,,X,152,X98
-X0099,EQP,,Boolean,,PORT1,,,,,,,,,,X,153,X99
-X009A,EQP,,Boolean,,PORT1,,,,,,,,,,X,154,X9A
-X009B,EQP,,Boolean,,PORT1,,,,,,,,,,X,155,X9B
-X009C,EQP,,Boolean,,PORT1,,,,,,,,,,X,156,X9C
-X009D,EQP,,Boolean,,PORT1,,,,,,,,,,X,157,X9D
-X009E,EQP,,Boolean,,PORT1,,,,,,,,,,X,158,X9E
-X009F,EQP,,Boolean,,PORT1,,,,,,,,,,X,159,X9F
-X00A0,EQP,Load Request ,Boolean,5.2.1 Status Report by EQ,PORT1,Load_Request,1,,,,,,,,X,160,XA0
-X00A1,EQP,Unload Request,Boolean,5.2.1 Status Report by EQ,PORT1,Unload_Request,2,,,,,,,,X,161,XA1
-X00A2,EQP,Port Exist,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Exist,3,,,,,,,,X,162,XA2
-X00A3,EQP,UP_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_UP_POS,4,,,,,,,,X,163,XA3
-X00A4,EQP,DOWN_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_DOWN_POS,5,,,,,,,,X,164,XA4
-X00A5,EQP,EQP Status Down,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Status_Down,6,,,,,,,,X,165,XA5
-X00A6,EQP,,Boolean,,PORT1,,,,,,,,,,X,166,XA6
-X00A7,EQP,,Boolean,,PORT1,,,,,,,,,,X,167,XA7
-X00A8,EQP,,Boolean,,PORT1,,,,,,,,,,X,168,XA8
-X00A9,EQP,,Boolean,,PORT1,,,,,,,,,,X,169,XA9
-X00AA,EQP,,Boolean,,PORT1,,,,,,,,,,X,170,XAA
-X00AB,EQP,,Boolean,,PORT1,,,,,,,,,,X,171,XAB
-X00AC,EQP,,Boolean,,PORT1,,,,,,,,,,X,172,XAC
-X00AD,EQP,,Boolean,,PORT1,,,,,,,,,,X,173,XAD
-X00AE,EQP,,Boolean,,PORT1,,,,,,,,,,X,174,XAE
-X00AF,EQP,,Boolean,,PORT1,,,,,,,,,,X,175,XAF
-X00B0,EQP,Load Request ,Boolean,5.2.1 Status Report by EQ,PORT1,Load_Request,1,,,,,,,,X,176,XB0
-X00B1,EQP,Unload Request,Boolean,5.2.1 Status Report by EQ,PORT1,Unload_Request,2,,,,,,,,X,177,XB1
-X00B2,EQP,Port Exist,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Exist,3,,,,,,,,X,178,XB2
-X00B3,EQP,UP_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_UP_POS,4,,,,,,,,X,179,XB3
-X00B4,EQP,DOWN_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_DOWN_POS,5,,,,,,,,X,180,XB4
-X00B5,EQP,EQP Status Down,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Status_Down,6,,,,,,,,X,181,XB5
-X00B6,EQP,,Boolean,,PORT1,,,,,,,,,,X,182,XB6
-X00B7,EQP,,Boolean,,PORT1,,,,,,,,,,X,183,XB7
-X00B8,EQP,,Boolean,,PORT1,,,,,,,,,,X,184,XB8
-X00B9,EQP,,Boolean,,PORT1,,,,,,,,,,X,185,XB9
-X00BA,EQP,,Boolean,,PORT1,,,,,,,,,,X,186,XBA
-X00BB,EQP,,Boolean,,PORT1,,,,,,,,,,X,187,XBB
-X00BC,EQP,,Boolean,,PORT1,,,,,,,,,,X,188,XBC
-X00BD,EQP,,Boolean,,PORT1,,,,,,,,,,X,189,XBD
-X00BE,EQP,,Boolean,,PORT1,,,,,,,,,,X,190,XBE
-X00BF,EQP,,Boolean,,PORT1,,,,,,,,,,X,191,XBF
-X00C0,EQP,Load Request ,Boolean,5.2.1 Status Report by EQ,PORT1,Load_Request,1,,,,,,,,X,192,XC0
-X00C1,EQP,Unload Request,Boolean,5.2.1 Status Report by EQ,PORT1,Unload_Request,2,,,,,,,,X,193,XC1
-X00C2,EQP,Port Exist,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Exist,3,,,,,,,,X,194,XC2
-X00C3,EQP,UP_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_UP_POS,4,,,,,,,,X,195,XC3
-X00C4,EQP,DOWN_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_DOWN_POS,5,,,,,,,,X,196,XC4
-X00C5,EQP,EQP Status Down,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Status_Down,6,,,,,,,,X,197,XC5
-X00C6,EQP,,Boolean,,PORT1,,,,,,,,,,X,198,XC6
-X00C7,EQP,,Boolean,,PORT1,,,,,,,,,,X,199,XC7
-X00C8,EQP,,Boolean,,PORT1,,,,,,,,,,X,200,XC8
-X00C9,EQP,,Boolean,,PORT1,,,,,,,,,,X,201,XC9
-X00CA,EQP,,Boolean,,PORT1,,,,,,,,,,X,202,XCA
-X00CB,EQP,,Boolean,,PORT1,,,,,,,,,,X,203,XCB
-X00CC,EQP,,Boolean,,PORT1,,,,,,,,,,X,204,XCC
-X00CD,EQP,,Boolean,,PORT1,,,,,,,,,,X,205,XCD
-X00CE,EQP,,Boolean,,PORT1,,,,,,,,,,X,206,XCE
-X00CF,EQP,,Boolean,,PORT1,,,,,,,,,,X,207,XCF
-X00D0,EQP,Load Request ,Boolean,5.2.1 Status Report by EQ,PORT1,Load_Request,1,,,,,,,,X,208,XD0
-X00D1,EQP,Unload Request,Boolean,5.2.1 Status Report by EQ,PORT1,Unload_Request,2,,,,,,,,X,209,XD1
-X00D2,EQP,Port Exist,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Exist,3,,,,,,,,X,210,XD2
-X00D3,EQP,UP_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_UP_POS,4,,,,,,,,X,211,XD3
-X00D4,EQP,DOWN_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_DOWN_POS,5,,,,,,,,X,212,XD4
-X00D5,EQP,EQP Status Down,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Status_Down,6,,,,,,,,X,213,XD5
-X00D6,EQP,,Boolean,,PORT1,,,,,,,,,,X,214,XD6
-X00D7,EQP,,Boolean,,PORT1,,,,,,,,,,X,215,XD7
-X00D8,EQP,,Boolean,,PORT1,,,,,,,,,,X,216,XD8
-X00D9,EQP,,Boolean,,PORT1,,,,,,,,,,X,217,XD9
-X00DA,EQP,,Boolean,,PORT1,,,,,,,,,,X,218,XDA
-X00DB,EQP,,Boolean,,PORT1,,,,,,,,,,X,219,XDB
-X00DC,EQP,,Boolean,,PORT1,,,,,,,,,,X,220,XDC
-X00DD,EQP,,Boolean,,PORT1,,,,,,,,,,X,221,XDD
-X00DE,EQP,,Boolean,,PORT1,,,,,,,,,,X,222,XDE
-X00DF,EQP,,Boolean,,PORT1,,,,,,,,,,X,223,XDF
-X00E0,EQP,Load Request ,Boolean,5.2.1 Status Report by EQ,PORT1,Load_Request,1,,,,,,,,X,224,XE0
-X00E1,EQP,Unload Request,Boolean,5.2.1 Status Report by EQ,PORT1,Unload_Request,2,,,,,,,,X,225,XE1
-X00E2,EQP,Port Exist,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Exist,3,,,,,,,,X,226,XE2
-X00E3,EQP,UP_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_UP_POS,4,,,,,,,,X,227,XE3
-X00E4,EQP,DOWN_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_DOWN_POS,5,,,,,,,,X,228,XE4
-X00E5,EQP,EQP Status Down,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Status_Down,6,,,,,,,,X,229,XE5
-X00E6,EQP,,Boolean,,PORT1,,,,,,,,,,X,230,XE6
-X00E7,EQP,,Boolean,,PORT1,,,,,,,,,,X,231,XE7
-X00E8,EQP,,Boolean,,PORT1,,,,,,,,,,X,232,XE8
-X00E9,EQP,,Boolean,,PORT1,,,,,,,,,,X,233,XE9
-X00EA,EQP,,Boolean,,PORT1,,,,,,,,,,X,234,XEA
-X00EB,EQP,,Boolean,,PORT1,,,,,,,,,,X,235,XEB
-X00EC,EQP,,Boolean,,PORT1,,,,,,,,,,X,236,XEC
-X00ED,EQP,,Boolean,,PORT1,,,,,,,,,,X,237,XED
-X00EE,EQP,,Boolean,,PORT1,,,,,,,,,,X,238,XEE
-X00EF,EQP,,Boolean,,PORT1,,,,,,,,,,X,239,XEF
-X00F0,EQP,Load Request ,Boolean,5.2.1 Status Report by EQ,PORT1,Load_Request,1,,,,,,,,X,240,XF0
-X00F1,EQP,Unload Request,Boolean,5.2.1 Status Report by EQ,PORT1,Unload_Request,2,,,,,,,,X,241,XF1
-X00F2,EQP,Port Exist,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Exist,3,,,,,,,,X,242,XF2
-X00F3,EQP,UP_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_UP_POS,4,,,,,,,,X,243,XF3
-X00F4,EQP,DOWN_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_DOWN_POS,5,,,,,,,,X,244,XF4
-X00F5,EQP,EQP Status Down,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Status_Down,6,,,,,,,,X,245,XF5
-X00F6,EQP,,Boolean,,PORT1,,,,,,,,,,X,246,XF6
-X00F7,EQP,,Boolean,,PORT1,,,,,,,,,,X,247,XF7
-X00F8,EQP,,Boolean,,PORT1,,,,,,,,,,X,248,XF8
-X00F9,EQP,,Boolean,,PORT1,,,,,,,,,,X,249,XF9
-X00FA,EQP,,Boolean,,PORT1,,,,,,,,,,X,250,XFA
-X00FB,EQP,,Boolean,,PORT1,,,,,,,,,,X,251,XFB
-X00FC,EQP,,Boolean,,PORT1,,,,,,,,,,X,252,XFC
-X00FD,EQP,,Boolean,,PORT1,,,,,,,,,,X,253,XFD
-X00FE,EQP,,Boolean,,PORT1,,,,,,,,,,X,254,XFE
-X00FF,EQP,,Boolean,,PORT1,,,,,,,,,,X,255,XFF
-X0100,EQP,Load Request ,Boolean,5.2.1 Status Report by EQ,PORT1,Load_Request,1,,,,,,,,X,256,X100
-X0101,EQP,Unload Request,Boolean,5.2.1 Status Report by EQ,PORT1,Unload_Request,2,,,,,,,,X,257,X101
-X0102,EQP,Port Exist,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Exist,3,,,,,,,,X,258,X102
-X0103,EQP,UP_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_UP_POS,4,,,,,,,,X,259,X103
-X0104,EQP,DOWN_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_DOWN_POS,5,,,,,,,,X,260,X104
-X0105,EQP,EQP Status Down,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Status_Down,6,,,,,,,,X,261,X105
-X0106,EQP,,Boolean,,PORT1,,,,,,,,,,X,262,X106
-X0107,EQP,,Boolean,,PORT1,,,,,,,,,,X,263,X107
-X0108,EQP,,Boolean,,PORT1,,,,,,,,,,X,264,X108
-X0109,EQP,,Boolean,,PORT1,,,,,,,,,,X,265,X109
-X010A,EQP,,Boolean,,PORT1,,,,,,,,,,X,266,X10A
-X010B,EQP,,Boolean,,PORT1,,,,,,,,,,X,267,X10B
-X010C,EQP,,Boolean,,PORT1,,,,,,,,,,X,268,X10C
-X010D,EQP,,Boolean,,PORT1,,,,,,,,,,X,269,X10D
-X010E,EQP,,Boolean,,PORT1,,,,,,,,,,X,270,X10E
-X010F,EQP,,Boolean,,PORT1,,,,,,,,,,X,271,X10F
-X0110,EQP,Load Request ,Boolean,5.2.1 Status Report by EQ,PORT1,Load_Request,1,,,,,,,,X,272,X110
-X0111,EQP,Unload Request,Boolean,5.2.1 Status Report by EQ,PORT1,Unload_Request,2,,,,,,,,X,273,X111
-X0112,EQP,Port Exist,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Exist,3,,,,,,,,X,274,X112
-X0113,EQP,UP_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_UP_POS,4,,,,,,,,X,275,X113
-X0114,EQP,DOWN_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_DOWN_POS,5,,,,,,,,X,276,X114
-X0115,EQP,EQP Status Down,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Status_Down,6,,,,,,,,X,277,X115
-X0116,EQP,,Boolean,,PORT1,,,,,,,,,,X,278,X116
-X0117,EQP,,Boolean,,PORT1,,,,,,,,,,X,279,X117
-X0118,EQP,,Boolean,,PORT1,,,,,,,,,,X,280,X118
-X0119,EQP,,Boolean,,PORT1,,,,,,,,,,X,281,X119
-X011A,EQP,,Boolean,,PORT1,,,,,,,,,,X,282,X11A
-X011B,EQP,,Boolean,,PORT1,,,,,,,,,,X,283,X11B
-X011C,EQP,,Boolean,,PORT1,,,,,,,,,,X,284,X11C
-X011D,EQP,,Boolean,,PORT1,,,,,,,,,,X,285,X11D
-X011E,EQP,,Boolean,,PORT1,,,,,,,,,,X,286,X11E
-X011F,EQP,,Boolean,,PORT1,,,,,,,,,,X,287,X11F
-X0120,EQP,Load Request ,Boolean,5.2.1 Status Report by EQ,PORT1,Load_Request,1,,,,,,,,X,288,X120
-X0121,EQP,Unload Request,Boolean,5.2.1 Status Report by EQ,PORT1,Unload_Request,2,,,,,,,,X,289,X121
-X0122,EQP,Port Exist,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Exist,3,,,,,,,,X,290,X122
-X0123,EQP,UP_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_UP_POS,4,,,,,,,,X,291,X123
-X0124,EQP,DOWN_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_DOWN_POS,5,,,,,,,,X,292,X124
-X0125,EQP,EQP Status Down,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Status_Down,6,,,,,,,,X,293,X125
-X0126,EQP,,Boolean,,PORT1,,,,,,,,,,X,294,X126
-X0127,EQP,,Boolean,,PORT1,,,,,,,,,,X,295,X127
-X0128,EQP,,Boolean,,PORT1,,,,,,,,,,X,296,X128
-X0129,EQP,,Boolean,,PORT1,,,,,,,,,,X,297,X129
-X012A,EQP,,Boolean,,PORT1,,,,,,,,,,X,298,X12A
-X012B,EQP,,Boolean,,PORT1,,,,,,,,,,X,299,X12B
-X012C,EQP,,Boolean,,PORT1,,,,,,,,,,X,300,X12C
-X012D,EQP,,Boolean,,PORT1,,,,,,,,,,X,301,X12D
-X012E,EQP,,Boolean,,PORT1,,,,,,,,,,X,302,X12E
-X012F,EQP,,Boolean,,PORT1,,,,,,,,,,X,303,X12F
-X0130,EQP,Load Request ,Boolean,5.2.1 Status Report by EQ,PORT1,Load_Request,1,,,,,,,,X,304,X130
-X0131,EQP,Unload Request,Boolean,5.2.1 Status Report by EQ,PORT1,Unload_Request,2,,,,,,,,X,305,X131
-X0132,EQP,Port Exist,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Exist,3,,,,,,,,X,306,X132
-X0133,EQP,UP_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_UP_POS,4,,,,,,,,X,307,X133
-X0134,EQP,DOWN_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_DOWN_POS,5,,,,,,,,X,308,X134
-X0135,EQP,EQP Status Down,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Status_Down,6,,,,,,,,X,309,X135
-X0136,EQP,,Boolean,,PORT1,,,,,,,,,,X,310,X136
-X0137,EQP,,Boolean,,PORT1,,,,,,,,,,X,311,X137
-X0138,EQP,,Boolean,,PORT1,,,,,,,,,,X,312,X138
-X0139,EQP,,Boolean,,PORT1,,,,,,,,,,X,313,X139
-X013A,EQP,,Boolean,,PORT1,,,,,,,,,,X,314,X13A
-X013B,EQP,,Boolean,,PORT1,,,,,,,,,,X,315,X13B
-X013C,EQP,,Boolean,,PORT1,,,,,,,,,,X,316,X13C
-X013D,EQP,,Boolean,,PORT1,,,,,,,,,,X,317,X13D
-X013E,EQP,,Boolean,,PORT1,,,,,,,,,,X,318,X13E
-X013F,EQP,,Boolean,,PORT1,,,,,,,,,,X,319,X13F
+X0050,EQP,Load Request ,Boolean,5.2.1 Status Report by EQ,PORT2,Load_Request,1,AOI_1,,,,,,,X,80,X50
+X0051,EQP,Unload Request,Boolean,5.2.1 Status Report by EQ,PORT2,Unload_Request,2,AOI_1,,,,,,,X,81,X51
+X0052,EQP,Port Exist,Boolean,5.2.1 Status Report by EQ,PORT2,Port_Exist,3,AOI_1,,,,,,,X,82,X52
+X0053,EQP,UP_POS,Boolean,5.2.1 Status Report by EQ,PORT2,LD_UP_POS,4,AOI_1,,,,,,,X,83,X53
+X0054,EQP,DOWN_POS,Boolean,5.2.1 Status Report by EQ,PORT2,LD_DOWN_POS,5,AOI_1,,,,,,,X,84,X54
+X0055,EQP,EQP Status Down,Boolean,5.2.1 Status Report by EQ,PORT2,Port_Status_Down,6,AOI_1,,,,,,,X,85,X55
+X0056,EQP,,Boolean,,PORT2,,,,,,,,,,X,86,X56
+X0057,EQP,,Boolean,,PORT2,,,,,,,,,,X,87,X57
+X0058,EQP,,Boolean,,PORT2,,,,,,,,,,X,88,X58
+X0059,EQP,,Boolean,,PORT2,,,,,,,,,,X,89,X59
+X005A,EQP,,Boolean,,PORT2,,,,,,,,,,X,90,X5A
+X005B,EQP,,Boolean,,PORT2,,,,,,,,,,X,91,X5B
+X005C,EQP,,Boolean,,PORT2,,,,,,,,,,X,92,X5C
+X005D,EQP,,Boolean,,PORT2,,,,,,,,,,X,93,X5D
+X005E,EQP,,Boolean,,PORT2,,,,,,,,,,X,94,X5E
+X005F,EQP,,Boolean,,PORT2,,,,,,,,,,X,95,X5F
+X0060,EQP,Load Request ,Boolean,5.2.1 Status Report by EQ,PORT1,Load_Request,1,AOI_2,,,,,,,X,96,X60
+X0061,EQP,Unload Request,Boolean,5.2.1 Status Report by EQ,PORT1,Unload_Request,2,AOI_2,,,,,,,X,97,X61
+X0062,EQP,Port Exist,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Exist,3,AOI_2,,,,,,,X,98,X62
+X0063,EQP,UP_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_UP_POS,4,AOI_2,,,,,,,X,99,X63
+X0064,EQP,DOWN_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_DOWN_POS,5,AOI_2,,,,,,,X,100,X64
+X0065,EQP,EQP Status Down,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Status_Down,6,AOI_2,,,,,,,X,101,X65
+X0066,EQP,,Boolean,,PORT1,,,AOI_2,,,,,,,X,102,X66
+X0067,EQP,,Boolean,,PORT1,,,AOI_2,,,,,,,X,103,X67
+X0068,EQP,,Boolean,,PORT1,,,AOI_2,,,,,,,X,104,X68
+X0069,EQP,,Boolean,,PORT1,,,AOI_2,,,,,,,X,105,X69
+X006A,EQP,,Boolean,,PORT1,,,AOI_2,,,,,,,X,106,X6A
+X006B,EQP,,Boolean,,PORT1,,,AOI_2,,,,,,,X,107,X6B
+X006C,EQP,,Boolean,,PORT1,,,AOI_2,,,,,,,X,108,X6C
+X006D,EQP,,Boolean,,PORT1,,,AOI_2,,,,,,,X,109,X6D
+X006E,EQP,,Boolean,,PORT1,,,AOI_2,,,,,,,X,110,X6E
+X006F,EQP,,Boolean,,PORT1,,,AOI_2,,,,,,,X,111,X6F
+X0070,EQP,Load Request ,Boolean,5.2.1 Status Report by EQ,PORT2,Load_Request,1,AOI_2,,,,,,,X,112,X70
+X0071,EQP,Unload Request,Boolean,5.2.1 Status Report by EQ,PORT2,Unload_Request,2,AOI_2,,,,,,,X,113,X71
+X0072,EQP,Port Exist,Boolean,5.2.1 Status Report by EQ,PORT2,Port_Exist,3,AOI_2,,,,,,,X,114,X72
+X0073,EQP,UP_POS,Boolean,5.2.1 Status Report by EQ,PORT2,LD_UP_POS,4,AOI_2,,,,,,,X,115,X73
+X0074,EQP,DOWN_POS,Boolean,5.2.1 Status Report by EQ,PORT2,LD_DOWN_POS,5,AOI_2,,,,,,,X,116,X74
+X0075,EQP,EQP Status Down,Boolean,5.2.1 Status Report by EQ,PORT2,Port_Status_Down,6,AOI_2,,,,,,,X,117,X75
+X0076,EQP,,Boolean,,PORT2,,,AOI_2,,,,,,,X,118,X76
+X0077,EQP,,Boolean,,PORT2,,,AOI_2,,,,,,,X,119,X77
+X0078,EQP,,Boolean,,PORT2,,,AOI_2,,,,,,,X,120,X78
+X0079,EQP,,Boolean,,PORT2,,,AOI_2,,,,,,,X,121,X79
+X007A,EQP,,Boolean,,PORT2,,,AOI_2,,,,,,,X,122,X7A
+X007B,EQP,,Boolean,,PORT2,,,AOI_2,,,,,,,X,123,X7B
+X007C,EQP,,Boolean,,PORT2,,,AOI_2,,,,,,,X,124,X7C
+X007D,EQP,,Boolean,,PORT2,,,AOI_2,,,,,,,X,125,X7D
+X007E,EQP,,Boolean,,PORT2,,,AOI_2,,,,,,,X,126,X7E
+X007F,EQP,,Boolean,,PORT2,,,AOI_2,,,,,,,X,127,X7F
+X0080,EQP,Load Request ,Boolean,5.2.1 Status Report by EQ,PORT1,Load_Request,1,AOI_3,,,,,,,X,128,X80
+X0081,EQP,Unload Request,Boolean,5.2.1 Status Report by EQ,PORT1,Unload_Request,2,AOI_3,,,,,,,X,129,X81
+X0082,EQP,Port Exist,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Exist,3,AOI_3,,,,,,,X,130,X82
+X0083,EQP,UP_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_UP_POS,4,AOI_3,,,,,,,X,131,X83
+X0084,EQP,DOWN_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_DOWN_POS,5,AOI_3,,,,,,,X,132,X84
+X0085,EQP,EQP Status Down,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Status_Down,6,AOI_3,,,,,,,X,133,X85
+X0086,EQP,,Boolean,,PORT1,,,AOI_3,,,,,,,X,134,X86
+X0087,EQP,,Boolean,,PORT1,,,AOI_3,,,,,,,X,135,X87
+X0088,EQP,,Boolean,,PORT1,,,AOI_3,,,,,,,X,136,X88
+X0089,EQP,,Boolean,,PORT1,,,AOI_3,,,,,,,X,137,X89
+X008A,EQP,,Boolean,,PORT1,,,AOI_3,,,,,,,X,138,X8A
+X008B,EQP,,Boolean,,PORT1,,,AOI_3,,,,,,,X,139,X8B
+X008C,EQP,,Boolean,,PORT1,,,AOI_3,,,,,,,X,140,X8C
+X008D,EQP,,Boolean,,PORT1,,,AOI_3,,,,,,,X,141,X8D
+X008E,EQP,,Boolean,,PORT1,,,AOI_3,,,,,,,X,142,X8E
+X008F,EQP,,Boolean,,PORT1,,,AOI_3,,,,,,,X,143,X8F
+X0090,EQP,Load Request ,Boolean,5.2.1 Status Report by EQ,PORT2,Load_Request,1,AOI_3,,,,,,,X,144,X90
+X0091,EQP,Unload Request,Boolean,5.2.1 Status Report by EQ,PORT2,Unload_Request,2,AOI_3,,,,,,,X,145,X91
+X0092,EQP,Port Exist,Boolean,5.2.1 Status Report by EQ,PORT2,Port_Exist,3,AOI_3,,,,,,,X,146,X92
+X0093,EQP,UP_POS,Boolean,5.2.1 Status Report by EQ,PORT2,LD_UP_POS,4,AOI_3,,,,,,,X,147,X93
+X0094,EQP,DOWN_POS,Boolean,5.2.1 Status Report by EQ,PORT2,LD_DOWN_POS,5,AOI_3,,,,,,,X,148,X94
+X0095,EQP,EQP Status Down,Boolean,5.2.1 Status Report by EQ,PORT2,Port_Status_Down,6,AOI_3,,,,,,,X,149,X95
+X0096,EQP,,Boolean,,PORT2,,,AOI_3,,,,,,,X,150,X96
+X0097,EQP,,Boolean,,PORT2,,,AOI_3,,,,,,,X,151,X97
+X0098,EQP,,Boolean,,PORT2,,,AOI_3,,,,,,,X,152,X98
+X0099,EQP,,Boolean,,PORT2,,,AOI_3,,,,,,,X,153,X99
+X009A,EQP,,Boolean,,PORT2,,,AOI_3,,,,,,,X,154,X9A
+X009B,EQP,,Boolean,,PORT2,,,AOI_3,,,,,,,X,155,X9B
+X009C,EQP,,Boolean,,PORT2,,,AOI_3,,,,,,,X,156,X9C
+X009D,EQP,,Boolean,,PORT2,,,AOI_3,,,,,,,X,157,X9D
+X009E,EQP,,Boolean,,PORT2,,,AOI_3,,,,,,,X,158,X9E
+X009F,EQP,,Boolean,,PORT2,,,AOI_3,,,,,,,X,159,X9F
+X00A0,EQP,Load Request ,Boolean,5.2.1 Status Report by EQ,PORT1,Load_Request,1,AOI_4,,,,,,,X,160,XA0
+X00A1,EQP,Unload Request,Boolean,5.2.1 Status Report by EQ,PORT1,Unload_Request,2,AOI_4,,,,,,,X,161,XA1
+X00A2,EQP,Port Exist,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Exist,3,AOI_4,,,,,,,X,162,XA2
+X00A3,EQP,UP_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_UP_POS,4,AOI_4,,,,,,,X,163,XA3
+X00A4,EQP,DOWN_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_DOWN_POS,5,AOI_4,,,,,,,X,164,XA4
+X00A5,EQP,EQP Status Down,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Status_Down,6,AOI_4,,,,,,,X,165,XA5
+X00A6,EQP,,Boolean,,PORT1,,,AOI_4,,,,,,,X,166,XA6
+X00A7,EQP,,Boolean,,PORT1,,,AOI_4,,,,,,,X,167,XA7
+X00A8,EQP,,Boolean,,PORT1,,,AOI_4,,,,,,,X,168,XA8
+X00A9,EQP,,Boolean,,PORT1,,,AOI_4,,,,,,,X,169,XA9
+X00AA,EQP,,Boolean,,PORT1,,,AOI_4,,,,,,,X,170,XAA
+X00AB,EQP,,Boolean,,PORT1,,,AOI_4,,,,,,,X,171,XAB
+X00AC,EQP,,Boolean,,PORT1,,,AOI_4,,,,,,,X,172,XAC
+X00AD,EQP,,Boolean,,PORT1,,,AOI_4,,,,,,,X,173,XAD
+X00AE,EQP,,Boolean,,PORT1,,,AOI_4,,,,,,,X,174,XAE
+X00AF,EQP,,Boolean,,PORT1,,,AOI_4,,,,,,,X,175,XAF
+X00B0,EQP,Load Request ,Boolean,5.2.1 Status Report by EQ,PORT2,Load_Request,1,AOI_4,,,,,,,X,176,XB0
+X00B1,EQP,Unload Request,Boolean,5.2.1 Status Report by EQ,PORT2,Unload_Request,2,AOI_4,,,,,,,X,177,XB1
+X00B2,EQP,Port Exist,Boolean,5.2.1 Status Report by EQ,PORT2,Port_Exist,3,AOI_4,,,,,,,X,178,XB2
+X00B3,EQP,UP_POS,Boolean,5.2.1 Status Report by EQ,PORT2,LD_UP_POS,4,AOI_4,,,,,,,X,179,XB3
+X00B4,EQP,DOWN_POS,Boolean,5.2.1 Status Report by EQ,PORT2,LD_DOWN_POS,5,AOI_4,,,,,,,X,180,XB4
+X00B5,EQP,EQP Status Down,Boolean,5.2.1 Status Report by EQ,PORT2,Port_Status_Down,6,AOI_4,,,,,,,X,181,XB5
+X00B6,EQP,,Boolean,,PORT2,,,AOI_4,,,,,,,X,182,XB6
+X00B7,EQP,,Boolean,,PORT2,,,AOI_4,,,,,,,X,183,XB7
+X00B8,EQP,,Boolean,,PORT2,,,AOI_4,,,,,,,X,184,XB8
+X00B9,EQP,,Boolean,,PORT2,,,AOI_4,,,,,,,X,185,XB9
+X00BA,EQP,,Boolean,,PORT2,,,AOI_4,,,,,,,X,186,XBA
+X00BB,EQP,,Boolean,,PORT2,,,AOI_4,,,,,,,X,187,XBB
+X00BC,EQP,,Boolean,,PORT2,,,AOI_4,,,,,,,X,188,XBC
+X00BD,EQP,,Boolean,,PORT2,,,AOI_4,,,,,,,X,189,XBD
+X00BE,EQP,,Boolean,,PORT2,,,AOI_4,,,,,,,X,190,XBE
+X00BF,EQP,,Boolean,,PORT2,,,AOI_4,,,,,,,X,191,XBF
+X00C0,EQP,Load Request ,Boolean,5.2.1 Status Report by EQ,PORT1,Load_Request,1,AOS_1,,,,,,,X,192,XC0
+X00C1,EQP,Unload Request,Boolean,5.2.1 Status Report by EQ,PORT1,Unload_Request,2,AOS_1,,,,,,,X,193,XC1
+X00C2,EQP,Port Exist,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Exist,3,AOS_1,,,,,,,X,194,XC2
+X00C3,EQP,UP_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_UP_POS,4,AOS_1,,,,,,,X,195,XC3
+X00C4,EQP,DOWN_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_DOWN_POS,5,AOS_1,,,,,,,X,196,XC4
+X00C5,EQP,EQP Status Down,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Status_Down,6,AOS_1,,,,,,,X,197,XC5
+X00C6,EQP,,Boolean,,PORT1,,,AOS_1,,,,,,,X,198,XC6
+X00C7,EQP,,Boolean,,PORT1,,,AOS_1,,,,,,,X,199,XC7
+X00C8,EQP,,Boolean,,PORT1,,,AOS_1,,,,,,,X,200,XC8
+X00C9,EQP,,Boolean,,PORT1,,,AOS_1,,,,,,,X,201,XC9
+X00CA,EQP,,Boolean,,PORT1,,,AOS_1,,,,,,,X,202,XCA
+X00CB,EQP,,Boolean,,PORT1,,,AOS_1,,,,,,,X,203,XCB
+X00CC,EQP,,Boolean,,PORT1,,,AOS_1,,,,,,,X,204,XCC
+X00CD,EQP,,Boolean,,PORT1,,,AOS_1,,,,,,,X,205,XCD
+X00CE,EQP,,Boolean,,PORT1,,,AOS_1,,,,,,,X,206,XCE
+X00CF,EQP,,Boolean,,PORT1,,,AOS_1,,,,,,,X,207,XCF
+X00D0,EQP,Load Request ,Boolean,5.2.1 Status Report by EQ,PORT2,Load_Request,1,AOS_1,,,,,,,X,208,XD0
+X00D1,EQP,Unload Request,Boolean,5.2.1 Status Report by EQ,PORT2,Unload_Request,2,AOS_1,,,,,,,X,209,XD1
+X00D2,EQP,Port Exist,Boolean,5.2.1 Status Report by EQ,PORT2,Port_Exist,3,AOS_1,,,,,,,X,210,XD2
+X00D3,EQP,UP_POS,Boolean,5.2.1 Status Report by EQ,PORT2,LD_UP_POS,4,AOS_1,,,,,,,X,211,XD3
+X00D4,EQP,DOWN_POS,Boolean,5.2.1 Status Report by EQ,PORT2,LD_DOWN_POS,5,AOS_1,,,,,,,X,212,XD4
+X00D5,EQP,EQP Status Down,Boolean,5.2.1 Status Report by EQ,PORT2,Port_Status_Down,6,AOS_1,,,,,,,X,213,XD5
+X00D6,EQP,,Boolean,,PORT2,,,AOS_1,,,,,,,X,214,XD6
+X00D7,EQP,,Boolean,,PORT2,,,AOS_1,,,,,,,X,215,XD7
+X00D8,EQP,,Boolean,,PORT2,,,AOS_1,,,,,,,X,216,XD8
+X00D9,EQP,,Boolean,,PORT2,,,AOS_1,,,,,,,X,217,XD9
+X00DA,EQP,,Boolean,,PORT2,,,AOS_1,,,,,,,X,218,XDA
+X00DB,EQP,,Boolean,,PORT2,,,AOS_1,,,,,,,X,219,XDB
+X00DC,EQP,,Boolean,,PORT2,,,AOS_1,,,,,,,X,220,XDC
+X00DD,EQP,,Boolean,,PORT2,,,AOS_1,,,,,,,X,221,XDD
+X00DE,EQP,,Boolean,,PORT2,,,AOS_1,,,,,,,X,222,XDE
+X00DF,EQP,,Boolean,,PORT2,,,AOS_1,,,,,,,X,223,XDF
+X00E0,EQP,Load Request ,Boolean,5.2.1 Status Report by EQ,PORT1,Load_Request,1,AOS_2,,,,,,,X,224,XE0
+X00E1,EQP,Unload Request,Boolean,5.2.1 Status Report by EQ,PORT1,Unload_Request,2,AOS_2,,,,,,,X,225,XE1
+X00E2,EQP,Port Exist,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Exist,3,AOS_2,,,,,,,X,226,XE2
+X00E3,EQP,UP_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_UP_POS,4,AOS_2,,,,,,,X,227,XE3
+X00E4,EQP,DOWN_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_DOWN_POS,5,AOS_2,,,,,,,X,228,XE4
+X00E5,EQP,EQP Status Down,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Status_Down,6,AOS_2,,,,,,,X,229,XE5
+X00E6,EQP,,Boolean,,PORT1,,,AOS_2,,,,,,,X,230,XE6
+X00E7,EQP,,Boolean,,PORT1,,,AOS_2,,,,,,,X,231,XE7
+X00E8,EQP,,Boolean,,PORT1,,,AOS_2,,,,,,,X,232,XE8
+X00E9,EQP,,Boolean,,PORT1,,,AOS_2,,,,,,,X,233,XE9
+X00EA,EQP,,Boolean,,PORT1,,,AOS_2,,,,,,,X,234,XEA
+X00EB,EQP,,Boolean,,PORT1,,,AOS_2,,,,,,,X,235,XEB
+X00EC,EQP,,Boolean,,PORT1,,,AOS_2,,,,,,,X,236,XEC
+X00ED,EQP,,Boolean,,PORT1,,,AOS_2,,,,,,,X,237,XED
+X00EE,EQP,,Boolean,,PORT1,,,AOS_2,,,,,,,X,238,XEE
+X00EF,EQP,,Boolean,,PORT1,,,AOS_2,,,,,,,X,239,XEF
+X00F0,EQP,Load Request ,Boolean,5.2.1 Status Report by EQ,PORT2,Load_Request,1,AOS_2,,,,,,,X,240,XF0
+X00F1,EQP,Unload Request,Boolean,5.2.1 Status Report by EQ,PORT2,Unload_Request,2,AOS_2,,,,,,,X,241,XF1
+X00F2,EQP,Port Exist,Boolean,5.2.1 Status Report by EQ,PORT2,Port_Exist,3,AOS_2,,,,,,,X,242,XF2
+X00F3,EQP,UP_POS,Boolean,5.2.1 Status Report by EQ,PORT2,LD_UP_POS,4,AOS_2,,,,,,,X,243,XF3
+X00F4,EQP,DOWN_POS,Boolean,5.2.1 Status Report by EQ,PORT2,LD_DOWN_POS,5,AOS_2,,,,,,,X,244,XF4
+X00F5,EQP,EQP Status Down,Boolean,5.2.1 Status Report by EQ,PORT2,Port_Status_Down,6,AOS_2,,,,,,,X,245,XF5
+X00F6,EQP,,Boolean,,PORT2,,,AOS_2,,,,,,,X,246,XF6
+X00F7,EQP,,Boolean,,PORT2,,,AOS_2,,,,,,,X,247,XF7
+X00F8,EQP,,Boolean,,PORT2,,,AOS_2,,,,,,,X,248,XF8
+X00F9,EQP,,Boolean,,PORT2,,,AOS_2,,,,,,,X,249,XF9
+X00FA,EQP,,Boolean,,PORT2,,,AOS_2,,,,,,,X,250,XFA
+X00FB,EQP,,Boolean,,PORT2,,,AOS_2,,,,,,,X,251,XFB
+X00FC,EQP,,Boolean,,PORT2,,,AOS_2,,,,,,,X,252,XFC
+X00FD,EQP,,Boolean,,PORT2,,,AOS_2,,,,,,,X,253,XFD
+X00FE,EQP,,Boolean,,PORT2,,,AOS_2,,,,,,,X,254,XFE
+X00FF,EQP,,Boolean,,PORT2,,,AOS_2,,,,,,,X,255,XFF
+X0100,EQP,Load Request ,Boolean,5.2.1 Status Report by EQ,PORT1,Load_Request,1,AOS_3,,,,,,,X,256,X100
+X0101,EQP,Unload Request,Boolean,5.2.1 Status Report by EQ,PORT1,Unload_Request,2,AOS_3,,,,,,,X,257,X101
+X0102,EQP,Port Exist,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Exist,3,AOS_3,,,,,,,X,258,X102
+X0103,EQP,UP_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_UP_POS,4,AOS_3,,,,,,,X,259,X103
+X0104,EQP,DOWN_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_DOWN_POS,5,AOS_3,,,,,,,X,260,X104
+X0105,EQP,EQP Status Down,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Status_Down,6,AOS_3,,,,,,,X,261,X105
+X0106,EQP,,Boolean,,PORT1,,,AOS_3,,,,,,,X,262,X106
+X0107,EQP,,Boolean,,PORT1,,,AOS_3,,,,,,,X,263,X107
+X0108,EQP,,Boolean,,PORT1,,,AOS_3,,,,,,,X,264,X108
+X0109,EQP,,Boolean,,PORT1,,,AOS_3,,,,,,,X,265,X109
+X010A,EQP,,Boolean,,PORT1,,,AOS_3,,,,,,,X,266,X10A
+X010B,EQP,,Boolean,,PORT1,,,AOS_3,,,,,,,X,267,X10B
+X010C,EQP,,Boolean,,PORT1,,,AOS_3,,,,,,,X,268,X10C
+X010D,EQP,,Boolean,,PORT1,,,AOS_3,,,,,,,X,269,X10D
+X010E,EQP,,Boolean,,PORT1,,,AOS_3,,,,,,,X,270,X10E
+X010F,EQP,,Boolean,,PORT1,,,AOS_3,,,,,,,X,271,X10F
+X0110,EQP,Load Request ,Boolean,5.2.1 Status Report by EQ,PORT2,Load_Request,1,AOS_3,,,,,,,X,272,X110
+X0111,EQP,Unload Request,Boolean,5.2.1 Status Report by EQ,PORT2,Unload_Request,2,AOS_3,,,,,,,X,273,X111
+X0112,EQP,Port Exist,Boolean,5.2.1 Status Report by EQ,PORT2,Port_Exist,3,AOS_3,,,,,,,X,274,X112
+X0113,EQP,UP_POS,Boolean,5.2.1 Status Report by EQ,PORT2,LD_UP_POS,4,AOS_3,,,,,,,X,275,X113
+X0114,EQP,DOWN_POS,Boolean,5.2.1 Status Report by EQ,PORT2,LD_DOWN_POS,5,AOS_3,,,,,,,X,276,X114
+X0115,EQP,EQP Status Down,Boolean,5.2.1 Status Report by EQ,PORT2,Port_Status_Down,6,AOS_3,,,,,,,X,277,X115
+X0116,EQP,,Boolean,,PORT2,,,AOS_3,,,,,,,X,278,X116
+X0117,EQP,,Boolean,,PORT2,,,AOS_3,,,,,,,X,279,X117
+X0118,EQP,,Boolean,,PORT2,,,AOS_3,,,,,,,X,280,X118
+X0119,EQP,,Boolean,,PORT2,,,AOS_3,,,,,,,X,281,X119
+X011A,EQP,,Boolean,,PORT2,,,AOS_3,,,,,,,X,282,X11A
+X011B,EQP,,Boolean,,PORT2,,,AOS_3,,,,,,,X,283,X11B
+X011C,EQP,,Boolean,,PORT2,,,AOS_3,,,,,,,X,284,X11C
+X011D,EQP,,Boolean,,PORT2,,,AOS_3,,,,,,,X,285,X11D
+X011E,EQP,,Boolean,,PORT2,,,AOS_3,,,,,,,X,286,X11E
+X011F,EQP,,Boolean,,PORT2,,,AOS_3,,,,,,,X,287,X11F
+X0120,EQP,Load Request ,Boolean,5.2.1 Status Report by EQ,PORT1,Load_Request,1,AOS_4,,,,,,,X,288,X120
+X0121,EQP,Unload Request,Boolean,5.2.1 Status Report by EQ,PORT1,Unload_Request,2,AOS_4,,,,,,,X,289,X121
+X0122,EQP,Port Exist,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Exist,3,AOS_4,,,,,,,X,290,X122
+X0123,EQP,UP_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_UP_POS,4,AOS_4,,,,,,,X,291,X123
+X0124,EQP,DOWN_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_DOWN_POS,5,AOS_4,,,,,,,X,292,X124
+X0125,EQP,EQP Status Down,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Status_Down,6,AOS_4,,,,,,,X,293,X125
+X0126,EQP,,Boolean,,PORT1,,,AOS_4,,,,,,,X,294,X126
+X0127,EQP,,Boolean,,PORT1,,,AOS_4,,,,,,,X,295,X127
+X0128,EQP,,Boolean,,PORT1,,,AOS_4,,,,,,,X,296,X128
+X0129,EQP,,Boolean,,PORT1,,,AOS_4,,,,,,,X,297,X129
+X012A,EQP,,Boolean,,PORT1,,,AOS_4,,,,,,,X,298,X12A
+X012B,EQP,,Boolean,,PORT1,,,AOS_4,,,,,,,X,299,X12B
+X012C,EQP,,Boolean,,PORT1,,,AOS_4,,,,,,,X,300,X12C
+X012D,EQP,,Boolean,,PORT1,,,AOS_4,,,,,,,X,301,X12D
+X012E,EQP,,Boolean,,PORT1,,,AOS_4,,,,,,,X,302,X12E
+X012F,EQP,,Boolean,,PORT1,,,AOS_4,,,,,,,X,303,X12F
+X0130,EQP,Load Request ,Boolean,5.2.1 Status Report by EQ,PORT2,Load_Request,1,AOS_4,,,,,,,X,304,X130
+X0131,EQP,Unload Request,Boolean,5.2.1 Status Report by EQ,PORT2,Unload_Request,2,AOS_4,,,,,,,X,305,X131
+X0132,EQP,Port Exist,Boolean,5.2.1 Status Report by EQ,PORT2,Port_Exist,3,AOS_4,,,,,,,X,306,X132
+X0133,EQP,UP_POS,Boolean,5.2.1 Status Report by EQ,PORT2,LD_UP_POS,4,AOS_4,,,,,,,X,307,X133
+X0134,EQP,DOWN_POS,Boolean,5.2.1 Status Report by EQ,PORT2,LD_DOWN_POS,5,AOS_4,,,,,,,X,308,X134
+X0135,EQP,EQP Status Down,Boolean,5.2.1 Status Report by EQ,PORT2,Port_Status_Down,6,AOS_4,,,,,,,X,309,X135
+X0136,EQP,,Boolean,,PORT2,,,AOS_4,,,,,,,X,310,X136
+X0137,EQP,,Boolean,,PORT2,,,AOS_4,,,,,,,X,311,X137
+X0138,EQP,,Boolean,,PORT2,,,AOS_4,,,,,,,X,312,X138
+X0139,EQP,,Boolean,,PORT2,,,AOS_4,,,,,,,X,313,X139
+X013A,EQP,,Boolean,,PORT2,,,AOS_4,,,,,,,X,314,X13A
+X013B,EQP,,Boolean,,PORT2,,,AOS_4,,,,,,,X,315,X13B
+X013C,EQP,,Boolean,,PORT2,,,AOS_4,,,,,,,X,316,X13C
+X013D,EQP,,Boolean,,PORT2,,,AOS_4,,,,,,,X,317,X13D
+X013E,EQP,,Boolean,,PORT2,,,AOS_4,,,,,,,X,318,X13E
+X013F,EQP,,Boolean,,PORT2,,,AOS_4,,,,,,,X,319,X13F
 X0140,EQP,Load Request ,Boolean,5.2.1 Status Report by EQ,PORT1,Load_Request,1,,,,,,,,X,320,X140
 X0141,EQP,Unload Request,Boolean,5.2.1 Status Report by EQ,PORT1,Unload_Request,2,,,,,,,,X,321,X141
 X0142,EQP,Port Exist,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Exist,3,,,,,,,,X,322,X142
