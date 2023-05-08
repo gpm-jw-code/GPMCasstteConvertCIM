@@ -1,4 +1,5 @@
 ﻿using GPMCasstteConvertCIM.CasstteConverter;
+using GPMCasstteConvertCIM.Cclink_IE_Sturcture;
 using GPMCasstteConvertCIM.Forms;
 using GPMCasstteConvertCIM.GPM_SECS;
 using GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle;
@@ -75,12 +76,13 @@ namespace GPMCasstteConvertCIM.Devices
             secs_client_for_agvs.OnPrimaryMessageRecieve += AGVSMessageHandler.PrimaryMessageOnReceivedAsync;
             secs_client_for_agvs.Active(DevicesConnectionsOpts.SECS_CLIENT.ToSecsGenOptions(), DevicesConnectionsOpts.SECS_CLIENT.logRichTextBox, DevicesConnectionsOpts.SECS_CLIENT.dgvSendBufferTable, DevicesConnectionsOpts.SECS_CLIENT.dgvRevBufferTable);
 
-       
+            clsCCLinkIE_Master master = new clsCCLinkIE_Master("CCLINK_MASTER");
             foreach (Options.ConverterEQPInitialOption item in DevicesConnectionsOpts.PLCEQS)
             {
                 try
                 {
-                    var EQ = new CasstteConverter.clsCasstteConverter(item.Name, (UscCasstteConverter)item.mainUI, item.ConverterType, item.Ports);
+                    clsCCLinkIE_Station EQ = new clsCCLinkIE_Station(item.Eq_Name,(UscCasstteConverter)item.mainUI, item.ConverterType, item.Ports, master);
+                    //clsCasstteConverter EQ = new CasstteConverter.clsCasstteConverter(item.Name, (UscCasstteConverter)item.mainUI, item.ConverterType, item.Ports);
                     EQ.ConnectionStateChanged += CasstteConverter_ConnectionStateChanged;
                     EQ.ActiveAsync(item.ToMCIFOptions());
                     casstteConverters.Add(EQ);

@@ -37,7 +37,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         }
 
 
-        internal clsCasstteConverter( string name, UscCasstteConverter mainGUI, Dictionary<int, clsPortProperty> portProperties
+        internal clsCasstteConverter(string name, UscCasstteConverter mainGUI, Dictionary<int, clsPortProperty> portProperties
            )
         {
             this.Name = name;
@@ -54,7 +54,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         }
 
-        internal clsCasstteConverter( string name, UscCasstteConverter mainGUI, CONVERTER_TYPE converterType, Dictionary<int, clsPortProperty> portProperties
+        internal clsCasstteConverter(string name, UscCasstteConverter mainGUI, CONVERTER_TYPE converterType, Dictionary<int, clsPortProperty> portProperties
             , PLC_CONN_INTERFACE _interface = PLC_CONN_INTERFACE.MX)
         {
             this.Name = name;
@@ -72,7 +72,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         }
 
-        private void PortModbusServersActive()
+        protected void PortModbusServersActive()
         {
             foreach (var item in EQPData.PortDatas)
             {
@@ -81,7 +81,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         }
 
 
-        private async void EQPInterfaceClockMonitor()
+        protected async void EQPInterfaceClockMonitor()
         {
             await Task.Delay(4000);
             _ = Task.Factory.StartNew(async () =>
@@ -117,8 +117,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         }
 
 
-        internal List<clsMemoryAddress> LinkBitMap { get; private set; } = new List<clsMemoryAddress>();
-        internal List<clsMemoryAddress> LinkWordMap { get; private set; } = new List<clsMemoryAddress>();
+        internal List<clsMemoryAddress> LinkBitMap { get; set; } = new List<clsMemoryAddress>();
+        internal List<clsMemoryAddress> LinkWordMap { get; set; } = new List<clsMemoryAddress>();
 
         internal List<clsMemoryAddress> WIP_Port1_BCR_ID_Addresses => LinkWordMap.FindAll(ad => ad.PropertyName.Contains("WIPInfo_Port1_BCR_ID_"));
         internal clsMemoryAddress EQPInterfaceClockAddress => LinkWordMap.FirstOrDefault(lp => lp.EOwner == clsMemoryAddress.OWNER.EQP && lp.EProperty == PROPERTY.Interface_Clock);
@@ -166,17 +166,17 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         internal bool Connected { get; private set; }
         internal bool PLCInterfaceClockDown { get; private set; }
         public string Name { get; set; } = "";
-        internal Data.clsEQPData EQPData { get; private set; }
+        internal Data.clsEQPData EQPData { get; set; }
 
-        private PLC_CONN_INTERFACE plcInterface = PLC_CONN_INTERFACE.MC;
+        protected PLC_CONN_INTERFACE plcInterface = PLC_CONN_INTERFACE.MC;
 
         internal Data.clsAGVSData AGVSData { get; private set; } = new Data.clsAGVSData();
 
         internal event EventHandler<Common.CONNECTION_STATE>? ConnectionStateChanged;
-        internal clsMemoryGroupOptions EQPMemOptions { get; private set; }
+        internal clsMemoryGroupOptions EQPMemOptions { get;  set; }
         internal clsMemoryGroupOptions EQPOutputMemOptions { get; private set; }/* = new clsMemoryGroupOptions("X0", "X15", "W0", "W1", false, true);*/
         internal clsMemoryGroupOptions CIMinputMemOptions { get; private set; }/* = new clsMemoryGroupOptions("X100", "X115", "W0", "W1", false, true);*/
-        internal clsMemoryGroupOptions CIMMemOptions { get; private set; }
+        internal clsMemoryGroupOptions CIMMemOptions { get;  set; }
         public bool AlarmResetFlag { get; internal set; }
 
         virtual internal async Task<bool> ActiveAsync(McInterfaceOptions InterfaceOptions)
@@ -244,7 +244,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             });
         }
 
-        private void DataSyncTask()
+        protected void DataSyncTask()
         {
             _ = Task.Run(async () =>
             {
@@ -260,7 +260,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         }
 
 
-        private void CIMInterfaceClockUpdate()
+        protected void CIMInterfaceClockUpdate()
         {
             Task.Run(async () =>
             {
@@ -283,7 +283,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             });
         }
 
-        private async Task PLCMemorySyncTask()
+        protected virtual async Task PLCMemorySyncTask()
         {
             _ = Task.Run(async () =>
             {
@@ -361,7 +361,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             }
         }
 
-        protected void SyncMemData()
+       virtual protected void SyncMemData()
         {
             try
             {
@@ -612,6 +612,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     Scope = lineSplited[5],
                     PropertyName = lineSplited[6],
                     Link_Modbus_Register_Number = lineSplited[7] == "" ? -1 : int.Parse(lineSplited[7]),
+                    EQ_Name = lineSplited[8] == "" ? EQ_NAMES.Unkown : Enum.GetValues(typeof(EQ_NAMES)).Cast<EQ_NAMES>().First(E => E.ToString() == lineSplited[8])
                 };
             }
             catch (Exception ex)

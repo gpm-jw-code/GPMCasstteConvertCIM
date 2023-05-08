@@ -1,10 +1,10 @@
 Memory (Hex),Owner,Data Name,Data Format,Explanation,Device,Code_Property,Modbus_Register,,,,,,,,Memory Type _ 1,Memory Address,
-X0000,EQP,Load Request ,Boolean,5.2.1 Status Report by EQ,PORT1,Load_Request,1,,,,,,,,X,0,X0
-X0001,EQP,Unload Request,Boolean,5.2.1 Status Report by EQ,PORT1,Unload_Request,2,,,,,,,,X,1,X1
-X0002,EQP,Port Exist,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Exist,3,,,,,,,,X,2,X2
-X0003,EQP,UP_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_UP_POS,4,,,,,,,,X,3,X3
-X0004,EQP,DOWN_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_DOWN_POS,5,,,,,,,,X,4,X4
-X0005,EQP,EQP Status Down,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Status_Down,6,,,,,,,,X,5,X5
+X0000,EQP,Load Request ,Boolean,5.2.1 Status Report by EQ,PORT1,Load_Request,1,STK,,,,,,,X,0,X0
+X0001,EQP,Unload Request,Boolean,5.2.1 Status Report by EQ,PORT1,Unload_Request,2,STK,,,,,,,X,1,X1
+X0002,EQP,Port Exist,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Exist,3,STK,,,,,,,X,2,X2
+X0003,EQP,UP_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_UP_POS,4,STK,,,,,,,X,3,X3
+X0004,EQP,DOWN_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_DOWN_POS,5,STK,,,,,,,X,4,X4
+X0005,EQP,EQP Status Down,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Status_Down,6,STK,,,,,,,X,5,X5
 X0006,EQP,,Boolean,,PORT1,,,,,,,,,,X,6,X6
 X0007,EQP,,Boolean,,PORT1,,,,,,,,,,X,7,X7
 X0008,EQP,,Boolean,,PORT1,,,,,,,,,,X,8,X8
@@ -15,12 +15,12 @@ X000C,EQP,,Boolean,,PORT1,,,,,,,,,,X,12,XC
 X000D,EQP,,Boolean,,PORT1,,,,,,,,,,X,13,XD
 X000E,EQP,,Boolean,,PORT1,,,,,,,,,,X,14,XE
 X000F,EQP,,Boolean,,PORT1,,,,,,,,,,X,15,XF
-X0010,EQP,Load Request ,Boolean,5.2.1 Status Report by EQ,PORT1,Load_Request,1,,,,,,,,X,16,X10
-X0011,EQP,Unload Request,Boolean,5.2.1 Status Report by EQ,PORT1,Unload_Request,2,,,,,,,,X,17,X11
-X0012,EQP,Port Exist,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Exist,3,,,,,,,,X,18,X12
-X0013,EQP,UP_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_UP_POS,4,,,,,,,,X,19,X13
-X0014,EQP,DOWN_POS,Boolean,5.2.1 Status Report by EQ,PORT1,LD_DOWN_POS,5,,,,,,,,X,20,X14
-X0015,EQP,EQP Status Down,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Status_Down,6,,,,,,,,X,21,X15
+X0010,EQP,Load Request ,Boolean,5.2.1 Status Report by EQ,PORT2,Load_Request,1,STK,,,,,,,X,16,X10
+X0011,EQP,Unload Request,Boolean,5.2.1 Status Report by EQ,PORT2,Unload_Request,2,STK,,,,,,,X,17,X11
+X0012,EQP,Port Exist,Boolean,5.2.1 Status Report by EQ,PORT2,Port_Exist,3,STK,,,,,,,X,18,X12
+X0013,EQP,UP_POS,Boolean,5.2.1 Status Report by EQ,PORT2,LD_UP_POS,4,STK,,,,,,,X,19,X13
+X0014,EQP,DOWN_POS,Boolean,5.2.1 Status Report by EQ,PORT2,LD_DOWN_POS,5,STK,,,,,,,X,20,X14
+X0015,EQP,EQP Status Down,Boolean,5.2.1 Status Report by EQ,PORT2,Port_Status_Down,6,STK,,,,,,,X,21,X15
 X0016,EQP,,Boolean,,PORT1,,,,,,,,,,X,22,X16
 X0017,EQP,,Boolean,,PORT1,,,,,,,,,,X,23,X17
 X0018,EQP,,Boolean,,PORT1,,,,,,,,,,X,24,X18

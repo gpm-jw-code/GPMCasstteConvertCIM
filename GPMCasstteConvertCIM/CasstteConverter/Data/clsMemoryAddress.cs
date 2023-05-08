@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static GPMCasstteConvertCIM.CasstteConverter.Enums;
 
 namespace GPMCasstteConvertCIM.CasstteConverter.Data
 {
@@ -72,6 +73,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter.Data
         public string Explanation { get; set; }
         public string Owner { get; set; }
         public int Link_Modbus_Register_Number { get; set; }
+        public EQ_NAMES EQ_Name { get; set; }
         public string Link_Modbus_Address_Hex
         {
             get
