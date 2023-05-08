@@ -300,7 +300,7 @@
             labUnloading.FlatStyle = FlatStyle.Flat;
             labUnloading.Font = new Font("Microsoft JhengHei UI", 7F, FontStyle.Regular, GraphicsUnit.Point);
             labUnloading.ForeColor = Color.White;
-            labUnloading.Location = new Point(406, 6);
+            labUnloading.Location = new Point(318, 6);
             labUnloading.Margin = new Padding(1);
             labUnloading.Name = "labUnloading";
             labUnloading.Size = new Size(58, 19);
@@ -316,7 +316,7 @@
             labLoading.FlatStyle = FlatStyle.Flat;
             labLoading.Font = new Font("Microsoft JhengHei UI", 7F, FontStyle.Regular, GraphicsUnit.Point);
             labLoading.ForeColor = Color.White;
-            labLoading.Location = new Point(346, 6);
+            labLoading.Location = new Point(258, 6);
             labLoading.Margin = new Padding(1);
             labLoading.Name = "labLoading";
             labLoading.Size = new Size(58, 19);
@@ -347,7 +347,7 @@
             labPortEventRepShow.FlatStyle = FlatStyle.Flat;
             labPortEventRepShow.Font = new Font("Microsoft JhengHei UI", 7F, FontStyle.Regular, GraphicsUnit.Point);
             labPortEventRepShow.ForeColor = Color.White;
-            labPortEventRepShow.Location = new Point(369, 255);
+            labPortEventRepShow.Location = new Point(281, 255);
             labPortEventRepShow.Margin = new Padding(1);
             labPortEventRepShow.Name = "labPortEventRepShow";
             labPortEventRepShow.Size = new Size(95, 39);
@@ -412,7 +412,7 @@
             label3.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label3.AutoSize = true;
             label3.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            label3.Location = new Point(412, 32);
+            label3.Location = new Point(324, 32);
             label3.Name = "label3";
             label3.Size = new Size(52, 15);
             label3.TabIndex = 41;
@@ -435,7 +435,7 @@
             Controls.Add(txbWIP_BCR_ID);
             Controls.Add(label1);
             Name = "UscConverterPortStatus";
-            Size = new Size(473, 295);
+            Size = new Size(385, 295);
             flowLayoutPanel1.ResumeLayout(false);
             panel1.ResumeLayout(false);
             panel2.ResumeLayout(false);

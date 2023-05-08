@@ -173,10 +173,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         internal Data.clsAGVSData AGVSData { get; private set; } = new Data.clsAGVSData();
 
         internal event EventHandler<Common.CONNECTION_STATE>? ConnectionStateChanged;
-        internal clsMemoryGroupOptions EQPMemOptions { get;  set; }
+        internal clsMemoryGroupOptions EQPMemOptions { get; set; }
         internal clsMemoryGroupOptions EQPOutputMemOptions { get; private set; }/* = new clsMemoryGroupOptions("X0", "X15", "W0", "W1", false, true);*/
         internal clsMemoryGroupOptions CIMinputMemOptions { get; private set; }/* = new clsMemoryGroupOptions("X100", "X115", "W0", "W1", false, true);*/
-        internal clsMemoryGroupOptions CIMMemOptions { get;  set; }
+        internal clsMemoryGroupOptions CIMMemOptions { get; set; }
         public bool AlarmResetFlag { get; internal set; }
 
         virtual internal async Task<bool> ActiveAsync(McInterfaceOptions InterfaceOptions)
@@ -194,22 +194,19 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     {
                         try
                         {
-
                             mxInterface = new CIMComponent.MXCompHandler();
                         }
                         catch (Exception ex)
                         {
-                            MessageBox.Show(ex.Message, "PLC Active Error.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            Utility.SystemLogger.Error("MXCompHanler_Entitize_Fail", ex);
+                            AlarmManager.AddAlarm(ALARM_CODES.MXCompHanler_Entitize_Fail, this.GetType().Name, false);
                             return false;
                         }
                         connRetCode = mxInterface.Open(1);
-                        if (connRetCode == 0)
+                        if (connRetCode != 0)
                         {
-                            MessageBox.Show("MX IF OPEN");
-                        }
-                        else
-                        {
-                            MessageBox.Show(connRetCode + "");
+                            Utility.SystemLogger.Error("MXCompHanler_Open_Fail", new Exception());
+                            AlarmManager.AddAlarm(ALARM_CODES.MXCompHanler_Open_Fail, this.GetType().Name, false);
                         }
                         return connRetCode == 0;
                     }
@@ -361,7 +358,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             }
         }
 
-       virtual protected void SyncMemData()
+        virtual protected void SyncMemData()
         {
             try
             {

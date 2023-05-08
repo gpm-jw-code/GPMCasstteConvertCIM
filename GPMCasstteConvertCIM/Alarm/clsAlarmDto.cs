@@ -61,5 +61,7 @@ namespace GPMCasstteConvertCIM.Alarm
         AGVS_REPLY_MCS_MSG_BUT_ERROR_WHEN_REPLY_TO_MCS,
         CODE_EXCEPTION_WHEN_TRANSFER_MSG_TO_AGVS,
         EVENT_REPORT_COMPLETED_BUT_ACK_IS_SYSTEM_ERROR_65,
+        MXCompHanler_Entitize_Fail,
+        MXCompHanler_Open_Fail,
     }
 }
