@@ -34,9 +34,18 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         {
             STK,
             QV,
-            AOI,
-            AOS,
-            TS,
+            AOI_1,
+            AOI_2,
+            AOI_3,
+            AOI_4,
+            AOS_1,
+            AOS_2,
+            AOS_3,
+            AOS_4,
+            TS_1,
+            TS_2,
+            TS_3,
+            TS_4,
             Unkown
 
         }

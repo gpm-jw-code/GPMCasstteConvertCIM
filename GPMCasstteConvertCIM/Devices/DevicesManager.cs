@@ -48,7 +48,7 @@ namespace GPMCasstteConvertCIM.Devices
 
         internal static event EventHandler<ConnectionStateChangeArgs> DeviceConnectionStateOnChanged;
 
-
+        public static clsCCLinkIE_Master cclink_master;
         internal static void Connect()
         {
 
@@ -76,24 +76,25 @@ namespace GPMCasstteConvertCIM.Devices
             secs_client_for_agvs.OnPrimaryMessageRecieve += AGVSMessageHandler.PrimaryMessageOnReceivedAsync;
             secs_client_for_agvs.Active(DevicesConnectionsOpts.SECS_CLIENT.ToSecsGenOptions(), DevicesConnectionsOpts.SECS_CLIENT.logRichTextBox, DevicesConnectionsOpts.SECS_CLIENT.dgvSendBufferTable, DevicesConnectionsOpts.SECS_CLIENT.dgvRevBufferTable);
 
-            clsCCLinkIE_Master master = new clsCCLinkIE_Master("CCLINK_MASTER");
-            master.ActiveAsync(new McInterfaceOptions { });
+            cclink_master = new clsCCLinkIE_Master("CCLINK_MASTER", EqStatusUI);
+            cclink_master.ActiveAsync(new McInterfaceOptions { });
             foreach (Options.ConverterEQPInitialOption item in DevicesConnectionsOpts.PLCEQS)
             {
                 try
                 {
-                    clsCCLinkIE_Station EQ = new clsCCLinkIE_Station(item.Eq_Name,(UscCasstteConverter)item.mainUI, item.ConverterType, item.Ports, master);
+                    clsCCLinkIE_Station EQ = new clsCCLinkIE_Station(item.Eq_Name, item.Ports, cclink_master);
                     //clsCasstteConverter EQ = new CasstteConverter.clsCasstteConverter(item.Name, (UscCasstteConverter)item.mainUI, item.ConverterType, item.Ports);
                     EQ.ConnectionStateChanged += CasstteConverter_ConnectionStateChanged;
                     EQ.ActiveAsync(item.ToMCIFOptions());
                     casstteConverters.Add(EQ);
+                    cclink_master.Stations.Add(EQ);
                 }
                 catch (Exception ex)
                 {
                     throw ex;
                 }
             }
-
+            cclink_master.mainGUI.BindData(cclink_master.AllEqPortList);
 
             //foreach (var item in DevicesConnectionsOpts.Modbus_Servers)
             //{
@@ -158,7 +159,7 @@ namespace GPMCasstteConvertCIM.Devices
 
         internal static List<clsConverterPort> GetAllPorts()
         {
-            return casstteConverters.SelectMany(cst => cst.EQPData.PortDatas).ToList();
+            return casstteConverters.SelectMany(cst => cst.PortDatas).ToList();
         }
         internal static clsConverterPort GetPortByPortID(string port_id)
         {

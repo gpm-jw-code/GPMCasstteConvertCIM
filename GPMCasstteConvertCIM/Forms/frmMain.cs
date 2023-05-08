@@ -111,6 +111,7 @@ namespace GPMCasstteConvertCIM.Forms
 
             DevicesManager.DeviceConnectionStateOnChanged += CIMDevices_DeviceConnectionStateOnChanged;
 
+            DevicesManager.EqStatusUI = usceqStatus1;
             DevicesManager.Connect();
 
 

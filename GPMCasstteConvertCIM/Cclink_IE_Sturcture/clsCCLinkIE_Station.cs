@@ -14,6 +14,7 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
 {
     internal class clsCCLinkIE_Station : clsCasstteConverter
     {
+        internal new List<clsStationPort> PortDatas = new List<clsStationPort>();
         internal clsCCLinkIE_Master cclink_master;
         public EQ_NAMES Eq_Name { get; set; } = EQ_NAMES.Unkown;
         /// <summary>
@@ -29,12 +30,18 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
             return true;
         }
 
-        public clsCCLinkIE_Station(EQ_NAMES Eq_Name, UI_UserControls.UscCasstteConverter mainUI, CONVERTER_TYPE converterType, Dictionary<int, clsConverterPort.clsPortProperty> portProperties,clsCCLinkIE_Master cclink_master) 
+        public clsCCLinkIE_Station(EQ_NAMES Eq_Name, Dictionary<int, clsConverterPort.clsPortProperty> portProperties, clsCCLinkIE_Master cclink_master)
         {
+            for (int i = 0; i < portProperties.Count; i++)
+            {
+                var portProp = portProperties[i];
+                PortDatas.Add(new clsStationPort(portProp, this));
+            }
             this.cclink_master = cclink_master;
             this.Eq_Name = Eq_Name;
-            EQPData = new clsEQPData(portProperties, this);
-            this.plcInterface =  PLC_CONN_INTERFACE.MX;
+            Name = Eq_Name.ToString();
+            EQPData = new clsEQPData();
+            this.plcInterface = PLC_CONN_INTERFACE.MX;
             LoadPLCMapData();
             //this.mainGUI = mainGUI;
             //this.mainGUI.casstteConverter = this;
@@ -45,8 +52,8 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
         }
         public override void LoadPLCMapData()
         {
-            LinkBitMap = cclink_master.LinkBitMap.FindAll(add=>add.EQ_Name==this.Eq_Name);
-            LinkWordMap = cclink_master.LinkWordMap.FindAll(add=>add.EQ_Name==this.Eq_Name);
+            LinkBitMap = cclink_master.LinkBitMap.FindAll(add => add.EQ_Name == this.Eq_Name);
+            LinkWordMap = cclink_master.LinkWordMap.FindAll(add => add.EQ_Name == this.Eq_Name);
 
             //string eqp_bitStartAddress = LinkBitMap.First(i => i.EOwner == clsMemoryAddress.OWNER.EQP).Address;
             //string eqp_bitEndAddress = LinkBitMap.Last(i => i.EOwner == clsMemoryAddress.OWNER.EQP).Address;
@@ -64,7 +71,13 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
 
 
         }
-
+        protected override void PortModbusServersActive()
+        {
+            foreach (var item in PortDatas)
+            {
+                item.ModbusServerActive();
+            }
+        }
 
         protected override void SyncMemData()
         {
@@ -75,7 +88,7 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
             //PORTS
 
             List<EQ_SCOPE> port_scopes = new List<EQ_SCOPE>();
-            for (int i = 0; i < EQPData.PortDatas.Count; i++)
+            for (int i = 0; i < PortDatas.Count; i++)
             {
                 string port_scope_string = $"PORT{i + 1}";
                 port_scopes.Add(Enum.GetValues(typeof(EQ_SCOPE)).Cast<EQ_SCOPE>().First(s => s.ToString() == port_scope_string));
@@ -86,17 +99,32 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
                 EQ_SCOPE port = port_scopes[i];
 
                 //EQP Bit data
-                EQPData.PortDatas[i].LoadRequest = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Load_Request).Value;
-                EQPData.PortDatas[i].UnloadRequest = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Unload_Request).Value;
-                EQPData.PortDatas[i].PortExist = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Port_Exist).Value;
+                PortDatas[i].LoadRequest = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Load_Request).Value;
+                PortDatas[i].UnloadRequest = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Unload_Request).Value;
+                PortDatas[i].PortExist = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Port_Exist).Value;
                 bool port_status_down = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Port_Status_Down).Value;
-                EQPData.PortDatas[i].LD_UP_POS = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.LD_UP_POS).Value;
-                EQPData.PortDatas[i].LD_DOWN_POS = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.LD_DOWN_POS).Value;
-                EQPData.PortDatas[i].PortStatusDown = port_status_down;
+                PortDatas[i].LD_UP_POS = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.LD_UP_POS).Value;
+                PortDatas[i].LD_DOWN_POS = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.LD_DOWN_POS).Value;
+                PortDatas[i].PortStatusDown = port_status_down;
 
             }
 
         }
 
     }
+
+
+    public class clsStationPort : clsConverterPort
+    {
+        public clsStationPort(clsPortProperty property, clsCasstteConverter converterParent) : base(property, converterParent)
+        {
+        }
+
+        public override void SyncRegisterData()
+        {
+            base.SyncRegisterData();
+        }
+    }
+
 }
+

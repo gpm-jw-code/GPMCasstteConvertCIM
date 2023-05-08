@@ -1,10 +1,11 @@
 ﻿using GPMCasstteConvertCIM.CasstteConverter;
+using GPMCasstteConvertCIM.UI_UserControls;
 
 namespace GPMCasstteConvertCIM.Devices
 {
     public partial class DevicesManager
     {
-        
+        public static UscEQStatus EqStatusUI { get; internal set; }
 
         public class SecsGemInitialOption : InitialOption
         {

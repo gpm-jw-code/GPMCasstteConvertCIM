@@ -1,5 +1,6 @@
 ﻿using GPMCasstteConvertCIM.CasstteConverter;
 using GPMCasstteConvertCIM.CasstteConverter.Data;
+using GPMCasstteConvertCIM.UI_UserControls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +10,14 @@ using static GPMCasstteConvertCIM.CasstteConverter.Enums;
 
 namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
 {
-    internal class clsCCLinkIE_Master : clsCasstteConverter
+    public class clsCCLinkIE_Master : clsCasstteConverter
     {
-        public clsCCLinkIE_Master(string name )
+        internal new UscEQStatus mainGUI;
+        internal List<clsCCLinkIE_Station> Stations { get; set; } = new List<clsCCLinkIE_Station>();
+        public clsCCLinkIE_Master(string name, UscEQStatus ui)
         {
             this.Name = name;
+            this.mainGUI = ui;
             this.plcInterface = PLC_CONN_INTERFACE.MX;
             LoadPLCMapData();
             PLCMemorySyncTask();
@@ -23,5 +27,14 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
         protected override void PLCMemoryDatatToEQDataDTO()
         {
         }
+
+        public List<clsConverterPort> AllEqPortList
+        {
+            get
+            {
+                return Stations.SelectMany(eq => eq.PortDatas.Select(st => (clsConverterPort)st)).ToList();
+            }
+        }
+
     }
 }

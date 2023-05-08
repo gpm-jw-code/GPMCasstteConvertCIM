@@ -18,15 +18,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter.Data
         public event PropertyChangedEventHandler? PropertyChanged;
 
         private int _InterfaceClock = -1;
-
-        public clsEQPData(Dictionary<int, clsPortProperty> portProperties, clsCasstteConverter clsCasstteConverter)
+        public clsEQPData()
         {
-            for (int i = 0; i < portProperties.Count; i++)
-            {
-                var portProp = portProperties[i];
-                PortDatas.Add(new clsConverterPort(portProp, clsCasstteConverter));
-            }
         }
+
 
         public int InterfaceClock
         {
@@ -49,7 +44,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter.Data
             }
         }
 
-        public List<clsConverterPort> PortDatas { get; set; } = new List<clsConverterPort>();
 
         public bool EQP_RUN { get; internal set; }
         public bool EQP_IDLE { get; internal set; }

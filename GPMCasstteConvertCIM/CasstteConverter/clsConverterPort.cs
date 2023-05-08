@@ -61,6 +61,9 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         public event EventHandler<clsConverterPort> CarrierWaitOutOnReport;
         public event EventHandler<clsConverterPort> CarrierRemovedCompletedOnReport;
         public event EventHandler<clsConverterPort> OnValidSignalActive;
+
+        public string EqName => converterParent.Name;
+        public string PortName => Properties.PortID;
         public string PortNameWithEQName => converterParent.Name + $"-[{Properties.PortID}]";
 
         public string portNoName => $"PORT{Properties.PortNo + 1}";
@@ -720,7 +723,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             });
         }
 
-        public void SyncRegisterData()
+        virtual public void SyncRegisterData()
         {
             Task.Run(async () =>
             {
