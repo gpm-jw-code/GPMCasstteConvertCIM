@@ -63,5 +63,6 @@ namespace GPMCasstteConvertCIM.Alarm
         EVENT_REPORT_COMPLETED_BUT_ACK_IS_SYSTEM_ERROR_65,
         MXCompHanler_Entitize_Fail,
         MXCompHanler_Open_Fail,
+        SYNCMEMDATA_FUNCTION_CODE_ERROR,
     }
 }

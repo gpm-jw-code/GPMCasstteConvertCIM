@@ -1,4 +1,5 @@
-﻿using GPMCasstteConvertCIM.CasstteConverter;
+﻿using GPMCasstteConvertCIM.Alarm;
+using GPMCasstteConvertCIM.CasstteConverter;
 using GPMCasstteConvertCIM.CasstteConverter.Data;
 using GPMCasstteConvertCIM.UI_UserControls;
 using System;
@@ -40,9 +41,21 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
 
         protected override void SyncMemData()
         {
-            base.SyncMemData();
-            if (mainGUI.BindingPorts != null)
-                mainGUI.BindingPorts.ResetBindings();
+            try
+            {
+                base.SyncMemData();
+                if (mainGUI.BindingPorts != null)
+                {
+                    mainGUI.Invoke(new Action(() =>
+                    {
+                        mainGUI.BindingPorts.ResetBindings();
+                    }));
+                }
+            }
+            catch (Exception ex)
+            {
+                AlarmManager.AddAlarm( ALARM_CODES.SYNCMEMDATA_FUNCTION_CODE_ERROR , GetType().Name,false);
+            }
         }
     }
 }
