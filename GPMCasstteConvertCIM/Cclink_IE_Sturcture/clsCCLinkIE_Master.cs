@@ -41,7 +41,8 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
         protected override void SyncMemData()
         {
             base.SyncMemData();
-            mainGUI.BindingPorts?.ResetBindings();
+            if (mainGUI.BindingPorts != null)
+                mainGUI.BindingPorts.ResetBindings();
         }
     }
 }
