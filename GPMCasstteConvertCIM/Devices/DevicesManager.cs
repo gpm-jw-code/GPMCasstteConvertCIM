@@ -77,6 +77,7 @@ namespace GPMCasstteConvertCIM.Devices
             secs_client_for_agvs.Active(DevicesConnectionsOpts.SECS_CLIENT.ToSecsGenOptions(), DevicesConnectionsOpts.SECS_CLIENT.logRichTextBox, DevicesConnectionsOpts.SECS_CLIENT.dgvSendBufferTable, DevicesConnectionsOpts.SECS_CLIENT.dgvRevBufferTable);
 
             clsCCLinkIE_Master master = new clsCCLinkIE_Master("CCLINK_MASTER");
+            master.ActiveAsync(new McInterfaceOptions { });
             foreach (Options.ConverterEQPInitialOption item in DevicesConnectionsOpts.PLCEQS)
             {
                 try

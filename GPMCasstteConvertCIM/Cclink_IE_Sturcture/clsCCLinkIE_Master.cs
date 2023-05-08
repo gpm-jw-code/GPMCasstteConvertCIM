@@ -17,6 +17,11 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
             this.plcInterface = PLC_CONN_INTERFACE.MX;
             LoadPLCMapData();
             PLCMemorySyncTask();
+            DataSyncTask();
+        }
+
+        protected override void PLCMemoryDatatToEQDataDTO()
+        {
         }
     }
 }
