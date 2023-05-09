@@ -95,14 +95,14 @@
             // EqName
             // 
             EqName.DataPropertyName = "EqName";
-            EqName.HeaderText = "EqName";
+            EqName.HeaderText = "設備名稱";
             EqName.Name = "EqName";
             EqName.ReadOnly = true;
             // 
             // PortName
             // 
             PortName.DataPropertyName = "PortName";
-            PortName.HeaderText = "PortName";
+            PortName.HeaderText = "PORT名稱";
             PortName.Name = "PortName";
             PortName.ReadOnly = true;
             // 
@@ -116,42 +116,42 @@
             // dataGridViewCheckBoxColumn1
             // 
             dataGridViewCheckBoxColumn1.DataPropertyName = "LoadRequest";
-            dataGridViewCheckBoxColumn1.HeaderText = "Load Request";
+            dataGridViewCheckBoxColumn1.HeaderText = "Load Request(+0)";
             dataGridViewCheckBoxColumn1.Name = "dataGridViewCheckBoxColumn1";
             dataGridViewCheckBoxColumn1.ReadOnly = true;
             // 
             // unloadRequestDataGridViewCheckBoxColumn
             // 
             unloadRequestDataGridViewCheckBoxColumn.DataPropertyName = "UnloadRequest";
-            unloadRequestDataGridViewCheckBoxColumn.HeaderText = "Unload Request";
+            unloadRequestDataGridViewCheckBoxColumn.HeaderText = "Unload Request(+1)";
             unloadRequestDataGridViewCheckBoxColumn.Name = "unloadRequestDataGridViewCheckBoxColumn";
             unloadRequestDataGridViewCheckBoxColumn.ReadOnly = true;
             // 
             // portExistDataGridViewCheckBoxColumn
             // 
             portExistDataGridViewCheckBoxColumn.DataPropertyName = "PortExist";
-            portExistDataGridViewCheckBoxColumn.HeaderText = "Port Exist";
+            portExistDataGridViewCheckBoxColumn.HeaderText = "Port Exist(+2)";
             portExistDataGridViewCheckBoxColumn.Name = "portExistDataGridViewCheckBoxColumn";
             portExistDataGridViewCheckBoxColumn.ReadOnly = true;
             // 
             // lDUPPOSDataGridViewCheckBoxColumn
             // 
             lDUPPOSDataGridViewCheckBoxColumn.DataPropertyName = "LD_UP_POS";
-            lDUPPOSDataGridViewCheckBoxColumn.HeaderText = "LD_UP_POS";
+            lDUPPOSDataGridViewCheckBoxColumn.HeaderText = "LD_UP_POS(+3)";
             lDUPPOSDataGridViewCheckBoxColumn.Name = "lDUPPOSDataGridViewCheckBoxColumn";
             lDUPPOSDataGridViewCheckBoxColumn.ReadOnly = true;
             // 
             // lDDOWNPOSDataGridViewCheckBoxColumn
             // 
             lDDOWNPOSDataGridViewCheckBoxColumn.DataPropertyName = "LD_DOWN_POS";
-            lDDOWNPOSDataGridViewCheckBoxColumn.HeaderText = "LD_DOWN_POS";
+            lDDOWNPOSDataGridViewCheckBoxColumn.HeaderText = "LD_DOWN_POS(+4)";
             lDDOWNPOSDataGridViewCheckBoxColumn.Name = "lDDOWNPOSDataGridViewCheckBoxColumn";
             lDDOWNPOSDataGridViewCheckBoxColumn.ReadOnly = true;
             // 
             // portStatusDownDataGridViewCheckBoxColumn
             // 
             portStatusDownDataGridViewCheckBoxColumn.DataPropertyName = "PortStatusDown";
-            portStatusDownDataGridViewCheckBoxColumn.HeaderText = "EQP Status Down";
+            portStatusDownDataGridViewCheckBoxColumn.HeaderText = "EQP Status Down(+5)";
             portStatusDownDataGridViewCheckBoxColumn.Name = "portStatusDownDataGridViewCheckBoxColumn";
             portStatusDownDataGridViewCheckBoxColumn.ReadOnly = true;
             // 
