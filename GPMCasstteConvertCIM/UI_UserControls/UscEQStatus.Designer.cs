@@ -30,6 +30,7 @@
         {
             components = new System.ComponentModel.Container();
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             dataGridView1 = new DataGridView();
             EqName = new DataGridViewTextBoxColumn();
             PortName = new DataGridViewTextBoxColumn();
@@ -67,6 +68,10 @@
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersVisible = false;
+            dataGridViewCellStyle2.ForeColor = Color.Black;
+            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(224, 224, 224);
+            dataGridViewCellStyle2.SelectionForeColor = Color.Gray;
+            dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle2;
             dataGridView1.RowTemplate.Height = 25;
             dataGridView1.Size = new Size(1031, 586);
             dataGridView1.TabIndex = 0;

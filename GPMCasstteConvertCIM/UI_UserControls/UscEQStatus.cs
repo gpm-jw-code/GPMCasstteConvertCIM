@@ -47,7 +47,11 @@ namespace GPMCasstteConvertCIM.UI_UserControls
                 if (e.ColumnIndex == 7)
                     state_to_change = data.PortStatusDown;
 
-                dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = state_to_change ? Color.Lime : Color.White;
+
+                if (e.ColumnIndex == 7)
+                    dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = state_to_change ? Color.Green : Color.Red;
+                else
+                    dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = state_to_change ? Color.FromArgb(7, 128, 216) : Color.WhiteSmoke;
 
             }
         }
