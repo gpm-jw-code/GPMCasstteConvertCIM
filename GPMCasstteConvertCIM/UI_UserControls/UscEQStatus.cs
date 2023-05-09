@@ -34,9 +34,6 @@ namespace GPMCasstteConvertCIM.UI_UserControls
 
                 bool state_to_change = false;
 
-                bool load_request = data.LoadRequest;
-                bool unload_request = data.UnloadRequest;
-
                 if (e.ColumnIndex == 2)
                     state_to_change = data.LoadRequest;
                 if (e.ColumnIndex == 3)
