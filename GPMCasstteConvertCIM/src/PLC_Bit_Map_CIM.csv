@@ -1,164 +1,164 @@
 MemoY (Hex),Owner,Data Name,Data Format,Explanation,Device,Code_Property,Modbus_Register,,,,,,,,MemoY Type _ 1,MemoY Address,
-Y0000,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Up,16,,,,,,,,Y,0,Y0
-Y0001,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Low,17,,,,,,,,Y,1,Y1
-Y0002,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Up,18,,,,,,,,Y,2,Y2
-Y0003,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Low,19,,,,,,,,Y,3,Y3
-Y0004,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,4,Y4
-Y0005,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,5,Y5
-Y0006,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,6,Y6
-Y0007,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,7,Y7
-Y0008,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Up,16,,,,,,,,Y,8,Y8
-Y0009,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Low,17,,,,,,,,Y,9,Y9
-Y000A,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Up,18,,,,,,,,Y,10,YA
-Y000B,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Low,19,,,,,,,,Y,11,YB
-Y000C,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,12,YC
-Y000D,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,13,YD
-Y000E,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,14,YE
-Y000F,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,15,YF
-Y0010,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Up,16,,,,,,,,Y,16,Y10
-Y0011,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Low,17,,,,,,,,Y,17,Y11
-Y0012,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Up,18,,,,,,,,Y,18,Y12
-Y0013,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Low,19,,,,,,,,Y,19,Y13
-Y0014,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,20,Y14
-Y0015,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,21,Y15
-Y0016,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,22,Y16
-Y0017,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,23,Y17
-Y0018,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Up,16,,,,,,,,Y,24,Y18
-Y0019,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Low,17,,,,,,,,Y,25,Y19
-Y001A,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Up,18,,,,,,,,Y,26,Y1A
-Y001B,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Low,19,,,,,,,,Y,27,Y1B
-Y001C,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,28,Y1C
-Y001D,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,29,Y1D
-Y001E,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,30,Y1E
-Y001F,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,31,Y1F
-Y0020,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Up,16,,,,,,,,Y,32,Y20
-Y0021,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Low,17,,,,,,,,Y,33,Y21
-Y0022,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Up,18,,,,,,,,Y,34,Y22
-Y0023,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Low,19,,,,,,,,Y,35,Y23
-Y0024,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,36,Y24
-Y0025,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,37,Y25
-Y0026,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,38,Y26
-Y0027,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,39,Y27
-Y0028,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Up,16,,,,,,,,Y,40,Y28
-Y0029,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Low,17,,,,,,,,Y,41,Y29
-Y002A,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Up,18,,,,,,,,Y,42,Y2A
-Y002B,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Low,19,,,,,,,,Y,43,Y2B
-Y002C,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,44,Y2C
-Y002D,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,45,Y2D
-Y002E,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,46,Y2E
-Y002F,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,47,Y2F
-Y0030,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Up,16,,,,,,,,Y,48,Y30
-Y0031,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Low,17,,,,,,,,Y,49,Y31
-Y0032,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Up,18,,,,,,,,Y,50,Y32
-Y0033,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Low,19,,,,,,,,Y,51,Y33
-Y0034,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,52,Y34
-Y0035,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,53,Y35
-Y0036,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,54,Y36
-Y0037,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,55,Y37
-Y0038,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Up,16,,,,,,,,Y,56,Y38
-Y0039,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Low,17,,,,,,,,Y,57,Y39
-Y003A,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Up,18,,,,,,,,Y,58,Y3A
-Y003B,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Low,19,,,,,,,,Y,59,Y3B
-Y003C,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,60,Y3C
-Y003D,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,61,Y3D
-Y003E,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,62,Y3E
-Y003F,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,63,Y3F
-Y0040,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Up,16,,,,,,,,Y,64,Y40
-Y0041,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Low,17,,,,,,,,Y,65,Y41
-Y0042,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Up,18,,,,,,,,Y,66,Y42
-Y0043,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Low,19,,,,,,,,Y,67,Y43
-Y0044,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,68,Y44
-Y0045,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,69,Y45
-Y0046,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,70,Y46
-Y0047,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,71,Y47
-Y0048,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Up,16,,,,,,,,Y,72,Y48
-Y0049,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Low,17,,,,,,,,Y,73,Y49
-Y004A,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Up,18,,,,,,,,Y,74,Y4A
-Y004B,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Low,19,,,,,,,,Y,75,Y4B
-Y004C,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,76,Y4C
-Y004D,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,77,Y4D
-Y004E,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,78,Y4E
-Y004F,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,79,Y4F
-Y0050,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Up,16,,,,,,,,Y,80,Y50
-Y0051,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Low,17,,,,,,,,Y,81,Y51
-Y0052,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Up,18,,,,,,,,Y,82,Y52
-Y0053,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Low,19,,,,,,,,Y,83,Y53
-Y0054,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,84,Y54
-Y0055,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,85,Y55
-Y0056,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,86,Y56
-Y0057,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,87,Y57
-Y0058,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Up,16,,,,,,,,Y,88,Y58
-Y0059,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Low,17,,,,,,,,Y,89,Y59
-Y005A,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Up,18,,,,,,,,Y,90,Y5A
-Y005B,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Low,19,,,,,,,,Y,91,Y5B
-Y005C,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,92,Y5C
-Y005D,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,93,Y5D
-Y005E,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,94,Y5E
-Y005F,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,95,Y5F
-Y0060,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Up,16,,,,,,,,Y,96,Y60
-Y0061,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Low,17,,,,,,,,Y,97,Y61
-Y0062,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Up,18,,,,,,,,Y,98,Y62
-Y0063,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Low,19,,,,,,,,Y,99,Y63
-Y0064,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,100,Y64
-Y0065,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,101,Y65
-Y0066,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,102,Y66
-Y0067,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,103,Y67
-Y0068,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Up,16,,,,,,,,Y,104,Y68
-Y0069,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Low,17,,,,,,,,Y,105,Y69
-Y006A,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Up,18,,,,,,,,Y,106,Y6A
-Y006B,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Low,19,,,,,,,,Y,107,Y6B
-Y006C,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,108,Y6C
-Y006D,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,109,Y6D
-Y006E,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,110,Y6E
-Y006F,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,111,Y6F
-Y0070,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Up,16,,,,,,,,Y,112,Y70
-Y0071,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Low,17,,,,,,,,Y,113,Y71
-Y0072,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Up,18,,,,,,,,Y,114,Y72
-Y0073,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Low,19,,,,,,,,Y,115,Y73
-Y0074,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,116,Y74
-Y0075,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,117,Y75
-Y0076,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,118,Y76
-Y0077,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,119,Y77
-Y0078,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Up,16,,,,,,,,Y,120,Y78
-Y0079,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Low,17,,,,,,,,Y,121,Y79
-Y007A,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Up,18,,,,,,,,Y,122,Y7A
-Y007B,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Low,19,,,,,,,,Y,123,Y7B
-Y007C,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,124,Y7C
-Y007D,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,125,Y7D
-Y007E,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,126,Y7E
-Y007F,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,127,Y7F
-Y0080,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Up,16,,,,,,,,Y,128,Y80
-Y0081,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Low,17,,,,,,,,Y,129,Y81
-Y0082,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Up,18,,,,,,,,Y,130,Y82
-Y0083,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Low,19,,,,,,,,Y,131,Y83
-Y0084,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,132,Y84
-Y0085,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,133,Y85
-Y0086,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,134,Y86
-Y0087,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,135,Y87
-Y0088,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Up,16,,,,,,,,Y,136,Y88
-Y0089,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Low,17,,,,,,,,Y,137,Y89
-Y008A,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Up,18,,,,,,,,Y,138,Y8A
-Y008B,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Low,19,,,,,,,,Y,139,Y8B
-Y008C,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,140,Y8C
-Y008D,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,141,Y8D
-Y008E,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,142,Y8E
-Y008F,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,143,Y8F
-Y0090,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Up,16,,,,,,,,Y,144,Y90
-Y0091,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Low,17,,,,,,,,Y,145,Y91
-Y0092,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Up,18,,,,,,,,Y,146,Y92
-Y0093,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Low,19,,,,,,,,Y,147,Y93
-Y0094,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,148,Y94
-Y0095,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,149,Y95
-Y0096,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,150,Y96
-Y0097,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,151,Y97
-Y0098,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Up,16,,,,,,,,Y,152,Y98
-Y0099,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Low,17,,,,,,,,Y,153,Y99
-Y009A,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Up,18,,,,,,,,Y,154,Y9A
-Y009B,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Low,19,,,,,,,,Y,155,Y9B
-Y009C,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,156,Y9C
-Y009D,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,157,Y9D
-Y009E,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,158,Y9E
-Y009F,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,159,Y9F
+Y0000,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Up,16,STK,,,,,,,Y,0,Y0
+Y0001,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Low,17,STK,,,,,,,Y,1,Y1
+Y0002,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Up,18,STK,,,,,,,Y,2,Y2
+Y0003,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Low,19,STK,,,,,,,Y,3,Y3
+Y0004,AGVS,,Boolean,,,,,,,,,,,,Y,4,Y4
+Y0005,AGVS,,Boolean,,,,,,,,,,,,Y,5,Y5
+Y0006,AGVS,,Boolean,,,,,,,,,,,,Y,6,Y6
+Y0007,AGVS,,Boolean,,,,,,,,,,,,Y,7,Y7
+Y0008,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT2,To_EQ_Up,16,STK,,,,,,,Y,8,Y8
+Y0009,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT2,To_EQ_Low,17,STK,,,,,,,Y,9,Y9
+Y000A,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT2,CMD_reserve_Up,18,STK,,,,,,,Y,10,YA
+Y000B,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT2,CMD_reserve_Low,19,STK,,,,,,,Y,11,YB
+Y000C,AGVS,,Boolean,,,,,,,,,,,,Y,12,YC
+Y000D,AGVS,,Boolean,,,,,,,,,,,,Y,13,YD
+Y000E,AGVS,,Boolean,,,,,,,,,,,,Y,14,YE
+Y000F,AGVS,,Boolean,,,,,,,,,,,,Y,15,YF
+Y0010,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Up,16,QV,,,,,,,Y,16,Y10
+Y0011,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Low,17,QV,,,,,,,Y,17,Y11
+Y0012,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Up,18,QV,,,,,,,Y,18,Y12
+Y0013,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Low,19,QV,,,,,,,Y,19,Y13
+Y0014,AGVS,,Boolean,,,,,,,,,,,,Y,20,Y14
+Y0015,AGVS,,Boolean,,,,,,,,,,,,Y,21,Y15
+Y0016,AGVS,,Boolean,,,,,,,,,,,,Y,22,Y16
+Y0017,AGVS,,Boolean,,,,,,,,,,,,Y,23,Y17
+Y0018,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT2,To_EQ_Up,16,QV,,,,,,,Y,24,Y18
+Y0019,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT2,To_EQ_Low,17,QV,,,,,,,Y,25,Y19
+Y001A,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT2,CMD_reserve_Up,18,QV,,,,,,,Y,26,Y1A
+Y001B,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT2,CMD_reserve_Low,19,QV,,,,,,,Y,27,Y1B
+Y001C,AGVS,,Boolean,,,,,,,,,,,,Y,28,Y1C
+Y001D,AGVS,,Boolean,,,,,,,,,,,,Y,29,Y1D
+Y001E,AGVS,,Boolean,,,,,,,,,,,,Y,30,Y1E
+Y001F,AGVS,,Boolean,,,,,,,,,,,,Y,31,Y1F
+Y0020,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Up,16,AOI_1,,,,,,,Y,32,Y20
+Y0021,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Low,17,AOI_1,,,,,,,Y,33,Y21
+Y0022,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Up,18,AOI_1,,,,,,,Y,34,Y22
+Y0023,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Low,19,AOI_1,,,,,,,Y,35,Y23
+Y0024,AGVS,,Boolean,,,,,,,,,,,,Y,36,Y24
+Y0025,AGVS,,Boolean,,,,,,,,,,,,Y,37,Y25
+Y0026,AGVS,,Boolean,,,,,,,,,,,,Y,38,Y26
+Y0027,AGVS,,Boolean,,,,,,,,,,,,Y,39,Y27
+Y0028,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT2,To_EQ_Up,16,AOI_1,,,,,,,Y,40,Y28
+Y0029,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT2,To_EQ_Low,17,AOI_1,,,,,,,Y,41,Y29
+Y002A,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT2,CMD_reserve_Up,18,AOI_1,,,,,,,Y,42,Y2A
+Y002B,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT2,CMD_reserve_Low,19,AOI_1,,,,,,,Y,43,Y2B
+Y002C,AGVS,,Boolean,,,,,,,,,,,,Y,44,Y2C
+Y002D,AGVS,,Boolean,,,,,,,,,,,,Y,45,Y2D
+Y002E,AGVS,,Boolean,,,,,,,,,,,,Y,46,Y2E
+Y002F,AGVS,,Boolean,,,,,,,,,,,,Y,47,Y2F
+Y0030,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Up,16,AOI_2,,,,,,,Y,48,Y30
+Y0031,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Low,17,AOI_2,,,,,,,Y,49,Y31
+Y0032,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Up,18,AOI_2,,,,,,,Y,50,Y32
+Y0033,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Low,19,AOI_2,,,,,,,Y,51,Y33
+Y0034,AGVS,,Boolean,,,,,,,,,,,,Y,52,Y34
+Y0035,AGVS,,Boolean,,,,,,,,,,,,Y,53,Y35
+Y0036,AGVS,,Boolean,,,,,,,,,,,,Y,54,Y36
+Y0037,AGVS,,Boolean,,,,,,,,,,,,Y,55,Y37
+Y0038,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT2,To_EQ_Up,16,AOI_2,,,,,,,Y,56,Y38
+Y0039,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT2,To_EQ_Low,17,AOI_2,,,,,,,Y,57,Y39
+Y003A,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT2,CMD_reserve_Up,18,AOI_2,,,,,,,Y,58,Y3A
+Y003B,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT2,CMD_reserve_Low,19,AOI_2,,,,,,,Y,59,Y3B
+Y003C,AGVS,,Boolean,,,,,,,,,,,,Y,60,Y3C
+Y003D,AGVS,,Boolean,,,,,,,,,,,,Y,61,Y3D
+Y003E,AGVS,,Boolean,,,,,,,,,,,,Y,62,Y3E
+Y003F,AGVS,,Boolean,,,,,,,,,,,,Y,63,Y3F
+Y0040,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Up,16,AOI_3,,,,,,,Y,64,Y40
+Y0041,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Low,17,AOI_3,,,,,,,Y,65,Y41
+Y0042,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Up,18,AOI_3,,,,,,,Y,66,Y42
+Y0043,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Low,19,AOI_3,,,,,,,Y,67,Y43
+Y0044,AGVS,,Boolean,,,,,,,,,,,,Y,68,Y44
+Y0045,AGVS,,Boolean,,,,,,,,,,,,Y,69,Y45
+Y0046,AGVS,,Boolean,,,,,,,,,,,,Y,70,Y46
+Y0047,AGVS,,Boolean,,,,,,,,,,,,Y,71,Y47
+Y0048,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT2,To_EQ_Up,16,AOI_3,,,,,,,Y,72,Y48
+Y0049,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT2,To_EQ_Low,17,AOI_3,,,,,,,Y,73,Y49
+Y004A,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT2,CMD_reserve_Up,18,AOI_3,,,,,,,Y,74,Y4A
+Y004B,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT2,CMD_reserve_Low,19,AOI_3,,,,,,,Y,75,Y4B
+Y004C,AGVS,,Boolean,,,,,,,,,,,,Y,76,Y4C
+Y004D,AGVS,,Boolean,,,,,,,,,,,,Y,77,Y4D
+Y004E,AGVS,,Boolean,,,,,,,,,,,,Y,78,Y4E
+Y004F,AGVS,,Boolean,,,,,,,,,,,,Y,79,Y4F
+Y0050,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Up,16,AOI_4,,,,,,,Y,80,Y50
+Y0051,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Low,17,AOI_4,,,,,,,Y,81,Y51
+Y0052,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Up,18,AOI_4,,,,,,,Y,82,Y52
+Y0053,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Low,19,AOI_4,,,,,,,Y,83,Y53
+Y0054,AGVS,,Boolean,,,,,,,,,,,,Y,84,Y54
+Y0055,AGVS,,Boolean,,,,,,,,,,,,Y,85,Y55
+Y0056,AGVS,,Boolean,,,,,,,,,,,,Y,86,Y56
+Y0057,AGVS,,Boolean,,,,,,,,,,,,Y,87,Y57
+Y0058,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT2,To_EQ_Up,16,AOI_4,,,,,,,Y,88,Y58
+Y0059,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT2,To_EQ_Low,17,AOI_4,,,,,,,Y,89,Y59
+Y005A,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT2,CMD_reserve_Up,18,AOI_4,,,,,,,Y,90,Y5A
+Y005B,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT2,CMD_reserve_Low,19,AOI_4,,,,,,,Y,91,Y5B
+Y005C,AGVS,,Boolean,,,,,,,,,,,,Y,92,Y5C
+Y005D,AGVS,,Boolean,,,,,,,,,,,,Y,93,Y5D
+Y005E,AGVS,,Boolean,,,,,,,,,,,,Y,94,Y5E
+Y005F,AGVS,,Boolean,,,,,,,,,,,,Y,95,Y5F
+Y0060,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Up,16,AOS_1,,,,,,,Y,96,Y60
+Y0061,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Low,17,AOS_1,,,,,,,Y,97,Y61
+Y0062,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Up,18,AOS_1,,,,,,,Y,98,Y62
+Y0063,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Low,19,AOS_1,,,,,,,Y,99,Y63
+Y0064,AGVS,,Boolean,,,,,,,,,,,,Y,100,Y64
+Y0065,AGVS,,Boolean,,,,,,,,,,,,Y,101,Y65
+Y0066,AGVS,,Boolean,,,,,,,,,,,,Y,102,Y66
+Y0067,AGVS,,Boolean,,,,,,,,,,,,Y,103,Y67
+Y0068,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT2,To_EQ_Up,16,AOS_1,,,,,,,Y,104,Y68
+Y0069,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT2,To_EQ_Low,17,AOS_1,,,,,,,Y,105,Y69
+Y006A,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT2,CMD_reserve_Up,18,AOS_1,,,,,,,Y,106,Y6A
+Y006B,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT2,CMD_reserve_Low,19,AOS_1,,,,,,,Y,107,Y6B
+Y006C,AGVS,,Boolean,,,,,,,,,,,,Y,108,Y6C
+Y006D,AGVS,,Boolean,,,,,,,,,,,,Y,109,Y6D
+Y006E,AGVS,,Boolean,,,,,,,,,,,,Y,110,Y6E
+Y006F,AGVS,,Boolean,,,,,,,,,,,,Y,111,Y6F
+Y0070,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Up,16,AOS_2,,,,,,,Y,112,Y70
+Y0071,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Low,17,AOS_2,,,,,,,Y,113,Y71
+Y0072,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Up,18,AOS_2,,,,,,,Y,114,Y72
+Y0073,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Low,19,AOS_2,,,,,,,Y,115,Y73
+Y0074,AGVS,,Boolean,,,,,,,,,,,,Y,116,Y74
+Y0075,AGVS,,Boolean,,,,,,,,,,,,Y,117,Y75
+Y0076,AGVS,,Boolean,,,,,,,,,,,,Y,118,Y76
+Y0077,AGVS,,Boolean,,,,,,,,,,,,Y,119,Y77
+Y0078,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT2,To_EQ_Up,16,AOS_2,,,,,,,Y,120,Y78
+Y0079,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT2,To_EQ_Low,17,AOS_2,,,,,,,Y,121,Y79
+Y007A,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT2,CMD_reserve_Up,18,AOS_2,,,,,,,Y,122,Y7A
+Y007B,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT2,CMD_reserve_Low,19,AOS_2,,,,,,,Y,123,Y7B
+Y007C,AGVS,,Boolean,,,,,,,,,,,,Y,124,Y7C
+Y007D,AGVS,,Boolean,,,,,,,,,,,,Y,125,Y7D
+Y007E,AGVS,,Boolean,,,,,,,,,,,,Y,126,Y7E
+Y007F,AGVS,,Boolean,,,,,,,,,,,,Y,127,Y7F
+Y0080,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Up,16,AOS_3,,,,,,,Y,128,Y80
+Y0081,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Low,17,AOS_3,,,,,,,Y,129,Y81
+Y0082,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Up,18,AOS_3,,,,,,,Y,130,Y82
+Y0083,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Low,19,AOS_3,,,,,,,Y,131,Y83
+Y0084,AGVS,,Boolean,,,,,,,,,,,,Y,132,Y84
+Y0085,AGVS,,Boolean,,,,,,,,,,,,Y,133,Y85
+Y0086,AGVS,,Boolean,,,,,,,,,,,,Y,134,Y86
+Y0087,AGVS,,Boolean,,,,,,,,,,,,Y,135,Y87
+Y0088,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT2,To_EQ_Up,16,AOS_3,,,,,,,Y,136,Y88
+Y0089,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT2,To_EQ_Low,17,AOS_3,,,,,,,Y,137,Y89
+Y008A,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT2,CMD_reserve_Up,18,AOS_3,,,,,,,Y,138,Y8A
+Y008B,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT2,CMD_reserve_Low,19,AOS_3,,,,,,,Y,139,Y8B
+Y008C,AGVS,,Boolean,,,,,,,,,,,,Y,140,Y8C
+Y008D,AGVS,,Boolean,,,,,,,,,,,,Y,141,Y8D
+Y008E,AGVS,,Boolean,,,,,,,,,,,,Y,142,Y8E
+Y008F,AGVS,,Boolean,,,,,,,,,,,,Y,143,Y8F
+Y0090,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Up,16,AOS_4,,,,,,,Y,144,Y90
+Y0091,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Low,17,AOS_4,,,,,,,Y,145,Y91
+Y0092,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Up,18,AOS_4,,,,,,,Y,146,Y92
+Y0093,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Low,19,AOS_4,,,,,,,Y,147,Y93
+Y0094,AGVS,,Boolean,,,,,,,,,,,,Y,148,Y94
+Y0095,AGVS,,Boolean,,,,,,,,,,,,Y,149,Y95
+Y0096,AGVS,,Boolean,,,,,,,,,,,,Y,150,Y96
+Y0097,AGVS,,Boolean,,,,,,,,,,,,Y,151,Y97
+Y0098,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT2,To_EQ_Up,16,AOS_4,,,,,,,Y,152,Y98
+Y0099,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT2,To_EQ_Low,17,AOS_4,,,,,,,Y,153,Y99
+Y009A,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT2,CMD_reserve_Up,18,AOS_4,,,,,,,Y,154,Y9A
+Y009B,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT2,CMD_reserve_Low,19,AOS_4,,,,,,,Y,155,Y9B
+Y009C,AGVS,,Boolean,,,,,,,,,,,,Y,156,Y9C
+Y009D,AGVS,,Boolean,,,,,,,,,,,,Y,157,Y9D
+Y009E,AGVS,,Boolean,,,,,,,,,,,,Y,158,Y9E
+Y009F,AGVS,,Boolean,,,,,,,,,,,,Y,159,Y9F
 Y00A0,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,160,YA0
 Y00A1,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,161,YA1
 Y00A2,AGVS,,Boolean,,PORT1,,,,,,,,,,Y,162,YA2
