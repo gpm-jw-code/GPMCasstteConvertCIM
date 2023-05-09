@@ -1,4 +1,5 @@
-﻿using GPMCasstteConvertCIM.CasstteConverter;
+﻿using GPMCasstteConvertCIM.Alarm;
+using GPMCasstteConvertCIM.CasstteConverter;
 using GPMCasstteConvertCIM.CasstteConverter.Data;
 using GPMCasstteConvertCIM.Devices;
 using GPMCasstteConvertCIM.Utilities;
@@ -136,23 +137,38 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
                 while (true)
                 {
                     await Task.Delay(10);
-
-                    if (DevicesManager.cclink_master.EQPMemOptions == null)
-                        continue;
-
-                    foreach (clsMemoryAddress item in LinkBitMap.FindAll(ad=>ad.EScope.ToString()==this.portNoName))
+                    var bitMap = LinkBitMap.FindAll(ad => ad.EScope.ToString() == this.portNoName);
+                    var wordMap = LinkWordMap.FindAll(ad => ad.EScope.ToString() == this.portNoName);
+                    try
                     {
-                        bool bolState = DevicesManager.cclink_master.EQPMemOptions.memoryTable.ReadOneBit(item.Address);
-                        modbus_server.discreteInputs.localArray[item.Link_Modbus_Register_Number] = bolState;
-                    }
 
-                    foreach (clsMemoryAddress item in LinkWordMap.FindAll(ad => ad.EScope.ToString() == this.portNoName))
+                        if (DevicesManager.cclink_master.EQPMemOptions == null)
+                            continue;
+
+                        foreach (clsMemoryAddress item in bitMap)
+                        {
+                            if (item.Link_Modbus_Register_Number != -1)
+                            {
+                                bool bolState = DevicesManager.cclink_master.EQPMemOptions.memoryTable.ReadOneBit(item.Address);
+                                modbus_server.discreteInputs.localArray[item.Link_Modbus_Register_Number] = bolState;
+                            }
+                        }
+
+                        foreach (clsMemoryAddress item in wordMap)
+                        {
+                            if (item.Link_Modbus_Register_Number != -1)
+                            {
+                                int value = DevicesManager.cclink_master.EQPMemOptions.memoryTable.ReadBinary(item.Address);
+                                modbus_server.holdingRegisters.localArray[item.Link_Modbus_Register_Number] = (short)value;
+                            }
+                        }
+
+
+                    }
+                    catch (Exception ex)
                     {
-                        int value = DevicesManager.cclink_master.EQPMemOptions.memoryTable.ReadBinary(item.Address);
-                        modbus_server.holdingRegisters.localArray[item.Link_Modbus_Register_Number] = (short)value;
+                        AlarmManager.AddAlarm(ALARM_CODES.CODE_ERROR, "clsStationPort", false);
                     }
-
-
                     //foreach (var item in CIMModbusLinkWordAddress)
                     //{
                     //    int value = converterParent.CIMMemOptions.memoryTable.ReadBinary(item.Address);

@@ -64,5 +64,6 @@ namespace GPMCasstteConvertCIM.Alarm
         MXCompHanler_Entitize_Fail,
         MXCompHanler_Open_Fail,
         SYNCMEMDATA_FUNCTION_CODE_ERROR,
+        CODE_ERROR,
     }
 }
