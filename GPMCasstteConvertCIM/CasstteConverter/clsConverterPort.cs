@@ -85,7 +85,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 return portAddress.ToDictionary(ad => ad.EProperty, ad => ad.Address);
             }
         }
-
+        public string StatusMemStartAddress => PortEQBitAddress.Count == 0 ? "" : PortEQBitAddress.First().Value;
         public Dictionary<PROPERTY, string> PortEQBitAddress
         {
             get
