@@ -729,6 +729,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             {
                 while (true)
                 {
+                    await Task.Delay(10);
+
+                    if (converterParent.EQPMemOptions == null)
+                        continue;
 
                     foreach (var item in EQModbusLinkBitAddress)
                     {
@@ -749,7 +753,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                         modbus_server.holdingRegisters.localArray[item.Link_Modbus_Register_Number] = (short)value;
                     }
 
-                    await Task.Delay(10);
                 }
 
             });

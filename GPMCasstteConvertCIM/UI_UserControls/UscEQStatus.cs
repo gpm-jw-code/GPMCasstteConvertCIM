@@ -58,6 +58,11 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             dataGridView1.DataSource = BindingPorts;
         }
 
+        internal void GUIRefresh()
+        {
+            dataGridView1.Refresh();
+        }
+
         ///
         //uscAlarmTable1.BindData(AlarmManager.AlarmsList);
         //    AlarmManager.onAlarmAdded += (sender, arg) => { uscAlarmTable1.alarmListBinding.ResetBindings(); };
