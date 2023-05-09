@@ -159,7 +159,15 @@ namespace GPMCasstteConvertCIM.Devices
 
         internal static List<clsConverterPort> GetAllPorts()
         {
-            return casstteConverters.SelectMany(cst => cst.PortDatas).ToList();
+            List<clsConverterPort> portlist = new List<clsConverterPort>();
+            foreach (var eq in casstteConverters)
+            {
+                foreach (var port in eq.PortDatas)
+                {
+                    portlist.Add(port);
+                } 
+            }
+            return portlist;
         }
         internal static clsConverterPort GetPortByPortID(string port_id)
         {

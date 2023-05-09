@@ -144,8 +144,8 @@ namespace GPMCasstteConvertCIM.Forms
         {
             ToolStripMenuItem agvs_modbus_emu_selBtn = (ToolStripMenuItem)sender;
             clsConverterPort.clsPortProperty opt = (clsConverterPort.clsPortProperty)agvs_modbus_emu_selBtn.Tag;
-
-            clsConverterPort? port = DevicesManager.GetAllPorts().FirstOrDefault(c => c.Properties.PortID == opt.PortID);
+            var allports = DevicesManager.GetAllPorts();
+            clsConverterPort? port = allports.FirstOrDefault(c => c.Properties.PortID == opt.PortID);
             frmAGVS_Modbus_Emulator emu = new frmAGVS_Modbus_Emulator(port)
             {
                 Text = $"AGV•Ê¥§º“¿¿-{port.Properties.ModbusServer_IP}:{port.Properties.ModbusServer_PORT}({port.PortNameWithEQName})"

@@ -14,7 +14,7 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
 {
     internal class clsCCLinkIE_Station : clsCasstteConverter
     {
-        internal new List<clsStationPort> PortDatas = new List<clsStationPort>();
+        public override List<clsConverterPort> PortDatas { get => base.PortDatas; set => base.PortDatas = value; }
         internal clsCCLinkIE_Master cclink_master;
         public EQ_NAMES Eq_Name { get; set; } = EQ_NAMES.Unkown;
         /// <summary>

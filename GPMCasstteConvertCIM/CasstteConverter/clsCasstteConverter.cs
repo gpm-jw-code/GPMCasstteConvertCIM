@@ -151,7 +151,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         internal frmModbusTCPServer modbusServerGUI;
 
         internal bool monitor = true;
-        public List<clsConverterPort> PortDatas { get; set; } = new List<clsConverterPort>();
+        virtual public List<clsConverterPort> PortDatas { get; set; } = new List<clsConverterPort>();
 
         #region 事件
 
