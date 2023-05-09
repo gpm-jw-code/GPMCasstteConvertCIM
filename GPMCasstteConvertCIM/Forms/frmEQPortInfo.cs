@@ -1,5 +1,6 @@
 ﻿using GPMCasstteConvertCIM.CasstteConverter;
 using GPMCasstteConvertCIM.Devices;
+using GPMCasstteConvertCIM.Utilities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -41,6 +42,13 @@ namespace GPMCasstteConvertCIM.Forms
             }
             else
             {
+
+                if (StaUsersManager.CurrentUser.Group == StaUsersManager.USER_GROUP.VISITOR)
+                {
+                    MessageBox.Show($"您沒有修改的權限!請洽GPM。", "Modbus TCP Setting Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
                 var port = DevicesManager.GetAllPorts().FirstOrDefault(p => p.PortName == portEntity.PortName && p.EqName == portEntity.EqName);
 
 
