@@ -33,6 +33,14 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
 
         public clsCCLinkIE_Station(EQ_NAMES Eq_Name, Dictionary<int, clsConverterPort.clsPortProperty> portProperties, clsCCLinkIE_Master cclink_master)
         {
+            this.cclink_master = cclink_master;
+            this.Eq_Name = Eq_Name;
+            Name = Eq_Name.ToString();
+            EQPData = new clsEQPData();
+            this.plcInterface = PLC_CONN_INTERFACE.MX;
+            LoadPLCMapData();
+
+
             for (int i = 0; i < portProperties.Count; i++)
             {
                 var portProp = portProperties[i];
@@ -42,12 +50,6 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
                     LinkWordMap = this.LinkWordMap
                 });
             }
-            this.cclink_master = cclink_master;
-            this.Eq_Name = Eq_Name;
-            Name = Eq_Name.ToString();
-            EQPData = new clsEQPData();
-            this.plcInterface = PLC_CONN_INTERFACE.MX;
-            LoadPLCMapData();
             //this.mainGUI = mainGUI;
             //this.mainGUI.casstteConverter = this;
             PortModbusServersActive();
@@ -135,16 +137,16 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
                 {
                     await Task.Delay(10);
 
-                    if (converterParent.EQPMemOptions == null)
+                    if (DevicesManager.cclink_master.EQPMemOptions == null)
                         continue;
 
-                    foreach (clsMemoryAddress item in LinkBitMap)
+                    foreach (clsMemoryAddress item in LinkBitMap.FindAll(ad=>ad.EScope.ToString()==this.portNoName))
                     {
                         bool bolState = DevicesManager.cclink_master.EQPMemOptions.memoryTable.ReadOneBit(item.Address);
                         modbus_server.discreteInputs.localArray[item.Link_Modbus_Register_Number] = bolState;
                     }
 
-                    foreach (clsMemoryAddress item in LinkWordMap)
+                    foreach (clsMemoryAddress item in LinkWordMap.FindAll(ad => ad.EScope.ToString() == this.portNoName))
                     {
                         int value = DevicesManager.cclink_master.EQPMemOptions.memoryTable.ReadBinary(item.Address);
                         modbus_server.holdingRegisters.localArray[item.Link_Modbus_Register_Number] = (short)value;
