@@ -90,7 +90,7 @@ namespace GPMCasstteConvertCIM.Forms
 
                     ToolStripMenuItem agvs_modbus_emu_selBtn = new ToolStripMenuItem()
                     {
-                        Text = $"Âà´«¬[-{item.DeviceId}({item.ConverterType})-Port{port.PortNo}",
+                        Text = $"{item.Eq_Name}-{port.PortID}",
                         Tag = port //ConverterEQPInitialOption
                     };
 
