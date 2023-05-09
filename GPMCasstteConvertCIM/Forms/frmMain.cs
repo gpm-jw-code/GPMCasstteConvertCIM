@@ -50,6 +50,7 @@ namespace GPMCasstteConvertCIM.Forms
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            tabControl1.TabPages.RemoveAt(1);//把原本的HOME PAGE移除
             Utility.LoadConfigs();
             DevicesManager.LoadDeviceConnectionOpts(out bool config_error, out bool eqplc_config_error, out string errMsg);
 

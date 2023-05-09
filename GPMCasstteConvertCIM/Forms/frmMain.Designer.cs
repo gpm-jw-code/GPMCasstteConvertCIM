@@ -30,6 +30,8 @@
         {
             components = new System.ComponentModel.Container();
             tabControl1 = new TabControl();
+            tabpageU007Home = new TabPage();
+            usceqStatus1 = new UI_UserControls.UscEQStatus();
             tabPage1 = new TabPage();
             tlpConverterContainer = new TableLayoutPanel();
             panel2 = new Panel();
@@ -68,8 +70,6 @@
             checkBox1 = new CheckBox();
             checkBox5 = new CheckBox();
             rtbModbusTcpServerLog = new RichTextBox();
-            tabpageU007Home = new TabPage();
-            usceqStatus1 = new UI_UserControls.UscEQStatus();
             messageWrapperBindingSource = new BindingSource(components);
             primaryMessageWrapperBindingSource = new BindingSource(components);
             GPMRDMenuStrip = new MenuStrip();
@@ -93,6 +93,7 @@
             SysTimer = new System.Windows.Forms.Timer(components);
             uscAlarmShow1 = new UI_UserControls.UscAlarmShow();
             tabControl1.SuspendLayout();
+            tabpageU007Home.SuspendLayout();
             tabPage1.SuspendLayout();
             panel2.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
@@ -107,7 +108,6 @@
             tabPage3.SuspendLayout();
             tabPage2.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
-            tabpageU007Home.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)messageWrapperBindingSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)primaryMessageWrapperBindingSource).BeginInit();
             GPMRDMenuStrip.SuspendLayout();
@@ -118,10 +118,10 @@
             // 
             // tabControl1
             // 
+            tabControl1.Controls.Add(tabpageU007Home);
             tabControl1.Controls.Add(tabPage1);
             tabControl1.Controls.Add(tabPage3);
             tabControl1.Controls.Add(tabPage2);
-            tabControl1.Controls.Add(tabpageU007Home);
             tabControl1.Dock = DockStyle.Fill;
             tabControl1.HotTrack = true;
             tabControl1.ItemSize = new Size(96, 30);
@@ -131,6 +131,25 @@
             tabControl1.Size = new Size(1173, 354);
             tabControl1.SizeMode = TabSizeMode.Fixed;
             tabControl1.TabIndex = 1;
+            // 
+            // tabpageU007Home
+            // 
+            tabpageU007Home.Controls.Add(usceqStatus1);
+            tabpageU007Home.Location = new Point(4, 34);
+            tabpageU007Home.Name = "tabpageU007Home";
+            tabpageU007Home.Size = new Size(1165, 316);
+            tabpageU007Home.TabIndex = 3;
+            tabpageU007Home.Text = "Home(007)";
+            tabpageU007Home.UseVisualStyleBackColor = true;
+            // 
+            // usceqStatus1
+            // 
+            usceqStatus1.BackColor = SystemColors.ButtonShadow;
+            usceqStatus1.Dock = DockStyle.Fill;
+            usceqStatus1.Location = new Point(0, 0);
+            usceqStatus1.Name = "usceqStatus1";
+            usceqStatus1.Size = new Size(1165, 316);
+            usceqStatus1.TabIndex = 0;
             // 
             // tabPage1
             // 
@@ -619,25 +638,6 @@
             rtbModbusTcpServerLog.TabIndex = 7;
             rtbModbusTcpServerLog.Text = "";
             // 
-            // tabpageU007Home
-            // 
-            tabpageU007Home.Controls.Add(usceqStatus1);
-            tabpageU007Home.Location = new Point(4, 34);
-            tabpageU007Home.Name = "tabpageU007Home";
-            tabpageU007Home.Size = new Size(1165, 316);
-            tabpageU007Home.TabIndex = 3;
-            tabpageU007Home.Text = "Home(007)";
-            tabpageU007Home.UseVisualStyleBackColor = true;
-            // 
-            // usceqStatus1
-            // 
-            usceqStatus1.BackColor = SystemColors.ButtonShadow;
-            usceqStatus1.Dock = DockStyle.Fill;
-            usceqStatus1.Location = new Point(0, 0);
-            usceqStatus1.Name = "usceqStatus1";
-            usceqStatus1.Size = new Size(1165, 316);
-            usceqStatus1.TabIndex = 0;
-            // 
             // GPMRDMenuStrip
             // 
             GPMRDMenuStrip.BackColor = Color.MediumBlue;
@@ -856,8 +856,10 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "GPM AGVS CIM_V1.0.0";
             WindowState = FormWindowState.Maximized;
+            FormClosing += Form1_FormClosing;
             Load += Form1_Load;
             tabControl1.ResumeLayout(false);
+            tabpageU007Home.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
             panel2.ResumeLayout(false);
             tableLayoutPanel2.ResumeLayout(false);
@@ -873,7 +875,6 @@
             tabPage3.ResumeLayout(false);
             tabPage2.ResumeLayout(false);
             tableLayoutPanel1.ResumeLayout(false);
-            tabpageU007Home.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)messageWrapperBindingSource).EndInit();
             ((System.ComponentModel.ISupportInitialize)primaryMessageWrapperBindingSource).EndInit();
             GPMRDMenuStrip.ResumeLayout(false);
