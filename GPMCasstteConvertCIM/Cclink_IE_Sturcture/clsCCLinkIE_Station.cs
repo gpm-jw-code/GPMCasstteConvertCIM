@@ -1,5 +1,6 @@
 ﻿using GPMCasstteConvertCIM.CasstteConverter;
 using GPMCasstteConvertCIM.CasstteConverter.Data;
+using GPMCasstteConvertCIM.Devices;
 using GPMCasstteConvertCIM.Utilities;
 using System;
 using System.Collections.Generic;
@@ -35,7 +36,11 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
             for (int i = 0; i < portProperties.Count; i++)
             {
                 var portProp = portProperties[i];
-                PortDatas.Add(new clsStationPort(portProp, this));
+                PortDatas.Add(new clsStationPort(portProp, this)
+                {
+                    LinkBitMap = this.LinkBitMap,
+                    LinkWordMap = this.LinkWordMap
+                });
             }
             this.cclink_master = cclink_master;
             this.Eq_Name = Eq_Name;
@@ -116,13 +121,45 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
 
     public class clsStationPort : clsConverterPort
     {
+        internal List<clsMemoryAddress> LinkBitMap { get; set; }
+        internal List<clsMemoryAddress> LinkWordMap { get; set; }
         public clsStationPort(clsPortProperty property, clsCasstteConverter converterParent) : base(property, converterParent)
         {
         }
 
         public override void SyncRegisterData()
         {
-            base.SyncRegisterData();
+            Task.Run(async () =>
+            {
+                while (true)
+                {
+                    await Task.Delay(10);
+
+                    if (converterParent.EQPMemOptions == null)
+                        continue;
+
+                    foreach (clsMemoryAddress item in LinkBitMap)
+                    {
+                        bool bolState = DevicesManager.cclink_master.EQPMemOptions.memoryTable.ReadOneBit(item.Address);
+                        modbus_server.discreteInputs.localArray[item.Link_Modbus_Register_Number] = bolState;
+                    }
+
+                    foreach (clsMemoryAddress item in LinkWordMap)
+                    {
+                        int value = DevicesManager.cclink_master.EQPMemOptions.memoryTable.ReadBinary(item.Address);
+                        modbus_server.holdingRegisters.localArray[item.Link_Modbus_Register_Number] = (short)value;
+                    }
+
+
+                    //foreach (var item in CIMModbusLinkWordAddress)
+                    //{
+                    //    int value = converterParent.CIMMemOptions.memoryTable.ReadBinary(item.Address);
+                    //    modbus_server.holdingRegisters.localArray[item.Link_Modbus_Register_Number] = (short)value;
+                    //}
+
+                }
+
+            });
         }
     }
 
