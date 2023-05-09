@@ -1,4 +1,6 @@
 ﻿using GPMCasstteConvertCIM.CasstteConverter;
+using GPMCasstteConvertCIM.Devices;
+using GPMCasstteConvertCIM.Utilities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -23,7 +25,18 @@ namespace GPMCasstteConvertCIM.UI_UserControls
         {
             InitializeComponent();
             dataGridView1.CellFormatting += DataGridView1_CellFormatting;
+            StaUsersManager.OnLogout += StaUsersManager_OnLogout;
+            StaUsersManager.OnRD_Login += StaUsersManager_OnRD_Login;
+        }
 
+        private void StaUsersManager_OnRD_Login(object? sender, EventArgs e)
+        {
+            ckbSimulationMode.Visible = true;
+        }
+
+        private void StaUsersManager_OnLogout(object? sender, EventArgs e)
+        {
+            ckbSimulationMode.Visible = false;
         }
 
         private void DataGridView1_CellFormatting(object? sender, DataGridViewCellFormattingEventArgs e)
@@ -65,6 +78,58 @@ namespace GPMCasstteConvertCIM.UI_UserControls
         internal void GUIRefresh()
         {
             dataGridView1.Refresh();
+        }
+
+        private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 | e.ColumnIndex < 2)
+                return;
+
+            if (!DevicesManager.cclink_master.simulation_mode)
+            {
+                MessageBox.Show("非模擬模式下不可修改Memory Bit Value", "Forbid", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            var row = dataGridView1.Rows[e.RowIndex];
+            var data = row.DataBoundItem as clsConverterPort;
+            bool _state_change_to = false;
+            Enums.PROPERTY property = Enums.PROPERTY.Load_Request;
+            if (e.ColumnIndex == 2)
+            {
+                property = Enums.PROPERTY.Load_Request;
+                _state_change_to = !data.LoadRequest;
+            }
+            else if (e.ColumnIndex == 3)
+            {
+                property = Enums.PROPERTY.Unload_Request;
+                _state_change_to = !data.UnloadRequest;
+            }
+            else if (e.ColumnIndex == 4)
+            {
+                property = Enums.PROPERTY.Port_Exist;
+                _state_change_to = !data.PortExist;
+            }
+            else if (e.ColumnIndex == 5)
+            {
+                property = Enums.PROPERTY.LD_UP_POS;
+                _state_change_to = !data.LD_UP_POS;
+            }
+            else if (e.ColumnIndex == 6)
+            {
+                property = Enums.PROPERTY.LD_DOWN_POS;
+                _state_change_to = !data.LD_DOWN_POS;
+            }
+            else if (e.ColumnIndex == 7)
+            {
+                property = Enums.PROPERTY.Port_Status_Down;
+                _state_change_to = !data.PortStatusDown;
+            }
+            DevicesManager.cclink_master.EQPMemOptions.memoryTable.WriteOneBit(data.PortEQBitAddress[property], _state_change_to);
+        }
+
+        private void ckbSimulationMode_CheckedChanged(object sender, EventArgs e)
+        {
+            DevicesManager.cclink_master.simulation_mode = ckbSimulationMode.Checked;
         }
 
         ///

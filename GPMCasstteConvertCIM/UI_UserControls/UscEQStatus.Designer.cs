@@ -41,8 +41,11 @@
             lDDOWNPOSDataGridViewCheckBoxColumn = new DataGridViewCheckBoxColumn();
             portStatusDownDataGridViewCheckBoxColumn = new DataGridViewCheckBoxColumn();
             clsConverterPortBindingSource = new BindingSource(components);
+            panel1 = new Panel();
+            ckbSimulationMode = new CheckBox();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)clsConverterPortBindingSource).BeginInit();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // dataGridView1
@@ -65,7 +68,7 @@
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { EqName, PortName, dataGridViewCheckBoxColumn1, unloadRequestDataGridViewCheckBoxColumn, portExistDataGridViewCheckBoxColumn, lDUPPOSDataGridViewCheckBoxColumn, lDDOWNPOSDataGridViewCheckBoxColumn, portStatusDownDataGridViewCheckBoxColumn });
             dataGridView1.DataSource = clsConverterPortBindingSource;
             dataGridView1.Dock = DockStyle.Fill;
-            dataGridView1.Location = new Point(0, 0);
+            dataGridView1.Location = new Point(0, 39);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersVisible = false;
@@ -75,8 +78,9 @@
             dataGridViewCellStyle2.SelectionForeColor = Color.Gray;
             dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle2;
             dataGridView1.RowTemplate.Height = 25;
-            dataGridView1.Size = new Size(1031, 586);
+            dataGridView1.Size = new Size(1031, 547);
             dataGridView1.TabIndex = 0;
+            dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick;
             // 
             // EqName
             // 
@@ -138,16 +142,40 @@
             // 
             clsConverterPortBindingSource.DataSource = typeof(CasstteConverter.clsConverterPort);
             // 
+            // panel1
+            // 
+            panel1.Controls.Add(ckbSimulationMode);
+            panel1.Dock = DockStyle.Top;
+            panel1.Location = new Point(0, 0);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(1031, 39);
+            panel1.TabIndex = 1;
+            // 
+            // ckbSimulationMode
+            // 
+            ckbSimulationMode.AutoSize = true;
+            ckbSimulationMode.Location = new Point(7, 8);
+            ckbSimulationMode.Name = "ckbSimulationMode";
+            ckbSimulationMode.Size = new Size(74, 19);
+            ckbSimulationMode.TabIndex = 0;
+            ckbSimulationMode.Text = "模擬模式";
+            ckbSimulationMode.UseVisualStyleBackColor = true;
+            ckbSimulationMode.Visible = false;
+            ckbSimulationMode.CheckedChanged += ckbSimulationMode_CheckedChanged;
+            // 
             // UscEQStatus
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             Controls.Add(dataGridView1);
+            Controls.Add(panel1);
             Name = "UscEQStatus";
             Size = new Size(1031, 586);
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ((System.ComponentModel.ISupportInitialize)clsConverterPortBindingSource).EndInit();
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -163,5 +191,7 @@
         private DataGridViewCheckBoxColumn lDUPPOSDataGridViewCheckBoxColumn;
         private DataGridViewCheckBoxColumn lDDOWNPOSDataGridViewCheckBoxColumn;
         private DataGridViewCheckBoxColumn portStatusDownDataGridViewCheckBoxColumn;
+        private Panel panel1;
+        private CheckBox ckbSimulationMode;
     }
 }
