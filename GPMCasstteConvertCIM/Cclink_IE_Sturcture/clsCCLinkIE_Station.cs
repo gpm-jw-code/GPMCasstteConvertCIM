@@ -156,8 +156,8 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
                 while (true)
                 {
                     await Task.Delay(10);
-                    var bitMap = LinkBitMap.FindAll(ad => ad.EScope.ToString() == this.portNoName);
-                    var wordMap = LinkWordMap.FindAll(ad => ad.EScope.ToString() == this.portNoName);
+                    var bitMap = LinkBitMap.FindAll(ad => ad.EScope.ToString() == this.portNoName && ad.EOwner == OWNER.EQP);
+                    var wordMap = LinkWordMap.FindAll(ad => ad.EScope.ToString() == this.portNoName && ad.EOwner == OWNER.EQP);
                     try
                     {
 
