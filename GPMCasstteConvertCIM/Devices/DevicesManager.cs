@@ -126,7 +126,11 @@ namespace GPMCasstteConvertCIM.Devices
             DeviceConnectionStateOnChanged?.Invoke(secs_host_for_mcs, new ConnectionStateChangeArgs(secs_host_for_mcs, CIM_DEVICE_TYPES.SECS_HOST, _connectionState));
             //uscConnectionStates1.SECS_H_ConnectionChange(e);
         }
-
+        public static void SaveDeviceConnectionOpts()
+        {
+            string deviceConnectionCofigsFile = Path.Combine(Utility.configsFolder, "DevicesConnections.json");
+            File.WriteAllText(deviceConnectionCofigsFile, JsonConvert.SerializeObject(DevicesConnectionsOpts, Formatting.Indented));
+        }
         public static void LoadDeviceConnectionOpts(out bool config_error, out bool eqplc_config_error, out string errorMsg)
         {
             errorMsg = "";

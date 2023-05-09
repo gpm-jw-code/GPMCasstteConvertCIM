@@ -146,7 +146,11 @@ namespace GPMCasstteConvertCIM.UI_UserControls
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-
+            if (e.RowIndex != -1 && e.ColumnIndex == StatusbitdataStartIndex + 6)
+            {
+                frmEQPortInfo frm = new frmEQPortInfo(dataGridView1.Rows[e.RowIndex].DataBoundItem as clsConverterPort);
+                frm.Show();
+            }
         }
 
         ///

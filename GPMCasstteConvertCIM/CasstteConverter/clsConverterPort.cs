@@ -67,7 +67,9 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         public string PortNameWithEQName => converterParent.Name + $"-[{Properties.PortID}]";
 
         public string portNoName => $"PORT{Properties.PortNo + 1}";
-
+        public string ModbusIP => Properties.ModbusServer_IP;
+        public int ModbusPort => Properties.ModbusServer_PORT;
+        public string ModbusHost => $"{ModbusIP}:{ModbusPort}";
         public Dictionary<PROPERTY, string> PortCIMBitAddress
         {
             get
@@ -686,7 +688,27 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 }
             });
         }
+        public bool BuildModbusTCPServer(string ip, int port,out string error_msg)
+        {
+            error_msg = string.Empty;
+            if ($"{ip}:{port}" == ModbusHost)
+                return true;
 
+            try
+            {
+                modbus_server.Close();
+                modbus_server.Active(ip, port, modbus_server.UI);
+                Properties.ModbusServer_IP = ip;
+                Properties.ModbusServer_PORT = port;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                error_msg = ex.Message;
+                return false;
+            }
+
+        }
         public bool BuildModbusTCPServer(frmModbusTCPServer ui)
         {
             try
