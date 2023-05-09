@@ -50,5 +50,10 @@ namespace GPMCasstteConvertCIM.UI_UserControls
         {
 
         }
+
+        internal void GUIRefresh()
+        {
+            dataGridView1.Refresh();
+        }
     }
 }

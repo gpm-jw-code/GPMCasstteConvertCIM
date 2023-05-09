@@ -8,6 +8,7 @@ using GPMCasstteConvertCIM.Devices.Options;
 using GPMCasstteConvertCIM.Emulators;
 using GPMCasstteConvertCIM.Emulators.SecsEmu;
 using GPMCasstteConvertCIM.GPM_SECS;
+using GPMCasstteConvertCIM.UI_UserControls;
 using GPMCasstteConvertCIM.Utilities;
 using Secs4Net;
 using Secs4Net.Sml;
@@ -124,7 +125,13 @@ namespace GPMCasstteConvertCIM.Forms
             systemAPI.Start();
             WebsocketMiddleware.ServerBuild();
             uscAlarmTable1.BindData(AlarmManager.AlarmsList);
-            AlarmManager.onAlarmAdded += (sender, arg) => { uscAlarmTable1.alarmListBinding.ResetBindings(); };
+            AlarmManager.onAlarmAdded += (sender, arg) =>
+            {
+                uscAlarmTable1.Invoke(new Action(() =>
+                {
+                    uscAlarmTable1.GUIRefresh();
+                }));
+            };
             //dgvMsgFromAGVS.DataSource = CIMDevices.secs_host.recvBuffer;
             //dgvActiveMsgToAGVS.DataSource = CIMDevices.secs_host.sendBuffer;
             //dgvMsgFromMCS.DataSource = CIMDevices.secs_client.recvBuffer;

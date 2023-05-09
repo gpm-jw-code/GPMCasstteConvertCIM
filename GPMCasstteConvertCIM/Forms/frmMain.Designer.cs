@@ -726,6 +726,7 @@
             btnOpenLoginFOrm.TabIndex = 8;
             btnOpenLoginFOrm.Text = "Login";
             btnOpenLoginFOrm.UseVisualStyleBackColor = true;
+            btnOpenLoginFOrm.Click += btnOpenLoginFOrm_Click;
             // 
             // label6
             // 
