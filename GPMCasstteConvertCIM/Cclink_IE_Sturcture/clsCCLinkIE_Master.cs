@@ -48,7 +48,7 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
                 {
                     mainGUI.Invoke(new Action(() =>
                     {
-                        mainGUI.BindingPorts.ResetBindings();
+                        mainGUI.GUIRefresh();
                     }));
                 }
             }
