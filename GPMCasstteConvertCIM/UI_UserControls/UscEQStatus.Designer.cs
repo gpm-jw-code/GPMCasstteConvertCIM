@@ -31,12 +31,9 @@
             components = new System.ComponentModel.Container();
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             dataGridView1 = new DataGridView();
-            clsConverterPortBindingSource = new BindingSource(components);
-            panel1 = new Panel();
-            btnOpenMasterMemTb = new Button();
-            ckbSimulationMode = new CheckBox();
             EqName = new DataGridViewTextBoxColumn();
             PortName = new DataGridViewTextBoxColumn();
             StatusMemStartAddress = new DataGridViewTextBoxColumn();
@@ -46,6 +43,11 @@
             lDUPPOSDataGridViewCheckBoxColumn = new DataGridViewCheckBoxColumn();
             lDDOWNPOSDataGridViewCheckBoxColumn = new DataGridViewCheckBoxColumn();
             portStatusDownDataGridViewCheckBoxColumn = new DataGridViewCheckBoxColumn();
+            btnColumn = new DataGridViewButtonColumn();
+            clsConverterPortBindingSource = new BindingSource(components);
+            panel1 = new Panel();
+            btnOpenMasterMemTb = new Button();
+            ckbSimulationMode = new CheckBox();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)clsConverterPortBindingSource).BeginInit();
             panel1.SuspendLayout();
@@ -70,64 +72,25 @@
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
             dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             dataGridView1.ColumnHeadersHeight = 42;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { EqName, PortName, StatusMemStartAddress, dataGridViewCheckBoxColumn1, unloadRequestDataGridViewCheckBoxColumn, portExistDataGridViewCheckBoxColumn, lDUPPOSDataGridViewCheckBoxColumn, lDDOWNPOSDataGridViewCheckBoxColumn, portStatusDownDataGridViewCheckBoxColumn });
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { EqName, PortName, StatusMemStartAddress, dataGridViewCheckBoxColumn1, unloadRequestDataGridViewCheckBoxColumn, portExistDataGridViewCheckBoxColumn, lDUPPOSDataGridViewCheckBoxColumn, lDDOWNPOSDataGridViewCheckBoxColumn, portStatusDownDataGridViewCheckBoxColumn, btnColumn });
             dataGridView1.DataSource = clsConverterPortBindingSource;
             dataGridView1.Dock = DockStyle.Fill;
             dataGridView1.Location = new Point(0, 39);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersVisible = false;
-            dataGridViewCellStyle3.BackColor = Color.AntiqueWhite;
-            dataGridViewCellStyle3.Font = new Font("微軟正黑體", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle3.ForeColor = Color.Black;
-            dataGridViewCellStyle3.Padding = new Padding(1);
-            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(224, 224, 224);
-            dataGridViewCellStyle3.SelectionForeColor = Color.Gray;
-            dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle4.BackColor = Color.AntiqueWhite;
+            dataGridViewCellStyle4.Font = new Font("微軟正黑體", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle4.ForeColor = Color.Black;
+            dataGridViewCellStyle4.Padding = new Padding(1);
+            dataGridViewCellStyle4.SelectionBackColor = Color.FromArgb(224, 224, 224);
+            dataGridViewCellStyle4.SelectionForeColor = Color.Gray;
+            dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle4;
             dataGridView1.RowTemplate.Height = 25;
             dataGridView1.Size = new Size(1031, 547);
             dataGridView1.TabIndex = 0;
+            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick;
-            // 
-            // clsConverterPortBindingSource
-            // 
-            clsConverterPortBindingSource.DataSource = typeof(CasstteConverter.clsConverterPort);
-            // 
-            // panel1
-            // 
-            panel1.Controls.Add(btnOpenMasterMemTb);
-            panel1.Controls.Add(ckbSimulationMode);
-            panel1.Dock = DockStyle.Top;
-            panel1.Location = new Point(0, 0);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(1031, 39);
-            panel1.TabIndex = 1;
-            // 
-            // btnOpenMasterMemTb
-            // 
-            btnOpenMasterMemTb.BackColor = Color.FromArgb(0, 192, 192);
-            btnOpenMasterMemTb.Dock = DockStyle.Right;
-            btnOpenMasterMemTb.Font = new Font("微軟正黑體", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            btnOpenMasterMemTb.ForeColor = Color.White;
-            btnOpenMasterMemTb.Location = new Point(900, 0);
-            btnOpenMasterMemTb.Name = "btnOpenMasterMemTb";
-            btnOpenMasterMemTb.Size = new Size(131, 39);
-            btnOpenMasterMemTb.TabIndex = 1;
-            btnOpenMasterMemTb.Text = "Memory Table";
-            btnOpenMasterMemTb.UseVisualStyleBackColor = false;
-            btnOpenMasterMemTb.Click += btnOpenMasterMemTb_Click;
-            // 
-            // ckbSimulationMode
-            // 
-            ckbSimulationMode.AutoSize = true;
-            ckbSimulationMode.Location = new Point(7, 8);
-            ckbSimulationMode.Name = "ckbSimulationMode";
-            ckbSimulationMode.Size = new Size(74, 19);
-            ckbSimulationMode.TabIndex = 0;
-            ckbSimulationMode.Text = "模擬模式";
-            ckbSimulationMode.UseVisualStyleBackColor = true;
-            ckbSimulationMode.Visible = false;
-            ckbSimulationMode.CheckedChanged += ckbSimulationMode_CheckedChanged;
             // 
             // EqName
             // 
@@ -192,6 +155,58 @@
             portStatusDownDataGridViewCheckBoxColumn.Name = "portStatusDownDataGridViewCheckBoxColumn";
             portStatusDownDataGridViewCheckBoxColumn.ReadOnly = true;
             // 
+            // btnColumn
+            // 
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = Color.Silver;
+            dataGridViewCellStyle3.Font = new Font("微軟正黑體", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
+            btnColumn.DefaultCellStyle = dataGridViewCellStyle3;
+            btnColumn.HeaderText = "詳情";
+            btnColumn.Name = "btnColumn";
+            btnColumn.ReadOnly = true;
+            btnColumn.Text = "詳情";
+            btnColumn.UseColumnTextForButtonValue = true;
+            // 
+            // clsConverterPortBindingSource
+            // 
+            clsConverterPortBindingSource.DataSource = typeof(CasstteConverter.clsConverterPort);
+            // 
+            // panel1
+            // 
+            panel1.Controls.Add(btnOpenMasterMemTb);
+            panel1.Controls.Add(ckbSimulationMode);
+            panel1.Dock = DockStyle.Top;
+            panel1.Location = new Point(0, 0);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(1031, 39);
+            panel1.TabIndex = 1;
+            // 
+            // btnOpenMasterMemTb
+            // 
+            btnOpenMasterMemTb.BackColor = Color.FromArgb(0, 192, 192);
+            btnOpenMasterMemTb.Dock = DockStyle.Right;
+            btnOpenMasterMemTb.Font = new Font("微軟正黑體", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            btnOpenMasterMemTb.ForeColor = Color.White;
+            btnOpenMasterMemTb.Location = new Point(900, 0);
+            btnOpenMasterMemTb.Name = "btnOpenMasterMemTb";
+            btnOpenMasterMemTb.Size = new Size(131, 39);
+            btnOpenMasterMemTb.TabIndex = 1;
+            btnOpenMasterMemTb.Text = "Memory Table";
+            btnOpenMasterMemTb.UseVisualStyleBackColor = false;
+            btnOpenMasterMemTb.Click += btnOpenMasterMemTb_Click;
+            // 
+            // ckbSimulationMode
+            // 
+            ckbSimulationMode.AutoSize = true;
+            ckbSimulationMode.Location = new Point(7, 8);
+            ckbSimulationMode.Name = "ckbSimulationMode";
+            ckbSimulationMode.Size = new Size(74, 19);
+            ckbSimulationMode.TabIndex = 0;
+            ckbSimulationMode.Text = "模擬模式";
+            ckbSimulationMode.UseVisualStyleBackColor = true;
+            ckbSimulationMode.Visible = false;
+            ckbSimulationMode.CheckedChanged += ckbSimulationMode_CheckedChanged;
+            // 
             // UscEQStatus
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -224,5 +239,6 @@
         private DataGridViewCheckBoxColumn lDUPPOSDataGridViewCheckBoxColumn;
         private DataGridViewCheckBoxColumn lDDOWNPOSDataGridViewCheckBoxColumn;
         private DataGridViewCheckBoxColumn portStatusDownDataGridViewCheckBoxColumn;
+        private DataGridViewButtonColumn btnColumn;
     }
 }

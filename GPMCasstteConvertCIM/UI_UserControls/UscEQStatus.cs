@@ -144,6 +144,11 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             frm.Show();
         }
 
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
         ///
         //uscAlarmTable1.BindData(AlarmManager.AlarmsList);
         //    AlarmManager.onAlarmAdded += (sender, arg) => { uscAlarmTable1.alarmListBinding.ResetBindings(); };
