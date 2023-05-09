@@ -39,30 +39,30 @@ namespace GPMCasstteConvertCIM.UI_UserControls
         {
             ckbSimulationMode.Visible = false;
         }
-
+        private int StatusbitdataStartIndex = 3;
         private void DataGridView1_CellFormatting(object? sender, DataGridViewCellFormattingEventArgs e)
         {
-            if (e.ColumnIndex >= 2 && e.RowIndex != -1)
+            if (e.ColumnIndex >= StatusbitdataStartIndex && e.RowIndex != -1)
             {
                 clsConverterPort data = (clsConverterPort)dataGridView1.Rows[e.RowIndex].DataBoundItem;
 
                 bool state_to_change = false;
 
-                if (e.ColumnIndex == 2)
+                if (e.ColumnIndex == StatusbitdataStartIndex)
                     state_to_change = data.LoadRequest;
-                if (e.ColumnIndex == 3)
+                if (e.ColumnIndex == StatusbitdataStartIndex + 1)
                     state_to_change = data.UnloadRequest;
-                if (e.ColumnIndex == 4)
+                if (e.ColumnIndex == StatusbitdataStartIndex + 2)
                     state_to_change = data.PortExist;
-                if (e.ColumnIndex == 5)
+                if (e.ColumnIndex == StatusbitdataStartIndex + 3)
                     state_to_change = data.LD_UP_POS;
-                if (e.ColumnIndex == 6)
+                if (e.ColumnIndex == StatusbitdataStartIndex + 4)
                     state_to_change = data.LD_DOWN_POS;
-                if (e.ColumnIndex == 7)
+                if (e.ColumnIndex == StatusbitdataStartIndex + 5)
                     state_to_change = data.PortStatusDown;
 
 
-                if (e.ColumnIndex == 7)
+                if (e.ColumnIndex == StatusbitdataStartIndex + 5)
                     dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = state_to_change ? Color.FromArgb(34, 181, 71) : Color.Red;
                 else
                     dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = state_to_change ? Color.FromArgb(34, 181, 71) : Color.WhiteSmoke;
@@ -83,7 +83,7 @@ namespace GPMCasstteConvertCIM.UI_UserControls
 
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < 0 | e.ColumnIndex < 2)
+            if (e.RowIndex < 0 | e.ColumnIndex < StatusbitdataStartIndex)
                 return;
 
             if (!DevicesManager.cclink_master.simulation_mode)
@@ -95,32 +95,32 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             var data = row.DataBoundItem as clsConverterPort;
             bool _state_change_to = false;
             Enums.PROPERTY property = Enums.PROPERTY.Load_Request;
-            if (e.ColumnIndex == 2)
+            if (e.ColumnIndex == StatusbitdataStartIndex)
             {
                 property = Enums.PROPERTY.Load_Request;
                 _state_change_to = !data.LoadRequest;
             }
-            else if (e.ColumnIndex == 3)
+            else if (e.ColumnIndex == StatusbitdataStartIndex + 1)
             {
                 property = Enums.PROPERTY.Unload_Request;
                 _state_change_to = !data.UnloadRequest;
             }
-            else if (e.ColumnIndex == 4)
+            else if (e.ColumnIndex == StatusbitdataStartIndex + 2)
             {
                 property = Enums.PROPERTY.Port_Exist;
                 _state_change_to = !data.PortExist;
             }
-            else if (e.ColumnIndex == 5)
+            else if (e.ColumnIndex == StatusbitdataStartIndex + 3)
             {
                 property = Enums.PROPERTY.LD_UP_POS;
                 _state_change_to = !data.LD_UP_POS;
             }
-            else if (e.ColumnIndex == 6)
+            else if (e.ColumnIndex == StatusbitdataStartIndex + 4)
             {
                 property = Enums.PROPERTY.LD_DOWN_POS;
                 _state_change_to = !data.LD_DOWN_POS;
             }
-            else if (e.ColumnIndex == 7)
+            else if (e.ColumnIndex == StatusbitdataStartIndex + 5)
             {
                 property = Enums.PROPERTY.Port_Status_Down;
                 _state_change_to = !data.PortStatusDown;
