@@ -29,8 +29,9 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
             dataGridView1 = new DataGridView();
             EqName = new DataGridViewTextBoxColumn();
             PortName = new DataGridViewTextBoxColumn();
@@ -43,6 +44,7 @@
             clsConverterPortBindingSource = new BindingSource(components);
             panel1 = new Panel();
             ckbSimulationMode = new CheckBox();
+            btnOpenMasterMemTb = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)clsConverterPortBindingSource).BeginInit();
             panel1.SuspendLayout();
@@ -52,18 +54,20 @@
             // 
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.AllowUserToDeleteRows = false;
+            dataGridViewCellStyle4.BackColor = Color.PaleGoldenrod;
+            dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
             dataGridView1.AutoGenerateColumns = false;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCells;
             dataGridView1.BackgroundColor = Color.White;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = SystemColors.Control;
-            dataGridViewCellStyle1.Font = new Font("微軟正黑體", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
-            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = SystemColors.Control;
+            dataGridViewCellStyle5.Font = new Font("微軟正黑體", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
+            dataGridViewCellStyle5.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle5.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
+            dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             dataGridView1.ColumnHeadersHeight = 42;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { EqName, PortName, dataGridViewCheckBoxColumn1, unloadRequestDataGridViewCheckBoxColumn, portExistDataGridViewCheckBoxColumn, lDUPPOSDataGridViewCheckBoxColumn, lDDOWNPOSDataGridViewCheckBoxColumn, portStatusDownDataGridViewCheckBoxColumn });
             dataGridView1.DataSource = clsConverterPortBindingSource;
@@ -72,11 +76,13 @@
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersVisible = false;
-            dataGridViewCellStyle2.Font = new Font("微軟正黑體", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle2.ForeColor = Color.Black;
-            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(224, 224, 224);
-            dataGridViewCellStyle2.SelectionForeColor = Color.Gray;
-            dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle6.BackColor = Color.AntiqueWhite;
+            dataGridViewCellStyle6.Font = new Font("微軟正黑體", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle6.ForeColor = Color.Black;
+            dataGridViewCellStyle6.Padding = new Padding(1);
+            dataGridViewCellStyle6.SelectionBackColor = Color.FromArgb(224, 224, 224);
+            dataGridViewCellStyle6.SelectionForeColor = Color.Gray;
+            dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle6;
             dataGridView1.RowTemplate.Height = 25;
             dataGridView1.Size = new Size(1031, 547);
             dataGridView1.TabIndex = 0;
@@ -144,6 +150,7 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(btnOpenMasterMemTb);
             panel1.Controls.Add(ckbSimulationMode);
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 0);
@@ -162,6 +169,20 @@
             ckbSimulationMode.UseVisualStyleBackColor = true;
             ckbSimulationMode.Visible = false;
             ckbSimulationMode.CheckedChanged += ckbSimulationMode_CheckedChanged;
+            // 
+            // btnOpenMasterMemTb
+            // 
+            btnOpenMasterMemTb.BackColor = Color.FromArgb(0, 192, 192);
+            btnOpenMasterMemTb.Dock = DockStyle.Right;
+            btnOpenMasterMemTb.Font = new Font("微軟正黑體", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            btnOpenMasterMemTb.ForeColor = Color.White;
+            btnOpenMasterMemTb.Location = new Point(900, 0);
+            btnOpenMasterMemTb.Name = "btnOpenMasterMemTb";
+            btnOpenMasterMemTb.Size = new Size(131, 39);
+            btnOpenMasterMemTb.TabIndex = 1;
+            btnOpenMasterMemTb.Text = "Memory Table";
+            btnOpenMasterMemTb.UseVisualStyleBackColor = false;
+            btnOpenMasterMemTb.Click += btnOpenMasterMemTb_Click;
             // 
             // UscEQStatus
             // 
@@ -193,5 +214,6 @@
         private DataGridViewCheckBoxColumn portStatusDownDataGridViewCheckBoxColumn;
         private Panel panel1;
         private CheckBox ckbSimulationMode;
+        private Button btnOpenMasterMemTb;
     }
 }

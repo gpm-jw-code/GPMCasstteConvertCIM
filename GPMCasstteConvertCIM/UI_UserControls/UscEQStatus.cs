@@ -1,5 +1,6 @@
 ﻿using GPMCasstteConvertCIM.CasstteConverter;
 using GPMCasstteConvertCIM.Devices;
+using GPMCasstteConvertCIM.Forms;
 using GPMCasstteConvertCIM.Utilities;
 using System;
 using System.Collections.Generic;
@@ -130,6 +131,17 @@ namespace GPMCasstteConvertCIM.UI_UserControls
         private void ckbSimulationMode_CheckedChanged(object sender, EventArgs e)
         {
             DevicesManager.cclink_master.simulation_mode = ckbSimulationMode.Checked;
+        }
+
+        private void btnOpenMasterMemTb_Click(object sender, EventArgs e)
+        {
+            frmConvertPLCMemoryTables frm = new frmConvertPLCMemoryTables()
+            {
+                CasstteConverter = DevicesManager.cclink_master
+            };
+            frm.TopLevel = true;
+            frm.TopMost = true;
+            frm.Show();
         }
 
         ///

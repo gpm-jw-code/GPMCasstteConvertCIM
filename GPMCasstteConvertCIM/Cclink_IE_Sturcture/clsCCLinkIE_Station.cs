@@ -2,6 +2,7 @@
 using GPMCasstteConvertCIM.CasstteConverter;
 using GPMCasstteConvertCIM.CasstteConverter.Data;
 using GPMCasstteConvertCIM.Devices;
+using GPMCasstteConvertCIM.GPM_Modbus;
 using GPMCasstteConvertCIM.Utilities;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using static GPMCasstteConvertCIM.CasstteConverter.Data.clsMemoryAddress;
 using static GPMCasstteConvertCIM.CasstteConverter.Enums;
 
 namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
@@ -48,7 +50,8 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
                 PortDatas.Add(new clsStationPort(portProp, this)
                 {
                     LinkBitMap = this.LinkBitMap,
-                    LinkWordMap = this.LinkWordMap
+                    LinkWordMap = this.LinkWordMap,
+                    converterParent = this
                 });
             }
             //this.mainGUI = mainGUI;
@@ -129,7 +132,23 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
         public clsStationPort(clsPortProperty property, clsCasstteConverter converterParent) : base(property, converterParent)
         {
         }
+        protected override void Modbus_server_CoilsOnChanged(object? sender, ModbusProtocol e)
+        {
+            ///要把Coil Data同步到PLC Memory 
+            Task.Factory.StartNew(() =>
+            {
+                string portNoName = $"PORT{Properties.PortNo + 1}";
+                List<CasstteConverter.Data.clsMemoryAddress> CIMLinkAddress = DevicesManager.cclink_master.LinkBitMap.FindAll(ad => ad.EQ_Name == ((clsCCLinkIE_Station)converterParent).Eq_Name && ad.EOwner == OWNER.CIM && ad.EScope.ToString() == portNoName && ad.Link_Modbus_Register_Number != -1);
+                foreach (var item in CIMLinkAddress)
+                {
+                    int register_num = item.Link_Modbus_Register_Number;
+                    var localCoilsAry = modbus_server.coils.localArray;
+                    bool state = localCoilsAry[register_num + 1];
+                    DevicesManager.cclink_master.CIMMemOptions.memoryTable.WriteOneBit(item.Address, state);
+                }
 
+            });
+        }
         public override void SyncRegisterData()
         {
             Task.Run(async () =>

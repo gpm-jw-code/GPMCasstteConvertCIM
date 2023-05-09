@@ -21,7 +21,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 {
     public class clsConverterPort : IModbusHSable
     {
-        public clsCasstteConverter converterParent { get; }
+        public clsCasstteConverter converterParent { get; internal set; }
 
         public class clsPortProperty
         {
@@ -705,7 +705,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             }
         }
 
-        private void Modbus_server_CoilsOnChanged(object? sender, ModbusProtocol e)
+        virtual protected void Modbus_server_CoilsOnChanged(object? sender, ModbusProtocol e)
         {
             ///要把Coil Data同步到PLC Memory 
             Task.Factory.StartNew(() =>
