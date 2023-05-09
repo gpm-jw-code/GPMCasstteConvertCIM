@@ -143,11 +143,11 @@ namespace GPMCasstteConvertCIM.Devices
                 File.WriteAllText(deviceConnectionCofigsFile, JsonConvert.SerializeObject(DevicesConnectionsOpts, Formatting.Indented));
 
                 //check
-                eqplc_config_error = DevicesConnectionsOpts.PLCEQS.Any(eqp => (eqp.ConverterType == Enums.CONVERTER_TYPE.IN_SYS && eqp.Ports.Count != 1) | (eqp.ConverterType == Enums.CONVERTER_TYPE.SYS_2_SYS && eqp.Ports.Count != 2));
-                if (eqplc_config_error)
-                {
-                    errorMsg = "轉換架類型與Port數量不匹配";
-                }
+                //eqplc_config_error = DevicesConnectionsOpts.PLCEQS.Any(eqp => (eqp.ConverterType == Enums.CONVERTER_TYPE.IN_SYS && eqp.Ports.Count != 1) | (eqp.ConverterType == Enums.CONVERTER_TYPE.SYS_2_SYS && eqp.Ports.Count != 2));
+                //if (eqplc_config_error)
+                //{
+                //    errorMsg = "轉換架類型與Port數量不匹配";
+                //}
             }
             catch (Exception ex)
             {
