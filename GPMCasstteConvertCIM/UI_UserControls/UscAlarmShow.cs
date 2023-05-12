@@ -47,6 +47,12 @@ namespace GPMCasstteConvertCIM.UI_UserControls
                 return;
             }
 
+            if (playingAlarmIndex >= alarms.Count)
+            {
+                playingAlarmIndex = 0;
+                return;
+            }
+
             var alarm = alarms[playingAlarmIndex];
             if (alarm != null)
             {
