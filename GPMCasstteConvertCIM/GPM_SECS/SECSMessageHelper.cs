@@ -202,9 +202,6 @@ namespace GPMCasstteConvertCIM.GPM_SECS
             /// <returns></returns>
             public static SecsMessage EstablishCommunicationRequestMessage(string MDLN, string SOFTREV)
             {
-                //TODO What is 'MDLN'?
-                //TODO What is 'SOFTREV'?
-
                 var msg = new SecsMessage(1, 13, replyExpected: true)
                 {
                     SecsItem = L(
@@ -381,6 +378,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS
 
                 var msg = new SecsMessage(6, 11)
                 {
+
                     SecsItem = L(
                                   U4(DATAID),//DATAID,
                                   U2((ushort)CEID.OnLineRemoteModeChangeReport), //CEID
@@ -406,7 +404,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS
                     A(carrier_ZoneName)
                 };
 
-                return CreateEventMsg(1, (ushort)CEID.CarrierWaitIn, RPTID: 5, VIDList);
+                return CreateEventMsg(1, (ushort)CEID.CarrierWaitIn, RPTID: 5, VIDList,"Carrier_Wait_In");
             }
 
             public static SecsMessage CarrierWaitOutReportMessage(string carrier_ID, string carrier_Loc, string carrier_ZoneName)
@@ -418,7 +416,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS
                     A(carrier_ZoneName)
                 };
 
-                return CreateEventMsg(1, (ushort)CEID.CarrierWaitOut, RPTID: 5, VIDList);
+                return CreateEventMsg(1, (ushort)CEID.CarrierWaitOut, RPTID: 5, VIDList,"Carrier_Wait_Out");
             }
 
             public static SecsMessage CarrierRemovedCompletedReportMessage(string carrier_ID, string carrier_Loc, string carrier_ZoneName)
@@ -430,16 +428,17 @@ namespace GPMCasstteConvertCIM.GPM_SECS
                     A(carrier_ZoneName)
                };
 
-                return CreateEventMsg(1, (ushort)CEID.CarrierRemovedCompletedReport, RPTID: 4, VIDList);
+                return CreateEventMsg(1, (ushort)CEID.CarrierRemovedCompletedReport, RPTID: 4, VIDList, "Carrier_Removed_Completed");
             }
 
 
 
-            public static SecsMessage CreateEventMsg(ushort DATAID, ushort CEID, ushort RPTID, Item[] VIDLIST)
+            public static SecsMessage CreateEventMsg(ushort DATAID, ushort CEID, ushort RPTID, Item[] VIDLIST, string name = "")
             {
 
                 SecsMessage msg = new(6, 11)
                 {
+                    Name = name,
                     SecsItem = L(
                                   U4(DATAID),//DATAID,
                                   U2(CEID), //CEID
@@ -465,7 +464,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS
                 return msg;
             }
 
-           
+
         }
     }
 }

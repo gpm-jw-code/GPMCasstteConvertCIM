@@ -23,6 +23,9 @@
     <Reference Include="CIMComponent">
       <HintPath>..\..\..\..\..\ProjectProgram\Smart IOT\dll\CIMComponent.dll</HintPath>
     </Reference>
+    <Reference Include="Secs4Net.Sml">
+      <HintPath>..\GPMCasstteConvertCIM\src\Secs4Net.Sml.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>

@@ -49,27 +49,31 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
 
         }
 
+        /// <summary>
+        /// 
+        ///L(
+        ///  L(
+        ///     A('PORTID')
+        ///     A('port ID')
+        ///   )
+        ///
+        ///  L(
+        ///     A('PORTUNITTYPE')
+        ///     U2(0) //0:input,1:output
+        ///   )
+        ///)
+        /// </summary>
+        /// <param name="parameterGroups"></param>
+        /// <param name="_primaryMessageWrapper"></param>
         private async static void PortTypeChangeHandler(Item parameterGroups, PrimaryMessageWrapper _primaryMessageWrapper)
         {
-            //L(
-            //  L(
-            //     A('PORTID')
-            //     A('port ID')
-            //   )
-
-            //  L(
-            //     A('PORTUNITTYPE')
-            //     U2(0) //0:input,1:output
-            //   )
-            //)
-
             string port_id = parameterGroups.Items[0].Items[1].GetString();
             ushort port_type = parameterGroups.Items[1].Items[1].FirstValue<ushort>();
             clsConverterPort port = DevicesManager.GetPortByPortID(port_id);
             bool accept = await port.HandshakeHelper.ModeChangeRequestHandshake(port_type == 0 ? PortUnitType.Input : PortUnitType.Output);
 
             //TODO SEND REPLY TO MCS(PORTTYPECHANGE ack)
-            _primaryMessageWrapper.TryReplyAsync(new SecsMessage(2, 42, false)
+            await _primaryMessageWrapper.TryReplyAsync(new SecsMessage(2, 42, false)
             {
             });
         }
@@ -118,7 +122,11 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
         }
 
         /// <summary>
-        /// 處理S1F3 , SVID 2005/2009 是CIM要處理但AGVS不處理
+        /// 處理S1F3 , SVID 2005/2007/2009 是CIM要處理的
+        /// 流程:
+        /// 1. 移除2005/2007/2009之後送給KGS，得到回覆Msg
+        /// 2. CIM 處理 2005/2007/2009
+        /// 3. 根據 MCS 下發的 VID順序把KGS跟CIM的資料灌到S1F4裡面
         /// </summary>
         /// <param name="primaryMsgFromMcs"></param>
         /// <returns></returns>
@@ -128,7 +136,6 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
             {
                 List<(ushort vid, Item secs_item)> svid_data_store = new List<(ushort vid, Item secs_item)>();
                 List<Item> svid_items = primaryMsgFromMcs.SecsItem.Items.ToList();
-                //Dictionary<ushort, Item> svid_data_store = new Dictionary<ushort, Item>();
 
                 List<Item> itemsToCIM = svid_items.FindAll(item => item.FirstValue<ushort>() is 2005 or 2007 or 2009);
                 if (itemsToCIM.Count > 0)
@@ -191,6 +198,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
 
                 var replyMessage = new SecsMessage(1, 4, false)
                 {
+                    Name = "Selected Equipment Status Reply",
                     SecsItem = L(datas)
                 };
 
@@ -201,7 +209,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
             catch (Exception ex)
             {
                 Utility.SystemLogger.Error("S1F3RequestHandle", ex);
-                MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace);
+                _AddAlarm(ALARM_CODES.CIM_HANDLE_S1F3_OCCUR_ERROR);
                 return new SecsMessage(1, 4, false) { };
             }
 
@@ -257,7 +265,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
             //  A <PortID>
             //  U2<PortUnitType> 0=Input ; 1=Output
             List<clsConverterPort> ports = DevicesManager.GetAllPorts();
-            ports= ports.OrderBy(p => p.Properties.PortID).ToList();
+            ports = ports.OrderBy(p => p.Properties.PortID).ToList();
             Item GetPortTypeInfo(clsConverterPort port)
             {
                 return L(

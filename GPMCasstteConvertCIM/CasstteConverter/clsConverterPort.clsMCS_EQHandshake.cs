@@ -125,13 +125,14 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             }
 
 
-            public async void PortOutOfServiceReport() 
+            public async void PortOutOfServiceReport()
             {
                 Task tk = null;
                 tk = new Task(async () =>
                 {
                     var msg = new SecsMessage(6, 11)
                     {
+                        Name = "Port Out of Service",
                         SecsItem = Item.L(
                                           Item.U4(DataID_Cylic_Use),//DATAID,
                                           Item.U2((ushort)CEID.PortOutOfServiceReport), //CEID
@@ -151,11 +152,13 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     {
                         replyMsg = await DevicesManager.secs_host_for_mcs.SendAsync(msg);
                         if (replyMsg == null)
-                            AlarmManager.AddAlarm(ALARM_CODES.MCS_PORT_OUT_SERVICE_REPORT_FAIL, Port.PortNameWithEQName);
+                            AlarmManager.AddWarning(ALARM_CODES.MCS_PORT_OUT_SERVICE_REPORT_FAIL, Port.PortNameWithEQName);
                         else
                             Utilities.Utility.SystemLogger.Info($"PortOutOfServiceReport Done. \r\n MCS Reply \r\n{replyMsg.ToSml()}");
                         await Task.Delay(1000);
                     }
+
+                    AlarmManager.TryRemoveAlarm(ALARM_CODES.MCS_PORT_OUT_SERVICE_REPORT_FAIL, Port.PortNameWithEQName);
                 });
                 tk.Start();
 
@@ -166,6 +169,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 {
                     var msg = new SecsMessage(6, 11)
                     {
+                        Name = "Port In Service",
                         SecsItem = Item.L(
                                           Item.U4(DataID_Cylic_Use),//DATAID,
                                           Item.U2((ushort)CEID.PortInServiceReport), //CEID
@@ -184,11 +188,12 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     {
                         replyMsg = await DevicesManager.secs_host_for_mcs.SendAsync(msg);
                         if (replyMsg == null)
-                            AlarmManager.AddAlarm(ALARM_CODES.MCS_PORT_IN_SERVICE_REPORT_FAIL, Port.PortNameWithEQName);
+                            AlarmManager.AddWarning(ALARM_CODES.MCS_PORT_IN_SERVICE_REPORT_FAIL, Port.PortNameWithEQName);
                         else
                             Utilities.Utility.SystemLogger.Info($"PortInServiceReport Done. \r\n MCS Reply \r\n {replyMsg.ToSml()}");
                         await Task.Delay(1000);
                     }
+                    AlarmManager.TryRemoveAlarm(ALARM_CODES.MCS_PORT_IN_SERVICE_REPORT_FAIL, Port.PortNameWithEQName);
 
                 });
                 tk.Start();
@@ -199,6 +204,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 {
                     var msg = new SecsMessage(6, 11)
                     {
+                        Name = "Port Type In",
                         SecsItem = Item.L(
                                   Item.U4(DataID_Cylic_Use),//DATAID,
                                   Item.U2((ushort)CEID.PortTypeInputReport), //CEID
@@ -218,11 +224,12 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     {
                         replyMsg = await DevicesManager.secs_host_for_mcs.SendAsync(msg);
                         if (replyMsg == null)
-                            AlarmManager.AddAlarm(ALARM_CODES.MCS_PORT_TYPE_INPUT_REPORT_FAIL, Port.PortNameWithEQName);
+                            AlarmManager.AddWarning(ALARM_CODES.MCS_PORT_TYPE_INPUT_REPORT_FAIL, Port.PortNameWithEQName);
                         else
                             Utilities.Utility.SystemLogger.Info($"PortTypeInputReport Done. \r\n MCS Reply \r\n {replyMsg.ToSml()}");
                         await Task.Delay(1000);
                     }
+                    AlarmManager.TryRemoveAlarm(ALARM_CODES.MCS_PORT_TYPE_INPUT_REPORT_FAIL, Port.PortNameWithEQName);
 
                 });
                 tk.Start();
@@ -233,6 +240,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                  {
                      var msg = new SecsMessage(6, 11)
                      {
+                         Name = "Port Type Out",
                          SecsItem = Item.L(
                                    Item.U4(DataID_Cylic_Use),//DATAID,
                                    Item.U2((ushort)CEID.PortTypeOutputReport), //CEID
@@ -251,11 +259,12 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                      {
                          replyMsg = await DevicesManager.secs_host_for_mcs.SendAsync(msg);
                          if (replyMsg == null)
-                             AlarmManager.AddAlarm(ALARM_CODES.MCS_PORT_TYPE_OUTPUT_REPORT_FAIL, Port.PortNameWithEQName);
+                             AlarmManager.AddWarning(ALARM_CODES.MCS_PORT_TYPE_OUTPUT_REPORT_FAIL, Port.PortNameWithEQName);
                          else
                              Utilities.Utility.SystemLogger.Info($"PortTypeInputReport Done. \r\n MCS Reply \r\n {replyMsg.ToSml()}");
                          await Task.Delay(1000);
                      }
+                     AlarmManager.TryRemoveAlarm(ALARM_CODES.MCS_PORT_TYPE_OUTPUT_REPORT_FAIL, Port.PortNameWithEQName);
                  });
                 tk.Start();
             }
@@ -279,8 +288,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                         var msc_reply = await DevicesManager.secs_host_for_mcs.SendAsync(EVENT_REPORT.CarrierWaitInReportMessage(WIPINFO_BCR_ID, Properties.PortID, ""));//TODO Zone Name ?
                         if (msc_reply == null)
                         {
-                            AlarmManager.AddAlarm(ALARM_CODES.CARRIER_WAIT_IN_BUT_MCS_DISCONNECT, Port.PortNameWithEQName);
-                            AlarmManager.AddAlarm(ALARM_CODES.MCS_CARRIER_WAITIN_REPORT_FAIL, Port.PortNameWithEQName);
+                            AlarmManager.AddWarning(ALARM_CODES.CARRIER_WAIT_IN_BUT_MCS_DISCONNECT, Port.PortNameWithEQName);
+                            AlarmManager.AddWarning(ALARM_CODES.MCS_CARRIER_WAITIN_REPORT_FAIL, Port.PortNameWithEQName);
                             return false;
                         }
                         isEventReportAck = true;
@@ -342,9 +351,9 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 }
                 converterParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_removed_com_reply_address, false);
             }
+
             public async Task CarrierWaitOutReply()
             {
-
                 var carrier_wait_out_reply_address = PortCIMBitAddress[PROPERTY.Carrier_WawitOut_System_Reply];
                 converterParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_out_reply_address, true);
                 CancellationTokenSource cst = new CancellationTokenSource(TimeSpan.FromSeconds(5));

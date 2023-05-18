@@ -26,6 +26,7 @@ public sealed class SecsMessage : IDisposable
     /// </summary>
     public Item? SecsItem { get; init; }
 
+
     /// <summary>
     /// constructor of SecsMessage
     /// </summary>

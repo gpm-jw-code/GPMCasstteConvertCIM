@@ -195,7 +195,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 while (true)
                 {
                     await Task.Delay(1);
-                    //TODO 資料解析
                     Stopwatch stopwatch = Stopwatch.StartNew();
                     SyncMemData();
                     stopwatch.Stop();

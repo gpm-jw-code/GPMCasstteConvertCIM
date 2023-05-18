@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Secs4Net;
+using Secs4Net.Sml;
 
 namespace GPMCasstteConvertCIM.GPM_SECS.Tests
 {
@@ -18,6 +19,16 @@ namespace GPMCasstteConvertCIM.GPM_SECS.Tests
             Secs4Net.SecsMessage msg = SECSMessageHelper.EVENT_REPORT.ChangeOfflineModeEventReportMessage(0, "SV-GPM-EQP-ID-213");
         }
 
+        [TestMethod()]
+        public void SecsItemNameTest()
+        {
+            SecsMessage msg = new SecsMessage(1, 1)
+            {
+                Name = "Test",
+                SecsItem = Item.A("TEST")
+            };
+            Console.WriteLine(msg.ToSml());
+        }
 
 
         [TestMethod()]
