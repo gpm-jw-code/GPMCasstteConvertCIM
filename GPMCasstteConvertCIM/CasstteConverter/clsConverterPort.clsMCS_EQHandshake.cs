@@ -3,6 +3,7 @@ using GPMCasstteConvertCIM.CasstteConverter.Data;
 using GPMCasstteConvertCIM.Devices;
 using GPMCasstteConvertCIM.GPM_SECS;
 using Secs4Net;
+using Secs4Net.Sml;
 using System.Diagnostics;
 using static GPMCasstteConvertCIM.CasstteConverter.Data.clsMemoryAddress;
 using static GPMCasstteConvertCIM.CasstteConverter.Enums;
@@ -16,7 +17,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         {
             public Dictionary<PROPERTY, string> PortCIMBitAddress => Port.PortCIMBitAddress;
             public Dictionary<PROPERTY, string> PortCIMWordAddress => Port.PortCIMWordAddress;
-            public Dictionary<PROPERTY, string> PortEQBitAddress=> Port.PortEQBitAddress;
+            public Dictionary<PROPERTY, string> PortEQBitAddress => Port.PortEQBitAddress;
 
             private clsConverterPort Port;
             private clsPortProperty Properties => Port.Properties;
@@ -114,79 +115,108 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
             public async void PortOutOfServiceReport()
             {
-                var msg = new SecsMessage(6, 11)
-                {
-                    SecsItem = Item.L(
-                                    Item.U4(0),//DATAID,
-                                    Item.U2((ushort)CEID.PortOutOfServiceReport), //CEID
-                                    Item.L(
-                                        Item.L(
-                                         Item.U2(12),//RPTID,
-                                         Item.L(
-                                             Item.A(Properties.PortID)
-                                           )
-                                         )
-                                      )
-                                   )
-                };
-                var replyMsg = await DevicesManager.secs_host_for_mcs.SendAsync(msg);
-                if (replyMsg == null)
-                {
-                    AlarmManager.AddAlarm(ALARM_CODES.MCS_PORT_OUT_SERVICE_REPORT_FAIL, this.Port.PortNameWithEQName);
-                }
-            }
-            public async void PortInServiceReport()
-            {
-                _ = Task.Run(async () =>
+                Task tk = null;
+                tk = new Task(async () =>
                 {
                     var msg = new SecsMessage(6, 11)
                     {
                         SecsItem = Item.L(
-                                      Item.U4(0),//DATAID,
-                                      Item.U2((ushort)CEID.PortInServiceReport), //CEID
-                                      Item.L(
+                                          Item.U4(0),//DATAID,
+                                          Item.U2((ushort)CEID.PortOutOfServiceReport), //CEID
                                           Item.L(
-                                           Item.U2(12),//RPTID,
-                                           Item.L(
-                                               Item.A(Properties.PortID)
-                                             )
-                                           )
-                                        )
-                                     )
+                                              Item.L(
+                                               Item.U2(12),//RPTID,
+                                               Item.L(
+                                                   Item.A(Properties.PortID)
+                                                 )
+                                               )
+                                            )
+                                         )
                     };
                     var replyMsg = await DevicesManager.secs_host_for_mcs.SendAsync(msg);
                     if (replyMsg == null)
                     {
-
                         AlarmManager.AddAlarm(ALARM_CODES.MCS_PORT_IN_SERVICE_REPORT_FAIL, Port.PortNameWithEQName);
+                        tk.Start();
+                    }
+                    else
+                    {
+                        Utilities.Utility.SystemLogger.Info($"PortOutOfServiceReport Done => {replyMsg.ToSml()}");
                     }
                 });
+                tk.Start();
+
             }
-            public async void PortTypeInputReport()
+            public async void PortInServiceReport()
             {
-                _ = Task.Run(async () =>
+                Task tk = null;
+                tk = new Task(async () =>
                 {
                     var msg = new SecsMessage(6, 11)
                     {
                         SecsItem = Item.L(
-                                  Item.U4(0),//DATAID,
-                                  Item.U2((ushort)CEID.PortTypeInputReport), //CEID
-                                  Item.L(
-                                      Item.L(
-                                       Item.U2(12),//RPTID,
-                                       Item.L(
-                                           Item.A(Properties.PortID)
+                                          Item.U4(0),//DATAID,
+                                          Item.U2((ushort)CEID.PortInServiceReport), //CEID
+                                          Item.L(
+                                              Item.L(
+                                               Item.U2(12),//RPTID,
+                                               Item.L(
+                                                   Item.A(Properties.PortID)
+                                                 )
+                                               )
+                                            )
                                          )
-                                       )
-                                    )
-                                 )
                     };
                     var replyMsg = await DevicesManager.secs_host_for_mcs.SendAsync(msg);
+                    if (replyMsg == null)
+                    {
+                        AlarmManager.AddAlarm(ALARM_CODES.MCS_PORT_IN_SERVICE_REPORT_FAIL, Port.PortNameWithEQName);
+                        tk.Start();
+                    }
+                    else
+                    {
+                        Utilities.Utility.SystemLogger.Info($"PortInServiceReport Done => {replyMsg.ToSml()}");
+                    }
                 });
+                tk.Start();
+            }
+            public async void PortTypeInputReport()
+            {
+                Task tk = null;
+                 tk = new Task(async () =>
+                 {
+                     var msg = new SecsMessage(6, 11)
+                     {
+                         SecsItem = Item.L(
+                                   Item.U4(0),//DATAID,
+                                   Item.U2((ushort)CEID.PortTypeInputReport), //CEID
+                                   Item.L(
+                                       Item.L(
+                                        Item.U2(12),//RPTID,
+                                        Item.L(
+                                            Item.A(Properties.PortID)
+                                          )
+                                        )
+                                     )
+                                  )
+                     };
+                     var replyMsg = await DevicesManager.secs_host_for_mcs.SendAsync(msg);
+                     if (replyMsg == null)
+                     {
+                         AlarmManager.AddAlarm(ALARM_CODES.MCS_PORT_TYPE_INPUT_REPORT_FAIL, Port.PortNameWithEQName);
+                         tk.Start();
+                     }
+                     else
+                     {
+                         Utilities.Utility.SystemLogger.Info($"PortTypeInputReport Done => {replyMsg.ToSml()}");
+                     }
+                 });
+                tk.Start();
             }
             public async void PortTypeOutputReport()
             {
-                _ = Task.Run(async () =>
+                Task tk = null;
+                tk= new Task(async () =>
                 {
                     var msg = new SecsMessage(6, 11)
                     {
@@ -204,7 +234,17 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                                  )
                     };
                     var replyMsg = await DevicesManager.secs_host_for_mcs.SendAsync(msg);
+                    if (replyMsg == null)
+                    {
+                        AlarmManager.AddAlarm(ALARM_CODES.MCS_PORT_TYPE_OUTPUT_REPORT_FAIL, Port.PortNameWithEQName);
+                        tk.Start();
+                    }
+                    else
+                    {
+                        Utilities.Utility.SystemLogger.Info($"PortTypeInputReport Done => {replyMsg.ToSml()}");
+                    }
                 });
+                tk.Start();
             }
 
             public async Task<bool> WaitMCSAccpectCarrierIn(int T_timout = 20)

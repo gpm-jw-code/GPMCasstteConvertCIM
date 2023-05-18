@@ -182,6 +182,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
             }
             catch (Exception ex)
             {
+                Utility.SystemLogger.Error("S1F3RequestHandle", ex);
                 return new SecsMessage(1, 4, false) { };
             }
 

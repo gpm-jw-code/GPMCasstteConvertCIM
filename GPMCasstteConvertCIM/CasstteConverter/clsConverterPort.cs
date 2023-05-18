@@ -235,6 +235,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                             {
                                 AlarmManager.AddAlarm(ALARM_CODES.CarrierWaitIn_HS_EQ_Timeout, PortNameWithEQName);
                             }
+                            else
+                            {
+                                Utilities.Utility.SystemLogger.Info($"Carrier Wait In HS Finish");
+                            }
                         });
                     }
                 }

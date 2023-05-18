@@ -62,6 +62,8 @@ namespace GPMCasstteConvertCIM.Forms
 
 
             Utility.SystemLogger = new LoggerBase(rtbSystemLogShow, Path.Combine(Utility.SysConfigs.Log.SyslogFolder, "Sys Log"));
+
+
             Utility.SystemLogger.Info("GPM CIM System Start");
 
             uscConnectionStates1.InitializeConnectionState();
