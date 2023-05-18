@@ -25,6 +25,17 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             private string portNoName => Port.portNoName;
             private string WIPINFO_BCR_ID => Port.WIPINFO_BCR_ID;
 
+            private uint _DataID_Cylic_Use = 1;
+            private uint DataID_Cylic_Use
+            {
+                get
+                {
+                    _DataID_Cylic_Use += 1;
+                    if (_DataID_Cylic_Use >= uint.MaxValue)
+                        _DataID_Cylic_Use = 1;
+                    return _DataID_Cylic_Use;
+                }
+            }
 
             private bool CarrierWaitIn_Reply = false;
             private bool CarrierWaitIn_Accept = false;
@@ -121,7 +132,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     var msg = new SecsMessage(6, 11)
                     {
                         SecsItem = Item.L(
-                                          Item.U4(0),//DATAID,
+                                          Item.U4(DataID_Cylic_Use),//DATAID,
                                           Item.U2((ushort)CEID.PortOutOfServiceReport), //CEID
                                           Item.L(
                                               Item.L(
@@ -133,15 +144,16 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                                             )
                                          )
                     };
-                    var replyMsg = await DevicesManager.secs_host_for_mcs.SendAsync(msg);
-                    if (replyMsg == null)
+
+                    SecsMessage? replyMsg = null;
+                    while (replyMsg == null && !Port.PortStatusDown)
                     {
-                        AlarmManager.AddAlarm(ALARM_CODES.MCS_PORT_IN_SERVICE_REPORT_FAIL, Port.PortNameWithEQName);
-                        tk.Start();
-                    }
-                    else
-                    {
-                        Utilities.Utility.SystemLogger.Info($"PortOutOfServiceReport Done => {replyMsg.ToSml()}");
+                        replyMsg = await DevicesManager.secs_host_for_mcs.SendAsync(msg);
+                        if (replyMsg == null)
+                            AlarmManager.AddAlarm(ALARM_CODES.MCS_PORT_OUT_SERVICE_REPORT_FAIL, Port.PortNameWithEQName);
+                        else
+                            Utilities.Utility.SystemLogger.Info($"PortOutOfServiceReport Done => {replyMsg.ToSml()}");
+                        await Task.Delay(1000);
                     }
                 });
                 tk.Start();
@@ -149,13 +161,12 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             }
             public async void PortInServiceReport()
             {
-                Task tk = null;
-                tk = new Task(async () =>
+                Task tk = new Task(async () =>
                 {
                     var msg = new SecsMessage(6, 11)
                     {
                         SecsItem = Item.L(
-                                          Item.U4(0),//DATAID,
+                                          Item.U4(DataID_Cylic_Use),//DATAID,
                                           Item.U2((ushort)CEID.PortInServiceReport), //CEID
                                           Item.L(
                                               Item.L(
@@ -167,62 +178,29 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                                             )
                                          )
                     };
-                    var replyMsg = await DevicesManager.secs_host_for_mcs.SendAsync(msg);
-                    if (replyMsg == null)
+                    SecsMessage? replyMsg = null;
+                    while (replyMsg == null && Port.PortStatusDown)
                     {
-                        AlarmManager.AddAlarm(ALARM_CODES.MCS_PORT_IN_SERVICE_REPORT_FAIL, Port.PortNameWithEQName);
-                        tk.Start();
+                        replyMsg = await DevicesManager.secs_host_for_mcs.SendAsync(msg);
+                        if (replyMsg == null)
+                            AlarmManager.AddAlarm(ALARM_CODES.MCS_PORT_IN_SERVICE_REPORT_FAIL, Port.PortNameWithEQName);
+                        else
+                            Utilities.Utility.SystemLogger.Info($"PortInServiceReport Done => {replyMsg.ToSml()}");
+                        await Task.Delay(1000);
                     }
-                    else
-                    {
-                        Utilities.Utility.SystemLogger.Info($"PortInServiceReport Done => {replyMsg.ToSml()}");
-                    }
+
                 });
                 tk.Start();
             }
             public async void PortTypeInputReport()
             {
-                Task tk = null;
-                 tk = new Task(async () =>
-                 {
-                     var msg = new SecsMessage(6, 11)
-                     {
-                         SecsItem = Item.L(
-                                   Item.U4(0),//DATAID,
-                                   Item.U2((ushort)CEID.PortTypeInputReport), //CEID
-                                   Item.L(
-                                       Item.L(
-                                        Item.U2(12),//RPTID,
-                                        Item.L(
-                                            Item.A(Properties.PortID)
-                                          )
-                                        )
-                                     )
-                                  )
-                     };
-                     var replyMsg = await DevicesManager.secs_host_for_mcs.SendAsync(msg);
-                     if (replyMsg == null)
-                     {
-                         AlarmManager.AddAlarm(ALARM_CODES.MCS_PORT_TYPE_INPUT_REPORT_FAIL, Port.PortNameWithEQName);
-                         tk.Start();
-                     }
-                     else
-                     {
-                         Utilities.Utility.SystemLogger.Info($"PortTypeInputReport Done => {replyMsg.ToSml()}");
-                     }
-                 });
-                tk.Start();
-            }
-            public async void PortTypeOutputReport()
-            {
-                Task tk = null;
-                tk= new Task(async () =>
+                Task tk = new Task(async () =>
                 {
                     var msg = new SecsMessage(6, 11)
                     {
                         SecsItem = Item.L(
-                                  Item.U4(0),//DATAID,
-                                  Item.U2((ushort)CEID.PortTypeOutputReport), //CEID
+                                  Item.U4(DataID_Cylic_Use),//DATAID,
+                                  Item.U2((ushort)CEID.PortTypeInputReport), //CEID
                                   Item.L(
                                       Item.L(
                                        Item.U2(12),//RPTID,
@@ -233,17 +211,51 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                                     )
                                  )
                     };
-                    var replyMsg = await DevicesManager.secs_host_for_mcs.SendAsync(msg);
-                    if (replyMsg == null)
+                    SecsMessage? replyMsg = null;
+
+                    while (replyMsg == null && Port.PortType == 0)
                     {
-                        AlarmManager.AddAlarm(ALARM_CODES.MCS_PORT_TYPE_OUTPUT_REPORT_FAIL, Port.PortNameWithEQName);
-                        tk.Start();
+                        replyMsg = await DevicesManager.secs_host_for_mcs.SendAsync(msg);
+                        if (replyMsg == null)
+                            AlarmManager.AddAlarm(ALARM_CODES.MCS_PORT_TYPE_INPUT_REPORT_FAIL, Port.PortNameWithEQName);
+                        else
+                            Utilities.Utility.SystemLogger.Info($"PortTypeInputReport Done => {replyMsg.ToSml()}");
+                        await Task.Delay(1000);
                     }
-                    else
-                    {
-                        Utilities.Utility.SystemLogger.Info($"PortTypeInputReport Done => {replyMsg.ToSml()}");
-                    }
+
                 });
+                tk.Start();
+            }
+            public async void PortTypeOutputReport()
+            {
+                Task tk = new Task(async () =>
+                 {
+                     var msg = new SecsMessage(6, 11)
+                     {
+                         SecsItem = Item.L(
+                                   Item.U4(DataID_Cylic_Use),//DATAID,
+                                   Item.U2((ushort)CEID.PortTypeOutputReport), //CEID
+                                   Item.L(
+                                       Item.L(
+                                        Item.U2(12),//RPTID,
+                                        Item.L(
+                                            Item.A(Properties.PortID)
+                                          )
+                                        )
+                                     )
+                                  )
+                     };
+                     SecsMessage? replyMsg = null;
+                     while (replyMsg == null && Port.PortType == 1)
+                     {
+                         replyMsg = await DevicesManager.secs_host_for_mcs.SendAsync(msg);
+                         if (replyMsg == null)
+                             AlarmManager.AddAlarm(ALARM_CODES.MCS_PORT_TYPE_OUTPUT_REPORT_FAIL, Port.PortNameWithEQName);
+                         else
+                             Utilities.Utility.SystemLogger.Info($"PortTypeInputReport Done => {replyMsg.ToSml()}");
+                         await Task.Delay(1000);
+                     }
+                 });
                 tk.Start();
             }
 
@@ -263,7 +275,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     }
                     try
                     {
-                        var msc_reply = await DevicesManager.secs_host_for_mcs.SendAsync(EVENT_REPORT.CarrierWaitInReportMessage(WIPINFO_BCR_ID, "", ""));
+                        var msc_reply = await DevicesManager.secs_host_for_mcs.SendAsync(EVENT_REPORT.CarrierWaitInReportMessage(WIPINFO_BCR_ID, Properties.PortID, ""));//TODO Zone Name ?
                         if (msc_reply == null)
                         {
                             AlarmManager.AddAlarm(ALARM_CODES.CARRIER_WAIT_IN_BUT_MCS_DISCONNECT, Port.PortNameWithEQName);
@@ -306,7 +318,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 {
                     try
                     {
-                        var response = await DevicesManager.secs_host_for_mcs.SendAsync(EVENT_REPORT.CarrierRemovedCompletedReportMessage(WIPINFO_BCR_ID, "", ""));
+                        var response = await DevicesManager.secs_host_for_mcs.SendAsync(EVENT_REPORT.CarrierRemovedCompletedReportMessage(WIPINFO_BCR_ID, Properties.PortID, "")); //TODO Zone Name ?
                         if (response == null)
                             AlarmManager.AddWarning(ALARM_CODES.MCS_CARRIER_REMOVED_COMPLETED_REPORT_FAIL, Port.PortNameWithEQName);
                     }
@@ -349,7 +361,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
                 try
                 {
-                    var response = await DevicesManager.secs_host_for_mcs.SendAsync(EVENT_REPORT.CarrierWaitOutReportMessage(WIPINFO_BCR_ID, "", ""));
+                    var response = await DevicesManager.secs_host_for_mcs.SendAsync(EVENT_REPORT.CarrierWaitOutReportMessage(WIPINFO_BCR_ID, Properties.PortID, ""));//TODO Zone Name ?
                     if (response == null)
                         AlarmManager.AddWarning(ALARM_CODES.MCS_CARRIER_WAITOUT_REPORT_FAIL, Port.PortNameWithEQName);
                 }

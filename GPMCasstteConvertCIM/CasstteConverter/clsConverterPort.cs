@@ -88,7 +88,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         public List<clsMemoryAddress> EQModbusLinkWordAddress => converterParent.LinkWordMap.FindAll(ad => ad.EOwner == OWNER.EQP && ad.EScope.ToString() == portNoName && ad.Link_Modbus_Register_Number != -1);
         public List<clsMemoryAddress> CIMModbusLinkWordAddress => converterParent.LinkWordMap.FindAll(ad => ad.EOwner == OWNER.CIM && ad.EScope.ToString() == portNoName && ad.Link_Modbus_Register_Number != -1);
         private CIMComponent.MemoryTable VirtualMemoryTable => converterParent.CIMMemOptions.memoryTable;
-       
+
 
         public void ModbusServerActive()
         {
@@ -203,7 +203,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 {
                     _PortStatusDown = value;
                     if (_PortStatusDown)
-                       HandshakeHelper.PortInServiceReport();
+                        HandshakeHelper.PortInServiceReport();
                     else
                         HandshakeHelper.PortOutOfServiceReport();
                     Properties.InSerivce = _PortStatusDown;
@@ -271,7 +271,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     _CarrierRemovedCompletedReport = value;
                     if (_CarrierRemovedCompletedReport)
                     {
-                       HandshakeHelper.CarrierRemovedCompletedReply();
+                        HandshakeHelper.CarrierRemovedCompletedReply();
 
                     }
                 }
@@ -290,7 +290,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     _Port_Mode_Changed_Report = value;
                     if (_Port_Mode_Changed_Report)
                     {
-                       HandshakeHelper.PortModeChangedReportHandshake();
+                        HandshakeHelper.PortModeChangedReportHandshake();
                     }
                 }
             }
@@ -311,7 +311,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 {
                     _PortType = value;
                     if (_PortType == 0)
-                    HandshakeHelper.PortTypeInputReport();
+                        HandshakeHelper.PortTypeInputReport();
                     if (_PortType == 1)
                         HandshakeHelper.PortTypeOutputReport();
                     Properties.PortType = Enum.GetValues(typeof(GPM_SECS.SECSMessageHelper.PortUnitType)).Cast<GPM_SECS.SECSMessageHelper.PortUnitType>().First(etype => (int)etype == _PortType);
@@ -320,10 +320,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         }
 
         public ModbusTCPServer modbus_server { get; set; }
-       
-       
+
+
         public HandShakeResult CarrierWaitOutHSResult = new HandShakeResult();
-       
+
 
         public bool BuildModbusTCPServer(frmModbusTCPServer ui)
         {
