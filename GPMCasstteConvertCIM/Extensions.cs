@@ -1,6 +1,7 @@
 ﻿using GPMCasstteConvertCIM.CasstteConverter;
 using GPMCasstteConvertCIM.Devices;
 using GPMCasstteConvertCIM.Utilities;
+using Newtonsoft.Json;
 using Secs4Net;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,18 @@ namespace GPMCasstteConvertCIM
 {
     public static class Extensions
     {
+        public static string ToJson(this object obj)
+        {
+            try
+            {
+                return JsonConvert.SerializeObject(obj, Formatting.Indented);
+
+            }
+            catch (Exception)
+            {
+                return "";
+            }
+        }
         public static SecsGemOptions ToSecsGenOptions(this InitialOption gpmInitailOptions)
         {
             var secs_config = Utility.SysConfigs.SECS;

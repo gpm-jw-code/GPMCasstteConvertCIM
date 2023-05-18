@@ -44,12 +44,11 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 this.Port = Port;
             }
 
-            internal async Task<bool> Mode_Change_RequestAsync(PortUnitType portUnitType)
+            internal async Task<bool> ModeChangeRequestHandshake(PortUnitType portUnitType)
             {
-                return await ModeChangeRequestHandshake(portUnitType);
-            }
-            private async Task<bool> ModeChangeRequestHandshake(PortUnitType portUnitType)
-            {
+
+                Utilities.Utility.SystemLogger.Info($"MCS Request [{Properties.PortID}] Change Port Type To {portUnitType}");
+
                 bool plc_accept = false;
                 string port_type_data_address_name = PortCIMWordAddress[PROPERTY.Port_Type_Status];
                 string cim_2_eq_port_mode_change_req_address_name = PortCIMBitAddress[PROPERTY.Port_Mode_Change_Request];
@@ -80,6 +79,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     }
                 }
                 plc_accept = (bool)plc_accept_address.Value;
+                Utilities.Utility.SystemLogger.Info($"PLC Reply {plc_accept} ,[{Properties.PortID}] Change Port Type To {portUnitType}");
+
                 Port.VirtualMemoryTable.WriteOneBit(cim_2_eq_port_mode_change_req_address_name, false);
                 cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
                 while ((bool)plc_accept_address.Value | (bool)plc_refuse_address.Value)
@@ -124,7 +125,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             }
 
 
-            public async void PortOutOfServiceReport()
+            public async void PortOutOfServiceReport() 
             {
                 Task tk = null;
                 tk = new Task(async () =>
@@ -152,7 +153,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                         if (replyMsg == null)
                             AlarmManager.AddAlarm(ALARM_CODES.MCS_PORT_OUT_SERVICE_REPORT_FAIL, Port.PortNameWithEQName);
                         else
-                            Utilities.Utility.SystemLogger.Info($"PortOutOfServiceReport Done => {replyMsg.ToSml()}");
+                            Utilities.Utility.SystemLogger.Info($"PortOutOfServiceReport Done. \r\n MCS Reply \r\n{replyMsg.ToSml()}");
                         await Task.Delay(1000);
                     }
                 });
@@ -185,7 +186,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                         if (replyMsg == null)
                             AlarmManager.AddAlarm(ALARM_CODES.MCS_PORT_IN_SERVICE_REPORT_FAIL, Port.PortNameWithEQName);
                         else
-                            Utilities.Utility.SystemLogger.Info($"PortInServiceReport Done => {replyMsg.ToSml()}");
+                            Utilities.Utility.SystemLogger.Info($"PortInServiceReport Done. \r\n MCS Reply \r\n {replyMsg.ToSml()}");
                         await Task.Delay(1000);
                     }
 
@@ -219,7 +220,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                         if (replyMsg == null)
                             AlarmManager.AddAlarm(ALARM_CODES.MCS_PORT_TYPE_INPUT_REPORT_FAIL, Port.PortNameWithEQName);
                         else
-                            Utilities.Utility.SystemLogger.Info($"PortTypeInputReport Done => {replyMsg.ToSml()}");
+                            Utilities.Utility.SystemLogger.Info($"PortTypeInputReport Done. \r\n MCS Reply \r\n {replyMsg.ToSml()}");
                         await Task.Delay(1000);
                     }
 
@@ -252,7 +253,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                          if (replyMsg == null)
                              AlarmManager.AddAlarm(ALARM_CODES.MCS_PORT_TYPE_OUTPUT_REPORT_FAIL, Port.PortNameWithEQName);
                          else
-                             Utilities.Utility.SystemLogger.Info($"PortTypeInputReport Done => {replyMsg.ToSml()}");
+                             Utilities.Utility.SystemLogger.Info($"PortTypeInputReport Done. \r\n MCS Reply \r\n {replyMsg.ToSml()}");
                          await Task.Delay(1000);
                      }
                  });
@@ -326,7 +327,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     {
                         AlarmManager.AddWarning(ALARM_CODES.MCS_CARRIER_REMOVED_COMPLETED_REPORT_FAIL, Port.PortNameWithEQName);
                     }
-
                 });
 
                 converterParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_removed_com_reply_address, true);

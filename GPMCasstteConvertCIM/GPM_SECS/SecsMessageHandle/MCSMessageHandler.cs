@@ -16,7 +16,7 @@ using GPMCasstteConvertCIM.Alarm;
 
 namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
 {
-    internal class MCSMessageHandler
+    public class MCSMessageHandler
     {
 
         internal static void PrimaryMessageOnReceivedAsync(object? sender, PrimaryMessageWrapper _primaryMessageWrapper)
@@ -66,7 +66,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
             string port_id = parameterGroups.Items[0].Items[1].GetString();
             ushort port_type = parameterGroups.Items[1].Items[1].FirstValue<ushort>();
             clsConverterPort port = DevicesManager.GetPortByPortID(port_id);
-            bool accept = await port.HandshakeHelper.Mode_Change_RequestAsync(port_type == 0 ? PortUnitType.Input : PortUnitType.Output);
+            bool accept = await port.HandshakeHelper.ModeChangeRequestHandshake(port_type == 0 ? PortUnitType.Input : PortUnitType.Output);
 
             //TODO SEND REPLY TO MCS(PORTTYPECHANGE ack)
             _primaryMessageWrapper.TryReplyAsync(new SecsMessage(2, 42, false)
@@ -111,7 +111,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
             }
             catch (Exception ex)
             {
-                
+
                 _AddAlarm(ALARM_CODES.CODE_EXCEPTION_WHEN_TRANSFER_MSG_TO_AGVS);
             }
 
@@ -126,10 +126,11 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
         {
             try
             {
+                List<(ushort vid, Item secs_item)> svid_data_store = new List<(ushort vid, Item secs_item)>();
                 List<Item> svid_items = primaryMsgFromMcs.SecsItem.Items.ToList();
-                Dictionary<ushort, Item> svid_data_store = new Dictionary<ushort, Item>();
+                //Dictionary<ushort, Item> svid_data_store = new Dictionary<ushort, Item>();
 
-                List<Item> itemsToCIM = svid_items.FindAll(item => item.FirstValue<ushort>() is 2005 or 2009);
+                List<Item> itemsToCIM = svid_items.FindAll(item => item.FirstValue<ushort>() is 2005 or 2007 or 2009);
                 if (itemsToCIM.Count > 0)
                 {
                     foreach (var item in itemsToCIM)
@@ -138,17 +139,23 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                         if (sid is 2005)
                         {
                             Item[] portStates = CreatePortInfosItem();
-                            svid_data_store.Add(2005, L(portStates));
+                            svid_data_store.Add((2005, L(portStates)));
+
+                        }
+                        else if (sid is 2007) //CurrEqPortStatus
+                        {
+                            Item[] currEqPortStatus = CreateCurrEqPortStatus();
+                            svid_data_store.Add((2007, L(currEqPortStatus)));
                         }
                         else if (sid is 2009)
                         {
                             Item[] portStates = CreatePortTypesItem();
-                            svid_data_store.Add(2009, L(portStates));
+                            svid_data_store.Add((2009, L(portStates)));
                         }
                     }
+                    Utility.SystemLogger?.Info($"CIM Create VIDS ({svid_data_store.ToJson()}) Data Content Done");
                 }
-
-                List<Item> itemsToAGVS = svid_items.FindAll(item => item.FirstValue<ushort>() is not 2005 and not 2009);
+                List<Item> itemsToAGVS = svid_items.FindAll(item => item.FirstValue<ushort>() is not 2005 and not 2007 and not 2009);
                 if (itemsToAGVS.Count != 0)
                 {
                     List<Item> toAGVSItems = new List<Item>();
@@ -159,9 +166,17 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                     {
                         SecsItem = L(toAGVSItems)
                     });
-
                     for (int i = 0; i < itemsToAGVS.Count; i++)
-                        svid_data_store.Add(itemsToAGVS[i].FirstValue<ushort>(), AGVSReplyMessage.SecsItem.Items[i]);
+                    {
+                        try
+                        {
+                            svid_data_store.Add((itemsToAGVS[i].FirstValue<ushort>(), AGVSReplyMessage.SecsItem.Items[i]));
+                        }
+                        catch (Exception ex)
+                        {
+                            Utility.SystemLogger?.Info($"Convert secs data from mcs FAIL.{itemsToAGVS[i].ToJson()}\r\n{ex.Message}");
+                        }
+                    }
 
                 }
                 //Combined
@@ -169,73 +184,53 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                 foreach (Item? item in svid_items)
                 {
                     ushort svid = item.FirstValue<ushort>();
-                    bool exist = svid_data_store.TryGetValue(svid, out Item data);
-                    if (exist)
-                        datas.Add(data);
+                    (ushort vid, Item secs_item) item_store = svid_data_store.FirstOrDefault(v => v.vid == svid);
+                    if (item_store.secs_item != null)
+                        datas.Add(item_store.secs_item);
                 }
 
                 var replyMessage = new SecsMessage(1, 4, false)
                 {
                     SecsItem = L(datas)
                 };
+
+                Utility.SystemLogger?.Info($"S1F3 Reply Message Create Done:\r\n{replyMessage.ToSml()}");
+
                 return replyMessage;
             }
             catch (Exception ex)
             {
                 Utility.SystemLogger.Error("S1F3RequestHandle", ex);
+                MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace);
                 return new SecsMessage(1, 4, false) { };
             }
 
         }
 
-
-        /// <summary>
-        /// 收集轉換架Ports的資訊然後加到回傳MESSAGE裡面
-        /// </summary>
-        /// <param name="primaryMsgFromMcs"></param>
-        /// <param name="secondaryMsgFromAGVS"></param>
-        private static void AppendPortDataToS1F4MessageItems(SecsMessage primaryMsgFromMcs, ref SecsMessage secondaryMsgFromAGVS)
+        private static Item[] CreateCurrEqPortStatus()
         {
-            var SVIDItemList = primaryMsgFromMcs.SecsItem.Items.ToList();
-            //找到2009是第幾個
-            Item? CurrentPortStatesItems = SVIDItemList.FirstOrDefault(item => item.FirstValue<ushort>() == 2005);
-            Item? PortTypesItems = SVIDItemList.FirstOrDefault(item => item.FirstValue<ushort>() == 2009);
 
-            //SVID:2005
-            if (CurrentPortStatesItems != null)
+            //<L[4]
+            //<PortID>
+            //<PortTransferState>
+            //<EqReqSatus>
+            //<EqPresenceStatus> >
+            List<clsConverterPort> ports = DevicesManager.GetAllPorts();
+            ports = ports.OrderBy(p => p.Properties.PortID).ToList();
+            Item GetCurrEqPortStatus(clsConverterPort port)
             {
-                int CurrentPortStatesItemsIndex = SVIDItemList.FindIndex(item => item == CurrentPortStatesItems);
-                //
-                Item[] portStates = CreatePortInfosItem();
-                Item[] oriPortStatesItems = secondaryMsgFromAGVS.SecsItem[CurrentPortStatesItemsIndex].Items;
-                List<Item> newPortStateItems = new List<Item>();
-                newPortStateItems.AddRange(oriPortStatesItems);
+                return L(
+                            A(port.Properties.PortID),
+                            U2((ushort)(port.Properties.InSerivce ? 1 : 0)),
+                            U2((ushort)(!port.LoadRequest && !port.UnloadRequest ? 0 : port.LoadRequest ? 1 : 2)),
+                            U2(0)
 
-                foreach (var item in portStates)
-                    newPortStateItems.Add(item);
-
-                //secondaryMsgFromAGVS.SecsItem[CurrentPortStatesItemsIndex] = L(newPortStateItems);
-                secondaryMsgFromAGVS.SecsItem.Items.Append(L(newPortStateItems));
+                        );
             }
+            return ports.Select(port => GetCurrEqPortStatus(port)).ToArray();
 
-            //SVID:2009
-            if (PortTypesItems != null)
-            {
-                int PortTypesIndex = SVIDItemList.FindIndex(item => item == PortTypesItems);
-                Item[] portTypes = CreatePortTypesItem();
-
-                Item[] oriPortTypesItems = secondaryMsgFromAGVS.SecsItem[PortTypesIndex].Items;
-                List<Item> newPortTypesItems = new List<Item>();
-                newPortTypesItems.AddRange(oriPortTypesItems);
-
-                foreach (var item in portTypes)
-                    newPortTypesItems.Add(item);
-
-                //secondaryMsgFromAGVS.SecsItem[PortTypesIndex] = L(newPortTypesItems);
-                secondaryMsgFromAGVS.SecsItem.Items.Append(L(newPortTypesItems));
-
-            }
         }
+
 
         private static Item[] CreatePortTypesItem()
         {
@@ -243,6 +238,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
             //  A <PortID>
             //  U2<PortTransferState> 0=out of service; 1= in service
             List<clsConverterPort> ports = DevicesManager.GetAllPorts();
+            ports = ports.OrderBy(p => p.Properties.PortID).ToList();
 
             Item GetPortType(clsConverterPort port)
             {
@@ -261,7 +257,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
             //  A <PortID>
             //  U2<PortUnitType> 0=Input ; 1=Output
             List<clsConverterPort> ports = DevicesManager.GetAllPorts();
-
+            ports= ports.OrderBy(p => p.Properties.PortID).ToList();
             Item GetPortTypeInfo(clsConverterPort port)
             {
                 return L(
