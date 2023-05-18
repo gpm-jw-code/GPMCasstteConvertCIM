@@ -30,7 +30,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
 
             if (secondaryMsg.S == 1 && secondaryMsg.F == 4)
             {
-                //TODO if has 2005 , add port data
+                //TODO if has 2004 , add port data
             }
 
             if (_primaryMessage.ReplyExpected)

@@ -46,7 +46,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 bool plc_accept = false;
                 string port_type_data_address_name = PortCIMWordAddress[PROPERTY.Port_Type_Status];
                 string cim_2_eq_port_mode_change_req_address_name = PortCIMBitAddress[PROPERTY.Port_Mode_Change_Request];
-
                 string eq_2_cim_port_mode_change_accept_address_name = PortEQBitAddress[PROPERTY.Port_Mode_Change_Accept];
                 string eq_2_cim_port_mode_change_refuse_address_name = PortEQBitAddress[PROPERTY.Port_Mode_Changed_Refuse];
 
@@ -69,6 +68,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     {
                         Port.VirtualMemoryTable.WriteOneBit(cim_2_eq_port_mode_change_req_address_name, false);
                         Port.VirtualMemoryTable.WriteBinary(port_type_data_address_name, 0);
+                        Utilities.Utility.SystemLogger.Warning($"ModeChangeRequestHandshake EQ Timeout");
                         return false;
                     }
                 }
@@ -77,6 +77,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
                 Port.VirtualMemoryTable.WriteOneBit(cim_2_eq_port_mode_change_req_address_name, false);
                 cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+
                 while ((bool)plc_accept_address.Value | (bool)plc_refuse_address.Value)
                 {
                     await Task.Delay(10);
@@ -375,6 +376,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
             }
             public HandShakeResult CarrierWaitOutHSResult = new HandShakeResult();
+
+
             public async Task<bool> CarrierWaitInReply(int T_timeout = 5000)
             {
                 Utilities.Utility.SystemLogger.Info($"等待MCS Accept Carrier Wait IN Request..");
@@ -389,8 +392,9 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 CarrierWaitOutHSResult.Reset();
                 bool timeout = false;
                 PROPERTY wait_in_ = mcs_accpet ? PROPERTY.Carrier_WaitIn_System_Accept : PROPERTY.Carrier_WaitIn_System_Refuse;
-                var carrier_wait_in_result_flag_address = PortCIMBitAddress[wait_in_];
-                var carrier_wait_in_reply_address = PortCIMBitAddress[PROPERTY.Carrier_WaitIn_System_Reply];
+
+                string? carrier_wait_in_result_flag_address = PortCIMBitAddress[wait_in_];
+                string? carrier_wait_in_reply_address = PortCIMBitAddress[PROPERTY.Carrier_WaitIn_System_Reply];
 
                 converterParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_in_result_flag_address, true);
                 converterParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_in_reply_address, true);
