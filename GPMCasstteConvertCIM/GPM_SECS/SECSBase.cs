@@ -109,19 +109,6 @@ namespace GPMCasstteConvertCIM.GPM_SECS
             {
                 throw ex;
             }
-
-            //SecsMessage ms = new SecsMessage(1, 3)
-            //{
-            //    SecsItem = Item.L(
-            //                    Item.A(),
-            //                    Item.U2(),
-            //                    Item.U2()
-            //         )
-            //};
-
-
-            //SecsMessage ReplyMsg = await secsGem.SendAsync(ms);
-            //ReplyMsg.SecsItem.Items[0].Items[1].FirstValue<byte>();
         }
 
         /// <summary>

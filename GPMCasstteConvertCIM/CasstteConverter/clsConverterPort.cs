@@ -155,7 +155,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         public int WIPInfo_BCR_ID_9 { get; set; }
         public int WIPInfo_BCR_ID_10 { get; set; }
 
-
+        public DateTime CarrierInstallTime { get; private set; } = DateTime.Now;
         public AUTO_MANUAL_MODE EPortAutoStatus
         {
             get
@@ -188,7 +188,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                  WIPInfo_BCR_ID_9,
                  WIPInfo_BCR_ID_10
                 };
-                return ints.ToASCII();
+                string id = ints.FindAll(i => i != 0).ToASCII();
+                return id;
             }
         }
 
@@ -216,7 +217,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         public bool TB_DOWN_POS { get; internal set; }
 
 
-
         private bool _CarrierWaitINSystemRequest;
         public bool CarrierWaitINSystemRequest
         {
@@ -225,11 +225,14 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             {
                 if (value != _CarrierWaitINSystemRequest)
                 {
+                    CarrierInstallTime = DateTime.Now;
                     _CarrierWaitINSystemRequest = value;
                     if (_CarrierWaitINSystemRequest)
                     {
                         Task.Factory.StartNew(async () =>
                         {
+                            Utilities.Utility.SystemLogger.Info($"Carrier Wait In HS Start");
+
                             bool timeout = await HandshakeHelper.CarrierWaitInReply();
                             if (timeout)
                             {
@@ -260,6 +263,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 }
             }
         }
+
         private bool _CarrierRemovedCompletedReport;
         public bool CarrierRemovedCompletedReport
         {
@@ -302,6 +306,9 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         public bool Port_Enabled_Report { get; internal set; }
         public int Port_Auto_Manual_Mode_Status { get; internal set; }
         private int _PortType = 0;
+        /// <summary>
+        /// 0: INput , 1: Output
+        /// </summary>
         public int PortType
         {
             get => _PortType;

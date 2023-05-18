@@ -25,17 +25,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             private string portNoName => Port.portNoName;
             private string WIPINFO_BCR_ID => Port.WIPINFO_BCR_ID;
 
-            private uint _DataID_Cylic_Use = 1;
-            private uint DataID_Cylic_Use
-            {
-                get
-                {
-                    _DataID_Cylic_Use += 1;
-                    if (_DataID_Cylic_Use >= uint.MaxValue)
-                        _DataID_Cylic_Use = 1;
-                    return _DataID_Cylic_Use;
-                }
-            }
 
             private bool CarrierWaitIn_Reply = false;
             private bool CarrierWaitIn_Accept = false;
@@ -44,6 +33,11 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 this.Port = Port;
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="portUnitType"></param>
+            /// <returns></returns>
             internal async Task<bool> ModeChangeRequestHandshake(PortUnitType portUnitType)
             {
 
@@ -383,8 +377,14 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             public HandShakeResult CarrierWaitOutHSResult = new HandShakeResult();
             public async Task<bool> CarrierWaitInReply(int T_timeout = 5000)
             {
+                Utilities.Utility.SystemLogger.Info($"等待MCS Accept Carrier Wait IN Request..");
+
                 //送訊息給SECS HOST 
-                bool mcs_accpet = await WaitMCSAccpectCarrierIn();
+                SecsMessage? msc_reply = await DevicesManager.secs_host_for_mcs.SendAsync(EVENT_REPORT.CarrierWaitInReportMessage(WIPINFO_BCR_ID, Properties.PortID, ""));//TODO Zone Name ?
+
+                bool mcs_accpet = msc_reply.SecsItem.FirstValue<byte>() == 0;
+                Utilities.Utility.SystemLogger.Info($"MCS Wait IN ACK:{mcs_accpet} {msc_reply.ToSml()}");
+
                 //寫結果
                 CarrierWaitOutHSResult.Reset();
                 bool timeout = false;

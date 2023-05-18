@@ -14,6 +14,18 @@ namespace GPMCasstteConvertCIM.GPM_SECS
 {
     public class SECSMessageHelper
     {
+        private static uint _DataID_Cylic_Use = 1;
+        public static uint DataID_Cylic_Use
+        {
+            get
+            {
+                _DataID_Cylic_Use += 1;
+                if (_DataID_Cylic_Use >= uint.MaxValue)
+                    _DataID_Cylic_Use = 1;
+                return _DataID_Cylic_Use;
+            }
+        }
+
         public static void DefineReport(SecsMessage primaryMessage)
         {
             Item reportList = primaryMessage.SecsItem.Items[1];
@@ -397,6 +409,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS
 
             public static SecsMessage CarrierWaitInReportMessage(string carrier_ID, string carrier_Loc, string carrier_ZoneName)
             {
+
                 Item[] VIDList = new Item[]
                 {
                     A(carrier_ID),
@@ -404,7 +417,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS
                     A(carrier_ZoneName)
                 };
 
-                return CreateEventMsg(1, (ushort)CEID.CarrierWaitIn, RPTID: 5, VIDList,"Carrier_Wait_In");
+                return CreateEventMsg((ushort)CEID.CarrierWaitIn, RPTID: 5, VIDList, "Carrier_Wait_In");
             }
 
             public static SecsMessage CarrierWaitOutReportMessage(string carrier_ID, string carrier_Loc, string carrier_ZoneName)
@@ -416,7 +429,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS
                     A(carrier_ZoneName)
                 };
 
-                return CreateEventMsg(1, (ushort)CEID.CarrierWaitOut, RPTID: 5, VIDList,"Carrier_Wait_Out");
+                return CreateEventMsg((ushort)CEID.CarrierWaitOut, RPTID: 5, VIDList, "Carrier_Wait_Out");
             }
 
             public static SecsMessage CarrierRemovedCompletedReportMessage(string carrier_ID, string carrier_Loc, string carrier_ZoneName)
@@ -428,19 +441,19 @@ namespace GPMCasstteConvertCIM.GPM_SECS
                     A(carrier_ZoneName)
                };
 
-                return CreateEventMsg(1, (ushort)CEID.CarrierRemovedCompletedReport, RPTID: 4, VIDList, "Carrier_Removed_Completed");
+                return CreateEventMsg((ushort)CEID.CarrierRemovedCompletedReport, RPTID: 4, VIDList, "Carrier_Removed_Completed");
             }
 
 
 
-            public static SecsMessage CreateEventMsg(ushort DATAID, ushort CEID, ushort RPTID, Item[] VIDLIST, string name = "")
+            public static SecsMessage CreateEventMsg(ushort CEID, ushort RPTID, Item[] VIDLIST, string name = "")
             {
 
                 SecsMessage msg = new(6, 11)
                 {
                     Name = name,
                     SecsItem = L(
-                                  U4(DATAID),//DATAID,
+                                  U4(DataID_Cylic_Use),//DATAID,
                                   U2(CEID), //CEID
                                   L(
                                       L(

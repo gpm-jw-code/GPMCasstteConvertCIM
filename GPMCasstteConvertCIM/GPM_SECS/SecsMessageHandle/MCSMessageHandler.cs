@@ -169,10 +169,12 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                     foreach (var item in itemsToAGVS)
                         toAGVSItems.Add(U2(item.FirstValue<ushort>()));
 
-                    var AGVSReplyMessage = await DevicesManager.secs_client_for_agvs.SendAsync(new SecsMessage(1, 3)
+                    SecsMessage? AGVSReplyMessage = await DevicesManager.secs_client_for_agvs.SendAsync(new SecsMessage(1, 3)
                     {
                         SecsItem = L(toAGVSItems)
                     });
+
+
                     for (int i = 0; i < itemsToAGVS.Count; i++)
                     {
                         try
@@ -188,12 +190,32 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                 }
                 //Combined
                 List<Item> datas = new List<Item>();
+
+
                 foreach (Item? item in svid_items)
                 {
                     ushort svid = item.FirstValue<ushort>();
                     (ushort vid, Item secs_item) item_store = svid_data_store.FirstOrDefault(v => v.vid == svid);
+
                     if (item_store.secs_item != null)
-                        datas.Add(item_store.secs_item);
+                    {
+                        if (item_store.vid == 2004)
+                        {
+
+                            List<Item>? ori = item_store.secs_item.Items.ToList();
+                            Utility.SystemLogger.Info($"SV2004 Expand. Add Port Carrier Info,{ori.Count} ");
+                            Item[]? portInfos = CreateEnhancedCarrierInfo();
+                            ori.AddRange(portInfos);
+                            Item newItem = L(ori);
+                            datas.Add(newItem);
+                            Utility.SystemLogger.Info($"SV2004 Expand Done,{ori.Count} ");
+
+                        }
+                        else
+                        {
+                            datas.Add(item_store.secs_item);
+                        }
+                    }
                 }
 
                 var replyMessage = new SecsMessage(1, 4, false)
@@ -214,7 +236,9 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
             }
 
         }
-
+        public static void AddPortDataToVID2004(ref SecsMessage message)
+        {
+        }
         private static Item[] CreateCurrEqPortStatus()
         {
 
@@ -239,6 +263,23 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
 
         }
 
+        private static Item[] CreateEnhancedCarrierInfo()
+        {
+            List<clsConverterPort> ports = DevicesManager.GetAllPorts();
+            ports = ports.OrderBy(p => p.Properties.PortID).ToList();
+            Item CarrierInfo(clsConverterPort port)
+            {
+                return L(
+                            A(port.WIPINFO_BCR_ID),
+                            A(port.Properties.PortID),
+                            A(""),
+                            A(port.CarrierInstallTime.ToString("yyyyMMddHHmmssff")),
+                            U2((ushort)(port.PortType == 0 ? 0 : 4))
+                        );
+            }
+            return ports.Select(port => CarrierInfo(port)).ToArray();
+
+        }
 
         private static Item[] CreatePortTypesItem()
         {

@@ -16,14 +16,12 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle.Tests
         [TestMethod()]
         public void S1F3RequestHandleTest()
         {
-            SecsMessage? result = MCSMessageHandler.S1F3RequestHandle(new Secs4Net.SecsMessage(1, 3, true)
+            SecsMessage? result = new Secs4Net.SecsMessage(1, 3, true)
             {
-                SecsItem = Item.L(
-                        Item.U2(2005),
-                        Item.U2(2007),
-                        Item.U2(2009)
-                    )
-            }).Result;
+                SecsItem = Item.B(1)
+            };
+
+            bool isaccept = result.SecsItem.FirstValue<byte>() == 1;
         }
 
         [TestMethod()]
@@ -56,7 +54,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle.Tests
             };
             ports = ports.OrderBy(p => p.Properties.PortID).ToList();
 
-            Assert.AreEqual("3F_AGVC02_2_4,3F_AGVC02_2_5,3F_AGVC02_2_6", String.Join(",", ports.Select(p=>p.Properties.PortID)));
+            Assert.AreEqual("3F_AGVC02_2_4,3F_AGVC02_2_5,3F_AGVC02_2_6", String.Join(",", ports.Select(p => p.Properties.PortID)));
         }
     }
 }

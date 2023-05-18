@@ -25,8 +25,13 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
 
             Utility.SystemLogger.Info($"[AGVS SECS Message > MCS] From AGVS : {_primaryMessage.ToSml()}");
             _primaryMessageWrapper.PrimaryMessage.Name = "AGVS_To_CIM";
-
             SecsMessage secondaryMsg = await DevicesManager.secs_host_for_mcs.SendAsync(_primaryMessage);
+
+
+            if (secondaryMsg.S == 1 && secondaryMsg.F == 4)
+            {
+                //TODO if has 2005 , add port data
+            }
 
             if (_primaryMessage.ReplyExpected)
             {
