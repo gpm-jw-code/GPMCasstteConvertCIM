@@ -1,0 +1,8 @@
+{
+  "enable": false,
+  "user": "sa",
+  "password": "12345678",
+  "server": "127.0.0.1",
+  "database": "WebAGVSystem",
+  "port": 1433
+}

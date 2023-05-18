@@ -1,0 +1,64 @@
+{
+  "PLCEQS": [
+    {
+      "ConverterType": "IN_SYS",
+      "Ports": {
+        "0": {
+          "ModbusServer_Enable": true,
+          "PortNo": 0,
+          "PortID": "3F_AGVC02_PORT_2_1",
+          "ModbusServer_IP": "127.0.0.1",
+          "ModbusServer_PORT": 1502
+        }
+      },
+      "Name": "",
+      "IpAddress": "192.168.0.61",
+      "Port": 5123,
+      "DeviceId": 0,
+      "IsActive": true,
+      "DeviceType": "CASSTTE_CONVERTER"
+    },
+    {
+      "ConverterType": "SYS_2_SYS",
+      "Ports": {
+        "0": {
+          "ModbusServer_Enable": true,
+          "PortNo": 0,
+          "PortID": "3F_AGVC02_PORT_2_2",
+          "ModbusServer_IP": "127.0.0.1",
+          "ModbusServer_PORT": 2502
+        },
+        "1": {
+          "ModbusServer_Enable": true,
+          "PortNo": 1,
+          "PortID": "3F_AGVC02_PORT_2_3",
+          "ModbusServer_IP": "127.0.0.1",
+          "ModbusServer_PORT": 3502
+        }
+      },
+      "Name": "",
+      "IpAddress": "192.168.0.62",
+      "Port": 5123,
+      "DeviceId": 1,
+      "IsActive": true,
+      "DeviceType": "CASSTTE_CONVERTER"
+    }
+  ],
+  "SECS_HOST": {
+    "Name": "",
+    "IpAddress": "127.0.0.1",
+    "Port": 5000,
+    "DeviceId": 0,
+    "IsActive": false,
+    "DeviceType": "SECS_HOST"
+  },
+  "SECS_CLIENT": {
+    "Name": "",
+    "IpAddress": "127.0.0.1",
+    "Port": 5001,
+    "DeviceId": 1,
+    "IsActive": true,
+    "DeviceType": "SECS_CLIENT"
+  },
+  "Modbus_Servers": []
+}
