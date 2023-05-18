@@ -20,6 +20,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="CIMComponent">
+      <HintPath>..\..\..\..\..\ProjectProgram\Smart IOT\dll\CIMComponent.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="agv_task_cmd_template.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

@@ -14,46 +14,28 @@ using static GPMCasstteConvertCIM.CasstteConverter.Data.clsAGVSData;
 using static GPMCasstteConvertCIM.CasstteConverter.Data.clsMemoryAddress;
 using static GPMCasstteConvertCIM.CasstteConverter.Enums;
 using static GPMCasstteConvertCIM.GPM_Modbus.ModbusServerBase;
-using static GPMCasstteConvertCIM.GPM_SECS.SECSMessageHelper;
 using Item = Secs4Net.Item;
 
 namespace GPMCasstteConvertCIM.CasstteConverter
 {
-    public class clsConverterPort : IModbusHSable
+    public partial class clsConverterPort : IModbusHSable
     {
+        public clsConverterPort()
+        {
+            HandshakeHelper = new clsMCS_EQHandshake(this);
+        }
+
+        public clsConverterPort(clsPortProperty property, clsCasstteConverter converterParent)
+        {
+            this.Properties = property;
+            this.converterParent = converterParent;
+
+            AGVSignals = new clsHS_Status_Signals();
+            AGVSignals.OnValidSignalActive += AGVSignals_OnValidSignalActive;
+            HandshakeHelper = new clsMCS_EQHandshake(this);
+        }
+
         public clsCasstteConverter converterParent { get; }
-
-        public class clsPortProperty
-        {
-            /// <summary>
-            /// (Zero-Based)
-            /// </summary>
-            public int PortNo { get; set; }
-            public string PortID { get; set; } = "Port 1";
-            internal bool InSerivce { get; set; } = false;
-
-            public string ModbusServer_IP { get; set; } = "127.0.0.1";
-            public int ModbusServer_PORT { get; set; } = 1502;
-
-            public bool ModbusServer_Enable = true;
-
-            internal PortUnitType PortType { get; set; } = PortUnitType.Input_Output;
-
-
-        }
-
-        public class HandShakeResult
-        {
-            public bool Finish;
-            public string Message;
-            public bool Timeout;
-
-            public void Reset()
-            {
-                Finish = Timeout = false;
-                Message = "";
-            }
-        }
 
         public clsPortProperty Properties = new clsPortProperty();
         public event EventHandler<clsConverterPort> ModeChangeOnRequest;
@@ -61,6 +43,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         public event EventHandler<clsConverterPort> CarrierWaitOutOnReport;
         public event EventHandler<clsConverterPort> CarrierRemovedCompletedOnReport;
         public event EventHandler<clsConverterPort> OnValidSignalActive;
+        public clsMCS_EQHandshake HandshakeHelper;
         public string PortNameWithEQName => converterParent.Name + $"-[{Properties.PortID}]";
 
         public string portNoName => $"PORT{Properties.PortNo + 1}";
@@ -105,18 +88,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         public List<clsMemoryAddress> EQModbusLinkWordAddress => converterParent.LinkWordMap.FindAll(ad => ad.EOwner == OWNER.EQP && ad.EScope.ToString() == portNoName && ad.Link_Modbus_Register_Number != -1);
         public List<clsMemoryAddress> CIMModbusLinkWordAddress => converterParent.LinkWordMap.FindAll(ad => ad.EOwner == OWNER.CIM && ad.EScope.ToString() == portNoName && ad.Link_Modbus_Register_Number != -1);
         private CIMComponent.MemoryTable VirtualMemoryTable => converterParent.CIMMemOptions.memoryTable;
-        public clsConverterPort()
-        {
-        }
-
-        public clsConverterPort(clsPortProperty property, clsCasstteConverter converterParent)
-        {
-            this.Properties = property;
-            this.converterParent = converterParent;
-
-            AGVSignals = new clsHS_Status_Signals();
-            AGVSignals.OnValidSignalActive += AGVSignals_OnValidSignalActive;
-        }
+       
 
         public void ModbusServerActive()
         {
@@ -231,9 +203,9 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 {
                     _PortStatusDown = value;
                     if (!_PortStatusDown)
-                        PortOutOfServiceReport();
+                       HandshakeHelper.PortOutOfServiceReport();
                     else
-                        PortInServiceReport();
+                        HandshakeHelper.PortInServiceReport();
                     Properties.InSerivce = _PortStatusDown;
                 }
             }
@@ -258,7 +230,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     {
                         Task.Factory.StartNew(async () =>
                         {
-                            bool timeout = await CarrierWaitInReply();
+                            bool timeout = await HandshakeHelper.CarrierWaitInReply();
                             if (timeout)
                             {
                                 AlarmManager.AddAlarm(ALARM_CODES.CarrierWaitIn_HS_EQ_Timeout, PortNameWithEQName);
@@ -279,7 +251,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     _CarrierWaitOUTSystemRequest = value;
                     if (_CarrierWaitOUTSystemRequest)
                     {
-                        CarrierWaitOutReply();
+                        HandshakeHelper.CarrierWaitOutReply();
                     }
                 }
             }
@@ -295,7 +267,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     _CarrierRemovedCompletedReport = value;
                     if (_CarrierRemovedCompletedReport)
                     {
-                        CarrierRemovedCompletedReply();
+                       HandshakeHelper.CarrierRemovedCompletedReply();
 
                     }
                 }
@@ -314,85 +286,13 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     _Port_Mode_Changed_Report = value;
                     if (_Port_Mode_Changed_Report)
                     {
-                        PortModeChangedReportHandshake();
+                       HandshakeHelper.PortModeChangedReportHandshake();
                     }
                 }
             }
         }
 
 
-        private async Task<bool> ModeChangeRequestHandshake(PortUnitType portUnitType)
-        {
-            bool plc_accept = false;
-            string port_type_data_address_name = PortCIMWordAddress[PROPERTY.Port_Type_Status];
-            string cim_2_eq_port_mode_change_req_address_name = PortCIMBitAddress[PROPERTY.Port_Mode_Change_Request];
-
-            string eq_2_cim_port_mode_change_accept_address_name = PortEQBitAddress[PROPERTY.Port_Mode_Change_Accept];
-            string eq_2_cim_port_mode_change_refuse_address_name = PortEQBitAddress[PROPERTY.Port_Mode_Changed_Refuse];
-
-            var plc_accept_address = converterParent.LinkBitMap.First(ad => ad.Address == eq_2_cim_port_mode_change_accept_address_name);
-            var plc_refuse_address = converterParent.LinkBitMap.First(ad => ad.Address == eq_2_cim_port_mode_change_refuse_address_name);
-
-            //write porttype data to word memory
-            VirtualMemoryTable.WriteBinary(port_type_data_address_name, (int)portUnitType);
-            await Task.Delay(1000);
-            //On CIM Bit
-            VirtualMemoryTable.WriteOneBit(cim_2_eq_port_mode_change_req_address_name, true);
-            //wait EQ Bit on
-
-            CancellationTokenSource cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
-            bool timeout = false;
-            while (!(bool)plc_accept_address.Value && !(bool)plc_refuse_address.Value)
-            {
-                await Task.Delay(10);
-                if (cts.IsCancellationRequested)
-                {
-                    VirtualMemoryTable.WriteOneBit(cim_2_eq_port_mode_change_req_address_name, false);
-                    VirtualMemoryTable.WriteBinary(port_type_data_address_name, 0);
-                    return false;
-                }
-            }
-            plc_accept = (bool)plc_accept_address.Value;
-            VirtualMemoryTable.WriteOneBit(cim_2_eq_port_mode_change_req_address_name, false);
-            cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
-            while ((bool)plc_accept_address.Value | (bool)plc_refuse_address.Value)
-            {
-                await Task.Delay(10);
-                if (cts.IsCancellationRequested)
-                {
-                    VirtualMemoryTable.WriteBinary(port_type_data_address_name, 0);
-                    return false;
-                }
-            }
-            VirtualMemoryTable.WriteBinary(port_type_data_address_name, 0);
-            return plc_accept;
-        }
-        private async void PortModeChangedReportHandshake()
-        {
-            _ = Task.Factory.StartNew(() =>
-            {
-                clsMemoryAddress eq_to_cim_report_adress = converterParent.LinkBitMap.First(i => i.EOwner == OWNER.EQP && i.EScope.ToString() == portNoName && i.EProperty == PROPERTY.Port_Mode_Changed_Report);
-                string cim_2_eq_reply_address = PortCIMBitAddress[PROPERTY.Port_Mode_Changed_Report_Reply];
-                //ON CIM BIT
-                converterParent.CIMMemOptions.memoryTable.WriteOneBit(cim_2_eq_reply_address, true);
-                CancellationTokenSource cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
-                bool timeout = false;
-                //等待EQ OFF BIT
-                while ((bool)eq_to_cim_report_adress.Value)
-                {
-                    Thread.Sleep(1);
-                    if (cts.IsCancellationRequested)
-                    {
-                        timeout = true;//T3 Timeout
-                        break;
-                    }
-                }
-                //OFF CIM BIT
-                converterParent.CIMMemOptions.memoryTable.WriteOneBit(cim_2_eq_reply_address, false);
-                cts.Dispose();
-
-            });
-        }
 
         public bool Port_Disabled_Report { get; internal set; }
         public bool Port_Enabled_Report { get; internal set; }
@@ -407,282 +307,19 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 {
                     _PortType = value;
                     if (_PortType == 0)
-                        PortTypeInputReport();
+                    HandshakeHelper.PortTypeInputReport();
                     if (_PortType == 1)
-                        PortTypeOutputReport();
+                        HandshakeHelper.PortTypeOutputReport();
                     Properties.PortType = Enum.GetValues(typeof(GPM_SECS.SECSMessageHelper.PortUnitType)).Cast<GPM_SECS.SECSMessageHelper.PortUnitType>().First(etype => (int)etype == _PortType);
                 }
             }
         }
 
         public ModbusTCPServer modbus_server { get; set; }
-
-
-        public async void PortReport()
-        {
-
-        }
-
-        public async void PortOutOfServiceReport()
-        {
-            var msg = new SecsMessage(6, 11)
-            {
-                SecsItem = Item.L(
-                                Item.U4(0),//DATAID,
-                                Item.U2((ushort)CEID.PortOutOfServiceReport), //CEID
-                                Item.L(
-                                    Item.L(
-                                     Item.U2(12),//RPTID,
-                                     Item.L(
-                                         Item.A(Properties.PortID)
-                                       )
-                                     )
-                                  )
-                               )
-            };
-            var replyMsg = await DevicesManager.secs_host_for_mcs.SendAsync(msg);
-            if (replyMsg == null)
-            {
-                AlarmManager.AddAlarm(ALARM_CODES.MCS_PORT_OUT_SERVICE_REPORT_FAIL, this.PortNameWithEQName);
-            }
-        }
-        public async void PortInServiceReport()
-        {
-            _ = Task.Run(async () =>
-            {
-                var msg = new SecsMessage(6, 11)
-                {
-                    SecsItem = Item.L(
-                                  Item.U4(0),//DATAID,
-                                  Item.U2((ushort)CEID.PortInServiceReport), //CEID
-                                  Item.L(
-                                      Item.L(
-                                       Item.U2(12),//RPTID,
-                                       Item.L(
-                                           Item.A(Properties.PortID)
-                                         )
-                                       )
-                                    )
-                                 )
-                };
-                var replyMsg = await DevicesManager.secs_host_for_mcs.SendAsync(msg);
-                if (replyMsg == null)
-                {
-
-                    AlarmManager.AddAlarm(ALARM_CODES.MCS_PORT_IN_SERVICE_REPORT_FAIL, this.PortNameWithEQName);
-                }
-            });
-        }
-        public async void PortTypeInputReport()
-        {
-            _ = Task.Run(async () =>
-            {
-                var msg = new SecsMessage(6, 11)
-                {
-                    SecsItem = Item.L(
-                              Item.U4(0),//DATAID,
-                              Item.U2((ushort)CEID.PortTypeInputReport), //CEID
-                              Item.L(
-                                  Item.L(
-                                   Item.U2(12),//RPTID,
-                                   Item.L(
-                                       Item.A(Properties.PortID)
-                                     )
-                                   )
-                                )
-                             )
-                };
-                var replyMsg = await DevicesManager.secs_host_for_mcs.SendAsync(msg);
-            });
-        }
-        public async void PortTypeOutputReport()
-        {
-            _ = Task.Run(async () =>
-            {
-                var msg = new SecsMessage(6, 11)
-                {
-                    SecsItem = Item.L(
-                              Item.U4(0),//DATAID,
-                              Item.U2((ushort)CEID.PortTypeOutputReport), //CEID
-                              Item.L(
-                                  Item.L(
-                                   Item.U2(12),//RPTID,
-                                   Item.L(
-                                       Item.A(Properties.PortID)
-                                     )
-                                   )
-                                )
-                             )
-                };
-                var replyMsg = await DevicesManager.secs_host_for_mcs.SendAsync(msg);
-            });
-        }
-        private bool CarrierWaitIn_Reply = false;
-        private bool CarrierWaitIn_Accept = false;
-        public async Task<bool> WaitMCSAccpectCarrierIn(int T_timout = 20)
-        {
-            CarrierWaitIn_Reply = false;
-            CarrierWaitIn_Accept = false;
-
-            bool isEventReportAck = false;
-            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(T_timout));
-
-            while (!isEventReportAck)
-            {
-                if (cancellationTokenSource.IsCancellationRequested)
-                {
-                    return false;
-                }
-                try
-                {
-                    var msc_reply = await DevicesManager.secs_host_for_mcs.SendAsync(EVENT_REPORT.CarrierWaitInReportMessage(WIPINFO_BCR_ID, "", ""));
-                    if (msc_reply == null)
-                    {
-                        AlarmManager.AddAlarm(ALARM_CODES.CARRIER_WAIT_IN_BUT_MCS_DISCONNECT, PortNameWithEQName);
-                        AlarmManager.AddAlarm(ALARM_CODES.MCS_CARRIER_WAITIN_REPORT_FAIL, PortNameWithEQName);
-                        return false;
-                    }
-                    isEventReportAck = true;
-                }
-                catch (Exception ex)
-                {
-
-                }
-                Thread.Sleep(1);
-            }
-
-            DevicesManager.secs_host_for_mcs.OnPrimaryMessageRecieve += Secs_client_OnPrimaryMessageRecieve;
-
-            cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(T_timout));
-            while (!CarrierWaitIn_Reply)
-            {
-                try
-                {
-                    await Task.Delay(1, cancellationTokenSource.Token);
-                }
-                catch (TaskCanceledException ex)
-                {
-                    //表示timeout
-                    break;
-                }
-            }
-            DevicesManager.secs_host_for_mcs.OnPrimaryMessageRecieve -= Secs_client_OnPrimaryMessageRecieve;
-            return CarrierWaitIn_Accept && CarrierWaitIn_Reply;
-        }
-        public async Task CarrierRemovedCompletedReply()
-        {
-            var carrier_removed_com_reply_address = PortCIMBitAddress[PROPERTY.Carrier_Removed_Completed_Report_Reply];
-
-            //上報MCS
-            _ = Task.Factory.StartNew(async () =>
-            {
-                try
-                {
-                    var response = await DevicesManager.secs_host_for_mcs.SendAsync(EVENT_REPORT.CarrierRemovedCompletedReportMessage(WIPINFO_BCR_ID, "", ""));
-                    if (response == null)
-                        AlarmManager.AddWarning(ALARM_CODES.MCS_CARRIER_REMOVED_COMPLETED_REPORT_FAIL, PortNameWithEQName);
-                }
-                catch (Exception ex)
-                {
-                    AlarmManager.AddWarning(ALARM_CODES.MCS_CARRIER_REMOVED_COMPLETED_REPORT_FAIL, PortNameWithEQName);
-                }
-
-            });
-
-            converterParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_removed_com_reply_address, true);
-            CancellationTokenSource cst = new CancellationTokenSource(TimeSpan.FromSeconds(5000));
-            while (CarrierRemovedCompletedReport)
-            {
-                if (cst.IsCancellationRequested)
-                {
-                    AlarmManager.AddWarning(ALARM_CODES.CarrierRemovedCompolete_HS_EQ_Timeout, PortNameWithEQName);
-                    break;
-                }
-                await Task.Delay(1);
-            }
-            converterParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_removed_com_reply_address, false);
-        }
-        public async Task CarrierWaitOutReply()
-        {
-
-            var carrier_wait_out_reply_address = PortCIMBitAddress[PROPERTY.Carrier_WawitOut_System_Reply];
-            converterParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_out_reply_address, true);
-            CancellationTokenSource cst = new CancellationTokenSource(TimeSpan.FromSeconds(5));
-            while (CarrierWaitOUTSystemRequest)
-            {
-                if (cst.IsCancellationRequested)
-                {
-                    AlarmManager.AddWarning(ALARM_CODES.CarrierWaitOut_HS_EQ_Timeout, PortNameWithEQName);
-                    break;
-                }
-                await Task.Delay(1);
-            }
-            converterParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_out_reply_address, false);
-
-            try
-            {
-                var response = await DevicesManager.secs_host_for_mcs.SendAsync(EVENT_REPORT.CarrierWaitOutReportMessage(WIPINFO_BCR_ID, "", ""));
-                if (response == null)
-                    AlarmManager.AddWarning(ALARM_CODES.MCS_CARRIER_WAITOUT_REPORT_FAIL, PortNameWithEQName);
-            }
-            catch (Exception ex)
-            {
-                AlarmManager.AddWarning(ALARM_CODES.MCS_CARRIER_WAITOUT_REPORT_FAIL, PortNameWithEQName);
-            }
-
-        }
+       
+       
         public HandShakeResult CarrierWaitOutHSResult = new HandShakeResult();
-        public async Task<bool> CarrierWaitInReply(int T_timeout = 5000)
-        {
-            //送訊息給SECS HOST 
-            bool mcs_accpet = await WaitMCSAccpectCarrierIn();
-            //寫結果
-            CarrierWaitOutHSResult.Reset();
-            bool timeout = false;
-            PROPERTY wait_in_ = mcs_accpet ? PROPERTY.Carrier_WaitIn_System_Accept : PROPERTY.Carrier_WaitIn_System_Refuse;
-            var carrier_wait_in_result_flag_address = PortCIMBitAddress[wait_in_];
-            var carrier_wait_in_reply_address = PortCIMBitAddress[PROPERTY.Carrier_WaitIn_System_Reply];
-
-            converterParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_in_result_flag_address, true);
-            converterParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_in_reply_address, true);
-
-            Stopwatch sw = Stopwatch.StartNew();
-            while (CarrierWaitINSystemRequest)
-            {
-                if (sw.ElapsedMilliseconds > T_timeout)
-                {
-                    timeout = true;
-                    break;
-                }
-                await Task.Delay(1);
-            }
-
-            converterParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_in_reply_address, false);
-            converterParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_in_result_flag_address, false);
-
-            return timeout;
-
-        }
-        private void Secs_client_OnPrimaryMessageRecieve(object? sender, PrimaryMessageWrapper messagePrimary)
-        {
-            Task.Factory.StartNew(() =>
-            {
-                var mcs_msg = messagePrimary.PrimaryMessage;
-                bool IsRCMD = mcs_msg.TryGetRCMDAction_S2F49(out RCMD RCMD, out Item parameterGroups);
-                if (IsRCMD && RCMD == SECSMessageHelper.RCMD.TRANSFER)
-                {
-                    CarrierWaitIn_Reply = true;
-                    CarrierWaitIn_Accept = true;
-                }
-                if (IsRCMD && RCMD == SECSMessageHelper.RCMD.NOTRANSFER)
-                {
-                    CarrierWaitIn_Reply = true;
-                    CarrierWaitIn_Accept = false;
-
-                    AlarmManager.AddWarning(ALARM_CODES.CARRIER_WAIT_IN_BUT_MCS_REJECT, PortNameWithEQName);
-                }
-            });
-        }
+       
 
         public bool BuildModbusTCPServer(frmModbusTCPServer ui)
         {
@@ -752,9 +389,5 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             });
         }
 
-        internal async Task<bool> Mode_Change_RequestAsync(PortUnitType portUnitType)
-        {
-            return await ModeChangeRequestHandshake(portUnitType);
-        }
     }
 }

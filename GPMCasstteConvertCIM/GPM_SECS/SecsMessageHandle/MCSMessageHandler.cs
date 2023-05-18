@@ -66,7 +66,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
             string port_id = parameterGroups.Items[0].Items[1].GetString();
             ushort port_type = parameterGroups.Items[1].Items[1].FirstValue<ushort>();
             clsConverterPort port = DevicesManager.GetPortByPortID(port_id);
-            bool accept = await port.Mode_Change_RequestAsync(port_type == 0 ? PortUnitType.Input : PortUnitType.Output);
+            bool accept = await port.HandshakeHelper.Mode_Change_RequestAsync(port_type == 0 ? PortUnitType.Input : PortUnitType.Output);
 
             //TODO SEND REPLY TO MCS(PORTTYPECHANGE ack)
             _primaryMessageWrapper.TryReplyAsync(new SecsMessage(2, 42, false)
