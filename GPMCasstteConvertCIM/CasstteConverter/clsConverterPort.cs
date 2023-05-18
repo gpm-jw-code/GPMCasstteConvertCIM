@@ -202,10 +202,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 if (_PortStatusDown != value)
                 {
                     _PortStatusDown = value;
-                    if (!_PortStatusDown)
-                       HandshakeHelper.PortOutOfServiceReport();
+                    if (_PortStatusDown)
+                       HandshakeHelper.PortInServiceReport();
                     else
-                        HandshakeHelper.PortInServiceReport();
+                        HandshakeHelper.PortOutOfServiceReport();
                     Properties.InSerivce = _PortStatusDown;
                 }
             }
