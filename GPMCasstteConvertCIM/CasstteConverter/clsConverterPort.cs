@@ -22,7 +22,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
     {
         public clsConverterPort()
         {
-            HandshakeHelper = new clsMCS_EQHandshake(this);
         }
 
         public clsConverterPort(clsPortProperty property, clsCasstteConverter converterParent)
@@ -32,7 +31,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
             AGVSignals = new clsHS_Status_Signals();
             AGVSignals.OnValidSignalActive += AGVSignals_OnValidSignalActive;
-            HandshakeHelper = new clsMCS_EQHandshake(this);
         }
 
         public clsCasstteConverter converterParent { get; }
@@ -43,7 +41,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         public event EventHandler<clsConverterPort> CarrierWaitOutOnReport;
         public event EventHandler<clsConverterPort> CarrierRemovedCompletedOnReport;
         public event EventHandler<clsConverterPort> OnValidSignalActive;
-        public clsMCS_EQHandshake HandshakeHelper;
         public string PortNameWithEQName => converterParent.Name + $"-[{Properties.PortID}]";
 
         public string portNoName => $"PORT{Properties.PortNo + 1}";
@@ -204,9 +201,9 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 {
                     _PortStatusDown = value;
                     if (_PortStatusDown)
-                        HandshakeHelper.PortInServiceReport();
+                        PortInServiceReport();
                     else
-                        HandshakeHelper.PortOutOfServiceReport();
+                        PortOutOfServiceReport();
                     Properties.InSerivce = _PortStatusDown;
                 }
             }
@@ -233,7 +230,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                         {
                             Utilities.Utility.SystemLogger.Info($"Carrier Wait In HS Start");
 
-                            bool timeout = await HandshakeHelper.CarrierWaitInReply();
+                            bool timeout = await CarrierWaitInReply();
                             if (timeout)
                             {
                                 AlarmManager.AddAlarm(ALARM_CODES.CarrierWaitIn_HS_EQ_Timeout, PortNameWithEQName);
@@ -258,7 +255,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     _CarrierWaitOUTSystemRequest = value;
                     if (_CarrierWaitOUTSystemRequest)
                     {
-                        HandshakeHelper.CarrierWaitOutReply();
+                        CarrierWaitOutReply();
                     }
                 }
             }
@@ -275,7 +272,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     _CarrierRemovedCompletedReport = value;
                     if (_CarrierRemovedCompletedReport)
                     {
-                        HandshakeHelper.CarrierRemovedCompletedReply();
+                        CarrierRemovedCompletedReply();
 
                     }
                 }
@@ -294,7 +291,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     _Port_Mode_Changed_Report = value;
                     if (_Port_Mode_Changed_Report)
                     {
-                        HandshakeHelper.PortModeChangedReportHandshake();
+                        PortModeChangedReportHandshake();
                     }
                 }
             }
@@ -318,19 +315,15 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 {
                     _PortType = value;
                     if (_PortType == 0)
-                        HandshakeHelper.PortTypeInputReport();
+                        PortTypeInputReport();
                     if (_PortType == 1)
-                        HandshakeHelper.PortTypeOutputReport();
+                        PortTypeOutputReport();
                     Properties.PortType = Enum.GetValues(typeof(GPM_SECS.SECSMessageHelper.PortUnitType)).Cast<GPM_SECS.SECSMessageHelper.PortUnitType>().First(etype => (int)etype == _PortType);
                 }
             }
         }
 
         public ModbusTCPServer modbus_server { get; set; }
-
-
-        public HandShakeResult CarrierWaitOutHSResult = new HandShakeResult();
-
 
         public bool BuildModbusTCPServer(frmModbusTCPServer ui)
         {

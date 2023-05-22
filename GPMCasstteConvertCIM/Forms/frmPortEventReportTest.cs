@@ -23,23 +23,23 @@ namespace GPMCasstteConvertCIM.Forms
 
         private void btnInServiceReport_Click(object sender, EventArgs e)
         {
-            portData.HandshakeHelper.PortInServiceReport();
+            portData.PortInServiceReport();
         }
 
         private void btnOutOfServiceReport_Click(object sender, EventArgs e)
         {
-            portData.HandshakeHelper.PortOutOfServiceReport();
+            portData.PortOutOfServiceReport();
         }
 
 
         private void btnPortTypeInputReport_Click(object sender, EventArgs e)
         {
-            portData.HandshakeHelper.PortTypeInputReport();
+            portData.PortTypeInputReport();
         }
 
         private void btnPortTypeOutputReport_Click(object sender, EventArgs e)
         {
-            portData.HandshakeHelper.PortTypeOutputReport();
+            portData.PortTypeOutputReport();
         }
 
         private void frmPortEventReportTest_Load(object sender, EventArgs e)
