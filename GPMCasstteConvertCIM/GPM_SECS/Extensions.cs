@@ -143,8 +143,33 @@ namespace GPMCasstteConvertCIM.GPM_SECS
         {
             if (msg.S != 6 && msg.F != 11)
                 return false;
+            try
+            {
+                var item_check = msg.SecsItem.Items[1];
+                var ce_id = item_check.FirstValue<uint>();
+                return ce_id == 2 | ce_id == 3;
 
-            return msg.SecsItem.Items[0].Items[0].FirstValue<ushort>() == 2;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+        public static bool IsAGVSOfflineReport(this SecsMessage msg)
+        {
+            if (msg.S != 6 && msg.F != 11)
+                return false;
+            try
+            {
+                var item_check = msg.SecsItem.Items[1];
+                var ce_id = item_check.FirstValue<uint>();
+                return ce_id == 1;
+
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
     }

@@ -8,6 +8,7 @@ using GPMCasstteConvertCIM.Devices.Options;
 using GPMCasstteConvertCIM.Emulators;
 using GPMCasstteConvertCIM.Emulators.SecsEmu;
 using GPMCasstteConvertCIM.GPM_SECS;
+using GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle;
 using GPMCasstteConvertCIM.Utilities;
 using Secs4Net;
 using Secs4Net.Sml;
@@ -130,7 +131,20 @@ namespace GPMCasstteConvertCIM.Forms
             //dgvActiveMsgToAGVS.DataSource = CIMDevices.secs_host.sendBuffer;
             //dgvMsgFromMCS.DataSource = CIMDevices.secs_client.recvBuffer;
             //dgvActiveMsgToMCS.DataSource = CIMDevices.secs_client.sendBuffer;
-
+            AGVSMessageHandler.OnAGVSOnline += (o, e) =>
+            {
+                Invoke(new Action(() =>
+                {
+                    ckbRemoteModeIndi.Checked = true;
+                }));
+            };
+            AGVSMessageHandler.OnAGVSOffline += (o, e) =>
+            {
+                Invoke(new Action(() =>
+                {
+                    ckbRemoteModeIndi.Checked = false;
+                }));
+            };
         }
 
 
@@ -356,6 +370,11 @@ namespace GPMCasstteConvertCIM.Forms
         {
             Utility.SystemLogger.SecsTransferLog("Log Test");
 
+        }
+
+        private void ckbRemoteModeIndi_CheckedChanged(object sender, EventArgs e)
+        {
+            ckbRemoteModeIndi.Text = ckbRemoteModeIndi.Checked ? "Online" : "Offline";
         }
     }
 }

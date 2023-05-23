@@ -76,10 +76,26 @@ namespace GPMCasstteConvertCIM.GPM_SECS.Tests
             SecsMessage msg = new SecsMessage(6, 11)
             {
                 SecsItem = Item.L(
-                        Item.U4()
+                        Item.U4(200),//DATA ID
+                        Item.U4(3)// CEID
 
                      )
             };
+            Assert.IsTrue(msg.IsAGVSOnlineReport());
+        }
+    
+        [TestMethod()]
+        public void IsAGVSOfflineReportTest()
+        {
+            SecsMessage msg = new SecsMessage(6, 11)
+            {
+                SecsItem = Item.L(
+                         Item.U4(400),//DATA ID
+                         Item.U4(1)// CEID
+
+                      )
+            };
+            Assert.IsTrue(msg.IsAGVSOfflineReport());
         }
     }
 }

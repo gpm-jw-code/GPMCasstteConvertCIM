@@ -862,7 +862,7 @@
             ckbRemoteModeIndi.Text = "OFFLINE";
             ckbRemoteModeIndi.TextAlign = ContentAlignment.MiddleCenter;
             ckbRemoteModeIndi.UseVisualStyleBackColor = false;
-            ckbRemoteModeIndi.Visible = false;
+            ckbRemoteModeIndi.CheckedChanged += ckbRemoteModeIndi_CheckedChanged;
             // 
             // frmMain
             // 

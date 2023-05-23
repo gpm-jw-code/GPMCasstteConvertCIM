@@ -14,6 +14,8 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
 {
     internal class AGVSMessageHandler
     {
+        internal static event EventHandler OnAGVSOnline;
+        internal static event EventHandler OnAGVSOffline;
 
         /// <summary>
         /// 處理AGVS PrimaryMessage >>轉送給MCS 
@@ -26,7 +28,6 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
             Utility.SystemLogger.SecsTransferLog($"Primary Mesaage Recieved From AGVS");
 
             using SecsMessage _primaryMessage_FromAGVS = _primaryMessageWrapper.PrimaryMessage;
-            bool IsOnlineRemoteReport = _primaryMessage_FromAGVS.IsAGVSOnlineReport();
 
             Utility.SystemLogger.SecsTransferLog($"Primary Mesaage From AGVS : {_primaryMessage_FromAGVS.ToSml()}");
 
@@ -34,6 +35,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
 
             Utility.SystemLogger.SecsTransferLog($"Start Transfer To MCS");
             SecsMessage secondaryMsgFromMCS = await DevicesManager.secs_host_for_mcs.ActiveSendMsgAsync(_primaryMessage_FromAGVS);
+
 
             if (secondaryMsgFromMCS.S == 1 && secondaryMsgFromMCS.F == 4)
             {
@@ -51,7 +53,15 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                     Utility.SystemLogger.SecsTransferLog($"Message Reply to AGVS Fail..");
             }
 
-            //
+            if (_primaryMessage_FromAGVS.IsAGVSOnlineReport())
+            {
+                OnAGVSOnline?.Invoke("", EventArgs.Empty);
+            }
+            if (_primaryMessage_FromAGVS.IsAGVSOfflineReport())
+            {
+                OnAGVSOffline?.Invoke("", EventArgs.Empty);
+            }
+
 
         }
     }
