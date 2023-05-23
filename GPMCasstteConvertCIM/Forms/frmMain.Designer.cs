@@ -612,7 +612,7 @@
             // 
             // GPMRDMenuStrip
             // 
-            GPMRDMenuStrip.BackColor = Color.MediumBlue;
+            GPMRDMenuStrip.BackColor = Color.FromArgb(53, 53, 53);
             GPMRDMenuStrip.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
             GPMRDMenuStrip.Items.AddRange(new ToolStripItem[] { toolStripComboBox_Emulators });
             GPMRDMenuStrip.Location = new Point(0, 0);
@@ -781,9 +781,10 @@
             // 
             // toolStripStatusLabel1
             // 
-            toolStripStatusLabel1.BackColor = Color.Transparent;
+            toolStripStatusLabel1.BackColor = Color.FromArgb(53, 53, 53);
             toolStripStatusLabel1.Font = new Font("Yu Gothic UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
             toolStripStatusLabel1.ForeColor = Color.WhiteSmoke;
+            toolStripStatusLabel1.LinkColor = Color.FromArgb(53, 53, 53);
             toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             toolStripStatusLabel1.Size = new Size(1170, 19);
             toolStripStatusLabel1.Spring = true;
@@ -791,9 +792,11 @@
             // 
             // labSysTime
             // 
+            labSysTime.BackColor = Color.FromArgb(53, 53, 53);
             labSysTime.BorderSides = ToolStripStatusLabelBorderSides.Left;
             labSysTime.Font = new Font("Maiandra GD", 9F, FontStyle.Regular, GraphicsUnit.Point);
             labSysTime.ForeColor = Color.Snow;
+            labSysTime.LinkColor = Color.FromArgb(53, 53, 53);
             labSysTime.Name = "labSysTime";
             labSysTime.Size = new Size(121, 19);
             labSysTime.Text = "1991/10/20 10:00:00";
@@ -817,7 +820,7 @@
             // 
             // splitContainer1
             // 
-            splitContainer1.BackColor = Color.FromArgb(0, 0, 192);
+            splitContainer1.BackColor = Color.FromArgb(53, 53, 53);
             splitContainer1.Dock = DockStyle.Fill;
             splitContainer1.Location = new Point(133, 106);
             splitContainer1.Name = "splitContainer1";
@@ -825,6 +828,7 @@
             // 
             // splitContainer1.Panel1
             // 
+            splitContainer1.Panel1.BackColor = Color.FromArgb(53, 53, 53);
             splitContainer1.Panel1.Controls.Add(tabControl1);
             // 
             // splitContainer1.Panel2

@@ -59,8 +59,8 @@
             labSECS_MCS.Name = "labSECS_MCS";
             labSECS_MCS.Size = new Size(126, 42);
             labSECS_MCS.TabIndex = 4;
-            labSECS_MCS.Text = "SECS<->MCS";
-            labSECS_MCS.TextAlign = ContentAlignment.MiddleLeft;
+            labSECS_MCS.Text = "MCS";
+            labSECS_MCS.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // labSECS_AGVS
             // 
@@ -73,8 +73,8 @@
             labSECS_AGVS.Name = "labSECS_AGVS";
             labSECS_AGVS.Size = new Size(126, 42);
             labSECS_AGVS.TabIndex = 5;
-            labSECS_AGVS.Text = "SECS<->AGVS";
-            labSECS_AGVS.TextAlign = ContentAlignment.MiddleLeft;
+            labSECS_AGVS.Text = "AGVS";
+            labSECS_AGVS.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // labConverter
             // 
