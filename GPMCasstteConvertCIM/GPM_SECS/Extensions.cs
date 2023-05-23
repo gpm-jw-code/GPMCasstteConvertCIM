@@ -146,7 +146,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS
             try
             {
                 var item_check = msg.SecsItem.Items[1];
-                var ce_id = item_check.FirstValue<uint>();
+                var ce_id = item_check.FirstValue<ushort>();
                 return ce_id == 2 | ce_id == 3;
 
             }
@@ -162,7 +162,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS
             try
             {
                 var item_check = msg.SecsItem.Items[1];
-                var ce_id = item_check.FirstValue<uint>();
+                var ce_id = item_check.FirstValue<ushort>();
                 return ce_id == 1;
 
             }

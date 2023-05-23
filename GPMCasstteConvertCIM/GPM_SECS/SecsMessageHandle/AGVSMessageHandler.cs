@@ -1,4 +1,5 @@
-﻿using GPMCasstteConvertCIM.Devices;
+﻿using GPMCasstteConvertCIM.Alarm;
+using GPMCasstteConvertCIM.Devices;
 using GPMCasstteConvertCIM.GPM_SECS;
 using GPMCasstteConvertCIM.Utilities;
 using Secs4Net;
@@ -24,6 +25,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
         /// <param name="e"></param>
         internal async static void PrimaryMessageOnReceivedAsync(object? sender, PrimaryMessageWrapper _primaryMessageWrapper)
         {
+            byte ack6 = 0;
 
             Utility.SystemLogger.SecsTransferLog($"Primary Mesaage Recieved From AGVS");
 
@@ -41,6 +43,10 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
             {
                 //TODO if has 2004 , add port data
             }
+            if (secondaryMsgFromMCS.S == 6 && secondaryMsgFromMCS.F == 12)
+            {
+                ack6 = secondaryMsgFromMCS.SecsItem.FirstValue<byte>();
+            }
 
             if (_primaryMessage_FromAGVS.ReplyExpected)
             {
@@ -53,15 +59,24 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                     Utility.SystemLogger.SecsTransferLog($"Message Reply to AGVS Fail..");
             }
 
-            if (_primaryMessage_FromAGVS.IsAGVSOnlineReport())
+            try
             {
-                OnAGVSOnline?.Invoke("", EventArgs.Empty);
-            }
-            if (_primaryMessage_FromAGVS.IsAGVSOfflineReport())
-            {
-                OnAGVSOffline?.Invoke("", EventArgs.Empty);
-            }
 
+                if (_primaryMessage_FromAGVS.IsAGVSOnlineReport())
+                {
+                    if (ack6 == 0)
+                        OnAGVSOnline?.Invoke("", EventArgs.Empty);
+                }
+                if (_primaryMessage_FromAGVS.IsAGVSOfflineReport())
+                {
+                    if (ack6 == 0)
+                        OnAGVSOffline?.Invoke("", EventArgs.Empty);
+                }
+            }
+            catch (Exception ex)
+            {
+                AlarmManager.AddWarning(ALARM_CODES.ONLINE_MODE_MONITORING_ERROR, "AGVSMHANDLER", false);
+            }
 
         }
     }

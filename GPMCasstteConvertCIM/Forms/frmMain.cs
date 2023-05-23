@@ -20,6 +20,10 @@ namespace GPMCasstteConvertCIM.Forms
     {
         CasstteConverter.clsCasstteConverter casstteConverter_1;
         CasstteConverter.clsCasstteConverter casstteConverter_2;
+
+        private bool IsOnline = false;
+        private bool IsRemote = false;
+
         public frmMain()
         {
             InitializeComponent();
@@ -135,6 +139,7 @@ namespace GPMCasstteConvertCIM.Forms
             {
                 Invoke(new Action(() =>
                 {
+                    IsOnline = true;
                     ckbRemoteModeIndi.Checked = true;
                 }));
             };
@@ -142,6 +147,7 @@ namespace GPMCasstteConvertCIM.Forms
             {
                 Invoke(new Action(() =>
                 {
+                    IsOnline = false;
                     ckbRemoteModeIndi.Checked = false;
                 }));
             };
@@ -296,6 +302,7 @@ namespace GPMCasstteConvertCIM.Forms
         private void SysTimer_Tick(object sender, EventArgs e)
         {
             labSysTime.Text = DateTime.Now.ToString();
+            ckbRemoteModeIndi.Checked = IsOnline;
         }
 
         private void aGVS¨£®Æº“¿¿æπToolStripMenuItem_Click(object sender, EventArgs e)
