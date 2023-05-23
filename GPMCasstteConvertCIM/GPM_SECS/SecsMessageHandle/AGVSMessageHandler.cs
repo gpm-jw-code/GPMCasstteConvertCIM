@@ -21,23 +21,27 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
         /// <param name="e"></param>
         internal async static void PrimaryMessageOnReceivedAsync(object? sender, PrimaryMessageWrapper _primaryMessageWrapper)
         {
-            using SecsMessage _primaryMessage = _primaryMessageWrapper.PrimaryMessage;
+            using SecsMessage _primaryMessage_FromAGVS = _primaryMessageWrapper.PrimaryMessage;
 
-            Utility.SystemLogger.Info($"[AGVS SECS Message > MCS] From AGVS : {_primaryMessage.ToSml()}");
+            Utility.SystemLogger.Info($"[AGVS SECS Message > MCS] From AGVS : {_primaryMessage_FromAGVS.ToSml()}");
             _primaryMessageWrapper.PrimaryMessage.Name = "AGVS_To_CIM";
-            SecsMessage secondaryMsg = await DevicesManager.secs_host_for_mcs.SendAsync(_primaryMessage);
 
+            SecsMessage secondaryMsgFromMCS = await DevicesManager.secs_host_for_mcs.SendAsync(_primaryMessage_FromAGVS);
 
-            if (secondaryMsg.S == 1 && secondaryMsg.F == 4)
+            if (secondaryMsgFromMCS.S == 1 && secondaryMsgFromMCS.F == 4)
             {
                 //TODO if has 2004 , add port data
             }
 
-            if (_primaryMessage.ReplyExpected)
+            if (_primaryMessage_FromAGVS.ReplyExpected)
             {
-                Utility.SystemLogger.Info($"[AGVS SECS Message > MCS] MCS Reply : {secondaryMsg.ToSml()}");
-                bool reply_to_agvs_success = await _primaryMessageWrapper.TryReplyAsync(secondaryMsg);
-                Utility.SystemLogger.Info($"[AGVS SECS Message > MCS] Message Transfer Finish");
+                Utility.SystemLogger.Info($"[AGVS SECS Message > MCS] MCS Reply : {secondaryMsgFromMCS.ToSml()}");
+                bool reply_to_agvs_success = await _primaryMessageWrapper.TryReplyAsync(secondaryMsgFromMCS);
+                if (reply_to_agvs_success)
+                    Utility.SystemLogger.Info($"[AGVS SECS Message > MCS] Message Transfer Finish");
+                else
+                    Utility.SystemLogger.Info($"[AGVS SECS Message > MCS] Message Transfer FAIL.  ");
+
             }
         }
     }

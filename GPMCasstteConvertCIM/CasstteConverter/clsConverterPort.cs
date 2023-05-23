@@ -304,7 +304,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         public int Port_Auto_Manual_Mode_Status { get; internal set; }
         private int _PortType = 0;
         /// <summary>
-        /// 0: INput , 1: Output
+        /// 0: INput , 1: Output , 2: In-Output
         /// </summary>
         public int PortType
         {
@@ -313,13 +313,14 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             {
                 if (_PortType != value)
                 {
-                    _PortType = value;
-                    if (_PortType == 0)
+                    if (value == 0)
                         PortTypeInputReport();
-                    if (_PortType == 1)
+                    if (value == 1)
                         PortTypeOutputReport();
-                    Properties.PortType = Enum.GetValues(typeof(GPM_SECS.SECSMessageHelper.PortUnitType)).Cast<GPM_SECS.SECSMessageHelper.PortUnitType>().First(etype => (int)etype == _PortType);
                 }
+                _PortType = value;
+                Properties.PortType = Enum.GetValues(typeof(GPM_SECS.SECSMessageHelper.PortUnitType)).Cast<GPM_SECS.SECSMessageHelper.PortUnitType>().First(etype => (int)etype == _PortType);
+
             }
         }
 

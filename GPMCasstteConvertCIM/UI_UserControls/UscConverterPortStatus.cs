@@ -28,17 +28,16 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             txbWIP_BCR_ID.Text = CstCVPort.WIPINFO_BCR_ID;
             labPortID.Text = CstCVPort.Properties.PortID;
 
-
-            labCurrentPortMode.Text = CstCVPort.Properties.PortType.ToString().ToUpper();
-            //labCurrentRackMode.Text = portData.ERackModeStatus.ToString();
+            labCurrentPortMode.Text = CstCVPort.PortType == 0 ? "INPUT" : CstCVPort.PortType == 1 ? "OUTPUT" : "IN/OUT";
             Color active_color = Color.SeaGreen;
-            labReadyStatusBit.RenderBGColorByState(CstCVPort.ReadyStatus, active_color);
+
+            labPortStatusDown.RenderBGColorByState(CstCVPort.PortStatusDown, active_color);
             labLoadRequestBit.RenderBGColorByState(CstCVPort.LoadRequest, active_color);
             labUnloadRequestBit.RenderBGColorByState(CstCVPort.UnloadRequest, active_color);
             labPortExistBit.RenderBGColorByState(CstCVPort.PortExist, active_color);
             labL_REQBit.RenderBGColorByState(CstCVPort.L_REQ, active_color);
             labU_REQBit.RenderBGColorByState(CstCVPort.U_REQ, active_color);
-            labReadyBit.RenderBGColorByState(CstCVPort.EQ_READY, active_color);
+            labEQReadyBit.RenderBGColorByState(CstCVPort.EQ_READY, active_color);
             labBusyBit.RenderBGColorByState(CstCVPort.EQ_BUSY, active_color);
 
             labUpPosition.RenderBGColorByState(CstCVPort.LD_UP_POS, active_color);

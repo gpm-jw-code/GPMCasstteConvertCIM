@@ -106,8 +106,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         public async void PortOutOfServiceReport()
         {
-            Task tk = null;
-            tk = new Task(async () =>
+            Task tk = new Task(async () =>
             {
                 var msg = new SecsMessage(6, 11)
                 {
@@ -127,17 +126,13 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 };
 
                 SecsMessage? replyMsg = null;
-                while (replyMsg == null && !PortStatusDown)
-                {
-                    replyMsg = await DevicesManager.secs_host_for_mcs.SendAsync(msg);
-                    if (replyMsg == null)
-                        AlarmManager.AddWarning(ALARM_CODES.MCS_PORT_OUT_SERVICE_REPORT_FAIL, PortNameWithEQName);
-                    else
-                        Utilities.Utility.SystemLogger.Info($"PortOutOfServiceReport Done. \r\n MCS Reply \r\n{replyMsg.ToSml()}");
-                    await Task.Delay(1000);
-                }
+                replyMsg = await DevicesManager.secs_host_for_mcs.SendAsync(msg);
+                if (replyMsg == null)
+                    AlarmManager.AddWarning(ALARM_CODES.MCS_PORT_OUT_SERVICE_REPORT_FAIL, PortNameWithEQName);
+                else
+                    Utilities.Utility.SystemLogger.Info($"PortOutOfServiceReport Done. \r\n MCS Reply \r\n{replyMsg.ToSml()}");
+                await Task.Delay(1000);
 
-                AlarmManager.TryRemoveAlarm(ALARM_CODES.MCS_PORT_OUT_SERVICE_REPORT_FAIL, PortNameWithEQName);
             });
             tk.Start();
 
@@ -163,17 +158,11 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                                      )
                 };
                 SecsMessage? replyMsg = null;
-                while (replyMsg == null && PortStatusDown)
-                {
-                    replyMsg = await DevicesManager.secs_host_for_mcs.SendAsync(msg);
-                    if (replyMsg == null)
-                        AlarmManager.AddWarning(ALARM_CODES.MCS_PORT_IN_SERVICE_REPORT_FAIL, PortNameWithEQName);
-                    else
-                        Utilities.Utility.SystemLogger.Info($"PortInServiceReport Done. \r\n MCS Reply \r\n {replyMsg.ToSml()}");
-                    await Task.Delay(1000);
-                }
-                AlarmManager.TryRemoveAlarm(ALARM_CODES.MCS_PORT_IN_SERVICE_REPORT_FAIL, PortNameWithEQName);
-
+                replyMsg = await DevicesManager.secs_host_for_mcs.SendAsync(msg);
+                if (replyMsg == null)
+                    AlarmManager.AddWarning(ALARM_CODES.MCS_PORT_IN_SERVICE_REPORT_FAIL, PortNameWithEQName);
+                else
+                    Utilities.Utility.SystemLogger.Info($"PortInServiceReport Done. \r\n MCS Reply \r\n {replyMsg.ToSml()}");
             });
             tk.Start();
         }
@@ -199,16 +188,11 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 };
                 SecsMessage? replyMsg = null;
 
-                while (replyMsg == null && PortType == 0)
-                {
-                    replyMsg = await DevicesManager.secs_host_for_mcs.SendAsync(msg);
-                    if (replyMsg == null)
-                        AlarmManager.AddWarning(ALARM_CODES.MCS_PORT_TYPE_INPUT_REPORT_FAIL, PortNameWithEQName);
-                    else
-                        Utilities.Utility.SystemLogger.Info($"PortTypeInputReport Done. \r\n MCS Reply \r\n {replyMsg.ToSml()}");
-                    await Task.Delay(1000);
-                }
-                AlarmManager.TryRemoveAlarm(ALARM_CODES.MCS_PORT_TYPE_INPUT_REPORT_FAIL, PortNameWithEQName);
+                replyMsg = await DevicesManager.secs_host_for_mcs.SendAsync(msg);
+                if (replyMsg == null)
+                    AlarmManager.AddWarning(ALARM_CODES.MCS_PORT_TYPE_INPUT_REPORT_FAIL, PortNameWithEQName);
+                else
+                    Utilities.Utility.SystemLogger.Info($"PortTypeInputReport Done. \r\n MCS Reply \r\n {replyMsg.ToSml()}");
 
             });
             tk.Start();
@@ -234,16 +218,11 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                               )
                  };
                  SecsMessage? replyMsg = null;
-                 while (replyMsg == null && PortType == 1)
-                 {
-                     replyMsg = await DevicesManager.secs_host_for_mcs.SendAsync(msg);
-                     if (replyMsg == null)
-                         AlarmManager.AddWarning(ALARM_CODES.MCS_PORT_TYPE_OUTPUT_REPORT_FAIL, PortNameWithEQName);
-                     else
-                         Utilities.Utility.SystemLogger.Info($"PortTypeInputReport Done. \r\n MCS Reply \r\n {replyMsg.ToSml()}");
-                     await Task.Delay(1000);
-                 }
-                 AlarmManager.TryRemoveAlarm(ALARM_CODES.MCS_PORT_TYPE_OUTPUT_REPORT_FAIL, PortNameWithEQName);
+                 replyMsg = await DevicesManager.secs_host_for_mcs.SendAsync(msg);
+                 if (replyMsg == null)
+                     AlarmManager.AddWarning(ALARM_CODES.MCS_PORT_TYPE_OUTPUT_REPORT_FAIL, PortNameWithEQName);
+                 else
+                     Utilities.Utility.SystemLogger.Info($"PortTypeInputReport Done. \r\n MCS Reply \r\n {replyMsg.ToSml()}");
              });
             tk.Start();
         }

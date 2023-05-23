@@ -257,6 +257,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            AutoScroll = true;
             BackColor = Color.White;
             Controls.Add(panel1);
             Controls.Add(pnlBanner);

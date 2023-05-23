@@ -30,13 +30,13 @@
         {
             components = new System.ComponentModel.Container();
             flowLayoutPanel1 = new FlowLayoutPanel();
-            labReadyStatusBit = new Label();
             labLoadRequestBit = new Label();
             labUnloadRequestBit = new Label();
             labPortExistBit = new Label();
+            labPortStatusDown = new Label();
             labL_REQBit = new Label();
             labU_REQBit = new Label();
-            labReadyBit = new Label();
+            labEQReadyBit = new Label();
             labBusyBit = new Label();
             labUpPosition = new Label();
             labDownPosition = new Label();
@@ -62,36 +62,21 @@
             // 
             // flowLayoutPanel1
             // 
-            flowLayoutPanel1.Controls.Add(labReadyStatusBit);
             flowLayoutPanel1.Controls.Add(labLoadRequestBit);
             flowLayoutPanel1.Controls.Add(labUnloadRequestBit);
             flowLayoutPanel1.Controls.Add(labPortExistBit);
+            flowLayoutPanel1.Controls.Add(labPortStatusDown);
             flowLayoutPanel1.Controls.Add(labL_REQBit);
             flowLayoutPanel1.Controls.Add(labU_REQBit);
-            flowLayoutPanel1.Controls.Add(labReadyBit);
+            flowLayoutPanel1.Controls.Add(labEQReadyBit);
             flowLayoutPanel1.Controls.Add(labBusyBit);
             flowLayoutPanel1.Controls.Add(labUpPosition);
             flowLayoutPanel1.Controls.Add(labDownPosition);
             flowLayoutPanel1.Location = new Point(3, 100);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
             flowLayoutPanel1.Padding = new Padding(3);
-            flowLayoutPanel1.Size = new Size(380, 107);
+            flowLayoutPanel1.Size = new Size(391, 107);
             flowLayoutPanel1.TabIndex = 34;
-            // 
-            // labReadyStatusBit
-            // 
-            labReadyStatusBit.BackColor = SystemColors.ControlDarkDark;
-            labReadyStatusBit.BorderStyle = BorderStyle.FixedSingle;
-            labReadyStatusBit.FlatStyle = FlatStyle.Flat;
-            labReadyStatusBit.Font = new Font("Microsoft JhengHei UI", 7F, FontStyle.Regular, GraphicsUnit.Point);
-            labReadyStatusBit.ForeColor = Color.White;
-            labReadyStatusBit.Location = new Point(4, 4);
-            labReadyStatusBit.Margin = new Padding(1);
-            labReadyStatusBit.Name = "labReadyStatusBit";
-            labReadyStatusBit.Size = new Size(88, 30);
-            labReadyStatusBit.TabIndex = 9;
-            labReadyStatusBit.Text = "Ready Status";
-            labReadyStatusBit.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // labLoadRequestBit
             // 
@@ -100,7 +85,7 @@
             labLoadRequestBit.FlatStyle = FlatStyle.Flat;
             labLoadRequestBit.Font = new Font("Microsoft JhengHei UI", 7F, FontStyle.Regular, GraphicsUnit.Point);
             labLoadRequestBit.ForeColor = Color.White;
-            labLoadRequestBit.Location = new Point(94, 4);
+            labLoadRequestBit.Location = new Point(4, 4);
             labLoadRequestBit.Margin = new Padding(1);
             labLoadRequestBit.Name = "labLoadRequestBit";
             labLoadRequestBit.Size = new Size(88, 30);
@@ -115,7 +100,7 @@
             labUnloadRequestBit.FlatStyle = FlatStyle.Flat;
             labUnloadRequestBit.Font = new Font("Microsoft JhengHei UI", 7F, FontStyle.Regular, GraphicsUnit.Point);
             labUnloadRequestBit.ForeColor = Color.White;
-            labUnloadRequestBit.Location = new Point(184, 4);
+            labUnloadRequestBit.Location = new Point(94, 4);
             labUnloadRequestBit.Margin = new Padding(1);
             labUnloadRequestBit.Name = "labUnloadRequestBit";
             labUnloadRequestBit.Size = new Size(88, 30);
@@ -130,13 +115,28 @@
             labPortExistBit.FlatStyle = FlatStyle.Flat;
             labPortExistBit.Font = new Font("Microsoft JhengHei UI", 7F, FontStyle.Regular, GraphicsUnit.Point);
             labPortExistBit.ForeColor = Color.White;
-            labPortExistBit.Location = new Point(274, 4);
+            labPortExistBit.Location = new Point(184, 4);
             labPortExistBit.Margin = new Padding(1);
             labPortExistBit.Name = "labPortExistBit";
             labPortExistBit.Size = new Size(88, 30);
             labPortExistBit.TabIndex = 2;
             labPortExistBit.Text = "Port Exist";
             labPortExistBit.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // labPortStatusDown
+            // 
+            labPortStatusDown.BackColor = SystemColors.ControlDarkDark;
+            labPortStatusDown.BorderStyle = BorderStyle.FixedSingle;
+            labPortStatusDown.FlatStyle = FlatStyle.Flat;
+            labPortStatusDown.Font = new Font("Microsoft JhengHei UI", 7F, FontStyle.Regular, GraphicsUnit.Point);
+            labPortStatusDown.ForeColor = Color.White;
+            labPortStatusDown.Location = new Point(274, 4);
+            labPortStatusDown.Margin = new Padding(1);
+            labPortStatusDown.Name = "labPortStatusDown";
+            labPortStatusDown.Size = new Size(88, 30);
+            labPortStatusDown.TabIndex = 23;
+            labPortStatusDown.Text = "PORT_STATUS_DOWN";
+            labPortStatusDown.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // labL_REQBit
             // 
@@ -168,20 +168,20 @@
             labU_REQBit.Text = "U_REQ";
             labU_REQBit.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // labReadyBit
+            // labEQReadyBit
             // 
-            labReadyBit.BackColor = SystemColors.ControlDarkDark;
-            labReadyBit.BorderStyle = BorderStyle.FixedSingle;
-            labReadyBit.FlatStyle = FlatStyle.Flat;
-            labReadyBit.Font = new Font("Microsoft JhengHei UI", 7F, FontStyle.Regular, GraphicsUnit.Point);
-            labReadyBit.ForeColor = Color.White;
-            labReadyBit.Location = new Point(184, 36);
-            labReadyBit.Margin = new Padding(1);
-            labReadyBit.Name = "labReadyBit";
-            labReadyBit.Size = new Size(88, 30);
-            labReadyBit.TabIndex = 8;
-            labReadyBit.Text = "READY";
-            labReadyBit.TextAlign = ContentAlignment.MiddleCenter;
+            labEQReadyBit.BackColor = SystemColors.ControlDarkDark;
+            labEQReadyBit.BorderStyle = BorderStyle.FixedSingle;
+            labEQReadyBit.FlatStyle = FlatStyle.Flat;
+            labEQReadyBit.Font = new Font("Microsoft JhengHei UI", 7F, FontStyle.Regular, GraphicsUnit.Point);
+            labEQReadyBit.ForeColor = Color.White;
+            labEQReadyBit.Location = new Point(184, 36);
+            labEQReadyBit.Margin = new Padding(1);
+            labEQReadyBit.Name = "labEQReadyBit";
+            labEQReadyBit.Size = new Size(88, 30);
+            labEQReadyBit.TabIndex = 8;
+            labEQReadyBit.Text = "READY";
+            labEQReadyBit.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // labBusyBit
             // 
@@ -446,7 +446,6 @@
         #endregion
 
         private FlowLayoutPanel flowLayoutPanel1;
-        private Label labReadyStatusBit;
         private Label labLoadRequestBit;
         private Label labUnloadRequestBit;
         private Label labPortExistBit;
@@ -471,5 +470,7 @@
         private Label label4;
         private Label labServiceStatusText;
         private Label label3;
+        private Label labPortStatusDown;
+        private Label labEQReadyBit;
     }
 }
