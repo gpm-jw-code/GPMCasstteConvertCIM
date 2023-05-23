@@ -850,7 +850,7 @@
             MainMenuStrip = GPMRDMenuStrip;
             Name = "frmMain";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "GPM AGVS CIM_V1.0.0";
+            Text = "GPM AGVS CIM_V23.5.23";
             WindowState = FormWindowState.Maximized;
             FormClosing += Form1_FormClosing;
             Load += Form1_Load;
