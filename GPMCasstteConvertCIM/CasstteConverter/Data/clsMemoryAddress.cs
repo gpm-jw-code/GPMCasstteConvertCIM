@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -29,6 +30,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter.Data
         }
         public DATA_TYPE DataType { get; private set; }
         public OWNER EOwner => Owner == "AGVS" ? OWNER.CIM : OWNER.EQP;
+
+        internal bool IsCIMUse => EOwner == OWNER.CIM;
+        internal bool IsEQUse => EOwner == OWNER.EQP;
+
         public string Address { get; set; }
 
         public object _Value = 0;
@@ -107,6 +112,11 @@ namespace GPMCasstteConvertCIM.CasstteConverter.Data
                 _PropertyName = value;
                 EProperty = Enum.GetValues(typeof(Enums.PROPERTY)).Cast<Enums.PROPERTY>().FirstOrDefault(s => s.ToString() == _PropertyName);
             }
+        }
+
+        internal clsMemoryAddress Copy()
+        {
+            return JsonConvert.DeserializeObject<clsMemoryAddress>(JsonConvert.SerializeObject(this));
         }
     }
 }

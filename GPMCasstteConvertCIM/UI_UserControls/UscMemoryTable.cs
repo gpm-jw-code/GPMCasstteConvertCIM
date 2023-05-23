@@ -69,7 +69,7 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             }
         }
 
-     
+
         public List<clsMemoryAddress> wordMemoryAddressList
         {
             set
@@ -122,8 +122,9 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             var newValue = dialog.ShowDialog(addressData.Address, (int)addressData.Value);
             if (dialog.DialogResult == DialogResult.OK)
             {
-                addressData.Value = newValue;
-                wordValueOnChanged?.Invoke(this, addressData);
+                clsMemoryAddress addressDataCopy = addressData.Copy();
+                addressDataCopy.Value = newValue;
+                wordValueOnChanged?.Invoke(this, addressDataCopy);
             }
         }
 
