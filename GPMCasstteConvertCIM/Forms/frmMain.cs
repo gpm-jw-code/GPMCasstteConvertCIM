@@ -336,5 +336,26 @@ namespace GPMCasstteConvertCIM.Forms
                 uscAlarmTable1.alarmListBinding.ResetBindings();
             }
         }
+
+        private void GPMRDMenuStrip_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
+
+        private void uscConnectionStates1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void uscConnectionStates1_Click(object sender, EventArgs e)
+        {
+            Utility.SystemLogger.SecsTransferLog("Log Test");
+        }
+
+        private void pnlSideLeft_Click(object sender, EventArgs e)
+        {
+            Utility.SystemLogger.SecsTransferLog("Log Test");
+
+        }
     }
 }

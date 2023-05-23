@@ -21,11 +21,15 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
         /// <param name="e"></param>
         internal async static void PrimaryMessageOnReceivedAsync(object? sender, PrimaryMessageWrapper _primaryMessageWrapper)
         {
+            Utility.SystemLogger.SecsTransferLog($"Primary Mesaage Recieved From AGVS");
+
             using SecsMessage _primaryMessage_FromAGVS = _primaryMessageWrapper.PrimaryMessage;
 
-            Utility.SystemLogger.Info($"[AGVS SECS Message > MCS] From AGVS : {_primaryMessage_FromAGVS.ToSml()}");
+            Utility.SystemLogger.SecsTransferLog($"Primary Mesaage From AGVS : {_primaryMessage_FromAGVS.ToSml()}");
+
             _primaryMessageWrapper.PrimaryMessage.Name = "AGVS_To_CIM";
 
+            Utility.SystemLogger.SecsTransferLog($"Start Transfer To MCS");
             SecsMessage secondaryMsgFromMCS = await DevicesManager.secs_host_for_mcs.SendAsync(_primaryMessage_FromAGVS);
 
             if (secondaryMsgFromMCS.S == 1 && secondaryMsgFromMCS.F == 4)
@@ -35,12 +39,13 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
 
             if (_primaryMessage_FromAGVS.ReplyExpected)
             {
-                Utility.SystemLogger.Info($"[AGVS SECS Message > MCS] MCS Reply : {secondaryMsgFromMCS.ToSml()}");
+                Utility.SystemLogger.SecsTransferLog($"MCS Reply : {secondaryMsgFromMCS.ToSml()}");
+
                 bool reply_to_agvs_success = await _primaryMessageWrapper.TryReplyAsync(secondaryMsgFromMCS);
                 if (reply_to_agvs_success)
-                    Utility.SystemLogger.Info($"[AGVS SECS Message > MCS] Message Transfer Finish");
+                    Utility.SystemLogger.SecsTransferLog($"Message Reply to AGVS Finish");
                 else
-                    Utility.SystemLogger.Info($"[AGVS SECS Message > MCS] Message Transfer FAIL.  ");
+                    Utility.SystemLogger.SecsTransferLog($"Message Reply to AGVS Fail..");
 
             }
         }

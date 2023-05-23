@@ -83,16 +83,19 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
             try
             {
                 var primaryMsgFromMcs = _primaryMessageWrapper.PrimaryMessage;
-                Utility.SystemLogger.Info($"[MCS SECS Message > AGVS] From MCS : {primaryMsgFromMcs.ToSml()}");
+                _primaryMessageWrapper.PrimaryMessage.Name = "MCS_To_CIM";
+                Utility.SystemLogger.SecsTransferLog($"Primary Mesaage From MCS : {primaryMsgFromMcs.ToSml()}");
 
                 SecsMessage replyMessage;
 
                 if (primaryMsgFromMcs.S == 1 && primaryMsgFromMcs.F == 3)
                 {
+                    Utility.SystemLogger.SecsTransferLog($"Start Transfer To AGVS");
                     replyMessage = await S1F3RequestHandle(primaryMsgFromMcs);
                 }
                 else
                 {
+                    Utility.SystemLogger.SecsTransferLog($"Start Transfer To AGVS");
                     replyMessage = await DevicesManager.secs_client_for_agvs.SendAsync(primaryMsgFromMcs);
 
                 }
@@ -102,14 +105,17 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                 }
                 else
                 {
-                    await Task.Delay(100);
-                    Utility.SystemLogger.Info($"[MCS SECS Message > AGVS] AGVS Reply : {replyMessage.ToSml()}");
+                    Utility.SystemLogger.SecsTransferLog($"AGVS Reply : {replyMessage.ToSml()}");
                     //回傳給MCS
+
                     bool reply_to_mcs_succss = await _primaryMessageWrapper.TryReplyAsync(replyMessage);
                     if (reply_to_mcs_succss)
-                        Utility.SystemLogger.Info($"[MCS SECS Message > AGVS] Message Transfer Finish");
+                        Utility.SystemLogger.SecsTransferLog($"Message Reply to MCS Finish");
                     else
+                    {
+                        Utility.SystemLogger.SecsTransferLog($"Message Reply to MCS Fail..");
                         _AddAlarm(ALARM_CODES.AGVS_REPLY_MCS_MSG_BUT_ERROR_WHEN_REPLY_TO_MCS);
+                    }
                 }
 
             }

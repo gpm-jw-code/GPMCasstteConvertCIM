@@ -92,12 +92,33 @@ namespace GPMCasstteConvertCIM.Utilities
                     break;
             }
         }
+
+        public void SecsTransferLog(string msg)
+        {
+            AppendDateTime(out DateTime time);
+            _richTextBox?.Invoke((MethodInvoker)delegate
+            {
+                _richTextBox.SelectionColor = Color.Yellow;
+                _richTextBox.AppendText($"[SECS Msg Transfer] {msg}\n");
+            });
+            WriteToFile(time, LOG_LEVEL.INFO, msg);
+        }
         public void Info(string msg)
         {
             AppendDateTime(out DateTime time);
             _richTextBox?.Invoke((MethodInvoker)delegate
             {
                 _richTextBox.SelectionColor = Color.LightBlue;
+                _richTextBox.AppendText($"{msg}\n");
+            });
+            WriteToFile(time, LOG_LEVEL.INFO, msg);
+        }
+        public void Info(string msg,Color foreCOlor)
+        {
+            AppendDateTime(out DateTime time);
+            _richTextBox?.Invoke((MethodInvoker)delegate
+            {
+                _richTextBox.SelectionColor = foreCOlor;
                 _richTextBox.AppendText($"{msg}\n");
             });
             WriteToFile(time, LOG_LEVEL.INFO, msg);

@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             tabControl1 = new TabControl();
             tabPage1 = new TabPage();
             tlpConverterContainer = new TableLayoutPanel();
@@ -621,6 +622,7 @@
             GPMRDMenuStrip.Size = new Size(1306, 32);
             GPMRDMenuStrip.TabIndex = 3;
             GPMRDMenuStrip.Text = "menuStrip1";
+            GPMRDMenuStrip.ItemClicked += GPMRDMenuStrip_ItemClicked;
             // 
             // toolStripComboBox_Emulators
             // 
@@ -689,6 +691,7 @@
             pnlSideLeft.Name = "pnlSideLeft";
             pnlSideLeft.Size = new Size(133, 575);
             pnlSideLeft.TabIndex = 5;
+            pnlSideLeft.Click += pnlSideLeft_Click;
             // 
             // btnOpenLoginFOrm
             // 
@@ -725,6 +728,8 @@
             uscConnectionStates1.Padding = new Padding(1);
             uscConnectionStates1.Size = new Size(134, 96);
             uscConnectionStates1.TabIndex = 5;
+            uscConnectionStates1.Load += uscConnectionStates1_Load;
+            uscConnectionStates1.Click += uscConnectionStates1_Click;
             // 
             // label1
             // 
@@ -841,6 +846,7 @@
             Controls.Add(pnlSideLeft);
             Controls.Add(statusStrip1);
             Controls.Add(GPMRDMenuStrip);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MainMenuStrip = GPMRDMenuStrip;
             Name = "frmMain";
             StartPosition = FormStartPosition.CenterScreen;
