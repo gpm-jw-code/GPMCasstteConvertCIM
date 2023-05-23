@@ -130,7 +130,13 @@ namespace GPMCasstteConvertCIM.Forms
             systemAPI.Start();
             WebsocketMiddleware.ServerBuild();
             uscAlarmTable1.BindData(AlarmManager.AlarmsList);
-            AlarmManager.onAlarmAdded += (sender, arg) => { uscAlarmTable1.alarmListBinding.ResetBindings(); };
+            AlarmManager.onAlarmAdded += (sender, arg) =>
+            {
+                Invoke(new Action(() =>
+                {
+                    uscAlarmTable1.alarmListBinding.ResetBindings();
+                }));
+            };
             //dgvMsgFromAGVS.DataSource = CIMDevices.secs_host.recvBuffer;
             //dgvActiveMsgToAGVS.DataSource = CIMDevices.secs_host.sendBuffer;
             //dgvMsgFromMCS.DataSource = CIMDevices.secs_client.recvBuffer;

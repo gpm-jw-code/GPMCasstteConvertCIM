@@ -128,7 +128,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 SecsMessage? replyMsg = null;
                 replyMsg = await MCS.ActiveSendMsgAsync(msg);
                 if (replyMsg.IsS9F7())
-                    AlarmManager.AddWarning(ALARM_CODES.MCS_PORT_OUT_SERVICE_REPORT_FAIL, PortNameWithEQName);
+                    AlarmManager.AddWarning(ALARM_CODES.MCS_PORT_OUT_SERVICE_REPORT_FAIL, Properties.PortID);
                 else
                     Utilities.Utility.SystemLogger.Info($"PortOutOfServiceReport Done. \r\n MCS Reply \r\n{replyMsg.ToSml()}");
                 await Task.Delay(1000);
@@ -160,7 +160,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 SecsMessage? replyMsg = null;
                 replyMsg = await MCS.ActiveSendMsgAsync(msg);
                 if (replyMsg.IsS9F7())
-                    AlarmManager.AddWarning(ALARM_CODES.MCS_PORT_IN_SERVICE_REPORT_FAIL, PortNameWithEQName);
+                    AlarmManager.AddWarning(ALARM_CODES.MCS_PORT_IN_SERVICE_REPORT_FAIL, Properties.PortID);
                 else
                     Utilities.Utility.SystemLogger.Info($"PortInServiceReport Done. \r\n MCS Reply \r\n {replyMsg.ToSml()}");
             });
@@ -190,7 +190,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
                 replyMsg = await MCS.ActiveSendMsgAsync(msg);
                 if (replyMsg.IsS9F7())
-                    AlarmManager.AddWarning(ALARM_CODES.MCS_PORT_TYPE_INPUT_REPORT_FAIL, PortNameWithEQName);
+                    AlarmManager.AddWarning(ALARM_CODES.MCS_PORT_TYPE_INPUT_REPORT_FAIL, Properties.PortID);
                 else
                     Utilities.Utility.SystemLogger.Info($"PortTypeInputReport Done. \r\n MCS Reply \r\n {replyMsg.ToSml()}");
 
@@ -220,7 +220,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                  SecsMessage? replyMsg = null;
                  replyMsg = await MCS.ActiveSendMsgAsync(msg);
                  if (replyMsg.IsS9F7())
-                     AlarmManager.AddWarning(ALARM_CODES.MCS_PORT_TYPE_OUTPUT_REPORT_FAIL, PortNameWithEQName);
+                     AlarmManager.AddWarning(ALARM_CODES.MCS_PORT_TYPE_OUTPUT_REPORT_FAIL, Properties.PortID);
                  else
                      Utilities.Utility.SystemLogger.Info($"PortTypeInputReport Done. \r\n MCS Reply \r\n {replyMsg.ToSml()}");
              });
@@ -246,8 +246,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     var msc_reply = await MCS.ActiveSendMsgAsync(EVENT_REPORT.CarrierWaitInReportMessage(WIPINFO_BCR_ID, Properties.PortID, ""));//TODO Zone Name ?
                     if (msc_reply.IsS9F7())
                     {
-                        AlarmManager.AddWarning(ALARM_CODES.CARRIER_WAIT_IN_BUT_MCS_DISCONNECT, PortNameWithEQName);
-                        AlarmManager.AddWarning(ALARM_CODES.MCS_CARRIER_WAITIN_REPORT_FAIL, PortNameWithEQName);
+                        AlarmManager.AddWarning(ALARM_CODES.CARRIER_WAIT_IN_BUT_MCS_DISCONNECT, Properties.PortID);
+                        AlarmManager.AddWarning(ALARM_CODES.MCS_CARRIER_WAITIN_REPORT_FAIL, Properties.PortID);
                         return false;
                     }
                     isEventReportAck = true;
@@ -288,11 +288,11 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 {
                     var response = await MCS.ActiveSendMsgAsync(EVENT_REPORT.CarrierRemovedCompletedReportMessage(WIPINFO_BCR_ID, Properties.PortID, "")); //TODO Zone Name ?
                     if (response.IsS9F7())
-                        AlarmManager.AddWarning(ALARM_CODES.MCS_CARRIER_REMOVED_COMPLETED_REPORT_FAIL, PortNameWithEQName);
+                        AlarmManager.AddWarning(ALARM_CODES.MCS_CARRIER_REMOVED_COMPLETED_REPORT_FAIL, Properties.PortID);
                 }
                 catch (Exception ex)
                 {
-                    AlarmManager.AddWarning(ALARM_CODES.MCS_CARRIER_REMOVED_COMPLETED_REPORT_FAIL, PortNameWithEQName);
+                    AlarmManager.AddWarning(ALARM_CODES.MCS_CARRIER_REMOVED_COMPLETED_REPORT_FAIL, Properties.PortID);
                 }
             });
 
@@ -302,7 +302,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             {
                 if (cst.IsCancellationRequested)
                 {
-                    AlarmManager.AddWarning(ALARM_CODES.CarrierRemovedCompolete_HS_EQ_Timeout, PortNameWithEQName);
+                    AlarmManager.AddWarning(ALARM_CODES.CarrierRemovedCompolete_HS_EQ_Timeout, Properties.PortID);
                     break;
                 }
                 await Task.Delay(1);
@@ -319,7 +319,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             {
                 if (cst.IsCancellationRequested)
                 {
-                    AlarmManager.AddWarning(ALARM_CODES.CarrierWaitOut_HS_EQ_Timeout, PortNameWithEQName);
+                    AlarmManager.AddWarning(ALARM_CODES.CarrierWaitOut_HS_EQ_Timeout, Properties.PortID);
                     break;
                 }
                 await Task.Delay(1);
@@ -330,11 +330,11 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             {
                 var response = await MCS.ActiveSendMsgAsync(EVENT_REPORT.CarrierWaitOutReportMessage(WIPINFO_BCR_ID, Properties.PortID, ""));//TODO Zone Name ?
                 if (response.IsS9F7())
-                    AlarmManager.AddWarning(ALARM_CODES.MCS_CARRIER_WAITOUT_REPORT_FAIL, PortNameWithEQName);
+                    AlarmManager.AddWarning(ALARM_CODES.MCS_CARRIER_WAITOUT_REPORT_FAIL, Properties.PortID);
             }
             catch (Exception ex)
             {
-                AlarmManager.AddWarning(ALARM_CODES.MCS_CARRIER_WAITOUT_REPORT_FAIL, PortNameWithEQName);
+                AlarmManager.AddWarning(ALARM_CODES.MCS_CARRIER_WAITOUT_REPORT_FAIL, Properties.PortID);
             }
 
         }
@@ -392,7 +392,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     CarrierWaitIn_Reply = true;
                     CarrierWaitIn_Accept = false;
 
-                    AlarmManager.AddWarning(ALARM_CODES.CARRIER_WAIT_IN_BUT_MCS_REJECT, PortNameWithEQName);
+                    AlarmManager.AddWarning(ALARM_CODES.CARRIER_WAIT_IN_BUT_MCS_REJECT, Properties.PortID);
                 }
             });
         }
