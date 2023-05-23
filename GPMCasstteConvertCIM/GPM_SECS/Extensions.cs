@@ -135,7 +135,17 @@ namespace GPMCasstteConvertCIM.GPM_SECS
         {
             return Enum.GetValues(typeof(ACKC6)).Cast<ACKC6>().FirstOrDefault(f => val == (byte)f);
         }
+        internal static bool IsS9F7(this SecsMessage msg)
+        {
+            return msg.S == 9 && msg.F == 7;
+        }
+        public static bool IsAGVSOnlineReport(this SecsMessage msg)
+        {
+            if (msg.S != 6 && msg.F != 11)
+                return false;
 
+            return msg.SecsItem.Items[0].Items[0].FirstValue<ushort>() == 2;
+        }
 
     }
 }

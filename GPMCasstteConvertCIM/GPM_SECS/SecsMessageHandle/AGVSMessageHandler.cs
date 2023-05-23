@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
 {
@@ -21,9 +22,11 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
         /// <param name="e"></param>
         internal async static void PrimaryMessageOnReceivedAsync(object? sender, PrimaryMessageWrapper _primaryMessageWrapper)
         {
+
             Utility.SystemLogger.SecsTransferLog($"Primary Mesaage Recieved From AGVS");
 
             using SecsMessage _primaryMessage_FromAGVS = _primaryMessageWrapper.PrimaryMessage;
+            bool IsOnlineRemoteReport = _primaryMessage_FromAGVS.IsAGVSOnlineReport();
 
             Utility.SystemLogger.SecsTransferLog($"Primary Mesaage From AGVS : {_primaryMessage_FromAGVS.ToSml()}");
 
@@ -47,6 +50,9 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                 else
                     Utility.SystemLogger.SecsTransferLog($"Message Reply to AGVS Fail..");
             }
+
+            //
+
         }
     }
 }

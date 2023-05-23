@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using CommMsgHelper = GPMCasstteConvertCIM.GPM_SECS.SECSMessageHelper.COMMUNICATION;
 using OnOffLineMsgHelper = GPMCasstteConvertCIM.GPM_SECS.SECSMessageHelper.ONOFFLINE;
 using EVENTRPMsgHelper = GPMCasstteConvertCIM.GPM_SECS.SECSMessageHelper.EVENT_REPORT;
+using Secs4Net;
 
 namespace GPMCasstteConvertCIM.GPM_SECS.Tests
 {
@@ -60,13 +61,25 @@ namespace GPMCasstteConvertCIM.GPM_SECS.Tests
         [TestMethod()]
         public void TryGetEventReportAckResultTest()
         {
-            var ackMsg=EVENTRPMsgHelper.EventReportAcknowledgeMessage( SECSMessageHelper.ACKC6.Accpeted);
+            var ackMsg = EVENTRPMsgHelper.EventReportAcknowledgeMessage(SECSMessageHelper.ACKC6.Accpeted);
             ackMsg.TryGetEventReportAckResult(out SECSMessageHelper.ACKC6 _ack);
-            Assert.AreEqual( SECSMessageHelper.ACKC6.Accpeted ,_ack );
+            Assert.AreEqual(SECSMessageHelper.ACKC6.Accpeted, _ack);
 
             ackMsg = EVENTRPMsgHelper.EventReportAcknowledgeMessage(SECSMessageHelper.ACKC6.System_Error);
             ackMsg.TryGetEventReportAckResult(out _ack);
             Assert.AreEqual(SECSMessageHelper.ACKC6.System_Error, _ack);
+        }
+
+        [TestMethod()]
+        public void IsAGVSOnlineReportTest()
+        {
+            SecsMessage msg = new SecsMessage(6, 11)
+            {
+                SecsItem = Item.L(
+                        Item.U4()
+
+                     )
+            };
         }
     }
 }

@@ -1,24 +1,28 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static GPMCasstteConvertCIM.Utilities.LoggerBase;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 
 namespace GPMCasstteConvertCIM.Utilities
 {
     public class LoggerBase
     {
+
         public enum LOG_LEVEL
         {
             INFO = 0,
             DEBUG = 1,
             ERROR = 2,
             WARNING = 3,
-            SECS_MSG
+            SECS_MSG,
+            SECS_MSG_TRANSFER
         }
 
         [JsonConverter(typeof(StringEnumConverter))]
@@ -51,6 +55,7 @@ namespace GPMCasstteConvertCIM.Utilities
             _richTextBox = richTextBox;
             if (richTextBox != null)
                 _richTextBox.TextChanged += _richTextBox_TextChanged;
+            WriteLogWorker();
         }
 
         private void _richTextBox_TextChanged(object? sender, EventArgs e)
@@ -101,7 +106,7 @@ namespace GPMCasstteConvertCIM.Utilities
                 _richTextBox.SelectionColor = Color.Yellow;
                 _richTextBox.AppendText($"[SECS Msg Transfer] {msg}\n");
             });
-            WriteToFile(time, LOG_LEVEL.SECS_MSG, msg);
+            WriteToFile(time, LOG_LEVEL.SECS_MSG_TRANSFER, msg);
         }
         public void Info(string msg)
         {
@@ -113,7 +118,7 @@ namespace GPMCasstteConvertCIM.Utilities
             });
             WriteToFile(time, LOG_LEVEL.INFO, msg);
         }
-        public void Info(string msg,Color foreCOlor)
+        public void Info(string msg, Color foreCOlor)
         {
             AppendDateTime(out DateTime time);
             _richTextBox?.Invoke((MethodInvoker)delegate
@@ -146,7 +151,12 @@ namespace GPMCasstteConvertCIM.Utilities
             });
             WriteToFile(time, LOG_LEVEL.ERROR, $"{msg}-{ex?.Message}-{ex?.StackTrace}");
         }
-
+        public class clsLogItem
+        {
+            public DateTime time { get; set; }
+            public LOG_LEVEL level { get; set; }
+            public string msg { get; set; }
+        }
         public void Debug(string msg)
         {
             AppendDateTime(out DateTime time);
@@ -157,33 +167,49 @@ namespace GPMCasstteConvertCIM.Utilities
             });
             WriteToFile(time, LOG_LEVEL.DEBUG, msg);
         }
+        private ConcurrentQueue<clsLogItem> LogItemsQueue = new ConcurrentQueue<clsLogItem>();
+
+        private async Task WriteLogWorker()
+        {
+            _ = Task.Run(() =>
+             {
+                 while (true)
+                 {
+                     Thread.Sleep(1);
+
+                     if (!LogItemsQueue.TryDequeue(out clsLogItem logItem))
+                         continue;
+
+                     try
+                     {
+                         if (saveFolder == "")
+                         {
+                             return;
+                         }
+                         string folder = Path.Combine(saveFolder, logItem.level.ToString());
+                         if (!Directory.Exists(folder))
+                             Directory.CreateDirectory(folder);
+                         string log_file = Path.Combine(folder, $"{DateTime.Now.ToString(FileTimeFormat)}.log");
+                         using (StreamWriter sw = new StreamWriter(log_file, true))
+                         {
+                             sw.WriteLine($"{logItem.time}|{logItem.level}|{logItem.msg}");
+                         }
+                     }
+                     catch (Exception ex)
+                     {
+                     }
+                 }
+             });
+        }
 
         protected void WriteToFile(DateTime time, LOG_LEVEL log_level, string logStr)
         {
-            try
+            LogItemsQueue.Enqueue(new clsLogItem
             {
-
-                if (saveFolder == "")
-                {
-                    return;
-                }
-                string folder = Path.Combine(saveFolder, log_level.ToString());
-                if (!Directory.Exists(folder))
-                    Directory.CreateDirectory(folder);
-
-                string log_file = Path.Combine(folder, $"{DateTime.Now.ToString(FileTimeFormat)}.log");
-
-                lock (lock_object)
-                {
-                    using (StreamWriter sw = new StreamWriter(log_file, true))
-                    {
-                        sw.WriteLine($"{time}|{log_level}|{logStr}");
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-            }
+                time = time,
+                level = log_level,
+                msg = logStr
+            });
 
         }
     }

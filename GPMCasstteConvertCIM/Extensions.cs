@@ -42,7 +42,7 @@ namespace GPMCasstteConvertCIM
                 T7 = secs_config.T7,
                 T8 = secs_config.T8,
                 SocketReceiveBufferSize = secs_config.SocketRecieveBufferSize,
-                EncodeBufferInitialSize = 32768
+                EncodeBufferInitialSize = 32768,
             };
 
         }
@@ -76,9 +76,6 @@ namespace GPMCasstteConvertCIM
             }
         }
 
-        internal static bool IsS9F7(this SecsMessage msg)
-        {
-            return msg.S == 9 && msg.F == 7;
-        }
+       
     }
 }

@@ -88,18 +88,14 @@ namespace GPMCasstteConvertCIM.GPM_SECS
                             {
                                 await Task.Delay(1);
                             }
-
                             AddPrimaryMsgToRevBuffer(primaryMessage);
 
                         });
-
                     }
                     else
                     {
                         AddPrimaryMsgToRevBuffer(primaryMessage);
-
                     }
-
                 }
             }
             catch (OperationCanceledException)
@@ -120,11 +116,9 @@ namespace GPMCasstteConvertCIM.GPM_SECS
         /// <returns></returns>
         internal async Task<SecsMessage> ActiveSendMsgAsync(SecsMessage message, CancellationToken cancellationToken = default)
         {
-            ActiveSendMsgWaitSignal.WaitOne();
 
             return await Task.Run(async () =>
             {
-                ActiveSendMsgWaitSignal.Reset();
                 try
                 {
                     SecsMessage? secondaryMessage = null;
@@ -135,16 +129,13 @@ namespace GPMCasstteConvertCIM.GPM_SECS
                     }
                     catch (Exception ex)
                     {
-                        ActiveSendMsgWaitSignal.Set();
                         Syslogger.Error("SECSBase SendAsync Error", ex);
                         return SECSMessageHelper.S9F7_IllegalDataMsg();
                     }
-                    ActiveSendMsgWaitSignal.Set();
                     return secondaryMessage;
                 }
                 catch (Exception ex)
                 {
-                    ActiveSendMsgWaitSignal.Set();
                     Syslogger.Error("SECSBase SendAsync Error", ex);
                     return SECSMessageHelper.S9F7_IllegalDataMsg();
                 }
