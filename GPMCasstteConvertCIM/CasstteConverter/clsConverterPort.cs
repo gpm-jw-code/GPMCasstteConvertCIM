@@ -4,6 +4,7 @@ using GPMCasstteConvertCIM.Devices;
 using GPMCasstteConvertCIM.Forms;
 using GPMCasstteConvertCIM.GPM_Modbus;
 using GPMCasstteConvertCIM.GPM_SECS;
+using GPMCasstteConvertCIM.Utilities;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Secs4Net;
@@ -14,6 +15,7 @@ using static GPMCasstteConvertCIM.CasstteConverter.Data.clsAGVSData;
 using static GPMCasstteConvertCIM.CasstteConverter.Data.clsMemoryAddress;
 using static GPMCasstteConvertCIM.CasstteConverter.Enums;
 using static GPMCasstteConvertCIM.GPM_Modbus.ModbusServerBase;
+using static GPMCasstteConvertCIM.GPM_SECS.SECSMessageHelper;
 using Item = Secs4Net.Item;
 
 namespace GPMCasstteConvertCIM.CasstteConverter
@@ -27,13 +29,13 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         public clsConverterPort(clsPortProperty property, clsCasstteConverter converterParent)
         {
             this.Properties = property;
-            this.converterParent = converterParent;
+            this.EQParent = converterParent;
 
             AGVSignals = new clsHS_Status_Signals();
             AGVSignals.OnValidSignalActive += AGVSignals_OnValidSignalActive;
         }
 
-        public clsCasstteConverter converterParent { get; }
+        public clsCasstteConverter EQParent { get; }
 
         public clsPortProperty Properties = new clsPortProperty();
         public event EventHandler<clsConverterPort> ModeChangeOnRequest;
@@ -41,7 +43,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         public event EventHandler<clsConverterPort> CarrierWaitOutOnReport;
         public event EventHandler<clsConverterPort> CarrierRemovedCompletedOnReport;
         public event EventHandler<clsConverterPort> OnValidSignalActive;
-        public string PortNameWithEQName => converterParent.Name + $"-[{Properties.PortID}]";
+        public string PortNameWithEQName => EQParent.Name + $"-[{Properties.PortID}]";
 
         public string portNoName => $"PORT{Properties.PortNo + 1}";
 
@@ -49,7 +51,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         {
             get
             {
-                List<clsMemoryAddress> portAddress = converterParent.LinkBitMap.FindAll(ad => ad.EOwner == OWNER.CIM && ad.EScope.ToString() == portNoName);
+                List<clsMemoryAddress> portAddress = EQParent.LinkBitMap.FindAll(ad => ad.EOwner == OWNER.CIM && ad.EScope.ToString() == portNoName);
                 return portAddress.ToDictionary(ad => ad.EProperty, ad => ad.Address);
             }
         }
@@ -58,7 +60,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         {
             get
             {
-                List<clsMemoryAddress> portAddress = converterParent.LinkWordMap.FindAll(ad => ad.EOwner == OWNER.CIM && ad.EScope.ToString() == portNoName);
+                List<clsMemoryAddress> portAddress = EQParent.LinkWordMap.FindAll(ad => ad.EOwner == OWNER.CIM && ad.EScope.ToString() == portNoName);
                 return portAddress.ToDictionary(ad => ad.EProperty, ad => ad.Address);
             }
         }
@@ -67,7 +69,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         {
             get
             {
-                List<clsMemoryAddress> portAddress = converterParent.LinkBitMap.FindAll(ad => ad.EOwner == OWNER.EQP && ad.EScope.ToString() == portNoName && ad.EProperty != PROPERTY.Unknown);
+                List<clsMemoryAddress> portAddress = EQParent.LinkBitMap.FindAll(ad => ad.EOwner == OWNER.EQP && ad.EScope.ToString() == portNoName && ad.EProperty != PROPERTY.Unknown);
                 return portAddress.ToDictionary(ad => ad.EProperty, ad => ad.Address);
             }
         }
@@ -76,15 +78,15 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         {
             get
             {
-                List<clsMemoryAddress> portAddress = converterParent.LinkWordMap.FindAll(ad => ad.EOwner == OWNER.EQP && ad.EScope.ToString() == portNoName);
+                List<clsMemoryAddress> portAddress = EQParent.LinkWordMap.FindAll(ad => ad.EOwner == OWNER.EQP && ad.EScope.ToString() == portNoName);
                 return portAddress.ToDictionary(ad => ad.EProperty, ad => ad.Address);
             }
         }
 
-        public List<clsMemoryAddress> EQModbusLinkBitAddress => converterParent.LinkBitMap.FindAll(ad => ad.EOwner == OWNER.EQP && ad.EScope.ToString() == portNoName && ad.Link_Modbus_Register_Number != -1);
-        public List<clsMemoryAddress> EQModbusLinkWordAddress => converterParent.LinkWordMap.FindAll(ad => ad.EOwner == OWNER.EQP && ad.EScope.ToString() == portNoName && ad.Link_Modbus_Register_Number != -1);
-        public List<clsMemoryAddress> CIMModbusLinkWordAddress => converterParent.LinkWordMap.FindAll(ad => ad.EOwner == OWNER.CIM && ad.EScope.ToString() == portNoName && ad.Link_Modbus_Register_Number != -1);
-        private CIMComponent.MemoryTable VirtualMemoryTable => converterParent.CIMMemOptions.memoryTable;
+        public List<clsMemoryAddress> EQModbusLinkBitAddress => EQParent.LinkBitMap.FindAll(ad => ad.EOwner == OWNER.EQP && ad.EScope.ToString() == portNoName && ad.Link_Modbus_Register_Number != -1);
+        public List<clsMemoryAddress> EQModbusLinkWordAddress => EQParent.LinkWordMap.FindAll(ad => ad.EOwner == OWNER.EQP && ad.EScope.ToString() == portNoName && ad.Link_Modbus_Register_Number != -1);
+        public List<clsMemoryAddress> CIMModbusLinkWordAddress => EQParent.LinkWordMap.FindAll(ad => ad.EOwner == OWNER.CIM && ad.EScope.ToString() == portNoName && ad.Link_Modbus_Register_Number != -1);
+        private CIMComponent.MemoryTable VirtualMemoryTable => EQParent.CIMMemOptions.memoryTable;
 
 
         public void ModbusServerActive()
@@ -313,16 +315,26 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             {
                 if (_PortType != value)
                 {
-                    if (value == 0)
-                        PortTypeInputReport();
-                    if (value == 1)
-                        PortTypeOutputReport();
+                    Task.Factory.StartNew(() =>
+                    {
+                        try
+                        {
+                            if (value == 0)
+                                PortTypeInputReport();
+                            if (value == 1)
+                                PortTypeOutputReport();
+                        }
+                        catch (Exception ex)
+                        {
+                            Utility.SystemLogger.Error("Error Occur when Port Type Changed and Report To MCS", ex);
+                        }
+                    });
                 }
                 _PortType = value;
-                Properties.PortType = Enum.GetValues(typeof(GPM_SECS.SECSMessageHelper.PortUnitType)).Cast<GPM_SECS.SECSMessageHelper.PortUnitType>().First(etype => (int)etype == _PortType);
 
             }
         }
+        internal PortUnitType EPortType => Enum.GetValues(typeof(PortUnitType)).Cast<PortUnitType>().First(etype => (int)etype == _PortType);
 
         public ModbusTCPServer modbus_server { get; set; }
 
@@ -332,7 +344,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             {
                 modbus_server = new ModbusTCPServer();
                 modbus_server.CoilsOnChanged += Modbus_server_CoilsOnChanged;
-                modbus_server.linkedCasstteConverter = converterParent;
+                modbus_server.linkedCasstteConverter = EQParent;
                 ui.ModbusTCPServer = modbus_server;
                 modbus_server.Active(Properties.ModbusServer_IP, Properties.ModbusServer_PORT, ui);
 
@@ -350,13 +362,13 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             Task.Factory.StartNew(() =>
             {
                 string portNoName = $"PORT{Properties.PortNo + 1}";
-                List<CasstteConverter.Data.clsMemoryAddress> CIMLinkAddress = converterParent.LinkBitMap.FindAll(ad => ad.EOwner == OWNER.CIM && ad.EScope.ToString() == portNoName && ad.Link_Modbus_Register_Number != -1);
+                List<CasstteConverter.Data.clsMemoryAddress> CIMLinkAddress = EQParent.LinkBitMap.FindAll(ad => ad.EOwner == OWNER.CIM && ad.EScope.ToString() == portNoName && ad.Link_Modbus_Register_Number != -1);
                 foreach (var item in CIMLinkAddress)
                 {
                     int register_num = item.Link_Modbus_Register_Number;
                     var localCoilsAry = modbus_server.coils.localArray;
                     bool state = localCoilsAry[register_num + 1];
-                    converterParent.CIMMemOptions.memoryTable.WriteOneBit(item.Address, state);
+                    EQParent.CIMMemOptions.memoryTable.WriteOneBit(item.Address, state);
                 }
 
             });
@@ -371,20 +383,20 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
                     foreach (var item in EQModbusLinkBitAddress)
                     {
-                        bool bolState = converterParent.EQPMemOptions.memoryTable.ReadOneBit(item.Address);
+                        bool bolState = EQParent.EQPMemOptions.memoryTable.ReadOneBit(item.Address);
                         modbus_server.discreteInputs.localArray[item.Link_Modbus_Register_Number] = bolState;
                     }
 
                     foreach (var item in EQModbusLinkWordAddress)
                     {
-                        int value = converterParent.EQPMemOptions.memoryTable.ReadBinary(item.Address);
+                        int value = EQParent.EQPMemOptions.memoryTable.ReadBinary(item.Address);
                         modbus_server.holdingRegisters.localArray[item.Link_Modbus_Register_Number] = (short)value;
                     }
 
 
                     foreach (var item in CIMModbusLinkWordAddress)
                     {
-                        int value = converterParent.CIMMemOptions.memoryTable.ReadBinary(item.Address);
+                        int value = EQParent.CIMMemOptions.memoryTable.ReadBinary(item.Address);
                         modbus_server.holdingRegisters.localArray[item.Link_Modbus_Register_Number] = (short)value;
                     }
 

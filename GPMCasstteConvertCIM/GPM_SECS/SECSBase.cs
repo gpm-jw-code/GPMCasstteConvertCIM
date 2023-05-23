@@ -13,7 +13,6 @@ namespace GPMCasstteConvertCIM.GPM_SECS
 {
     internal class SECSBase
     {
-
         public Action<ConnectionState> ConnectionChanged { get; internal set; }
         public string name { get; }
 
@@ -31,6 +30,8 @@ namespace GPMCasstteConvertCIM.GPM_SECS
 
         private DataGridView? SendBufferDgvTable;
         private DataGridView? RevBufferDgvTable;
+
+        private LoggerBase Syslogger => Utility.SystemLogger;
 
         internal SECSBase(string name)
         {
@@ -121,9 +122,9 @@ namespace GPMCasstteConvertCIM.GPM_SECS
         {
             return await Task.Run(async () =>
             {
-                SecsMessage? secondaryMessage = null;
                 try
                 {
+                    SecsMessage? secondaryMessage = null;
                     secondaryMessage = await secsGem?.SendAsync(message, cancellationToken);
                     try
                     {
@@ -131,21 +132,15 @@ namespace GPMCasstteConvertCIM.GPM_SECS
                     }
                     catch (Exception ex)
                     {
-
-                    }
-                    if (secondaryMessage.S == 6 && secondaryMessage.F == 12)
-                    {
-                        secondaryMessage.TryGetEventReportAckResult(out SECSMessageHelper.ACKC6 ack);
-                        if (ack != SECSMessageHelper.ACKC6.Accpeted)
-                        {
-                            AlarmManager.AddWarning(ALARM_CODES.EVENT_REPORT_COMPLETED_BUT_ACK_IS_SYSTEM_ERROR_65, "SECS BASE");
-                        }
+                        Syslogger.Error("SECSBase SendAsync Error", ex);
+                        return SECSMessageHelper.S9F7_IllegalDataMsg();
                     }
                     return secondaryMessage;
                 }
                 catch (Exception ex)
                 {
-                    return secondaryMessage;
+                    Syslogger.Error("SECSBase SendAsync Error", ex);
+                    return SECSMessageHelper.S9F7_IllegalDataMsg();
                 }
             });
         }

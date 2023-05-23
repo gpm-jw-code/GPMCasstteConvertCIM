@@ -13,7 +13,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 {
     public partial class clsConverterPort
     {
-
+        private SECSBase MCS => DevicesManager.secs_host_for_mcs;
         private bool CarrierWaitIn_Reply = false;
         private bool CarrierWaitIn_Accept = false;
 
@@ -33,8 +33,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             string eq_2_cim_port_mode_change_accept_address_name = PortEQBitAddress[PROPERTY.Port_Mode_Change_Accept];
             string eq_2_cim_port_mode_change_refuse_address_name = PortEQBitAddress[PROPERTY.Port_Mode_Changed_Refuse];
 
-            var plc_accept_address = converterParent.LinkBitMap.First(ad => ad.Address == eq_2_cim_port_mode_change_accept_address_name);
-            var plc_refuse_address = converterParent.LinkBitMap.First(ad => ad.Address == eq_2_cim_port_mode_change_refuse_address_name);
+            var plc_accept_address = EQParent.LinkBitMap.First(ad => ad.Address == eq_2_cim_port_mode_change_accept_address_name);
+            var plc_refuse_address = EQParent.LinkBitMap.First(ad => ad.Address == eq_2_cim_port_mode_change_refuse_address_name);
 
             //write porttype data to word memory
             VirtualMemoryTable.WriteBinary(port_type_data_address_name, (int)portUnitType);
@@ -80,10 +80,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         {
             _ = Task.Factory.StartNew(() =>
             {
-                clsMemoryAddress eq_to_cim_report_adress = converterParent.LinkBitMap.First(i => i.EOwner == OWNER.EQP && i.EScope.ToString() == portNoName && i.EProperty == PROPERTY.Port_Mode_Changed_Report);
+                clsMemoryAddress eq_to_cim_report_adress = EQParent.LinkBitMap.First(i => i.EOwner == OWNER.EQP && i.EScope.ToString() == portNoName && i.EProperty == PROPERTY.Port_Mode_Changed_Report);
                 string cim_2_eq_reply_address = PortCIMBitAddress[PROPERTY.Port_Mode_Changed_Report_Reply];
                 //ON CIM BIT
-                converterParent.CIMMemOptions.memoryTable.WriteOneBit(cim_2_eq_reply_address, true);
+                EQParent.CIMMemOptions.memoryTable.WriteOneBit(cim_2_eq_reply_address, true);
                 CancellationTokenSource cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
                 bool timeout = false;
                 //等待EQ OFF BIT
@@ -97,7 +97,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     }
                 }
                 //OFF CIM BIT
-                converterParent.CIMMemOptions.memoryTable.WriteOneBit(cim_2_eq_reply_address, false);
+                EQParent.CIMMemOptions.memoryTable.WriteOneBit(cim_2_eq_reply_address, false);
                 cts.Dispose();
 
             });
@@ -126,8 +126,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 };
 
                 SecsMessage? replyMsg = null;
-                replyMsg = await DevicesManager.secs_host_for_mcs.SendAsync(msg);
-                if (replyMsg == null)
+                replyMsg = await MCS.SendAsync(msg);
+                if (replyMsg.IsS9F7())
                     AlarmManager.AddWarning(ALARM_CODES.MCS_PORT_OUT_SERVICE_REPORT_FAIL, PortNameWithEQName);
                 else
                     Utilities.Utility.SystemLogger.Info($"PortOutOfServiceReport Done. \r\n MCS Reply \r\n{replyMsg.ToSml()}");
@@ -158,8 +158,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                                      )
                 };
                 SecsMessage? replyMsg = null;
-                replyMsg = await DevicesManager.secs_host_for_mcs.SendAsync(msg);
-                if (replyMsg == null)
+                replyMsg = await MCS.SendAsync(msg);
+                if (replyMsg.IsS9F7())
                     AlarmManager.AddWarning(ALARM_CODES.MCS_PORT_IN_SERVICE_REPORT_FAIL, PortNameWithEQName);
                 else
                     Utilities.Utility.SystemLogger.Info($"PortInServiceReport Done. \r\n MCS Reply \r\n {replyMsg.ToSml()}");
@@ -188,8 +188,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 };
                 SecsMessage? replyMsg = null;
 
-                replyMsg = await DevicesManager.secs_host_for_mcs.SendAsync(msg);
-                if (replyMsg == null)
+                replyMsg = await MCS.SendAsync(msg);
+                if (replyMsg.IsS9F7())
                     AlarmManager.AddWarning(ALARM_CODES.MCS_PORT_TYPE_INPUT_REPORT_FAIL, PortNameWithEQName);
                 else
                     Utilities.Utility.SystemLogger.Info($"PortTypeInputReport Done. \r\n MCS Reply \r\n {replyMsg.ToSml()}");
@@ -218,8 +218,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                               )
                  };
                  SecsMessage? replyMsg = null;
-                 replyMsg = await DevicesManager.secs_host_for_mcs.SendAsync(msg);
-                 if (replyMsg == null)
+                 replyMsg = await MCS.SendAsync(msg);
+                 if (replyMsg.IsS9F7())
                      AlarmManager.AddWarning(ALARM_CODES.MCS_PORT_TYPE_OUTPUT_REPORT_FAIL, PortNameWithEQName);
                  else
                      Utilities.Utility.SystemLogger.Info($"PortTypeInputReport Done. \r\n MCS Reply \r\n {replyMsg.ToSml()}");
@@ -243,8 +243,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 }
                 try
                 {
-                    var msc_reply = await DevicesManager.secs_host_for_mcs.SendAsync(EVENT_REPORT.CarrierWaitInReportMessage(WIPINFO_BCR_ID, Properties.PortID, ""));//TODO Zone Name ?
-                    if (msc_reply == null)
+                    var msc_reply = await MCS.SendAsync(EVENT_REPORT.CarrierWaitInReportMessage(WIPINFO_BCR_ID, Properties.PortID, ""));//TODO Zone Name ?
+                    if (msc_reply.IsS9F7())
                     {
                         AlarmManager.AddWarning(ALARM_CODES.CARRIER_WAIT_IN_BUT_MCS_DISCONNECT, PortNameWithEQName);
                         AlarmManager.AddWarning(ALARM_CODES.MCS_CARRIER_WAITIN_REPORT_FAIL, PortNameWithEQName);
@@ -259,7 +259,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 Thread.Sleep(1);
             }
 
-            DevicesManager.secs_host_for_mcs.OnPrimaryMessageRecieve += Secs_client_OnPrimaryMessageRecieve;
+            MCS.OnPrimaryMessageRecieve += Secs_client_OnPrimaryMessageRecieve;
 
             cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(T_timout));
             while (!CarrierWaitIn_Reply)
@@ -274,7 +274,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     break;
                 }
             }
-            DevicesManager.secs_host_for_mcs.OnPrimaryMessageRecieve -= Secs_client_OnPrimaryMessageRecieve;
+            MCS.OnPrimaryMessageRecieve -= Secs_client_OnPrimaryMessageRecieve;
             return CarrierWaitIn_Accept && CarrierWaitIn_Reply;
         }
         public async Task CarrierRemovedCompletedReply()
@@ -286,8 +286,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             {
                 try
                 {
-                    var response = await DevicesManager.secs_host_for_mcs.SendAsync(EVENT_REPORT.CarrierRemovedCompletedReportMessage(WIPINFO_BCR_ID, Properties.PortID, "")); //TODO Zone Name ?
-                    if (response == null)
+                    var response = await MCS.SendAsync(EVENT_REPORT.CarrierRemovedCompletedReportMessage(WIPINFO_BCR_ID, Properties.PortID, "")); //TODO Zone Name ?
+                    if (response.IsS9F7())
                         AlarmManager.AddWarning(ALARM_CODES.MCS_CARRIER_REMOVED_COMPLETED_REPORT_FAIL, PortNameWithEQName);
                 }
                 catch (Exception ex)
@@ -296,7 +296,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 }
             });
 
-            converterParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_removed_com_reply_address, true);
+            EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_removed_com_reply_address, true);
             CancellationTokenSource cst = new CancellationTokenSource(TimeSpan.FromSeconds(5000));
             while (CarrierRemovedCompletedReport)
             {
@@ -307,13 +307,13 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 }
                 await Task.Delay(1);
             }
-            converterParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_removed_com_reply_address, false);
+            EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_removed_com_reply_address, false);
         }
 
         public async Task CarrierWaitOutReply()
         {
             var carrier_wait_out_reply_address = PortCIMBitAddress[PROPERTY.Carrier_WawitOut_System_Reply];
-            converterParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_out_reply_address, true);
+            EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_out_reply_address, true);
             CancellationTokenSource cst = new CancellationTokenSource(TimeSpan.FromSeconds(5));
             while (CarrierWaitOUTSystemRequest)
             {
@@ -324,12 +324,12 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 }
                 await Task.Delay(1);
             }
-            converterParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_out_reply_address, false);
+            EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_out_reply_address, false);
 
             try
             {
-                var response = await DevicesManager.secs_host_for_mcs.SendAsync(EVENT_REPORT.CarrierWaitOutReportMessage(WIPINFO_BCR_ID, Properties.PortID, ""));//TODO Zone Name ?
-                if (response == null)
+                var response = await MCS.SendAsync(EVENT_REPORT.CarrierWaitOutReportMessage(WIPINFO_BCR_ID, Properties.PortID, ""));//TODO Zone Name ?
+                if (response.IsS9F7())
                     AlarmManager.AddWarning(ALARM_CODES.MCS_CARRIER_WAITOUT_REPORT_FAIL, PortNameWithEQName);
             }
             catch (Exception ex)
@@ -345,7 +345,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             Utilities.Utility.SystemLogger.Info($"等待MCS Accept Carrier Wait IN Request..");
 
             //送訊息給SECS HOST 
-            SecsMessage? msc_reply = await DevicesManager.secs_host_for_mcs.SendAsync(EVENT_REPORT.CarrierWaitInReportMessage(WIPINFO_BCR_ID, Properties.PortID, ""));//TODO Zone Name ?
+            SecsMessage? msc_reply = await MCS.SendAsync(EVENT_REPORT.CarrierWaitInReportMessage(WIPINFO_BCR_ID, Properties.PortID, ""));//TODO Zone Name ?
 
             bool mcs_accpet = msc_reply.SecsItem.FirstValue<byte>() == 0;
             Utilities.Utility.SystemLogger.Info($"MCS Wait IN ACK:{mcs_accpet} {msc_reply.ToSml()}");
@@ -356,8 +356,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             string? carrier_wait_in_result_flag_address = PortCIMBitAddress[wait_in_];
             string? carrier_wait_in_reply_address = PortCIMBitAddress[PROPERTY.Carrier_WaitIn_System_Reply];
 
-            converterParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_in_result_flag_address, true);
-            converterParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_in_reply_address, true);
+            EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_in_result_flag_address, true);
+            EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_in_reply_address, true);
 
             Stopwatch sw = Stopwatch.StartNew();
             while (CarrierWaitINSystemRequest)
@@ -370,8 +370,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 await Task.Delay(1);
             }
 
-            converterParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_in_reply_address, false);
-            converterParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_in_result_flag_address, false);
+            EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_in_reply_address, false);
+            EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_in_result_flag_address, false);
 
             return timeout;
 

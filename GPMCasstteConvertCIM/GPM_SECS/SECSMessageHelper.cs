@@ -56,6 +56,14 @@ namespace GPMCasstteConvertCIM.GPM_SECS
             }
         }
 
+        internal static SecsMessage S9F7_IllegalDataMsg()
+        {
+            return new SecsMessage(9, 7)
+            {
+                SecsItem = B(1)
+            };
+        }
+
         public enum COMMACK : byte
         {
             Accepted = 0,

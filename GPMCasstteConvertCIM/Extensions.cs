@@ -73,5 +73,10 @@ namespace GPMCasstteConvertCIM
                     return Common.CONNECTION_STATE.DISCONNECTED;
             }
         }
+
+        internal static bool IsS9F7(this SecsMessage msg)
+        {
+            return msg.S == 9 && msg.F == 7;
+        }
     }
 }

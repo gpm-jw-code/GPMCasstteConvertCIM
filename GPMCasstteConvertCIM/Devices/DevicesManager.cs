@@ -9,6 +9,7 @@ using Secs4Net;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -40,13 +41,14 @@ namespace GPMCasstteConvertCIM.Devices
         /// <summary>
         /// 轉換架1
         /// </summary>
-        internal static List<CasstteConverter.clsCasstteConverter> casstteConverters = new List<CasstteConverter.clsCasstteConverter>();
+        internal static List<clsCasstteConverter> casstteConverters = new List<CasstteConverter.clsCasstteConverter>();
 
 
         internal static List<GPM_Modbus.ModbusTCPServer> modbus_servers = new List<GPM_Modbus.ModbusTCPServer>();
 
         internal static event EventHandler<ConnectionStateChangeArgs> DeviceConnectionStateOnChanged;
 
+        private static LoggerBase SysLog => Utility.SystemLogger;
 
         internal static void Connect()
         {
@@ -70,7 +72,7 @@ namespace GPMCasstteConvertCIM.Devices
                 secs_host_for_mcs.ConnectionChanged += SECS_E_ConnectionChangeHandle;
                 secs_host_for_mcs.OnPrimaryMessageRecieve += MCSMessageHandler.PrimaryMessageOnReceivedAsync; ;
                 secs_host_for_mcs.Active(DevicesConnectionsOpts.SECS_HOST.ToSecsGenOptions(), DevicesConnectionsOpts.SECS_HOST.logRichTextBox, DevicesConnectionsOpts.SECS_HOST.dgvSendBufferTable, DevicesConnectionsOpts.SECS_HOST.dgvRevBufferTable);
-   }
+            }
             catch (Exception ex)
             {
 
@@ -128,6 +130,32 @@ namespace GPMCasstteConvertCIM.Devices
             var _connectionState = connectionState.ToCommonConnectionState();
             Utility.SystemLogger.Log($"SECS_TO_MCS Connecstion State Change:{connectionState}", _connectionState != Common.CONNECTION_STATE.CONNECTED ? LoggerBase.LOG_LEVEL.WARNING : LoggerBase.LOG_LEVEL.INFO);
             DeviceConnectionStateOnChanged?.Invoke(secs_client_for_agvs, new ConnectionStateChangeArgs(secs_client_for_agvs, CIM_DEVICE_TYPES.SECS_CLIENT, _connectionState));
+
+            if (connectionState == ConnectionState.Selected)
+            {
+                //
+                Task.Run(async () =>
+                {
+                    await Task.Delay(1000);
+                    SysLog.Info($"Start Report Port States To MCS When Connected!");
+                    foreach (clsConverterPort port in GetAllPorts())
+                    {
+                        if (port.PortStatusDown)
+                        {
+                            port.PortInServiceReport();
+                        }
+                        else
+                            port.PortOutOfServiceReport();
+
+                        if (port.PortType == 0)
+                            port.PortTypeInputReport();
+                        else if (port.PortType == 1)
+                            port.PortTypeOutputReport();
+                    }
+                    SysLog.Info($"Report Port States To MCS Done");
+
+                });
+            }
             //uscConnectionStates1.SECS_E_ConnectionChange(obj);
         }
 

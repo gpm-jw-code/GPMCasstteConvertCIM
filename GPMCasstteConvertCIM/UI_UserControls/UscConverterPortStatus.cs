@@ -28,7 +28,7 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             txbWIP_BCR_ID.Text = CstCVPort.WIPINFO_BCR_ID;
             labPortID.Text = CstCVPort.Properties.PortID;
 
-            labCurrentPortMode.Text = CstCVPort.PortType == 0 ? "INPUT" : CstCVPort.PortType == 1 ? "OUTPUT" : "IN/OUT";
+            labCurrentPortMode.Text = CstCVPort.EPortType.ToString();
             Color active_color = Color.SeaGreen;
 
             labPortStatusDown.RenderBGColorByState(CstCVPort.PortStatusDown, active_color);
