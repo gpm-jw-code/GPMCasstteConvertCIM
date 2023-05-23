@@ -123,7 +123,7 @@ namespace GPMCasstteConvertCIM.Utilities
                 _richTextBox.SelectionColor = Color.Gray;
                 _richTextBox.AppendText($"{ex}\n");
             });
-            WriteToFile(time, LOG_LEVEL.ERROR, $"{msg}-{ex.Message}-{ex.StackTrace}");
+            WriteToFile(time, LOG_LEVEL.ERROR, $"{msg}-{ex?.Message}-{ex?.StackTrace}");
         }
 
         public void Debug(string msg)
