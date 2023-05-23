@@ -43,5 +43,7 @@ namespace GPMCasstteConvertCIM.Utilities.SysConfigs
         /// Default value is 60000.
         /// </summary>
         public int LinkTestInterval { get; set; } = 60000;
+
+        public int SocketRecieveBufferSize { get; set; } = 8192;
     }
 }

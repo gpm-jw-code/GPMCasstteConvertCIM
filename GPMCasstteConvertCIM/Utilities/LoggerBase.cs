@@ -101,7 +101,7 @@ namespace GPMCasstteConvertCIM.Utilities
                 _richTextBox.SelectionColor = Color.Yellow;
                 _richTextBox.AppendText($"[SECS Msg Transfer] {msg}\n");
             });
-            WriteToFile(time, LOG_LEVEL.INFO, msg);
+            WriteToFile(time, LOG_LEVEL.SECS_MSG, msg);
         }
         public void Info(string msg)
         {

@@ -46,7 +46,6 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                     Utility.SystemLogger.SecsTransferLog($"Message Reply to AGVS Finish");
                 else
                     Utility.SystemLogger.SecsTransferLog($"Message Reply to AGVS Fail..");
-
             }
         }
     }

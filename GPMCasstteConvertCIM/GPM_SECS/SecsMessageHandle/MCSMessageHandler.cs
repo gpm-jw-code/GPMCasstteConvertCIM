@@ -27,14 +27,14 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
             bool reply = false;
 
 
-            if (_primaryMessage.S == 2 && _primaryMessage.F == 33) // Define Report
-            {
-                DefineReport(_primaryMessage);
-            }
-            if (_primaryMessage.S == 2 && _primaryMessage.F == 35) // Link Event Report
-            {
-                LinkEventReport(_primaryMessage);
-            }
+            //if (_primaryMessage.S == 2 && _primaryMessage.F == 33) // Define Report
+            //{
+            //    DefineReport(_primaryMessage);
+            //}
+            //if (_primaryMessage.S == 2 && _primaryMessage.F == 35) // Link Event Report
+            //{
+            //    LinkEventReport(_primaryMessage);
+            //}
             if (_primaryMessage.S == 2 && _primaryMessage.F == 41)
             {
                 _primaryMessage.TryGetRCMDAction_S2F41(out RCMD cmd, out Item parameterGroups);

@@ -40,7 +40,8 @@ namespace GPMCasstteConvertCIM
                 T5 = secs_config.T5,
                 T6 = secs_config.T6,
                 T7 = secs_config.T7,
-                T8 = secs_config.T8
+                T8 = secs_config.T8,
+                SocketReceiveBufferSize = secs_config.SocketRecieveBufferSize
             };
 
         }

@@ -79,6 +79,7 @@
             toolStripMenuItem_OpenConvert_2_Simulator = new ToolStripMenuItem();
             AGVS_modbus_sim_ToolStripMenuItem = new ToolStripMenuItem();
             aGVSEmuToolStripMenuItem = new ToolStripMenuItem();
+            toolStripMenuItem1 = new ToolStripMenuItem();
             pnlSideLeft = new Panel();
             btnOpenLoginFOrm = new Button();
             label6 = new Label();
@@ -92,6 +93,7 @@
             SysTimer = new System.Windows.Forms.Timer(components);
             uscAlarmShow1 = new UI_UserControls.UscAlarmShow();
             splitContainer1 = new SplitContainer();
+            ckbRemoteModeIndi = new CheckBox();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             panel2.SuspendLayout();
@@ -614,7 +616,7 @@
             // 
             GPMRDMenuStrip.BackColor = Color.FromArgb(53, 53, 53);
             GPMRDMenuStrip.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            GPMRDMenuStrip.Items.AddRange(new ToolStripItem[] { toolStripComboBox_Emulators });
+            GPMRDMenuStrip.Items.AddRange(new ToolStripItem[] { toolStripComboBox_Emulators, toolStripMenuItem1 });
             GPMRDMenuStrip.Location = new Point(0, 0);
             GPMRDMenuStrip.Name = "GPMRDMenuStrip";
             GPMRDMenuStrip.Padding = new Padding(6, 2, 0, 6);
@@ -676,6 +678,12 @@
             aGVSEmuToolStripMenuItem.Size = new Size(239, 24);
             aGVSEmuToolStripMenuItem.Text = "AGVS 派車模擬器";
             aGVSEmuToolStripMenuItem.Click += aGVS派車模擬器ToolStripMenuItem_Click;
+            // 
+            // toolStripMenuItem1
+            // 
+            toolStripMenuItem1.Name = "toolStripMenuItem1";
+            toolStripMenuItem1.Size = new Size(37, 24);
+            toolStripMenuItem1.Text = "　";
             // 
             // pnlSideLeft
             // 
@@ -838,6 +846,24 @@
             splitContainer1.SplitterDistance = 351;
             splitContainer1.TabIndex = 12;
             // 
+            // ckbRemoteModeIndi
+            // 
+            ckbRemoteModeIndi.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            ckbRemoteModeIndi.Appearance = Appearance.Button;
+            ckbRemoteModeIndi.BackColor = Color.Red;
+            ckbRemoteModeIndi.FlatAppearance.BorderColor = Color.Black;
+            ckbRemoteModeIndi.FlatAppearance.CheckedBackColor = Color.SeaGreen;
+            ckbRemoteModeIndi.FlatStyle = FlatStyle.Flat;
+            ckbRemoteModeIndi.ForeColor = Color.White;
+            ckbRemoteModeIndi.Location = new Point(1226, 3);
+            ckbRemoteModeIndi.Name = "ckbRemoteModeIndi";
+            ckbRemoteModeIndi.Size = new Size(77, 25);
+            ckbRemoteModeIndi.TabIndex = 14;
+            ckbRemoteModeIndi.Text = "OFFLINE";
+            ckbRemoteModeIndi.TextAlign = ContentAlignment.MiddleCenter;
+            ckbRemoteModeIndi.UseVisualStyleBackColor = false;
+            ckbRemoteModeIndi.Visible = false;
+            // 
             // frmMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -845,6 +871,7 @@
             AutoScroll = true;
             BackColor = Color.FromArgb(51, 51, 51);
             ClientSize = new Size(1306, 631);
+            Controls.Add(ckbRemoteModeIndi);
             Controls.Add(splitContainer1);
             Controls.Add(uscAlarmShow1);
             Controls.Add(pnlSideLeft);
@@ -962,5 +989,7 @@
         private UI_UserControls.UscAlarmTable uscAlarmTable1;
         private ToolStripStatusLabel toolStripStatusLabel1;
         private SplitContainer splitContainer1;
+        private ToolStripMenuItem toolStripMenuItem1;
+        private CheckBox ckbRemoteModeIndi;
     }
 }
