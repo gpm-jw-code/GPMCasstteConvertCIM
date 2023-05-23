@@ -205,7 +205,7 @@ namespace GPMCasstteConvertCIM.Forms
         {
             try
             {
-                SecsMessage? se = await DevicesManager.secs_host_for_mcs?.SendAsync(new SecsMessage(1, 3)
+                SecsMessage? se = await DevicesManager.secs_host_for_mcs?.ActiveSendMsgAsync(new SecsMessage(1, 3)
                 {
                     Name = "S1F3",
                     SecsItem = L(

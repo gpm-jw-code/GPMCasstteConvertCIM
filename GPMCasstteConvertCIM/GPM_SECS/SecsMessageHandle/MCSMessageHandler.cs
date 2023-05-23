@@ -96,7 +96,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                 else
                 {
                     Utility.SystemLogger.SecsTransferLog($"Start Transfer To AGVS");
-                    replyMessage = await DevicesManager.secs_client_for_agvs.SendAsync(primaryMsgFromMcs);
+                    replyMessage = await DevicesManager.secs_client_for_agvs.ActiveSendMsgAsync(primaryMsgFromMcs);
 
                 }
                 if (replyMessage == null)
@@ -175,7 +175,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                     foreach (var item in itemsToAGVS)
                         toAGVSItems.Add(U2(item.FirstValue<ushort>()));
 
-                    SecsMessage? AGVSReplyMessage = await DevicesManager.secs_client_for_agvs.SendAsync(new SecsMessage(1, 3)
+                    SecsMessage? AGVSReplyMessage = await DevicesManager.secs_client_for_agvs.ActiveSendMsgAsync(new SecsMessage(1, 3)
                     {
                         SecsItem = L(toAGVSItems)
                     });

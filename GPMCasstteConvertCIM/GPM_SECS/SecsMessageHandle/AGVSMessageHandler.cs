@@ -30,7 +30,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
             _primaryMessageWrapper.PrimaryMessage.Name = "AGVS_To_CIM";
 
             Utility.SystemLogger.SecsTransferLog($"Start Transfer To MCS");
-            SecsMessage secondaryMsgFromMCS = await DevicesManager.secs_host_for_mcs.SendAsync(_primaryMessage_FromAGVS);
+            SecsMessage secondaryMsgFromMCS = await DevicesManager.secs_host_for_mcs.ActiveSendMsgAsync(_primaryMessage_FromAGVS);
 
             if (secondaryMsgFromMCS.S == 1 && secondaryMsgFromMCS.F == 4)
             {

@@ -126,7 +126,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 };
 
                 SecsMessage? replyMsg = null;
-                replyMsg = await MCS.SendAsync(msg);
+                replyMsg = await MCS.ActiveSendMsgAsync(msg);
                 if (replyMsg.IsS9F7())
                     AlarmManager.AddWarning(ALARM_CODES.MCS_PORT_OUT_SERVICE_REPORT_FAIL, PortNameWithEQName);
                 else
@@ -158,7 +158,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                                      )
                 };
                 SecsMessage? replyMsg = null;
-                replyMsg = await MCS.SendAsync(msg);
+                replyMsg = await MCS.ActiveSendMsgAsync(msg);
                 if (replyMsg.IsS9F7())
                     AlarmManager.AddWarning(ALARM_CODES.MCS_PORT_IN_SERVICE_REPORT_FAIL, PortNameWithEQName);
                 else
@@ -188,7 +188,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 };
                 SecsMessage? replyMsg = null;
 
-                replyMsg = await MCS.SendAsync(msg);
+                replyMsg = await MCS.ActiveSendMsgAsync(msg);
                 if (replyMsg.IsS9F7())
                     AlarmManager.AddWarning(ALARM_CODES.MCS_PORT_TYPE_INPUT_REPORT_FAIL, PortNameWithEQName);
                 else
@@ -218,7 +218,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                               )
                  };
                  SecsMessage? replyMsg = null;
-                 replyMsg = await MCS.SendAsync(msg);
+                 replyMsg = await MCS.ActiveSendMsgAsync(msg);
                  if (replyMsg.IsS9F7())
                      AlarmManager.AddWarning(ALARM_CODES.MCS_PORT_TYPE_OUTPUT_REPORT_FAIL, PortNameWithEQName);
                  else
@@ -243,7 +243,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 }
                 try
                 {
-                    var msc_reply = await MCS.SendAsync(EVENT_REPORT.CarrierWaitInReportMessage(WIPINFO_BCR_ID, Properties.PortID, ""));//TODO Zone Name ?
+                    var msc_reply = await MCS.ActiveSendMsgAsync(EVENT_REPORT.CarrierWaitInReportMessage(WIPINFO_BCR_ID, Properties.PortID, ""));//TODO Zone Name ?
                     if (msc_reply.IsS9F7())
                     {
                         AlarmManager.AddWarning(ALARM_CODES.CARRIER_WAIT_IN_BUT_MCS_DISCONNECT, PortNameWithEQName);
@@ -286,7 +286,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             {
                 try
                 {
-                    var response = await MCS.SendAsync(EVENT_REPORT.CarrierRemovedCompletedReportMessage(WIPINFO_BCR_ID, Properties.PortID, "")); //TODO Zone Name ?
+                    var response = await MCS.ActiveSendMsgAsync(EVENT_REPORT.CarrierRemovedCompletedReportMessage(WIPINFO_BCR_ID, Properties.PortID, "")); //TODO Zone Name ?
                     if (response.IsS9F7())
                         AlarmManager.AddWarning(ALARM_CODES.MCS_CARRIER_REMOVED_COMPLETED_REPORT_FAIL, PortNameWithEQName);
                 }
@@ -328,7 +328,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
             try
             {
-                var response = await MCS.SendAsync(EVENT_REPORT.CarrierWaitOutReportMessage(WIPINFO_BCR_ID, Properties.PortID, ""));//TODO Zone Name ?
+                var response = await MCS.ActiveSendMsgAsync(EVENT_REPORT.CarrierWaitOutReportMessage(WIPINFO_BCR_ID, Properties.PortID, ""));//TODO Zone Name ?
                 if (response.IsS9F7())
                     AlarmManager.AddWarning(ALARM_CODES.MCS_CARRIER_WAITOUT_REPORT_FAIL, PortNameWithEQName);
             }
@@ -345,7 +345,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             Utilities.Utility.SystemLogger.Info($"等待MCS Accept Carrier Wait IN Request..");
 
             //送訊息給SECS HOST 
-            SecsMessage? msc_reply = await MCS.SendAsync(EVENT_REPORT.CarrierWaitInReportMessage(WIPINFO_BCR_ID, Properties.PortID, ""));//TODO Zone Name ?
+            SecsMessage? msc_reply = await MCS.ActiveSendMsgAsync(EVENT_REPORT.CarrierWaitInReportMessage(WIPINFO_BCR_ID, Properties.PortID, ""));//TODO Zone Name ?
 
             bool mcs_accpet = msc_reply.SecsItem.FirstValue<byte>() == 0;
             Utilities.Utility.SystemLogger.Info($"MCS Wait IN ACK:{mcs_accpet} {msc_reply.ToSml()}");
