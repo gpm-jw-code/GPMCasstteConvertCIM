@@ -41,7 +41,8 @@ namespace GPMCasstteConvertCIM
                 T6 = secs_config.T6,
                 T7 = secs_config.T7,
                 T8 = secs_config.T8,
-                SocketReceiveBufferSize = secs_config.SocketRecieveBufferSize
+                SocketReceiveBufferSize = secs_config.SocketRecieveBufferSize,
+                EncodeBufferInitialSize = 32768
             };
 
         }

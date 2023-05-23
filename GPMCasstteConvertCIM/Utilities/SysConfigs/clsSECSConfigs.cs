@@ -44,6 +44,6 @@ namespace GPMCasstteConvertCIM.Utilities.SysConfigs
         /// </summary>
         public int LinkTestInterval { get; set; } = 60000;
 
-        public int SocketRecieveBufferSize { get; set; } = 8192;
+        public int SocketRecieveBufferSize { get; set; } = 32768;
     }
 }
