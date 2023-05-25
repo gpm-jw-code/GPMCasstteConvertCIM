@@ -31,7 +31,7 @@ partial class Item
                 return;
             }
 
-            var encoder = Format == SecsFormat.ASCII ? Encoding.UTF8 : Jis8Encoding;
+            var encoder = Format == SecsFormat.ASCII ? Encoding.ASCII : Jis8Encoding;
             var bytelength = encoder.GetByteCount(_value);
             EncodeItemHeader(Format, bytelength, buffer);
             var length = encoder.GetBytes(_value, buffer.GetSpan(bytelength));
@@ -46,7 +46,7 @@ partial class Item
 
         private sealed class ItemDebugView
         {
-            private readonly StringItem _item;
+            private readonly StringItem _item; 
 
             public ItemDebugView(StringItem item)
             {
