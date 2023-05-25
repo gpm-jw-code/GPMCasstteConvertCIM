@@ -69,7 +69,11 @@ namespace GPMCasstteConvertCIM.GPM_SECS.Tests
             ackMsg.TryGetEventReportAckResult(out _ack);
             Assert.AreEqual(SECSMessageHelper.ACKC6.System_Error, _ack);
         }
+        [TestMethod()]
+        public void TryGetEventReportAckResultTest1()
+        {
 
+        }
         [TestMethod()]
         public void IsAGVSOnlineReportTest()
         {
@@ -83,7 +87,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.Tests
             };
             Assert.IsTrue(msg.IsAGVSOnlineReport());
         }
-    
+
         [TestMethod()]
         public void IsAGVSOfflineReportTest()
         {
@@ -97,5 +101,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.Tests
             };
             Assert.IsTrue(msg.IsAGVSOfflineReport());
         }
+
+     
     }
 }

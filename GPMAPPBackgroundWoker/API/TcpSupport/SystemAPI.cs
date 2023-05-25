@@ -78,12 +78,10 @@ namespace GPMCasstteConvertCIM.API.TcpSupport
                     if (msg.Contains("CLOSECIM"))
                     {
                         CloseProcess(config.CIMAPP_FilePath);
-                        state.socket.Send(new byte[1] { 0x10});
                     }
                     if (msg.Contains("STARTCIM"))
                     {
                         OpenProcess(config.CIMAPP_FilePath);
-                        state.socket.Send(new byte[1] { 0x20 });
                     }
                 }
                 Task.Factory.StartNew(() =>
