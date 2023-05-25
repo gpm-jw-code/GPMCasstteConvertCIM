@@ -39,7 +39,6 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
             var S = _primaryMessage_FromAGVS.S;
             var F = _primaryMessage_FromAGVS.F;
 
-
             if (S == 1 && F == 13)
             {
                 SecsMessage Establish_Communication_Request_DENIED_Acknowledge = new SecsMessage(1, 14, false)
@@ -70,21 +69,14 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
 
             Utility.SystemLogger.SecsTransferLog($"Start Transfer To MCS");
             
-            
             SecsMessage secondaryMsgFromMCS = await MCS.ActiveSendMsgAsync(_primaryMessage_FromAGVS);
-
-
-
 
 
             if (secondaryMsgFromMCS.S == 1 && secondaryMsgFromMCS.F == 4)
             {
                 //TODO if has 2004 , add port data
             }
-            if (secondaryMsgFromMCS.S == 6 && secondaryMsgFromMCS.F == 12)
-            {
-                ack6 = secondaryMsgFromMCS.SecsItem.FirstValue<byte>();
-            }
+           
 
             if (_primaryMessage_FromAGVS.ReplyExpected)
             {
@@ -99,7 +91,10 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
 
             try
             {
-
+                if (_primaryMessage_FromAGVS.S == 6 && _primaryMessage_FromAGVS.F == 12)
+                {
+                    ack6 = _primaryMessage_FromAGVS.SecsItem.FirstValue<byte>();
+                }
                 if (_primaryMessage_FromAGVS.IsAGVSOnlineReport())
                 {
                     if (ack6 == 0)
@@ -113,6 +108,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
             }
             catch (Exception ex)
             {
+                Utility.SystemLogger.SecsTransferLog($"Transfer Exception (AGVS -> MCS) ! [{ex}]");
                 AlarmManager.AddWarning(ALARM_CODES.ONLINE_MODE_MONITORING_ERROR, "AGVSMHANDLER", false);
             }
 

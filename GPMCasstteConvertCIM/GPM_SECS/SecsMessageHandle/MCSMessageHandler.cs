@@ -13,6 +13,7 @@ using GPMCasstteConvertCIM.CasstteConverter;
 using System.Diagnostics;
 using static GPMCasstteConvertCIM.GPM_SECS.SECSMessageHelper;
 using GPMCasstteConvertCIM.Alarm;
+using System.Xml.Linq;
 
 namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
 {
@@ -76,8 +77,6 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                 var primaryMsgFromMcs = _primaryMessageWrapper.PrimaryMessage;
                 _primaryMessageWrapper.PrimaryMessage.Name = "MCS_To_CIM";
                 Utility.SystemLogger.SecsTransferLog($"Primary Mesaage From MCS : {primaryMsgFromMcs.ToSml()}");
-
-
 
 
                 SecsMessage replyMessage;
@@ -145,6 +144,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
             catch (Exception ex)
             {
 
+                Utility.SystemLogger.SecsTransferLog($"Transfer Exception (MCS -> AGVS) ! [{ex}]");
                 _AddAlarm(ALARM_CODES.CODE_EXCEPTION_WHEN_TRANSFER_MSG_TO_AGVS);
             }
 
