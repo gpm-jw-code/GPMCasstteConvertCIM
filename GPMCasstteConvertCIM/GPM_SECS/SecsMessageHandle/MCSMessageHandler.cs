@@ -174,7 +174,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                         var sid = item.FirstValue<ushort>();
                         if (sid is 2005)
                         {
-                            Item[] portStates = CreatePortInfosItem();
+                            Item[] portStates = CreatePortTypesItem();
                             svid_data_store.Add((2005, L(portStates)));
 
                         }
@@ -185,7 +185,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                         }
                         else if (sid is 2009)
                         {
-                            Item[] portStates = CreatePortTypesItem();
+                            Item[] portStates = CreatePortInfosItem();
                             svid_data_store.Add((2009, L(portStates)));
                         }
                     }
