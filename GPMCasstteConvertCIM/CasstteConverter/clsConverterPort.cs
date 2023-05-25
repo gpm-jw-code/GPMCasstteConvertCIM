@@ -46,7 +46,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         public string PortNameWithEQName => EQParent.Name + $"-[{Properties.PortID}]";
 
         public string portNoName => $"PORT{Properties.PortNo + 1}";
-
+        internal PortUnitType EPortType => Enum.GetValues(typeof(PortUnitType)).Cast<PortUnitType>().First(etype => (int)etype == _PortType);
         public Dictionary<PROPERTY, string> PortCIMBitAddress
         {
             get
@@ -361,7 +361,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
             }
         }
-        internal PortUnitType EPortType => Enum.GetValues(typeof(PortUnitType)).Cast<PortUnitType>().First(etype => (int)etype == _PortType);
 
     }
 }
