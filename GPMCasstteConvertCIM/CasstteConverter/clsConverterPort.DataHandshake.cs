@@ -333,16 +333,26 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 }
                 EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_out_reply_address, false);
 
-                try
+                _ = Task.Factory.StartNew(async () =>
                 {
-                    var response = await MCS.ActiveSendMsgAsync(EVENT_REPORT.CarrierWaitOutReportMessage(WIPINFO_BCR_ID, Properties.PortID, ""));//TODO Zone Name ?
-                    if (response.IsS9F7())
+                    await Task.Delay(1500);
+                    try
+                    {
+                        Utility.SystemLogger.Info($"Carrier Wait Out Report to MCS");
+
+                        var response = await MCS.ActiveSendMsgAsync(EVENT_REPORT.CarrierWaitOutReportMessage(WIPINFO_BCR_ID, Properties.PortID, ""));//TODO Zone Name ?
+                        if (response.IsS9F7())
+                            AlarmManager.AddWarning(ALARM_CODES.MCS_CARRIER_WAITOUT_REPORT_FAIL, Properties.PortID);
+                    }
+                    catch (Exception ex)
+                    {
                         AlarmManager.AddWarning(ALARM_CODES.MCS_CARRIER_WAITOUT_REPORT_FAIL, Properties.PortID);
-                }
-                catch (Exception ex)
-                {
-                    AlarmManager.AddWarning(ALARM_CODES.MCS_CARRIER_WAITOUT_REPORT_FAIL, Properties.PortID);
-                }
+                        Utility.SystemLogger.Info($"Carrier Wait Out Report to MCS - {ALARM_CODES.MCS_CARRIER_WAITOUT_REPORT_FAIL},{ex.Message}");
+
+                    }
+
+
+                });
 
                 Utility.SystemLogger.Info($"Carrier Wait Out HS Done");
 
