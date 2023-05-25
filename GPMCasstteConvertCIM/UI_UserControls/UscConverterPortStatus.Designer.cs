@@ -426,6 +426,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            AutoScroll = true;
             Controls.Add(label3);
             Controls.Add(labServiceStatusText);
             Controls.Add(panel2);

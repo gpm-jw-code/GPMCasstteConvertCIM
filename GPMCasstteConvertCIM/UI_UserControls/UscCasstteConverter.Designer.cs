@@ -174,6 +174,7 @@
             // uscConverterPortStatus1
             // 
             uscConverterPortStatus1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
+            uscConverterPortStatus1.AutoScroll = true;
             uscConverterPortStatus1.BackColor = Color.FromArgb(51, 51, 51);
             uscConverterPortStatus1.BorderStyle = BorderStyle.FixedSingle;
             uscConverterPortStatus1.CstCVPort = null;
@@ -186,6 +187,7 @@
             // uscConverterPortStatus2
             // 
             uscConverterPortStatus2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
+            uscConverterPortStatus2.AutoScroll = true;
             uscConverterPortStatus2.BackColor = Color.FromArgb(51, 51, 51);
             uscConverterPortStatus2.BorderStyle = BorderStyle.FixedSingle;
             uscConverterPortStatus2.CstCVPort = null;
