@@ -4,6 +4,7 @@ using GPMCasstteConvertCIM.GPM_SECS;
 using GPMCasstteConvertCIM.Utilities;
 using Secs4Net;
 using Secs4Net.Sml;
+using static Secs4Net.Item;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
     {
         internal static event EventHandler OnAGVSOnline;
         internal static event EventHandler OnAGVSOffline;
-
+        private static SECSBase MCS => DevicesManager.secs_host_for_mcs;
         /// <summary>
         /// 處理AGVS PrimaryMessage >>轉送給MCS 
         /// </summary>
@@ -35,8 +36,45 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
 
             _primaryMessageWrapper.PrimaryMessage.Name = "AGVS_To_CIM";
 
+            var S = _primaryMessage_FromAGVS.S;
+            var F = _primaryMessage_FromAGVS.F;
+
+
+            if (S == 1 && F == 13)
+            {
+                SecsMessage Establish_Communication_Request_DENIED_Acknowledge = new SecsMessage(1, 14, false)
+                {
+                    SecsItem = L(
+                            B(1),
+                            L(
+                                A(""),
+                                A("")
+                             )
+                        )
+                };
+                if (MCS.connector == null)
+                {
+                    Utility.SystemLogger.SecsTransferLog($"MCS Not Connected, Send S1F14  COMMACK =1 (Denied)");
+                    _primaryMessageWrapper.TryReplyAsync(Establish_Communication_Request_DENIED_Acknowledge);
+                    return;
+                }
+                if (MCS.connector.State != ConnectionState.Selected)
+                {
+                    Utility.SystemLogger.SecsTransferLog($"MCS Not Selected, Send S1F14  COMMACK =1 (Denied)");
+                    _primaryMessageWrapper.TryReplyAsync(Establish_Communication_Request_DENIED_Acknowledge);
+                    return;
+                }
+            }
+
+
+
             Utility.SystemLogger.SecsTransferLog($"Start Transfer To MCS");
-            SecsMessage secondaryMsgFromMCS = await DevicesManager.secs_host_for_mcs.ActiveSendMsgAsync(_primaryMessage_FromAGVS);
+            
+            
+            SecsMessage secondaryMsgFromMCS = await MCS.ActiveSendMsgAsync(_primaryMessage_FromAGVS);
+
+
+
 
 
             if (secondaryMsgFromMCS.S == 1 && secondaryMsgFromMCS.F == 4)

@@ -18,7 +18,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
 {
     public class MCSMessageHandler
     {
-
+        private static SECSBase AGVS => DevicesManager.secs_client_for_agvs;
         internal static void PrimaryMessageOnReceivedAsync(object? sender, PrimaryMessageWrapper _primaryMessageWrapper)
         {
             var secs_client = sender as SECSBase;
@@ -26,15 +26,6 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
 
             bool reply = false;
 
-
-            //if (_primaryMessage.S == 2 && _primaryMessage.F == 33) // Define Report
-            //{
-            //    DefineReport(_primaryMessage);
-            //}
-            //if (_primaryMessage.S == 2 && _primaryMessage.F == 35) // Link Event Report
-            //{
-            //    LinkEventReport(_primaryMessage);
-            //}
             if (_primaryMessage.S == 2 && _primaryMessage.F == 41)
             {
                 _primaryMessage.TryGetRCMDAction_S2F41(out RCMD cmd, out Item parameterGroups);
@@ -86,17 +77,49 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                 _primaryMessageWrapper.PrimaryMessage.Name = "MCS_To_CIM";
                 Utility.SystemLogger.SecsTransferLog($"Primary Mesaage From MCS : {primaryMsgFromMcs.ToSml()}");
 
-                SecsMessage replyMessage;
 
-                if (primaryMsgFromMcs.S == 1 && primaryMsgFromMcs.F == 3)
+
+
+                SecsMessage replyMessage;
+                var S = primaryMsgFromMcs.S;
+                var F = primaryMsgFromMcs.F;
+                var Name = $"S{S}F{F}";
+
+                if (S == 1 && F == 13)
                 {
-                    Utility.SystemLogger.SecsTransferLog($"Start Transfer To AGVS");
+                    SecsMessage Establish_Communication_Request_DENIED_Acknowledge = new SecsMessage(1, 14, false)
+                    {
+                        SecsItem = L(
+                                B(1),
+                                L(
+                                    A(""),
+                                    A("")
+                                 )
+                            )
+                    };
+                    if (AGVS.connector == null)
+                    {
+                        Utility.SystemLogger.SecsTransferLog($"AGVS Not Connected, Send S1F14  COMMACK =1 (Denied)");
+                        _primaryMessageWrapper.TryReplyAsync(Establish_Communication_Request_DENIED_Acknowledge);
+                        return;
+                    }
+                    if (AGVS.connector.State != ConnectionState.Selected)
+                    {
+                        Utility.SystemLogger.SecsTransferLog($"AGVS Not Selected, Send S1F14  COMMACK =1 (Denied)");
+                        _primaryMessageWrapper.TryReplyAsync(Establish_Communication_Request_DENIED_Acknowledge);
+                        return;
+                    }
+                }
+
+                if (S == 1 && F == 3)
+                {
+                    Utility.SystemLogger.SecsTransferLog($"Start Transfer To AGVS[{Name}]");
                     replyMessage = await S1F3RequestHandle(primaryMsgFromMcs);
                 }
                 else
                 {
-                    Utility.SystemLogger.SecsTransferLog($"Start Transfer To AGVS");
-                    replyMessage = await DevicesManager.secs_client_for_agvs.ActiveSendMsgAsync(primaryMsgFromMcs);
+                    Utility.SystemLogger.SecsTransferLog($"Start Transfer To AGVS[{Name}]");
+                    replyMessage = await AGVS.ActiveSendMsgAsync(primaryMsgFromMcs);
 
                 }
                 if (replyMessage == null)
@@ -175,7 +198,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                     foreach (var item in itemsToAGVS)
                         toAGVSItems.Add(U2(item.FirstValue<ushort>()));
 
-                    SecsMessage? AGVSReplyMessage = await DevicesManager.secs_client_for_agvs.ActiveSendMsgAsync(new SecsMessage(1, 3)
+                    SecsMessage? AGVSReplyMessage = await AGVS.ActiveSendMsgAsync(new SecsMessage(1, 3)
                     {
                         SecsItem = L(toAGVSItems)
                     });
