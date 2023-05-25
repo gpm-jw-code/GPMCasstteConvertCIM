@@ -172,21 +172,17 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                     foreach (var item in itemsToCIM)
                     {
                         var sid = item.FirstValue<ushort>();
-                        if (sid is 2005)
+                        if (sid is 2005)    //CurrentPortStates
                         {
-                            Item[] portStates = CreatePortTypesItem();
-                            svid_data_store.Add((2005, L(portStates)));
-
+                            svid_data_store.Add((2005, L(CreateCurrentPortStatesItem())));
                         }
                         else if (sid is 2007) //CurrEqPortStatus
                         {
-                            Item[] currEqPortStatus = CreateCurrEqPortStatus();
-                            svid_data_store.Add((2007, L(currEqPortStatus)));
+                            svid_data_store.Add((2007, L(CreateCurrEqPortStatusItem())));
                         }
-                        else if (sid is 2009)
+                        else if (sid is 2009) //PortTypes
                         {
-                            Item[] portStates = CreatePortInfosItem();
-                            svid_data_store.Add((2009, L(portStates)));
+                            svid_data_store.Add((2009, L(CreatePortInfosItem())));
                         }
                     }
                     Utility.SystemLogger?.Info($"CIM Create VIDS ({svid_data_store.ToJson()}) Data Content Done");
@@ -268,7 +264,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
         public static void AddPortDataToVID2004(ref SecsMessage message)
         {
         }
-        private static Item[] CreateCurrEqPortStatus()
+        private static Item[] CreateCurrEqPortStatusItem()
         {
 
             //<L[4]
@@ -310,7 +306,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
 
         }
 
-        private static Item[] CreatePortTypesItem()
+        private static Item[] CreateCurrentPortStatesItem()
         {
             //< L[2]
             //  A <PortID>
