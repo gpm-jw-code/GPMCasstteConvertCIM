@@ -2,6 +2,7 @@
 using GPMCasstteConvertCIM.CasstteConverter.Data;
 using GPMCasstteConvertCIM.Devices;
 using GPMCasstteConvertCIM.GPM_SECS;
+using GPMCasstteConvertCIM.Utilities;
 using Secs4Net;
 using Secs4Net.Sml;
 using System.Diagnostics;
@@ -319,6 +320,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             {
                 if (cst.IsCancellationRequested)
                 {
+                    Utility.SystemLogger.Info($"Carrier Wait  Out HS Start");
+
                     AlarmManager.AddWarning(ALARM_CODES.CarrierWaitOut_HS_EQ_Timeout, Properties.PortID);
                     break;
                 }

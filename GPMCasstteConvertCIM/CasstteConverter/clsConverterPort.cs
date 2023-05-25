@@ -228,6 +228,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     _CarrierWaitINSystemRequest = value;
                     if (_CarrierWaitINSystemRequest)
                     {
+                        Utility.SystemLogger.Info("Carrier Wait In Request bit ON ");
+
                         Task.Factory.StartNew(async () =>
                         {
                             Utilities.Utility.SystemLogger.Info($"Carrier Wait In HS Start");
@@ -257,7 +259,14 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     _CarrierWaitOUTSystemRequest = value;
                     if (_CarrierWaitOUTSystemRequest)
                     {
-                        CarrierWaitOutReply();
+                        Utility.SystemLogger.Info("Carrier Wait out Request bit ON ");
+
+                        Task.Factory.StartNew(async () =>
+                        {
+                            Utility.SystemLogger.Info($"Carrier Wait  Out HS Start");
+                            CarrierWaitOutReply();
+                        });
+
                     }
                 }
             }
