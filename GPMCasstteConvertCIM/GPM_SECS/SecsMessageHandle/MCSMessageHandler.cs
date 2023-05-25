@@ -36,7 +36,20 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                     PortTypeChangeHandler(parameterGroups, _primaryMessageWrapper);
                     return;
                 }
+                if (cmd == RCMD.NOTRANSFER)
+                {
+                    NoTransferHandler(_primaryMessageWrapper);
+                    return;
+                }
             }
+
+
+            TransmitMsgToAGVS(_primaryMessageWrapper);
+
+        }
+
+        private static void NoTransferHandler(PrimaryMessageWrapper _primaryMessageWrapper)
+        {
             // 2023 / 5 / 25 下午 04:03:38 | SECS_MSG_TRANSFER | Primary Mesaage From MCS: MCS_To_CIM: 'S2F41'W
             //    < L[2]
             //        < A[16] 'NOTRANSFERNOTIFY' >
@@ -52,8 +65,28 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
             //        >
             //    >
             //.
+            try
+            {
+                Item Params = _primaryMessageWrapper.PrimaryMessage.SecsItem.Items[1];
+                SecsMessage S2F42 = new SecsMessage(2, 42, false)
+                {
+                    SecsItem = L(
 
-            TransmitMsgToAGVS(_primaryMessageWrapper);
+                                B(0),
+                                Params
+                        )
+                };
+                _primaryMessageWrapper.TryReplyAsync(S2F42);
+
+                string cstid = Params.Items[0].Items[1].GetString();
+
+                Utility.SystemLogger.Info("NOTRANSFER, PORT = ");
+            }
+            catch (Exception ex)
+            {
+                Utility.SystemLogger.Info($"NOTRANSFER, EX = {ex.Message} ");
+            }
+
 
         }
 

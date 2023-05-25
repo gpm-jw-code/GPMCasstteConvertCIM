@@ -52,7 +52,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             get
             {
                 List<clsMemoryAddress> portAddress = EQParent.LinkBitMap.FindAll(ad => ad.EOwner == OWNER.CIM && ad.EScope.ToString() == portNoName);
-                return portAddress.FindAll(a=>a.EProperty!= PROPERTY.Unknown).ToDictionary(ad => ad.EProperty, ad => ad.Address);
+                return portAddress.FindAll(a => a.EProperty != PROPERTY.Unknown).ToDictionary(ad => ad.EProperty, ad => ad.Address);
             }
         }
 
@@ -346,6 +346,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                                 PortTypeInputReport();
                             if (value == 1)
                                 PortTypeOutputReport();
+                            else
+                            {
+
+                            }
                         }
                         catch (Exception ex)
                         {
