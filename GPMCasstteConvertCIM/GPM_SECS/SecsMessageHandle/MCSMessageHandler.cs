@@ -14,6 +14,7 @@ using System.Diagnostics;
 using static GPMCasstteConvertCIM.GPM_SECS.SECSMessageHelper;
 using GPMCasstteConvertCIM.Alarm;
 using System.Xml.Linq;
+using System.Windows.Forms;
 
 namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
 {
@@ -36,6 +37,21 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                     return;
                 }
             }
+            // 2023 / 5 / 25 下午 04:03:38 | SECS_MSG_TRANSFER | Primary Mesaage From MCS: MCS_To_CIM: 'S2F41'W
+            //    < L[2]
+            //        < A[16] 'NOTRANSFERNOTIFY' >
+            //        < L[2]
+            //            < L[2]
+            //                < A[9] 'CARRIERID' >
+            //                < A[10] 'TA12E28469' >
+            //            >
+            //            < L[2]
+            //                < A[10] 'CARRIERLOC' >
+            //                < A[18] '3F_AGVC02_PORT_2_5' >
+            //            >
+            //        >
+            //    >
+            //.
 
             TransmitMsgToAGVS(_primaryMessageWrapper);
 

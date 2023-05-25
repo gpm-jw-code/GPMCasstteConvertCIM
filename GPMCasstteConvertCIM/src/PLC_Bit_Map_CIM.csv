@@ -19,7 +19,7 @@ B10,AGVS,,Boolean,6.1 Rack Load Request,PORT1,,,,,,,,,,B,16,B10
 B11,AGVS,Carrier WaitIn System Reply,Boolean,6.1 Rack Unload Request,PORT1,Carrier_WaitIn_System_Reply,,,,,,,,,B,17,B11
 B12,AGVS,Carrier WaitIn System Accept,Boolean,6.2 Change Mode CMD,PORT1,Carrier_WaitIn_System_Accept,,,,,,,,,B,18,B12
 B13,AGVS,Carrier WaitIn System Refuse,Boolean,6.3 Manual Load Complete,PORT1,Carrier_WaitIn_System_Refuse,,,,,,,,,B,19,B13
-B14,AGVS,Carrier WawitOut System Reply,Boolean,6.3 Manual Unload Complete,PORT1,Carrier_WawitOut_System_Reply,,,,,,,,,B,20,B14
+B14,AGVS,Carrier WawitOut System Reply,Boolean,6.3 Manual Unload Complete,PORT1,Carrier_WaitOut_System_Reply,,,,,,,,,B,20,B14
 B15,AGVS,Carrier Removed Completed Report Reply,Boolean,6.4 Mode Change Request,PORT1,Carrier_Removed_Completed_Report_Reply,,,,,,,,,B,21,B15
 B16,AGVS,Carrier Force In System Reply,Boolean,6.4 Mode Change Request,PORT1,Carrier_Force_In_System_Reply,,,,,,,,,B,22,B16
 B17,AGVS,To EQ Up,Boolean,,PORT1,To_EQ_Up,24,,,,,,,,B,23,B17
@@ -41,7 +41,7 @@ B26,AGVS,,Boolean,,PORT2,,,,,,,,,,B,38,B26
 B27,AGVS,Carrier WaitIn System Reply,Boolean,,PORT2,Carrier_WaitIn_System_Reply,,,,,,,,,B,39,B27
 B28,AGVS,Carrier WaitIn System Accept,Boolean,,PORT2,Carrier_WaitIn_System_Accept,,,,,,,,,B,40,B28
 B29,AGVS,Carrier WaitIn System Refuse,Boolean,,PORT2,Carrier_WaitIn_System_Refuse,,,,,,,,,B,41,B29
-B2A,AGVS,Carrier WawitOut System Reply,Boolean,,PORT2,Carrier_WawitOut_System_Reply,,,,,,,,,B,42,B2A
+B2A,AGVS,Carrier WawitOut System Reply,Boolean,,PORT2,Carrier_WaitOut_System_Reply,,,,,,,,,B,42,B2A
 B2B,AGVS,Carrier Removed Completed Report Reply,Boolean,,PORT2,Carrier_Removed_Completed_Report_Reply,,,,,,,,,B,43,B2B
 B2C,AGVS,Carrier Force In System Reply,Boolean,,PORT2,Carrier_Force_In_System_Reply,,,,,,,,,B,44,B2C
 B2D,AGVS,To EQ Up,Boolean,,PORT2,To_EQ_Up,24,,,,,,,,B,45,B2D

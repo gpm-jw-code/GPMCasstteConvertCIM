@@ -52,7 +52,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             get
             {
                 List<clsMemoryAddress> portAddress = EQParent.LinkBitMap.FindAll(ad => ad.EOwner == OWNER.CIM && ad.EScope.ToString() == portNoName);
-                return portAddress.ToDictionary(ad => ad.EProperty, ad => ad.Address);
+                return portAddress.FindAll(a=>a.EProperty!= PROPERTY.Unknown).ToDictionary(ad => ad.EProperty, ad => ad.Address);
             }
         }
 
@@ -61,7 +61,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             get
             {
                 List<clsMemoryAddress> portAddress = EQParent.LinkWordMap.FindAll(ad => ad.EOwner == OWNER.CIM && ad.EScope.ToString() == portNoName);
-                return portAddress.ToDictionary(ad => ad.EProperty, ad => ad.Address);
+                return portAddress.FindAll(a => a.EProperty != PROPERTY.Unknown).ToDictionary(ad => ad.EProperty, ad => ad.Address);
             }
         }
 
@@ -70,7 +70,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             get
             {
                 List<clsMemoryAddress> portAddress = EQParent.LinkBitMap.FindAll(ad => ad.EOwner == OWNER.EQP && ad.EScope.ToString() == portNoName && ad.EProperty != PROPERTY.Unknown);
-                return portAddress.ToDictionary(ad => ad.EProperty, ad => ad.Address);
+                return portAddress.FindAll(a => a.EProperty != PROPERTY.Unknown).ToDictionary(ad => ad.EProperty, ad => ad.Address);
             }
         }
 
@@ -79,7 +79,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             get
             {
                 List<clsMemoryAddress> portAddress = EQParent.LinkWordMap.FindAll(ad => ad.EOwner == OWNER.EQP && ad.EScope.ToString() == portNoName);
-                return portAddress.ToDictionary(ad => ad.EProperty, ad => ad.Address);
+                return portAddress.FindAll(a => a.EProperty != PROPERTY.Unknown).ToDictionary(ad => ad.EProperty, ad => ad.Address);
             }
         }
 
@@ -256,18 +256,32 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             {
                 if (value != _CarrierWaitOUTSystemRequest)
                 {
-                    _CarrierWaitOUTSystemRequest = value;
-                    if (_CarrierWaitOUTSystemRequest)
+                    if (value)
                     {
                         Utility.SystemLogger.Info("Carrier Wait out Request bit ON ");
 
                         Task.Factory.StartNew(async () =>
                         {
+                            await Task.Delay(1);
                             Utility.SystemLogger.Info($"Carrier Wait  Out HS Start");
-                            CarrierWaitOutReply();
+                            try
+                            {
+                                bool success_hs = await CarrierWaitOutReply();
+                                if (!success_hs)
+                                {
+                                    Utility.SystemLogger.Info($"Carrier Wait  Out HS Error!");
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                Utility.SystemLogger.Info($"Carrier Wait  Out HS ex! {ex.Message},{ex.StackTrace}");
+
+                            }
+
                         });
 
                     }
+                    _CarrierWaitOUTSystemRequest = value;
                 }
             }
         }

@@ -440,13 +440,14 @@ namespace GPMCasstteConvertCIM.GPM_SECS
                 return CreateEventMsg((ushort)CEID.CarrierWaitOut, RPTID: 5, VIDList, "Carrier_Wait_Out");
             }
 
-            public static SecsMessage CarrierRemovedCompletedReportMessage(string carrier_ID, string carrier_Loc, string carrier_ZoneName)
+            public static SecsMessage CarrierRemovedCompletedReportMessage(string carrier_ID, string carrier_Loc, string carrier_ZoneName, bool IsAutoMode)
             {
                 Item[] VIDList = new Item[]
                {
                     A(carrier_ID),
                     A(carrier_Loc),
-                    A(carrier_ZoneName)
+                    A(carrier_ZoneName),
+                    U2((ushort)(IsAutoMode? 1:0))
                };
 
                 return CreateEventMsg((ushort)CEID.CarrierRemovedCompletedReport, RPTID: 4, VIDList, "Carrier_Removed_Completed");

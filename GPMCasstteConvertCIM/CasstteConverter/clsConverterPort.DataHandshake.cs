@@ -287,7 +287,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             {
                 try
                 {
-                    var response = await MCS.ActiveSendMsgAsync(EVENT_REPORT.CarrierRemovedCompletedReportMessage(WIPINFO_BCR_ID, Properties.PortID, "")); //TODO Zone Name ?
+                    var response = await MCS.ActiveSendMsgAsync(EVENT_REPORT.CarrierRemovedCompletedReportMessage(WIPINFO_BCR_ID, Properties.PortID, "", EPortAutoStatus == AUTO_MANUAL_MODE.AUTO)); //TODO Zone Name ?
                     if (response.IsS9F7())
                         AlarmManager.AddWarning(ALARM_CODES.MCS_CARRIER_REMOVED_COMPLETED_REPORT_FAIL, Properties.PortID);
                 }
@@ -311,34 +311,48 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_removed_com_reply_address, false);
         }
 
-        public async Task CarrierWaitOutReply()
+        public async Task<bool> CarrierWaitOutReply()
         {
-            var carrier_wait_out_reply_address = PortCIMBitAddress[PROPERTY.Carrier_WawitOut_System_Reply];
-            EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_out_reply_address, true);
-            CancellationTokenSource cst = new CancellationTokenSource(TimeSpan.FromSeconds(5));
-            while (CarrierWaitOUTSystemRequest)
+            Utility.SystemLogger.Warning($"Carrier Wait Out HS Start_2 CHeck");
+
+            if (PortCIMBitAddress.TryGetValue(PROPERTY.Carrier_WaitOut_System_Reply, out string carrier_wait_out_reply_address))
             {
-                if (cst.IsCancellationRequested)
+                EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_out_reply_address, true);
+
+                Utility.SystemLogger.Info($"Carrier Wait Out HS Start_ {carrier_wait_out_reply_address} ON");
+                CancellationTokenSource cst = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+                while (CarrierWaitOUTSystemRequest)
                 {
-                    Utility.SystemLogger.Info($"Carrier Wait  Out HS Start");
-
-                    AlarmManager.AddWarning(ALARM_CODES.CarrierWaitOut_HS_EQ_Timeout, Properties.PortID);
-                    break;
+                    if (cst.IsCancellationRequested)
+                    {
+                        Utility.SystemLogger.Info($"Carrier Wait Out HS => EQ Timeout");
+                        AlarmManager.AddWarning(ALARM_CODES.CarrierWaitOut_HS_EQ_Timeout, Properties.PortID);
+                        break;
+                    }
+                    await Task.Delay(1);
                 }
-                await Task.Delay(1);
-            }
-            EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_out_reply_address, false);
+                EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_out_reply_address, false);
 
-            try
-            {
-                var response = await MCS.ActiveSendMsgAsync(EVENT_REPORT.CarrierWaitOutReportMessage(WIPINFO_BCR_ID, Properties.PortID, ""));//TODO Zone Name ?
-                if (response.IsS9F7())
+                try
+                {
+                    var response = await MCS.ActiveSendMsgAsync(EVENT_REPORT.CarrierWaitOutReportMessage(WIPINFO_BCR_ID, Properties.PortID, ""));//TODO Zone Name ?
+                    if (response.IsS9F7())
+                        AlarmManager.AddWarning(ALARM_CODES.MCS_CARRIER_WAITOUT_REPORT_FAIL, Properties.PortID);
+                }
+                catch (Exception ex)
+                {
                     AlarmManager.AddWarning(ALARM_CODES.MCS_CARRIER_WAITOUT_REPORT_FAIL, Properties.PortID);
+                }
+
+                Utility.SystemLogger.Info($"Carrier Wait Out HS Done");
+
+                return true;
             }
-            catch (Exception ex)
+            else
             {
-                AlarmManager.AddWarning(ALARM_CODES.MCS_CARRIER_WAITOUT_REPORT_FAIL, Properties.PortID);
+                return false;
             }
+
 
         }
 

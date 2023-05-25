@@ -107,7 +107,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             Carrier_WaitIn_System_Reply,
             Carrier_WaitIn_System_Accept,
             Carrier_WaitIn_System_Refuse,
-            Carrier_WawitOut_System_Reply,
+            Carrier_WaitOut_System_Reply,
             Carrier_Removed_Completed_Report_Reply,
             Carrier_Force_In_System_Reply,
             To_EQ_Up,
