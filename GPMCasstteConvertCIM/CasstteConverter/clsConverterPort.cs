@@ -171,6 +171,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             }
         }
 
+        public string Previous_WIPINFO_BCR_ID { get; internal set; }
         public string WIPINFO_BCR_ID
         {
             get
