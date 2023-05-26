@@ -412,25 +412,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             OnMCSNoTransferNotify?.Invoke(this, new Tuple<string, string>(carrier_id, cstid));
         }
 
-        private void Secs_client_OnPrimaryMessageRecieve(object? sender, PrimaryMessageWrapper messagePrimary)
-        {
-            Task.Factory.StartNew(() =>
-            {
-                var mcs_msg = messagePrimary.PrimaryMessage;
-                bool IsRCMD = mcs_msg.TryGetRCMDAction_S2F49(out RCMD RCMD, out Item parameterGroups);
-                if (IsRCMD && RCMD == SECSMessageHelper.RCMD.TRANSFER)
-                {
-                    CarrierWaitIn_Reply = true;
-                    CarrierWaitIn_Accept = true;
-                }
-                if (IsRCMD && RCMD == SECSMessageHelper.RCMD.NOTRANSFERNOTIFY)
-                {
-                    CarrierWaitIn_Reply = true;
-                    CarrierWaitIn_Accept = false;
-
-                    AlarmManager.AddWarning(ALARM_CODES.CARRIER_WAIT_IN_BUT_MCS_REJECT, Properties.PortID);
-                }
-            });
-        }
+        
     }
 }
