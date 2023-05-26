@@ -1,20 +1,11 @@
-﻿using GPMCasstteConvertCIM.Devices;
-using GPMCasstteConvertCIM.GPM_SECS;
+﻿using GPMCasstteConvertCIM.Alarm;
+using GPMCasstteConvertCIM.CasstteConverter;
+using GPMCasstteConvertCIM.Devices;
 using GPMCasstteConvertCIM.Utilities;
 using Secs4Net;
 using Secs4Net.Sml;
 using static Secs4Net.Item;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GPMCasstteConvertCIM.CasstteConverter;
-using System.Diagnostics;
-using static GPMCasstteConvertCIM.GPM_SECS.SECSMessageHelper;
-using GPMCasstteConvertCIM.Alarm;
-using System.Xml.Linq;
-using System.Windows.Forms;
+using GPMCasstteConvertCIM.GPM_SECS;
 
 namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
 {
@@ -72,7 +63,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                 SecsMessage S2F42_Reply = new SecsMessage(2, 42, false)
                 {
                     SecsItem = L(
-                                B(4), //command will be perform with completion signaled later by an event
+                                B((byte)HCACK.Acknowledge_Perform_Later), //command will be perform with completion signaled later by an event
                                 Params
                         )
                 };
@@ -111,22 +102,29 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
         /// <param name="parameterGroups"></param>
         /// <param name="_primaryMessageWrapper"></param>
         private async static void PortTypeChangeHandler(Item parameterGroups, PrimaryMessageWrapper _primaryMessageWrapper)
-        { 
-            
-            //TODO SEND REPLY TO MCS(PORTTYPECHANGE ack)
+        {
+            HCACK ack;
+            string port_id = parameterGroups.Items[0].Items[1].GetString();
+            ushort port_type = parameterGroups.Items[1].Items[1].FirstValue<ushort>();
+            PortUnitType port_type_to_change = port_type == 0 ? PortUnitType.Input : PortUnitType.Output;
+            clsConverterPort port = DevicesManager.GetPortByPortID(port_id);
+
+            if (port.EPortType == port_type_to_change)
+            {
+                ack = HCACK.Rejected_Already_in_desired_condition;
+            }
+            else
+            {
+                bool accept = await port.ModeChangeRequestHandshake(port_type_to_change);
+                ack = accept ? HCACK.Acknowledge : HCACK.Cannot_Perform_Now;
+            }
             await _primaryMessageWrapper.TryReplyAsync(new SecsMessage(2, 42, false)
             {
                 SecsItem = L(
-                                B(4),
+                                B((byte)ack),
                                 parameterGroups
                             )
             });
-            string port_id = parameterGroups.Items[0].Items[1].GetString();
-            ushort port_type = parameterGroups.Items[1].Items[1].FirstValue<ushort>();
-            clsConverterPort port = DevicesManager.GetPortByPortID(port_id);
-            bool accept = await port.ModeChangeRequestHandshake(port_type == 0 ? PortUnitType.Input : PortUnitType.Output);
-
-
         }
 
         private static async void TransmitMsgToAGVS(PrimaryMessageWrapper _primaryMessageWrapper)
