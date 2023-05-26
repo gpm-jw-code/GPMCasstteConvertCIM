@@ -31,7 +31,7 @@ namespace GPMCasstteConvertCIM.Emulators.SecsEmu
             Task.Factory.StartNew(async () =>
             {
                 var primarymsg = _PrimaryMessageWrapper.PrimaryMessage;
-                await _PrimaryMessageWrapper.TryReplyAsync(EVENT_REPORT.EventReportAcknowledgeMessage(ACKC6.Accpeted));
+                await _PrimaryMessageWrapper.TryReplyAsync(EventsMsg.ACK6(ACKC6.Accpeted));
             });
         }
 

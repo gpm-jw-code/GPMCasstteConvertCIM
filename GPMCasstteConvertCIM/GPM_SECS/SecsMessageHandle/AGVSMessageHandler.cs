@@ -69,7 +69,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
 
             Utility.SystemLogger.SecsTransferLog($"Start Transfer To MCS");
             
-            SecsMessage secondaryMsgFromMCS = await MCS.ActiveSendMsgAsync(_primaryMessage_FromAGVS);
+            SecsMessage secondaryMsgFromMCS = await MCS.SendMsg(_primaryMessage_FromAGVS);
 
 
             if (secondaryMsgFromMCS.S == 1 && secondaryMsgFromMCS.F == 4)

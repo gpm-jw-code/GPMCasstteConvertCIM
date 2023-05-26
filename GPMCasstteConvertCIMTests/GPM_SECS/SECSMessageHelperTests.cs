@@ -16,7 +16,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.Tests
         [TestMethod()]
         public void ChangeOfflineEventReportMessageTest()
         {
-            Secs4Net.SecsMessage msg = SECSMessageHelper.EVENT_REPORT.ChangeOfflineModeEventReportMessage(0, "SV-GPM-EQP-ID-213");
+            Secs4Net.SecsMessage msg = SECSMessageHelper.EventsMsg.ChangeOfflineModeEventReportMessage(0, "SV-GPM-EQP-ID-213");
         }
 
         [TestMethod()]
@@ -37,7 +37,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.Tests
             string Carrier_ID = "ID_123";
             string Carrier_Loc = "LOC_123";
             string Carrier_ZoneNameCarrier_ID = "ZoneName_123";
-            SecsMessage msg = SECSMessageHelper.EVENT_REPORT.CarrierWaitInReportMessage(Carrier_ID, Carrier_Loc, Carrier_ZoneNameCarrier_ID);
+            SecsMessage msg = SECSMessageHelper.EventsMsg.CarrierWaitIn(Carrier_ID, Carrier_Loc, Carrier_ZoneNameCarrier_ID);
             Assert.AreEqual(3, msg.SecsItem.Count);
             Assert.AreEqual(158, msg.SecsItem[1].FirstValue<short>());
             Assert.AreEqual(5, msg.SecsItem[2][0][0].FirstValue<short>());

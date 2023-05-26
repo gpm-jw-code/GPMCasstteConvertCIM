@@ -228,6 +228,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             {
                 if (value != _CarrierWaitINSystemRequest)
                 {
+                    Previous_WIPINFO_BCR_ID = WIPINFO_BCR_ID;
                     CarrierInstallTime = DateTime.Now;
                     _CarrierWaitINSystemRequest = value;
                     if (_CarrierWaitINSystemRequest)
@@ -262,6 +263,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 {
                     if (value)
                     {
+                        Previous_WIPINFO_BCR_ID = WIPINFO_BCR_ID;
+                        CarrierInstallTime = DateTime.Now;
                         Utility.SystemLogger.Info("Carrier Wait out Request bit ON ");
 
                         Task.Factory.StartNew(async () =>

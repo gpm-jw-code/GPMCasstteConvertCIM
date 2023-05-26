@@ -30,7 +30,6 @@ namespace GPMCasstteConvertCIM.GPM_SECS
 
         private DataGridView? SendBufferDgvTable;
         private DataGridView? RevBufferDgvTable;
-        private ManualResetEvent ActiveSendMsgWaitSignal = new ManualResetEvent(true);
         private LoggerBase Syslogger => Utility.SystemLogger;
 
         internal SECSBase(string name)
@@ -114,9 +113,8 @@ namespace GPMCasstteConvertCIM.GPM_SECS
         /// <param name="message"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        internal async Task<SecsMessage> ActiveSendMsgAsync(SecsMessage message, CancellationToken cancellationToken = default)
+        internal async Task<SecsMessage> SendMsg(SecsMessage message, CancellationToken cancellationToken = default)
         {
-
             return await Task.Run(async () =>
             {
                 try

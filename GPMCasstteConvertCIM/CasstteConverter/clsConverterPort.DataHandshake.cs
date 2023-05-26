@@ -127,7 +127,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 };
 
                 SecsMessage? replyMsg = null;
-                replyMsg = await MCS.ActiveSendMsgAsync(msg);
+                replyMsg = await MCS.SendMsg(msg);
                 if (replyMsg.IsS9F7())
                     AlarmManager.AddWarning(ALARM_CODES.MCS_PORT_OUT_SERVICE_REPORT_FAIL, Properties.PortID);
                 else
@@ -159,7 +159,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                                      )
                 };
                 SecsMessage? replyMsg = null;
-                replyMsg = await MCS.ActiveSendMsgAsync(msg);
+                replyMsg = await MCS.SendMsg(msg);
                 if (replyMsg.IsS9F7())
                     AlarmManager.AddWarning(ALARM_CODES.MCS_PORT_IN_SERVICE_REPORT_FAIL, Properties.PortID);
                 else
@@ -189,7 +189,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 };
                 SecsMessage? replyMsg = null;
 
-                replyMsg = await MCS.ActiveSendMsgAsync(msg);
+                replyMsg = await MCS.SendMsg(msg);
                 if (replyMsg.IsS9F7())
                     AlarmManager.AddWarning(ALARM_CODES.MCS_PORT_TYPE_INPUT_REPORT_FAIL, Properties.PortID);
                 else
@@ -219,7 +219,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                               )
                  };
                  SecsMessage? replyMsg = null;
-                 replyMsg = await MCS.ActiveSendMsgAsync(msg);
+                 replyMsg = await MCS.SendMsg(msg);
                  if (replyMsg.IsS9F7())
                      AlarmManager.AddWarning(ALARM_CODES.MCS_PORT_TYPE_OUTPUT_REPORT_FAIL, Properties.PortID);
                  else
@@ -237,7 +237,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             {
                 try
                 {
-                    var response = await MCS.ActiveSendMsgAsync(EVENT_REPORT.CarrierRemovedCompletedReportMessage(Previous_WIPINFO_BCR_ID, Properties.PortID, "", EPortAutoStatus == AUTO_MANUAL_MODE.AUTO)); //TODO Zone Name ?
+                    var response = await MCS.SendMsg(EventsMsg.CarrierRemovedCompleted(Previous_WIPINFO_BCR_ID, Properties.PortID, "", EPortAutoStatus == AUTO_MANUAL_MODE.AUTO)); //TODO Zone Name ?
                     if (response.IsS9F7())
                         AlarmManager.AddWarning(ALARM_CODES.MCS_CARRIER_REMOVED_COMPLETED_REPORT_FAIL, Properties.PortID);
                 }
@@ -282,27 +282,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     await Task.Delay(1);
                 }
                 EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_out_reply_address, false);
-
-                _ = Task.Factory.StartNew(async () =>
-                {
-                    await Task.Delay(1500);
-                    try
-                    {
-                        Utility.SystemLogger.Info($"Carrier Wait Out Report to MCS");
-
-                        var response = await MCS.ActiveSendMsgAsync(EVENT_REPORT.CarrierWaitOutReportMessage(WIPINFO_BCR_ID, Properties.PortID, ""));//TODO Zone Name ?
-                        if (response.IsS9F7())
-                            AlarmManager.AddWarning(ALARM_CODES.MCS_CARRIER_WAITOUT_REPORT_FAIL, Properties.PortID);
-                    }
-                    catch (Exception ex)
-                    {
-                        AlarmManager.AddWarning(ALARM_CODES.MCS_CARRIER_WAITOUT_REPORT_FAIL, Properties.PortID);
-                        Utility.SystemLogger.Info($"Carrier Wait Out Report to MCS - {ALARM_CODES.MCS_CARRIER_WAITOUT_REPORT_FAIL},{ex.Message}");
-
-                    }
-
-
-                });
+                InstalledAndWaitOutSECSReport();
 
                 Utility.SystemLogger.Info($"Carrier Wait Out HS Done");
 
@@ -316,6 +296,31 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         }
 
+        private void InstalledAndWaitOutSECSReport(bool installedRpt = true)
+        {
+            _ = Task.Factory.StartNew(async () =>
+            {
+                await Task.Delay(1500);
+                try
+                {
+                    Utility.SystemLogger.Info($"Carrier Wait Out Report to MCS");
+
+                    if (installedRpt)
+                    {
+                        SecsMessage install_response = await MCS.SendMsg(EventsMsg.CarrierInstalled(WIPINFO_BCR_ID, Properties.PortID, EPortAutoStatus == AUTO_MANUAL_MODE.AUTO));
+                    }
+                    SecsMessage response = await MCS.SendMsg(EventsMsg.CarrierWaitOut(WIPINFO_BCR_ID, Properties.PortID, ""));//TODO Zone Name ?
+                    if (response.IsS9F7())
+                        AlarmManager.AddWarning(ALARM_CODES.MCS_CARRIER_WAITOUT_REPORT_FAIL, Properties.PortID);
+                }
+                catch (Exception ex)
+                {
+                    AlarmManager.AddWarning(ALARM_CODES.MCS_CARRIER_WAITOUT_REPORT_FAIL, Properties.PortID);
+                    Utility.SystemLogger.Info($"Carrier Wait Out Report to MCS - {ALARM_CODES.MCS_CARRIER_WAITOUT_REPORT_FAIL},{ex.Message}");
+                }
+
+            });
+        }
 
         public async Task<bool> CarrierWaitInReply(int EQ_T_timeout = 5000)
         {
@@ -323,18 +328,19 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
 
             //送訊息給SECS HOST 
-            SecsMessage? msc_reply = await MCS.ActiveSendMsgAsync(EVENT_REPORT.CarrierWaitInReportMessage(WIPINFO_BCR_ID, Properties.PortID, ""));//TODO Zone Name ?
-            bool wait_in_accept_and_agv_will_transfer_in = false;
+            //installed
+            var response = await MCS.SendMsg(EventsMsg.CarrierInstalled(WIPINFO_BCR_ID, Properties.PortID, EPortAutoStatus == AUTO_MANUAL_MODE.AUTO));
+            //wait in
+            SecsMessage? msc_reply = await MCS.SendMsg(EventsMsg.CarrierWaitIn(WIPINFO_BCR_ID, Properties.PortID, ""));//TODO Zone Name ?
             bool mcs_accpet = msc_reply.SecsItem.FirstValue<byte>() == 0;
 
             Utility.SystemLogger.Info($"MCS Wait IN ACK:{mcs_accpet} {msc_reply.ToSml()}");
 
             //Wait In 接受後，也要等待MCS下命令給AGVS 才是真的Accept. 
             //Solution : 
+            bool wait_in_accept_and_agv_will_transfer_in = false;
             if (mcs_accpet)
-            {
                 wait_in_accept_and_agv_will_transfer_in = await WaitTransferTaskDownloaded();
-            }
             else
                 wait_in_accept_and_agv_will_transfer_in = false;
 
@@ -361,6 +367,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
             EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_in_reply_address, false);
             EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_in_result_flag_address, false);
+
+
+            if (!wait_in_accept_and_agv_will_transfer_in)
+                InstalledAndWaitOutSECSReport(installedRpt: false);
 
             return timeout;
 

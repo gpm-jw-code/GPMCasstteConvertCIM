@@ -92,13 +92,13 @@ namespace GPMCasstteConvertCIM
         private async void btnSendPortTypeChangeMsg_Click(object sender, EventArgs e)
         {
              var msg = MsgHelper.RemoteCommand.PortTypeChange(txbPortID.Text, (PortUnitType)cmbPortTypeSelector.SelectedItem);
-            var rpt = await SECSEmulatorManager.mcsEmulator.secsIF.ActiveSendMsgAsync(msg);
+            var rpt = await SECSEmulatorManager.mcsEmulator.secsIF.SendMsg(msg);
         }
 
         private async void btnTransferTask_Click(object sender, EventArgs e)
         {
 
-            var reply = await SECSEmulatorManager.mcsEmulator.secsIF.ActiveSendMsgAsync(new SecsMessage(2, 49)
+            var reply = await SECSEmulatorManager.mcsEmulator.secsIF.SendMsg(new SecsMessage(2, 49)
             {
                 SecsItem =
                 Item.L(

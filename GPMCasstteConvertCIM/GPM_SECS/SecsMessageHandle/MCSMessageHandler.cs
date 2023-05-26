@@ -171,7 +171,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                 else
                 {
                     Utility.SystemLogger.SecsTransferLog($"Start Transfer To AGVS[{Name}]");
-                    replyMessage = await AGVS.ActiveSendMsgAsync(primaryMsgFromMcs);
+                    replyMessage = await AGVS.SendMsg(primaryMsgFromMcs);
 
                 }
                 if (replyMessage == null)
@@ -247,7 +247,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                     foreach (var item in itemsToAGVS)
                         toAGVSItems.Add(U2(item.FirstValue<ushort>()));
 
-                    SecsMessage? AGVSReplyMessage = await AGVS.ActiveSendMsgAsync(new SecsMessage(1, 3)
+                    SecsMessage? AGVSReplyMessage = await AGVS.SendMsg(new SecsMessage(1, 3)
                     {
                         SecsItem = L(toAGVSItems)
                     });

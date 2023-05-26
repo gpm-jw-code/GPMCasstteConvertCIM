@@ -335,7 +335,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS
         /// <summary>
         /// 事件上報相關
         /// </summary>
-        public struct EVENT_REPORT
+        public struct EventsMsg
         {
             ////Structure:
             //L,3 
@@ -415,7 +415,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS
                 return msg;
             }
 
-            public static SecsMessage CarrierWaitInReportMessage(string carrier_ID, string carrier_Loc, string carrier_ZoneName)
+            public static SecsMessage CarrierWaitIn(string carrier_ID, string carrier_Loc, string carrier_ZoneName)
             {
 
                 Item[] VIDList = new Item[]
@@ -428,7 +428,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS
                 return CreateEventMsg((ushort)CEID.CarrierWaitIn, RPTID: 5, VIDList, "Carrier_Wait_In");
             }
 
-            public static SecsMessage CarrierWaitOutReportMessage(string carrier_ID, string carrier_Loc, string carrier_ZoneName)
+            public static SecsMessage CarrierWaitOut(string carrier_ID, string carrier_Loc, string carrier_ZoneName)
             {
                 Item[] VIDList = new Item[]
                 {
@@ -440,7 +440,19 @@ namespace GPMCasstteConvertCIM.GPM_SECS
                 return CreateEventMsg((ushort)CEID.CarrierWaitOut, RPTID: 5, VIDList, "Carrier_Wait_Out");
             }
 
-            public static SecsMessage CarrierRemovedCompletedReportMessage(string carrier_ID, string carrier_Loc, string carrier_ZoneName, bool IsAutoMode)
+            public static SecsMessage CarrierInstalled(string carrier_ID, string carrier_Loc, bool IsAutoMode, string carrier_ZoneName = "")
+            {
+                Item[] VIDList = new Item[]
+                {
+                    A(carrier_ID),
+                    A(carrier_Loc),
+                    A(carrier_ZoneName),
+                    U2((ushort)(IsAutoMode? 1:0))
+                };
+
+                return CreateEventMsg((ushort)CEID.CarrierInstallCompletedReport, RPTID: 4, VIDList, "CarrierInstalled");
+            }
+            public static SecsMessage CarrierRemovedCompleted(string carrier_ID, string carrier_Loc, string carrier_ZoneName, bool IsAutoMode)
             {
                 Item[] VIDList = new Item[]
                {
@@ -477,7 +489,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS
             }
 
 
-            public static SecsMessage EventReportAcknowledgeMessage(ACKC6 ack)
+            public static SecsMessage ACK6(ACKC6 ack)
             {
                 var msg = new SecsMessage(6, 12, false)
                 {
