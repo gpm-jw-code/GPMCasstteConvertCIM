@@ -287,7 +287,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             {
                 try
                 {
-                    var response = await MCS.ActiveSendMsgAsync(EVENT_REPORT.CarrierRemovedCompletedReportMessage(WIPINFO_BCR_ID, Properties.PortID, "", EPortAutoStatus == AUTO_MANUAL_MODE.AUTO)); //TODO Zone Name ?
+                    var response = await MCS.ActiveSendMsgAsync(EVENT_REPORT.CarrierRemovedCompletedReportMessage(Previous_WIPINFO_BCR_ID, Properties.PortID, "", EPortAutoStatus == AUTO_MANUAL_MODE.AUTO)); //TODO Zone Name ?
                     if (response.IsS9F7())
                         AlarmManager.AddWarning(ALARM_CODES.MCS_CARRIER_REMOVED_COMPLETED_REPORT_FAIL, Properties.PortID);
                 }
