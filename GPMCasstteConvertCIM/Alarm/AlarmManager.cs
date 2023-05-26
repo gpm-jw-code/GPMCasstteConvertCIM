@@ -1,4 +1,5 @@
 ﻿using GPMCasstteConvertCIM.UI_UserControls;
+using GPMCasstteConvertCIM.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,6 +40,8 @@ namespace GPMCasstteConvertCIM.Alarm
                 }
                 else
                     AddUndefinedAlarm(alarm_code, ALARM_LEVEL.WARNING, EQPName);
+
+                Utility.SystemLogger.Warning($"Warning : {EQPName} - {alarm_code}", false);
             }
         }
         public static void AddAlarm(ALARM_CODES alarm_code, string EQPName, bool add_new_one_when_exist_same_code = true)
@@ -67,7 +70,7 @@ namespace GPMCasstteConvertCIM.Alarm
                 }
                 else
                     AddUndefinedAlarm(alarm_code, ALARM_LEVEL.ALARM, EQPName);
-
+                Utility.SystemLogger.Warning($"Alarm : {EQPName} - {alarm_code}", false);
             }
 
         }

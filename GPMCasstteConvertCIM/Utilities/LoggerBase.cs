@@ -66,14 +66,15 @@ namespace GPMCasstteConvertCIM.Utilities
 
             });
         }
-        protected void AppendDateTime(out DateTime time)
+        protected void AppendDateTime(out DateTime time, bool show_in_richbox = true)
         {
             var _time = DateTime.Now;
 
-            _richTextBox?.Invoke((MethodInvoker)delegate
-            {
-                _richTextBox.AppendText($"{_time} ");
-            });
+            if (show_in_richbox)
+                _richTextBox?.Invoke((MethodInvoker)delegate
+                {
+                    _richTextBox.AppendText($"{_time} ");
+                });
             time = _time;
         }
 
@@ -108,47 +109,53 @@ namespace GPMCasstteConvertCIM.Utilities
             });
             WriteToFile(time, LOG_LEVEL.SECS_MSG_TRANSFER, msg);
         }
-        public void Info(string msg)
+        public void Info(string msg, bool show_in_richbox = true)
         {
-            AppendDateTime(out DateTime time);
-            _richTextBox?.Invoke((MethodInvoker)delegate
+            AppendDateTime(out DateTime time, show_in_richbox);
+            if (show_in_richbox)
             {
-                _richTextBox.SelectionColor = Color.LightBlue;
-                _richTextBox.AppendText($"{msg}\n");
-            });
+                _richTextBox?.Invoke((MethodInvoker)delegate
+                {
+                    _richTextBox.SelectionColor = Color.LightBlue;
+                    _richTextBox.AppendText($"{msg}\n");
+                });
+            }
             WriteToFile(time, LOG_LEVEL.INFO, msg);
         }
-        public void Info(string msg, Color foreCOlor)
+        public void Info(string msg, Color foreCOlor, bool show_in_richbox = true)
         {
-            AppendDateTime(out DateTime time);
-            _richTextBox?.Invoke((MethodInvoker)delegate
-            {
-                _richTextBox.SelectionColor = foreCOlor;
-                _richTextBox.AppendText($"{msg}\n");
-            });
+            AppendDateTime(out DateTime time, show_in_richbox);
+            if (show_in_richbox)
+                _richTextBox?.Invoke((MethodInvoker)delegate
+                {
+                    _richTextBox.SelectionColor = foreCOlor;
+                    _richTextBox.AppendText($"{msg}\n");
+                });
             WriteToFile(time, LOG_LEVEL.INFO, msg);
         }
-        public void Warning(string msg)
+        public void Warning(string msg, bool show_in_richbox = true)
         {
-            AppendDateTime(out DateTime time);
-            _richTextBox?.Invoke((MethodInvoker)delegate
-            {
-                _richTextBox.SelectionColor = Color.Green;
-                _richTextBox.AppendText($"{msg}\n");
-            });
+            AppendDateTime(out DateTime time, show_in_richbox);
+            if (show_in_richbox)
+                _richTextBox?.Invoke((MethodInvoker)delegate
+                {
+                    _richTextBox.SelectionColor = Color.Green;
+                    _richTextBox.AppendText($"{msg}\n");
+                });
             WriteToFile(time, LOG_LEVEL.WARNING, msg);
         }
 
-        public void Error(string msg, Exception? ex)
+        public void Error(string msg, Exception? ex, bool show_in_richbox = true)
         {
-            AppendDateTime(out DateTime time);
-            _richTextBox?.Invoke((MethodInvoker)delegate
-            {
-                _richTextBox.SelectionColor = Color.Red;
-                _richTextBox.AppendText($"{msg}\n");
-                _richTextBox.SelectionColor = Color.Gray;
-                _richTextBox.AppendText($"{ex}\n");
-            });
+            AppendDateTime(out DateTime time,show_in_richbox);
+            if (show_in_richbox)
+                _richTextBox?.Invoke((MethodInvoker)delegate
+                {
+                    _richTextBox.SelectionColor = Color.Red;
+                    _richTextBox.AppendText($"{msg}\n");
+                    _richTextBox.SelectionColor = Color.Gray;
+                    _richTextBox.AppendText($"{ex}\n");
+                });
             WriteToFile(time, LOG_LEVEL.ERROR, $"{msg}-{ex?.Message}-{ex?.StackTrace}");
         }
         public class clsLogItem
