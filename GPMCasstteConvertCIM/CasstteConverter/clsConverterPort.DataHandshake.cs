@@ -365,10 +365,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             return timeout;
 
         }
-        public void TransferTaskDownload(string cst_id)
-        {
-
-        }
 
         private bool NoTransferNotifyFlag = false;
         private bool CurrentCSTHasTransferTaskFlag = false;
@@ -412,6 +408,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             OnMCSNoTransferNotify?.Invoke(this, new Tuple<string, string>(carrier_id, cstid));
         }
 
-        
+
     }
 }
