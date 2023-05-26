@@ -15,7 +15,26 @@ namespace GPMCasstteConvertCIM.UI_UserControls
 {
     public partial class UscConverterPortStatus : UserControl
     {
-        public clsConverterPort CstCVPort { get; set; }
+        private clsConverterPort _CstCVPort;
+        public clsConverterPort CstCVPort
+        {
+            get => _CstCVPort;
+            set
+            {
+                _CstCVPort = value;
+                if (_CstCVPort != null)
+                    _CstCVPort.OnMCSNoTransferNotify += _CstCVPort_OnMCSNoTransferNotify;
+            }
+        }
+
+        private void _CstCVPort_OnMCSNoTransferNotify(object? sender, Tuple<string, string> mcs_notify_dto)
+        {
+            Task.Factory.StartNew(() =>
+            {
+                MessageBox.Show($"MCS NO TRANSFER NOTIFY !  \r\nPort ID = {mcs_notify_dto.Item1}\r\nCarrier ID = {mcs_notify_dto.Item2}", "MCS Notifier", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            });
+        }
+
         public UscConverterPortStatus()
         {
             InitializeComponent();

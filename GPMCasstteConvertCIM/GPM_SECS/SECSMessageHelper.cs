@@ -120,7 +120,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS
             RESERVESTORAGE,
             CANCELRESERVESTORAGE,
             TRANSFER,
-            NOTRANSFER
+            NOTRANSFERNOTIFY
         }
         public enum CEID : ushort
         {

@@ -36,7 +36,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                     PortTypeChangeHandler(parameterGroups, _primaryMessageWrapper);
                     return;
                 }
-                if (cmd == RCMD.NOTRANSFER)
+                if (cmd == RCMD.NOTRANSFERNOTIFY)
                 {
                     NoTransferHandler(_primaryMessageWrapper);
                     return;
@@ -71,16 +71,19 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                 SecsMessage S2F42 = new SecsMessage(2, 42, false)
                 {
                     SecsItem = L(
-
-                                B(0),
+                                B(4), //command will be perform with completion signaled later by an event
                                 Params
                         )
                 };
                 _primaryMessageWrapper.TryReplyAsync(S2F42);
 
                 string cstid = Params.Items[0].Items[1].GetString();
+                string port_id = Params.Items[1].Items[1].GetString();
 
-                Utility.SystemLogger.Info("NOTRANSFER, PORT = ");
+                Utility.SystemLogger.Info($"MCS NOTRANSFER Notify, PORT ={port_id},CST ID = {cstid} ");
+
+                var port = DevicesManager.GetPortByPortID(port_id);
+                port.NoTransferNotifyInovke(port_id,cstid);
             }
             catch (Exception ex)
             {

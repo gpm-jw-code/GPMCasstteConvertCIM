@@ -13,6 +13,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
     {
         public ModbusTCPServer modbus_server { get; set; }
 
+        public event EventHandler<Tuple<string, string>> OnMCSNoTransferNotify;
+
         public bool BuildModbusTCPServer(frmModbusTCPServer ui)
         {
             try
@@ -81,5 +83,9 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             });
         }
 
+        internal void NoTransferNotifyInovke(string carrier_id, string cstid)
+        {
+            OnMCSNoTransferNotify?.Invoke(this, new Tuple<string , string >(carrier_id, cstid));
+        }
     }
 }

@@ -414,7 +414,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     CarrierWaitIn_Reply = true;
                     CarrierWaitIn_Accept = true;
                 }
-                if (IsRCMD && RCMD == SECSMessageHelper.RCMD.NOTRANSFER)
+                if (IsRCMD && RCMD == SECSMessageHelper.RCMD.NOTRANSFERNOTIFY)
                 {
                     CarrierWaitIn_Reply = true;
                     CarrierWaitIn_Accept = false;
