@@ -25,16 +25,20 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
         {
             var secs_client = sender as SECSBase;
             using SecsMessage _primaryMessage = _primaryMessageWrapper.PrimaryMessage;
-
             bool reply = false;
 
-            if (_primaryMessage.S == 2 && _primaryMessage.F == 41)
+            if (_primaryMessage.S == 2 && (_primaryMessage.F == 41 | _primaryMessage.F == 49))
             {
-                _primaryMessage.TryGetRCMDAction_S2F41(out RCMD cmd, out Item parameterGroups);
+                _primaryMessage.TryGetRCMDAction(_primaryMessage.F, out RCMD cmd, out Item parameterGroups);
+
                 if (cmd == RCMD.PORTTYPECHG)
                 {
                     PortTypeChangeHandler(parameterGroups, _primaryMessageWrapper);
                     return;
+                }
+                if (cmd == RCMD.TRANSFER)
+                {
+                    TransferHandler(parameterGroups, _primaryMessageWrapper);
                 }
                 if (cmd == RCMD.NOTRANSFERNOTIFY)
                 {
@@ -43,47 +47,44 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                 }
             }
 
-
             TransmitMsgToAGVS(_primaryMessageWrapper);
+
+        }
+
+        private static void TransferHandler(Item parameterGroups, PrimaryMessageWrapper primaryMessageWrapper)
+        {
+            Item transfer_info = parameterGroups.Items[1];
+            string carrier_id = transfer_info.Items[1].Items[0].Items[1].GetString();
+            clsConverterPort? port_match_carrier_id = DevicesManager.GetAllPorts().FirstOrDefault(port => port.WIPINFO_BCR_ID == carrier_id);
+
+            if (port_match_carrier_id != null)
+            {
+                port_match_carrier_id.CstTransferInvoke();
+            }
 
         }
 
         private static void NoTransferHandler(PrimaryMessageWrapper _primaryMessageWrapper)
         {
-            // 2023 / 5 / 25 下午 04:03:38 | SECS_MSG_TRANSFER | Primary Mesaage From MCS: MCS_To_CIM: 'S2F41'W
-            //    < L[2]
-            //        < A[16] 'NOTRANSFERNOTIFY' >
-            //        < L[2]
-            //            < L[2]
-            //                < A[9] 'CARRIERID' >
-            //                < A[10] 'TA12E28469' >
-            //            >
-            //            < L[2]
-            //                < A[10] 'CARRIERLOC' >
-            //                < A[18] '3F_AGVC02_PORT_2_5' >
-            //            >
-            //        >
-            //    >
-            //.
             try
             {
                 Item Params = _primaryMessageWrapper.PrimaryMessage.SecsItem.Items[1];
-                SecsMessage S2F42 = new SecsMessage(2, 42, false)
+                SecsMessage S2F42_Reply = new SecsMessage(2, 42, false)
                 {
                     SecsItem = L(
                                 B(4), //command will be perform with completion signaled later by an event
                                 Params
                         )
                 };
-                _primaryMessageWrapper.TryReplyAsync(S2F42);
+                _primaryMessageWrapper.TryReplyAsync(S2F42_Reply);
 
                 string cstid = Params.Items[0].Items[1].GetString();
                 string port_id = Params.Items[1].Items[1].GetString();
 
-                Utility.SystemLogger.Info($"MCS NOTRANSFER Notify, PORT ={port_id},CST ID = {cstid} ");
+                Utility.SystemLogger.Info($"MCS NOTRANSFER Notify, PORT ={port_id} , CST ID = {cstid} ");
 
                 var port = DevicesManager.GetPortByPortID(port_id);
-                port.NoTransferNotifyInovke(port_id,cstid);
+                port.NoTransferNotifyInovke(port_id, cstid);
             }
             catch (Exception ex)
             {

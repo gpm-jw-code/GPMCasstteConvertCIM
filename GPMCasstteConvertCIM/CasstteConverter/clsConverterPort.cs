@@ -176,6 +176,9 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         {
             get
             {
+                if (Debugger.IsAttached && Properties.PortID == "3F_AGVC02_PORT_2_5")
+                    return "TA12E28469";
+
                 List<int> ints = new List<int>() {
                  WIPInfo_BCR_ID_1,
                  WIPInfo_BCR_ID_2,
@@ -235,7 +238,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                         {
                             Utilities.Utility.SystemLogger.Info($"Carrier Wait In HS Start");
 
-                            bool timeout = await CarrierWaitInReply();
+                            bool timeout = await CarrierWaitInReply(10000);
                             if (timeout)
                             {
                                 AlarmManager.AddAlarm(ALARM_CODES.CarrierWaitIn_HS_EQ_Timeout, PortNameWithEQName);
@@ -267,7 +270,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                             Utility.SystemLogger.Info($"Carrier Wait  Out HS Start");
                             try
                             {
-                                bool success_hs = await CarrierWaitOutReply();
+                                bool success_hs = await CarrierWaitOutReply(10000);
                                 if (!success_hs)
                                 {
                                     Utility.SystemLogger.Info($"Carrier Wait  Out HS Error!");
@@ -362,6 +365,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
             }
         }
+
 
     }
 }

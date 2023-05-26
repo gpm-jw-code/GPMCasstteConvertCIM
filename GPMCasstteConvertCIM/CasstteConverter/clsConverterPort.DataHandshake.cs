@@ -228,56 +228,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             tk.Start();
         }
 
-        public async Task<bool> WaitMCSAccpectCarrierIn(int T_timout = 20)
-        {
-            CarrierWaitIn_Reply = false;
-            CarrierWaitIn_Accept = false;
-
-            bool isEventReportAck = false;
-            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(T_timout));
-
-            while (!isEventReportAck)
-            {
-                if (cancellationTokenSource.IsCancellationRequested)
-                {
-                    return false;
-                }
-                try
-                {
-                    var msc_reply = await MCS.ActiveSendMsgAsync(EVENT_REPORT.CarrierWaitInReportMessage(WIPINFO_BCR_ID, Properties.PortID, ""));//TODO Zone Name ?
-                    if (msc_reply.IsS9F7())
-                    {
-                        AlarmManager.AddWarning(ALARM_CODES.CARRIER_WAIT_IN_BUT_MCS_DISCONNECT, Properties.PortID);
-                        AlarmManager.AddWarning(ALARM_CODES.MCS_CARRIER_WAITIN_REPORT_FAIL, Properties.PortID);
-                        return false;
-                    }
-                    isEventReportAck = true;
-                }
-                catch (Exception ex)
-                {
-
-                }
-                Thread.Sleep(1);
-            }
-
-            MCS.OnPrimaryMessageRecieve += Secs_client_OnPrimaryMessageRecieve;
-
-            cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(T_timout));
-            while (!CarrierWaitIn_Reply)
-            {
-                try
-                {
-                    await Task.Delay(1, cancellationTokenSource.Token);
-                }
-                catch (TaskCanceledException ex)
-                {
-                    //表示timeout
-                    break;
-                }
-            }
-            MCS.OnPrimaryMessageRecieve -= Secs_client_OnPrimaryMessageRecieve;
-            return CarrierWaitIn_Accept && CarrierWaitIn_Reply;
-        }
         public async Task CarrierRemovedCompletedReply()
         {
             var carrier_removed_com_reply_address = PortCIMBitAddress[PROPERTY.Carrier_Removed_Completed_Report_Reply];
@@ -311,7 +261,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_removed_com_reply_address, false);
         }
 
-        public async Task<bool> CarrierWaitOutReply()
+        public async Task<bool> CarrierWaitOutReply(int EQ_T_timeout = 5000)
         {
             Utility.SystemLogger.Warning($"Carrier Wait Out HS Start_2 CHeck");
 
@@ -320,7 +270,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_out_reply_address, true);
 
                 Utility.SystemLogger.Info($"Carrier Wait Out HS Start_ {carrier_wait_out_reply_address} ON");
-                CancellationTokenSource cst = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+                CancellationTokenSource cst = new CancellationTokenSource(TimeSpan.FromMilliseconds(EQ_T_timeout));
                 while (CarrierWaitOUTSystemRequest)
                 {
                     if (cst.IsCancellationRequested)
@@ -367,18 +317,30 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         }
 
 
-        public async Task<bool> CarrierWaitInReply(int T_timeout = 5000)
+        public async Task<bool> CarrierWaitInReply(int EQ_T_timeout = 5000)
         {
-            Utilities.Utility.SystemLogger.Info($"等待MCS Accept Carrier Wait IN Request..");
+            Utility.SystemLogger.Info($"等待MCS Accept Carrier Wait IN Request..");
+
 
             //送訊息給SECS HOST 
             SecsMessage? msc_reply = await MCS.ActiveSendMsgAsync(EVENT_REPORT.CarrierWaitInReportMessage(WIPINFO_BCR_ID, Properties.PortID, ""));//TODO Zone Name ?
-
+            bool wait_in_accept_and_agv_will_transfer_in = false;
             bool mcs_accpet = msc_reply.SecsItem.FirstValue<byte>() == 0;
-            Utilities.Utility.SystemLogger.Info($"MCS Wait IN ACK:{mcs_accpet} {msc_reply.ToSml()}");
+
+            Utility.SystemLogger.Info($"MCS Wait IN ACK:{mcs_accpet} {msc_reply.ToSml()}");
+
+            //Wait In 接受後，也要等待MCS下命令給AGVS 才是真的Accept. 
+            //Solution : 
+            if (mcs_accpet)
+            {
+                wait_in_accept_and_agv_will_transfer_in = await WaitTransferTaskDownloaded();
+            }
+            else
+                wait_in_accept_and_agv_will_transfer_in = false;
 
             bool timeout = false;
-            PROPERTY wait_in_ = mcs_accpet ? PROPERTY.Carrier_WaitIn_System_Accept : PROPERTY.Carrier_WaitIn_System_Refuse;
+
+            PROPERTY wait_in_ = wait_in_accept_and_agv_will_transfer_in ? PROPERTY.Carrier_WaitIn_System_Accept : PROPERTY.Carrier_WaitIn_System_Refuse;
 
             string? carrier_wait_in_result_flag_address = PortCIMBitAddress[wait_in_];
             string? carrier_wait_in_reply_address = PortCIMBitAddress[PROPERTY.Carrier_WaitIn_System_Reply];
@@ -389,7 +351,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             Stopwatch sw = Stopwatch.StartNew();
             while (CarrierWaitINSystemRequest)
             {
-                if (sw.ElapsedMilliseconds > T_timeout)
+                if (sw.ElapsedMilliseconds > EQ_T_timeout)
                 {
                     timeout = true;
                     break;
@@ -403,6 +365,53 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             return timeout;
 
         }
+        public void TransferTaskDownload(string cst_id)
+        {
+
+        }
+
+        private bool NoTransferNotifyFlag = false;
+        private bool CurrentCSTHasTransferTaskFlag = false;
+
+        /// <summary>
+        ///等待MCS有下Transfer任務給AGVS取當前Carrier。
+        /// </summary>
+        /// <param name="cst_id"></param>
+        /// <returns></returns>
+        private async Task<bool> WaitTransferTaskDownloaded()
+        {
+            CancellationTokenSource cancelwait = new CancellationTokenSource(TimeSpan.FromSeconds(60));
+            while (!CurrentCSTHasTransferTaskFlag)
+            {
+                if (cancelwait.IsCancellationRequested)
+                {
+                    Utility.SystemLogger.Warning($"{Properties.PortID} _ Carrier- {WIPINFO_BCR_ID} No body known where to go . No AGV To Transfer....");
+                    return false;
+                }
+                if (NoTransferNotifyFlag)
+                {
+                    Utility.SystemLogger.Warning($"{Properties.PortID} _ Carrier- {WIPINFO_BCR_ID} MCS NO Transfer Notify. No AGV To Transfer...");
+                    NoTransferNotifyFlag = false; //reset flag
+                    return false;
+                }
+                await Task.Delay(1);
+            }
+            Utility.SystemLogger.Warning($"{Properties.PortID} _ Carrier- {WIPINFO_BCR_ID} AGV Will Transfer this carrier later.");
+            CurrentCSTHasTransferTaskFlag = false; //reset flag
+            return true;
+        }
+
+        internal void CstTransferInvoke()
+        {
+            CurrentCSTHasTransferTaskFlag = true;
+        }
+
+        internal void NoTransferNotifyInovke(string carrier_id, string cstid)
+        {
+            NoTransferNotifyFlag = true;
+            OnMCSNoTransferNotify?.Invoke(this, new Tuple<string, string>(carrier_id, cstid));
+        }
+
         private void Secs_client_OnPrimaryMessageRecieve(object? sender, PrimaryMessageWrapper messagePrimary)
         {
             Task.Factory.StartNew(() =>
