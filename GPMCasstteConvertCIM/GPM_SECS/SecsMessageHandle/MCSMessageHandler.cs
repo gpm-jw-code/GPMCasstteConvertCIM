@@ -111,16 +111,22 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
         /// <param name="parameterGroups"></param>
         /// <param name="_primaryMessageWrapper"></param>
         private async static void PortTypeChangeHandler(Item parameterGroups, PrimaryMessageWrapper _primaryMessageWrapper)
-        {
+        { 
+            
+            //TODO SEND REPLY TO MCS(PORTTYPECHANGE ack)
+            await _primaryMessageWrapper.TryReplyAsync(new SecsMessage(2, 42, false)
+            {
+                SecsItem = L(
+                                B(4),
+                                parameterGroups
+                            )
+            });
             string port_id = parameterGroups.Items[0].Items[1].GetString();
             ushort port_type = parameterGroups.Items[1].Items[1].FirstValue<ushort>();
             clsConverterPort port = DevicesManager.GetPortByPortID(port_id);
             bool accept = await port.ModeChangeRequestHandshake(port_type == 0 ? PortUnitType.Input : PortUnitType.Output);
 
-            //TODO SEND REPLY TO MCS(PORTTYPECHANGE ack)
-            await _primaryMessageWrapper.TryReplyAsync(new SecsMessage(2, 42, false)
-            {
-            });
+
         }
 
         private static async void TransmitMsgToAGVS(PrimaryMessageWrapper _primaryMessageWrapper)
