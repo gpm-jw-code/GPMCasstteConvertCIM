@@ -349,14 +349,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     {
                         try
                         {
-                            if (value == 0)
+                            if (value == 0 | (value == 2 & MCSReservePortType == PortUnitType.Input))
                                 PortTypeInputReport();
-                            if (value == 1)
+                            if (value == 1 | (value == 2 && MCSReservePortType == PortUnitType.Output))
                                 PortTypeOutputReport();
-                            else
-                            {
-
-                            }
                         }
                         catch (Exception ex)
                         {
@@ -367,6 +363,14 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 _PortType = value;
 
             }
+        }
+
+        internal void PortTypeReport()
+        {
+            if (EPortType == PortUnitType.Input)
+                PortTypeInputReport();
+            if (EPortType == PortUnitType.Output)
+                PortTypeOutputReport();
         }
 
 

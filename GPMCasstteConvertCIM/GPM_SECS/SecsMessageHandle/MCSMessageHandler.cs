@@ -108,6 +108,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
             ushort port_type = parameterGroups.Items[1].Items[1].FirstValue<ushort>();
             PortUnitType port_type_to_change = port_type == 0 ? PortUnitType.Input : PortUnitType.Output;
             clsConverterPort port = DevicesManager.GetPortByPortID(port_id);
+            port.MCSReservePortType = port_type_to_change;
 
             if (port.EPortType == port_type_to_change)
             {
@@ -125,6 +126,8 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                                 parameterGroups
                             )
             });
+
+            port.PortTypeReport();
         }
 
         private static async void TransmitMsgToAGVS(PrimaryMessageWrapper _primaryMessageWrapper)

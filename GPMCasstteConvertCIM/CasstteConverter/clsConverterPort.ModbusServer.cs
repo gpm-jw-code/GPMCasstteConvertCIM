@@ -1,5 +1,6 @@
 ﻿using GPMCasstteConvertCIM.Forms;
 using GPMCasstteConvertCIM.GPM_Modbus;
+using GPMCasstteConvertCIM.GPM_SECS;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,11 @@ namespace GPMCasstteConvertCIM.CasstteConverter
     public partial class clsConverterPort
     {
         public ModbusTCPServer modbus_server { get; set; }
+
+        /// <summary>
+        /// MCS要求切換的Port Type
+        /// </summary>
+        public PortUnitType MCSReservePortType { get; internal set; }
 
         public event EventHandler<Tuple<string, string>> OnMCSNoTransferNotify;
 
