@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             tabControl1 = new TabControl();
             tabPage1 = new TabPage();
@@ -205,6 +206,7 @@
             dgvMsgFromMCS.AllowUserToOrderColumns = true;
             dgvMsgFromMCS.AutoGenerateColumns = false;
             dgvMsgFromMCS.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvMsgFromMCS.BackgroundColor = Color.Black;
             dgvMsgFromMCS.CellBorderStyle = DataGridViewCellBorderStyle.Sunken;
             dgvMsgFromMCS.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvMsgFromMCS.Columns.AddRange(new DataGridViewColumn[] { primaryMessageSMLDataGridViewTextBoxColumn2, secondaryMessageSMLDataGridViewTextBoxColumn3 });
@@ -214,6 +216,14 @@
             dgvMsgFromMCS.Location = new Point(4, 22);
             dgvMsgFromMCS.Name = "dgvMsgFromMCS";
             dgvMsgFromMCS.ReadOnly = true;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(51, 51, 51);
+            dataGridViewCellStyle1.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgvMsgFromMCS.RowHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvMsgFromMCS.RowHeadersVisible = false;
             dgvMsgFromMCS.RowTemplate.Height = 25;
             dgvMsgFromMCS.Size = new Size(359, 125);
@@ -243,6 +253,7 @@
             dgvMsgFromAGVS.AllowUserToOrderColumns = true;
             dgvMsgFromAGVS.AutoGenerateColumns = false;
             dgvMsgFromAGVS.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvMsgFromAGVS.BackgroundColor = Color.Black;
             dgvMsgFromAGVS.CellBorderStyle = DataGridViewCellBorderStyle.Sunken;
             dgvMsgFromAGVS.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvMsgFromAGVS.Columns.AddRange(new DataGridViewColumn[] { primaryMessageSMLDataGridViewTextBoxColumn, secondaryMessageSMLDataGridViewTextBoxColumn });
@@ -280,6 +291,7 @@
             dgvActiveMsgToMCS.AllowUserToDeleteRows = false;
             dgvActiveMsgToMCS.AutoGenerateColumns = false;
             dgvActiveMsgToMCS.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvActiveMsgToMCS.BackgroundColor = Color.Black;
             dgvActiveMsgToMCS.CellBorderStyle = DataGridViewCellBorderStyle.Sunken;
             dgvActiveMsgToMCS.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvActiveMsgToMCS.Columns.AddRange(new DataGridViewColumn[] { primaryMessageSMLDataGridViewTextBoxColumn1, secondaryMessageSMLDataGridViewTextBoxColumn2 });
@@ -317,6 +329,7 @@
             dgvActiveMsgToAGVS.AllowUserToDeleteRows = false;
             dgvActiveMsgToAGVS.AutoGenerateColumns = false;
             dgvActiveMsgToAGVS.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvActiveMsgToAGVS.BackgroundColor = Color.Black;
             dgvActiveMsgToAGVS.CellBorderStyle = DataGridViewCellBorderStyle.Sunken;
             dgvActiveMsgToAGVS.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvActiveMsgToAGVS.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn6, secondaryMessageSMLDataGridViewTextBoxColumn1 });
@@ -352,9 +365,10 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.BackColor = Color.Aquamarine;
+            label2.BackColor = Color.DarkSlateGray;
             label2.BorderStyle = BorderStyle.FixedSingle;
             label2.Dock = DockStyle.Fill;
+            label2.ForeColor = Color.White;
             label2.Location = new Point(1, 1);
             label2.Margin = new Padding(0);
             label2.Name = "label2";
@@ -365,9 +379,10 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.BackColor = Color.Wheat;
+            label4.BackColor = Color.DarkSlateGray;
             label4.BorderStyle = BorderStyle.FixedSingle;
             label4.Dock = DockStyle.Fill;
+            label4.ForeColor = Color.White;
             label4.Location = new Point(1, 151);
             label4.Margin = new Padding(0);
             label4.Name = "label4";
@@ -378,9 +393,10 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.BackColor = Color.Aquamarine;
+            label3.BackColor = Color.DarkSlateGray;
             label3.BorderStyle = BorderStyle.FixedSingle;
             label3.Dock = DockStyle.Fill;
+            label3.ForeColor = Color.White;
             label3.Location = new Point(367, 1);
             label3.Margin = new Padding(0);
             label3.Name = "label3";
@@ -391,9 +407,10 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.BackColor = Color.Wheat;
+            label5.BackColor = Color.DarkSlateGray;
             label5.BorderStyle = BorderStyle.FixedSingle;
             label5.Dock = DockStyle.Fill;
+            label5.ForeColor = Color.White;
             label5.Location = new Point(367, 151);
             label5.Margin = new Padding(0);
             label5.Name = "label5";
