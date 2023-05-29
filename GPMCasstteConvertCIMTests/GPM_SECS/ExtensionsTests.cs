@@ -31,11 +31,11 @@ namespace GPMCasstteConvertCIM.GPM_SECS.Tests
         [TestMethod()]
         public void TryGetConnectRequestAckResultTest()
         {
-            SECSMessageHelper.COMMACK ack = SECSMessageHelper.COMMACK.Denied_Try_Again;
+            COMMACK ack = COMMACK.Denied_Try_Again;
             string mdln = "test_mdln";
             string softrev = "test_softrev";
             var ackMsg = CommMsgHelper.EstablishCommunicationRequestAcknowledgeMessage(ack, mdln, softrev);
-            ackMsg.TryGetConnectRequestAckResult(out SECSMessageHelper.COMMACK _ack, out string _mdln, out string _softrev);
+            ackMsg.TryGetConnectRequestAckResult(out COMMACK _ack, out string _mdln, out string _softrev);
 
             Assert.AreEqual(ack, _ack);
             Assert.AreEqual(mdln, _mdln);
@@ -45,29 +45,29 @@ namespace GPMCasstteConvertCIM.GPM_SECS.Tests
         [TestMethod()]
         public void TryGetOnlineRequestAckResultTest()
         {
-            var msg = OnOffLineMsgHelper.OnLineRequestAcknowledgeMessage(SECSMessageHelper.ONLACK.Already_Online);
-            msg.TryGetOnlineRequestAckResult(out SECSMessageHelper.ONLACK _ack);
-            Assert.AreEqual(SECSMessageHelper.ONLACK.Already_Online, _ack);
+            var msg = OnOffLineMsgHelper.OnLineRequestAcknowledgeMessage(ONLACK.Already_Online);
+            msg.TryGetOnlineRequestAckResult(out ONLACK _ack);
+            Assert.AreEqual(ONLACK.Already_Online, _ack);
 
-            msg = OnOffLineMsgHelper.OnLineRequestAcknowledgeMessage(SECSMessageHelper.ONLACK.Accepted);
+            msg = OnOffLineMsgHelper.OnLineRequestAcknowledgeMessage(ONLACK.Accepted);
             msg.TryGetOnlineRequestAckResult(out _ack);
-            Assert.AreEqual(SECSMessageHelper.ONLACK.Accepted, _ack);
+            Assert.AreEqual(ONLACK.Accepted, _ack);
 
-            msg = OnOffLineMsgHelper.OnLineRequestAcknowledgeMessage(SECSMessageHelper.ONLACK.Not_Allowed);
+            msg = OnOffLineMsgHelper.OnLineRequestAcknowledgeMessage(ONLACK.Not_Allowed);
             msg.TryGetOnlineRequestAckResult(out _ack);
-            Assert.AreEqual(SECSMessageHelper.ONLACK.Not_Allowed, _ack);
+            Assert.AreEqual(ONLACK.Not_Allowed, _ack);
         }
 
         [TestMethod()]
         public void TryGetEventReportAckResultTest()
         {
-            var ackMsg = EVENTRPMsgHelper.ACK6(SECSMessageHelper.ACKC6.Accpeted);
-            ackMsg.TryGetEventReportAckResult(out SECSMessageHelper.ACKC6 _ack);
-            Assert.AreEqual(SECSMessageHelper.ACKC6.Accpeted, _ack);
+            var ackMsg = EVENTRPMsgHelper.ACK6(ACKC6.Accpeted);
+            ackMsg.TryGetEventReportAckResult(out ACKC6 _ack);
+            Assert.AreEqual(ACKC6.Accpeted, _ack);
 
-            ackMsg = EVENTRPMsgHelper.ACK6(SECSMessageHelper.ACKC6.System_Error);
+            ackMsg = EVENTRPMsgHelper.ACK6(ACKC6.System_Error);
             ackMsg.TryGetEventReportAckResult(out _ack);
-            Assert.AreEqual(SECSMessageHelper.ACKC6.System_Error, _ack);
+            Assert.AreEqual(ACKC6.System_Error, _ack);
         }
         [TestMethod()]
         public void TryGetEventReportAckResultTest1()
