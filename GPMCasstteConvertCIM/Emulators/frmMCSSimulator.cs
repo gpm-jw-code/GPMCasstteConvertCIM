@@ -34,9 +34,9 @@ namespace GPMCasstteConvertCIM
                 var crMsg = MsgHelper.COMMUNICATION.EstablishCommunicationRequestMessage("Model_SN_123", "v1.2.3");
                 var secondMesg = await SECSEmulatorManager.mcsEmulator.secsIF.secsGem.SendAsync(crMsg);
 
-                if (secondMesg.TryGetConnectRequestAckResult(out MsgHelper.COMMACK ack, out string _mdln, out string softrev))
+                if (secondMesg.TryGetConnectRequestAckResult(out COMMACK ack, out string _mdln, out string softrev))
                 {
-                    if (ack != MsgHelper.COMMACK.Accepted)
+                    if (ack != COMMACK.Accepted)
                     {
                         MessageBox.Show($"Connect Establish Fail..{ack.ToString()}");
                         return;

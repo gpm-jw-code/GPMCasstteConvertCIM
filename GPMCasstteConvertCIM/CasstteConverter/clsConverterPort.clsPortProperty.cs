@@ -1,4 +1,5 @@
-﻿using static GPMCasstteConvertCIM.GPM_SECS.SECSMessageHelper;
+﻿using GPMCasstteConvertCIM.GPM_SECS;
+using static GPMCasstteConvertCIM.GPM_SECS.SECSMessageHelper;
 
 namespace GPMCasstteConvertCIM.CasstteConverter
 {

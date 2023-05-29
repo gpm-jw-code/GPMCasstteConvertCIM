@@ -174,5 +174,33 @@ namespace GPMCasstteConvertCIM.GPM_SECS
             }
         }
 
+        public static bool IsAGVSTransferCompletedReport(this SecsMessage msg, out string port_id, out string carrier_id)
+        {
+            port_id = carrier_id = string.Empty;
+
+            if (msg.S != 6 && msg.F != 11)
+                return false;
+            try
+            {
+                var item_check = msg.SecsItem.Items[1];
+                var ce_id = item_check.FirstValue<ushort>();
+                bool isCEID107 = ce_id == 107;
+
+                if (isCEID107)
+                {
+                    var paramsItems = msg.SecsItem.Items[2][0][1];
+                    carrier_id = paramsItems.Items[1].GetString();
+                    port_id = paramsItems.Items[2].GetString();
+                }
+
+                return isCEID107;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+
     }
 }

@@ -68,7 +68,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
 
 
             Utility.SystemLogger.SecsTransferLog($"Start Transfer To MCS");
-            
+
             SecsMessage secondaryMsgFromMCS = await MCS.SendMsg(_primaryMessage_FromAGVS);
 
 
@@ -76,7 +76,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
             {
                 //TODO if has 2004 , add port data
             }
-           
+
 
             if (_primaryMessage_FromAGVS.ReplyExpected)
             {
@@ -104,6 +104,14 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                 {
                     if (ack6 == 0)
                         OnAGVSOffline?.Invoke("", EventArgs.Empty);
+                }
+                if (_primaryMessage_FromAGVS.IsAGVSTransferCompletedReport(out string port_id, out string carrier_id))
+                {
+                    var port = DevicesManager.GetPortByPortID(port_id);
+                    if (port != null)
+                    {
+                        port.TransferCompletedInvoke(carrier_id);
+                    }
                 }
             }
             catch (Exception ex)

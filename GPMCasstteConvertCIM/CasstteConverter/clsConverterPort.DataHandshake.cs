@@ -17,6 +17,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         private SECSBase MCS => DevicesManager.secs_host_for_mcs;
         private bool CarrierWaitIn_Reply = false;
         private bool CarrierWaitIn_Accept = false;
+        private bool Carrier_TransferCompletedFlag = false;
 
         /// <summary>
         /// 
@@ -292,15 +293,21 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             {
                 return false;
             }
-
-
         }
 
         private void InstalledAndWaitOutSECSReport(bool installedRpt = true)
         {
             _ = Task.Factory.StartNew(async () =>
             {
-                await Task.Delay(1500);
+                //確保Wait Out Event Report在 Transfer Completed 之後
+                CancellationTokenSource cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+                while (!Carrier_TransferCompletedFlag)
+                {
+                    if (cts.IsCancellationRequested)
+                        break;
+                    await Task.Delay(1);
+                }
+                Carrier_TransferCompletedFlag = false;
                 try
                 {
                     Utility.SystemLogger.Info($"Carrier Wait Out Report to MCS");
@@ -325,8 +332,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         public async Task<bool> CarrierWaitInReply(int EQ_T_timeout = 5000)
         {
             Utility.SystemLogger.Info($"等待MCS Accept Carrier Wait IN Request..");
-
-
             //送訊息給SECS HOST 
             //installed
             var response = await MCS.SendMsg(EventsMsg.CarrierInstalled(WIPINFO_BCR_ID, Properties.PortID, EPortAutoStatus == AUTO_MANUAL_MODE.AUTO));
@@ -367,7 +372,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
             EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_in_reply_address, false);
             EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_in_result_flag_address, false);
-
 
             if (!wait_in_accept_and_agv_will_transfer_in)
                 InstalledAndWaitOutSECSReport(installedRpt: false);
@@ -418,6 +422,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             OnMCSNoTransferNotify?.Invoke(this, new Tuple<string, string>(carrier_id, cstid));
         }
 
-
+        internal void TransferCompletedInvoke(string carrier_id)
+        {
+            if (WIPINFO_BCR_ID == carrier_id)
+                Carrier_TransferCompletedFlag = true;
+        }
     }
 }
