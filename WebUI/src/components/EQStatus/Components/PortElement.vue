@@ -1,0 +1,159 @@
+<template>
+  <div class="port-element border mx-3 my-1" v-bind:style="bgStyle">
+    <div class="port-info d-flex flex-row border">
+      <div v-bind:style="portIDStyle">
+        <b>{{data.PortID}}</b>
+      </div>
+      <div class="flex-fill"></div>
+      <div class="auto-states">
+        <b-button
+          class="border"
+          squared
+          :variant="data.AutoState==1? 'secondary':'warning'"
+          size="sm"
+        >MANUAL</b-button>
+        <b-button
+          class="border"
+          squared
+          :variant="data.AutoState==1? 'success':'secondary'"
+          size="sm"
+        >AUTO</b-button>
+      </div>
+    </div>
+    <div class="d-flex flex-row">
+      <div class="port-exist-state border rounded m-3 p-1">
+        <!-- {{ data.PortExist?'EXIST':'EMPTY' }} -->
+        <div v-show="data.DIOSignalsState.PortExist" class="img exist"></div>
+        <div v-show="!data.DIOSignalsState.PortExist" class="img empty">Empty</div>
+      </div>
+
+      <div class="io-states d-flex flex-column mt-3">
+        <div class="eq-io d-flex flex-row m-1">
+          <div class="io-title"># Port Type</div>
+          <el-tag
+            effect="dark"
+            :type="data.PortType==0?'success':'warning'"
+          >{{data.PortType==0?'INPUT':'OUTPUT'}}</el-tag>
+        </div>
+
+        <div class="eq-io d-flex flex-row m-1">
+          <div class="io-title"># Carrier ID</div>
+          <div v-if="data.Carrier_ID===''">(None)</div>
+          <el-tag v-else effect="dark">{{data.Carrier_ID}}</el-tag>
+          <el-button class="mx-2" @click="RemoveCarrierID" size="small">清帳</el-button>
+        </div>
+
+        <div class="eq-io d-flex flex-row m-1">
+          <div class="io-title"># 交握IO</div>
+          <el-tag effect="dark" :type="data.HSSignalsState.L_REQ?'success':'danger'">L_REQ</el-tag>
+          <el-tag effect="dark" :type="data.HSSignalsState.U_REQ?'success':'danger'">U_REQ</el-tag>
+          <el-tag effect="dark" :type="data.HSSignalsState.EQ_READY?'success':'danger'">EQ_READY</el-tag>
+          <el-tag effect="dark" :type="data.HSSignalsState.EQ_BUSY?'success':'danger'">EQ_BUSY</el-tag>
+        </div>
+
+        <!-- <div class="agvs-io d-flex flex-row m-1">
+          <div class="io-title">AGV Handshake IO</div>
+          <el-tag effect="dark" :type="data.AGVSignals.VALID?'success':'danger'">VALID</el-tag>
+          <el-tag effect="dark" :type="data.AGVSignals.TR_REQ?'success':'danger'">TR_REQ</el-tag>
+          <el-tag effect="dark" :type="data.AGVSignals.AGV_READY?'success':'danger'">AGV_READY</el-tag>
+          <el-tag effect="dark" :type="data.AGVSignals.BUSY?'success':'danger'">BUSY</el-tag>
+          <el-tag effect="dark" :type="data.AGVSignals.COMPT?'success':'danger'">COMPT</el-tag>
+        </div>-->
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import param from '@/gpm_param.js'
+export default {
+  props: {
+    data: {
+      type: Object,
+      default() {
+        return {
+          PortID: "3F_AGVC02_PORT_2_5",
+          IsInService: true,
+          PortType: 0,
+          DIOSignalsState: {
+            LoadRequest: false,
+            UnloadRequest: false,
+            PortExist: false,
+            PortStatusDown: true,
+            LDUpPose: false,
+            LDDownPose: true
+          },
+          HSSignalsState: {
+            L_REQ: false,
+            U_REQ: false,
+            EQ_BUSY: false,
+            EQ_READY: false
+          }
+        }
+      }
+    },
+  },
+  computed: {
+    bgStyle() {
+      return {
+        backgroundColor: this.data.IsInService ? 'white' : 'pink'
+      }
+    },
+    portIDStyle() {
+      return {
+        color: this.data.IsInService ? 'rgb(13, 110, 253)' : 'red'
+      }
+    }
+  },
+  methods: {
+    RemoveCarrierID() {
+      let ws = new WebSocket(`${param.websocket_url}/ui/remove_carrier_data`);
+      ws.onopen = (ev) => {
+        ws.send(JSON.stringify({
+          PortID: this.data.PortID,
+          CarrierID: ''
+        }));
+      }
+    }
+  }
+}
+</script>
+
+<style scoped lang="scss">
+.port-element {
+  border-radius: 10px;
+
+  .port-info {
+    font-size: 22px;
+    padding: 12px;
+    border-radius: 2px;
+  }
+  .port-exist-state {
+    .img {
+      width: 120px;
+      height: 120px;
+      border-radius: 10px;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+    .exist {
+      background-image: url("@/assets/images/port-exist.png");
+      background-color: seagreen;
+    }
+    .empty {
+      background-image: none;
+      background-color: rgb(202, 202, 202);
+      color: white;
+    }
+  }
+  .io-states {
+    .el-tag {
+      margin-right: 3px;
+    }
+    .io-title {
+      width: 100px;
+      text-align: left;
+    }
+  }
+}
+</style>
