@@ -8,6 +8,7 @@ using GPMCasstteConvertCIM.Utilities;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Secs4Net;
+using Secs4Net.Sml;
 using System.Diagnostics;
 using System.DirectoryServices.ActiveDirectory;
 using System.Windows.Forms.Design;
@@ -235,13 +236,24 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     _CarrierWaitINSystemRequest = value;
                     if (_CarrierWaitINSystemRequest)
                     {
-                        Utility.SystemLogger.Info("Carrier Wait In Request bit ON ");
 
                         Task.Factory.StartNew(async () =>
                         {
+                            InstalledReport();
+                            //先等轉換架Load.Unload Request ON 
+                            bool lduld_req = await WaitLoadUnloadRequestON();
+                            if (!lduld_req)
+                                return;
+
+                            bool wait_in_accept = await ReportCarrierWaitInToMCS();
+
                             Utility.SystemLogger.Info($"Carrier Wait In HS Start");
 
-                            (bool confirm, ALARM_CODES alarm_code) result = await CarrierWaitInReply(10000);
+                            (bool confirm, ALARM_CODES alarm_code) result = await CarrierWaitInReply(wait_in_accept, 10000);
+
+                            if (!wait_in_accept)
+                                WaitOutSECSReport();
+
                             if (!result.confirm)
                             {
                                 AlarmManager.AddAlarm(result.alarm_code, PortNameWithEQName);
@@ -255,6 +267,21 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 }
             }
         }
+
+        private async Task<bool> ReportCarrierWaitInToMCS()
+        {
+            SecsMessage? msc_reply = await MCS.SendMsg(EventsMsg.CarrierWaitIn(WIPINFO_BCR_ID, Properties.PortID, ""));//TODO Zone Name ?
+            bool mcs_accpet = msc_reply.SecsItem.FirstValue<byte>() == 0;
+            Utility.SystemLogger.Info($"MCS Wait IN ACK:{mcs_accpet} {msc_reply.ToSml()}");
+            bool wait_in_accept_and_agv_will_transfer_in = false;
+            if (mcs_accpet)
+                wait_in_accept_and_agv_will_transfer_in = await WaitTransferTaskDownloaded();
+            else
+                wait_in_accept_and_agv_will_transfer_in = false;
+
+            return wait_in_accept_and_agv_will_transfer_in;
+        }
+
         private bool _CarrierWaitOUTSystemRequest;
         public bool CarrierWaitOUTSystemRequest
         {
@@ -267,6 +294,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     {
                         Previous_WIPINFO_BCR_ID = WIPINFO_BCR_ID;
                         CarrierInstallTime = DateTime.Now;
+
+                        InstalledReport();
+                        WaitOutSECSReport();
+
                         Utility.SystemLogger.Info("Carrier Wait out Request bit ON ");
 
                         Task.Factory.StartNew(async () =>
@@ -306,6 +337,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     _CarrierRemovedCompletedReport = value;
                     if (_CarrierRemovedCompletedReport)
                     {
+                        ReportCarrierRemovedCompToMCS();
                         CarrierRemovedCompletedReply();
 
                     }
