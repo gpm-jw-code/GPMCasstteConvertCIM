@@ -312,7 +312,9 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     await Task.Delay(1);
                 }
                 EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_out_reply_address, false);
-                InstalledAndWaitOutSECSReport();
+
+                InstalledReport();
+                WaitOutSECSReport();
 
                 Utility.SystemLogger.Info($"Carrier Wait Out HS Done");
 
@@ -323,8 +325,12 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 return false;
             }
         }
-
-        private void InstalledAndWaitOutSECSReport(bool installedRpt = true)
+        private async void InstalledReport()
+        {
+            Utility.SystemLogger.Info($"Carrier Installed Report to MCS");
+            SecsMessage install_response = await MCS.SendMsg(EventsMsg.CarrierInstalled(WIPINFO_BCR_ID, Properties.PortID, EPortAutoStatus == AUTO_MANUAL_MODE.AUTO));
+        }
+        private void WaitOutSECSReport()
         {
             _ = Task.Factory.StartNew(async () =>
             {
@@ -339,11 +345,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 Carrier_TransferCompletedFlag = false;
                 try
                 {
-                    if (installedRpt)
-                    {
-                        Utility.SystemLogger.Info($"Carrier Installed Report to MCS");
-                        SecsMessage install_response = await MCS.SendMsg(EventsMsg.CarrierInstalled(WIPINFO_BCR_ID, Properties.PortID, EPortAutoStatus == AUTO_MANUAL_MODE.AUTO));
-                    }
                     SecsMessage response = await MCS.SendMsg(EventsMsg.CarrierWaitOut(WIPINFO_BCR_ID, Properties.PortID, ""));//TODO Zone Name ?
                     if (response.IsS9F7())
                         AlarmManager.AddWarning(ALARM_CODES.MCS_CARRIER_WAITOUT_REPORT_FAIL, Properties.PortID);
@@ -357,8 +358,14 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             });
         }
 
-        public async Task<bool> CarrierWaitInReply(int EQ_T_timeout = 5000)
+        public async Task<(bool confirm, ALARM_CODES alarm_code)> CarrierWaitInReply(int EQ_T_timeout = 5000)
         {
+            InstalledReport();
+            //先等轉換架Load.Unload Request ON 
+            bool result = await WaitLoadUnloadRequestON();
+            if (!result)
+                return (false, ALARM_CODES.WAIT_Load_Unload_Request_Bit_ON_When_Carrier_WaitIn_Reply);
+
             Utility.SystemLogger.Info($"等待MCS Accept Carrier Wait IN Request..");
             //送訊息給SECS HOST 
             //installed
@@ -368,9 +375,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             bool mcs_accpet = msc_reply.SecsItem.FirstValue<byte>() == 0;
 
             Utility.SystemLogger.Info($"MCS Wait IN ACK:{mcs_accpet} {msc_reply.ToSml()}");
-
             //Wait In 接受後，也要等待MCS下命令給AGVS 才是真的Accept. 
-            //Solution : 
             bool wait_in_accept_and_agv_will_transfer_in = false;
             if (mcs_accpet)
                 wait_in_accept_and_agv_will_transfer_in = await WaitTransferTaskDownloaded();
@@ -402,10 +407,28 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_in_result_flag_address, false);
 
             if (!wait_in_accept_and_agv_will_transfer_in)
-                InstalledAndWaitOutSECSReport(installedRpt: false);
+                WaitOutSECSReport();
 
-            return timeout;
+            return (!timeout, timeout ? ALARM_CODES.CarrierWaitIn_HS_EQ_Timeout : ALARM_CODES.None);
 
+        }
+
+        internal async Task<bool> WaitLoadUnloadRequestON()
+        {
+            Utility.SystemLogger.Info("Wait_Load/Unload Request ON...");
+            CancellationTokenSource cancelWaitCts = new CancellationTokenSource(TimeSpan.FromSeconds(20));
+            while (!LoadRequest && !UnloadRequest)
+            {
+                if (cancelWaitCts.IsCancellationRequested)
+                {
+                    Utility.SystemLogger.Warning("Wait Load/Unload Request Bit ON TIMEOUT (20)  when MCS Transfer command downloaded.");
+                    AlarmManager.AddAlarm(ALARM_CODES.WAIT_Load_Unload_Request_Bit_ON_When_MCS_Transfering, Properties.PortID);
+                    return false;
+                }
+                await Task.Delay(1);
+            }
+            Utility.SystemLogger.Info("Load/Unload Request Bit ON.. contiune");
+            return true;
         }
 
         private bool NoTransferNotifyFlag = false;

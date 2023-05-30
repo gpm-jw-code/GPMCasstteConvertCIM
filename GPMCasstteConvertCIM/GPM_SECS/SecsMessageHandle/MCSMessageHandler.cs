@@ -29,7 +29,11 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                 }
                 if (cmd == RCMD.TRANSFER)
                 {
-                    await TransferHandler(parameterGroups, _primaryMessageWrapper);
+                    (bool confirm, ALARM_CODES alarmcode) handleResult = await TransferHandler(parameterGroups, _primaryMessageWrapper);
+                    //if (!handleResult.confirm)
+                    //{
+                    //    return;
+                    //}
                 }
                 if (cmd == RCMD.NOTRANSFERNOTIFY)
                 {
@@ -42,7 +46,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
 
         }
 
-        private static async Task TransferHandler(Item parameterGroups, PrimaryMessageWrapper primaryMessageWrapper)
+        private static async Task<(bool confirm, ALARM_CODES alarmcode)> TransferHandler(Item parameterGroups, PrimaryMessageWrapper primaryMessageWrapper)
         {
             Item transfer_info = parameterGroups.Items[1];
             string carrier_id = transfer_info.Items[1].Items[0].Items[1].GetString();
@@ -51,15 +55,11 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
             if (port_match_carrier_id != null)
             {
                 port_match_carrier_id.CstTransferInvoke();
-
-                Utility.SystemLogger.Info("Wait_Load/Unload Request ON...");
-                while (!port_match_carrier_id.LoadRequest && !port_match_carrier_id.UnloadRequest)
-                {
-                    await Task.Delay(1);
-                }
-                Utility.SystemLogger.Info("Load/Unload Request Bit ON.. contiune");
+                bool success = await port_match_carrier_id.WaitLoadUnloadRequestON();
+                if (!success)
+                    return (false, ALARM_CODES.WAIT_Load_Unload_Request_Bit_ON_When_MCS_Transfering);
             }
-
+            return (true, ALARM_CODES.None);
         }
 
         private static void NoTransferHandler(PrimaryMessageWrapper _primaryMessageWrapper)

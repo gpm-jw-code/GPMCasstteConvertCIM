@@ -239,16 +239,16 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
                         Task.Factory.StartNew(async () =>
                         {
-                            Utilities.Utility.SystemLogger.Info($"Carrier Wait In HS Start");
+                            Utility.SystemLogger.Info($"Carrier Wait In HS Start");
 
-                            bool timeout = await CarrierWaitInReply(10000);
-                            if (timeout)
+                            (bool confirm, ALARM_CODES alarm_code) result = await CarrierWaitInReply(10000);
+                            if (!result.confirm)
                             {
-                                AlarmManager.AddAlarm(ALARM_CODES.CarrierWaitIn_HS_EQ_Timeout, PortNameWithEQName);
+                                AlarmManager.AddAlarm(result.alarm_code, PortNameWithEQName);
                             }
                             else
                             {
-                                Utilities.Utility.SystemLogger.Info($"Carrier Wait In HS Finish");
+                                Utility.SystemLogger.Info($"Carrier Wait In HS Finish");
                             }
                         });
                     }
