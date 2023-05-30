@@ -128,6 +128,7 @@ namespace GPMCasstteConvertCIM.Forms
 
             SystemAPI systemAPI = new SystemAPI();
             systemAPI.Start();
+
             WebsocketMiddleware.ServerBuild();
             uscAlarmTable1.BindData(AlarmManager.AlarmsList);
             AlarmManager.onAlarmAdded += (sender, arg) =>

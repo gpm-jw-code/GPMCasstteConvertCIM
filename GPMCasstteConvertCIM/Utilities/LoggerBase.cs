@@ -147,7 +147,7 @@ namespace GPMCasstteConvertCIM.Utilities
 
         public void Error(string msg, Exception? ex, bool show_in_richbox = true)
         {
-            AppendDateTime(out DateTime time,show_in_richbox);
+            AppendDateTime(out DateTime time, show_in_richbox);
             if (show_in_richbox)
                 _richTextBox?.Invoke((MethodInvoker)delegate
                 {
@@ -194,6 +194,7 @@ namespace GPMCasstteConvertCIM.Utilities
                              return;
                          }
                          string folder = Path.Combine(saveFolder, logItem.level.ToString());
+                         folder = Path.Combine(folder, DateTime.Now.ToString("yyyy-MM-dd"));
                          if (!Directory.Exists(folder))
                              Directory.CreateDirectory(folder);
                          string log_file = Path.Combine(folder, $"{DateTime.Now.ToString(FileTimeFormat)}.log");

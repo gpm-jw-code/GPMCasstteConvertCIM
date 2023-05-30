@@ -117,25 +117,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         {
             Task tk = new Task(async () =>
             {
-                var msg = new SecsMessage(6, 11)
-                {
-                    Name = "Port Out of Service",
-                    SecsItem = Item.L(
-                                      Item.U4(DataID_Cylic_Use),//DATAID,
-                                      Item.U2((ushort)CEID.PortOutOfServiceReport), //CEID
-                                      Item.L(
-                                          Item.L(
-                                           Item.U2(12),//RPTID,
-                                           Item.L(
-                                               Item.A(Properties.PortID)
-                                             )
-                                           )
-                                        )
-                                     )
-                };
-
-                SecsMessage? replyMsg = null;
-                replyMsg = await MCS.SendMsg(msg);
+                SecsMessage? replyMsg = await MCS.SendMsg(EventsMsg.PortService(Properties.PortID, false));
                 if (replyMsg.IsS9F7())
                     AlarmManager.AddWarning(ALARM_CODES.MCS_PORT_OUT_SERVICE_REPORT_FAIL, Properties.PortID);
                 else
@@ -154,24 +136,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         {
             Task tk = new Task(async () =>
             {
-                var msg = new SecsMessage(6, 11)
-                {
-                    Name = "Port In Service",
-                    SecsItem = Item.L(
-                                      Item.U4(DataID_Cylic_Use),//DATAID,
-                                      Item.U2((ushort)CEID.PortInServiceReport), //CEID
-                                      Item.L(
-                                          Item.L(
-                                           Item.U2(12),//RPTID,
-                                           Item.L(
-                                               Item.A(Properties.PortID)
-                                             )
-                                           )
-                                        )
-                                     )
-                };
-                SecsMessage? replyMsg = null;
-                replyMsg = await MCS.SendMsg(msg);
+                SecsMessage? replyMsg = await MCS.SendMsg(EventsMsg.PortService(Properties.PortID, true));
                 if (replyMsg.IsS9F7())
                     AlarmManager.AddWarning(ALARM_CODES.MCS_PORT_IN_SERVICE_REPORT_FAIL, Properties.PortID);
                 else
@@ -187,25 +152,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         {
             Task tk = new Task(async () =>
             {
-                var msg = new SecsMessage(6, 11)
-                {
-                    Name = "Port Type In",
-                    SecsItem = Item.L(
-                              Item.U4(DataID_Cylic_Use),//DATAID,
-                              Item.U2((ushort)CEID.PortTypeInputReport), //CEID
-                              Item.L(
-                                  Item.L(
-                                   Item.U2(12),//RPTID,
-                                   Item.L(
-                                       Item.A(Properties.PortID)
-                                     )
-                                   )
-                                )
-                             )
-                };
-                SecsMessage? replyMsg = null;
-
-                replyMsg = await MCS.SendMsg(msg);
+                var replyMsg = await MCS.SendMsg(EventsMsg.PortType(Properties.PortID, PortUnitType.Input));
                 if (replyMsg.IsS9F7())
                     AlarmManager.AddWarning(ALARM_CODES.MCS_PORT_TYPE_INPUT_REPORT_FAIL, Properties.PortID);
                 else
@@ -222,24 +169,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         {
             Task tk = new Task(async () =>
              {
-                 var msg = new SecsMessage(6, 11)
-                 {
-                     Name = "Port Type Out",
-                     SecsItem = Item.L(
-                               Item.U4(DataID_Cylic_Use),//DATAID,
-                               Item.U2((ushort)CEID.PortTypeOutputReport), //CEID
-                               Item.L(
-                                   Item.L(
-                                    Item.U2(12),//RPTID,
-                                    Item.L(
-                                        Item.A(Properties.PortID)
-                                      )
-                                    )
-                                 )
-                              )
-                 };
-                 SecsMessage? replyMsg = null;
-                 replyMsg = await MCS.SendMsg(msg);
+                 var replyMsg = await MCS.SendMsg(EventsMsg.PortType(Properties.PortID, PortUnitType.Output));
                  if (replyMsg.IsS9F7())
                      AlarmManager.AddWarning(ALARM_CODES.MCS_PORT_TYPE_OUTPUT_REPORT_FAIL, Properties.PortID);
                  else
@@ -255,22 +185,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         public async Task CarrierRemovedCompletedReply()
         {
             var carrier_removed_com_reply_address = PortCIMBitAddress[PROPERTY.Carrier_Removed_Completed_Report_Reply];
-
-            //上報MCS
-            _ = Task.Factory.StartNew(async () =>
-            {
-                try
-                {
-                    var response = await MCS.SendMsg(EventsMsg.CarrierRemovedCompleted(Previous_WIPINFO_BCR_ID, Properties.PortID, "", EPortAutoStatus == AUTO_MANUAL_MODE.AUTO)); //TODO Zone Name ?
-                    if (response.IsS9F7())
-                        AlarmManager.AddWarning(ALARM_CODES.MCS_CARRIER_REMOVED_COMPLETED_REPORT_FAIL, Properties.PortID);
-                }
-                catch (Exception ex)
-                {
-                    AlarmManager.AddWarning(ALARM_CODES.MCS_CARRIER_REMOVED_COMPLETED_REPORT_FAIL, Properties.PortID);
-                }
-            });
-
             EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_removed_com_reply_address, true);
             CancellationTokenSource cst = new CancellationTokenSource(TimeSpan.FromSeconds(5000));
             while (CarrierRemovedCompletedReport)
@@ -285,6 +199,23 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_removed_com_reply_address, false);
         }
 
+        internal void ReportCarrierRemovedCompToMCS()
+        {
+            _ = Task.Factory.StartNew(async () =>
+            {
+                try
+                {
+                    var response = await MCS.SendMsg(EventsMsg.CarrierRemovedCompleted(Previous_WIPINFO_BCR_ID, Properties.PortID, EPortAutoStatus == AUTO_MANUAL_MODE.AUTO)); //TODO Zone Name ?
+                    if (response.IsS9F7())
+                        AlarmManager.AddWarning(ALARM_CODES.MCS_CARRIER_REMOVED_COMPLETED_REPORT_FAIL, Properties.PortID);
+                }
+                catch (Exception ex)
+                {
+                    AlarmManager.AddWarning(ALARM_CODES.MCS_CARRIER_REMOVED_COMPLETED_REPORT_FAIL, Properties.PortID);
+                }
+            });
+        }
+
 
         /// <summary>
         ///  EQ->CIM->MCS : Carrier Wait out 
@@ -293,8 +224,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         /// <returns></returns>
         public async Task<bool> CarrierWaitOutReply(int EQ_T_timeout = 5000)
         {
-            Utility.SystemLogger.Warning($"Carrier Wait Out HS Start_2 CHeck");
-
             if (PortCIMBitAddress.TryGetValue(PROPERTY.Carrier_WaitOut_System_Reply, out string carrier_wait_out_reply_address))
             {
                 EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_out_reply_address, true);
@@ -312,7 +241,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     await Task.Delay(1);
                 }
                 EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_out_reply_address, false);
-                InstalledAndWaitOutSECSReport();
+
 
                 Utility.SystemLogger.Info($"Carrier Wait Out HS Done");
 
@@ -323,8 +252,12 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 return false;
             }
         }
-
-        private void InstalledAndWaitOutSECSReport(bool installedRpt = true)
+        private async void InstalledReport()
+        {
+            Utility.SystemLogger.Info($"Carrier Installed Report to MCS");
+            SecsMessage install_response = await MCS.SendMsg(EventsMsg.CarrierInstalled(WIPINFO_BCR_ID, Properties.PortID, EPortAutoStatus == AUTO_MANUAL_MODE.AUTO));
+        }
+        private void WaitOutSECSReport()
         {
             _ = Task.Factory.StartNew(async () =>
             {
@@ -339,12 +272,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 Carrier_TransferCompletedFlag = false;
                 try
                 {
-                    Utility.SystemLogger.Info($"Carrier Wait Out Report to MCS");
-
-                    if (installedRpt)
-                    {
-                        SecsMessage install_response = await MCS.SendMsg(EventsMsg.CarrierInstalled(WIPINFO_BCR_ID, Properties.PortID, EPortAutoStatus == AUTO_MANUAL_MODE.AUTO));
-                    }
                     SecsMessage response = await MCS.SendMsg(EventsMsg.CarrierWaitOut(WIPINFO_BCR_ID, Properties.PortID, ""));//TODO Zone Name ?
                     if (response.IsS9F7())
                         AlarmManager.AddWarning(ALARM_CODES.MCS_CARRIER_WAITOUT_REPORT_FAIL, Properties.PortID);
@@ -358,36 +285,16 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             });
         }
 
-        public async Task<bool> CarrierWaitInReply(int EQ_T_timeout = 5000)
+        public async Task<(bool confirm, ALARM_CODES alarm_code)> CarrierWaitInReply(bool wait_in_accept, int EQ_T_timeout = 5000)
         {
+
             Utility.SystemLogger.Info($"等待MCS Accept Carrier Wait IN Request..");
-            //送訊息給SECS HOST 
-            //installed
-            var response = await MCS.SendMsg(EventsMsg.CarrierInstalled(WIPINFO_BCR_ID, Properties.PortID, EPortAutoStatus == AUTO_MANUAL_MODE.AUTO));
-            //wait in
-            SecsMessage? msc_reply = await MCS.SendMsg(EventsMsg.CarrierWaitIn(WIPINFO_BCR_ID, Properties.PortID, ""));//TODO Zone Name ?
-            bool mcs_accpet = msc_reply.SecsItem.FirstValue<byte>() == 0;
-
-            Utility.SystemLogger.Info($"MCS Wait IN ACK:{mcs_accpet} {msc_reply.ToSml()}");
-
-            //Wait In 接受後，也要等待MCS下命令給AGVS 才是真的Accept. 
-            //Solution : 
-            bool wait_in_accept_and_agv_will_transfer_in = false;
-            if (mcs_accpet)
-                wait_in_accept_and_agv_will_transfer_in = await WaitTransferTaskDownloaded();
-            else
-                wait_in_accept_and_agv_will_transfer_in = false;
-
             bool timeout = false;
-
-            PROPERTY wait_in_ = wait_in_accept_and_agv_will_transfer_in ? PROPERTY.Carrier_WaitIn_System_Accept : PROPERTY.Carrier_WaitIn_System_Refuse;
-
+            PROPERTY wait_in_ = wait_in_accept ? PROPERTY.Carrier_WaitIn_System_Accept : PROPERTY.Carrier_WaitIn_System_Refuse;
             string? carrier_wait_in_result_flag_address = PortCIMBitAddress[wait_in_];
             string? carrier_wait_in_reply_address = PortCIMBitAddress[PROPERTY.Carrier_WaitIn_System_Reply];
-
             EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_in_result_flag_address, true);
             EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_in_reply_address, true);
-
             Stopwatch sw = Stopwatch.StartNew();
             while (CarrierWaitINSystemRequest)
             {
@@ -402,11 +309,26 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_in_reply_address, false);
             EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_in_result_flag_address, false);
 
-            if (!wait_in_accept_and_agv_will_transfer_in)
-                InstalledAndWaitOutSECSReport(installedRpt: false);
+            return (!timeout, timeout ? ALARM_CODES.CarrierWaitIn_HS_EQ_Timeout : ALARM_CODES.None);
 
-            return timeout;
+        }
 
+        internal async Task<bool> WaitLoadUnloadRequestON()
+        {
+            Utility.SystemLogger.Info("Wait_Load/Unload Request ON...");
+            CancellationTokenSource cancelWaitCts = new CancellationTokenSource(TimeSpan.FromSeconds(20));
+            while (!LoadRequest && !UnloadRequest)
+            {
+                if (cancelWaitCts.IsCancellationRequested)
+                {
+                    Utility.SystemLogger.Warning("Wait Load/Unload Request Bit ON TIMEOUT (20)  when MCS Transfer command downloaded.");
+                    AlarmManager.AddAlarm(ALARM_CODES.WAIT_Load_Unload_Request_Bit_ON_When_MCS_Transfering, Properties.PortID);
+                    return false;
+                }
+                await Task.Delay(1);
+            }
+            Utility.SystemLogger.Info("Load/Unload Request Bit ON.. contiune");
+            return true;
         }
 
         private bool NoTransferNotifyFlag = false;

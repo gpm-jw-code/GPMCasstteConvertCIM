@@ -270,6 +270,7 @@
             // txbWIP_BCR_ID
             // 
             txbWIP_BCR_ID.BackColor = Color.Black;
+            txbWIP_BCR_ID.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
             txbWIP_BCR_ID.ForeColor = Color.Yellow;
             txbWIP_BCR_ID.Location = new Point(83, 216);
             txbWIP_BCR_ID.Name = "txbWIP_BCR_ID";
@@ -284,9 +285,9 @@
             label1.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
             label1.Location = new Point(7, 219);
             label1.Name = "label1";
-            label1.Size = new Size(74, 15);
+            label1.Size = new Size(63, 15);
             label1.TabIndex = 25;
-            label1.Text = "WIP BCR ID";
+            label1.Text = "Carrier ID";
             // 
             // timer1
             // 
@@ -301,13 +302,14 @@
             labUnloading.FlatStyle = FlatStyle.Flat;
             labUnloading.Font = new Font("Microsoft JhengHei UI", 7F, FontStyle.Regular, GraphicsUnit.Point);
             labUnloading.ForeColor = Color.White;
-            labUnloading.Location = new Point(422, 6);
+            labUnloading.Location = new Point(422, 199);
             labUnloading.Margin = new Padding(1);
             labUnloading.Name = "labUnloading";
             labUnloading.Size = new Size(58, 19);
             labUnloading.TabIndex = 35;
             labUnloading.Text = "Unloading";
             labUnloading.TextAlign = ContentAlignment.MiddleCenter;
+            labUnloading.Visible = false;
             // 
             // labLoading
             // 
@@ -317,13 +319,14 @@
             labLoading.FlatStyle = FlatStyle.Flat;
             labLoading.Font = new Font("Microsoft JhengHei UI", 7F, FontStyle.Regular, GraphicsUnit.Point);
             labLoading.ForeColor = Color.White;
-            labLoading.Location = new Point(362, 6);
+            labLoading.Location = new Point(422, 220);
             labLoading.Margin = new Padding(1);
             labLoading.Name = "labLoading";
             labLoading.Size = new Size(58, 19);
             labLoading.TabIndex = 36;
             labLoading.Text = "Loading";
             labLoading.TextAlign = ContentAlignment.MiddleCenter;
+            labLoading.Visible = false;
             // 
             // labAutoStatus
             // 
@@ -332,7 +335,7 @@
             labAutoStatus.FlatStyle = FlatStyle.Flat;
             labAutoStatus.Font = new Font("Microsoft JhengHei UI", 11F, FontStyle.Regular, GraphicsUnit.Point);
             labAutoStatus.ForeColor = Color.White;
-            labAutoStatus.Location = new Point(180, 6);
+            labAutoStatus.Location = new Point(184, 6);
             labAutoStatus.Margin = new Padding(1);
             labAutoStatus.Name = "labAutoStatus";
             labAutoStatus.Size = new Size(101, 42);
@@ -348,7 +351,7 @@
             labPortEventRepShow.FlatStyle = FlatStyle.Flat;
             labPortEventRepShow.Font = new Font("Microsoft JhengHei UI", 7F, FontStyle.Regular, GraphicsUnit.Point);
             labPortEventRepShow.ForeColor = Color.White;
-            labPortEventRepShow.Location = new Point(385, 255);
+            labPortEventRepShow.Location = new Point(385, 251);
             labPortEventRepShow.Margin = new Padding(1);
             labPortEventRepShow.Name = "labPortEventRepShow";
             labPortEventRepShow.Size = new Size(95, 39);
@@ -414,7 +417,7 @@
             label3.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label3.AutoSize = true;
             label3.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            label3.Location = new Point(428, 32);
+            label3.Location = new Point(428, 6);
             label3.Name = "label3";
             label3.Size = new Size(52, 15);
             label3.TabIndex = 41;

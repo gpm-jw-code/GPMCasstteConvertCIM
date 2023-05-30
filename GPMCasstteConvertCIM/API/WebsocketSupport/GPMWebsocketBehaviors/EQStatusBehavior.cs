@@ -1,4 +1,5 @@
-﻿using GPMCasstteConvertCIM.Devices;
+﻿using GPMCasstteConvertCIM.API.WebsocketSupport.ViewModel;
+using GPMCasstteConvertCIM.Devices;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -34,8 +35,42 @@ namespace GPMCasstteConvertCIM.API.WebsocketSupport.GPMWebsocketBehaviors
                         if (base.State == WebSocketState.Open)
                         {
 
-                            IEnumerable<CasstteConverter.Data.clsEQPData> eqdatas = DevicesManager.casstteConverters.Select(eq => eq.EQPData);
-                            string json = JsonConvert.SerializeObject(eqdatas);
+                            var viewData = DevicesManager.casstteConverters.Select(eqp => new EQPViewModel()
+                            {
+                                EqName = eqp.Name,
+                                InterfaceClock = eqp.EQPData.InterfaceClock,
+                                IsDown = eqp.EQPData.EQP_DOWN,
+                                IsIdle = eqp.EQPData.EQP_IDLE,
+                                IsRun = eqp.EQPData.EQP_RUN,
+                                Connected = eqp.connectionState == Utilities.Common.CONNECTION_STATE.CONNECTED,
+                                Ports = eqp.EQPData.PortDatas.Select(port => new PortViewModel()
+                                {
+                                    PortID = port.Properties.PortID,
+                                    Carrier_ID = port.WIPINFO_BCR_ID,
+                                    PortType = port.EPortType,
+                                    AutoState = port.EPortAutoStatus,
+                                    IsInService = port.PortStatusDown,
+                                    DIOSignalsState = new DIOViewModel
+                                    {
+                                        LoadRequest = port.LoadRequest,
+                                        UnloadRequest = port.UnloadRequest,
+                                        PortExist = port.PortExist,
+                                        PortStatusDown = port.PortStatusDown,
+                                        LDUpPose = port.LD_UP_POS,
+                                        LDDownPose = port.LD_DOWN_POS,
+                                    },
+                                    HSSignalsState = new HSSignalViewModel
+                                    {
+                                        EQ_BUSY = port.EQ_BUSY,
+                                        EQ_READY = port.EQ_READY,
+                                        L_REQ = port.L_REQ,
+                                        U_REQ = port.U_REQ
+                                    }
+                                }).ToList()
+                            });
+
+                            //IEnumerable<CasstteConverter.Data.clsEQPData> eqdatas = DevicesManager.casstteConverters.Select(eq => eq.EQPData);
+                            string json = JsonConvert.SerializeObject(viewData);
                             Send(json);
                         }
                         else if (State == WebSocketState.Closed)
@@ -49,7 +84,7 @@ namespace GPMCasstteConvertCIM.API.WebsocketSupport.GPMWebsocketBehaviors
                         throw ex;
                     }
                     await Task.Delay(1000);
-                   
+
                 }
 
             });

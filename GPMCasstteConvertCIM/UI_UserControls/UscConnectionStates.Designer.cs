@@ -61,6 +61,7 @@
             labSECS_MCS.TabIndex = 4;
             labSECS_MCS.Text = "MCS";
             labSECS_MCS.TextAlign = ContentAlignment.MiddleCenter;
+            labSECS_MCS.Click += labSECS_MCS_Click;
             // 
             // labSECS_AGVS
             // 
@@ -75,6 +76,7 @@
             labSECS_AGVS.TabIndex = 5;
             labSECS_AGVS.Text = "AGVS";
             labSECS_AGVS.TextAlign = ContentAlignment.MiddleCenter;
+            labSECS_AGVS.Click += labSECS_AGVS_Click;
             // 
             // labConverter
             // 

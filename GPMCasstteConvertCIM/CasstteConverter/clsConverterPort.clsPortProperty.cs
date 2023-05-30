@@ -19,7 +19,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
             public bool ModbusServer_Enable = true;
 
-            internal PortUnitType PortType { get; set; } = PortUnitType.Input_Output;
+            internal PortUnitType PortType { get; set; }
 
 
         }

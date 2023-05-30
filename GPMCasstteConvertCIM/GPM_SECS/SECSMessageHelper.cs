@@ -9,6 +9,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 using System.Security.Policy;
 using System.Xml.Linq;
 using Item = Secs4Net.Item;
+using System.Windows.Forms.Design;
 
 namespace GPMCasstteConvertCIM.GPM_SECS
 {
@@ -270,7 +271,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS
                 return msg;
             }
 
-            public static SecsMessage CarrierWaitIn(string carrier_ID, string carrier_Loc, string carrier_ZoneName)
+            public static SecsMessage CarrierWaitIn(string carrier_ID, string carrier_Loc, string carrier_ZoneName = "")
             {
 
                 Item[] VIDList = new Item[]
@@ -280,10 +281,10 @@ namespace GPMCasstteConvertCIM.GPM_SECS
                     A(carrier_ZoneName)
                 };
 
-                return CreateEventMsg((ushort)CEID.CarrierWaitIn, RPTID: 5, VIDList, "Carrier_Wait_In");
+                return CreateEventMsg(CEID.CarrierWaitIn, RPTID: 5, VIDList);
             }
 
-            public static SecsMessage CarrierWaitOut(string carrier_ID, string carrier_Loc, string carrier_ZoneName)
+            public static SecsMessage CarrierWaitOut(string carrier_ID, string carrier_Loc, string carrier_ZoneName = "")
             {
                 Item[] VIDList = new Item[]
                 {
@@ -292,7 +293,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS
                     A(carrier_ZoneName)
                 };
 
-                return CreateEventMsg((ushort)CEID.CarrierWaitOut, RPTID: 5, VIDList, "Carrier_Wait_Out");
+                return CreateEventMsg(CEID.CarrierWaitOut, RPTID: 5, VIDList);
             }
 
             public static SecsMessage CarrierInstalled(string carrier_ID, string carrier_Loc, bool IsAutoMode, string carrier_ZoneName = "")
@@ -305,9 +306,9 @@ namespace GPMCasstteConvertCIM.GPM_SECS
                     U2((ushort)(IsAutoMode? 1:0))
                 };
 
-                return CreateEventMsg((ushort)CEID.CarrierInstallCompletedReport, RPTID: 4, VIDList, "CarrierInstalled");
+                return CreateEventMsg(CEID.CarrierInstallCompletedReport, RPTID: 4, VIDList);
             }
-            public static SecsMessage CarrierRemovedCompleted(string carrier_ID, string carrier_Loc, string carrier_ZoneName, bool IsAutoMode)
+            public static SecsMessage CarrierRemovedCompleted(string carrier_ID, string carrier_Loc, bool IsAutoMode, string carrier_ZoneName = "")
             {
                 Item[] VIDList = new Item[]
                {
@@ -317,20 +318,33 @@ namespace GPMCasstteConvertCIM.GPM_SECS
                     U2((ushort)(IsAutoMode? 1:0))
                };
 
-                return CreateEventMsg((ushort)CEID.CarrierRemovedCompletedReport, RPTID: 4, VIDList, "Carrier_Removed_Completed");
+                return CreateEventMsg(CEID.CarrierRemovedCompletedReport, RPTID: 4, VIDList);
             }
-
-
-
-            public static SecsMessage CreateEventMsg(ushort CEID, ushort RPTID, Item[] VIDLIST, string name = "")
+            internal static SecsMessage PortType(string portID, PortUnitType port_type)
+            {
+                Item[] VIDList = new Item[]
+              {
+                        A(portID)
+              };
+                return CreateEventMsg(port_type == PortUnitType.Input ? CEID.PortTypeInputReport : CEID.PortTypeOutputReport, 12, VIDList);
+            }
+            internal static SecsMessage PortService(string portID, bool Inservice)
+            {
+                Item[] VIDList = new Item[]
+               {
+                        A(portID)
+               };
+                return CreateEventMsg(Inservice ? CEID.PortInServiceReport : CEID.PortOutOfServiceReport, 12, VIDList);
+            }
+            public static SecsMessage CreateEventMsg(CEID ceid, ushort RPTID, Item[] VIDLIST)
             {
 
                 SecsMessage msg = new(6, 11)
                 {
-                    Name = name,
+                    Name = ceid.ToString(),
                     SecsItem = L(
                                   U4(DataID_Cylic_Use),//DATAID,
-                                  U2(CEID), //CEID
+                                  U2((ushort)ceid), //CEID
                                   L(
                                       L(
                                         U2(RPTID),
@@ -340,8 +354,8 @@ namespace GPMCasstteConvertCIM.GPM_SECS
                                )
                 };
                 return msg;
-
             }
+
 
 
             public static SecsMessage ACK6(ACKC6 ack)
@@ -352,7 +366,6 @@ namespace GPMCasstteConvertCIM.GPM_SECS
                 };
                 return msg;
             }
-
 
         }
     }

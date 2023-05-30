@@ -12,7 +12,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
     public class MCSMessageHandler
     {
         private static SECSBase AGVS => DevicesManager.secs_client_for_agvs;
-        internal static void PrimaryMessageOnReceivedAsync(object? sender, PrimaryMessageWrapper _primaryMessageWrapper)
+        internal static async void PrimaryMessageOnReceivedAsync(object? sender, PrimaryMessageWrapper _primaryMessageWrapper)
         {
             var secs_client = sender as SECSBase;
             using SecsMessage _primaryMessage = _primaryMessageWrapper.PrimaryMessage;
@@ -29,7 +29,11 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                 }
                 if (cmd == RCMD.TRANSFER)
                 {
-                    TransferHandler(parameterGroups, _primaryMessageWrapper);
+                    (bool confirm, ALARM_CODES alarmcode) handleResult = await TransferHandler(parameterGroups, _primaryMessageWrapper);
+                    //if (!handleResult.confirm)
+                    //{
+                    //    return;
+                    //}
                 }
                 if (cmd == RCMD.NOTRANSFERNOTIFY)
                 {
@@ -42,7 +46,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
 
         }
 
-        private static void TransferHandler(Item parameterGroups, PrimaryMessageWrapper primaryMessageWrapper)
+        private static async Task<(bool confirm, ALARM_CODES alarmcode)> TransferHandler(Item parameterGroups, PrimaryMessageWrapper primaryMessageWrapper)
         {
             Item transfer_info = parameterGroups.Items[1];
             string carrier_id = transfer_info.Items[1].Items[0].Items[1].GetString();
@@ -51,8 +55,11 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
             if (port_match_carrier_id != null)
             {
                 port_match_carrier_id.CstTransferInvoke();
+                bool success = await port_match_carrier_id.WaitLoadUnloadRequestON();
+                if (!success)
+                    return (false, ALARM_CODES.WAIT_Load_Unload_Request_Bit_ON_When_MCS_Transfering);
             }
-
+            return (true, ALARM_CODES.None);
         }
 
         private static void NoTransferHandler(PrimaryMessageWrapper _primaryMessageWrapper)
@@ -108,6 +115,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                 bool accept = await port.ModeChangeRequestHandshake(port_type_to_change);
                 ack = accept ? HCACK.Acknowledge : HCACK.Cannot_Perform_Now;
             }
+
             await _primaryMessageWrapper.TryReplyAsync(new SecsMessage(2, 42, false)
             {
                 SecsItem = L(
@@ -115,7 +123,6 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                                 parameterGroups
                             )
             });
-
             port.PortTypeReport();
         }
 
@@ -159,7 +166,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                     }
                 }
 
-                if (S == 1 && F == 3)
+                if (S == 1 && F == 3) //Selected Equipment Status Request
                 {
                     Utility.SystemLogger.SecsTransferLog($"Start Transfer To AGVS[{Name}]");
                     replyMessage = await S1F3RequestHandle(primaryMsgFromMcs);
@@ -247,20 +254,22 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                     {
                         SecsItem = L(toAGVSItems)
                     });
-
-
+                    bool IsAGVSReplySuccess = !AGVSReplyMessage.IsS9F7();
+                    if (!IsAGVSReplySuccess)
+                    {
+                        AlarmManager.AddAlarm(ALARM_CODES.AGVS_NO_REPLY_FOR_S1F3, "MCSMSGHANDLER");
+                    }
                     for (int i = 0; i < itemsToAGVS.Count; i++)
                     {
                         try
                         {
-                            svid_data_store.Add((itemsToAGVS[i].FirstValue<ushort>(), AGVSReplyMessage.SecsItem.Items[i]));
+                            svid_data_store.Add((itemsToAGVS[i].FirstValue<ushort>(), IsAGVSReplySuccess ? AGVSReplyMessage.SecsItem.Items[i] : L()));
                         }
                         catch (Exception ex)
                         {
                             Utility.SystemLogger?.Info($"Convert secs data from mcs FAIL.{itemsToAGVS[i].ToJson()}\r\n{ex.Message}");
                         }
                     }
-
                 }
                 //Combined
                 List<Item> datas = new List<Item>();
@@ -385,7 +394,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
             {
                 return L(
                             A(port.Properties.PortID),
-                            U2((ushort)port.Properties.PortType)
+                            U2((ushort)(port.EPortType == PortUnitType.Input_Output ? port.MCSReservePortType : port.EPortType))
                         );
             }
 

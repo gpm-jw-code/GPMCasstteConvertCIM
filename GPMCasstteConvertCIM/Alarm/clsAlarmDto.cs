@@ -65,5 +65,9 @@ namespace GPMCasstteConvertCIM.Alarm
         MCS_PORT_TYPE_OUTPUT_REPORT_FAIL,
         CIM_HANDLE_S1F3_OCCUR_ERROR,
         ONLINE_MODE_MONITORING_ERROR,
+        AGVS_NO_REPLY_FOR_S1F3,
+        WAIT_Load_Unload_Request_Bit_ON_When_MCS_Transfering,
+        None,
+        WAIT_Load_Unload_Request_Bit_ON_When_Carrier_WaitIn_Reply,
     }
 }
