@@ -14,6 +14,8 @@ namespace GPMCasstteConvertCIM.API.WebsocketSupport.ViewModel
         public string PortID { get; set; } = "";
         public bool IsInService { get; set; }
 
+        public string Carrier_ID { get; set; } = "";
+
         public PortUnitType PortType { get; set; }
         public AUTO_MANUAL_MODE AutoState { get; set; } = AUTO_MANUAL_MODE.MANUAL;
 

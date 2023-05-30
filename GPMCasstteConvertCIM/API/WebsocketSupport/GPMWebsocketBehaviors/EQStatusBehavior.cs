@@ -38,13 +38,15 @@ namespace GPMCasstteConvertCIM.API.WebsocketSupport.GPMWebsocketBehaviors
                             var viewData = DevicesManager.casstteConverters.Select(eqp => new EQPViewModel()
                             {
                                 EqName = eqp.Name,
+                                InterfaceClock = eqp.EQPData.InterfaceClock,
                                 IsDown = eqp.EQPData.EQP_DOWN,
                                 IsIdle = eqp.EQPData.EQP_IDLE,
                                 IsRun = eqp.EQPData.EQP_RUN,
-                                Connected = eqp.Connected,
+                                Connected = eqp.connectionState == Utilities.Common.CONNECTION_STATE.CONNECTED,
                                 Ports = eqp.EQPData.PortDatas.Select(port => new PortViewModel()
                                 {
                                     PortID = port.Properties.PortID,
+                                    Carrier_ID = port.WIPINFO_BCR_ID,
                                     PortType = port.EPortType,
                                     AutoState = port.EPortAutoStatus,
                                     IsInService = port.PortStatusDown,

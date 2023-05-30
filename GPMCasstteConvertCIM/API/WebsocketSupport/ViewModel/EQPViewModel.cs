@@ -13,6 +13,8 @@ namespace GPMCasstteConvertCIM.API.WebsocketSupport.ViewModel
         public bool IsRun { get; set; }
         public bool IsDown { get; set; }
         public bool IsIdle { get; set; }
+
+        public int InterfaceClock { get; set; } = 0;
         public List<PortViewModel> Ports { get; set; }
     }
 }
