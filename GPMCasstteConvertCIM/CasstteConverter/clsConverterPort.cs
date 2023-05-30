@@ -323,7 +323,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     _Port_Mode_Changed_Report = value;
                     if (_Port_Mode_Changed_Report)
                     {
-                        PortModeChangedReportHandshake();
+                        PortTypeChangedReportHandshake();
                     }
                 }
             }
@@ -367,9 +367,9 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         internal void PortTypeReport()
         {
-            if (EPortType == PortUnitType.Input)
+            if (EPortType == PortUnitType.Input | (EPortType == PortUnitType.Input_Output && MCSReservePortType == PortUnitType.Input))
                 PortTypeInputReport();
-            if (EPortType == PortUnitType.Output)
+            if (EPortType == PortUnitType.Output | (EPortType == PortUnitType.Input_Output && MCSReservePortType == PortUnitType.Output))
                 PortTypeOutputReport();
         }
 

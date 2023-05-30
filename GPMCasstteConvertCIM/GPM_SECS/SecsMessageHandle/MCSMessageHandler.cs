@@ -75,7 +75,8 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                 Utility.SystemLogger.Info($"MCS NOTRANSFER Notify, PORT ={port_id} , CST ID = {cstid} ");
 
                 var port = DevicesManager.GetPortByPortID(port_id);
-                port.NoTransferNotifyInovke(port_id, cstid);
+                if (port != null)
+                    port.NoTransferNotifyInovke(port_id, cstid);
             }
             catch (Exception ex)
             {
@@ -86,18 +87,6 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
         }
 
         /// <summary>
-        /// 
-        ///L(
-        ///  L(
-        ///     A('PORTID')
-        ///     A('port ID')
-        ///   )
-        ///
-        ///  L(
-        ///     A('PORTUNITTYPE')
-        ///     U2(0) //0:input,1:output
-        ///   )
-        ///)
         /// </summary>
         /// <param name="parameterGroups"></param>
         /// <param name="_primaryMessageWrapper"></param>
@@ -149,7 +138,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                     SecsMessage Establish_Communication_Request_DENIED_Acknowledge = new SecsMessage(1, 14, false)
                     {
                         SecsItem = L(
-                                B(1),
+                                B((byte)COMMACK.Denied_Try_Again),
                                 L(
                                     A(""),
                                     A("")

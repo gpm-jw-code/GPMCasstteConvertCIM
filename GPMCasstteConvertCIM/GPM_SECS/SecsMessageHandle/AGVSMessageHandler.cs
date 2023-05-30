@@ -109,9 +109,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                 {
                     var port = DevicesManager.GetPortByPortID(port_id);
                     if (port != null)
-                    {
                         port.TransferCompletedInvoke(carrier_id);
-                    }
                 }
             }
             catch (Exception ex)

@@ -20,7 +20,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         private bool Carrier_TransferCompletedFlag = false;
 
         /// <summary>
-        /// 
+        /// MCS ->CIM : ModeChangeReques
         /// </summary>
         /// <param name="portUnitType"></param>
         /// <returns></returns>
@@ -78,7 +78,11 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         }
 
 
-        public async void PortModeChangedReportHandshake()
+
+        /// <summary>
+        /// EQ->CIM : Port Type Changed Report
+        /// </summary>
+        public async void PortTypeChangedReportHandshake()
         {
             _ = Task.Factory.StartNew(() =>
             {
@@ -106,6 +110,9 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         }
 
 
+        /// <summary>
+        /// CIM-> MCS : Port Out of service report
+        /// </summary>
         public async void PortOutOfServiceReport()
         {
             Task tk = new Task(async () =>
@@ -139,6 +146,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             tk.Start();
 
         }
+
+        /// <summary>
+        /// CIM-> MCS : Port In service report
+        /// </summary>
         public async void PortInServiceReport()
         {
             Task tk = new Task(async () =>
@@ -168,6 +179,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             });
             tk.Start();
         }
+
+        /// <summary>
+        /// CIM->MCS : Port Type Input Report
+        /// </summary>
         public async void PortTypeInputReport()
         {
             Task tk = new Task(async () =>
@@ -199,6 +214,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             });
             tk.Start();
         }
+
+        /// <summary>
+        /// CIM->MCS : Port Type Output Report
+        /// </summary>
         public async void PortTypeOutputReport()
         {
             Task tk = new Task(async () =>
@@ -229,6 +248,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             tk.Start();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public async Task CarrierRemovedCompletedReply()
         {
             var carrier_removed_com_reply_address = PortCIMBitAddress[PROPERTY.Carrier_Removed_Completed_Report_Reply];
@@ -262,6 +285,12 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_removed_com_reply_address, false);
         }
 
+
+        /// <summary>
+        ///  EQ->CIM->MCS : Carrier Wait out 
+        /// </summary>
+        /// <param name="EQ_T_timeout"></param>
+        /// <returns></returns>
         public async Task<bool> CarrierWaitOutReply(int EQ_T_timeout = 5000)
         {
             Utility.SystemLogger.Warning($"Carrier Wait Out HS Start_2 CHeck");
