@@ -47,7 +47,9 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         public string portNoName => $"PORT{Properties.PortNo + 1}";
         internal PortUnitType EPortType => Enum.GetValues(typeof(PortUnitType)).Cast<PortUnitType>().First(etype => (int)etype == _PortType);
-        public Dictionary<PROPERTY, string> PortCIMBitAddress
+
+
+        internal Dictionary<PROPERTY, string> PortCIMBitAddress
         {
             get
             {
@@ -56,7 +58,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             }
         }
 
-        public Dictionary<PROPERTY, string> PortCIMWordAddress
+        internal Dictionary<PROPERTY, string> PortCIMWordAddress
         {
             get
             {
@@ -65,7 +67,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             }
         }
 
-        public Dictionary<PROPERTY, string> PortEQBitAddress
+        internal Dictionary<PROPERTY, string> PortEQBitAddress
         {
             get
             {
@@ -74,7 +76,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             }
         }
 
-        public Dictionary<PROPERTY, string> PortEQWordAddress
+        internal Dictionary<PROPERTY, string> PortEQWordAddress
         {
             get
             {
@@ -83,9 +85,9 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             }
         }
 
-        public List<clsMemoryAddress> EQModbusLinkBitAddress => EQParent.LinkBitMap.FindAll(ad => ad.EOwner == OWNER.EQP && ad.EScope.ToString() == portNoName && ad.Link_Modbus_Register_Number != -1);
-        public List<clsMemoryAddress> EQModbusLinkWordAddress => EQParent.LinkWordMap.FindAll(ad => ad.EOwner == OWNER.EQP && ad.EScope.ToString() == portNoName && ad.Link_Modbus_Register_Number != -1);
-        public List<clsMemoryAddress> CIMModbusLinkWordAddress => EQParent.LinkWordMap.FindAll(ad => ad.EOwner == OWNER.CIM && ad.EScope.ToString() == portNoName && ad.Link_Modbus_Register_Number != -1);
+        internal List<clsMemoryAddress> EQModbusLinkBitAddress => EQParent.LinkBitMap.FindAll(ad => ad.EOwner == OWNER.EQP && ad.EScope.ToString() == portNoName && ad.Link_Modbus_Register_Number != -1);
+        internal List<clsMemoryAddress> EQModbusLinkWordAddress => EQParent.LinkWordMap.FindAll(ad => ad.EOwner == OWNER.EQP && ad.EScope.ToString() == portNoName && ad.Link_Modbus_Register_Number != -1);
+        internal List<clsMemoryAddress> CIMModbusLinkWordAddress => EQParent.LinkWordMap.FindAll(ad => ad.EOwner == OWNER.CIM && ad.EScope.ToString() == portNoName && ad.Link_Modbus_Register_Number != -1);
         private CIMComponent.MemoryTable VirtualMemoryTable => EQParent.CIMMemOptions.memoryTable;
 
 

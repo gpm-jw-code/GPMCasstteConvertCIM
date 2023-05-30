@@ -339,10 +339,9 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 Carrier_TransferCompletedFlag = false;
                 try
                 {
-                    Utility.SystemLogger.Info($"Carrier Wait Out Report to MCS");
-
                     if (installedRpt)
                     {
+                        Utility.SystemLogger.Info($"Carrier Installed Report to MCS");
                         SecsMessage install_response = await MCS.SendMsg(EventsMsg.CarrierInstalled(WIPINFO_BCR_ID, Properties.PortID, EPortAutoStatus == AUTO_MANUAL_MODE.AUTO));
                     }
                     SecsMessage response = await MCS.SendMsg(EventsMsg.CarrierWaitOut(WIPINFO_BCR_ID, Properties.PortID, ""));//TODO Zone Name ?
