@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using GPMCasstteConvertCIM.Devices;
 using GPMCasstteConvertCIM.Utilities;
 using static System.Windows.Forms.AxHost;
 
@@ -47,5 +48,17 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             labAGVC.ConnectionStateChange(init_state);
         }
 
+        private void labSECS_MCS_Click(object sender, EventArgs e)
+        {
+            var conn = DevicesManager.secs_host_for_mcs.connector;
+            MessageBox.Show($"{conn.IpAddress}:{conn.Port}");
+        }
+
+        private void labSECS_AGVS_Click(object sender, EventArgs e)
+        {
+
+            var conn = DevicesManager.secs_client_for_agvs.connector;
+            MessageBox.Show($"{conn.IpAddress}:{conn.Port}");
+        }
     }
 }
