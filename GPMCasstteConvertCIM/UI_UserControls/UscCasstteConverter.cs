@@ -85,8 +85,8 @@ namespace GPMCasstteConvertCIM.UI_UserControls
                     btnDown.BackColor = btnDown_BackColor;
 
 
-                pnlBanner.BackColor = _casstteConverter.connectionState == CONNECTION_STATE.CONNECTED ? Color.FromArgb(92, 155, 155) :
-                    _casstteConverter.connectionState == CONNECTION_STATE.CONNECTING ? Color.Yellow : Color.Red;
+                pnlBanner.BackColor = _casstteConverter.connectionState == CONNECTION_STATE.CONNECTED ? Color.FromArgb(0, 57, 155) :
+                    _casstteConverter.connectionState == CONNECTION_STATE.CONNECTING ? Color.FromArgb(255, 126, 0) : Color.Red;
                 labPLCConnectState.ForeColor = _casstteConverter.connectionState == CONNECTION_STATE.CONNECTING ? Color.Black : Color.White;
                 labPLCConnectState.Text = _casstteConverter.connectionState.ToString();
 
