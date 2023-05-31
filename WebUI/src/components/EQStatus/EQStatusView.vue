@@ -1,5 +1,5 @@
 <template>
-  <div class="eq-status mt-2">
+  <div class="eq-status mt-2 px-2">
     <div>
       <EQElementVue v-for="(data,index) in EQStatusData" :key="index" :data="data"></EQElementVue>
     </div>

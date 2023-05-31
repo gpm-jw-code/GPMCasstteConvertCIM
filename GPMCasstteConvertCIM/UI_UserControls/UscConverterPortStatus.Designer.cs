@@ -255,7 +255,7 @@
             // 
             // label5
             // 
-            label5.BackColor = Color.Blue;
+            label5.BackColor = Color.FromArgb(0, 57, 155);
             label5.BorderStyle = BorderStyle.FixedSingle;
             label5.Dock = DockStyle.Top;
             label5.ForeColor = Color.White;
@@ -389,7 +389,7 @@
             // 
             // label4
             // 
-            label4.BackColor = Color.Blue;
+            label4.BackColor = Color.FromArgb(0, 57, 155);
             label4.BorderStyle = BorderStyle.FixedSingle;
             label4.Dock = DockStyle.Top;
             label4.ForeColor = Color.White;

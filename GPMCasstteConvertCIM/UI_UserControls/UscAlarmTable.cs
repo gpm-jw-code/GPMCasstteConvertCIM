@@ -29,7 +29,7 @@ namespace GPMCasstteConvertCIM.UI_UserControls
                     var alarm = dataGridView1.Rows[e.RowIndex].DataBoundItem as clsAlarmDto;
                     if (alarm != null)
                     {
-                        dataGridView1.Rows[e.RowIndex].DefaultCellStyle.BackColor = alarm.Level == ALARM_LEVEL.ALARM ? Color.Red : Color.Orange;
+                        dataGridView1.Rows[e.RowIndex].DefaultCellStyle.BackColor = alarm.Level == ALARM_LEVEL.ALARM ? Color.Red : Color.FromArgb(255, 126, 0);
                         dataGridView1.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.White;
                     }
 

@@ -84,6 +84,7 @@
             tableLayoutPanel1.Controls.Add(labAlarmLevel, 1, 1);
             tableLayoutPanel1.Controls.Add(labDescription, 4, 1);
             tableLayoutPanel1.Controls.Add(labClassify, 2, 1);
+            tableLayoutPanel1.ForeColor = SystemColors.WindowText;
             tableLayoutPanel1.Location = new Point(42, 5);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 2;
@@ -96,7 +97,7 @@
             // 
             label5.Dock = DockStyle.Fill;
             label5.Font = new Font("Microsoft JhengHei UI", 11F, FontStyle.Regular, GraphicsUnit.Point);
-            label5.ForeColor = SystemColors.ButtonFace;
+            label5.ForeColor = Color.Transparent;
             label5.Location = new Point(689, 1);
             label5.Name = "label5";
             label5.Padding = new Padding(0, 1, 0, 2);
@@ -109,7 +110,7 @@
             // 
             label4.Dock = DockStyle.Fill;
             label4.Font = new Font("Microsoft JhengHei UI", 11F, FontStyle.Regular, GraphicsUnit.Point);
-            label4.ForeColor = SystemColors.ButtonFace;
+            label4.ForeColor = Color.Transparent;
             label4.Location = new Point(497, 1);
             label4.Name = "label4";
             label4.Padding = new Padding(0, 1, 0, 2);
@@ -122,7 +123,7 @@
             // 
             label3.Dock = DockStyle.Fill;
             label3.Font = new Font("Microsoft JhengHei UI", 11F, FontStyle.Regular, GraphicsUnit.Point);
-            label3.ForeColor = SystemColors.ButtonFace;
+            label3.ForeColor = Color.Transparent;
             label3.Location = new Point(283, 1);
             label3.Name = "label3";
             label3.Padding = new Padding(0, 1, 0, 2);
@@ -135,7 +136,7 @@
             // 
             label2.Dock = DockStyle.Fill;
             label2.Font = new Font("Microsoft JhengHei UI", 11F, FontStyle.Regular, GraphicsUnit.Point);
-            label2.ForeColor = SystemColors.ButtonFace;
+            label2.ForeColor = Color.Transparent;
             label2.Location = new Point(167, 1);
             label2.Name = "label2";
             label2.Padding = new Padding(0, 1, 0, 2);
@@ -148,7 +149,7 @@
             // 
             label1.Dock = DockStyle.Fill;
             label1.Font = new Font("Microsoft JhengHei UI", 11F, FontStyle.Regular, GraphicsUnit.Point);
-            label1.ForeColor = SystemColors.ButtonFace;
+            label1.ForeColor = Color.Transparent;
             label1.Location = new Point(4, 1);
             label1.Name = "label1";
             label1.Padding = new Padding(0, 1, 0, 2);
@@ -161,6 +162,7 @@
             // 
             labAlarmTime.Dock = DockStyle.Fill;
             labAlarmTime.Font = new Font("Microsoft JhengHei UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            labAlarmTime.ForeColor = Color.Transparent;
             labAlarmTime.Location = new Point(4, 31);
             labAlarmTime.Name = "labAlarmTime";
             labAlarmTime.Padding = new Padding(0, 1, 0, 2);
@@ -177,6 +179,7 @@
             labEQPName.Dock = DockStyle.Fill;
             labEQPName.FlatStyle = FlatStyle.Flat;
             labEQPName.Font = new Font("Microsoft JhengHei UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            labEQPName.ForeColor = Color.Transparent;
             labEQPName.Location = new Point(497, 31);
             labEQPName.Name = "labEQPName";
             labEQPName.Padding = new Padding(0, 1, 0, 2);
@@ -192,6 +195,7 @@
             labAlarmLevel.Dock = DockStyle.Fill;
             labAlarmLevel.FlatStyle = FlatStyle.Flat;
             labAlarmLevel.Font = new Font("Microsoft JhengHei UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            labAlarmLevel.ForeColor = Color.Transparent;
             labAlarmLevel.Location = new Point(167, 31);
             labAlarmLevel.Name = "labAlarmLevel";
             labAlarmLevel.Padding = new Padding(0, 1, 0, 2);
@@ -207,6 +211,7 @@
             labDescription.Dock = DockStyle.Fill;
             labDescription.FlatStyle = FlatStyle.Flat;
             labDescription.Font = new Font("Microsoft JhengHei UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            labDescription.ForeColor = Color.Transparent;
             labDescription.Location = new Point(689, 31);
             labDescription.Name = "labDescription";
             labDescription.Padding = new Padding(0, 1, 0, 2);
@@ -223,6 +228,7 @@
             labClassify.Dock = DockStyle.Fill;
             labClassify.FlatStyle = FlatStyle.Flat;
             labClassify.Font = new Font("Microsoft JhengHei UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            labClassify.ForeColor = Color.Transparent;
             labClassify.Location = new Point(283, 31);
             labClassify.Name = "labClassify";
             labClassify.Padding = new Padding(0, 1, 0, 2);
@@ -249,6 +255,7 @@
             // labAlarmCount
             // 
             labAlarmCount.BorderStyle = BorderStyle.Fixed3D;
+            labAlarmCount.ForeColor = Color.Black;
             labAlarmCount.Location = new Point(3, 5);
             labAlarmCount.Name = "labAlarmCount";
             labAlarmCount.Size = new Size(37, 61);
@@ -273,8 +280,9 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
-            BackColor = Color.Gray;
+            BackColor = SystemColors.ControlText;
             Controls.Add(pnlAlarmShow);
+            ForeColor = Color.Cyan;
             Name = "UscAlarmShow";
             Size = new Size(1179, 74);
             pnlAlarmShow.ResumeLayout(false);

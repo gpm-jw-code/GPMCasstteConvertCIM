@@ -1,6 +1,6 @@
 <template>
   <div class="port-element border mx-3 my-1" v-bind:style="bgStyle">
-    <div class="port-info d-flex flex-row border">
+    <div class="port-info d-flex flex-row border-bottom">
       <div v-bind:style="portIDStyle">
         <b>{{data.PortID}}</b>
       </div>
@@ -40,9 +40,36 @@
           <div class="io-title"># Carrier ID</div>
           <div v-if="data.Carrier_ID===''">(None)</div>
           <el-tag v-else effect="dark">{{data.Carrier_ID}}</el-tag>
-          <el-button class="mx-2" @click="RemoveCarrierID" size="small">清帳</el-button>
+          <el-button
+            v-if="data.Carrier_ID!=''"
+            class="mx-2"
+            @click="RemoveCarrierID"
+            size="small"
+          >清帳</el-button>
         </div>
 
+        <div class="eq-io d-flex flex-row m-1">
+          <div class="io-title"># 狀態IO</div>
+
+          <div class="d-flex flex-column">
+            <div class="sio1 text-start">
+              <el-tag
+                effect="dark"
+                :type="data.DIOSignalsState.PortStatusDown?'success':'danger'"
+              >正常運行</el-tag>
+              <el-tag effect="dark" :type="data.DIOSignalsState.LoadRequest?'success':'danger'">載入需求</el-tag>
+              <el-tag
+                effect="dark"
+                :type="data.DIOSignalsState.UnloadRequest?'success':'danger'"
+              >移出需求</el-tag>
+            </div>
+            <div class="sio2">
+              <el-tag effect="dark" :type="data.DIOSignalsState.PortExist?'success':'danger'">載具在席</el-tag>
+              <el-tag effect="dark" :type="data.DIOSignalsState.LDUpPose?'success':'danger'">撈爪上位</el-tag>
+              <el-tag effect="dark" :type="data.DIOSignalsState.LDDownPose?'success':'danger'">撈爪下位</el-tag>
+            </div>
+          </div>
+        </div>
         <div class="eq-io d-flex flex-row m-1">
           <div class="io-title"># 交握IO</div>
           <el-tag effect="dark" :type="data.HSSignalsState.L_REQ?'success':'danger'">L_REQ</el-tag>
@@ -113,6 +140,22 @@ export default {
           PortID: this.data.PortID,
           CarrierID: ''
         }));
+      }
+      ws.onmessage = (ev) => {
+        var result = JSON.parse(ev.data)
+        this.$swal.fire({
+          title: '帳籍移除',
+          text: `${result.message}`,
+          icon: result.confirm ? 'success' : 'error',
+          showCancelButton: false,
+          confirmButtonText: 'OK',
+          customClass: 'my-sweetalert'
+        }).then((result) => {
+          // if (result.isConfirmed) {
+          //   this.InitializeWorker();
+          // }
+        })
+        ws.close();
       }
     }
   }

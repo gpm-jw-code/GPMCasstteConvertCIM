@@ -76,7 +76,7 @@ namespace GPMCasstteConvertCIM.UI_UserControls
 
 
             labServiceStatusText.Text = CstCVPort.Properties.InSerivce ? "In Service" : "Out of Service";
-            labServiceStatusText.ForeColor = CstCVPort.Properties.InSerivce ? Color.SeaGreen : Color.Red;
+            labServiceStatusText.ForeColor = CstCVPort.Properties.InSerivce ? Color.FromArgb(0, 57, 155) : Color.Red;
 
         }
 

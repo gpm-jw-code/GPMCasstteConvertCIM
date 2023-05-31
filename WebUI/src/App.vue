@@ -15,7 +15,6 @@
         </keep-alive>
       </router-view>
     </div>
-    <!-- <AlarmDisplayVue></AlarmDisplayVue> -->
   </div>
   <SideMenuDrawer @close="SideMenuCloseHandler" ref="side_menu"></SideMenuDrawer>
 </template>

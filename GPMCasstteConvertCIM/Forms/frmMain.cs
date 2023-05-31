@@ -21,7 +21,7 @@ namespace GPMCasstteConvertCIM.Forms
         CasstteConverter.clsCasstteConverter casstteConverter_1;
         CasstteConverter.clsCasstteConverter casstteConverter_2;
 
-        private bool IsOnline = false;
+        public static bool IsOnline = false;
         private bool IsRemote = false;
 
         public frmMain()
@@ -130,11 +130,12 @@ namespace GPMCasstteConvertCIM.Forms
             systemAPI.Start();
 
             WebsocketMiddleware.ServerBuild();
-            uscAlarmTable1.BindData(AlarmManager.AlarmsList);
+            uscAlarmTable1.BindData(AlarmManager.AlarmsList.ToList());
             AlarmManager.onAlarmAdded += (sender, arg) =>
             {
                 Invoke(new Action(() =>
                 {
+                    uscAlarmTable1.BindData(AlarmManager.AlarmsList.ToList());
                     uscAlarmTable1.alarmListBinding.ResetBindings();
                 }));
             };
@@ -388,7 +389,7 @@ namespace GPMCasstteConvertCIM.Forms
 
         private void ckbRemoteModeIndi_CheckedChanged(object sender, EventArgs e)
         {
-            ckbRemoteModeIndi.Text = ckbRemoteModeIndi.Checked ? "Online" : "Offline";
+            ckbRemoteModeIndi.Text = ckbRemoteModeIndi.Checked ? "ONLINE" : "OFFLINE";
         }
     }
 }

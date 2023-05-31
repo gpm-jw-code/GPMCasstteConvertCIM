@@ -1,5 +1,5 @@
 <template>
-  <div class="app-header bg-primary text-light fixed-top d-flex flex-row">
+  <div class="app-header bg-light text-dark border-bottom fixed-top d-flex flex-row">
     <h2 @click="Refresh">GPM CIM</h2>
     <p class="px-2">V101</p>
     <div class="page-name-display flex-fill">{{current_route_display}}</div>

@@ -9,6 +9,9 @@ using WebSocketSharp;
 using GPMCasstteConvertCIM.API.WebsocketSupport.GPMWebsocketBehaviors;
 using Newtonsoft.Json;
 using GPMCasstteConvertCIM.Devices;
+using GPMCasstteConvertCIM.API.WebsocketSupport.ViewModel;
+using GPMCasstteConvertCIM.Forms;
+using GPMCasstteConvertCIM.Alarm;
 
 namespace GPMCasstteConvertCIM.API.WebsocketSupport
 {
@@ -20,6 +23,7 @@ namespace GPMCasstteConvertCIM.API.WebsocketSupport
             Task.Run(() =>
             {
                 WebSocketServer server = new WebSocketServer(11441);
+                server.AddWebSocketService<SystemStateBehavior>("/system_state");
                 server.AddWebSocketService<EQStatusBehavior>("/eq_status");
                 server.AddWebSocketService<UIBehavior>("/ui");
                 server.AddWebSocketService<RemoveCarrierDataBehavior>("/ui/remove_carrier_data");
@@ -66,14 +70,44 @@ namespace GPMCasstteConvertCIM.API.WebsocketSupport
                 var port = DevicesManager.GetPortByPortID(req.PortID);
                 if (port != null)
                 {
-
+                    //if (port.PortExist)
+                    //{
+                    //    Send(new SimpleReplyViewModel(false, "有料時不可清帳").Json);
+                    //    return;
+                    //}
                     port.ReportCarrierRemovedCompToMCS();
-                    Send(new SimpleReplyViewModel(true, "").Json);
+                    Send(new SimpleReplyViewModel(true, "Carrier Removed Completed ! \r\n請將載具從 Port 移除").Json);
                 }
                 else
                 {
                     Send(new SimpleReplyViewModel(false, $"NO Exist Port-{req.PortID}").Json);
                 }
+
+            }
+        }
+
+        private class SystemStateBehavior : WebSocketBehavior
+        {
+            protected override void OnOpen()
+            {
+
+                Task.Run(() =>
+                {
+                    while (State == WebSocketSharp.WebSocketState.Open)
+                    {
+                        SystemStateViewModel data = new SystemStateViewModel
+                        {
+                            IsOnlineMode = frmMain.IsOnline,
+                            IsAGVSSecsConnected = DevicesManager.secs_client_for_agvs.connector.State == Secs4Net.ConnectionState.Selected,
+                            IsMCSSecsConnected = DevicesManager.secs_host_for_mcs.connector.State == Secs4Net.ConnectionState.Selected,
+                            Alarms = AlarmManager.AlarmsList.ToList()
+                        };
+
+                        Send(JsonConvert.SerializeObject(data));
+
+                        Thread.Sleep(1000);
+                    }
+                });
 
             }
         }
