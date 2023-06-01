@@ -15,7 +15,7 @@
       </el-table-column>
     </el-table>
     <div class="sml-display border w-50 text-start px-3">
-      <div>
+      <div class="sml-container w-100">
         <h3>Function {{ selectedSecsLog.SxFx }}</h3>
         <h3>Sml</h3>
         <pre class="bg-light">
@@ -48,10 +48,10 @@ export default {
     ws.wssocket.onmessage = (ev) => {
       var secslog = JSON.parse(ev.data);
       secslog.Time = FormatTimeString(secslog.Time)
-      this.secslogs.unshift(secslog)
       if (this.secslogs.length > 10) {
-        this.secslogs.pop()
+        this.secslogs = []
       }
+      this.secslogs.unshift(secslog)
     }
   },
   methods: {
@@ -62,7 +62,10 @@ export default {
 }
 </script>
 
-<style lagn="scss">
+<style lang="scss">
 .secs-log {
+  .sml-container {
+    position: fixed;
+  }
 }
 </style>

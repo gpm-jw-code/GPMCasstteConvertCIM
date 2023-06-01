@@ -1,13 +1,6 @@
 <template>
   <div class="d-flex flex-row">
-    <div>
-      <i
-        @click="ToggleMenu"
-        v-show="showMenuToggleIcon"
-        class="bi bi-list menu-toggle-icon text-dark text-start fixed-top"
-      ></i>
-      <Header></Header>
-    </div>
+    <Header @toggle_click="ToggleMenu"></Header>
     <div class="flex-fill" style="height:100vh;padding-top:48px;">
       <router-view v-slot="{ Component }">
         <keep-alive>

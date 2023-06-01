@@ -1,5 +1,6 @@
 <template>
   <div class="app-header bg-light text-dark border-bottom fixed-top d-flex flex-row">
+    <i @click="ToggleMenu" class="bi bi-list menu-toggle-icon text-dark"></i>
     <h2 @click="Refresh">GPM CIM</h2>
     <p class="px-2">V101</p>
     <div class="page-name-display flex-fill">{{current_route_display}}</div>
@@ -30,6 +31,9 @@ export default {
     });
   },
   methods: {
+    ToggleMenu() {
+      this.$emit('toggle_click', '');
+    },
     Refresh() {
       window.location.reload();
     },
@@ -42,7 +46,7 @@ export default {
 
 <style scoped lang="scss">
 .app-header {
-  z-index: 2;
+  z-index: 2333;
   h2 {
     margin-left: 40px;
   }

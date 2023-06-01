@@ -34,8 +34,8 @@
             effect="dark"
             :type="data.PortType==0?'success':'warning'"
           >{{data.PortType==0?'INPUT':'OUTPUT'}}</el-tag>
-          <el-button @click="ChangePortType(0)" size="small">Change To INPUT</el-button>
-          <el-button @click="ChangePortType(1)" size="small">Change To OUTPUT</el-button>
+          <el-button @click="ChangePortType(0)" size="small">To_INPUT</el-button>
+          <el-button @click="ChangePortType(1)" size="small">To_OUTPUT</el-button>
         </div>
 
         <div class="eq-io d-flex flex-row m-1">
