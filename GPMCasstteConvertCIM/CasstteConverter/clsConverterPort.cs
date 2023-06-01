@@ -262,7 +262,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                             bool lduld_req = await WaitLoadUnloadRequestON();
                             if (!lduld_req)
                                 return;
-
                             bool wait_in_accept = await ReportCarrierWaitInToMCS();
 
                             Utility.SystemLogger.Info($"Carrier Wait In HS Start");
@@ -314,7 +313,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                         CarrierInstallTime = DateTime.Now;
 
                         ReportCarrierInstalledToMCS();
-                        if (EQParent.converterType == CONVERTER_TYPE.SYS_2_SYS)
+
+                        if (EQParent.converterType == CONVERTER_TYPE.SYS_2_SYS) //平對平才要報Wait Out
                             WaitOutSECSReport();
 
                         Utility.SystemLogger.Info("Carrier Wait out Request bit ON ");
@@ -322,18 +322,18 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                         Task.Factory.StartNew(async () =>
                         {
                             await Task.Delay(1);
-                            Utility.SystemLogger.Info($"Carrier Wait  Out HS Start");
+                            Utility.SystemLogger.Info($"PLC Carrier Wait  Out HS Start");
                             try
                             {
                                 bool success_hs = await CarrierWaitOutReply(10000);
                                 if (!success_hs)
                                 {
-                                    Utility.SystemLogger.Info($"Carrier Wait  Out HS Error!");
+                                    Utility.SystemLogger.Info($"PLC  Carrier Wait  Out HS Error!");
                                 }
                             }
                             catch (Exception ex)
                             {
-                                Utility.SystemLogger.Info($"Carrier Wait  Out HS ex! {ex.Message},{ex.StackTrace}");
+                                Utility.SystemLogger.Info($"PLC  Carrier Wait  Out HS ex! {ex.Message},{ex.StackTrace}");
 
                             }
 
