@@ -4,7 +4,7 @@
       <i
         @click="ToggleMenu"
         v-show="showMenuToggleIcon"
-        class="bi bi-list menu-toggle-icon text-light"
+        class="bi bi-list menu-toggle-icon text-dark text-start fixed-top"
       ></i>
       <Header></Header>
     </div>
@@ -44,6 +44,7 @@ export default {
     }
   },
   mounted() {
+    document.title = "GPM AGVS-CIM"
     // bus.on('/god_mode_changed', (is_god_mode_now) => {
     //   this.showMenuToggleIcon = is_god_mode_now
     // });

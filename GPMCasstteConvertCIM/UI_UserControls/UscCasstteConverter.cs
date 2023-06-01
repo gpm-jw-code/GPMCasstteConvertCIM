@@ -15,7 +15,9 @@ namespace GPMCasstteConvertCIM.UI_UserControls
 {
     public partial class UscCasstteConverter : UserControl
     {
-        frmConvertPLCMemoryTables MemoryTable = new frmConvertPLCMemoryTables();
+        frmConvertPLCMemoryTables MemoryTable = new frmConvertPLCMemoryTables()
+        {
+        };
         frmConverterPLCSimulator PLCSimulator = new frmConverterPLCSimulator();
 
         private clsCasstteConverter _casstteConverter;

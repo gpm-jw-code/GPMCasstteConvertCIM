@@ -41,7 +41,7 @@
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1010, 45);
+            panel1.Size = new Size(1421, 45);
             panel1.TabIndex = 1;
             // 
             // ckbMonitor
@@ -64,16 +64,17 @@
             // 
             uscMemoryTable1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             uscMemoryTable1.BorderStyle = BorderStyle.FixedSingle;
+            uscMemoryTable1.Editable = true;
             uscMemoryTable1.Location = new Point(12, 51);
             uscMemoryTable1.Name = "uscMemoryTable1";
-            uscMemoryTable1.Size = new Size(986, 501);
+            uscMemoryTable1.Size = new Size(1397, 721);
             uscMemoryTable1.TabIndex = 0;
             // 
             // frmConvertPLCMemoryTables
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1010, 564);
+            ClientSize = new Size(1421, 784);
             Controls.Add(uscMemoryTable1);
             Controls.Add(panel1);
             DoubleBuffered = true;

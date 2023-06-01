@@ -15,7 +15,7 @@
         <b-button
           class="border"
           squared
-          :variant="data.AutoState==1? 'success':'secondary'"
+          :variant="data.AutoState==1? 'primary':'secondary'"
           size="sm"
         >AUTO</b-button>
       </div>
@@ -34,6 +34,8 @@
             effect="dark"
             :type="data.PortType==0?'success':'warning'"
           >{{data.PortType==0?'INPUT':'OUTPUT'}}</el-tag>
+          <el-button @click="ChangePortType(0)" size="small">Change To INPUT</el-button>
+          <el-button @click="ChangePortType(1)" size="small">Change To OUTPUT</el-button>
         </div>
 
         <div class="eq-io d-flex flex-row m-1">
@@ -93,6 +95,7 @@
 
 <script>
 import param from '@/gpm_param.js'
+import { PortTypeChange } from '@/api/CimAPI.js'
 export default {
   props: {
     data: {
@@ -133,6 +136,9 @@ export default {
     }
   },
   methods: {
+    ChangePortType(type_) {
+      PortTypeChange(this.data.PortID, type_);
+    },
     RemoveCarrierID() {
       let ws = new WebSocket(`${param.websocket_url}/ui/remove_carrier_data`);
       ws.onopen = (ev) => {
@@ -164,7 +170,7 @@ export default {
 
 <style scoped lang="scss">
 .port-element {
-  border-radius: 10px;
+  // border-radius: 10px;
 
   .port-info {
     font-size: 22px;

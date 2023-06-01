@@ -126,7 +126,25 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         public bool ReadyStatus { get; set; } = false;
         public bool LoadRequest { get; set; } = false;
         public bool UnloadRequest { get; set; } = false;
-        public bool PortExist { get; set; } = false;
+        private bool _PortExist = false;
+        public bool PortExist
+        {
+            get => _PortExist;
+            set
+            {
+                if (_PortExist != value)
+                {
+                    //Task.Run(() =>
+                    //{
+                    //    if (value)
+                    //        ReportCarrierInstalledToMCS();
+                    //    else
+                    //        ReportCarrierRemovedCompToMCS();
+                    //});
+                    _PortExist = value;
+                }
+            }
+        }
         public bool EQP_Status_Run { get; set; } = false;
         public bool EQP_Status_Idle { get; set; } = false;
         public bool EQP_Status_Down { get; set; } = false;
@@ -239,7 +257,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
                         Task.Factory.StartNew(async () =>
                         {
-                            InstalledReport();
+                            ReportCarrierInstalledToMCS();
                             //先等轉換架Load.Unload Request ON 
                             bool lduld_req = await WaitLoadUnloadRequestON();
                             if (!lduld_req)
@@ -295,8 +313,9 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                         Previous_WIPINFO_BCR_ID = WIPINFO_BCR_ID;
                         CarrierInstallTime = DateTime.Now;
 
-                        InstalledReport();
-                        WaitOutSECSReport();
+                        ReportCarrierInstalledToMCS();
+                        if (EQParent.converterType == CONVERTER_TYPE.SYS_2_SYS)
+                            WaitOutSECSReport();
 
                         Utility.SystemLogger.Info("Carrier Wait out Request bit ON ");
 
@@ -337,9 +356,9 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     _CarrierRemovedCompletedReport = value;
                     if (_CarrierRemovedCompletedReport)
                     {
+                        Utility.SystemLogger.Info($"Carrier Remove Completed Report Start");
                         ReportCarrierRemovedCompToMCS();
                         CarrierRemovedCompletedReply();
-
                     }
                 }
             }
@@ -362,8 +381,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 }
             }
         }
-
-
 
         public bool Port_Disabled_Report { get; internal set; }
         public bool Port_Enabled_Report { get; internal set; }

@@ -19,6 +19,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
         internal static event EventHandler OnAGVSOnline;
         internal static event EventHandler OnAGVSOffline;
         private static SECSBase MCS => DevicesManager.secs_host_for_mcs;
+        private static SECSBase AGVS => DevicesManager.secs_client_for_agvs;
         /// <summary>
         /// 處理AGVS PrimaryMessage >>轉送給MCS 
         /// </summary>
@@ -31,6 +32,8 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
             Utility.SystemLogger.SecsTransferLog($"Primary Mesaage Recieved From AGVS");
 
             using SecsMessage _primaryMessage_FromAGVS = _primaryMessageWrapper.PrimaryMessage;
+
+            AGVS.MsgSendOutInvokeHandle(_primaryMessage_FromAGVS, false);
 
             Utility.SystemLogger.SecsTransferLog($"Primary Mesaage From AGVS : {_primaryMessage_FromAGVS.ToSml()}");
 
@@ -68,7 +71,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
 
 
             Utility.SystemLogger.SecsTransferLog($"Start Transfer To MCS");
-
+            MCS.MsgSendOutInvokeHandle(_primaryMessage_FromAGVS, true);
             SecsMessage secondaryMsgFromMCS = await MCS.SendMsg(_primaryMessage_FromAGVS);
 
 
@@ -81,7 +84,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
             if (_primaryMessage_FromAGVS.ReplyExpected)
             {
                 Utility.SystemLogger.SecsTransferLog($"MCS Reply : {secondaryMsgFromMCS.ToSml()}");
-
+                AGVS.MsgSendOutInvokeHandle(secondaryMsgFromMCS, true);
                 bool reply_to_agvs_success = await _primaryMessageWrapper.TryReplyAsync(secondaryMsgFromMCS);
                 if (reply_to_agvs_success)
                     Utility.SystemLogger.SecsTransferLog($"Message Reply to AGVS Finish");

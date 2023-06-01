@@ -1,7 +1,7 @@
 <template>
   <div class="eq-element border my-2 p-1">
     <div
-      class="eq-info text-light d-flex flex-row mb-1"
+      class="eq-info text-light d-flex flex-row mb-1 px-2 py-1"
       v-bind:class="data.Connected?'bg-primary':'bg-danger'"
     >
       <div class="eq-name">
@@ -61,8 +61,7 @@ export default {
   border-radius: 8px;
   .eq-info {
     text-align: left;
-    padding: 10px;
-    font-size: 28px;
+    font-size: 24px;
     border-radius: 5px;
   }
 }

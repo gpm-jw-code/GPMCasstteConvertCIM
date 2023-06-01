@@ -8,6 +8,7 @@
       @close="CLoseEventHandle"
     >
       <div @click="PageSwitch('/','HOME')" class="menu-item-container">HOME</div>
+      <div @click="PageSwitch('/secslog','SECS LOG')" class="menu-item-container">SECS LOG</div>
       <!-- <div @click="PageSwitch('/map','MAP')" class="menu-item-container">MAP</div>
       <div @click="PageSwitch('/','帳籍管理')" class="menu-item-container">帳籍管理</div>
       <div @click="PageSwitch('/rd_test','TEST')" class="menu-item-container">TEST</div>-->

@@ -68,7 +68,7 @@ namespace GPMCasstteConvertCIM.Devices
             {
                 ////Secs host(CIM_AGVS)
                 ///
-                secs_host_for_mcs = new SECSBase("Host_For_MCS");
+                secs_host_for_mcs = new SECSBase("MCS");
                 secs_host_for_mcs.ConnectionChanged += SECS_E_ConnectionChangeHandle;
                 secs_host_for_mcs.OnPrimaryMessageRecieve += MCSMessageHandler.PrimaryMessageOnReceivedAsync; ;
                 secs_host_for_mcs.Active(DevicesConnectionsOpts.SECS_HOST.ToSecsGenOptions(), DevicesConnectionsOpts.SECS_HOST.logRichTextBox, DevicesConnectionsOpts.SECS_HOST.dgvSendBufferTable, DevicesConnectionsOpts.SECS_HOST.dgvRevBufferTable);
@@ -81,7 +81,7 @@ namespace GPMCasstteConvertCIM.Devices
             {
 
                 ////Secs client(CIM_MCS)
-                secs_client_for_agvs = new SECSBase("Client_For_AGVS");
+                secs_client_for_agvs = new SECSBase("AGVS");
                 secs_client_for_agvs.ConnectionChanged += SECS_H_ConnectionChangeHandle;
                 secs_client_for_agvs.OnPrimaryMessageRecieve += AGVSMessageHandler.PrimaryMessageOnReceivedAsync;
                 secs_client_for_agvs.Active(DevicesConnectionsOpts.SECS_CLIENT.ToSecsGenOptions(), DevicesConnectionsOpts.SECS_CLIENT.logRichTextBox, DevicesConnectionsOpts.SECS_CLIENT.dgvSendBufferTable, DevicesConnectionsOpts.SECS_CLIENT.dgvRevBufferTable);

@@ -12,6 +12,7 @@ using GPMCasstteConvertCIM.Devices;
 using GPMCasstteConvertCIM.API.WebsocketSupport.ViewModel;
 using GPMCasstteConvertCIM.Forms;
 using GPMCasstteConvertCIM.Alarm;
+using GPMCasstteConvertCIM.GPM_SECS;
 
 namespace GPMCasstteConvertCIM.API.WebsocketSupport
 {
@@ -27,6 +28,7 @@ namespace GPMCasstteConvertCIM.API.WebsocketSupport
                 server.AddWebSocketService<EQStatusBehavior>("/eq_status");
                 server.AddWebSocketService<UIBehavior>("/ui");
                 server.AddWebSocketService<RemoveCarrierDataBehavior>("/ui/remove_carrier_data");
+                server.AddWebSocketService<SecsLogBehavior>("/secslog");
                 server.Start();
             });
         }
@@ -108,6 +110,35 @@ namespace GPMCasstteConvertCIM.API.WebsocketSupport
                         Thread.Sleep(1000);
                     }
                 });
+
+            }
+        }
+
+        private class SecsLogBehavior : WebSocketBehavior
+        {
+            protected override void OnOpen()
+            {
+                SECSBase.OnPrimaryMsgSendOut += SECSBase_OnPrimaryMsgSendOut;
+                //Task.Run(() =>
+                //{
+                //    while (State == WebSocketSharp.WebSocketState.Open)
+                //    {
+                //        //
+                //        Thread.Sleep(1);
+                //    }
+                //});
+                base.OnOpen();
+            }
+
+            private void SECSBase_OnPrimaryMsgSendOut(object? sender, SecsLogViewModel e)
+            {
+                Send(JsonConvert.SerializeObject(e));
+            }
+
+            protected override void OnClose(CloseEventArgs e)
+            {
+                SECSBase.OnPrimaryMsgSendOut -= SECSBase_OnPrimaryMsgSendOut;
+                base.OnClose(e);
 
             }
         }

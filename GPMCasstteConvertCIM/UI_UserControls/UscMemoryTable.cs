@@ -28,8 +28,10 @@ namespace GPMCasstteConvertCIM.UI_UserControls
         private BindingList<clsMemoryAddress> cim_bitMemoryAddressList = new BindingList<clsMemoryAddress>();
         private BindingList<clsMemoryAddress> cim_wordMemoryAddressList = new BindingList<clsMemoryAddress>();
 
-        internal event EventHandler<(string bitAddress, bool state)> bitValueOnChanged;
-        internal event EventHandler<clsMemoryAddress> wordValueOnChanged;
+        internal event EventHandler<(string bitAddress, bool state)> EQPBitValueOnChanged;
+        internal event EventHandler<(string bitAddress, bool state)> CIMBitValueOnChanged;
+        internal event EventHandler<clsMemoryAddress> EQPWordValueOnChanged;
+        internal event EventHandler<clsMemoryAddress> CIMWordValueOnChanged;
         public UscMemoryTable()
         {
             InitializeComponent();
@@ -99,7 +101,7 @@ namespace GPMCasstteConvertCIM.UI_UserControls
 
                 clsMemoryAddress? addressData = dgvEQPBitMap.Rows[e.RowIndex].DataBoundItem as clsMemoryAddress;
                 addressData.Value = !(bool)addressData.Value;
-                bitValueOnChanged?.Invoke(this, (addressData.Address, (bool)addressData.Value));
+                EQPBitValueOnChanged?.Invoke(this, (addressData.Address, (bool)addressData.Value));
             }));
         }
 
@@ -115,16 +117,25 @@ namespace GPMCasstteConvertCIM.UI_UserControls
 
         private void dgvWordMap_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
+            //dgvEQPWordMap
+            //dgvCIMWordMap
+
             if (!Editable | e.ColumnIndex != 3 | e.RowIndex < 0)
                 return;
-            clsMemoryAddress? addressData = dgvEQPWordMap.Rows[e.RowIndex].DataBoundItem as clsMemoryAddress;
+
+            DataGridView word_dgv = sender as DataGridView;
+            bool isEQP = word_dgv.Name == dgvEQPWordMap.Name;
+            clsMemoryAddress? addressData = word_dgv.Rows[e.RowIndex].DataBoundItem as clsMemoryAddress;
             WordValueChangeDialog dialog = new WordValueChangeDialog();
             var newValue = dialog.ShowDialog(addressData.Address, (int)addressData.Value);
             if (dialog.DialogResult == DialogResult.OK)
             {
                 clsMemoryAddress addressDataCopy = addressData.Copy();
                 addressDataCopy.Value = newValue;
-                wordValueOnChanged?.Invoke(this, addressDataCopy);
+                if (isEQP)
+                    EQPWordValueOnChanged?.Invoke(this, addressDataCopy);
+                else
+                    CIMWordValueOnChanged?.Invoke(this, addressDataCopy);
             }
         }
 
@@ -152,7 +163,19 @@ namespace GPMCasstteConvertCIM.UI_UserControls
                 bool state = !(bool)addressData.Value;
                 eqp_bitMemoryAddressList[e.RowIndex].Value = state;
 
-                bitValueOnChanged?.Invoke(this, (addressData.Address, state));
+                EQPBitValueOnChanged?.Invoke(this, (addressData.Address, state));
+
+            }
+        }
+
+        private void dgvCIMBitMap_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.ColumnIndex == 4)
+            {
+                clsMemoryAddress? addressData = dgvCIMBitMap.Rows[e.RowIndex].DataBoundItem as clsMemoryAddress;
+                bool state = !(bool)addressData.Value;
+                cim_bitMemoryAddressList[e.RowIndex].Value = state;
+                CIMBitValueOnChanged?.Invoke(this, (addressData.Address, state));
 
             }
         }

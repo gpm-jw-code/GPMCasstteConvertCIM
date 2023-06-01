@@ -4,15 +4,18 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using GPMCasstteConvertCIM.Alarm;
 using GPMCasstteConvertCIM.Utilities;
 using Microsoft.Extensions.Options;
 using Secs4Net;
+using Secs4Net.Sml;
 
 namespace GPMCasstteConvertCIM.GPM_SECS
 {
     internal class SECSBase
     {
+        public static event EventHandler<API.WebsocketSupport.ViewModel.SecsLogViewModel> OnPrimaryMsgSendOut;
         public Action<ConnectionState> ConnectionChanged { get; internal set; }
         public string name { get; }
 
@@ -119,6 +122,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS
             {
                 try
                 {
+                    MsgSendOutInvokeHandle(message, true);
                     SecsMessage? secondaryMessage = null;
                     secondaryMessage = await secsGem?.SendAsync(message, cancellationToken);
                     try
@@ -129,6 +133,8 @@ namespace GPMCasstteConvertCIM.GPM_SECS
                     {
                         Syslogger.Error("SECSBase SendAsync Error", ex);
                     }
+
+                    MsgSendOutInvokeHandle(secondaryMessage, false);
                     return secondaryMessage;
                 }
                 catch (Exception ex)
@@ -139,6 +145,26 @@ namespace GPMCasstteConvertCIM.GPM_SECS
             });
         }
 
+        internal void MsgSendOutInvokeHandle(SecsMessage message, bool IsSend)
+        {
+            _ = Task.Factory.StartNew(() =>
+            {
+                try
+                {
+                    OnPrimaryMsgSendOut?.Invoke(this, new API.WebsocketSupport.ViewModel.SecsLogViewModel
+                    {
+                        Direction = $" {(IsSend ? $"CIM-->{name}" : $" {name}-->CIM ")}",
+                        Time = DateTime.Now,
+                        SxFx = $"S{message.S}F{message.F} {(message.ReplyExpected ? "W" : "")}",
+                        Sml = message.ToSml()
+                    });
+                }
+                catch (Exception ex)
+                {
+                }
+
+            });
+        }
 
         private void AddPrimaryMsgToRevBuffer(PrimaryMessageWrapper primaryMessage)
         {

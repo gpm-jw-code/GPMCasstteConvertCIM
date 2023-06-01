@@ -1,7 +1,8 @@
 var param = {
   type: 'jw',
-  websocket_url: `ws://${window.location.hostname}:11441`,
-  // websocket_url: 'ws://127.0.0.1:11441',
+  websocket_url:process.env.NODE_ENV == 'development'?'ws://192.168.0.156:11441': `ws://${window.location.hostname}:11441`,
+  // websocket_url: 'ws://192.168.0.1:11441',
+  // websocket_url: 'ws://192.168.0.156:11441',
   get backend_host() {
     console.log(process.env.NODE_ENV)
     console.log(window.location.host)

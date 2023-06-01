@@ -25,7 +25,7 @@
       <el-tag v-else style="font-size:20px" size="large" effect="dark" type="danger">OFFLINE</el-tag>
     </div>
   </div>
-  <AlarmDisplayVue></AlarmDisplayVue>
+  <AlarmDisplayVue :alarms="system_state.Alarms" :collaseable="false" position="none"></AlarmDisplayVue>
   <div class="home-view h-100 d-flex flex-row">
     <EQStatusViewVue class="w-100"></EQStatusViewVue>
   </div>

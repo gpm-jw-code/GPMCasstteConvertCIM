@@ -54,6 +54,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 {
                     VirtualMemoryTable.WriteOneBit(cim_2_eq_port_mode_change_req_address_name, false);
                     VirtualMemoryTable.WriteBinary(port_type_data_address_name, 0);
+                    AlarmManager.AddAlarm(ALARM_CODES.PortTypeChangeRequest_HS_EQ_Timeout, Properties.PortID);
                     Utilities.Utility.SystemLogger.Warning($"ModeChangeRequestHandshake EQ Timeout");
                     return false;
                 }
@@ -205,6 +206,15 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             {
                 try
                 {
+                    Utility.SystemLogger.Info($"ReportCarrierRemovedCompToMCS");
+                    var BCRIDExist = await WaitBCRReadCompleted();
+
+                    if (!BCRIDExist)
+                    {
+                        AlarmManager.AddWarning(ALARM_CODES.Try_CarrierRemovedCompletedReport_But_BCRID_Not_Exist, Properties.PortID);
+                        return;
+                    }
+
                     var response = await MCS.SendMsg(EventsMsg.CarrierRemovedCompleted(Previous_WIPINFO_BCR_ID, Properties.PortID, EPortAutoStatus == AUTO_MANUAL_MODE.AUTO)); //TODO Zone Name ?
                     if (response.IsS9F7())
                         AlarmManager.AddWarning(ALARM_CODES.MCS_CARRIER_REMOVED_COMPLETED_REPORT_FAIL, Properties.PortID);
@@ -252,11 +262,36 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 return false;
             }
         }
-        private async void InstalledReport()
+        private async void ReportCarrierInstalledToMCS()
         {
+            bool BCRIDExist = await WaitBCRReadCompleted();
+            if (!BCRIDExist)
+            {
+                AlarmManager.AddWarning(ALARM_CODES.Try_CarrierInstalledReport_But_BCRID_Not_Exist, Properties.PortID);
+                return;
+            }
             Utility.SystemLogger.Info($"Carrier Installed Report to MCS");
             SecsMessage install_response = await MCS.SendMsg(EventsMsg.CarrierInstalled(WIPINFO_BCR_ID, Properties.PortID, EPortAutoStatus == AUTO_MANUAL_MODE.AUTO));
+
         }
+
+        private async Task<bool> WaitBCRReadCompleted()
+        {
+            Utility.SystemLogger.Info($"Wait BCR Read Completed");
+
+            CancellationTokenSource cst = new CancellationTokenSource(TimeSpan.FromSeconds(30));
+            while (WIPINFO_BCR_ID == "")
+            {
+                if (cst.IsCancellationRequested)
+                    return false;
+                await Task.Delay(1);
+            }
+            Utility.SystemLogger.Info($"BCR Read Completed : {WIPINFO_BCR_ID}");
+
+            return true;
+
+        }
+
         private void WaitOutSECSReport()
         {
             _ = Task.Factory.StartNew(async () =>

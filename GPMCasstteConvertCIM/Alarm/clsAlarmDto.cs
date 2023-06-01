@@ -69,5 +69,8 @@ namespace GPMCasstteConvertCIM.Alarm
         WAIT_Load_Unload_Request_Bit_ON_When_MCS_Transfering,
         None,
         WAIT_Load_Unload_Request_Bit_ON_When_Carrier_WaitIn_Reply,
+        PortTypeChangeRequest_HS_EQ_Timeout,
+        Try_CarrierInstalledReport_But_BCRID_Not_Exist,
+        Try_CarrierRemovedCompletedReport_But_BCRID_Not_Exist,
     }
 }

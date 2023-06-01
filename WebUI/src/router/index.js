@@ -12,14 +12,9 @@ const routes = [
     component: HomeView,
   },
   {
-    path: '/rd_test',
-    name: 'rd_test',
-    component: () => import('../views/RDTestView.vue'),
-  },
-  {
-    path: '/map',
-    name: 'map',
-    component: () => import('../views/MapView.vue'),
+    path: '/secslog',
+    name: 'secslog',
+    component: () => import('../views/SecsMsgLog.vue'),
   },
 ]
 

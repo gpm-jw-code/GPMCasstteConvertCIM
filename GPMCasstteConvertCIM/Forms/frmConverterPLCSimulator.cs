@@ -24,9 +24,12 @@ namespace GPMCasstteConvertCIM.Forms
         public frmConverterPLCSimulator()
         {
             InitializeComponent();
-            uscMemoryTable1.bitValueOnChanged += UscMemoryTable1_bitValueOnChanged;
-            uscMemoryTable1.wordValueOnChanged += UscMemoryTable1_wordValueOnChanged; ;
+            uscMemoryTable1.EQPBitValueOnChanged += UscMemoryTable1_bitValueOnChanged;
+            uscMemoryTable1.CIMBitValueOnChanged += UscMemoryTable1_CIMBitValueOnChanged;
+            uscMemoryTable1.EQPWordValueOnChanged += UscMemoryTable1_wordValueOnChanged; ;
+            uscMemoryTable1.CIMWordValueOnChanged += UscMemoryTable1_CIMWordValueOnChanged;
         }
+
 
         private void UscMemoryTable1_wordValueOnChanged(object? sender, clsMemoryAddress e)
         {
@@ -38,6 +41,16 @@ namespace GPMCasstteConvertCIM.Forms
             CasstteConverter.EQPMemOptions.memoryTable.WriteOneBit(e.bitAddress, e.state);
         }
 
+        private void UscMemoryTable1_CIMBitValueOnChanged(object? sender, (string bitAddress, bool state) e)
+        {
+            CasstteConverter.CIMMemOptions.memoryTable.WriteOneBit(e.bitAddress, e.state);
+
+        }
+        private void UscMemoryTable1_CIMWordValueOnChanged(object? sender, clsMemoryAddress e)
+        {
+            CasstteConverter.CIMMemOptions.memoryTable.WriteBinary(e.Address, (int)e.Value);
+
+        }
         private void frmConverterPLCSimulator_Load(object sender, EventArgs e)
         {
             uscMemoryTable1.bitMemoryAddressList = CasstteConverter?.LinkBitMap;
