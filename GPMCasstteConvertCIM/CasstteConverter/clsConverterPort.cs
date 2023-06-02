@@ -227,10 +227,12 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 if (_PortStatusDown != value)
                 {
                     _PortStatusDown = value;
+
                     if (_PortStatusDown)
-                        PortInServiceReport();
+                        SecsEventReport(CEID.PortInServiceReport);
                     else
-                        PortOutOfServiceReport();
+                        SecsEventReport(CEID.PortOutOfServiceReport);
+
                     Properties.InSerivce = _PortStatusDown;
                 }
             }
@@ -257,19 +259,22 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
                         Task.Factory.StartNew(async () =>
                         {
-                            ReportCarrierInstalledToMCS();
+                            await SecsEventReport(CEID.CarrierInstallCompletedReport);
                             //先等轉換架Load.Unload Request ON 
                             bool lduld_req = await WaitLoadUnloadRequestON();
                             if (!lduld_req)
                                 return;
-                            bool wait_in_accept = await ReportCarrierWaitInToMCS();
+
+                            bool wait_in_accept = await SecsEventReport(CEID.CarrierWaitIn);
 
                             Utility.SystemLogger.Info($"Carrier Wait In HS Start");
 
                             (bool confirm, ALARM_CODES alarm_code) result = await CarrierWaitInReply(wait_in_accept, 10000);
 
                             if (!wait_in_accept)
-                                WaitOutSECSReport();
+                            {
+                                await SecsEventReport(CEID.CarrierWaitOut);
+                            }
 
                             if (!result.confirm)
                             {
@@ -285,19 +290,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             }
         }
 
-        private async Task<bool> ReportCarrierWaitInToMCS()
-        {
-            SecsMessage? msc_reply = await MCS.SendMsg(EventsMsg.CarrierWaitIn(WIPINFO_BCR_ID, Properties.PortID, ""));//TODO Zone Name ?
-            bool mcs_accpet = msc_reply.SecsItem.FirstValue<byte>() == 0;
-            Utility.SystemLogger.Info($"MCS Wait IN ACK:{mcs_accpet} {msc_reply.ToSml()}");
-            bool wait_in_accept_and_agv_will_transfer_in = false;
-            if (mcs_accpet)
-                wait_in_accept_and_agv_will_transfer_in = await WaitTransferTaskDownloaded();
-            else
-                wait_in_accept_and_agv_will_transfer_in = false;
-
-            return wait_in_accept_and_agv_will_transfer_in;
-        }
 
         private bool _CarrierWaitOUTSystemRequest;
         public bool CarrierWaitOUTSystemRequest
@@ -312,16 +304,19 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                         Previous_WIPINFO_BCR_ID = WIPINFO_BCR_ID;
                         CarrierInstallTime = DateTime.Now;
 
-                        ReportCarrierInstalledToMCS();
-
-                        if (EQParent.converterType == CONVERTER_TYPE.SYS_2_SYS) //平對平才要報Wait Out
-                            WaitOutSECSReport();
 
                         Utility.SystemLogger.Info("Carrier Wait out Request bit ON ");
 
                         Task.Factory.StartNew(async () =>
                         {
                             await Task.Delay(1);
+
+                            await SecsEventReport(CEID.CarrierInstallCompletedReport);
+
+                            if (EQParent.converterType == CONVERTER_TYPE.SYS_2_SYS) //平對平才要報Wait Out
+                                await SecsEventReport(CEID.CarrierWaitOut);
+
+
                             Utility.SystemLogger.Info($"PLC Carrier Wait  Out HS Start");
                             try
                             {
@@ -357,7 +352,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     if (_CarrierRemovedCompletedReport)
                     {
                         Utility.SystemLogger.Info($"Carrier Remove Completed Report Start");
-                        ReportCarrierRemovedCompToMCS();
+                        SecsEventReport(CEID.CarrierRemovedCompletedReport);
                         CarrierRemovedCompletedReply();
                     }
                 }
@@ -396,14 +391,11 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             {
                 if (_PortType != value)
                 {
-                    Task.Factory.StartNew(() =>
+                    Task.Factory.StartNew(async () =>
                     {
                         try
                         {
-                            if (value == 0 | (value == 2 & MCSReservePortType == PortUnitType.Input))
-                                PortTypeInputReport();
-                            if (value == 1 | (value == 2 && MCSReservePortType == PortUnitType.Output))
-                                PortTypeOutputReport();
+                            await PortTypeReport();
                         }
                         catch (Exception ex)
                         {
@@ -416,12 +408,12 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             }
         }
 
-        internal void PortTypeReport()
+        internal async Task PortTypeReport()
         {
             if (EPortType == PortUnitType.Input | (EPortType == PortUnitType.Input_Output && MCSReservePortType == PortUnitType.Input))
-                PortTypeInputReport();
+                await SecsEventReport(CEID.PortTypeInputReport);
             if (EPortType == PortUnitType.Output | (EPortType == PortUnitType.Input_Output && MCSReservePortType == PortUnitType.Output))
-                PortTypeOutputReport();
+                await SecsEventReport(CEID.PortTypeOutputReport);
         }
 
 

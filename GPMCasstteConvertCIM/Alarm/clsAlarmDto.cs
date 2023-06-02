@@ -72,5 +72,7 @@ namespace GPMCasstteConvertCIM.Alarm
         PortTypeChangeRequest_HS_EQ_Timeout,
         Try_CarrierInstalledReport_But_BCRID_Not_Exist,
         Try_CarrierRemovedCompletedReport_But_BCRID_Not_Exist,
+        Port_Event_Report_Timeout,
+        Port_Event_Report_Code_Error,
     }
 }

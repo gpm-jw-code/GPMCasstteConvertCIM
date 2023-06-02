@@ -141,16 +141,14 @@ namespace GPMCasstteConvertCIM.Devices
                     foreach (clsConverterPort port in GetAllPorts())
                     {
                         if (port.PortStatusDown)
-                        {
-                            port.PortInServiceReport();
-                        }
+                            port.SecsEventReport(CEID.PortInServiceReport);
                         else
-                            port.PortOutOfServiceReport();
+                            port.SecsEventReport(CEID.PortOutOfServiceReport);
 
                         if (port.PortType == 0)
-                            port.PortTypeInputReport();
+                            port.SecsEventReport(CEID.PortTypeInputReport);
                         else if (port.PortType == 1)
-                            port.PortTypeOutputReport();
+                            port.SecsEventReport(CEID.PortTypeOutputReport);
                     }
                     SysLog.Info($"Report Port States To MCS Done");
 

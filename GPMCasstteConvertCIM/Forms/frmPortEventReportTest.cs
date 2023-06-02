@@ -23,23 +23,25 @@ namespace GPMCasstteConvertCIM.Forms
 
         private void btnInServiceReport_Click(object sender, EventArgs e)
         {
-            portData.PortInServiceReport();
+            portData.SecsEventReport(GPM_SECS.CEID.PortInServiceReport);
         }
 
         private void btnOutOfServiceReport_Click(object sender, EventArgs e)
         {
-            portData.PortOutOfServiceReport();
+            portData.SecsEventReport(GPM_SECS.CEID.PortOutOfServiceReport);
         }
 
 
         private void btnPortTypeInputReport_Click(object sender, EventArgs e)
         {
-            portData.PortTypeInputReport();
+            portData.SecsEventReport(GPM_SECS.CEID.PortTypeInputReport);
+
         }
 
         private void btnPortTypeOutputReport_Click(object sender, EventArgs e)
         {
-            portData.PortTypeOutputReport();
+            portData.SecsEventReport(GPM_SECS.CEID.PortTypeOutputReport);
+
         }
 
         private void frmPortEventReportTest_Load(object sender, EventArgs e)
