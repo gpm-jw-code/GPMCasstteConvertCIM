@@ -72,12 +72,7 @@ namespace GPMCasstteConvertCIM.API.WebsocketSupport
                 var port = DevicesManager.GetPortByPortID(req.PortID);
                 if (port != null)
                 {
-                    //if (port.PortExist)
-                    //{
-                    //    Send(new SimpleReplyViewModel(false, "有料時不可清帳").Json);
-                    //    return;
-                    //}
-                    port.ReportCarrierRemovedCompToMCS();
+                    bool confirm = port.SecsEventReport(CEID.CarrierRemovedCompletedReport).Result;
                     Send(new SimpleReplyViewModel(true, "Carrier Removed Completed ! \r\n請將載具從 Port 移除").Json);
                 }
                 else
