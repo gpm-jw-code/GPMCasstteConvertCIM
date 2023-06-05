@@ -37,8 +37,8 @@ namespace GPMCasstteConvertCIM.Forms
         {
             Invoke(new Action(() =>
             {
-                richTextBox3.SelectionColor = Color.Black;
-                richTextBox3.AppendText($"{e.Exception.Message}\n");
+                rtbSystemLogShow.SelectionColor = Color.Black;
+                rtbSystemLogShow.AppendText($"{e.Exception.Message}\n");
             }));
         }
 
@@ -47,8 +47,8 @@ namespace GPMCasstteConvertCIM.Forms
 
             Invoke(new Action(() =>
             {
-                richTextBox3.SelectionColor = Color.Black;
-                richTextBox3.AppendText($"{(e.ExceptionObject as Exception).InnerException?.Message}\n");
+                rtbSystemLogShow.SelectionColor = Color.Black;
+                rtbSystemLogShow.AppendText($"{(e.ExceptionObject as Exception).InnerException?.Message}\n");
             }));
         }
 
@@ -85,7 +85,6 @@ namespace GPMCasstteConvertCIM.Forms
             tlpConverterContainer.SuspendLayout();
             foreach (Devices.Options.ConverterEQPInitialOption item in DevicesManager.DevicesConnectionsOpts.PLCEQS)
             {
-                item.logRichTextBox = rtbCasstteConvertLog;
                 UI_UserControls.UscCasstteConverter mainUI = new UI_UserControls.UscCasstteConverter();
                 item.mainUI = mainUI;
                 tlpConverterContainer.Controls.Add(mainUI);

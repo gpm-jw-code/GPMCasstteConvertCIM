@@ -60,13 +60,9 @@
             uscAlarmTable1 = new UI_UserControls.UscAlarmTable();
             tabPage2 = new TabPage();
             tableLayoutPanel1 = new TableLayoutPanel();
-            checkBox4 = new CheckBox();
-            checkBox3 = new CheckBox();
             checkBox2 = new CheckBox();
             rtbSecsHostLog = new RichTextBox();
             rtbSecsClientLog = new RichTextBox();
-            rtbCasstteConvertLog = new RichTextBox();
-            richTextBox3 = new RichTextBox();
             checkBox1 = new CheckBox();
             checkBox5 = new CheckBox();
             rtbModbusTcpServerLog = new RichTextBox();
@@ -452,69 +448,24 @@
             // 
             // tableLayoutPanel1
             // 
-            tableLayoutPanel1.ColumnCount = 4;
+            tableLayoutPanel1.ColumnCount = 3;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
-            tableLayoutPanel1.Controls.Add(checkBox4, 3, 0);
-            tableLayoutPanel1.Controls.Add(checkBox3, 2, 0);
             tableLayoutPanel1.Controls.Add(checkBox2, 1, 0);
             tableLayoutPanel1.Controls.Add(rtbSecsHostLog, 0, 1);
             tableLayoutPanel1.Controls.Add(rtbSecsClientLog, 1, 1);
-            tableLayoutPanel1.Controls.Add(rtbCasstteConvertLog, 2, 1);
-            tableLayoutPanel1.Controls.Add(richTextBox3, 3, 1);
             tableLayoutPanel1.Controls.Add(checkBox1, 0, 0);
-            tableLayoutPanel1.Controls.Add(checkBox5, 0, 2);
-            tableLayoutPanel1.Controls.Add(rtbModbusTcpServerLog, 0, 3);
+            tableLayoutPanel1.Controls.Add(checkBox5, 2, 0);
+            tableLayoutPanel1.Controls.Add(rtbModbusTcpServerLog, 2, 1);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(3, 3);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
-            tableLayoutPanel1.RowCount = 4;
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 41F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel1.RowCount = 2;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 41F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tableLayoutPanel1.Size = new Size(1260, 371);
             tableLayoutPanel1.TabIndex = 2;
-            // 
-            // checkBox4
-            // 
-            checkBox4.Appearance = Appearance.Button;
-            checkBox4.BackColor = Color.Gray;
-            checkBox4.Checked = true;
-            checkBox4.CheckState = CheckState.Checked;
-            checkBox4.Dock = DockStyle.Fill;
-            checkBox4.FlatAppearance.CheckedBackColor = Color.Green;
-            checkBox4.FlatStyle = FlatStyle.Flat;
-            checkBox4.Font = new Font("Microsoft JhengHei UI", 15F, FontStyle.Regular, GraphicsUnit.Point);
-            checkBox4.ForeColor = Color.White;
-            checkBox4.Location = new Point(948, 3);
-            checkBox4.Name = "checkBox4";
-            checkBox4.Size = new Size(309, 35);
-            checkBox4.TabIndex = 8;
-            checkBox4.Text = "---";
-            checkBox4.TextAlign = ContentAlignment.MiddleCenter;
-            checkBox4.UseVisualStyleBackColor = false;
-            // 
-            // checkBox3
-            // 
-            checkBox3.Appearance = Appearance.Button;
-            checkBox3.BackColor = Color.Gray;
-            checkBox3.Checked = true;
-            checkBox3.CheckState = CheckState.Checked;
-            checkBox3.Dock = DockStyle.Fill;
-            checkBox3.FlatAppearance.CheckedBackColor = Color.Green;
-            checkBox3.FlatStyle = FlatStyle.Flat;
-            checkBox3.Font = new Font("Microsoft JhengHei UI", 15F, FontStyle.Regular, GraphicsUnit.Point);
-            checkBox3.ForeColor = Color.White;
-            checkBox3.Location = new Point(633, 3);
-            checkBox3.Name = "checkBox3";
-            checkBox3.Size = new Size(309, 35);
-            checkBox3.TabIndex = 7;
-            checkBox3.Text = "---";
-            checkBox3.TextAlign = ContentAlignment.MiddleCenter;
-            checkBox3.UseVisualStyleBackColor = false;
             // 
             // checkBox2
             // 
@@ -527,9 +478,9 @@
             checkBox2.FlatStyle = FlatStyle.Flat;
             checkBox2.Font = new Font("Microsoft JhengHei UI", 15F, FontStyle.Regular, GraphicsUnit.Point);
             checkBox2.ForeColor = Color.White;
-            checkBox2.Location = new Point(318, 3);
+            checkBox2.Location = new Point(423, 3);
             checkBox2.Name = "checkBox2";
-            checkBox2.Size = new Size(309, 35);
+            checkBox2.Size = new Size(414, 35);
             checkBox2.TabIndex = 6;
             checkBox2.Text = "CIM<->AGVS";
             checkBox2.TextAlign = ContentAlignment.MiddleCenter;
@@ -542,7 +493,7 @@
             rtbSecsHostLog.ForeColor = Color.White;
             rtbSecsHostLog.Location = new Point(3, 44);
             rtbSecsHostLog.Name = "rtbSecsHostLog";
-            rtbSecsHostLog.Size = new Size(309, 138);
+            rtbSecsHostLog.Size = new Size(414, 324);
             rtbSecsHostLog.TabIndex = 1;
             rtbSecsHostLog.Text = "";
             // 
@@ -551,33 +502,11 @@
             rtbSecsClientLog.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             rtbSecsClientLog.BackColor = SystemColors.InfoText;
             rtbSecsClientLog.ForeColor = Color.White;
-            rtbSecsClientLog.Location = new Point(318, 44);
+            rtbSecsClientLog.Location = new Point(423, 44);
             rtbSecsClientLog.Name = "rtbSecsClientLog";
-            rtbSecsClientLog.Size = new Size(309, 138);
+            rtbSecsClientLog.Size = new Size(414, 324);
             rtbSecsClientLog.TabIndex = 2;
             rtbSecsClientLog.Text = "";
-            // 
-            // rtbCasstteConvertLog
-            // 
-            rtbCasstteConvertLog.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            rtbCasstteConvertLog.BackColor = SystemColors.InfoText;
-            rtbCasstteConvertLog.ForeColor = Color.White;
-            rtbCasstteConvertLog.Location = new Point(633, 44);
-            rtbCasstteConvertLog.Name = "rtbCasstteConvertLog";
-            rtbCasstteConvertLog.Size = new Size(309, 138);
-            rtbCasstteConvertLog.TabIndex = 3;
-            rtbCasstteConvertLog.Text = "";
-            // 
-            // richTextBox3
-            // 
-            richTextBox3.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            richTextBox3.BackColor = SystemColors.InfoText;
-            richTextBox3.ForeColor = Color.White;
-            richTextBox3.Location = new Point(948, 44);
-            richTextBox3.Name = "richTextBox3";
-            richTextBox3.Size = new Size(309, 138);
-            richTextBox3.TabIndex = 4;
-            richTextBox3.Text = "";
             // 
             // checkBox1
             // 
@@ -592,7 +521,7 @@
             checkBox1.ForeColor = Color.White;
             checkBox1.Location = new Point(3, 3);
             checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(309, 35);
+            checkBox1.Size = new Size(414, 35);
             checkBox1.TabIndex = 5;
             checkBox1.Text = "CIM<->MCS";
             checkBox1.TextAlign = ContentAlignment.MiddleCenter;
@@ -609,9 +538,9 @@
             checkBox5.FlatStyle = FlatStyle.Flat;
             checkBox5.Font = new Font("Microsoft JhengHei UI", 15F, FontStyle.Regular, GraphicsUnit.Point);
             checkBox5.ForeColor = Color.White;
-            checkBox5.Location = new Point(3, 188);
+            checkBox5.Location = new Point(843, 3);
             checkBox5.Name = "checkBox5";
-            checkBox5.Size = new Size(309, 35);
+            checkBox5.Size = new Size(414, 35);
             checkBox5.TabIndex = 9;
             checkBox5.Text = "ModbusTcpServer";
             checkBox5.TextAlign = ContentAlignment.MiddleCenter;
@@ -622,9 +551,9 @@
             rtbModbusTcpServerLog.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             rtbModbusTcpServerLog.BackColor = SystemColors.InfoText;
             rtbModbusTcpServerLog.ForeColor = Color.White;
-            rtbModbusTcpServerLog.Location = new Point(3, 229);
+            rtbModbusTcpServerLog.Location = new Point(843, 44);
             rtbModbusTcpServerLog.Name = "rtbModbusTcpServerLog";
-            rtbModbusTcpServerLog.Size = new Size(309, 139);
+            rtbModbusTcpServerLog.Size = new Size(414, 324);
             rtbModbusTcpServerLog.TabIndex = 7;
             rtbModbusTcpServerLog.Text = "";
             // 
@@ -935,8 +864,6 @@
         private TabPage tabPage1;
         private TabPage tabPage2;
         private TableLayoutPanel tableLayoutPanel1;
-        private CheckBox checkBox4;
-        private CheckBox checkBox3;
         private CheckBox checkBox2;
         private CheckBox checkBox1;
         private BindingSource primaryMessageWrapperBindingSource;
@@ -971,8 +898,6 @@
         private RichTextBox rtbModbusTcpServerLog;
         private RichTextBox rtbSecsHostLog;
         private RichTextBox rtbSecsClientLog;
-        private RichTextBox rtbCasstteConvertLog;
-        private RichTextBox richTextBox3;
         private CheckBox checkBox5;
         private ToolStripMenuItem AGVS_modbus_sim_ToolStripMenuItem;
         private StatusStrip statusStrip1;

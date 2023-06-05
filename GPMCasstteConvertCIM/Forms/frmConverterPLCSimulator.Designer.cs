@@ -55,6 +55,7 @@
             // 
             // btnWIP_BCR_ID_Write
             // 
+            btnWIP_BCR_ID_Write.ForeColor = Color.Black;
             btnWIP_BCR_ID_Write.Location = new Point(258, 12);
             btnWIP_BCR_ID_Write.Name = "btnWIP_BCR_ID_Write";
             btnWIP_BCR_ID_Write.Size = new Size(75, 23);
@@ -65,6 +66,7 @@
             // 
             // txbWIP_BCR_ID
             // 
+            txbWIP_BCR_ID.ForeColor = Color.White;
             txbWIP_BCR_ID.Location = new Point(92, 12);
             txbWIP_BCR_ID.MaxLength = 20;
             txbWIP_BCR_ID.Name = "txbWIP_BCR_ID";
@@ -75,6 +77,7 @@
             // label1
             // 
             label1.AutoSize = true;
+            label1.ForeColor = Color.White;
             label1.Location = new Point(16, 16);
             label1.Name = "label1";
             label1.Size = new Size(70, 15);
@@ -83,6 +86,7 @@
             // 
             // btnSendChangeToManModeReq
             // 
+            btnSendChangeToManModeReq.ForeColor = Color.Black;
             btnSendChangeToManModeReq.Location = new Point(20, 22);
             btnSendChangeToManModeReq.Name = "btnSendChangeToManModeReq";
             btnSendChangeToManModeReq.Size = new Size(160, 26);
@@ -94,6 +98,7 @@
             // groupBox1
             // 
             groupBox1.Controls.Add(btnSendChangeToManModeReq);
+            groupBox1.ForeColor = Color.White;
             groupBox1.Location = new Point(545, 12);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(200, 52);
@@ -104,6 +109,7 @@
             // groupBox2
             // 
             groupBox2.Controls.Add(ckbIsEQPAlive);
+            groupBox2.ForeColor = Color.White;
             groupBox2.Location = new Point(339, 12);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(200, 52);
@@ -134,7 +140,7 @@
             ckbMonitor.AutoSize = true;
             ckbMonitor.Checked = true;
             ckbMonitor.CheckState = CheckState.Checked;
-            ckbMonitor.FlatAppearance.CheckedBackColor = Color.Lime;
+            ckbMonitor.FlatAppearance.CheckedBackColor = Color.FromArgb(0, 192, 0);
             ckbMonitor.FlatStyle = FlatStyle.Flat;
             ckbMonitor.Location = new Point(1089, 16);
             ckbMonitor.Name = "ckbMonitor";
@@ -148,6 +154,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.ControlText;
             ClientSize = new Size(1164, 872);
             Controls.Add(ckbMonitor);
             Controls.Add(groupBox2);
@@ -157,8 +164,10 @@
             Controls.Add(btnWIP_BCR_ID_Write);
             Controls.Add(uscMemoryTable1);
             DoubleBuffered = true;
+            ForeColor = Color.White;
             Name = "frmConverterPLCSimulator";
             Text = "轉換架_PLC模擬器";
+            WindowState = FormWindowState.Maximized;
             FormClosing += frmConverterPLCSimulator_FormClosing;
             Load += frmConverterPLCSimulator_Load;
             groupBox1.ResumeLayout(false);

@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             dgvEQPBitMap = new DataGridView();
             addressDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             DataName = new DataGridViewTextBoxColumn();
@@ -83,13 +86,33 @@
             // 
             dgvEQPBitMap.AutoGenerateColumns = false;
             dgvEQPBitMap.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dgvEQPBitMap.BackgroundColor = Color.FromArgb(53, 53, 53);
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = Color.Black;
+            dataGridViewCellStyle1.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgvEQPBitMap.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvEQPBitMap.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvEQPBitMap.Columns.AddRange(new DataGridViewColumn[] { addressDataGridViewTextBoxColumn, DataName, dataGridViewTextBoxColumn1, Value, valueTogglebtn, dataGridViewTextBoxColumn2, dataTypeDataGridViewTextBoxColumn, Link_Modbus_Address });
             dgvEQPBitMap.DataSource = clsMemoryAddressBindingSource;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.MenuText;
+            dataGridViewCellStyle2.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle2.ForeColor = SystemColors.ButtonFace;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dgvEQPBitMap.DefaultCellStyle = dataGridViewCellStyle2;
             dgvEQPBitMap.Dock = DockStyle.Fill;
             dgvEQPBitMap.Location = new Point(3, 60);
             dgvEQPBitMap.Name = "dgvEQPBitMap";
             dgvEQPBitMap.RowHeadersVisible = false;
+            dataGridViewCellStyle3.BackColor = Color.FromArgb(53, 53, 53);
+            dataGridViewCellStyle3.ForeColor = Color.White;
+            dgvEQPBitMap.RowsDefaultCellStyle = dataGridViewCellStyle3;
             dgvEQPBitMap.RowTemplate.Height = 25;
             dgvEQPBitMap.Size = new Size(839, 227);
             dgvEQPBitMap.TabIndex = 0;
@@ -174,6 +197,7 @@
             // 
             dgvEQPWordMap.AutoGenerateColumns = false;
             dgvEQPWordMap.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dgvEQPWordMap.BackgroundColor = Color.FromArgb(53, 53, 53);
             dgvEQPWordMap.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvEQPWordMap.Columns.AddRange(new DataGridViewColumn[] { addressDataGridViewTextBoxColumn1, dataGridViewTextBoxColumn4, Owner, dataGridViewTextBoxColumn3, PropertyName, dataTypeDataGridViewTextBoxColumn1, dataGridViewTextBoxColumn17 });
             dgvEQPWordMap.DataSource = clsMemoryAddressBindingSource;
@@ -181,6 +205,7 @@
             dgvEQPWordMap.Location = new Point(848, 60);
             dgvEQPWordMap.Name = "dgvEQPWordMap";
             dgvEQPWordMap.RowHeadersVisible = false;
+            dgvEQPWordMap.RowsDefaultCellStyle = dataGridViewCellStyle3;
             dgvEQPWordMap.RowTemplate.Height = 25;
             dgvEQPWordMap.Size = new Size(840, 227);
             dgvEQPWordMap.TabIndex = 1;
@@ -334,6 +359,7 @@
             // 
             dgvCIMBitMap.AutoGenerateColumns = false;
             dgvCIMBitMap.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dgvCIMBitMap.BackgroundColor = Color.FromArgb(53, 53, 53);
             dgvCIMBitMap.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvCIMBitMap.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn11, dataGridViewTextBoxColumn12, dataGridViewTextBoxColumn13, dataGridViewCheckBoxColumn2, ToggleBtnText, dataGridViewTextBoxColumn14, dataGridViewTextBoxColumn15, dataGridViewTextBoxColumn16 });
             dgvCIMBitMap.DataSource = clsMemoryAddressBindingSource;
@@ -341,6 +367,7 @@
             dgvCIMBitMap.Location = new Point(3, 348);
             dgvCIMBitMap.Name = "dgvCIMBitMap";
             dgvCIMBitMap.RowHeadersVisible = false;
+            dgvCIMBitMap.RowsDefaultCellStyle = dataGridViewCellStyle3;
             dgvCIMBitMap.RowTemplate.Height = 25;
             dgvCIMBitMap.Size = new Size(839, 227);
             dgvCIMBitMap.TabIndex = 3;
@@ -415,6 +442,7 @@
             // 
             dgvCIMWordMap.AutoGenerateColumns = false;
             dgvCIMWordMap.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dgvCIMWordMap.BackgroundColor = Color.FromArgb(53, 53, 53);
             dgvCIMWordMap.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvCIMWordMap.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn5, dataGridViewTextBoxColumn6, dataGridViewTextBoxColumn7, dataGridViewCheckBoxColumn1, dataGridViewTextBoxColumn8, dataGridViewTextBoxColumn9, dataGridViewTextBoxColumn10 });
             dgvCIMWordMap.DataSource = clsMemoryAddressBindingSource;
@@ -422,6 +450,7 @@
             dgvCIMWordMap.Location = new Point(848, 348);
             dgvCIMWordMap.Name = "dgvCIMWordMap";
             dgvCIMWordMap.RowHeadersVisible = false;
+            dgvCIMWordMap.RowsDefaultCellStyle = dataGridViewCellStyle3;
             dgvCIMWordMap.RowTemplate.Height = 25;
             dgvCIMWordMap.Size = new Size(840, 227);
             dgvCIMWordMap.TabIndex = 2;

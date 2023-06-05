@@ -41,7 +41,7 @@
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1421, 45);
+            panel1.Size = new Size(1385, 45);
             panel1.TabIndex = 1;
             // 
             // ckbMonitor
@@ -67,19 +67,22 @@
             uscMemoryTable1.Editable = true;
             uscMemoryTable1.Location = new Point(12, 51);
             uscMemoryTable1.Name = "uscMemoryTable1";
-            uscMemoryTable1.Size = new Size(1397, 721);
+            uscMemoryTable1.Size = new Size(1361, 610);
             uscMemoryTable1.TabIndex = 0;
             // 
             // frmConvertPLCMemoryTables
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1421, 784);
+            BackColor = Color.FromArgb(51, 51, 51);
+            ClientSize = new Size(1385, 673);
             Controls.Add(uscMemoryTable1);
             Controls.Add(panel1);
             DoubleBuffered = true;
+            ForeColor = Color.White;
             Name = "frmConvertPLCMemoryTables";
             Text = "PLC Memory Table";
+            WindowState = FormWindowState.Maximized;
             FormClosing += frmConvertPLCMemoryTables_FormClosing;
             Load += frmConvertPLCMemoryTables_Load;
             panel1.ResumeLayout(false);

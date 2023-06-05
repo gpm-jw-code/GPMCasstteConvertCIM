@@ -47,7 +47,7 @@ namespace GPMCasstteConvertCIM.UI_UserControls
                 DataGridView dgv = (DataGridView)sender;
                 clsMemoryAddress addressDto = dgv.Rows[e.RowIndex].DataBoundItem as clsMemoryAddress;
                 bool active = (bool)addressDto.Value;
-                dgv.Rows[e.RowIndex].DefaultCellStyle.BackColor = active ? Color.Lime : Color.White;
+                dgv.Rows[e.RowIndex].DefaultCellStyle.BackColor = active ? Color.Lime : Color.FromArgb(51, 51, 51);
             }
         }
 
