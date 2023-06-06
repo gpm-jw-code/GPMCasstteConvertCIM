@@ -79,15 +79,45 @@
           <el-tag effect="dark" :type="data.HSSignalsState.EQ_READY?'success':'danger'">EQ_READY</el-tag>
           <el-tag effect="dark" :type="data.HSSignalsState.EQ_BUSY?'success':'danger'">EQ_BUSY</el-tag>
         </div>
-
-        <!-- <div class="agvs-io d-flex flex-row m-1">
-          <div class="io-title">AGV Handshake IO</div>
-          <el-tag effect="dark" :type="data.AGVSignals.VALID?'success':'danger'">VALID</el-tag>
-          <el-tag effect="dark" :type="data.AGVSignals.TR_REQ?'success':'danger'">TR_REQ</el-tag>
-          <el-tag effect="dark" :type="data.AGVSignals.AGV_READY?'success':'danger'">AGV_READY</el-tag>
-          <el-tag effect="dark" :type="data.AGVSignals.BUSY?'success':'danger'">BUSY</el-tag>
-          <el-tag effect="dark" :type="data.AGVSignals.COMPT?'success':'danger'">COMPT</el-tag>
-        </div>-->
+        <div class="eq-io d-flex flex-row m-1">
+          <div class="io-title">
+            <b-button size="sm" @click="show_mcs_drawer=true">MCS 測試</b-button>
+            <el-drawer v-model="show_mcs_drawer" direction="rtl">
+              <div>
+                <div class="mcs-event-report d-flex flex-column">
+                  <h3>
+                    <b>事件上報</b>
+                  </h3>
+                  <b-button
+                    @click="EventReport('in-service')"
+                    variant="primary"
+                    class="my-1"
+                  >In-Service</b-button>
+                  <b-button
+                    @click="EventReport('out-out-service')"
+                    variant="primary"
+                    class="my-1"
+                  >Out-of-Service</b-button>
+                  <b-button
+                    @click="EventReport('port-type-input')"
+                    variant="primary"
+                    class="my-1"
+                  >Port Type Input</b-button>
+                  <b-button
+                    @click="EventReport('port-type-output')"
+                    variant="primary"
+                    class="my-1"
+                  >Port Type Output</b-button>
+                  <b-button
+                    @click="EventReport('carrier-removed-completed')"
+                    variant="primary"
+                    class="my-1"
+                  >Carrier Removed Completed</b-button>
+                </div>
+              </div>
+            </el-drawer>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -95,7 +125,7 @@
 
 <script>
 import param from '@/gpm_param.js'
-import { PortTypeChange } from '@/api/CimAPI.js'
+import { PortTypeChange, EventReport } from '@/api/CimAPI.js'
 export default {
   props: {
     data: {
@@ -122,6 +152,11 @@ export default {
         }
       }
     },
+  },
+  data() {
+    return {
+      show_mcs_drawer: false,
+    }
   },
   computed: {
     bgStyle() {
@@ -163,6 +198,9 @@ export default {
         })
         ws.close();
       }
+    },
+    EventReport(event_str) {
+      EventReport(this.data.PortID, event_str);
     }
   }
 }
@@ -171,7 +209,7 @@ export default {
 <style scoped lang="scss">
 .port-element {
   // border-radius: 10px;
-
+  height: 280px;
   .port-info {
     font-size: 22px;
     padding: 12px;
