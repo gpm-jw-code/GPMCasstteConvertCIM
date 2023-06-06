@@ -23,6 +23,15 @@
         type="success"
       >ONLINE</el-tag>
       <el-tag v-else style="font-size:20px" size="large" effect="dark" type="danger">OFFLINE</el-tag>
+
+      <el-tag
+        v-if="system_state.IsRemoteMode"
+        style="font-size:20px"
+        size="large"
+        effect="dark"
+        type="success"
+      >REMOTE</el-tag>
+      <el-tag v-else style="font-size:20px" size="large" effect="dark" type="danger">LOCAL</el-tag>
     </div>
   </div>
   <AlarmDisplayVue :alarms="system_state.Alarms" :collaseable="false" position="none"></AlarmDisplayVue>
@@ -46,6 +55,7 @@ export default {
         IsAGVSSecsConnected: false,
         IsMCSSecsConnected: false,
         IsOnlineMode: false,
+        IsRemoteMode: false,
         Alarms: []
       }
     }

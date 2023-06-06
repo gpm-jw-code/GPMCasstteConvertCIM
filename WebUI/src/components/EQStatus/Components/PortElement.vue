@@ -113,6 +113,16 @@
                     variant="primary"
                     class="my-1"
                   >Carrier Removed Completed</b-button>
+                  <b-button
+                    @click="EventReport('carrier-wait-in')"
+                    variant="primary"
+                    class="my-1"
+                  >Carrier Wait In</b-button>
+                  <b-button
+                    @click="EventReport('carrier-wait-out')"
+                    variant="primary"
+                    class="my-1"
+                  >Carrier Wait Out</b-button>
                 </div>
               </div>
             </el-drawer>
