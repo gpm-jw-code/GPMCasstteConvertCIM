@@ -16,7 +16,8 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
 {
     internal class AGVSMessageHandler
     {
-        internal static event EventHandler OnAGVSOnline;
+        internal static event EventHandler OnAGVSOnline_Local;
+        internal static event EventHandler OnAGVSOnline_Remote;
         internal static event EventHandler OnAGVSOffline;
         private static SECSBase MCS => DevicesManager.secs_host_for_mcs;
         private static SECSBase AGVS => DevicesManager.secs_client_for_agvs;
@@ -95,16 +96,26 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
             try
             {
                 if (_primaryMessage_FromAGVS.S == 6 && _primaryMessage_FromAGVS.F == 12)
-                {
                     ack6 = _primaryMessage_FromAGVS.SecsItem.FirstValue<byte>();
-                }
-                if (_primaryMessage_FromAGVS.IsAGVSOnlineReport())
+
+                if (_primaryMessage_FromAGVS.IsAGVSOnlineReport(out bool isRemote))
                 {
+                    SECSState.IsOnline = true;
+                    SECSState.IsRemote = isRemote;
+
+
+
                     if (ack6 == 0)
-                        OnAGVSOnline?.Invoke("", EventArgs.Empty);
+                    {
+                        if (isRemote)
+                            OnAGVSOnline_Remote?.Invoke("", EventArgs.Empty);
+                        else
+                            OnAGVSOnline_Local?.Invoke("", EventArgs.Empty);
+                    }
                 }
                 if (_primaryMessage_FromAGVS.IsAGVSOfflineReport())
                 {
+                    SECSState.IsOnline = false;
                     if (ack6 == 0)
                         OnAGVSOffline?.Invoke("", EventArgs.Empty);
                 }

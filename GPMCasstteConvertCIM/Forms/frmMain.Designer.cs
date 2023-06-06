@@ -92,6 +92,7 @@
             uscAlarmShow1 = new UI_UserControls.UscAlarmShow();
             splitContainer1 = new SplitContainer();
             ckbRemoteModeIndi = new CheckBox();
+            cknOnlineModeIndi = new CheckBox();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             panel2.SuspendLayout();
@@ -713,7 +714,7 @@
             // 
             btnClearInfoLog.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             btnClearInfoLog.FlatStyle = FlatStyle.Flat;
-            btnClearInfoLog.Location = new Point(1190, 6);
+            btnClearInfoLog.Location = new Point(1175, 6);
             btnClearInfoLog.Name = "btnClearInfoLog";
             btnClearInfoLog.Size = new Size(75, 23);
             btnClearInfoLog.TabIndex = 1;
@@ -806,19 +807,37 @@
             // 
             ckbRemoteModeIndi.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             ckbRemoteModeIndi.Appearance = Appearance.Button;
-            ckbRemoteModeIndi.BackColor = Color.Red;
+            ckbRemoteModeIndi.BackColor = Color.Orange;
             ckbRemoteModeIndi.FlatAppearance.BorderColor = Color.Black;
             ckbRemoteModeIndi.FlatAppearance.CheckedBackColor = Color.SeaGreen;
             ckbRemoteModeIndi.FlatStyle = FlatStyle.Flat;
             ckbRemoteModeIndi.ForeColor = Color.White;
-            ckbRemoteModeIndi.Location = new Point(1327, 3);
+            ckbRemoteModeIndi.Location = new Point(1327, 2);
             ckbRemoteModeIndi.Name = "ckbRemoteModeIndi";
             ckbRemoteModeIndi.Size = new Size(77, 25);
             ckbRemoteModeIndi.TabIndex = 14;
-            ckbRemoteModeIndi.Text = "OFFLINE";
+            ckbRemoteModeIndi.Text = "LOCAL";
             ckbRemoteModeIndi.TextAlign = ContentAlignment.MiddleCenter;
             ckbRemoteModeIndi.UseVisualStyleBackColor = false;
             ckbRemoteModeIndi.CheckedChanged += ckbRemoteModeIndi_CheckedChanged;
+            // 
+            // cknOnlineModeIndi
+            // 
+            cknOnlineModeIndi.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            cknOnlineModeIndi.Appearance = Appearance.Button;
+            cknOnlineModeIndi.BackColor = Color.Red;
+            cknOnlineModeIndi.FlatAppearance.BorderColor = Color.Black;
+            cknOnlineModeIndi.FlatAppearance.CheckedBackColor = Color.SeaGreen;
+            cknOnlineModeIndi.FlatStyle = FlatStyle.Flat;
+            cknOnlineModeIndi.ForeColor = Color.White;
+            cknOnlineModeIndi.Location = new Point(1246, 2);
+            cknOnlineModeIndi.Name = "cknOnlineModeIndi";
+            cknOnlineModeIndi.Size = new Size(77, 25);
+            cknOnlineModeIndi.TabIndex = 15;
+            cknOnlineModeIndi.Text = "OFFLINE";
+            cknOnlineModeIndi.TextAlign = ContentAlignment.MiddleCenter;
+            cknOnlineModeIndi.UseVisualStyleBackColor = false;
+            cknOnlineModeIndi.CheckedChanged += cknOnlineModeIndi_CheckedChanged;
             // 
             // frmMain
             // 
@@ -827,6 +846,7 @@
             AutoScroll = true;
             BackColor = Color.FromArgb(51, 51, 51);
             ClientSize = new Size(1407, 723);
+            Controls.Add(cknOnlineModeIndi);
             Controls.Add(ckbRemoteModeIndi);
             Controls.Add(splitContainer1);
             Controls.Add(uscAlarmShow1);
@@ -943,5 +963,6 @@
         private ToolStripMenuItem toolStripMenuItem1;
         private CheckBox ckbRemoteModeIndi;
         private Button btnClearInfoLog;
+        private CheckBox cknOnlineModeIndi;
     }
 }

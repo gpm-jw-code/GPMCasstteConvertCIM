@@ -141,16 +141,17 @@ namespace GPMCasstteConvertCIM.GPM_SECS
         {
             return msg.S == 9 && msg.F == 7;
         }
-        public static bool IsAGVSOnlineReport(this SecsMessage msg)
+        public static bool IsAGVSOnlineReport(this SecsMessage msg, out bool isRemote)
         {
+            isRemote = false;
             if (msg.S != 6 && msg.F != 11)
                 return false;
             try
             {
                 var item_check = msg.SecsItem.Items[1];
                 var ce_id = item_check.FirstValue<ushort>();
+                isRemote = ce_id == 3;
                 return ce_id == 2 | ce_id == 3;
-
             }
             catch (Exception)
             {

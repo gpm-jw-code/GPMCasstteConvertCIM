@@ -176,8 +176,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         public async Task<(bool confirm, ALARM_CODES alarm_code)> CarrierWaitInReply(bool wait_in_accept, int EQ_T_timeout = 5000)
         {
-
-            Utility.SystemLogger.Info($"等待MCS Accept Carrier Wait IN Request..");
+            Utility.SystemLogger.Info($"Carrier Wait In HS Start");
             bool timeout = false;
             PROPERTY wait_in_ = wait_in_accept ? PROPERTY.Carrier_WaitIn_System_Accept : PROPERTY.Carrier_WaitIn_System_Refuse;
             string? carrier_wait_in_result_flag_address = PortCIMBitAddress[wait_in_];
@@ -223,34 +222,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         private bool NoTransferNotifyFlag = false;
         private bool CurrentCSTHasTransferTaskFlag = false;
 
-        /// <summary>
-        ///等待MCS有下Transfer任務給AGVS取當前Carrier。
-        /// </summary>
-        /// <param name="cst_id"></param>
-        /// <returns></returns>
-        private async Task<bool> WaitTransferTaskDownloaded()
-        {
-            CancellationTokenSource cancelwait = new CancellationTokenSource(TimeSpan.FromSeconds(60));
-            while (!CurrentCSTHasTransferTaskFlag)
-            {
-                if (cancelwait.IsCancellationRequested)
-                {
-                    Utility.SystemLogger.Warning($"{Properties.PortID} _ Carrier- {WIPINFO_BCR_ID} No body known where to go . No AGV To Transfer....");
-                    return false;
-                }
-                if (NoTransferNotifyFlag)
-                {
-                    Utility.SystemLogger.Warning($"{Properties.PortID} _ Carrier- {WIPINFO_BCR_ID} MCS NO Transfer Notify. No AGV To Transfer...");
-                    NoTransferNotifyFlag = false; //reset flag
-                    return false;
-                }
-                await Task.Delay(1);
-            }
-            Utility.SystemLogger.Warning($"{Properties.PortID} _ Carrier- {WIPINFO_BCR_ID} AGV Will Transfer this carrier later.");
-            CurrentCSTHasTransferTaskFlag = false; //reset flag
-            return true;
-        }
-
+     
         internal void CstTransferInvoke()
         {
             CurrentCSTHasTransferTaskFlag = true;

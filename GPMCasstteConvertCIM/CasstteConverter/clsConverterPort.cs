@@ -34,6 +34,17 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
             AGVSignals = new clsHS_Status_Signals();
             AGVSignals.OnValidSignalActive += AGVSignals_OnValidSignalActive;
+
+            SECSState.OnMCSOnlineRemote += SECSState_OnMCSOnlineRemote;
+
+        }
+
+        private void SECSState_OnMCSOnlineRemote(object? sender, EventArgs e)
+        {
+            while (EventMsgSendToMCSBuffer.Count != 0)
+            {
+                EventMsgSendToMCSBuffer.TryDequeue(out var msg);
+            }
         }
 
         public clsCasstteConverter EQParent { get; }
@@ -192,15 +203,31 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             }
         }
 
-        public string Previous_WIPINFO_BCR_ID { get; internal set; }
+        public string Previous_WIPINFO_BCR_ID { get; internal set; } = "";
+        public string _WIPINFO_BCR_ID = "";
+        public DateTime WIPUPdateTime { get; set; } = DateTime.MinValue;
         public string WIPINFO_BCR_ID
         {
-            get
+            get => _WIPINFO_BCR_ID;
+            set
             {
-                if (Debugger.IsAttached && Properties.PortID == "3F_AGVC02_PORT_2_5")
-                    return "TA12E28469";
+                if (_WIPINFO_BCR_ID != value)
+                {
+                    _WIPINFO_BCR_ID = value;
+                    if (value != "")
+                    {
+                        Previous_WIPINFO_BCR_ID = value;
+                        WIPUPdateTime = DateTime.Now;
+                        Utility.SystemLogger.Info($"Port {Properties.PortID} WIP Updated : {_WIPINFO_BCR_ID}");
+                    }
+                }
+            }
+        }
 
-                List<int> ints = new List<int>() {
+
+        internal string GetWIPIDFromMem()
+        {
+            List<int> ints = new List<int>() {
                  WIPInfo_BCR_ID_1,
                  WIPInfo_BCR_ID_2,
                  WIPInfo_BCR_ID_3,
@@ -212,9 +239,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                  WIPInfo_BCR_ID_9,
                  WIPInfo_BCR_ID_10
                 };
-                string id = ints.FindAll(i => i != 0).ToASCII();
-                return id;
-            }
+            string id = ints.FindAll(i => i != 0).ToASCII();
+            return id;
         }
 
         public bool EQ_BUSY { get; internal set; }
@@ -259,15 +285,21 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
                         Task.Factory.StartNew(async () =>
                         {
-                            await SecsEventReport(CEID.CarrierInstallCompletedReport);
                             //先等轉換架Load.Unload Request ON 
                             bool lduld_req = await WaitLoadUnloadRequestON();
                             if (!lduld_req)
                                 return;
 
+                            await Task.Delay(1000);
+                            Utility.SystemLogger.Info($"Carrier Install Event Report To MCS({WIPINFO_BCR_ID})");
+                            await SecsEventReport(CEID.CarrierInstallCompletedReport);
+                            Utility.SystemLogger.Info($"等待MCS Accept Carrier Wait IN Request..");
                             bool wait_in_accept = await SecsEventReport(CEID.CarrierWaitIn);
 
-                            Utility.SystemLogger.Info($"Carrier Wait In HS Start");
+                            if (!SECSState.IsOnline && !SECSState.IsRemote)
+                                Utility.SystemLogger.Info($"CIM  Accept  Carrier Wait IN Request first because MCS isn't ONLINE _ REMOTE");
+                            else
+                                Utility.SystemLogger.Info($"MCS {(wait_in_accept ? "Reject" : "Accept")} Carrier Wait IN Request..");
 
                             (bool confirm, ALARM_CODES alarm_code) result = await CarrierWaitInReply(wait_in_accept, 10000);
 
@@ -310,13 +342,13 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                         Task.Factory.StartNew(async () =>
                         {
                             await Task.Delay(1);
-
                             await SecsEventReport(CEID.CarrierInstallCompletedReport);
-
                             if (EQParent.converterType == CONVERTER_TYPE.SYS_2_SYS) //平對平才要報Wait Out
                                 await SecsEventReport(CEID.CarrierWaitOut);
+                        });
 
-
+                        Task.Factory.StartNew(async () =>
+                        {
                             Utility.SystemLogger.Info($"PLC Carrier Wait  Out HS Start");
                             try
                             {
@@ -331,8 +363,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                                 Utility.SystemLogger.Info($"PLC  Carrier Wait  Out HS ex! {ex.Message},{ex.StackTrace}");
 
                             }
-
                         });
+
 
                     }
                     _CarrierWaitOUTSystemRequest = value;
@@ -353,6 +385,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     {
                         Utility.SystemLogger.Info($"Carrier Remove Completed Report Start");
                         SecsEventReport(CEID.CarrierRemovedCompletedReport);
+                        Utility.SystemLogger.Info($"Carrier Remove Completed HS Start");
                         CarrierRemovedCompletedReply();
                     }
                 }

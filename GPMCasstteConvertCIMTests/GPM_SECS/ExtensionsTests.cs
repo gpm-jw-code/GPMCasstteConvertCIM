@@ -85,7 +85,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.Tests
 
                      )
             };
-            Assert.IsTrue(msg.IsAGVSOnlineReport());
+            Assert.IsTrue(msg.IsAGVSOnlineReport(out bool isRemote));
         }
 
         [TestMethod()]
@@ -102,6 +102,6 @@ namespace GPMCasstteConvertCIM.GPM_SECS.Tests
             Assert.IsTrue(msg.IsAGVSOfflineReport());
         }
 
-     
+
     }
 }

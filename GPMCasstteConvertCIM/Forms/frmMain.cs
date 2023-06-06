@@ -21,8 +21,6 @@ namespace GPMCasstteConvertCIM.Forms
         CasstteConverter.clsCasstteConverter casstteConverter_1;
         CasstteConverter.clsCasstteConverter casstteConverter_2;
 
-        public static bool IsOnline = false;
-        private bool IsRemote = false;
 
         public frmMain()
         {
@@ -142,22 +140,8 @@ namespace GPMCasstteConvertCIM.Forms
             //dgvActiveMsgToAGVS.DataSource = CIMDevices.secs_host.sendBuffer;
             //dgvMsgFromMCS.DataSource = CIMDevices.secs_client.recvBuffer;
             //dgvActiveMsgToMCS.DataSource = CIMDevices.secs_client.sendBuffer;
-            AGVSMessageHandler.OnAGVSOnline += (o, e) =>
-            {
-                Invoke(new Action(() =>
-                {
-                    IsOnline = true;
-                    ckbRemoteModeIndi.Checked = true;
-                }));
-            };
-            AGVSMessageHandler.OnAGVSOffline += (o, e) =>
-            {
-                Invoke(new Action(() =>
-                {
-                    IsOnline = false;
-                    ckbRemoteModeIndi.Checked = false;
-                }));
-            };
+
+
         }
 
 
@@ -309,7 +293,8 @@ namespace GPMCasstteConvertCIM.Forms
         private void SysTimer_Tick(object sender, EventArgs e)
         {
             labSysTime.Text = DateTime.Now.ToString();
-            ckbRemoteModeIndi.Checked = IsOnline;
+            ckbRemoteModeIndi.Checked = SECSState.IsRemote;
+            cknOnlineModeIndi.Checked = SECSState.IsOnline;
         }
 
         private void aGVS¨£®Æº“¿¿æπToolStripMenuItem_Click(object sender, EventArgs e)
@@ -388,12 +373,18 @@ namespace GPMCasstteConvertCIM.Forms
 
         private void ckbRemoteModeIndi_CheckedChanged(object sender, EventArgs e)
         {
-            ckbRemoteModeIndi.Text = ckbRemoteModeIndi.Checked ? "ONLINE" : "OFFLINE";
+            ckbRemoteModeIndi.Text = ckbRemoteModeIndi.Checked ? "REMOTE" : "LOCAL";
         }
 
         private void btnClearInfoLog_Click(object sender, EventArgs e)
         {
             rtbSystemLogShow.Clear();
+        }
+
+        private void cknOnlineModeIndi_CheckedChanged(object sender, EventArgs e)
+        {
+            cknOnlineModeIndi.Text = cknOnlineModeIndi.Checked ? "ONLINE" : "OFFLINE";
+
         }
     }
 }

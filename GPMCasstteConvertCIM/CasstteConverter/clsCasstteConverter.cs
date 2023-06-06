@@ -234,7 +234,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         {
             _ = Task.Run(async () =>
             {
-                
+
                 while (true)
                 {
                     try
@@ -445,8 +445,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     EQPORT.WIPInfo_BCR_ID_8 = (int)LinkWordMap.First(f => !f.IsCIMUse && f.EScope == port && f.EProperty == PROPERTY.WIP_Information_BCR_8).Value;
                     EQPORT.WIPInfo_BCR_ID_9 = (int)LinkWordMap.First(f => !f.IsCIMUse && f.EScope == port && f.EProperty == PROPERTY.WIP_Information_BCR_9).Value;
                     EQPORT.WIPInfo_BCR_ID_10 = (int)LinkWordMap.First(f => !f.IsCIMUse && f.EScope == port && f.EProperty == PROPERTY.WIP_Information_BCR_10).Value;
-
-
+                    EQPORT.WIPINFO_BCR_ID = EQPORT.GetWIPIDFromMem();
                 }
 
             }
