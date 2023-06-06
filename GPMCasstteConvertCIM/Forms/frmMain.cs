@@ -390,5 +390,10 @@ namespace GPMCasstteConvertCIM.Forms
         {
             ckbRemoteModeIndi.Text = ckbRemoteModeIndi.Checked ? "ONLINE" : "OFFLINE";
         }
+
+        private void btnClearInfoLog_Click(object sender, EventArgs e)
+        {
+            rtbSystemLogShow.Clear();
+        }
     }
 }

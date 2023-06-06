@@ -83,6 +83,7 @@
             uscConnectionStates1 = new UI_UserControls.UscConnectionStates();
             label1 = new Label();
             panel1 = new Panel();
+            btnClearInfoLog = new Button();
             rtbSystemLogShow = new RichTextBox();
             statusStrip1 = new StatusStrip();
             toolStripStatusLabel1 = new ToolStripStatusLabel();
@@ -698,6 +699,7 @@
             // 
             panel1.BackColor = Color.Black;
             panel1.BorderStyle = BorderStyle.FixedSingle;
+            panel1.Controls.Add(btnClearInfoLog);
             panel1.Controls.Add(rtbSystemLogShow);
             panel1.Dock = DockStyle.Fill;
             panel1.ForeColor = Color.White;
@@ -706,6 +708,18 @@
             panel1.Padding = new Padding(1);
             panel1.Size = new Size(1274, 174);
             panel1.TabIndex = 6;
+            // 
+            // btnClearInfoLog
+            // 
+            btnClearInfoLog.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnClearInfoLog.FlatStyle = FlatStyle.Flat;
+            btnClearInfoLog.Location = new Point(1190, 6);
+            btnClearInfoLog.Name = "btnClearInfoLog";
+            btnClearInfoLog.Size = new Size(75, 23);
+            btnClearInfoLog.TabIndex = 1;
+            btnClearInfoLog.Text = "清除";
+            btnClearInfoLog.UseVisualStyleBackColor = true;
+            btnClearInfoLog.Click += btnClearInfoLog_Click;
             // 
             // rtbSystemLogShow
             // 
@@ -928,5 +942,6 @@
         private SplitContainer splitContainer1;
         private ToolStripMenuItem toolStripMenuItem1;
         private CheckBox ckbRemoteModeIndi;
+        private Button btnClearInfoLog;
     }
 }
