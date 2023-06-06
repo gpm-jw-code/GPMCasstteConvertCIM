@@ -65,7 +65,6 @@ namespace GPMCasstteConvertCIM.API.WebsocketSupport.GPMWebsocketBehaviors
         }
         private void EventReportHandle(clsConverterPort port, string event_str)
         {
-
             switch (event_str)
             {
                 case "in-service":
@@ -82,6 +81,12 @@ namespace GPMCasstteConvertCIM.API.WebsocketSupport.GPMWebsocketBehaviors
                     break;
                 case "carrier-removed-completed":
                     port.SecsEventReport(GPM_SECS.CEID.CarrierRemovedCompletedReport);
+                    break;
+                case "carrier-wait-in":
+                    port.SecsEventReport(GPM_SECS.CEID.CarrierWaitIn);
+                    break;
+                case "carrier-wait-out":
+                    port.SecsEventReport(GPM_SECS.CEID.CarrierWaitOut);
                     break;
             }
         }
