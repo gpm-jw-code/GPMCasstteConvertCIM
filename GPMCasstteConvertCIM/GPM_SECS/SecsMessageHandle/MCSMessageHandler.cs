@@ -6,6 +6,7 @@ using Secs4Net;
 using Secs4Net.Sml;
 using static Secs4Net.Item;
 using GPMCasstteConvertCIM.GPM_SECS;
+using Microsoft.VisualBasic.Logging;
 
 namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
 {
@@ -99,31 +100,44 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
         /// <param name="_primaryMessageWrapper"></param>
         private async static void PortTypeChangeHandler(Item parameterGroups, PrimaryMessageWrapper _primaryMessageWrapper)
         {
-            HCACK ack;
+            HCACK ack = HCACK.System_Error;
             string port_id = parameterGroups.Items[0].Items[1].GetString();
             ushort port_type = parameterGroups.Items[1].Items[1].FirstValue<ushort>();
             PortUnitType port_type_to_change = port_type == 0 ? PortUnitType.Input : PortUnitType.Output;
-            clsConverterPort port = DevicesManager.GetPortByPortID(port_id);
-            port.MCSReservePortType = port_type_to_change;
+            _Log($"MCS Port Type Change Request In.  Port ID = {port_id} , Port Type = {port_type_to_change} ");
 
-            if (port.EPortType == port_type_to_change)
+            clsConverterPort port = DevicesManager.GetPortByPortID(port_id);
+            if (port == null)
             {
-                ack = HCACK.Rejected_Already_in_desired_condition;
+                ack = HCACK.At_least_one_parameter_is_invalid;
+                _Log($"Port ID = {port_id}  Not in cim system");
             }
             else
             {
-                bool accept = await port.ModeChangeRequestHandshake(port_type_to_change);
-                ack = accept ? HCACK.Acknowledge : HCACK.Cannot_Perform_Now;
+                port.MCSReservePortType = port_type_to_change;
+                if (port.EPortType == port_type_to_change)
+                {
+                    ack = HCACK.Rejected_Already_in_desired_condition;
+                    _Log($"Port ( {port_id} ) already in {port_type_to_change} Mode.");
+                }
+                else
+                {
+                    bool accept = await port.ModeChangeRequestHandshake(port_type_to_change);
+                    ack = accept ? HCACK.Acknowledge : HCACK.Cannot_Perform_Now;
+                    _Log($"Port ( {port_id} ) {(accept ? "ACCEPT" : "REJECT")}  Port Type Change Request.");
+                }
             }
-
-            await _primaryMessageWrapper.TryReplyAsync(new SecsMessage(2, 42, false)
+            var replyMsg = new SecsMessage(2, 42, false)
             {
                 SecsItem = L(
                                 B((byte)ack),
                                 parameterGroups
                             )
-            });
-            port.PortTypeReport();
+            };
+            await _primaryMessageWrapper.TryReplyAsync(replyMsg);
+            _Log($"Reply MCS Port Type Change Request : {replyMsg.ToSml()}");
+
+            //port.PortTypeReport();
         }
 
         private static async void TransmitMsgToAGVS(PrimaryMessageWrapper _primaryMessageWrapper)
@@ -404,6 +418,11 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
         private static void _AddAlarm(ALARM_CODES alarm_code)
         {
             AlarmManager.AddAlarm(alarm_code, "MCSMessage Transfer");
+        }
+
+        private static void _Log(string msg)
+        {
+            Utility.SystemLogger.Info(msg);
         }
     }
 }
