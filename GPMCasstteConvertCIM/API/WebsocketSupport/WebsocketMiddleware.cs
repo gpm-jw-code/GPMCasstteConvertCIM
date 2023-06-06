@@ -95,6 +95,7 @@ namespace GPMCasstteConvertCIM.API.WebsocketSupport
                         SystemStateViewModel data = new SystemStateViewModel
                         {
                             IsOnlineMode = SECSState.IsOnline,
+                            IsRemoteMode = SECSState.IsRemote,
                             IsAGVSSecsConnected = DevicesManager.secs_client_for_agvs.connector.State == Secs4Net.ConnectionState.Selected,
                             IsMCSSecsConnected = DevicesManager.secs_host_for_mcs.connector.State == Secs4Net.ConnectionState.Selected,
                             Alarms = AlarmManager.AlarmsList.ToList()

@@ -285,22 +285,27 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
                         Task.Factory.StartNew(async () =>
                         {
-                            //先等轉換架Load.Unload Request ON 
                             bool lduld_req = await WaitLoadUnloadRequestON();
                             if (!lduld_req)
                                 return;
 
                             await Task.Delay(1000);
-                            Utility.SystemLogger.Info($"Carrier Install Event Report To MCS({WIPINFO_BCR_ID})");
-                            await SecsEventReport(CEID.CarrierInstallCompletedReport);
-                            Utility.SystemLogger.Info($"等待MCS Accept Carrier Wait IN Request..");
-                            bool wait_in_accept = await SecsEventReport(CEID.CarrierWaitIn);
+                            bool wait_in_accept = false;
+                            if (WIPINFO_BCR_ID != "")
+                            {
+                                await SecsEventReport(CEID.CarrierInstallCompletedReport);
+                                wait_in_accept = await SecsEventReport(CEID.CarrierWaitIn);
 
-                            if (!SECSState.IsOnline && !SECSState.IsRemote)
-                                Utility.SystemLogger.Info($"CIM  Accept  Carrier Wait IN Request first because MCS isn't ONLINE _ REMOTE");
+                                if (!SECSState.IsOnline && !SECSState.IsRemote)
+                                    Utility.SystemLogger.Info($"CIM  Accept  Carrier Wait IN Request first because MCS isn't ONLINE _ REMOTE");
+                                else
+                                    Utility.SystemLogger.Info($"MCS {(wait_in_accept ? "Reject" : "Accept")} Carrier Wait IN Request..");
+                            }
                             else
-                                Utility.SystemLogger.Info($"MCS {(wait_in_accept ? "Reject" : "Accept")} Carrier Wait IN Request..");
-
+                            {
+                                AlarmManager.AddWarning(ALARM_CODES.CARRIER_WAIT_IN_BUT_BCR_ID_IS_EMPTY, Properties.PortID);
+                                wait_in_accept = false;
+                            }
                             (bool confirm, ALARM_CODES alarm_code) result = await CarrierWaitInReply(wait_in_accept, 10000);
 
                             if (!wait_in_accept)
@@ -335,16 +340,19 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     {
                         Previous_WIPINFO_BCR_ID = WIPINFO_BCR_ID;
                         CarrierInstallTime = DateTime.Now;
-
-
                         Utility.SystemLogger.Info("Carrier Wait out Request bit ON ");
 
                         Task.Factory.StartNew(async () =>
                         {
-                            await Task.Delay(1);
+                            await Task.Delay(1000);
+                            //先等轉換架Load.Unload Request ON 
+                            bool lduld_req = await WaitLoadUnloadRequestON();
+                            if (!lduld_req)
+                                return;
+
                             await SecsEventReport(CEID.CarrierInstallCompletedReport);
-                            if (EQParent.converterType == CONVERTER_TYPE.SYS_2_SYS) //平對平才要報Wait Out
-                                await SecsEventReport(CEID.CarrierWaitOut);
+                            await SecsEventReport(CEID.CarrierWaitOut);
+
                         });
 
                         Task.Factory.StartNew(async () =>

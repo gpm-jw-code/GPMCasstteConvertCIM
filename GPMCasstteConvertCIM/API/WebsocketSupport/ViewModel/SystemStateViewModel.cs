@@ -10,6 +10,7 @@ namespace GPMCasstteConvertCIM.API.WebsocketSupport.ViewModel
     public class SystemStateViewModel
     {
         public bool IsOnlineMode { get; set; }
+        public bool IsRemoteMode { get; set; }
         public bool IsMCSSecsConnected { get; set; }
         public bool IsAGVSSecsConnected { get; set; }
 

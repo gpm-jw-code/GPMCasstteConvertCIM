@@ -19,9 +19,13 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         public async Task<bool> SecsEventReport(CEID ceid)
         {
+            if ((ceid == CEID.CarrierWaitIn | ceid == CEID.CarrierWaitOut) && EQParent.converterType == Enums.CONVERTER_TYPE.IN_SYS)
+                return true;
+
             Utility.SystemLogger.Info($"Event Report(CEID={ceid}) To MCS.");
             SecsMessage msgSend = await CreateMsgByCEID(ceid);
 
+            //Offline
             if (!SECSState.IsOnline && !SECSState.IsRemote)
             {
                 EventMsgSendToMCSBuffer.Enqueue(msgSend);
@@ -72,20 +76,23 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     await WaitBARCODEREADIN();
                     return EventsMsg.CarrierWaitIn(carrier_id, port_id);
                 case CEID.CarrierWaitOut:
-                    return EventsMsg.CarrierWaitOut(Previous_WIPINFO_BCR_ID, port_id);
+                    return EventsMsg.CarrierWaitOut(carrier_id, port_id);
                 case CEID.CarrierInstallCompletedReport:
                     await WaitBARCODEREADIN();
                     return EventsMsg.CarrierInstalled(carrier_id, port_id, isAutoMode);
+                case CEID.CarrierRemovedCompletedReport:
+                    return EventsMsg.CarrierRemovedCompleted(carrier_id, port_id, isAutoMode);
+
                 case CEID.PortOutOfServiceReport:
                     return EventsMsg.PortService(port_id, false);
                 case CEID.PortInServiceReport:
                     return EventsMsg.PortService(port_id, true);
+
                 case CEID.PortTypeInputReport:
                     return EventsMsg.PortType(port_id, PortUnitType.Input);
                 case CEID.PortTypeOutputReport:
                     return EventsMsg.PortType(port_id, PortUnitType.Output);
-                case CEID.CarrierRemovedCompletedReport:
-                    return EventsMsg.CarrierRemovedCompleted(carrier_id, port_id, isAutoMode);
+
                 default:
                     throw new NotImplementedException();
             }
