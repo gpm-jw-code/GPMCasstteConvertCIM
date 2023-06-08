@@ -48,5 +48,15 @@ namespace GPMCasstteConvertCIM.Forms
         {
 
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            portData.SecsEventReport(GPM_SECS.CEID.CarrierInstallCompletedReport, txtCarrierID.Text);
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            portData.SecsEventReport(GPM_SECS.CEID.CarrierRemovedCompletedReport, txtCarrierID.Text);
+        }
     }
 }

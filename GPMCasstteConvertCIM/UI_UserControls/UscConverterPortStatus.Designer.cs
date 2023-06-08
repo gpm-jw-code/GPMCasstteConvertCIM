@@ -137,6 +137,7 @@
             labPortStatusDown.TabIndex = 23;
             labPortStatusDown.Text = "PORT_STATUS_DOWN";
             labPortStatusDown.TextAlign = ContentAlignment.MiddleCenter;
+            labPortStatusDown.DoubleClick += labPortStatusDown_DoubleClick;
             // 
             // labL_REQBit
             // 
@@ -342,6 +343,7 @@
             labAutoStatus.TabIndex = 37;
             labAutoStatus.Text = "MANUAL";
             labAutoStatus.TextAlign = ContentAlignment.MiddleCenter;
+            labAutoStatus.DoubleClick += labAutoStatus_DoubleClick;
             // 
             // labPortEventRepShow
             // 
@@ -358,7 +360,6 @@
             labPortEventRepShow.TabIndex = 38;
             labPortEventRepShow.Text = "Event Report ";
             labPortEventRepShow.TextAlign = ContentAlignment.MiddleCenter;
-            labPortEventRepShow.Visible = false;
             labPortEventRepShow.Click += label2_Click;
             // 
             // panel2

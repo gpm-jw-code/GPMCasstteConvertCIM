@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using GPMCasstteConvertCIM.CasstteConverter;
 
 namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
 {
@@ -39,6 +40,19 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
             Utility.SystemLogger.SecsTransferLog($"Primary Mesaage From AGVS : {_primaryMessage_FromAGVS.ToSml()}");
 
             _primaryMessageWrapper.PrimaryMessage.Name = "AGVS_To_CIM";
+            clsConverterPort port = null;
+            bool IsTransferCompleteReport = false;
+            if (_primaryMessage_FromAGVS.IsAGVSTransferCompletedReport(out string port_id, out string carrier_id))
+            {
+                port = DevicesManager.GetPortByPortID(port_id);
+                IsTransferCompleteReport = (port != null);
+            }
+
+            if (IsTransferCompleteReport && !port.IsCarrierInstallReported)
+            {
+                port.IsCarrierInstallReported = true;
+                port.SecsEventReport(CEID.CarrierInstallCompletedReport, carrier_id);
+            }
 
             var S = _primaryMessage_FromAGVS.S;
             var F = _primaryMessage_FromAGVS.F;
@@ -119,11 +133,9 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                     if (ack6 == 0)
                         OnAGVSOffline?.Invoke("", EventArgs.Empty);
                 }
-                if (_primaryMessage_FromAGVS.IsAGVSTransferCompletedReport(out string port_id, out string carrier_id))
+                if (IsTransferCompleteReport)
                 {
-                    var port = DevicesManager.GetPortByPortID(port_id);
-                    if (port != null)
-                        port.TransferCompletedInvoke(carrier_id);
+                    port.TransferCompletedInvoke(carrier_id);
                 }
             }
             catch (Exception ex)

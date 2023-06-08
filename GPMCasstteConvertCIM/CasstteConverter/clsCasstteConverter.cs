@@ -18,7 +18,7 @@ using static GPMCasstteConvertCIM.CasstteConverter.Enums;
 
 namespace GPMCasstteConvertCIM.CasstteConverter
 {
-    public class clsCasstteConverter : ISECSHandShakeable
+    public partial class clsCasstteConverter : ISECSHandShakeable
     {
         internal bool simulation_mode = false;
         private string BitMapFileName_EQ = "src\\PLC_Bit_Map_EQ.csv";

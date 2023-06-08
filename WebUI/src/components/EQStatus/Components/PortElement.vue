@@ -41,7 +41,11 @@
         <div class="eq-io d-flex flex-row m-1">
           <div class="io-title"># Carrier ID</div>
           <div v-if="data.Carrier_ID===''">(None)</div>
-          <el-tag v-else effect="dark">{{data.Carrier_ID}}</el-tag>
+          <div v-else class="d-flex">
+            <el-tag effect="dark">{{data.Carrier_ID}}</el-tag>
+            <div class="mx-2">#Install Time</div>
+            <div class="mx-1">0000/00/00</div>
+          </div>
           <el-button
             v-if="data.Carrier_ID!=''"
             class="mx-2"

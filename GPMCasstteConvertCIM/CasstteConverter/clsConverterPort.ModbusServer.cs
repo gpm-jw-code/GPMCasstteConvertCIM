@@ -1,6 +1,7 @@
 ﻿using GPMCasstteConvertCIM.Forms;
 using GPMCasstteConvertCIM.GPM_Modbus;
 using GPMCasstteConvertCIM.GPM_SECS;
+using GPMCasstteConvertCIM.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,21 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         /// MCS要求切換的Port Type
         /// </summary>
         public PortUnitType MCSReservePortType { get; internal set; }
+        public bool PortStatusDownForceOn { get; set; } = false;
+        private bool _IsCarrierInstallReported;
+        public bool IsCarrierInstallReported
+        {
+            get
+            {
+                Utility.SystemLogger.Info($"Get IsCarrierInstallReported ? => {_IsCarrierInstallReported}");
+                return _IsCarrierInstallReported;
+            }
+            set
+            {
+                _IsCarrierInstallReported = value;
+                Utility.SystemLogger.Info($"_IsCarrierInstallReported  => {_IsCarrierInstallReported}");
+            }
+        }
 
         public event EventHandler<Tuple<string, string>> OnMCSNoTransferNotify;
 
@@ -64,9 +80,14 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 while (true)
                 {
 
-                    foreach (var item in EQModbusLinkBitAddress)
+                    foreach (Data.clsMemoryAddress item in EQModbusLinkBitAddress)
                     {
                         bool bolState = EQParent.EQPMemOptions.memoryTable.ReadOneBit(item.Address);
+                        if (item.EProperty == Enums.PROPERTY.Port_Status_Down)
+                        {
+                            if ((bool)item.Value == false && PortStatusDownForceOn)
+                                bolState = true; //強制PortStatusDown ON
+                        }
                         modbus_server.discreteInputs.localArray[item.Link_Modbus_Register_Number] = bolState;
                     }
 
@@ -88,6 +109,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
             });
         }
+
 
     }
 }

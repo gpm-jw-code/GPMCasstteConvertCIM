@@ -71,6 +71,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             Utility.SystemLogger.Info($"Carrier Wait In Report When ONLINE REMOTE. ");
             bool ret = await SecsEventReport(CEID.CarrierWaitIn);
             Utility.SystemLogger.Info($"Carrier Wait In Report When ONLINE REMOTE => {(ret ? "SUCCESS" : "FAIL")} ");
+            IsCarrierWaitInQueuing = false;
+
         }
 
         public clsCasstteConverter EQParent { get; }
@@ -311,28 +313,38 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
                         Task.Factory.StartNew(async () =>
                         {
-                            bool lduld_req = await WaitLoadUnloadRequestON();
-                            if (!lduld_req)
-                                return;
-
                             await Task.Delay(1000);
                             bool wait_in_accept = false;
                             if (WIPINFO_BCR_ID != "")
                             {
-                                await SecsEventReport(CEID.CarrierInstallCompletedReport);
-                                wait_in_accept = await SecsEventReport(CEID.CarrierWaitIn);
-
                                 if (!SECSState.IsOnline && !SECSState.IsRemote)
+                                {
+                                    wait_in_accept = true;
                                     Utility.SystemLogger.Info($"CIM  Accept  Carrier Wait IN Request first because MCS isn't ONLINE _ REMOTE");
+                                }
                                 else
+                                {
+
+                                    bool lduld_req = await WaitLoadUnloadRequestON();
+                                    if (!lduld_req)
+                                        return;
+
+                                    if (!IsCarrierInstallReported)
+                                    {
+                                        await SecsEventReport(CEID.CarrierInstallCompletedReport, WIPINFO_BCR_ID);
+                                        IsCarrierInstallReported = true;
+                                    }
+                                    wait_in_accept = await SecsEventReport(CEID.CarrierWaitIn);
                                     Utility.SystemLogger.Info($"MCS {(wait_in_accept ? "Accept" : "Reject")} Carrier Wait IN Request..");
+                                }
                             }
                             else
                             {
                                 AlarmManager.AddWarning(ALARM_CODES.CARRIER_WAIT_IN_BUT_BCR_ID_IS_EMPTY, Properties.PortID);
                                 wait_in_accept = false;
                             }
-                            (bool confirm, ALARM_CODES alarm_code) result = await CarrierWaitInReply(wait_in_accept, 10000);
+
+                            (bool confirm, ALARM_CODES alarm_code) result = await CarrierWaitInReply(wait_in_accept, 30000);
 
                             if (!wait_in_accept)
                             {
@@ -375,10 +387,12 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                             bool lduld_req = await WaitLoadUnloadRequestON();
                             if (!lduld_req)
                                 return;
-
-                            await SecsEventReport(CEID.CarrierInstallCompletedReport);
+                            if (!IsCarrierInstallReported)
+                            {
+                                await SecsEventReport(CEID.CarrierInstallCompletedReport, WIPINFO_BCR_ID);
+                                IsCarrierInstallReported = true;
+                            }
                             await SecsEventReport(CEID.CarrierWaitOut);
-
                         });
 
                         Task.Factory.StartNew(async () =>
@@ -412,11 +426,13 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             get => _CarrierRemovedCompletedReport;
             internal set
             {
+
                 if (value != _CarrierRemovedCompletedReport)
                 {
                     _CarrierRemovedCompletedReport = value;
                     if (_CarrierRemovedCompletedReport)
                     {
+                        IsCarrierInstallReported = false;
                         Utility.SystemLogger.Info($"Carrier Remove Completed Report Start");
                         SecsEventReport(CEID.CarrierRemovedCompletedReport);
                         Utility.SystemLogger.Info($"Carrier Remove Completed HS Start");

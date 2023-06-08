@@ -32,6 +32,9 @@
             button1 = new Button();
             button2 = new Button();
             button3 = new Button();
+            button4 = new Button();
+            txtCarrierID = new TextBox();
+            button5 = new Button();
             SuspendLayout();
             // 
             // btnInServiceReport
@@ -74,11 +77,42 @@
             button3.UseVisualStyleBackColor = true;
             button3.Click += btnPortTypeOutputReport_Click;
             // 
+            // button4
+            // 
+            button4.Location = new Point(291, 12);
+            button4.Name = "button4";
+            button4.Size = new Size(273, 36);
+            button4.TabIndex = 4;
+            button4.Text = "Carrier Install";
+            button4.UseVisualStyleBackColor = true;
+            button4.Click += button4_Click;
+            // 
+            // txtCarrierID
+            // 
+            txtCarrierID.Location = new Point(291, 146);
+            txtCarrierID.Name = "txtCarrierID";
+            txtCarrierID.Size = new Size(271, 23);
+            txtCarrierID.TabIndex = 5;
+            txtCarrierID.Text = "TA1234556";
+            // 
+            // button5
+            // 
+            button5.Location = new Point(289, 54);
+            button5.Name = "button5";
+            button5.Size = new Size(273, 36);
+            button5.TabIndex = 6;
+            button5.Text = "Carrier Remove Completed";
+            button5.UseVisualStyleBackColor = true;
+            button5.Click += button5_Click;
+            // 
             // frmPortEventReportTest
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(426, 191);
+            ClientSize = new Size(801, 191);
+            Controls.Add(button5);
+            Controls.Add(txtCarrierID);
+            Controls.Add(button4);
             Controls.Add(button3);
             Controls.Add(button2);
             Controls.Add(button1);
@@ -87,6 +121,7 @@
             Text = "轉換架 Port- SECS Report Test";
             Load += frmPortEventReportTest_Load;
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -95,5 +130,8 @@
         private Button button1;
         private Button button2;
         private Button button3;
+        private Button button4;
+        private TextBox txtCarrierID;
+        private Button button5;
     }
 }

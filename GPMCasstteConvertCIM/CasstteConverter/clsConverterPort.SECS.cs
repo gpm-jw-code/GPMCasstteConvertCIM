@@ -15,13 +15,17 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 {
     public partial class clsConverterPort
     {
-
+        private string speficCarrierID = "";
         /// <summary>
         /// 是否等待Wait In
         /// </summary>
         internal bool IsCarrierWaitInQueuing = false;
 
-
+        internal async Task<bool> SecsEventReport(CEID ceid, string carrier_id)
+        {
+            speficCarrierID = carrier_id;
+            return await SecsEventReport(ceid);
+        }
         public async Task<bool> SecsEventReport(CEID ceid)
         {
             if ((ceid == CEID.CarrierWaitIn | ceid == CEID.CarrierWaitOut) && EQParent.converterType == Enums.CONVERTER_TYPE.IN_SYS)
@@ -35,6 +39,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             {
                 if (ceid == CEID.CarrierWaitIn)
                 {
+                    Utility.SystemLogger.Info($"CarrierWaitIn But MCS Not Online-Remote.  IsCarrierWaitInQueuing = true");
                     IsCarrierWaitInQueuing = true;
                     return true;
                 }
@@ -76,8 +81,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         private async Task<SecsMessage> CreateMsgByCEID(CEID ceid)
         {
-            string carrier_id = Previous_WIPINFO_BCR_ID != "" ? Previous_WIPINFO_BCR_ID : WIPINFO_BCR_ID;
+            string carrier_id = speficCarrierID != "" ? speficCarrierID.ToString() : (Previous_WIPINFO_BCR_ID != "" ? Previous_WIPINFO_BCR_ID : WIPINFO_BCR_ID);
             string port_id = Properties.PortID;
+
+            speficCarrierID = "";
 
             bool isAutoMode = EPortAutoStatus == Enums.AUTO_MANUAL_MODE.AUTO;
             switch (ceid)
@@ -88,7 +95,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 case CEID.CarrierWaitOut:
                     return EventsMsg.CarrierWaitOut(carrier_id, port_id);
                 case CEID.CarrierInstallCompletedReport:
-                    await WaitBARCODEREADIN();
                     return EventsMsg.CarrierInstalled(carrier_id, port_id, isAutoMode);
                 case CEID.CarrierRemovedCompletedReport:
                     return EventsMsg.CarrierRemovedCompleted(carrier_id, port_id, isAutoMode);

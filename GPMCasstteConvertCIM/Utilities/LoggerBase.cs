@@ -102,11 +102,11 @@ namespace GPMCasstteConvertCIM.Utilities
         public void SecsTransferLog(string msg)
         {
             AppendDateTime(out DateTime time);
-            _richTextBox?.Invoke((MethodInvoker)delegate
-            {
-                _richTextBox.SelectionColor = Color.Yellow;
-                _richTextBox.AppendText($"[SECS Msg Transfer] {msg}\n");
-            });
+            //_richTextBox?.Invoke((MethodInvoker)delegate
+            //{
+            //    _richTextBox.SelectionColor = Color.Yellow;
+            //    _richTextBox.AppendText($"[SECS Msg Transfer] {msg}\n");
+            //});
             WriteToFile(time, LOG_LEVEL.SECS_MSG_TRANSFER, msg);
         }
         public void Info(string msg, bool show_in_richbox = true)

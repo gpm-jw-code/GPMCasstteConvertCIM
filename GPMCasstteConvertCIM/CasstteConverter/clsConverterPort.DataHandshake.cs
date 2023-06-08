@@ -111,7 +111,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         }
 
 
-       
+
 
         /// <summary>
         /// 
@@ -134,7 +134,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_removed_com_reply_address, false);
         }
 
-        
+
 
         /// <summary>
         ///  EQ->CIM->MCS : Carrier Wait out 
@@ -182,6 +182,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             string? carrier_wait_in_result_flag_address = PortCIMBitAddress[wait_in_];
             string? carrier_wait_in_reply_address = PortCIMBitAddress[PROPERTY.Carrier_WaitIn_System_Reply];
             EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_in_result_flag_address, true);
+            await Task.Delay(300);
             EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_in_reply_address, true);
             Stopwatch sw = Stopwatch.StartNew();
             while (CarrierWaitINSystemRequest)
@@ -222,7 +223,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         private bool NoTransferNotifyFlag = false;
         private bool CurrentCSTHasTransferTaskFlag = false;
 
-     
+
         internal void CstTransferInvoke()
         {
             CurrentCSTHasTransferTaskFlag = true;
@@ -234,8 +235,9 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             OnMCSNoTransferNotify?.Invoke(this, new Tuple<string, string>(carrier_id, cstid));
         }
 
-        internal void TransferCompletedInvoke(string carrier_id)
+        internal async void TransferCompletedInvoke(string carrier_id)
         {
+
             if (WIPINFO_BCR_ID == carrier_id)
                 Carrier_TransferCompletedFlag = true;
         }

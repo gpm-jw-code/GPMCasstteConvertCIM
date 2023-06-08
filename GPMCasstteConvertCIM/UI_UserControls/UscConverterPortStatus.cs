@@ -50,7 +50,7 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             labCurrentPortMode.Text = CstCVPort.EPortType.ToString();
             Color active_color = Color.SeaGreen;
 
-            labPortStatusDown.RenderBGColorByState(CstCVPort.PortStatusDown, active_color);
+            labPortStatusDown.RenderBGColorByState(CstCVPort.PortStatusDownForceOn ? CstCVPort.PortStatusDownForceOn : CstCVPort.PortStatusDown, active_color);
             labLoadRequestBit.RenderBGColorByState(CstCVPort.LoadRequest, active_color);
             labUnloadRequestBit.RenderBGColorByState(CstCVPort.UnloadRequest, active_color);
             labPortExistBit.RenderBGColorByState(CstCVPort.PortExist, active_color);
@@ -89,6 +89,31 @@ namespace GPMCasstteConvertCIM.UI_UserControls
         private void label3_Click(object sender, EventArgs e)
         {
             CstCVPort.modbus_server.UI.Show();
+        }
+
+        private void labPortStatusDown_DoubleClick(object sender, EventArgs e)
+        {
+            if (CstCVPort.PortStatusDownForceOn)
+            {
+                if (DialogResult.OK == MessageBox.Show("確定要將PortStatusDownForceOn OFF? ", "", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning))
+                {
+                    CstCVPort.PortStatusDownForceOn = false;
+                }
+                return;
+            }
+            if (CstCVPort.PortStatusDown == false)
+            {
+                if (DialogResult.OK == MessageBox.Show("確定要強制將Port Status Down ON? ", "", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning))
+                {
+                    CstCVPort.PortStatusDownForceOn = true;
+                }
+            }
+        }
+
+        private void labAutoStatus_DoubleClick(object sender, EventArgs e)
+        {
+            bool isOnline = CstCVPort.EQParent.X33_OnlineMode;
+            //= !CstCVPort.EQParent.X33_OnlineMode;
         }
     }
 }
