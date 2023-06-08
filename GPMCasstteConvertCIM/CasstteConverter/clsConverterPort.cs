@@ -325,7 +325,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                                 if (!SECSState.IsOnline && !SECSState.IsRemote)
                                     Utility.SystemLogger.Info($"CIM  Accept  Carrier Wait IN Request first because MCS isn't ONLINE _ REMOTE");
                                 else
-                                    Utility.SystemLogger.Info($"MCS {(wait_in_accept ? "Reject" : "Accept")} Carrier Wait IN Request..");
+                                    Utility.SystemLogger.Info($"MCS {(wait_in_accept ? "Accept" : "Reject")} Carrier Wait IN Request..");
                             }
                             else
                             {
