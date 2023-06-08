@@ -15,7 +15,12 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 {
     public partial class clsConverterPort
     {
-        internal ConcurrentQueue<SecsMessage> EventMsgSendToMCSBuffer { get; set; } = new ConcurrentQueue<SecsMessage>();
+
+        /// <summary>
+        /// 是否等待Wait In
+        /// </summary>
+        internal bool IsCarrierWaitInQueuing = false;
+
 
         public async Task<bool> SecsEventReport(CEID ceid)
         {
@@ -28,8 +33,13 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             //Offline
             if (!SECSState.IsOnline && !SECSState.IsRemote)
             {
-                EventMsgSendToMCSBuffer.Enqueue(msgSend);
-                return true;
+                if (ceid == CEID.CarrierWaitIn)
+                {
+                    IsCarrierWaitInQueuing = true;
+                    return true;
+                }
+                else if (ceid == CEID.CarrierRemovedCompletedReport | ceid == CEID.CarrierWaitOut)
+                    IsCarrierWaitInQueuing = false;
             }
 
 

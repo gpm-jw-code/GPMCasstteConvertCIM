@@ -39,12 +39,38 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         }
 
-        private void SECSState_OnMCSOnlineRemote(object? sender, EventArgs e)
+        private async void SECSState_OnMCSOnlineRemote(object? sender, EventArgs e)
         {
-            while (EventMsgSendToMCSBuffer.Count != 0)
+
+            if (!IsCarrierWaitInQueuing)
             {
-                EventMsgSendToMCSBuffer.TryDequeue(out var msg);
+                Utility.SystemLogger.Info($"SECS Online Remote_No Carrier Wait In ");
+                return;
             }
+
+            //檢查在席
+            if (!PortExist)
+            {
+                Utility.SystemLogger.Info($"Carrier Wait In But Carrier Not Exist");
+                return;
+            }
+            //檢查ID
+            if (WIPINFO_BCR_ID == "")
+            {
+                Utility.SystemLogger.Info($"Carrier Wait In and Carrier Exist But Carrier ID Is Empty");
+                return;
+            }
+
+            //檢查LOAD/UNLOAD REQUEST 訊號
+            if (!await WaitLoadUnloadRequestON())
+            {
+                Utility.SystemLogger.Info($"Carrier Wait In But UNLOAD REQUEST  OFF");
+                return;
+            }
+
+            Utility.SystemLogger.Info($"Carrier Wait In Report When ONLINE REMOTE. ");
+            bool ret = await SecsEventReport(CEID.CarrierWaitIn);
+            Utility.SystemLogger.Info($"Carrier Wait In Report When ONLINE REMOTE => {(ret ? "SUCCESS" : "FAIL")} ");
         }
 
         public clsCasstteConverter EQParent { get; }
