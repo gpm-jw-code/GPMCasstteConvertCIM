@@ -281,13 +281,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 if (_PortStatusDown != value)
                 {
                     _PortStatusDown = value;
-
-                    if (_PortStatusDown)
-                        SecsEventReport(CEID.PortInServiceReport);
-                    else
-                        SecsEventReport(CEID.PortOutOfServiceReport);
-
-                    Properties.InSerivce = _PortStatusDown;
                 }
             }
         }
@@ -461,7 +454,24 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         }
 
         public bool Port_Disabled_Report { get; internal set; }
-        public bool Port_Enabled_Report { get; internal set; }
+        private bool _Port_Enabled_Report = false;
+        public bool Port_Enabled_Report
+        {
+            get => _Port_Enabled_Report;
+            set
+            {
+                if (_Port_Enabled_Report != value)
+                {
+                    if (value)
+                        SecsEventReport(CEID.PortInServiceReport);
+                    else
+                        SecsEventReport(CEID.PortOutOfServiceReport);
+
+                    Properties.InSerivce = value;
+                    _Port_Enabled_Report = value;
+                }
+            }
+        }
         public int Port_Auto_Manual_Mode_Status { get; internal set; }
         private int _PortType = 0;
         /// <summary>

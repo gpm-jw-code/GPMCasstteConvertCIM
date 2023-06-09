@@ -49,7 +49,7 @@ namespace GPMCasstteConvertCIM.API.WebsocketSupport.GPMWebsocketBehaviors
                                     Carrier_ID = port.WIPINFO_BCR_ID,
                                     PortType = port.EPortType,
                                     AutoState = port.EPortAutoStatus,
-                                    IsInService = port.PortStatusDown,
+                                    IsInService = port.Port_Enabled_Report,
                                     DIOSignalsState = new DIOViewModel
                                     {
                                         LoadRequest = port.LoadRequest,
