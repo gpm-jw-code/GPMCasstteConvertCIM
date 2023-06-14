@@ -167,7 +167,7 @@ namespace GPMCasstteConvertCIM.Devices
                     SysLog.Info($"Start Report Port States To MCS When Connected!");
                     foreach (clsConverterPort port in GetAllPorts())
                     {
-                        if (port.PortStatusDown)
+                        if (port.Port_Enabled_Report)
                             port.SecsEventReport(CEID.PortInServiceReport);
                         else
                             port.SecsEventReport(CEID.PortOutOfServiceReport);
