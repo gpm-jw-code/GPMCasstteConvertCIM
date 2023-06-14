@@ -20,15 +20,56 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 {
     public partial class clsCasstteConverter : ISECSHandShakeable
     {
+        public enum PLC_CONN_INTERFACE
+        {
+            MX,
+            MC
+        }
         internal bool simulation_mode = false;
         private string BitMapFileName_EQ = "src\\PLC_Bit_Map_EQ.csv";
         private string WordMapFileName_EQ = "src\\PLC_Word_Map_EQ.csv";
         private string BitMapFileName_CIM = "src\\PLC_Bit_Map_CIM.csv";
         private string WordMapFileName_CIM = "src\\PLC_Word_Map_CIM.csv";
+        protected PLC_CONN_INTERFACE plcInterface = PLC_CONN_INTERFACE.MX;
+        public virtual List<clsConverterPort> PortDatas { get; set; } = new List<clsConverterPort>();
+
+        public clsCasstteConverter()
+        {
+
+        }
+        internal clsCasstteConverter(string name, UscCasstteConverter mainGUI, Dictionary<int, clsPortProperty> portProperties)
+        {
+            this.Name = name;
+            EQPData = new Data.clsEQPData();
+
+            for (int i = 0; i < portProperties.Count; i++)
+            {
+                var portProp = portProperties[i];
+                PortDatas.Add(new clsConverterPort(portProp, this));
+            }
+
+            this.plcInterface = PLC_CONN_INTERFACE.MC;
+            LoadPLCMapData();
+            this.mainGUI = mainGUI;
+            this.mainGUI.casstteConverter = this;
+            PortModbusServersActive();
+            EQPInterfaceClockMonitor();
+            CIMInterfaceClockUpdate();
+            PLCMemorySyncTask();
+            DataSyncTask();
+
+        }
+
         internal clsCasstteConverter(int index, string name, UscCasstteConverter mainGUI, CONVERTER_TYPE converterType, Dictionary<int, clsPortProperty> portProperties)
         {
             this.Name = name;
-            EQPData = new Data.clsEQPData(portProperties, this);
+            EQPData = new clsEQPData();
+
+            for (int i = 0; i < portProperties.Count; i++)
+            {
+                var portProp = portProperties[i];
+                PortDatas.Add(new clsConverterPort(portProp, this));
+            }
             this.converterType = converterType;
             this.index = index;
             LoadPLCMapData();
@@ -42,16 +83,16 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         }
 
-        private void PortModbusServersActive()
+        protected virtual void PortModbusServersActive()
         {
-            foreach (var item in EQPData.PortDatas)
+            foreach (var item in PortDatas)
             {
                 item.ModbusServerActive();
             }
         }
 
 
-        private async void EQPInterfaceClockMonitor()
+        protected async void EQPInterfaceClockMonitor()
         {
             await Task.Delay(4000);
             _ = Task.Factory.StartNew(async () =>
@@ -89,13 +130,15 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         }
 
 
-        internal List<clsMemoryAddress> LinkBitMap { get; private set; } = new List<clsMemoryAddress>();
-        internal List<clsMemoryAddress> LinkWordMap { get; private set; } = new List<clsMemoryAddress>();
+        internal List<clsMemoryAddress> LinkBitMap { get; set; } = new List<clsMemoryAddress>();
+        internal List<clsMemoryAddress> LinkWordMap { get; set; } = new List<clsMemoryAddress>();
 
         internal List<clsMemoryAddress> WIP_Port1_BCR_ID_Addresses => LinkWordMap.FindAll(ad => ad.PropertyName.Contains("WIPInfo_Port1_BCR_ID_"));
         internal clsMemoryAddress EQPInterfaceClockAddress => LinkWordMap.FirstOrDefault(lp => lp.EOwner == clsMemoryAddress.OWNER.EQP && lp.EProperty == PROPERTY.Interface_Clock);
 
         public McInterfaceOptions mcInterfaceOptions { get; private set; } = new McInterfaceOptions();
+
+        internal CIMComponent.MXCompHandler mxInterface;
         internal clsMCE71Interface? mcInterface = new clsMCE71Interface();
 
         private Task? RetryTask;
@@ -137,17 +180,17 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         internal bool Connected { get; private set; }
         internal bool PLCInterfaceClockDown { get; private set; }
         public string Name { get; set; } = "";
-        internal Data.clsEQPData EQPData { get; private set; }
+        internal Data.clsEQPData EQPData { get; set; }
         internal Data.clsAGVSData AGVSData { get; private set; } = new Data.clsAGVSData();
 
         internal event EventHandler<Common.CONNECTION_STATE>? ConnectionStateChanged;
         internal clsMemoryGroupOptions EQPMemOptions { get; private set; }
-        internal clsMemoryGroupOptions EQPOutputMemOptions { get; private set; } = new clsMemoryGroupOptions("X0", "X15", "W0", "W1", false, true);
-        internal clsMemoryGroupOptions CIMinputMemOptions { get; private set; } = new clsMemoryGroupOptions("X100", "X115", "W0", "W1", false, true);
+        internal clsMemoryGroupOptions EQPOutputMemOptions { get; private set; } = new clsMemoryGroupOptions("X0000", "X0015", "W0000", "W0001", false, true);
+        internal clsMemoryGroupOptions CIMinputMemOptions { get; private set; } = new clsMemoryGroupOptions("X0100", "X0115", "W0000", "W0001", false, true);
         internal clsMemoryGroupOptions CIMMemOptions { get; private set; }
         public bool AlarmResetFlag { get; internal set; }
 
-        internal async Task<bool> ActiveAsync(McInterfaceOptions mcInterfaceOptions)
+        internal virtual async Task<bool> ActiveAsync(McInterfaceOptions mcInterfaceOptions)
         {
             await Task.Delay(1);
             try
@@ -158,7 +201,24 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
                 bool connected = await Task.Run(() =>
                 {
-                    return mcInterface.Open(mcInterfaceOptions, out connRetCode, enuDataType: clsMC_TCPCnt.enuDataType.ByteArr_02);
+                    if (plcInterface == PLC_CONN_INTERFACE.MC)
+                    {
+                        return mcInterface.Open(mcInterfaceOptions, out connRetCode, enuDataType: clsMC_TCPCnt.enuDataType.ByteArr_02);
+                    }
+                    else
+                    {
+                        try
+                        {
+                            mxInterface = new CIMComponent.MXCompHandler();
+                            connRetCode = mxInterface.Open(1);
+                            return connRetCode == 0;
+                        }
+                        catch (Exception)
+                        {
+                            return false;
+                        }
+                    }
+
                 });
                 connectionState = connRetCode == 0 ? Common.CONNECTION_STATE.CONNECTED : Common.CONNECTION_STATE.DISCONNECTED;
 
@@ -188,7 +248,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             });
         }
 
-        private void DataSyncTask()
+        protected void DataSyncTask()
         {
             _ = Task.Run(async () =>
             {
@@ -207,7 +267,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         }
 
 
-        private void CIMInterfaceClockUpdate()
+        protected void CIMInterfaceClockUpdate()
         {
             Task.Run(async () =>
             {
@@ -230,7 +290,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             });
         }
 
-        private async Task PLCMemorySyncTask()
+        protected async Task PLCMemorySyncTask()
         {
             _ = Task.Run(async () =>
             {
@@ -282,7 +342,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         }
         private void ResetEQPHandshakeBits()
         {
-            foreach (clsConverterPort port in EQPData.PortDatas)
+            foreach (clsConverterPort port in PortDatas)
             {
                 string Load_Request_address = port.PortEQBitAddress[PROPERTY.Load_Request];
                 string Unload_Request_address = port.PortEQBitAddress[PROPERTY.Unload_Request];
@@ -294,7 +354,11 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             }
         }
 
-        private void SyncMemData()
+        protected virtual void SyncMemData()
+        {
+            PLCMemoryDatatToEQDataDTO();
+        }
+        protected virtual void PLCMemoryDatatToEQDataDTO()
         {
             try
             {
@@ -385,11 +449,11 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 EQPData.Alarm_Code_33_48 = (int)LinkWordMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.Alarm_Code_33_48).Value;
 
                 //PORTS
-                EQ_SCOPE[] Ports = EQPData.PortDatas.Count == 1 ? new EQ_SCOPE[1] { EQ_SCOPE.PORT1 } : new EQ_SCOPE[2] { EQ_SCOPE.PORT1, EQ_SCOPE.PORT2 };
+                EQ_SCOPE[] Ports = PortDatas.Count == 1 ? new EQ_SCOPE[1] { EQ_SCOPE.PORT1 } : new EQ_SCOPE[2] { EQ_SCOPE.PORT1, EQ_SCOPE.PORT2 };
                 for (int i = 0; i < Ports.Length; i++)
                 {
                     EQ_SCOPE port = Ports[i];
-                    clsConverterPort EQPORT = EQPData.PortDatas[i];
+                    clsConverterPort EQPORT = PortDatas[i];
 
                     //AGV 訊號
                     EQPORT.AGVSignals.VALID = (bool)LinkBitMap.First(f => f.EOwner == clsMemoryAddress.OWNER.CIM && f.EScope == port && f.EProperty == PROPERTY.VALID).Value;
@@ -457,7 +521,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         }
 
-
         /// <summary>
         /// 開啟模擬器
         /// </summary>
@@ -465,7 +528,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         {
             mainGUI?.OpenConvertPLCSumulator();
         }
-        private void LoadPLCMapData()
+        protected virtual void LoadPLCMapData()
         {
             try
             {

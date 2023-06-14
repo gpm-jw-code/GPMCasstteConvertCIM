@@ -29,9 +29,11 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             tabControl1 = new TabControl();
+            tabPage4 = new TabPage();
+            usceqStatus1 = new UI_UserControls.UscEQStatus();
             tabPage1 = new TabPage();
             tlpConverterContainer = new TableLayoutPanel();
             panel2 = new Panel();
@@ -94,6 +96,7 @@
             ckbRemoteModeIndi = new CheckBox();
             cknOnlineModeIndi = new CheckBox();
             tabControl1.SuspendLayout();
+            tabPage4.SuspendLayout();
             tabPage1.SuspendLayout();
             panel2.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
@@ -123,6 +126,7 @@
             // tabControl1
             // 
             tabControl1.Appearance = TabAppearance.FlatButtons;
+            tabControl1.Controls.Add(tabPage4);
             tabControl1.Controls.Add(tabPage1);
             tabControl1.Controls.Add(tabPage3);
             tabControl1.Controls.Add(tabPage2);
@@ -135,6 +139,26 @@
             tabControl1.Size = new Size(1274, 415);
             tabControl1.SizeMode = TabSizeMode.Fixed;
             tabControl1.TabIndex = 1;
+            // 
+            // tabPage4
+            // 
+            tabPage4.Controls.Add(usceqStatus1);
+            tabPage4.Location = new Point(4, 34);
+            tabPage4.Name = "tabPage4";
+            tabPage4.Padding = new Padding(3);
+            tabPage4.Size = new Size(1266, 377);
+            tabPage4.TabIndex = 3;
+            tabPage4.Text = "Home(007)";
+            tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // usceqStatus1
+            // 
+            usceqStatus1.BackColor = SystemColors.ButtonShadow;
+            usceqStatus1.Dock = DockStyle.Fill;
+            usceqStatus1.Location = new Point(3, 3);
+            usceqStatus1.Name = "usceqStatus1";
+            usceqStatus1.Size = new Size(1260, 371);
+            usceqStatus1.TabIndex = 1;
             // 
             // tabPage1
             // 
@@ -215,14 +239,14 @@
             dgvMsgFromMCS.Location = new Point(4, 22);
             dgvMsgFromMCS.Name = "dgvMsgFromMCS";
             dgvMsgFromMCS.ReadOnly = true;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = Color.FromArgb(51, 51, 51);
-            dataGridViewCellStyle1.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle1.ForeColor = Color.White;
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dgvMsgFromMCS.RowHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = Color.FromArgb(51, 51, 51);
+            dataGridViewCellStyle2.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle2.ForeColor = Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            dgvMsgFromMCS.RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
             dgvMsgFromMCS.RowHeadersVisible = false;
             dgvMsgFromMCS.RowTemplate.Height = 25;
             dgvMsgFromMCS.Size = new Size(359, 157);
@@ -859,8 +883,10 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "GPM AGVS CIM_V23.5.23.1";
             WindowState = FormWindowState.Maximized;
+            FormClosing += Form1_FormClosing;
             Load += Form1_Load;
             tabControl1.ResumeLayout(false);
+            tabPage4.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
             panel2.ResumeLayout(false);
             tableLayoutPanel2.ResumeLayout(false);
@@ -964,5 +990,7 @@
         private CheckBox ckbRemoteModeIndi;
         private Button btnClearInfoLog;
         private CheckBox cknOnlineModeIndi;
+        private TabPage tabPage4;
+        private UI_UserControls.UscEQStatus usceqStatus1;
     }
 }

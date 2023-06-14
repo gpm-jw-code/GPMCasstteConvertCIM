@@ -37,6 +37,27 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         public event EventHandler<Tuple<string, string>> OnMCSNoTransferNotify;
 
+        public bool BuildModbusTCPServer(string ip, int port, out string error_msg)
+        {
+            error_msg = string.Empty;
+            if ($"{ip}:{port}" == ModbusHost)
+                return true;
+
+            try
+            {
+                modbus_server.Close();
+                modbus_server.Active(ip, port, modbus_server.UI);
+                Properties.ModbusServer_IP = ip;
+                Properties.ModbusServer_PORT = port;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                error_msg = ex.Message;
+                return false;
+            }
+
+        }
         public bool BuildModbusTCPServer(frmModbusTCPServer ui)
         {
             try
@@ -55,7 +76,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             }
         }
 
-        private void Modbus_server_CoilsOnChanged(object? sender, ModbusProtocol e)
+        protected virtual void Modbus_server_CoilsOnChanged(object? sender, ModbusProtocol e)
         {
             ///要把Coil Data同步到PLC Memory 
             Task.Factory.StartNew(() =>
@@ -73,7 +94,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             });
         }
 
-        public void SyncRegisterData()
+        public virtual void SyncRegisterData()
         {
             Task.Run(async () =>
             {

@@ -43,7 +43,7 @@ namespace GPMCasstteConvertCIM.API.WebsocketSupport.GPMWebsocketBehaviors
                                 IsIdle = eqp.EQPData.EQP_IDLE,
                                 IsRun = eqp.EQPData.EQP_RUN,
                                 Connected = eqp.connectionState == Utilities.Common.CONNECTION_STATE.CONNECTED,
-                                Ports = eqp.EQPData.PortDatas.Select(port => new PortViewModel()
+                                Ports = eqp.PortDatas.Select(port => new PortViewModel()
                                 {
                                     PortID = port.Properties.PortID,
                                     Carrier_ID = port.WIPINFO_BCR_ID,

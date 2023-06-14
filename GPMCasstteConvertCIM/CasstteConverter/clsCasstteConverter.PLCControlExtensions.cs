@@ -9,7 +9,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 {
     public partial class clsCasstteConverter
     {
-        internal clsMemoryGroupOptions ExetenMEM = new clsMemoryGroupOptions("X0", "XFF", "W0", "W1F", true, true);
+        internal clsMemoryGroupOptions ExetenMEM = new clsMemoryGroupOptions("X0000", "X00FF", "W0000", "W001F", true, true);
 
         private bool ReadXBit(int address)
         {

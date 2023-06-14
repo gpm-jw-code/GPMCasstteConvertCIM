@@ -52,7 +52,14 @@ namespace GPMCasstteConvertCIM.Forms
 
         private void Form1_Load(object sender, EventArgs e)
         {
+
             Utility.LoadConfigs();
+
+            if (Utility.SysConfigs.Project == Utilities.SysConfigs.clsSystemConfigs.PROJECT.U007)
+                tabControl1.TabPages.RemoveAt(1);//把原本的HOME PAGE移除
+            else
+                tabControl1.TabPages.RemoveAt(0);
+
             DevicesManager.LoadDeviceConnectionOpts(out bool config_error, out bool eqplc_config_error, out string errMsg);
 
             if (config_error | eqplc_config_error)
@@ -114,7 +121,7 @@ namespace GPMCasstteConvertCIM.Forms
 
 
             DevicesManager.DeviceConnectionStateOnChanged += CIMDevices_DeviceConnectionStateOnChanged;
-
+            DevicesManager.EqStatusUI = usceqStatus1;
             DevicesManager.Connect();
 
 
