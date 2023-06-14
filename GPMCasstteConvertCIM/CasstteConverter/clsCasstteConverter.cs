@@ -368,10 +368,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         protected virtual void SyncMemData()
         {
-            PLCMemoryDatatToEQDataDTO();
-        }
-        protected virtual void PLCMemoryDatatToEQDataDTO()
-        {
             try
             {
 
@@ -443,8 +439,19 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     eqpWordData[i].Value = eqp_word_datas[i];
                 }
 
+                PLCMemoryDatatToEQDataDTO();
 
+            }
+            catch (Exception ex)
+            {
 
+                throw ex;
+            }
+        }
+        protected virtual void PLCMemoryDatatToEQDataDTO()
+        {
+            try
+            {
                 //EQP 
                 EQPData.EQP_RUN = (bool)LinkBitMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.EQP_RUN).Value;
                 EQPData.EQP_IDLE = (bool)LinkBitMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.EQP_IDLE).Value;
