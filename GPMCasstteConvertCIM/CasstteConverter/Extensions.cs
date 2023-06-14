@@ -16,10 +16,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         }
         internal static void SetMemoryStart(this MemoryTable memTable, string bitStartAddress, string wordStartAddress)
         {
-            string bitRegionName = bitStartAddress.Substring(0, 1);
-            string bitStartAddress_Num = bitStartAddress.Substring(1, bitStartAddress.Length - 1);
-            string wordRegionName = wordStartAddress.Substring(0, 1);
-            string wordStartAddress_Num = wordStartAddress.Substring(1, wordStartAddress.Length - 1);
+            bitStartAddress.SplitAddress(true, out string bitRegionName, out int address);
+            string bitStartAddress_Num = address.ToString();
+            wordStartAddress.SplitAddress(true, out string wordRegionName, out address);
+            string wordStartAddress_Num = address.ToString();
             memTable.SetMemoryStart(bitRegionName, bitStartAddress_Num, wordRegionName, wordStartAddress_Num);
         }
 
