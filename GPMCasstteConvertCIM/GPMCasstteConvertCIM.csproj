@@ -59,6 +59,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Interop.ACTMULTILib.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="src\agv_task_cmd_template.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
