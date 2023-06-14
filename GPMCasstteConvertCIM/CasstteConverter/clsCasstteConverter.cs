@@ -26,10 +26,12 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             MC
         }
         internal bool simulation_mode = false;
-        private string BitMapFileName_EQ = "src\\PLC_Bit_Map_EQ.csv";
-        private string WordMapFileName_EQ = "src\\PLC_Word_Map_EQ.csv";
-        private string BitMapFileName_CIM = "src\\PLC_Bit_Map_CIM.csv";
-        private string WordMapFileName_CIM = "src\\PLC_Word_Map_CIM.csv";
+
+        protected virtual string BitMapFileName_EQ { get; set; } = "src\\PLC_Bit_Map_EQ.csv";
+        protected virtual string WordMapFileName_EQ { get; set; } = "src\\PLC_Word_Map_EQ.csv";
+        protected virtual string BitMapFileName_CIM { get; set; } = "src\\PLC_Bit_Map_CIM.csv";
+        protected virtual string WordMapFileName_CIM { get; set; } = "src\\PLC_Word_Map_CIM.csv";
+
         protected PLC_CONN_INTERFACE plcInterface = PLC_CONN_INTERFACE.MX;
         public virtual List<clsConverterPort> PortDatas { get; set; } = new List<clsConverterPort>();
 
