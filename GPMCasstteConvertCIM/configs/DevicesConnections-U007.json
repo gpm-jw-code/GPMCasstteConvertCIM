@@ -1,0 +1,362 @@
+{
+  "PLCEQS": [
+    {
+      "Eq_Name": "STK",
+      "ConverterType": "SYS_2_SYS",
+      "Ports": {
+        "0": {
+          "ModbusServer_Enable": true,
+          "PortNo": 0,
+          "PortID": "STK_LoadPort",
+          "ModbusServer_IP": "127.0.0.1",
+          "ModbusServer_PORT": 1501
+        },
+        "1": {
+          "ModbusServer_Enable": true,
+          "PortNo": 1,
+          "PortID": "STK_UnloadPort",
+          "ModbusServer_IP": "127.0.0.1",
+          "ModbusServer_PORT": 1502
+        }
+      },
+      "Name": "STK",
+      "IpAddress": null,
+      "Port": 0,
+      "DeviceId": 0,
+      "IsActive": true,
+      "DeviceType": "CASSTTE_CONVERTER"
+    },
+    {
+      "Eq_Name": "QV",
+      "ConverterType": "SYS_2_SYS",
+      "Ports": {
+        "0": {
+          "ModbusServer_Enable": true,
+          "PortNo": 0,
+          "PortID": "QV_LoadPort",
+          "ModbusServer_IP": "127.0.0.1",
+          "ModbusServer_PORT": 1503
+        },
+        "1": {
+          "ModbusServer_Enable": true,
+          "PortNo": 1,
+          "PortID": "QV_UnloadPort",
+          "ModbusServer_IP": "127.0.0.1",
+          "ModbusServer_PORT": 1504
+        }
+      },
+      "Name": "QV",
+      "IpAddress": null,
+      "Port": 0,
+      "DeviceId": 0,
+      "IsActive": true,
+      "DeviceType": "CASSTTE_CONVERTER"
+    },
+    {
+      "Eq_Name": "AOI_1",
+      "ConverterType": "SYS_2_SYS",
+      "Ports": {
+        "0": {
+          "ModbusServer_Enable": true,
+          "PortNo": 0,
+          "PortID": "AOI_1_LoadPort",
+          "ModbusServer_IP": "127.0.0.1",
+          "ModbusServer_PORT": 1505
+        },
+        "1": {
+          "ModbusServer_Enable": true,
+          "PortNo": 1,
+          "PortID": "AOI_1_UnloadPort",
+          "ModbusServer_IP": "127.0.0.1",
+          "ModbusServer_PORT": 1506
+        }
+      },
+      "Name": "AOI_1",
+      "IpAddress": null,
+      "Port": 0,
+      "DeviceId": 0,
+      "IsActive": true,
+      "DeviceType": "CASSTTE_CONVERTER"
+    },
+    {
+      "Eq_Name": "AOI_2",
+      "ConverterType": "SYS_2_SYS",
+      "Ports": {
+        "0": {
+          "ModbusServer_Enable": true,
+          "PortNo": 0,
+          "PortID": "AOI_2_LoadPort",
+          "ModbusServer_IP": "127.0.0.1",
+          "ModbusServer_PORT": 1507
+        },
+        "1": {
+          "ModbusServer_Enable": true,
+          "PortNo": 1,
+          "PortID": "AOI_2_UnloadPort",
+          "ModbusServer_IP": "127.0.0.1",
+          "ModbusServer_PORT": 1508
+        }
+      },
+      "Name": "AOI_2",
+      "IpAddress": null,
+      "Port": 0,
+      "DeviceId": 0,
+      "IsActive": true,
+      "DeviceType": "CASSTTE_CONVERTER"
+    },
+    {
+      "Eq_Name": "AOI_3",
+      "ConverterType": "SYS_2_SYS",
+      "Ports": {
+        "0": {
+          "ModbusServer_Enable": true,
+          "PortNo": 0,
+          "PortID": "AOI_3_LoadPort",
+          "ModbusServer_IP": "127.0.0.1",
+          "ModbusServer_PORT": 1509
+        },
+        "1": {
+          "ModbusServer_Enable": true,
+          "PortNo": 1,
+          "PortID": "AOI_3_UnloadPort",
+          "ModbusServer_IP": "127.0.0.1",
+          "ModbusServer_PORT": 1510
+        }
+      },
+      "Name": "AOI_3",
+      "IpAddress": null,
+      "Port": 0,
+      "DeviceId": 0,
+      "IsActive": true,
+      "DeviceType": "CASSTTE_CONVERTER"
+    },
+    {
+      "Eq_Name": "AOI_4",
+      "ConverterType": "SYS_2_SYS",
+      "Ports": {
+        "0": {
+          "ModbusServer_Enable": true,
+          "PortNo": 0,
+          "PortID": "AOI_4_LoadPort",
+          "ModbusServer_IP": "127.0.0.1",
+          "ModbusServer_PORT": 1511
+        },
+        "1": {
+          "ModbusServer_Enable": true,
+          "PortNo": 1,
+          "PortID": "AOI_4_UnloadPort",
+          "ModbusServer_IP": "127.0.0.1",
+          "ModbusServer_PORT": 1512
+        }
+      },
+      "Name": "AOI_4",
+      "IpAddress": null,
+      "Port": 0,
+      "DeviceId": 0,
+      "IsActive": true,
+      "DeviceType": "CASSTTE_CONVERTER"
+    },
+    {
+      "Eq_Name": "AOS_1",
+      "ConverterType": "SYS_2_SYS",
+      "Ports": {
+        "0": {
+          "ModbusServer_Enable": true,
+          "PortNo": 0,
+          "PortID": "AOS_1_LoadPort",
+          "ModbusServer_IP": "127.0.0.1",
+          "ModbusServer_PORT": 1513
+        },
+        "1": {
+          "ModbusServer_Enable": true,
+          "PortNo": 1,
+          "PortID": "AOS_1_UnloadPort",
+          "ModbusServer_IP": "127.0.0.1",
+          "ModbusServer_PORT": 1514
+        }
+      },
+      "Name": "AOS_1",
+      "IpAddress": null,
+      "Port": 0,
+      "DeviceId": 0,
+      "IsActive": true,
+      "DeviceType": "CASSTTE_CONVERTER"
+    },
+    {
+      "Eq_Name": "AOS_2",
+      "ConverterType": "SYS_2_SYS",
+      "Ports": {
+        "0": {
+          "ModbusServer_Enable": true,
+          "PortNo": 0,
+          "PortID": "AOS_2_LoadPort",
+          "ModbusServer_IP": "127.0.0.1",
+          "ModbusServer_PORT": 1515
+        },
+        "1": {
+          "ModbusServer_Enable": true,
+          "PortNo": 1,
+          "PortID": "AOS_2_UnloadPort",
+          "ModbusServer_IP": "127.0.0.1",
+          "ModbusServer_PORT": 1516
+        }
+      },
+      "Name": "AOS_2",
+      "IpAddress": null,
+      "Port": 0,
+      "DeviceId": 0,
+      "IsActive": true,
+      "DeviceType": "CASSTTE_CONVERTER"
+    },
+    {
+      "Eq_Name": "AOS_3",
+      "ConverterType": "SYS_2_SYS",
+      "Ports": {
+        "0": {
+          "ModbusServer_Enable": true,
+          "PortNo": 0,
+          "PortID": "AOS_3_LoadPort",
+          "ModbusServer_IP": "127.0.0.1",
+          "ModbusServer_PORT": 1517
+        },
+        "1": {
+          "ModbusServer_Enable": true,
+          "PortNo": 1,
+          "PortID": "AOS_3_UnloadPort",
+          "ModbusServer_IP": "127.0.0.1",
+          "ModbusServer_PORT": 1518
+        }
+      },
+      "Name": "AOS_3",
+      "IpAddress": null,
+      "Port": 0,
+      "DeviceId": 0,
+      "IsActive": true,
+      "DeviceType": "CASSTTE_CONVERTER"
+    },
+    {
+      "Eq_Name": "AOS_4",
+      "ConverterType": "SYS_2_SYS",
+      "Ports": {
+        "0": {
+          "ModbusServer_Enable": true,
+          "PortNo": 0,
+          "PortID": "AOS_4_LoadPort",
+          "ModbusServer_IP": "127.0.0.1",
+          "ModbusServer_PORT": 1519
+        },
+        "1": {
+          "ModbusServer_Enable": true,
+          "PortNo": 1,
+          "PortID": "AOS_4_UnloadPort",
+          "ModbusServer_IP": "127.0.0.1",
+          "ModbusServer_PORT": 1520
+        }
+      },
+      "Name": "AOS_4",
+      "IpAddress": null,
+      "Port": 0,
+      "DeviceId": 0,
+      "IsActive": true,
+      "DeviceType": "CASSTTE_CONVERTER"
+    },
+    {
+      "Eq_Name": "TS_1",
+      "ConverterType": "SYS_2_SYS",
+      "Ports": {
+        "0": {
+          "ModbusServer_Enable": true,
+          "PortNo": 0,
+          "PortID": "TS_1_Port",
+          "ModbusServer_IP": "127.0.0.1",
+          "ModbusServer_PORT": 1521
+        }
+      },
+      "Name": "TS_1",
+      "IpAddress": null,
+      "Port": 0,
+      "DeviceId": 0,
+      "IsActive": true,
+      "DeviceType": "CASSTTE_CONVERTER"
+    },
+    {
+      "Eq_Name": "TS_2",
+      "ConverterType": "SYS_2_SYS",
+      "Ports": {
+        "0": {
+          "ModbusServer_Enable": true,
+          "PortNo": 0,
+          "PortID": "TS_2_In_Sys_Port",
+          "ModbusServer_IP": "127.0.0.1",
+          "ModbusServer_PORT": 1522
+        },
+        "1": {
+          "ModbusServer_Enable": true,
+          "PortNo": 0,
+          "PortID": "TS_2_Out_Sys_Port",
+          "ModbusServer_IP": "127.0.0.1",
+          "ModbusServer_PORT": 1523
+        }
+      },
+      "Name": "TS_2",
+      "IpAddress": null,
+      "Port": 0,
+      "DeviceId": 0,
+      "IsActive": true,
+      "DeviceType": "CASSTTE_CONVERTER"
+    },
+    {
+      "Eq_Name": "TS_3",
+      "ConverterType": "SYS_2_SYS",
+      "Ports": {
+        "0": {
+          "ModbusServer_Enable": true,
+          "PortNo": 0,
+          "PortID": "TS_3_Port",
+          "ModbusServer_IP": "127.0.0.1",
+          "ModbusServer_PORT": 1524
+        }
+      },
+      "Name": "TS_3",
+      "IpAddress": null,
+      "Port": 0,
+      "DeviceId": 0,
+      "IsActive": true,
+      "DeviceType": "CASSTTE_CONVERTER"
+    }
+  ],
+  "SECS_HOST": {
+    "Name": "",
+    "IpAddress": "127.0.0.1",
+    "Port": 5000,
+    "DeviceId": 0,
+    "IsActive": false,
+    "DeviceType": "SECS_HOST"
+  },
+  "SECS_CLIENT": {
+    "Name": "",
+    "IpAddress": "127.0.0.1",
+    "Port": 5001,
+    "DeviceId": 1,
+    "IsActive": true,
+    "DeviceType": "SECS_CLIENT"
+  },
+  "Modbus_Servers": [
+    {
+      "Name": "",
+      "IpAddress": "127.0.0.1",
+      "Port": 502,
+      "DeviceId": 0,
+      "IsActive": false,
+      "DeviceType": "MODBUS_TCP_Server"
+    },
+    {
+      "Name": "",
+      "IpAddress": "127.0.0.1",
+      "Port": 1502,
+      "DeviceId": 1,
+      "IsActive": false,
+      "DeviceType": "MODBUS_TCP_Server"
+    }
+  ]
+}
