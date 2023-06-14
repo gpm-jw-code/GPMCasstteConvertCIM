@@ -280,18 +280,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         }
 
         public bool EQ_BUSY { get; internal set; }
-        private bool _PortStatusDown = false;
-        public bool PortStatusDown
-        {
-            get => _PortStatusDown;
-            set
-            {
-                if (_PortStatusDown != value)
-                {
-                    _PortStatusDown = value;
-                }
-            }
-        }
+        public bool PortStatusDown { get; set; }
         public bool LD_UP_POS { get; internal set; }
         public bool LD_DOWN_POS { get; internal set; }
         public bool DoorOpened { get; internal set; }
