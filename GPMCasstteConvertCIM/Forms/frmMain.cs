@@ -97,13 +97,11 @@ namespace GPMCasstteConvertCIM.Forms
 
                 foreach (clsConverterPort.clsPortProperty port in item.Ports.Values)
                 {
-
                     ToolStripMenuItem agvs_modbus_emu_selBtn = new ToolStripMenuItem()
                     {
-                        Text = $"Âà´«¬[-{item.DeviceId}({item.ConverterType})-Port{port.PortNo}",
+                        Text = $"{item.Eq_Name}-{port.PortID}",
                         Tag = port //ConverterEQPInitialOption
                     };
-
                     agvs_modbus_emu_selBtn.Click += Agvs_modbus_emu_selBtn_Click;
                     AGVS_modbus_sim_ToolStripMenuItem.DropDownItems.Add(agvs_modbus_emu_selBtn);
                 }

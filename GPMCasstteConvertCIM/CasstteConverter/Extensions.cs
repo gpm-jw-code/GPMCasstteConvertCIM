@@ -16,10 +16,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         }
         internal static void SetMemoryStart(this MemoryTable memTable, string bitStartAddress, string wordStartAddress)
         {
-            bitStartAddress.SplitAddress(true, out string bitRegionName, out int address);
-            string bitStartAddress_Num = address.ToString();
-            wordStartAddress.SplitAddress(true, out string wordRegionName, out address);
-            string wordStartAddress_Num = address.ToString();
+            bitStartAddress.SplitAddress(true, out string bitRegionName, out int address,out string addressStr);
+            string bitStartAddress_Num = addressStr.ToString();
+            wordStartAddress.SplitAddress(true, out string wordRegionName, out address, out  addressStr);
+            string wordStartAddress_Num = addressStr.ToString();
             memTable.SetMemoryStart(bitRegionName, bitStartAddress_Num, wordRegionName, wordStartAddress_Num);
         }
 
@@ -53,13 +53,13 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         {
             errMsg = string.Empty;
             //string bitRegionName = memoryGroupOptions.bitStartAddress.Substring(0, 1);
-            memoryGroupOptions.bitStartAddress.SplitAddress(true, out string bitRegionName, out int bitStartAddressNum);
-            memoryGroupOptions.bitEndAddress.SplitAddress(true, out _, out int bitEndAddressNum);
+            memoryGroupOptions.bitStartAddress.SplitAddress(true, out string bitRegionName, out int bitStartAddressNum, out string addressNumtStr);
+            memoryGroupOptions.bitEndAddress.SplitAddress(true, out _, out int bitEndAddressNum, out  addressNumtStr);
             string bitStartAddress_Num = memoryGroupOptions.bitStartAddress.Replace(bitRegionName, "");
 
 
-            memoryGroupOptions.wordStartAddress.SplitAddress(true, out string wordRegionName, out int wordStartAddressNum);
-            memoryGroupOptions.wordEndAddress.SplitAddress(true, out _, out int wordEndAddressNum);
+            memoryGroupOptions.wordStartAddress.SplitAddress(true, out string wordRegionName, out int wordStartAddressNum, out addressNumtStr);
+            memoryGroupOptions.wordEndAddress.SplitAddress(true, out _, out int wordEndAddressNum, out addressNumtStr);
             string wordStartAddress_Num = memoryGroupOptions.wordStartAddress.Replace(wordRegionName, "");
 
             int bits_size = bitEndAddressNum - bitStartAddressNum + 1;
@@ -86,7 +86,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             }
         }
 
-        internal static void SplitAddress(this string address, bool isHex, out string regionName, out int addressNum)
+        internal static void SplitAddress(this string address, bool isHex, out string regionName, out int addressNum,out string addressStr)
         {
             char ss = address.First(chr => int.TryParse(chr.ToString(), out int _v));
             var indexEndOfWordRegName = address.IndexOf(ss);
@@ -96,6 +96,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 addressNum = int.Parse(addressNumStr);
             else
                 addressNum = int.Parse(addressNumStr, System.Globalization.NumberStyles.HexNumber);
+            addressStr = addressNumStr;
         }
         internal static void TrySetPropertyValue(this object aimObj, string propertyName, object value, out bool ValueChanged)
         {
