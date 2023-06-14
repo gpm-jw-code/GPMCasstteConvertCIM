@@ -607,6 +607,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     Scope = lineSplited[5],
                     PropertyName = lineSplited[6],
                     Link_Modbus_Register_Number = lineSplited[7] == "" ? -1 : int.Parse(lineSplited[7]),
+                    EQ_Name = lineSplited[8] == "" ? EQ_NAMES.Unkown : Enum.GetValues(typeof(EQ_NAMES)).Cast<EQ_NAMES>().First(E => E.ToString() == lineSplited[8])
+
                 };
             }
             catch (Exception ex)
