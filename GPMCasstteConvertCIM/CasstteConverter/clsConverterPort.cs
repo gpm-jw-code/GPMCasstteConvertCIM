@@ -287,11 +287,12 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             {
                 if (value != _CarrierWaitINSystemRequest)
                 {
-                    Previous_WIPINFO_BCR_ID = WIPINFO_BCR_ID;
-                    CarrierInstallTime = DateTime.Now;
+                    
                     _CarrierWaitINSystemRequest = value;
                     if (_CarrierWaitINSystemRequest)
                     {
+                        Previous_WIPINFO_BCR_ID = WIPINFO_BCR_ID;
+                        CarrierInstallTime = DateTime.Now;
 
                         Task.Factory.StartNew(async () =>
                         {
@@ -306,7 +307,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                                 }
                                 else
                                 {
-
                                     bool lduld_req = await WaitLoadUnloadRequestON();
                                     if (!lduld_req)
                                         return;
