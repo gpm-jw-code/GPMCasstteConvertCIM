@@ -32,7 +32,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         protected virtual string BitMapFileName_CIM { get; set; } = "src\\PLC_Bit_Map_CIM.csv";
         protected virtual string WordMapFileName_CIM { get; set; } = "src\\PLC_Word_Map_CIM.csv";
 
-        protected PLC_CONN_INTERFACE plcInterface = PLC_CONN_INTERFACE.MX;
+        protected PLC_CONN_INTERFACE plcInterface = PLC_CONN_INTERFACE.MC;
         public virtual List<clsConverterPort> PortDatas { get; set; } = new List<clsConverterPort>();
 
         public clsCasstteConverter()
