@@ -12,6 +12,7 @@ using GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle;
 using GPMCasstteConvertCIM.Utilities;
 using Secs4Net;
 using Secs4Net.Sml;
+using System.Text;
 using System.Windows.Forms;
 using static Secs4Net.Item;
 namespace GPMCasstteConvertCIM.Forms
@@ -53,6 +54,8 @@ namespace GPMCasstteConvertCIM.Forms
         private void Form1_Load(object sender, EventArgs e)
         {
             Utility.LoadConfigs();
+            Secs4Net.EncodingSetting.ASCIIEncoding = Utility.SysConfigs.SECS.SECESAEncoding; //設定編碼
+
             DevicesManager.LoadDeviceConnectionOpts(out bool config_error, out bool eqplc_config_error, out string errMsg);
 
             if (config_error | eqplc_config_error)
@@ -384,6 +387,16 @@ namespace GPMCasstteConvertCIM.Forms
         private void cknOnlineModeIndi_CheckedChanged(object sender, EventArgs e)
         {
             cknOnlineModeIndi.Text = cknOnlineModeIndi.Checked ? "ONLINE" : "OFFLINE";
+            string ch = "中文測試";
+            var bytes = Encoding.ASCII.GetBytes(ch);
+
+            var big5ch = Encoding.Unicode.GetString(bytes, 0, bytes.Length);
+            var big5Bytes = Encoding.BigEndianUnicode.GetBytes(big5ch);
+            //
+            DevicesManager.secs_host_for_mcs.SendMsg(new SecsMessage(5, 9)
+            {
+                SecsItem = A(ch)
+            });
 
         }
     }
