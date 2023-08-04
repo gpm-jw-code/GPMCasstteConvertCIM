@@ -62,6 +62,8 @@ namespace GPMCasstteConvertCIM.Utilities
         {
             _richTextBox?.Invoke((MethodInvoker)delegate
             {
+                if (_richTextBox.Text.Length > 65535)
+                    _richTextBox.Clear();
                 _richTextBox.ScrollToCaret();
 
             });
