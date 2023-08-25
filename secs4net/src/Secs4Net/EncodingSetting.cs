@@ -8,6 +8,6 @@ namespace Secs4Net
 {
     public class EncodingSetting
     {
-        public static Encoding ASCIIEncoding { get; set; } = Encoding.ASCII;
+        public static Encoding ASCIIEncoding { get; set; } = Encoding.Default;
     }
 }
