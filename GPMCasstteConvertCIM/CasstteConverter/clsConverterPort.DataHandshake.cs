@@ -181,24 +181,51 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             PROPERTY wait_in_ = wait_in_accept ? PROPERTY.Carrier_WaitIn_System_Accept : PROPERTY.Carrier_WaitIn_System_Refuse;
             string? carrier_wait_in_result_flag_address = PortCIMBitAddress[wait_in_];
             string? carrier_wait_in_reply_address = PortCIMBitAddress[PROPERTY.Carrier_WaitIn_System_Reply];
-            EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_in_result_flag_address, true);
-            await Task.Delay(300);
-            EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_in_reply_address, true);
-            Stopwatch sw = Stopwatch.StartNew();
-            while (CarrierWaitINSystemRequest)
+
+            PortUnitType _portType =this.EPortType;
+            if (_portType == PortUnitType.Input)
             {
-                if (sw.ElapsedMilliseconds > EQ_T_timeout)
+                EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_in_result_flag_address, true);
+                await Task.Delay(300);
+                EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_in_reply_address, true);
+                Stopwatch sw = Stopwatch.StartNew();
+                while (CarrierWaitINSystemRequest)
                 {
-                    timeout = true;
-                    break;
+                    if (sw.ElapsedMilliseconds > EQ_T_timeout)
+                    {
+                        timeout = true;
+                        break;
+                    }
+                    await Task.Delay(1);
                 }
-                await Task.Delay(1);
+
+                EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_in_reply_address, false);
+                EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_in_result_flag_address, false);
+            }
+            else if (_portType == PortUnitType.Input_Output)
+            {
+                EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_in_result_flag_address, true);
+                await Task.Delay(300);
+                EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_in_reply_address, true);
+                Stopwatch sw = Stopwatch.StartNew();
+                while (CarrierWaitINSystemRequest)
+                {
+                    if (sw.ElapsedMilliseconds > EQ_T_timeout)
+                    {
+                        timeout = true;
+                        break;
+                    }
+                    await Task.Delay(1);
+                }
+                EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_in_reply_address, false);
+                EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_in_result_flag_address, false);
+            }
+            else if (_portType == PortUnitType.Output)
+            {
+                Utility.SystemLogger.Info($"Carrier Wait In HS Failed");
             }
 
-            EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_in_reply_address, false);
-            EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_in_result_flag_address, false);
-
-            return (!timeout, timeout ? ALARM_CODES.CarrierWaitIn_HS_EQ_Timeout : ALARM_CODES.None);
+                return (!timeout, timeout ? ALARM_CODES.CarrierWaitIn_HS_EQ_Timeout : ALARM_CODES.None);
 
         }
 
