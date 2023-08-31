@@ -43,16 +43,16 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             AOS_3,
             AOS_4,
             TS_1,
-            TS_2,
+            TS_2_1,
+            TS_2_2,
             TS_3,
-            TS_4,
             Unkown
         }
         public enum EQ_SCOPE
         {
             Unknown,
-            AGVS, 
-            EQ, 
+            AGVS,
+            EQ,
             PORT1,
             PORT2,
             PORT3,

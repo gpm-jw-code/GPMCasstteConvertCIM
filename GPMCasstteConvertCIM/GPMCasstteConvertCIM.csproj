@@ -60,7 +60,7 @@
 
   <ItemGroup>
     <None Update="configs\DevicesConnections-U007.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
     <None Update="Interop.ACTMULTILib.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

@@ -95,7 +95,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         internal PortUnitType EPortType => Enum.GetValues(typeof(PortUnitType)).Cast<PortUnitType>().First(etype => (int)etype == _PortType);
 
-        public string StatusMemStartAddress => PortEQBitAddress.Count == 0 ? "" : PortEQBitAddress.First().Value;
+        public string StatusMemStartAddress => PortEQBitAddress.Count == 0 ? "" : PortEQBitAddress.First(kp => kp.Key == PROPERTY.Load_Request).Value;
 
         internal Dictionary<PROPERTY, string> PortCIMBitAddress
         {
@@ -295,7 +295,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             {
                 if (value != _CarrierWaitINSystemRequest)
                 {
-                    
+
                     _CarrierWaitINSystemRequest = value;
                     if (_CarrierWaitINSystemRequest)
                     {

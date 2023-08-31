@@ -270,6 +270,13 @@
           "PortID": "TS_1_Port",
           "ModbusServer_IP": "127.0.0.1",
           "ModbusServer_PORT": 1521
+        },
+        "1": {
+          "ModbusServer_Enable": true,
+          "PortNo": 1,
+          "PortID": "TS_1_Port",
+          "ModbusServer_IP": "127.0.0.1",
+          "ModbusServer_PORT": 1522
         }
       },
       "Name": "TS_1",
@@ -280,25 +287,51 @@
       "DeviceType": "CASSTTE_CONVERTER"
     },
     {
-      "Eq_Name": "TS_2",
+      "Eq_Name": "TS_2_1",
       "ConverterType": "SYS_2_SYS",
       "Ports": {
         "0": {
           "ModbusServer_Enable": true,
           "PortNo": 0,
-          "PortID": "TS_2_In_Sys_Port",
+          "PortID": "TS_2_1_In_Sys_Port",
           "ModbusServer_IP": "127.0.0.1",
-          "ModbusServer_PORT": 1522
+          "ModbusServer_PORT": 1523
         },
         "1": {
           "ModbusServer_Enable": true,
-          "PortNo": 0,
-          "PortID": "TS_2_Out_Sys_Port",
+          "PortNo": 1,
+          "PortID": "TS_2_1_Out_Sys_Port",
           "ModbusServer_IP": "127.0.0.1",
-          "ModbusServer_PORT": 1523
+          "ModbusServer_PORT": 1524
         }
       },
-      "Name": "TS_2",
+      "Name": "TS_2_1",
+      "IpAddress": null,
+      "Port": 0,
+      "DeviceId": 0,
+      "IsActive": true,
+      "DeviceType": "CASSTTE_CONVERTER"
+    },
+     {
+      "Eq_Name": "TS_2_2",
+      "ConverterType": "SYS_2_SYS",
+      "Ports": {
+        "0": {
+          "ModbusServer_Enable": true,
+          "PortNo": 0,
+          "PortID": "TS_2_2_In_Sys_Port",
+          "ModbusServer_IP": "127.0.0.1",
+          "ModbusServer_PORT": 1525
+        },
+        "1": {
+          "ModbusServer_Enable": true,
+          "PortNo":1,
+          "PortID": "TS_2_2_Out_Sys_Port",
+          "ModbusServer_IP": "127.0.0.1",
+          "ModbusServer_PORT": 1526
+        }
+      },
+      "Name": "TS_2_2",
       "IpAddress": null,
       "Port": 0,
       "DeviceId": 0,
@@ -312,9 +345,16 @@
         "0": {
           "ModbusServer_Enable": true,
           "PortNo": 0,
-          "PortID": "TS_3_Port",
+          "PortID": "TS_3_Port_In_Sys_Port",
           "ModbusServer_IP": "127.0.0.1",
-          "ModbusServer_PORT": 1524
+          "ModbusServer_PORT": 1527
+        },
+        "1": {
+          "ModbusServer_Enable": true,
+          "PortNo": 1,
+          "PortID": "TS_3_Port_Out_Sys_Port",
+          "ModbusServer_IP": "127.0.0.1",
+          "ModbusServer_PORT": 1528
         }
       },
       "Name": "TS_3",
