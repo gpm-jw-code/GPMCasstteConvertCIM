@@ -1,13 +1,27 @@
-﻿using System;
+﻿using Newtonsoft.Json.Converters;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace GPMCasstteConvertCIM.Utilities.SysConfigs
 {
     public class clsSECSConfigs
     {
+        public enum ENCODING
+        {
+            Default,
+            ASCII,
+            UTF8,
+            UTF32,
+            BigEndianUnicode,
+            Unicode,
+            UTF7,
+            Latin1
+
+        }
         /// <summary>
         /// Configure the timeout interval in milliseconds between the primary message sent till to receive the secondary message.
         /// Default value is 45000 milliseconds.
@@ -45,5 +59,36 @@ namespace GPMCasstteConvertCIM.Utilities.SysConfigs
         public int LinkTestInterval { get; set; } = 60000;
 
         public int SocketRecieveBufferSize { get; set; } = 32768;
+        [JsonConverter(typeof(StringEnumConverter))]
+        public ENCODING ASCIIEncoding { get; set; } = ENCODING.Default;
+
+        internal Encoding SECESAEncoding
+        {
+            get
+            {
+                switch (ASCIIEncoding)
+                {
+                    case ENCODING.ASCII:
+                        return Encoding.ASCII;
+                    case ENCODING.Default:
+                        return Encoding.Default;
+                    case ENCODING.UTF8:
+                        return Encoding.UTF8;
+                    case ENCODING.Unicode:
+                        return Encoding.Unicode;
+                    case ENCODING.BigEndianUnicode:
+                        return Encoding.BigEndianUnicode;
+                    case ENCODING.UTF32:
+                        return Encoding.UTF32;
+                    case ENCODING.UTF7:
+                        return Encoding.UTF7;
+                    case ENCODING.Latin1:
+                        return Encoding.Latin1;
+                    default:
+                        return Encoding.Default;
+
+                }
+            }
+        }
     }
 }

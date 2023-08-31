@@ -103,7 +103,7 @@ public partial class Item
                     {
                         using var spanOwner = SpanOwner<byte>.Allocate(length);
                         bytes.CopyTo(spanOwner.Span);
-                        return A(StringPool.Shared.GetOrAdd(spanOwner.Span, Encoding.ASCII));
+                        return A(StringPool.Shared.GetOrAdd(spanOwner.Span, EncodingSetting.ASCIIEncoding));
                     }
             }
         }

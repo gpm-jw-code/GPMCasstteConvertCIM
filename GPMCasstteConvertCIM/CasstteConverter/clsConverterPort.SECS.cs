@@ -28,9 +28,12 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         }
         public async Task<bool> SecsEventReport(CEID ceid)
         {
-            if ((ceid == CEID.CarrierWaitIn | ceid == CEID.CarrierWaitOut) && EQParent.converterType == Enums.CONVERTER_TYPE.IN_SYS)
+            bool isCarrierWaitInOutReport = ceid == CEID.CarrierWaitIn | ceid == CEID.CarrierWaitOut;
+            if (isCarrierWaitInOutReport && Properties.CarrierWaitInOutReport_Enable == false)
+            {
+                Utility.SystemLogger.Info($"{ceid} Report To MCS Function is disabled");
                 return true;
-
+            }
             Utility.SystemLogger.Info($"Event Report(CEID={ceid}) To MCS.");
             SecsMessage msgSend = await CreateMsgByCEID(ceid);
 
@@ -65,7 +68,9 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     if (ceid == CEID.CarrierWaitIn)
                     {
                         bool mcs_accpet = msgReply.SecsItem.FirstValue<byte>() == 0;
-                        return mcs_accpet && await WaitTransferTaskDownloaded();
+                        if (mcs_accpet)
+                            await WaitTransferTaskDownloaded();
+                        return mcs_accpet;
                     }
                     return true;
                 }
