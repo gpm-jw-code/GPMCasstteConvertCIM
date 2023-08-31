@@ -56,10 +56,6 @@ namespace GPMCasstteConvertCIM.Forms
 
             Utility.LoadConfigs();
             Secs4Net.EncodingSetting.ASCIIEncoding = Utility.SysConfigs.SECS.SECESAEncoding; //設定編碼
-
-            DevicesManager.LoadDeviceConnectionOpts(out bool config_error, out bool eqplc_config_error, out string errMsg);
-            Utility.LoadConfigs();
-
             if (Utility.SysConfigs.Project == Utilities.SysConfigs.clsSystemConfigs.PROJECT.U007)
                 tabControl1.TabPages.RemoveAt(1);//把原本的HOME PAGE移除
             else
