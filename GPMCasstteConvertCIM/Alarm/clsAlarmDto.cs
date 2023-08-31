@@ -77,6 +77,7 @@ namespace GPMCasstteConvertCIM.Alarm
         CARRIER_WAIT_IN_BUT_BCR_ID_IS_EMPTY,
         CarrierInstallReportFail,
         CODE_ERROR,
-        SYNCMEMDATA_FUNCTION_CODE_ERROR
+        SYNCMEMDATA_FUNCTION_CODE_ERROR,
+        MX_INTERFACE_OPEN_FAIL
     }
 }

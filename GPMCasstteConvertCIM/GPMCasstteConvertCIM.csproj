@@ -59,8 +59,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="configs\AGVS_DB_Param.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="configs\DevicesConnections-U007.json">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="configs\DevicesConnections.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="configs\SystemConfigs.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Interop.ACTMULTILib.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

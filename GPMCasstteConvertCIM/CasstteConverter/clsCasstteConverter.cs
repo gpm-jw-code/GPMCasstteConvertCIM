@@ -181,6 +181,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         }
         internal bool Connected { get; private set; }
         internal bool PLCInterfaceClockDown { get; private set; }
+        public int MXLogic_Station_Number = 1;
         public string Name { get; set; } = "";
         internal Data.clsEQPData EQPData { get; set; }
         internal Data.clsAGVSData AGVSData { get; private set; } = new Data.clsAGVSData();
@@ -191,7 +192,24 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         internal clsMemoryGroupOptions CIMinputMemOptions { get; private set; } = new clsMemoryGroupOptions("X0100", "X0115", "W0000", "W0001", false, true);
         internal clsMemoryGroupOptions CIMMemOptions { get; private set; }
         public bool AlarmResetFlag { get; internal set; }
-
+        private bool _MxOpened = true;
+        private Exception MxOpenException;
+        public bool MxOpened
+        {
+            get => _MxOpened;
+            set
+            {
+                if (_MxOpened != value)
+                {
+                    if (!value)
+                    {
+                        Utility.SystemLogger.Error($"MX Open Fail...Logic Station Number = {MXLogic_Station_Number}", MxOpenException);
+                        AlarmManager.AddAlarm(ALARM_CODES.MX_INTERFACE_OPEN_FAIL, Name);
+                    }
+                    _MxOpened = value;
+                }
+            }
+        }
         internal virtual async Task<bool> ActiveAsync(McInterfaceOptions mcInterfaceOptions)
         {
             await Task.Delay(1);
@@ -212,11 +230,13 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                         try
                         {
                             mxInterface = new CIMComponent.MXCompHandler();
-                            connRetCode = mxInterface.Open(1);
+                            connRetCode = mxInterface.Open(MXLogic_Station_Number);
                             return connRetCode == 0;
                         }
-                        catch (Exception)
+                        catch (Exception ex)
                         {
+                            MxOpenException = ex;
+                            MxOpened = false;
                             return false;
                         }
                     }

@@ -29,21 +29,10 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             dgvEQPBitMap = new DataGridView();
-            clsMemoryAddressBindingSource = new BindingSource(components);
-            dgvEQPWordMap = new DataGridView();
-            tableLayoutPanel1 = new TableLayoutPanel();
-            label6 = new Label();
-            label5 = new Label();
-            label4 = new Label();
-            label3 = new Label();
-            dgvCIMBitMap = new DataGridView();
-            dgvCIMWordMap = new DataGridView();
-            label1 = new Label();
-            label2 = new Label();
             addressDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             EQ_Name = new DataGridViewTextBoxColumn();
             Scope = new DataGridViewTextBoxColumn();
@@ -54,6 +43,23 @@
             dataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
             dataTypeDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             Link_Modbus_Address = new DataGridViewTextBoxColumn();
+            clsMemoryAddressBindingSource = new BindingSource(components);
+            dgvEQPWordMap = new DataGridView();
+            addressDataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn3 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn4 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn17 = new DataGridViewTextBoxColumn();
+            Owner = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn18 = new DataGridViewTextBoxColumn();
+            PropertyName = new DataGridViewTextBoxColumn();
+            dataTypeDataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn23 = new DataGridViewTextBoxColumn();
+            tableLayoutPanel1 = new TableLayoutPanel();
+            label6 = new Label();
+            label5 = new Label();
+            label4 = new Label();
+            label3 = new Label();
+            dgvCIMBitMap = new DataGridView();
             dataGridViewTextBoxColumn11 = new DataGridViewTextBoxColumn();
             dataGridViewTextBoxColumn12 = new DataGridViewTextBoxColumn();
             dataGridViewTextBoxColumn13 = new DataGridViewTextBoxColumn();
@@ -64,6 +70,7 @@
             dataGridViewTextBoxColumn16 = new DataGridViewTextBoxColumn();
             dataGridViewTextBoxColumn19 = new DataGridViewTextBoxColumn();
             dataGridViewTextBoxColumn21 = new DataGridViewTextBoxColumn();
+            dgvCIMWordMap = new DataGridView();
             dataGridViewTextBoxColumn5 = new DataGridViewTextBoxColumn();
             dataGridViewTextBoxColumn6 = new DataGridViewTextBoxColumn();
             dataGridViewTextBoxColumn7 = new DataGridViewTextBoxColumn();
@@ -73,15 +80,8 @@
             dataGridViewTextBoxColumn10 = new DataGridViewTextBoxColumn();
             dataGridViewTextBoxColumn20 = new DataGridViewTextBoxColumn();
             dataGridViewTextBoxColumn22 = new DataGridViewTextBoxColumn();
-            addressDataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn3 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn4 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn17 = new DataGridViewTextBoxColumn();
-            Owner = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn18 = new DataGridViewTextBoxColumn();
-            PropertyName = new DataGridViewTextBoxColumn();
-            dataTypeDataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn23 = new DataGridViewTextBoxColumn();
+            label1 = new Label();
+            label2 = new Label();
             ((System.ComponentModel.ISupportInitialize)dgvEQPBitMap).BeginInit();
             ((System.ComponentModel.ISupportInitialize)clsMemoryAddressBindingSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvEQPWordMap).BeginInit();
@@ -95,38 +95,124 @@
             dgvEQPBitMap.AutoGenerateColumns = false;
             dgvEQPBitMap.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             dgvEQPBitMap.BackgroundColor = Color.FromArgb(53, 53, 53);
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = Color.Black;
-            dataGridViewCellStyle4.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle4.ForeColor = Color.White;
-            dataGridViewCellStyle4.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
-            dgvEQPBitMap.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = Color.Black;
+            dataGridViewCellStyle1.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgvEQPBitMap.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvEQPBitMap.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvEQPBitMap.Columns.AddRange(new DataGridViewColumn[] { addressDataGridViewTextBoxColumn, EQ_Name, Scope, DataName, dataGridViewTextBoxColumn1, Value, valueTogglebtn, dataGridViewTextBoxColumn2, dataTypeDataGridViewTextBoxColumn, Link_Modbus_Address });
             dgvEQPBitMap.DataSource = clsMemoryAddressBindingSource;
-            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = SystemColors.MenuText;
-            dataGridViewCellStyle5.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle5.ForeColor = SystemColors.ButtonFace;
-            dataGridViewCellStyle5.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.False;
-            dgvEQPBitMap.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.MenuText;
+            dataGridViewCellStyle2.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle2.ForeColor = SystemColors.ButtonFace;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dgvEQPBitMap.DefaultCellStyle = dataGridViewCellStyle2;
             dgvEQPBitMap.Dock = DockStyle.Fill;
+            dgvEQPBitMap.EnableHeadersVisualStyles = false;
             dgvEQPBitMap.Location = new Point(3, 60);
             dgvEQPBitMap.Name = "dgvEQPBitMap";
             dgvEQPBitMap.RowHeadersVisible = false;
-            dataGridViewCellStyle6.BackColor = Color.FromArgb(53, 53, 53);
-            dataGridViewCellStyle6.ForeColor = Color.White;
-            dgvEQPBitMap.RowsDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle3.BackColor = Color.FromArgb(53, 53, 53);
+            dataGridViewCellStyle3.ForeColor = Color.White;
+            dgvEQPBitMap.RowsDefaultCellStyle = dataGridViewCellStyle3;
             dgvEQPBitMap.RowTemplate.Height = 25;
             dgvEQPBitMap.Size = new Size(839, 227);
             dgvEQPBitMap.TabIndex = 0;
             dgvEQPBitMap.CellDoubleClick += dgvBitMap_CellDoubleClick;
             dgvEQPBitMap.CellMouseClick += dgvEQPBitMap_CellMouseClick;
             dgvEQPBitMap.CellValueChanged += dgvBitMap_CellValueChanged;
+            // 
+            // addressDataGridViewTextBoxColumn
+            // 
+            addressDataGridViewTextBoxColumn.DataPropertyName = "Address";
+            addressDataGridViewTextBoxColumn.HeaderText = "Address";
+            addressDataGridViewTextBoxColumn.Name = "addressDataGridViewTextBoxColumn";
+            addressDataGridViewTextBoxColumn.ReadOnly = true;
+            addressDataGridViewTextBoxColumn.Width = 77;
+            // 
+            // EQ_Name
+            // 
+            EQ_Name.DataPropertyName = "EQ_Name";
+            EQ_Name.HeaderText = "EQ_Name";
+            EQ_Name.Name = "EQ_Name";
+            EQ_Name.ReadOnly = true;
+            EQ_Name.Width = 89;
+            // 
+            // Scope
+            // 
+            Scope.DataPropertyName = "Scope";
+            Scope.HeaderText = "Scope";
+            Scope.Name = "Scope";
+            Scope.ReadOnly = true;
+            Scope.Width = 68;
+            // 
+            // DataName
+            // 
+            DataName.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            DataName.DataPropertyName = "DataName";
+            DataName.HeaderText = "DataName";
+            DataName.Name = "DataName";
+            DataName.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            dataGridViewTextBoxColumn1.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewTextBoxColumn1.DataPropertyName = "Owner";
+            dataGridViewTextBoxColumn1.HeaderText = "Owner";
+            dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            dataGridViewTextBoxColumn1.ReadOnly = true;
+            dataGridViewTextBoxColumn1.Width = 69;
+            // 
+            // Value
+            // 
+            Value.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            Value.DataPropertyName = "Value";
+            Value.HeaderText = "Value";
+            Value.Name = "Value";
+            Value.ReadOnly = true;
+            Value.Resizable = DataGridViewTriState.True;
+            Value.SortMode = DataGridViewColumnSortMode.Automatic;
+            Value.Width = 64;
+            // 
+            // valueTogglebtn
+            // 
+            valueTogglebtn.DataPropertyName = "ToggleBtnText";
+            valueTogglebtn.HeaderText = "Toggle";
+            valueTogglebtn.Name = "valueTogglebtn";
+            valueTogglebtn.ReadOnly = true;
+            valueTogglebtn.Text = "Toggle";
+            valueTogglebtn.Width = 54;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            dataGridViewTextBoxColumn2.DataPropertyName = "PropertyName";
+            dataGridViewTextBoxColumn2.HeaderText = "PropertyName";
+            dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            dataGridViewTextBoxColumn2.ReadOnly = true;
+            dataGridViewTextBoxColumn2.Width = 115;
+            // 
+            // dataTypeDataGridViewTextBoxColumn
+            // 
+            dataTypeDataGridViewTextBoxColumn.DataPropertyName = "DataType";
+            dataTypeDataGridViewTextBoxColumn.HeaderText = "DataType";
+            dataTypeDataGridViewTextBoxColumn.Name = "dataTypeDataGridViewTextBoxColumn";
+            dataTypeDataGridViewTextBoxColumn.ReadOnly = true;
+            dataTypeDataGridViewTextBoxColumn.Width = 87;
+            // 
+            // Link_Modbus_Address
+            // 
+            Link_Modbus_Address.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            Link_Modbus_Address.DataPropertyName = "Link_Modbus_Address_Hex";
+            Link_Modbus_Address.HeaderText = "Link_Modbus_Register_Number";
+            Link_Modbus_Address.Name = "Link_Modbus_Address";
+            Link_Modbus_Address.ReadOnly = true;
             // 
             // clsMemoryAddressBindingSource
             // 
@@ -141,16 +227,94 @@
             dgvEQPWordMap.Columns.AddRange(new DataGridViewColumn[] { addressDataGridViewTextBoxColumn1, dataGridViewTextBoxColumn3, dataGridViewTextBoxColumn4, dataGridViewTextBoxColumn17, Owner, dataGridViewTextBoxColumn18, PropertyName, dataTypeDataGridViewTextBoxColumn1, dataGridViewTextBoxColumn23 });
             dgvEQPWordMap.DataSource = clsMemoryAddressBindingSource;
             dgvEQPWordMap.Dock = DockStyle.Fill;
+            dgvEQPWordMap.EnableHeadersVisualStyles = false;
             dgvEQPWordMap.Location = new Point(848, 60);
+            dgvEQPWordMap.MultiSelect = false;
             dgvEQPWordMap.Name = "dgvEQPWordMap";
             dgvEQPWordMap.RowHeadersVisible = false;
-            dgvEQPWordMap.RowsDefaultCellStyle = dataGridViewCellStyle6;
+            dgvEQPWordMap.RowsDefaultCellStyle = dataGridViewCellStyle3;
             dgvEQPWordMap.RowTemplate.Height = 25;
+            dgvEQPWordMap.ShowCellErrors = false;
+            dgvEQPWordMap.ShowCellToolTips = false;
+            dgvEQPWordMap.ShowEditingIcon = false;
+            dgvEQPWordMap.ShowRowErrors = false;
             dgvEQPWordMap.Size = new Size(840, 227);
             dgvEQPWordMap.TabIndex = 1;
             dgvEQPWordMap.CellDoubleClick += dgvWordMap_CellDoubleClick;
             dgvEQPWordMap.CellEndEdit += dgvWordMap_CellEndEdit;
             dgvEQPWordMap.CellValueChanged += dgvWordMap_CellValueChanged;
+            // 
+            // addressDataGridViewTextBoxColumn1
+            // 
+            addressDataGridViewTextBoxColumn1.DataPropertyName = "Address";
+            addressDataGridViewTextBoxColumn1.HeaderText = "Address";
+            addressDataGridViewTextBoxColumn1.Name = "addressDataGridViewTextBoxColumn1";
+            addressDataGridViewTextBoxColumn1.ReadOnly = true;
+            addressDataGridViewTextBoxColumn1.Width = 77;
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            dataGridViewTextBoxColumn3.DataPropertyName = "EQ_Name";
+            dataGridViewTextBoxColumn3.HeaderText = "EQ_Name";
+            dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            dataGridViewTextBoxColumn3.ReadOnly = true;
+            dataGridViewTextBoxColumn3.Width = 89;
+            // 
+            // dataGridViewTextBoxColumn4
+            // 
+            dataGridViewTextBoxColumn4.DataPropertyName = "Scope";
+            dataGridViewTextBoxColumn4.HeaderText = "Scope";
+            dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            dataGridViewTextBoxColumn4.ReadOnly = true;
+            dataGridViewTextBoxColumn4.Width = 68;
+            // 
+            // dataGridViewTextBoxColumn17
+            // 
+            dataGridViewTextBoxColumn17.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewTextBoxColumn17.DataPropertyName = "DataName";
+            dataGridViewTextBoxColumn17.HeaderText = "DataName";
+            dataGridViewTextBoxColumn17.Name = "dataGridViewTextBoxColumn17";
+            // 
+            // Owner
+            // 
+            Owner.DataPropertyName = "Owner";
+            Owner.HeaderText = "Owner";
+            Owner.Name = "Owner";
+            Owner.ReadOnly = true;
+            Owner.Width = 69;
+            // 
+            // dataGridViewTextBoxColumn18
+            // 
+            dataGridViewTextBoxColumn18.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewTextBoxColumn18.DataPropertyName = "Value";
+            dataGridViewTextBoxColumn18.HeaderText = "Value";
+            dataGridViewTextBoxColumn18.Name = "dataGridViewTextBoxColumn18";
+            dataGridViewTextBoxColumn18.ReadOnly = true;
+            dataGridViewTextBoxColumn18.Resizable = DataGridViewTriState.True;
+            dataGridViewTextBoxColumn18.Width = 64;
+            // 
+            // PropertyName
+            // 
+            PropertyName.DataPropertyName = "PropertyName";
+            PropertyName.HeaderText = "PropertyName";
+            PropertyName.Name = "PropertyName";
+            PropertyName.ReadOnly = true;
+            PropertyName.Width = 115;
+            // 
+            // dataTypeDataGridViewTextBoxColumn1
+            // 
+            dataTypeDataGridViewTextBoxColumn1.DataPropertyName = "DataType";
+            dataTypeDataGridViewTextBoxColumn1.HeaderText = "DataType";
+            dataTypeDataGridViewTextBoxColumn1.Name = "dataTypeDataGridViewTextBoxColumn1";
+            dataTypeDataGridViewTextBoxColumn1.ReadOnly = true;
+            dataTypeDataGridViewTextBoxColumn1.Width = 87;
+            // 
+            // dataGridViewTextBoxColumn23
+            // 
+            dataGridViewTextBoxColumn23.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewTextBoxColumn23.DataPropertyName = "Link_Modbus_Register_Number";
+            dataGridViewTextBoxColumn23.HeaderText = "Link_Modbus_Register_Number";
+            dataGridViewTextBoxColumn23.Name = "dataGridViewTextBoxColumn23";
             // 
             // tableLayoutPanel1
             // 
@@ -247,144 +411,15 @@
             dgvCIMBitMap.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn11, dataGridViewTextBoxColumn12, dataGridViewTextBoxColumn13, dataGridViewTextBoxColumn14, dataGridViewTextBoxColumn15, dataGridViewCheckBoxColumn2, ToggleBtnText, dataGridViewTextBoxColumn16, dataGridViewTextBoxColumn19, dataGridViewTextBoxColumn21 });
             dgvCIMBitMap.DataSource = clsMemoryAddressBindingSource;
             dgvCIMBitMap.Dock = DockStyle.Fill;
+            dgvCIMBitMap.EnableHeadersVisualStyles = false;
             dgvCIMBitMap.Location = new Point(3, 348);
             dgvCIMBitMap.Name = "dgvCIMBitMap";
             dgvCIMBitMap.RowHeadersVisible = false;
-            dgvCIMBitMap.RowsDefaultCellStyle = dataGridViewCellStyle6;
+            dgvCIMBitMap.RowsDefaultCellStyle = dataGridViewCellStyle3;
             dgvCIMBitMap.RowTemplate.Height = 25;
             dgvCIMBitMap.Size = new Size(839, 227);
             dgvCIMBitMap.TabIndex = 3;
             dgvCIMBitMap.CellMouseClick += dgvCIMBitMap_CellMouseClick;
-            // 
-            // dgvCIMWordMap
-            // 
-            dgvCIMWordMap.AutoGenerateColumns = false;
-            dgvCIMWordMap.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-            dgvCIMWordMap.BackgroundColor = Color.FromArgb(53, 53, 53);
-            dgvCIMWordMap.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvCIMWordMap.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn5, dataGridViewTextBoxColumn6, dataGridViewTextBoxColumn7, dataGridViewTextBoxColumn8, dataGridViewTextBoxColumn9, dataGridViewCheckBoxColumn1, dataGridViewTextBoxColumn10, dataGridViewTextBoxColumn20, dataGridViewTextBoxColumn22 });
-            dgvCIMWordMap.DataSource = clsMemoryAddressBindingSource;
-            dgvCIMWordMap.Dock = DockStyle.Fill;
-            dgvCIMWordMap.Location = new Point(848, 348);
-            dgvCIMWordMap.Name = "dgvCIMWordMap";
-            dgvCIMWordMap.RowHeadersVisible = false;
-            dgvCIMWordMap.RowsDefaultCellStyle = dataGridViewCellStyle6;
-            dgvCIMWordMap.RowTemplate.Height = 25;
-            dgvCIMWordMap.Size = new Size(840, 227);
-            dgvCIMWordMap.TabIndex = 2;
-            dgvCIMWordMap.CellDoubleClick += dgvWordMap_CellDoubleClick;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            label1.Location = new Point(3, 0);
-            label1.Name = "label1";
-            label1.Padding = new Padding(0, 8, 0, 0);
-            label1.Size = new Size(149, 28);
-            label1.TabIndex = 4;
-            label1.Text = "EQP Memory Map";
-            // 
-            // label2
-            // 
-            label2.BackColor = Color.MediumAquamarine;
-            label2.BorderStyle = BorderStyle.FixedSingle;
-            label2.Dock = DockStyle.Fill;
-            label2.Font = new Font("Microsoft JhengHei UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
-            label2.ForeColor = Color.White;
-            label2.Location = new Point(845, 320);
-            label2.Margin = new Padding(0);
-            label2.Name = "label2";
-            label2.Padding = new Padding(0, 2, 0, 2);
-            label2.Size = new Size(846, 25);
-            label2.TabIndex = 5;
-            label2.Text = "WORD";
-            label2.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // addressDataGridViewTextBoxColumn
-            // 
-            addressDataGridViewTextBoxColumn.DataPropertyName = "Address";
-            addressDataGridViewTextBoxColumn.HeaderText = "Address";
-            addressDataGridViewTextBoxColumn.Name = "addressDataGridViewTextBoxColumn";
-            addressDataGridViewTextBoxColumn.ReadOnly = true;
-            addressDataGridViewTextBoxColumn.Width = 77;
-            // 
-            // EQ_Name
-            // 
-            EQ_Name.DataPropertyName = "EQ_Name";
-            EQ_Name.HeaderText = "EQ_Name";
-            EQ_Name.Name = "EQ_Name";
-            EQ_Name.ReadOnly = true;
-            EQ_Name.Width = 89;
-            // 
-            // Scope
-            // 
-            Scope.DataPropertyName = "Scope";
-            Scope.HeaderText = "Scope";
-            Scope.Name = "Scope";
-            Scope.ReadOnly = true;
-            Scope.Width = 68;
-            // 
-            // DataName
-            // 
-            DataName.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            DataName.DataPropertyName = "DataName";
-            DataName.HeaderText = "DataName";
-            DataName.Name = "DataName";
-            DataName.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            dataGridViewTextBoxColumn1.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewTextBoxColumn1.DataPropertyName = "Owner";
-            dataGridViewTextBoxColumn1.HeaderText = "Owner";
-            dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            dataGridViewTextBoxColumn1.ReadOnly = true;
-            dataGridViewTextBoxColumn1.Width = 69;
-            // 
-            // Value
-            // 
-            Value.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            Value.DataPropertyName = "Value";
-            Value.HeaderText = "Value";
-            Value.Name = "Value";
-            Value.ReadOnly = true;
-            Value.Resizable = DataGridViewTriState.True;
-            Value.SortMode = DataGridViewColumnSortMode.Automatic;
-            Value.Width = 64;
-            // 
-            // valueTogglebtn
-            // 
-            valueTogglebtn.DataPropertyName = "ToggleBtnText";
-            valueTogglebtn.HeaderText = "Toggle";
-            valueTogglebtn.Name = "valueTogglebtn";
-            valueTogglebtn.ReadOnly = true;
-            valueTogglebtn.Text = "Toggle";
-            valueTogglebtn.Width = 54;
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            dataGridViewTextBoxColumn2.DataPropertyName = "PropertyName";
-            dataGridViewTextBoxColumn2.HeaderText = "PropertyName";
-            dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            dataGridViewTextBoxColumn2.ReadOnly = true;
-            dataGridViewTextBoxColumn2.Width = 115;
-            // 
-            // dataTypeDataGridViewTextBoxColumn
-            // 
-            dataTypeDataGridViewTextBoxColumn.DataPropertyName = "DataType";
-            dataTypeDataGridViewTextBoxColumn.HeaderText = "DataType";
-            dataTypeDataGridViewTextBoxColumn.Name = "dataTypeDataGridViewTextBoxColumn";
-            dataTypeDataGridViewTextBoxColumn.ReadOnly = true;
-            dataTypeDataGridViewTextBoxColumn.Width = 87;
-            // 
-            // Link_Modbus_Address
-            // 
-            Link_Modbus_Address.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            Link_Modbus_Address.DataPropertyName = "Link_Modbus_Address_Hex";
-            Link_Modbus_Address.HeaderText = "Link_Modbus_Register_Number";
-            Link_Modbus_Address.Name = "Link_Modbus_Address";
-            Link_Modbus_Address.ReadOnly = true;
             // 
             // dataGridViewTextBoxColumn11
             // 
@@ -467,6 +502,25 @@
             dataGridViewTextBoxColumn21.Name = "dataGridViewTextBoxColumn21";
             dataGridViewTextBoxColumn21.ReadOnly = true;
             // 
+            // dgvCIMWordMap
+            // 
+            dgvCIMWordMap.AutoGenerateColumns = false;
+            dgvCIMWordMap.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dgvCIMWordMap.BackgroundColor = Color.FromArgb(53, 53, 53);
+            dgvCIMWordMap.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvCIMWordMap.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn5, dataGridViewTextBoxColumn6, dataGridViewTextBoxColumn7, dataGridViewTextBoxColumn8, dataGridViewTextBoxColumn9, dataGridViewCheckBoxColumn1, dataGridViewTextBoxColumn10, dataGridViewTextBoxColumn20, dataGridViewTextBoxColumn22 });
+            dgvCIMWordMap.DataSource = clsMemoryAddressBindingSource;
+            dgvCIMWordMap.Dock = DockStyle.Fill;
+            dgvCIMWordMap.EnableHeadersVisualStyles = false;
+            dgvCIMWordMap.Location = new Point(848, 348);
+            dgvCIMWordMap.Name = "dgvCIMWordMap";
+            dgvCIMWordMap.RowHeadersVisible = false;
+            dgvCIMWordMap.RowsDefaultCellStyle = dataGridViewCellStyle3;
+            dgvCIMWordMap.RowTemplate.Height = 25;
+            dgvCIMWordMap.Size = new Size(840, 227);
+            dgvCIMWordMap.TabIndex = 2;
+            dgvCIMWordMap.CellDoubleClick += dgvWordMap_CellDoubleClick;
+            // 
             // dataGridViewTextBoxColumn5
             // 
             dataGridViewTextBoxColumn5.DataPropertyName = "Address";
@@ -540,77 +594,32 @@
             dataGridViewTextBoxColumn22.Name = "dataGridViewTextBoxColumn22";
             dataGridViewTextBoxColumn22.ReadOnly = true;
             // 
-            // addressDataGridViewTextBoxColumn1
+            // label1
             // 
-            addressDataGridViewTextBoxColumn1.DataPropertyName = "Address";
-            addressDataGridViewTextBoxColumn1.HeaderText = "Address";
-            addressDataGridViewTextBoxColumn1.Name = "addressDataGridViewTextBoxColumn1";
-            addressDataGridViewTextBoxColumn1.ReadOnly = true;
-            addressDataGridViewTextBoxColumn1.Width = 77;
+            label1.AutoSize = true;
+            label1.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            label1.Location = new Point(3, 0);
+            label1.Name = "label1";
+            label1.Padding = new Padding(0, 8, 0, 0);
+            label1.Size = new Size(149, 28);
+            label1.TabIndex = 4;
+            label1.Text = "EQP Memory Map";
             // 
-            // dataGridViewTextBoxColumn3
+            // label2
             // 
-            dataGridViewTextBoxColumn3.DataPropertyName = "EQ_Name";
-            dataGridViewTextBoxColumn3.HeaderText = "EQ_Name";
-            dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-            dataGridViewTextBoxColumn3.ReadOnly = true;
-            dataGridViewTextBoxColumn3.Width = 89;
-            // 
-            // dataGridViewTextBoxColumn4
-            // 
-            dataGridViewTextBoxColumn4.DataPropertyName = "Scope";
-            dataGridViewTextBoxColumn4.HeaderText = "Scope";
-            dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
-            dataGridViewTextBoxColumn4.ReadOnly = true;
-            dataGridViewTextBoxColumn4.Width = 68;
-            // 
-            // dataGridViewTextBoxColumn17
-            // 
-            dataGridViewTextBoxColumn17.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewTextBoxColumn17.DataPropertyName = "DataName";
-            dataGridViewTextBoxColumn17.HeaderText = "DataName";
-            dataGridViewTextBoxColumn17.Name = "dataGridViewTextBoxColumn17";
-            // 
-            // Owner
-            // 
-            Owner.DataPropertyName = "Owner";
-            Owner.HeaderText = "Owner";
-            Owner.Name = "Owner";
-            Owner.ReadOnly = true;
-            Owner.Width = 69;
-            // 
-            // dataGridViewTextBoxColumn18
-            // 
-            dataGridViewTextBoxColumn18.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridViewTextBoxColumn18.DataPropertyName = "Value";
-            dataGridViewTextBoxColumn18.HeaderText = "Value";
-            dataGridViewTextBoxColumn18.Name = "dataGridViewTextBoxColumn18";
-            dataGridViewTextBoxColumn18.ReadOnly = true;
-            dataGridViewTextBoxColumn18.Resizable = DataGridViewTriState.True;
-            dataGridViewTextBoxColumn18.Width = 64;
-            // 
-            // PropertyName
-            // 
-            PropertyName.DataPropertyName = "PropertyName";
-            PropertyName.HeaderText = "PropertyName";
-            PropertyName.Name = "PropertyName";
-            PropertyName.ReadOnly = true;
-            PropertyName.Width = 115;
-            // 
-            // dataTypeDataGridViewTextBoxColumn1
-            // 
-            dataTypeDataGridViewTextBoxColumn1.DataPropertyName = "DataType";
-            dataTypeDataGridViewTextBoxColumn1.HeaderText = "DataType";
-            dataTypeDataGridViewTextBoxColumn1.Name = "dataTypeDataGridViewTextBoxColumn1";
-            dataTypeDataGridViewTextBoxColumn1.ReadOnly = true;
-            dataTypeDataGridViewTextBoxColumn1.Width = 87;
-            // 
-            // dataGridViewTextBoxColumn23
-            // 
-            dataGridViewTextBoxColumn23.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewTextBoxColumn23.DataPropertyName = "Link_Modbus_Register_Number";
-            dataGridViewTextBoxColumn23.HeaderText = "Link_Modbus_Register_Number";
-            dataGridViewTextBoxColumn23.Name = "dataGridViewTextBoxColumn23";
+            label2.BackColor = Color.MediumAquamarine;
+            label2.BorderStyle = BorderStyle.FixedSingle;
+            label2.Dock = DockStyle.Fill;
+            label2.Font = new Font("Microsoft JhengHei UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            label2.ForeColor = Color.White;
+            label2.Location = new Point(845, 320);
+            label2.Margin = new Padding(0);
+            label2.Name = "label2";
+            label2.Padding = new Padding(0, 2, 0, 2);
+            label2.Size = new Size(846, 25);
+            label2.TabIndex = 5;
+            label2.Text = "WORD";
+            label2.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // UscMemoryTable
             // 
