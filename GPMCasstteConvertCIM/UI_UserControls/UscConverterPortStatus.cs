@@ -31,7 +31,7 @@ namespace GPMCasstteConvertCIM.UI_UserControls
         {
             Task.Factory.StartNew(() =>
             {
-                MessageBox.Show($"MCS NO TRANSFER NOTIFY !  \r\nPort ID = {mcs_notify_dto.Item1}\r\nCarrier ID = {mcs_notify_dto.Item2}", "MCS Notifier", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show($"MCS NO TRANSFER TASK NOW NOTIFY !  \r\nPort ID = {mcs_notify_dto.Item1}\r\nCarrier ID = {mcs_notify_dto.Item2}", "MCS Notifier", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             });
         }
 
