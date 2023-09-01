@@ -63,7 +63,7 @@ namespace GPMCasstteConvertCIM.UI_UserControls
 
 
                 if (e.ColumnIndex == StatusbitdataStartIndex + 5)
-                    dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = state_to_change ? Color.FromArgb(34, 181, 71) : Color.FromArgb(255, 92, 97); 
+                    dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = state_to_change ? Color.FromArgb(34, 181, 71) : Color.FromArgb(255, 92, 97);
                 else
                     dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = state_to_change ? Color.FromArgb(34, 181, 71) : Color.WhiteSmoke;
 
@@ -132,16 +132,17 @@ namespace GPMCasstteConvertCIM.UI_UserControls
         {
             DevicesManager.cclink_master.simulation_mode = ckbSimulationMode.Checked;
         }
-
+        frmConvertPLCMemoryTables frmmemory = null;
         private void btnOpenMasterMemTb_Click(object sender, EventArgs e)
         {
-            frmConvertPLCMemoryTables frm = new frmConvertPLCMemoryTables()
+            if (frmmemory == null)
             {
-                CasstteConverter = DevicesManager.cclink_master
-            };
-            frm.TopLevel = true;
-            frm.TopMost = true;
-            frm.Show();
+                frmmemory = new frmConvertPLCMemoryTables()
+                {
+                    CasstteConverter = DevicesManager.cclink_master
+                };
+            }
+            frmmemory.Show();
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
