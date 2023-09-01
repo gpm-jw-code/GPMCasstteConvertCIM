@@ -71,8 +71,8 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                 SecsMessage S2F42_Reply = new SecsMessage(2, 42, false)
                 {
                     SecsItem = L(
-                                B((byte)HCACK.Acknowledge_Perform_Later), //command will be perform with completion signaled later by an event
-                                Params
+                                B((byte)0) //command will be perform with completion signaled later by an event
+                                
                         )
                 };
                 _primaryMessageWrapper.TryReplyAsync(S2F42_Reply);

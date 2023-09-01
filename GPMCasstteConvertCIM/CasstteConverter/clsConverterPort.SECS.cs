@@ -65,11 +65,13 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 else
                 {
                     Utility.SystemLogger.Info($"Event Report MCS Reply = {msgReply.ToSml()}");
-                    if (ceid == CEID.CarrierWaitIn)
+                    if (ceid == CEID.CarrierWaitIn )
                     {
                         bool mcs_accpet = msgReply.SecsItem.FirstValue<byte>() == 0;
-                        return mcs_accpet && await WaitTransferTaskDownloaded();
+                        if (mcs_accpet ) { await WaitTransferTaskDownloaded(); }
+                        return mcs_accpet ;
                     }
+
                     return true;
                 }
             }
