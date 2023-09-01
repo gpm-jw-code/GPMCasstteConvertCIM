@@ -155,7 +155,8 @@ namespace GPMCasstteConvertCIM.Forms
         {
             ToolStripMenuItem agvs_modbus_emu_selBtn = (ToolStripMenuItem)sender;
             clsConverterPort.clsPortProperty opt = (clsConverterPort.clsPortProperty)agvs_modbus_emu_selBtn.Tag;
-
+            if (opt == null)
+                return;
             clsConverterPort? port = DevicesManager.GetAllPorts().FirstOrDefault(c => c.Properties.PortID == opt.PortID);
             frmAGVS_Modbus_Emulator emu = new frmAGVS_Modbus_Emulator(port)
             {
