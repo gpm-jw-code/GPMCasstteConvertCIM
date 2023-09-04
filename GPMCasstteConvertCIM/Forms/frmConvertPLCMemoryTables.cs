@@ -1,4 +1,5 @@
 ﻿using GPMCasstteConvertCIM.CasstteConverter;
+using GPMCasstteConvertCIM.Devices;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -23,6 +24,12 @@ namespace GPMCasstteConvertCIM.Forms
                 uscMemoryTable1.bitMemoryAddressList = CasstteConverter?.LinkBitMap;
                 uscMemoryTable1.wordMemoryAddressList = CasstteConverter?.LinkWordMap;
                 uscMemoryTable1.Editable = true;
+
+                string firstEQName = DevicesManager.casstteConverters.Select(eq => eq.Name).FirstOrDefault();
+                if (firstEQName != null)
+                {
+                    eqCombobox1.DisplayText = firstEQName;
+                }
             }
         }
 
@@ -45,6 +52,11 @@ namespace GPMCasstteConvertCIM.Forms
         private void ckbMonitor_CheckedChanged(object sender, EventArgs e)
         {
             CasstteConverter.monitor = ckbMonitor.Checked;
+        }
+
+        private void eqCombobox1_OnEQSelectChanged(object sender, string eq_name)
+        {
+            uscMemoryTable1.SpecficEqName = eq_name;
         }
     }
 }

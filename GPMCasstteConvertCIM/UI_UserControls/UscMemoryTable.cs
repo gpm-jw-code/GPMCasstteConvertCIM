@@ -32,6 +32,42 @@ namespace GPMCasstteConvertCIM.UI_UserControls
         internal event EventHandler<(string bitAddress, bool state)> CIMBitValueOnChanged;
         internal event EventHandler<clsMemoryAddress> EQPWordValueOnChanged;
         internal event EventHandler<clsMemoryAddress> CIMWordValueOnChanged;
+
+        private string _SpecficEqName = "STK";
+        public string SpecficEqName
+        {
+            get => _SpecficEqName;
+            set
+            {
+                dgvEQPBitMap.SuspendLayout();
+                dgvCIMBitMap.SuspendLayout();
+                dgvEQPWordMap.SuspendLayout();
+                dgvCIMWordMap.SuspendLayout();
+                if (value.ToUpper() != "ALL")
+                {
+                    dgvEQPBitMap.DataSource = new BindingList<clsMemoryAddress>(eqp_bitMemoryAddressList.Where(eq => eq.EQ_Name.ToString() == value).ToList());
+                    dgvCIMBitMap.DataSource = new BindingList<clsMemoryAddress>(cim_bitMemoryAddressList.Where(eq => eq.EQ_Name.ToString() == value).ToList());
+
+                    dgvEQPWordMap.DataSource = new BindingList<clsMemoryAddress>(eqp_wordMemoryAddressList.Where(q => q.EQ_Name.ToString() == value).ToList());
+                    dgvCIMWordMap.DataSource = new BindingList<clsMemoryAddress>(cim_wordMemoryAddressList.Where(q => q.EQ_Name.ToString() == value).ToList()); ;
+                }
+                else
+                {
+                    dgvEQPBitMap.DataSource = eqp_bitMemoryAddressList;
+                    dgvCIMBitMap.DataSource = cim_bitMemoryAddressList;
+
+                    dgvEQPWordMap.DataSource = eqp_wordMemoryAddressList;
+                    dgvCIMWordMap.DataSource = cim_wordMemoryAddressList;
+                }
+
+                dgvEQPBitMap.ResumeLayout();
+                dgvCIMBitMap.ResumeLayout();
+                dgvEQPWordMap.ResumeLayout();
+                dgvCIMWordMap.ResumeLayout();
+                _SpecficEqName = value;
+            }
+        }
+
         public UscMemoryTable()
         {
             InitializeComponent();
@@ -65,14 +101,18 @@ namespace GPMCasstteConvertCIM.UI_UserControls
                 {
                     cim_bitMemoryAddressList.Add(item);
                 }
-
-                dgvEQPBitMap.DataSource = eqp_bitMemoryAddressList;
-                dgvCIMBitMap.DataSource = cim_bitMemoryAddressList;
-                //dgvBitMap.DataSource = value;
+                if (SpecficEqName != "ALL")
+                {
+                    dgvEQPBitMap.DataSource = new BindingList<clsMemoryAddress>(eqp_bitMemoryAddressList.Where(eq => eq.EQ_Name.ToString() == SpecficEqName).ToList());
+                    dgvCIMBitMap.DataSource = new BindingList<clsMemoryAddress>(cim_bitMemoryAddressList.Where(eq => eq.EQ_Name.ToString() == SpecficEqName).ToList());
+                }
+                else
+                {
+                    dgvEQPBitMap.DataSource = eqp_bitMemoryAddressList;
+                    dgvCIMBitMap.DataSource = cim_bitMemoryAddressList;
+                }
             }
         }
-
-
         public List<clsMemoryAddress> wordMemoryAddressList
         {
             set
@@ -83,8 +123,18 @@ namespace GPMCasstteConvertCIM.UI_UserControls
                     cim_wordMemoryAddressList.Add(item);
 
 
-                dgvEQPWordMap.DataSource = eqp_wordMemoryAddressList;
-                dgvCIMWordMap.DataSource = cim_wordMemoryAddressList;
+                if (SpecficEqName.ToUpper() != "ALL")
+                {
+                    dgvEQPWordMap.DataSource = new BindingList<clsMemoryAddress>(eqp_wordMemoryAddressList.Where(q => q.EQ_Name.ToString() == SpecficEqName).ToList());
+                    dgvCIMWordMap.DataSource = new BindingList<clsMemoryAddress>(cim_wordMemoryAddressList.Where(q => q.EQ_Name.ToString() == SpecficEqName).ToList()); ;
+                }
+                else
+                {
+
+                    dgvEQPWordMap.DataSource = eqp_wordMemoryAddressList;
+                    dgvCIMWordMap.DataSource = cim_wordMemoryAddressList;
+
+                }
             }
         }
 
