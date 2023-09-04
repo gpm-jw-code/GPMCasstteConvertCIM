@@ -46,8 +46,10 @@
             btnColumn = new DataGridViewButtonColumn();
             clsConverterPortBindingSource = new BindingSource(components);
             panel1 = new Panel();
+            eqCombobox1 = new EQCombobox();
             btnOpenMasterMemTb = new Button();
             ckbSimulationMode = new CheckBox();
+            label1 = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)clsConverterPortBindingSource).BeginInit();
             panel1.SuspendLayout();
@@ -173,6 +175,8 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(label1);
+            panel1.Controls.Add(eqCombobox1);
             panel1.Controls.Add(btnOpenMasterMemTb);
             panel1.Controls.Add(ckbSimulationMode);
             panel1.Dock = DockStyle.Top;
@@ -180,6 +184,17 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(1031, 39);
             panel1.TabIndex = 1;
+            // 
+            // eqCombobox1
+            // 
+            eqCombobox1.AutoSize = true;
+            eqCombobox1.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            eqCombobox1.Location = new Point(87, 5);
+            eqCombobox1.Margin = new Padding(0);
+            eqCombobox1.Name = "eqCombobox1";
+            eqCombobox1.Size = new Size(264, 31);
+            eqCombobox1.TabIndex = 2;
+            eqCombobox1.OnEQSelectChanged += eqCombobox1_OnEQSelectChanged;
             // 
             // btnOpenMasterMemTb
             // 
@@ -197,8 +212,9 @@
             // 
             // ckbSimulationMode
             // 
+            ckbSimulationMode.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             ckbSimulationMode.AutoSize = true;
-            ckbSimulationMode.Location = new Point(7, 8);
+            ckbSimulationMode.Location = new Point(820, 8);
             ckbSimulationMode.Name = "ckbSimulationMode";
             ckbSimulationMode.Size = new Size(74, 19);
             ckbSimulationMode.TabIndex = 0;
@@ -206,6 +222,16 @@
             ckbSimulationMode.UseVisualStyleBackColor = true;
             ckbSimulationMode.Visible = false;
             ckbSimulationMode.CheckedChanged += ckbSimulationMode_CheckedChanged;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            label1.Location = new Point(3, 5);
+            label1.Name = "label1";
+            label1.Size = new Size(73, 20);
+            label1.TabIndex = 3;
+            label1.Text = "選擇設備";
             // 
             // UscEQStatus
             // 
@@ -240,5 +266,7 @@
         private DataGridViewCheckBoxColumn lDDOWNPOSDataGridViewCheckBoxColumn;
         private DataGridViewCheckBoxColumn portStatusDownDataGridViewCheckBoxColumn;
         private DataGridViewButtonColumn btnColumn;
+        private EQCombobox eqCombobox1;
+        private Label label1;
     }
 }

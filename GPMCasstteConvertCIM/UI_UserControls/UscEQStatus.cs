@@ -73,7 +73,12 @@ namespace GPMCasstteConvertCIM.UI_UserControls
         internal void BindData(List<clsConverterPort> allEqPortList)
         {
             BindingPorts = new BindingList<clsConverterPort>(allEqPortList);
-            dataGridView1.DataSource = BindingPorts;
+            string firstEQName = DevicesManager.casstteConverters.Select(eq => eq.Name).FirstOrDefault();
+            if (firstEQName != null)
+            {
+                dataGridView1.DataSource = new BindingList<clsConverterPort>(BindingPorts.ToList().Where(port => port.EqName == firstEQName).ToList());
+                eqCombobox1.DisplayText = firstEQName;
+            }
         }
 
         internal void GUIRefresh()
@@ -152,6 +157,22 @@ namespace GPMCasstteConvertCIM.UI_UserControls
                 frmEQPortInfo frm = new frmEQPortInfo(dataGridView1.Rows[e.RowIndex].DataBoundItem as clsConverterPort);
                 frm.Show();
             }
+        }
+
+        private void eqCombobox1_OnEQSelectChanged(object sender, string eq_name)
+        {
+
+            dataGridView1.DataSource = null;
+
+            if (eq_name.ToUpper() == "ALL")
+            {
+                dataGridView1.DataSource = BindingPorts;
+                return;
+            }
+
+            IEnumerable<clsConverterPort> filtered_ports = BindingPorts.Where(port => port.EqName == eq_name);
+            var _BindingPorts = new BindingList<clsConverterPort>(filtered_ports.ToList());
+            dataGridView1.DataSource = _BindingPorts;
         }
 
         ///
