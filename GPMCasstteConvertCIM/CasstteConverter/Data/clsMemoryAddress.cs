@@ -101,6 +101,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter.Data
             set
             {
                 _Scope = value;
+                if (value == "EQ")
+                {
+
+                }
                 EScope = Enum.GetValues(typeof(Enums.EQ_SCOPE)).Cast<Enums.EQ_SCOPE>().FirstOrDefault(s => s.ToString() == _Scope);
             }
         }

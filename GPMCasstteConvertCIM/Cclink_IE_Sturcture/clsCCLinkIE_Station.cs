@@ -58,29 +58,39 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
             //this.mainGUI.casstteConverter = this;
             PortModbusServersActive();
             EQPInterfaceClockMonitor();
-            CIMInterfaceClockUpdate();
+
+            if (Eq_Name == EQ_NAMES.TS_1 | Eq_Name == EQ_NAMES.TS_2_1 | Eq_Name == EQ_NAMES.TS_2_2 | Eq_Name == EQ_NAMES.TS_3)
+                CIMInterfaceClockUpdate();
+
             DataSyncTask();
         }
+
+        protected override void CIMInterfaceClockUpdate()
+        {
+            Task.Run(async () =>
+            {
+                while (true)
+                {
+                    await Task.Delay(TimeSpan.FromSeconds(4));
+
+                    var interfaceClockAddress = cclink_master.LinkWordMap.FirstOrDefault(w => w.EOwner == clsMemoryAddress.OWNER.CIM && w.EProperty == PROPERTY.Interface_Clock);
+                    if (interfaceClockAddress != null)
+                    {
+                        int clock = (int)interfaceClockAddress.Value;
+                        int newClock = clock + 1;
+                        newClock = newClock == 256 ? 0 : newClock;
+                        cclink_master.CIMMemOptions.memoryTable.WriteBinary(interfaceClockAddress.Address, newClock);
+                    }
+
+                }
+
+            });
+        }
+
         protected override void LoadPLCMapData()
         {
             LinkBitMap = cclink_master.LinkBitMap.FindAll(add => add.EQ_Name == this.Eq_Name);
             LinkWordMap = cclink_master.LinkWordMap.FindAll(add => add.EQ_Name == this.Eq_Name);
-
-            //string eqp_bitStartAddress = LinkBitMap.First(i => i.EOwner == clsMemoryAddress.OWNER.EQP).Address;
-            //string eqp_bitEndAddress = LinkBitMap.Last(i => i.EOwner == clsMemoryAddress.OWNER.EQP).Address;
-            //string eqp_wordStartAddress = LinkWordMap.First(i => i.EOwner == clsMemoryAddress.OWNER.EQP).Address;
-            //string eqp_wordEndAddress = LinkWordMap.Last(i => i.EOwner == clsMemoryAddress.OWNER.EQP).Address;
-
-            //string cim_bitStartAddress = LinkBitMap.First(i => i.EOwner == clsMemoryAddress.OWNER.CIM).Address;
-            //string cim_bitEndAddress = LinkBitMap.Last(i => i.EOwner == clsMemoryAddress.OWNER.CIM).Address;
-            //string cim_wordStartAddress = LinkWordMap.First(i => i.EOwner == clsMemoryAddress.OWNER.CIM).Address;
-            //string cim_wordEndAddress = LinkWordMap.Last(i => i.EOwner == clsMemoryAddress.OWNER.CIM).Address;
-
-
-            //EQPMemOptions = new clsMemoryGroupOptions(eqp_bitStartAddress, eqp_bitEndAddress, eqp_wordStartAddress, eqp_wordEndAddress);
-            //CIMMemOptions = new clsMemoryGroupOptions(cim_bitStartAddress, cim_bitEndAddress, cim_wordStartAddress, cim_wordEndAddress);
-
-
         }
         protected override void PortModbusServersActive()
         {
@@ -97,7 +107,13 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
         protected override void PLCMemoryDatatToEQDataDTO()
         {
             //PORTS
-
+            if (Eq_Name == EQ_NAMES.TS_1 | Eq_Name == EQ_NAMES.TS_2_1 | Eq_Name == EQ_NAMES.TS_2_2 | Eq_Name == EQ_NAMES.TS_3)
+            {
+                base.LinkBitMap = this.LinkBitMap;
+                base.LinkWordMap = this.LinkWordMap;
+                base.PLCMemoryDatatToEQDataDTO();
+                return;
+            }
             List<EQ_SCOPE> port_scopes = new List<EQ_SCOPE>();
             for (int i = 0; i < PortDatas.Count; i++)
             {

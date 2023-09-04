@@ -1,257 +1,257 @@
 Memory (Hex),Owner,Data Name,Data Format,Explanation,Device,Code_Property,Modbus_Register,EQ_NAME,,,,,,,,,
-WR0000,EQP,Interface Clock,Binary,,PORT1,Interface_Clock,1,TS_1,,,,,,,WR,0,WR0
-WR0001,EQP,,,,PORT1,,2,TS_1,,,,,,,WR,1,WR1
-WR0002,EQP,,,,PORT1,,3,TS_1,,,,,,,WR,2,WR2
-WR0003,EQP,EQP ON/OFFLine Mode Status ,Binary,,PORT1,EQP_ON_OFFLine_Mode_Status,4,TS_1,,,,,,,WR,3,WR3
-WR0004,EQP,,,,PORT1,,5,TS_1,,,,,,,WR,4,WR4
+WR0000,EQP,Interface Clock,Binary,,EQ,Interface_Clock,1,TS_1,,,,,,,WR,0,WR0
+WR0001,EQP,,,,,,2,TS_1,,,,,,,WR,1,WR1
+WR0002,EQP,,,,,,3,TS_1,,,,,,,WR,2,WR2
+WR0003,EQP,EQP ON/OFFLine Mode Status ,Binary,,EQ,EQP_ON_OFFLine_Mode_Status,4,TS_1,,,,,,,WR,3,WR3
+WR0004,EQP,,,,,,5,TS_1,,,,,,,WR,4,WR4
 WR0005,EQP,Port Type Status ,Binary,,PORT1,Port_Type_Status,6,TS_1,,,,,,,WR,5,WR5
 WR0006,EQP,Port Auto/Manual Mode Status ,Binary,,PORT1,Port_Auto_Manual_Mode_Status,7,TS_1,,,,,,,WR,6,WR6
-WR0007,EQP,,,,PORT1,,8,TS_1,,,,,,,WR,7,WR7
-WR0008,EQP,WIP Information-BCR ID#1,ASCII,,PORT1,WIP_Information_BCR_1,9,TS_1,,,,,,,WR,8,WR8
-WR0009,EQP,WIP Information-BCR ID#2,ASCII,,PORT1,WIP_Information_BCR_2,10,TS_1,,,,,,,WR,9,WR9
-WR000A,EQP,WIP Information-BCR ID#3,ASCII,,PORT1,WIP_Information_BCR_3,11,TS_1,,,,,,,WR,10,WRA
-WR000B,EQP,WIP Information-BCR ID#4,ASCII,,PORT1,WIP_Information_BCR_4,12,TS_1,,,,,,,WR,11,WRB
-WR000C,EQP,WIP Information-BCR ID#5,ASCII,,PORT1,WIP_Information_BCR_5,13,TS_1,,,,,,,WR,12,WRC
-WR000D,EQP,WIP Information-BCR ID#6,ASCII,,PORT1,WIP_Information_BCR_6,14,TS_1,,,,,,,WR,13,WRD
-WR000E,EQP,WIP Information-BCR ID#7,ASCII,,PORT1,WIP_Information_BCR_7,15,TS_1,,,,,,,WR,14,WRE
-WR000F,EQP,WIP Information-BCR ID#8,ASCII,,PORT1,WIP_Information_BCR_8,16,TS_1,,,,,,,WR,15,WRF
-WR0010,EQP,WIP Information-BCR ID#9,ASCII,,PORT1,WIP_Information_BCR_9,17,TS_1,,,,,,,WR,16,WR10
-WR0011,EQP,WIP Information-BCR ID#10,ASCII,,PORT1,WIP_Information_BCR_10,18,TS_1,,,,,,,WR,17,WR11
-WR0012,EQP,,,,PORT1,,19,TS_1,,,,,,,WR,18,WR12
-WR0013,EQP,,,,PORT1,,20,TS_1,,,,,,,WR,19,WR13
-WR0014,EQP,,,,PORT1,,21,TS_1,,,,,,,WR,20,WR14
-WR0015,EQP,Port Type Status,Binary,,PORT1,Port_Type_Status,22,TS_1,,,,,,,WR,21,WR15
-WR0016,EQP,Port Auto/Manual Mode Status ,Binary,,PORT1,Port_Auto_Manual_Mode_Status,23,TS_1,,,,,,,WR,22,WR16
-WR0017,EQP,,,,PORT1,,24,TS_1,,,,,,,WR,23,WR17
-WR0018,EQP,WIP Information-BCR ID#1,ASCII,,PORT1,WIP_Information_BCR_1,25,TS_1,,,,,,,WR,24,WR18
-WR0019,EQP,WIP Information-BCR ID#2,ASCII,,PORT1,WIP_Information_BCR_2,26,TS_1,,,,,,,WR,25,WR19
-WR001A,EQP,WIP Information-BCR ID#3,ASCII,,PORT1,WIP_Information_BCR_3,27,TS_1,,,,,,,WR,26,WR1A
-WR001B,EQP,WIP Information-BCR ID#4,ASCII,,PORT1,WIP_Information_BCR_4,28,TS_1,,,,,,,WR,27,WR1B
-WR001C,EQP,WIP Information-BCR ID#5,ASCII,,PORT1,WIP_Information_BCR_5,29,TS_1,,,,,,,WR,28,WR1C
-WR001D,EQP,WIP Information-BCR ID#6,ASCII,,PORT1,WIP_Information_BCR_6,30,TS_1,,,,,,,WR,29,WR1D
-WR001E,EQP,WIP Information-BCR ID#7,ASCII,,PORT1,WIP_Information_BCR_7,31,TS_1,,,,,,,WR,30,WR1E
-WR001F,EQP,WIP Information-BCR ID#8,ASCII,,PORT1,WIP_Information_BCR_8,32,TS_1,,,,,,,WR,31,WR1F
-WR0020,EQP,WIP Information-BCR ID#9,ASCII,,PORT1,WIP_Information_BCR_9,33,TS_1,,,,,,,WR,32,WR20
-WR0021,EQP,WIP Information-BCR ID#10,ASCII,,PORT1,WIP_Information_BCR_10,34,TS_1,,,,,,,WR,33,WR21
-WR0022,EQP,,,,PORT1,,35,TS_1,,,,,,,WR,34,WR22
-WR0023,EQP,,,,PORT1,,36,TS_1,,,,,,,WR,35,WR23
-WR0024,EQP,,,,PORT1,,37,TS_1,,,,,,,WR,36,WR24
-WR0025,EQP,,,,PORT1,,38,TS_1,,,,,,,WR,37,WR25
-WR0026,EQP,,,,PORT1,,39,TS_1,,,,,,,WR,38,WR26
-WR0027,EQP,,,,PORT1,,40,TS_1,,,,,,,WR,39,WR27
-WR0028,EQP,,,,PORT1,,41,TS_1,,,,,,,WR,40,WR28
-WR0029,EQP,,,,PORT1,,42,TS_1,,,,,,,WR,41,WR29
-WR002A,EQP,Warning Report Index,Binary,,PORT1,Warning_Report_Index,43,TS_1,,,,,,,WR,42,WR2A
-WR002B,EQP,Warning Code (1-16),Binary,,PORT1,Warning_Code_1_16,44,TS_1,,,,,,,WR,43,WR2B
-WR002C,EQP,Warning Code (17-32),Binary,,PORT1,Warning_Code_17_32,45,TS_1,,,,,,,WR,44,WR2C
-WR002D,EQP,Warning Code (33-48),Binary,,PORT1,Warning_Code_33_48,46,TS_1,,,,,,,WR,45,WR2D
-WR002E,EQP,,,,PORT1,,47,TS_1,,,,,,,WR,46,WR2E
-WR002F,EQP,,,,PORT1,,48,TS_1,,,,,,,WR,47,WR2F
-WR0030,EQP,,,,PORT1,,49,TS_1,,,,,,,WR,48,WR30
-WR0031,EQP,Alarm Report Index,Binary,,PORT1,Alarm_Report_Index,50,TS_1,,,,,,,WR,49,WR31
-WR0032,EQP,Alarm Code (1-16),Binary,,PORT1,Alarm_Code_1_16,51,TS_1,,,,,,,WR,50,WR32
-WR0033,EQP,Alarm Code (17-32),Binary,,PORT1,Alarm_Code_17_32,52,TS_1,,,,,,,WR,51,WR33
-WR0034,EQP,Alarm Code (33-48),Binary,,PORT1,Alarm_Code_33_48,53,TS_1,,,,,,,WR,52,WR34
-WR0035,EQP,,,,PORT1,,,TS_1,,,,,,,WR,53,WR35
-WR0036,EQP,,,,PORT1,,,TS_1,,,,,,,WR,54,WR36
-WR0037,EQP,,,,PORT1,,,TS_1,,,,,,,WR,55,WR37
-WR0038,EQP,,,,PORT1,,,TS_1,,,,,,,WR,56,WR38
-WR0039,EQP,,,,PORT1,,,TS_1,,,,,,,WR,57,WR39
-WR003A,EQP,,,,PORT1,,,TS_1,,,,,,,WR,58,WR3A
-WR003B,EQP,,,,PORT1,,,TS_1,,,,,,,WR,59,WR3B
-WR003C,EQP,,,,PORT1,,,TS_1,,,,,,,WR,60,WR3C
-WR003D,EQP,,,,PORT1,,,TS_1,,,,,,,WR,61,WR3D
-WR003E,EQP,,,,PORT1,,,TS_1,,,,,,,WR,62,WR3E
-WR003F,EQP,,,,PORT1,,,TS_1,,,,,,,WR,63,WR3F
-WR0040,EQP,Interface Clock,Binary,,PORT1,Interface_Clock,1,TS_2_1,,,,,,,WR,64,WR40
-WR0041,EQP,,,,PORT1,,2,TS_2_1,,,,,,,WR,65,WR41
-WR0042,EQP,,,,PORT1,,3,TS_2_1,,,,,,,WR,66,WR42
-WR0043,EQP,EQP ON/OFFLine Mode Status ,Binary,,PORT1,EQP_ON_OFFLine_Mode_Status,4,TS_2_1,,,,,,,WR,67,WR43
-WR0044,EQP,,,,PORT1,,5,TS_2_1,,,,,,,WR,68,WR44
+WR0007,EQP,,,,,,8,TS_1,,,,,,,WR,7,WR7
+WR0008,EQP,WIP Information-BCR ID#1,ASCII,,EQ,WIP_Information_BCR_1,9,TS_1,,,,,,,WR,8,WR8
+WR0009,EQP,WIP Information-BCR ID#2,ASCII,,EQ,WIP_Information_BCR_2,10,TS_1,,,,,,,WR,9,WR9
+WR000A,EQP,WIP Information-BCR ID#3,ASCII,,EQ,WIP_Information_BCR_3,11,TS_1,,,,,,,WR,10,WRA
+WR000B,EQP,WIP Information-BCR ID#4,ASCII,,EQ,WIP_Information_BCR_4,12,TS_1,,,,,,,WR,11,WRB
+WR000C,EQP,WIP Information-BCR ID#5,ASCII,,EQ,WIP_Information_BCR_5,13,TS_1,,,,,,,WR,12,WRC
+WR000D,EQP,WIP Information-BCR ID#6,ASCII,,EQ,WIP_Information_BCR_6,14,TS_1,,,,,,,WR,13,WRD
+WR000E,EQP,WIP Information-BCR ID#7,ASCII,,EQ,WIP_Information_BCR_7,15,TS_1,,,,,,,WR,14,WRE
+WR000F,EQP,WIP Information-BCR ID#8,ASCII,,EQ,WIP_Information_BCR_8,16,TS_1,,,,,,,WR,15,WRF
+WR0010,EQP,WIP Information-BCR ID#9,ASCII,,EQ,WIP_Information_BCR_9,17,TS_1,,,,,,,WR,16,WR10
+WR0011,EQP,WIP Information-BCR ID#10,ASCII,,EQ,WIP_Information_BCR_10,18,TS_1,,,,,,,WR,17,WR11
+WR0012,EQP,,,,,,19,TS_1,,,,,,,WR,18,WR12
+WR0013,EQP,,,,,,20,TS_1,,,,,,,WR,19,WR13
+WR0014,EQP,,,,,,21,TS_1,,,,,,,WR,20,WR14
+WR0015,EQP,Port Type Status,Binary,,PORT2,Port_Type_Status,22,TS_1,,,,,,,WR,21,WR15
+WR0016,EQP,Port Auto/Manual Mode Status ,Binary,,PORT2,Port_Auto_Manual_Mode_Status,23,TS_1,,,,,,,WR,22,WR16
+WR0017,EQP,,,,,,24,TS_1,,,,,,,WR,23,WR17
+WR0018,EQP,WIP Information-BCR ID#1,ASCII,,EQ,WIP_Information_BCR_1,25,TS_1,,,,,,,WR,24,WR18
+WR0019,EQP,WIP Information-BCR ID#2,ASCII,,EQ,WIP_Information_BCR_2,26,TS_1,,,,,,,WR,25,WR19
+WR001A,EQP,WIP Information-BCR ID#3,ASCII,,EQ,WIP_Information_BCR_3,27,TS_1,,,,,,,WR,26,WR1A
+WR001B,EQP,WIP Information-BCR ID#4,ASCII,,EQ,WIP_Information_BCR_4,28,TS_1,,,,,,,WR,27,WR1B
+WR001C,EQP,WIP Information-BCR ID#5,ASCII,,EQ,WIP_Information_BCR_5,29,TS_1,,,,,,,WR,28,WR1C
+WR001D,EQP,WIP Information-BCR ID#6,ASCII,,EQ,WIP_Information_BCR_6,30,TS_1,,,,,,,WR,29,WR1D
+WR001E,EQP,WIP Information-BCR ID#7,ASCII,,EQ,WIP_Information_BCR_7,31,TS_1,,,,,,,WR,30,WR1E
+WR001F,EQP,WIP Information-BCR ID#8,ASCII,,EQ,WIP_Information_BCR_8,32,TS_1,,,,,,,WR,31,WR1F
+WR0020,EQP,WIP Information-BCR ID#9,ASCII,,EQ,WIP_Information_BCR_9,33,TS_1,,,,,,,WR,32,WR20
+WR0021,EQP,WIP Information-BCR ID#10,ASCII,,EQ,WIP_Information_BCR_10,34,TS_1,,,,,,,WR,33,WR21
+WR0022,EQP,,,,,,35,TS_1,,,,,,,WR,34,WR22
+WR0023,EQP,,,,,,36,TS_1,,,,,,,WR,35,WR23
+WR0024,EQP,,,,,,37,TS_1,,,,,,,WR,36,WR24
+WR0025,EQP,,,,,,38,TS_1,,,,,,,WR,37,WR25
+WR0026,EQP,,,,,,39,TS_1,,,,,,,WR,38,WR26
+WR0027,EQP,,,,,,40,TS_1,,,,,,,WR,39,WR27
+WR0028,EQP,,,,,,41,TS_1,,,,,,,WR,40,WR28
+WR0029,EQP,,,,,,42,TS_1,,,,,,,WR,41,WR29
+WR002A,EQP,Warning Report Index,Binary,,EQ,Warning_Report_Index,43,TS_1,,,,,,,WR,42,WR2A
+WR002B,EQP,Warning Code (1-16),Binary,,EQ,Warning_Code_1_16,44,TS_1,,,,,,,WR,43,WR2B
+WR002C,EQP,Warning Code (17-32),Binary,,EQ,Warning_Code_17_32,45,TS_1,,,,,,,WR,44,WR2C
+WR002D,EQP,Warning Code (33-48),Binary,,EQ,Warning_Code_33_48,46,TS_1,,,,,,,WR,45,WR2D
+WR002E,EQP,,,,,,47,TS_1,,,,,,,WR,46,WR2E
+WR002F,EQP,,,,,,48,TS_1,,,,,,,WR,47,WR2F
+WR0030,EQP,,,,,,49,TS_1,,,,,,,WR,48,WR30
+WR0031,EQP,Alarm Report Index,Binary,,EQ,Alarm_Report_Index,50,TS_1,,,,,,,WR,49,WR31
+WR0032,EQP,Alarm Code (1-16),Binary,,EQ,Alarm_Code_1_16,51,TS_1,,,,,,,WR,50,WR32
+WR0033,EQP,Alarm Code (17-32),Binary,,EQ,Alarm_Code_17_32,52,TS_1,,,,,,,WR,51,WR33
+WR0034,EQP,Alarm Code (33-48),Binary,,EQ,Alarm_Code_33_48,53,TS_1,,,,,,,WR,52,WR34
+WR0035,EQP,,,,,,,TS_1,,,,,,,WR,53,WR35
+WR0036,EQP,,,,,,,TS_1,,,,,,,WR,54,WR36
+WR0037,EQP,,,,,,,TS_1,,,,,,,WR,55,WR37
+WR0038,EQP,,,,,,,TS_1,,,,,,,WR,56,WR38
+WR0039,EQP,,,,,,,TS_1,,,,,,,WR,57,WR39
+WR003A,EQP,,,,,,,TS_1,,,,,,,WR,58,WR3A
+WR003B,EQP,,,,,,,TS_1,,,,,,,WR,59,WR3B
+WR003C,EQP,,,,,,,TS_1,,,,,,,WR,60,WR3C
+WR003D,EQP,,,,,,,TS_1,,,,,,,WR,61,WR3D
+WR003E,EQP,,,,,,,TS_1,,,,,,,WR,62,WR3E
+WR003F,EQP,,,,,,,TS_1,,,,,,,WR,63,WR3F
+WR0040,EQP,Interface Clock,Binary,,EQ,Interface_Clock,1,TS_2_1,,,,,,,WR,64,WR40
+WR0041,EQP,,,,,,2,TS_2_1,,,,,,,WR,65,WR41
+WR0042,EQP,,,,,,3,TS_2_1,,,,,,,WR,66,WR42
+WR0043,EQP,EQP ON/OFFLine Mode Status ,Binary,,EQ,EQP_ON_OFFLine_Mode_Status,4,TS_2_1,,,,,,,WR,67,WR43
+WR0044,EQP,,,,,,5,TS_2_1,,,,,,,WR,68,WR44
 WR0045,EQP,Port Type Status ,Binary,,PORT1,Port_Type_Status,6,TS_2_1,,,,,,,WR,69,WR45
 WR0046,EQP,Port Auto/Manual Mode Status ,Binary,,PORT1,Port_Auto_Manual_Mode_Status,7,TS_2_1,,,,,,,WR,70,WR46
-WR0047,EQP,,,,PORT1,,8,TS_2_1,,,,,,,WR,71,WR47
-WR0048,EQP,WIP Information-BCR ID#11,ASCII,,PORT1,WIP_Information_BCR_1,9,TS_2_1,,,,,,,WR,72,WR48
-WR0049,EQP,WIP Information-BCR ID#12,ASCII,,PORT1,WIP_Information_BCR_2,10,TS_2_1,,,,,,,WR,73,WR49
-WR004A,EQP,WIP Information-BCR ID#13,ASCII,,PORT1,WIP_Information_BCR_3,11,TS_2_1,,,,,,,WR,74,WR4A
-WR004B,EQP,WIP Information-BCR ID#14,ASCII,,PORT1,WIP_Information_BCR_4,12,TS_2_1,,,,,,,WR,75,WR4B
-WR004C,EQP,WIP Information-BCR ID#15,ASCII,,PORT1,WIP_Information_BCR_5,13,TS_2_1,,,,,,,WR,76,WR4C
-WR004D,EQP,WIP Information-BCR ID#16,ASCII,,PORT1,WIP_Information_BCR_6,14,TS_2_1,,,,,,,WR,77,WR4D
-WR004E,EQP,WIP Information-BCR ID#17,ASCII,,PORT1,WIP_Information_BCR_7,15,TS_2_1,,,,,,,WR,78,WR4E
-WR004F,EQP,WIP Information-BCR ID#18,ASCII,,PORT1,WIP_Information_BCR_8,16,TS_2_1,,,,,,,WR,79,WR4F
-WR0050,EQP,WIP Information-BCR ID#19,ASCII,,PORT1,WIP_Information_BCR_9,17,TS_2_1,,,,,,,WR,80,WR50
-WR0051,EQP,WIP Information-BCR ID#20,ASCII,,PORT1,WIP_Information_BCR_10,18,TS_2_1,,,,,,,WR,81,WR51
-WR0052,EQP,,,,PORT1,,19,TS_2_1,,,,,,,WR,82,WR52
-WR0053,EQP,,,,PORT1,,20,TS_2_1,,,,,,,WR,83,WR53
-WR0054,EQP,,,,PORT1,,21,TS_2_1,,,,,,,WR,84,WR54
-WR0055,EQP,Port Type Status,Binary,,PORT1,Port_Type_Status,22,TS_2_1,,,,,,,WR,85,WR55
-WR0056,EQP,Port Auto/Manual Mode Status ,Binary,,PORT1,Port_Auto_Manual_Mode_Status,23,TS_2_1,,,,,,,WR,86,WR56
-WR0057,EQP,,,,PORT1,,24,TS_2_1,,,,,,,WR,87,WR57
-WR0058,EQP,WIP Information-BCR ID#11,ASCII,,PORT1,WIP_Information_BCR_1,25,TS_2_1,,,,,,,WR,88,WR58
-WR0059,EQP,WIP Information-BCR ID#12,ASCII,,PORT1,WIP_Information_BCR_2,26,TS_2_1,,,,,,,WR,89,WR59
-WR005A,EQP,WIP Information-BCR ID#13,ASCII,,PORT1,WIP_Information_BCR_3,27,TS_2_1,,,,,,,WR,90,WR5A
-WR005B,EQP,WIP Information-BCR ID#14,ASCII,,PORT1,WIP_Information_BCR_4,28,TS_2_1,,,,,,,WR,91,WR5B
-WR005C,EQP,WIP Information-BCR ID#15,ASCII,,PORT1,WIP_Information_BCR_5,29,TS_2_1,,,,,,,WR,92,WR5C
-WR005D,EQP,WIP Information-BCR ID#16,ASCII,,PORT1,WIP_Information_BCR_6,30,TS_2_1,,,,,,,WR,93,WR5D
-WR005E,EQP,WIP Information-BCR ID#17,ASCII,,PORT1,WIP_Information_BCR_7,31,TS_2_1,,,,,,,WR,94,WR5E
-WR005F,EQP,WIP Information-BCR ID#18,ASCII,,PORT1,WIP_Information_BCR_8,32,TS_2_1,,,,,,,WR,95,WR5F
-WR0060,EQP,WIP Information-BCR ID#19,ASCII,,PORT1,WIP_Information_BCR_9,33,TS_2_1,,,,,,,WR,96,WR60
-WR0061,EQP,WIP Information-BCR ID#20,ASCII,,PORT1,WIP_Information_BCR_10,34,TS_2_1,,,,,,,WR,97,WR61
-WR0062,EQP,,,,PORT1,,35,TS_2_1,,,,,,,WR,98,WR62
-WR0063,EQP,,,,PORT1,,36,TS_2_1,,,,,,,WR,99,WR63
-WR0064,EQP,,,,PORT1,,37,TS_2_1,,,,,,,WR,100,WR64
-WR0065,EQP,,,,PORT1,,38,TS_2_1,,,,,,,WR,101,WR65
-WR0066,EQP,,,,PORT1,,39,TS_2_1,,,,,,,WR,102,WR66
-WR0067,EQP,,,,PORT1,,40,TS_2_1,,,,,,,WR,103,WR67
-WR0068,EQP,,,,PORT1,,41,TS_2_1,,,,,,,WR,104,WR68
-WR0069,EQP,,,,PORT1,,42,TS_2_1,,,,,,,WR,105,WR69
-WR006A,EQP,Warning Report Index,Binary,,PORT1,Warning_Report_Index,43,TS_2_1,,,,,,,WR,106,WR6A
-WR006B,EQP,Warning Code (1-17),Binary,,PORT1,Warning_Code_1_16,44,TS_2_1,,,,,,,WR,107,WR6B
-WR006C,EQP,Warning Code (17-33),Binary,,PORT1,Warning_Code_17_32,45,TS_2_1,,,,,,,WR,108,WR6C
-WR006D,EQP,Warning Code (33-49),Binary,,PORT1,Warning_Code_33_48,46,TS_2_1,,,,,,,WR,109,WR6D
-WR006E,EQP,,,,PORT1,,47,TS_2_1,,,,,,,WR,110,WR6E
-WR006F,EQP,,,,PORT1,,48,TS_2_1,,,,,,,WR,111,WR6F
-WR0070,EQP,,,,PORT1,,49,TS_2_1,,,,,,,WR,112,WR70
-WR0071,EQP,Alarm Report Index,Binary,,PORT1,Alarm_Report_Index,50,TS_2_1,,,,,,,WR,113,WR71
-WR0072,EQP,Alarm Code (1-17),Binary,,PORT1,Alarm_Code_1_16,51,TS_2_1,,,,,,,WR,114,WR72
-WR0073,EQP,Alarm Code (17-33),Binary,,PORT1,Alarm_Code_17_32,52,TS_2_1,,,,,,,WR,115,WR73
-WR0074,EQP,Alarm Code (33-49),Binary,,PORT1,Alarm_Code_33_48,53,TS_2_1,,,,,,,WR,116,WR74
-WR0075,EQP,,,,PORT1,,,TS_2_1,,,,,,,WR,117,WR75
-WR0076,EQP,,,,PORT1,,,TS_2_1,,,,,,,WR,118,WR76
-WR0077,EQP,,,,PORT1,,,TS_2_1,,,,,,,WR,119,WR77
-WR0078,EQP,,,,PORT1,,,TS_2_1,,,,,,,WR,120,WR78
-WR0079,EQP,,,,PORT1,,,TS_2_1,,,,,,,WR,121,WR79
-WR007A,EQP,,,,PORT1,,,TS_2_1,,,,,,,WR,122,WR7A
-WR007B,EQP,,,,PORT1,,,TS_2_1,,,,,,,WR,123,WR7B
-WR007C,EQP,,,,PORT1,,,TS_2_1,,,,,,,WR,124,WR7C
-WR007D,EQP,,,,PORT1,,,TS_2_1,,,,,,,WR,125,WR7D
-WR007E,EQP,,,,PORT1,,,TS_2_1,,,,,,,WR,126,WR7E
-WR007F,EQP,,,,PORT1,,,TS_2_1,,,,,,,WR,127,WR7F
-WR0080,EQP,Interface Clock,Binary,,PORT1,Interface_Clock,1,TS_2_2,,,,,,,WR,128,WR80
-WR0081,EQP,,,,PORT1,,2,TS_2_2,,,,,,,WR,129,WR81
-WR0082,EQP,,,,PORT1,,3,TS_2_2,,,,,,,WR,130,WR82
-WR0083,EQP,EQP ON/OFFLine Mode Status ,Binary,,PORT1,EQP_ON_OFFLine_Mode_Status,4,TS_2_2,,,,,,,WR,131,WR83
-WR0084,EQP,,,,PORT1,,5,TS_2_2,,,,,,,WR,132,WR84
+WR0047,EQP,,,,,,8,TS_2_1,,,,,,,WR,71,WR47
+WR0048,EQP,WIP Information-BCR ID#11,ASCII,,EQ,WIP_Information_BCR_1,9,TS_2_1,,,,,,,WR,72,WR48
+WR0049,EQP,WIP Information-BCR ID#12,ASCII,,EQ,WIP_Information_BCR_2,10,TS_2_1,,,,,,,WR,73,WR49
+WR004A,EQP,WIP Information-BCR ID#13,ASCII,,EQ,WIP_Information_BCR_3,11,TS_2_1,,,,,,,WR,74,WR4A
+WR004B,EQP,WIP Information-BCR ID#14,ASCII,,EQ,WIP_Information_BCR_4,12,TS_2_1,,,,,,,WR,75,WR4B
+WR004C,EQP,WIP Information-BCR ID#15,ASCII,,EQ,WIP_Information_BCR_5,13,TS_2_1,,,,,,,WR,76,WR4C
+WR004D,EQP,WIP Information-BCR ID#16,ASCII,,EQ,WIP_Information_BCR_6,14,TS_2_1,,,,,,,WR,77,WR4D
+WR004E,EQP,WIP Information-BCR ID#17,ASCII,,EQ,WIP_Information_BCR_7,15,TS_2_1,,,,,,,WR,78,WR4E
+WR004F,EQP,WIP Information-BCR ID#18,ASCII,,EQ,WIP_Information_BCR_8,16,TS_2_1,,,,,,,WR,79,WR4F
+WR0050,EQP,WIP Information-BCR ID#19,ASCII,,EQ,WIP_Information_BCR_9,17,TS_2_1,,,,,,,WR,80,WR50
+WR0051,EQP,WIP Information-BCR ID#20,ASCII,,EQ,WIP_Information_BCR_10,18,TS_2_1,,,,,,,WR,81,WR51
+WR0052,EQP,,,,,,19,TS_2_1,,,,,,,WR,82,WR52
+WR0053,EQP,,,,,,20,TS_2_1,,,,,,,WR,83,WR53
+WR0054,EQP,,,,,,21,TS_2_1,,,,,,,WR,84,WR54
+WR0055,EQP,Port Type Status,Binary,,PORT2,Port_Type_Status,22,TS_2_1,,,,,,,WR,85,WR55
+WR0056,EQP,Port Auto/Manual Mode Status ,Binary,,PORT2,Port_Auto_Manual_Mode_Status,23,TS_2_1,,,,,,,WR,86,WR56
+WR0057,EQP,,,,,,24,TS_2_1,,,,,,,WR,87,WR57
+WR0058,EQP,WIP Information-BCR ID#11,ASCII,,EQ,WIP_Information_BCR_1,25,TS_2_1,,,,,,,WR,88,WR58
+WR0059,EQP,WIP Information-BCR ID#12,ASCII,,EQ,WIP_Information_BCR_2,26,TS_2_1,,,,,,,WR,89,WR59
+WR005A,EQP,WIP Information-BCR ID#13,ASCII,,EQ,WIP_Information_BCR_3,27,TS_2_1,,,,,,,WR,90,WR5A
+WR005B,EQP,WIP Information-BCR ID#14,ASCII,,EQ,WIP_Information_BCR_4,28,TS_2_1,,,,,,,WR,91,WR5B
+WR005C,EQP,WIP Information-BCR ID#15,ASCII,,EQ,WIP_Information_BCR_5,29,TS_2_1,,,,,,,WR,92,WR5C
+WR005D,EQP,WIP Information-BCR ID#16,ASCII,,EQ,WIP_Information_BCR_6,30,TS_2_1,,,,,,,WR,93,WR5D
+WR005E,EQP,WIP Information-BCR ID#17,ASCII,,EQ,WIP_Information_BCR_7,31,TS_2_1,,,,,,,WR,94,WR5E
+WR005F,EQP,WIP Information-BCR ID#18,ASCII,,EQ,WIP_Information_BCR_8,32,TS_2_1,,,,,,,WR,95,WR5F
+WR0060,EQP,WIP Information-BCR ID#19,ASCII,,EQ,WIP_Information_BCR_9,33,TS_2_1,,,,,,,WR,96,WR60
+WR0061,EQP,WIP Information-BCR ID#20,ASCII,,EQ,WIP_Information_BCR_10,34,TS_2_1,,,,,,,WR,97,WR61
+WR0062,EQP,,,,,,35,TS_2_1,,,,,,,WR,98,WR62
+WR0063,EQP,,,,,,36,TS_2_1,,,,,,,WR,99,WR63
+WR0064,EQP,,,,,,37,TS_2_1,,,,,,,WR,100,WR64
+WR0065,EQP,,,,,,38,TS_2_1,,,,,,,WR,101,WR65
+WR0066,EQP,,,,,,39,TS_2_1,,,,,,,WR,102,WR66
+WR0067,EQP,,,,,,40,TS_2_1,,,,,,,WR,103,WR67
+WR0068,EQP,,,,,,41,TS_2_1,,,,,,,WR,104,WR68
+WR0069,EQP,,,,,,42,TS_2_1,,,,,,,WR,105,WR69
+WR006A,EQP,Warning Report Index,Binary,,EQ,Warning_Report_Index,43,TS_2_1,,,,,,,WR,106,WR6A
+WR006B,EQP,Warning Code (1-17),Binary,,EQ,Warning_Code_1_16,44,TS_2_1,,,,,,,WR,107,WR6B
+WR006C,EQP,Warning Code (17-33),Binary,,EQ,Warning_Code_17_32,45,TS_2_1,,,,,,,WR,108,WR6C
+WR006D,EQP,Warning Code (33-49),Binary,,EQ,Warning_Code_33_48,46,TS_2_1,,,,,,,WR,109,WR6D
+WR006E,EQP,,,,,,47,TS_2_1,,,,,,,WR,110,WR6E
+WR006F,EQP,,,,,,48,TS_2_1,,,,,,,WR,111,WR6F
+WR0070,EQP,,,,,,49,TS_2_1,,,,,,,WR,112,WR70
+WR0071,EQP,Alarm Report Index,Binary,,EQ,Alarm_Report_Index,50,TS_2_1,,,,,,,WR,113,WR71
+WR0072,EQP,Alarm Code (1-17),Binary,,EQ,Alarm_Code_1_16,51,TS_2_1,,,,,,,WR,114,WR72
+WR0073,EQP,Alarm Code (17-33),Binary,,EQ,Alarm_Code_17_32,52,TS_2_1,,,,,,,WR,115,WR73
+WR0074,EQP,Alarm Code (33-49),Binary,,EQ,Alarm_Code_33_48,53,TS_2_1,,,,,,,WR,116,WR74
+WR0075,EQP,,,,,,,TS_2_1,,,,,,,WR,117,WR75
+WR0076,EQP,,,,,,,TS_2_1,,,,,,,WR,118,WR76
+WR0077,EQP,,,,,,,TS_2_1,,,,,,,WR,119,WR77
+WR0078,EQP,,,,,,,TS_2_1,,,,,,,WR,120,WR78
+WR0079,EQP,,,,,,,TS_2_1,,,,,,,WR,121,WR79
+WR007A,EQP,,,,,,,TS_2_1,,,,,,,WR,122,WR7A
+WR007B,EQP,,,,,,,TS_2_1,,,,,,,WR,123,WR7B
+WR007C,EQP,,,,,,,TS_2_1,,,,,,,WR,124,WR7C
+WR007D,EQP,,,,,,,TS_2_1,,,,,,,WR,125,WR7D
+WR007E,EQP,,,,,,,TS_2_1,,,,,,,WR,126,WR7E
+WR007F,EQP,,,,,,,TS_2_1,,,,,,,WR,127,WR7F
+WR0080,EQP,Interface Clock,Binary,,EQ,Interface_Clock,1,TS_2_2,,,,,,,WR,128,WR80
+WR0081,EQP,,,,,,2,TS_2_2,,,,,,,WR,129,WR81
+WR0082,EQP,,,,,,3,TS_2_2,,,,,,,WR,130,WR82
+WR0083,EQP,EQP ON/OFFLine Mode Status ,Binary,,EQ,EQP_ON_OFFLine_Mode_Status,4,TS_2_2,,,,,,,WR,131,WR83
+WR0084,EQP,,,,,,5,TS_2_2,,,,,,,WR,132,WR84
 WR0085,EQP,Port Type Status ,Binary,,PORT1,Port_Type_Status,6,TS_2_2,,,,,,,WR,133,WR85
 WR0086,EQP,Port Auto/Manual Mode Status ,Binary,,PORT1,Port_Auto_Manual_Mode_Status,7,TS_2_2,,,,,,,WR,134,WR86
-WR0087,EQP,,,,PORT1,,8,TS_2_2,,,,,,,WR,135,WR87
-WR0088,EQP,WIP Information-BCR ID#21,ASCII,,PORT1,WIP_Information_BCR_1,9,TS_2_2,,,,,,,WR,136,WR88
-WR0089,EQP,WIP Information-BCR ID#22,ASCII,,PORT1,WIP_Information_BCR_2,10,TS_2_2,,,,,,,WR,137,WR89
-WR008A,EQP,WIP Information-BCR ID#23,ASCII,,PORT1,WIP_Information_BCR_3,11,TS_2_2,,,,,,,WR,138,WR8A
-WR008B,EQP,WIP Information-BCR ID#24,ASCII,,PORT1,WIP_Information_BCR_4,12,TS_2_2,,,,,,,WR,139,WR8B
-WR008C,EQP,WIP Information-BCR ID#25,ASCII,,PORT1,WIP_Information_BCR_5,13,TS_2_2,,,,,,,WR,140,WR8C
-WR008D,EQP,WIP Information-BCR ID#26,ASCII,,PORT1,WIP_Information_BCR_6,14,TS_2_2,,,,,,,WR,141,WR8D
-WR008E,EQP,WIP Information-BCR ID#27,ASCII,,PORT1,WIP_Information_BCR_7,15,TS_2_2,,,,,,,WR,142,WR8E
-WR008F,EQP,WIP Information-BCR ID#28,ASCII,,PORT1,WIP_Information_BCR_8,16,TS_2_2,,,,,,,WR,143,WR8F
-WR0090,EQP,WIP Information-BCR ID#29,ASCII,,PORT1,WIP_Information_BCR_9,17,TS_2_2,,,,,,,WR,144,WR90
-WR0091,EQP,WIP Information-BCR ID#30,ASCII,,PORT1,WIP_Information_BCR_10,18,TS_2_2,,,,,,,WR,145,WR91
-WR0092,EQP,,,,PORT1,,19,TS_2_2,,,,,,,WR,146,WR92
-WR0093,EQP,,,,PORT1,,20,TS_2_2,,,,,,,WR,147,WR93
-WR0094,EQP,,,,PORT1,,21,TS_2_2,,,,,,,WR,148,WR94
-WR0095,EQP,Port Type Status,Binary,,PORT1,Port_Type_Status,22,TS_2_2,,,,,,,WR,149,WR95
-WR0096,EQP,Port Auto/Manual Mode Status ,Binary,,PORT1,Port_Auto_Manual_Mode_Status,23,TS_2_2,,,,,,,WR,150,WR96
-WR0097,EQP,,,,PORT1,,24,TS_2_2,,,,,,,WR,151,WR97
-WR0098,EQP,WIP Information-BCR ID#21,ASCII,,PORT1,WIP_Information_BCR_1,25,TS_2_2,,,,,,,WR,152,WR98
-WR0099,EQP,WIP Information-BCR ID#22,ASCII,,PORT1,WIP_Information_BCR_2,26,TS_2_2,,,,,,,WR,153,WR99
-WR009A,EQP,WIP Information-BCR ID#23,ASCII,,PORT1,WIP_Information_BCR_3,27,TS_2_2,,,,,,,WR,154,WR9A
-WR009B,EQP,WIP Information-BCR ID#24,ASCII,,PORT1,WIP_Information_BCR_4,28,TS_2_2,,,,,,,WR,155,WR9B
-WR009C,EQP,WIP Information-BCR ID#25,ASCII,,PORT1,WIP_Information_BCR_5,29,TS_2_2,,,,,,,WR,156,WR9C
-WR009D,EQP,WIP Information-BCR ID#26,ASCII,,PORT1,WIP_Information_BCR_6,30,TS_2_2,,,,,,,WR,157,WR9D
-WR009E,EQP,WIP Information-BCR ID#27,ASCII,,PORT1,WIP_Information_BCR_7,31,TS_2_2,,,,,,,WR,158,WR9E
-WR009F,EQP,WIP Information-BCR ID#28,ASCII,,PORT1,WIP_Information_BCR_8,32,TS_2_2,,,,,,,WR,159,WR9F
-WR00A0,EQP,WIP Information-BCR ID#29,ASCII,,PORT1,WIP_Information_BCR_9,33,TS_2_2,,,,,,,WR,160,WRA0
-WR00A1,EQP,WIP Information-BCR ID#30,ASCII,,PORT1,WIP_Information_BCR_10,34,TS_2_2,,,,,,,WR,161,WRA1
-WR00A2,EQP,,,,PORT1,,35,TS_2_2,,,,,,,WR,162,WRA2
-WR00A3,EQP,,,,PORT1,,36,TS_2_2,,,,,,,WR,163,WRA3
-WR00A4,EQP,,,,PORT1,,37,TS_2_2,,,,,,,WR,164,WRA4
-WR00A5,EQP,,,,PORT1,,38,TS_2_2,,,,,,,WR,165,WRA5
-WR00A6,EQP,,,,PORT1,,39,TS_2_2,,,,,,,WR,166,WRA6
-WR00A7,EQP,,,,PORT1,,40,TS_2_2,,,,,,,WR,167,WRA7
-WR00A8,EQP,,,,PORT1,,41,TS_2_2,,,,,,,WR,168,WRA8
-WR00A9,EQP,,,,PORT1,,42,TS_2_2,,,,,,,WR,169,WRA9
-WR00AA,EQP,Warning Report Index,Binary,,PORT1,Warning_Report_Index,43,TS_2_2,,,,,,,WR,170,WRAA
-WR00AB,EQP,Warning Code (1-18),Binary,,PORT1,Warning_Code_1_16,44,TS_2_2,,,,,,,WR,171,WRAB
-WR00AC,EQP,Warning Code (17-34),Binary,,PORT1,Warning_Code_17_32,45,TS_2_2,,,,,,,WR,172,WRAC
-WR00AD,EQP,Warning Code (33-50),Binary,,PORT1,Warning_Code_33_48,46,TS_2_2,,,,,,,WR,173,WRAD
-WR00AE,EQP,,,,PORT1,,47,TS_2_2,,,,,,,WR,174,WRAE
-WR00AF,EQP,,,,PORT1,,48,TS_2_2,,,,,,,WR,175,WRAF
-WR00B0,EQP,,,,PORT1,,49,TS_2_2,,,,,,,WR,176,WRB0
-WR00B1,EQP,Alarm Report Index,Binary,,PORT1,Alarm_Report_Index,50,TS_2_2,,,,,,,WR,177,WRB1
-WR00B2,EQP,Alarm Code (1-18),Binary,,PORT1,Alarm_Code_1_16,51,TS_2_2,,,,,,,WR,178,WRB2
-WR00B3,EQP,Alarm Code (17-34),Binary,,PORT1,Alarm_Code_17_32,52,TS_2_2,,,,,,,WR,179,WRB3
-WR00B4,EQP,Alarm Code (33-50),Binary,,PORT1,Alarm_Code_33_48,53,TS_2_2,,,,,,,WR,180,WRB4
-WR00B5,EQP,,,,PORT1,,,TS_2_2,,,,,,,WR,181,WRB5
-WR00B6,EQP,,,,PORT1,,,TS_2_2,,,,,,,WR,182,WRB6
-WR00B7,EQP,,,,PORT1,,,TS_2_2,,,,,,,WR,183,WRB7
-WR00B8,EQP,,,,PORT1,,,TS_2_2,,,,,,,WR,184,WRB8
-WR00B9,EQP,,,,PORT1,,,TS_2_2,,,,,,,WR,185,WRB9
-WR00BA,EQP,,,,PORT1,,,TS_2_2,,,,,,,WR,186,WRBA
-WR00BB,EQP,,,,PORT1,,,TS_2_2,,,,,,,WR,187,WRBB
-WR00BC,EQP,,,,PORT1,,,TS_2_2,,,,,,,WR,188,WRBC
-WR00BD,EQP,,,,PORT1,,,TS_2_2,,,,,,,WR,189,WRBD
-WR00BE,EQP,,,,PORT1,,,TS_2_2,,,,,,,WR,190,WRBE
-WR00BF,EQP,,,,PORT1,,,TS_2_2,,,,,,,WR,191,WRBF
-WR00C0,EQP,Interface Clock,Binary,,PORT1,Interface_Clock,1,TS_3,,,,,,,WR,192,WRC0
-WR00C1,EQP,,,,PORT1,,2,TS_3,,,,,,,WR,193,WRC1
-WR00C2,EQP,,,,PORT1,,3,TS_3,,,,,,,WR,194,WRC2
-WR00C3,EQP,EQP ON/OFFLine Mode Status ,Binary,,PORT1,EQP_ON_OFFLine_Mode_Status,4,TS_3,,,,,,,WR,195,WRC3
-WR00C4,EQP,,,,PORT1,,5,TS_3,,,,,,,WR,196,WRC4
+WR0087,EQP,,,,,,8,TS_2_2,,,,,,,WR,135,WR87
+WR0088,EQP,WIP Information-BCR ID#21,ASCII,,EQ,WIP_Information_BCR_1,9,TS_2_2,,,,,,,WR,136,WR88
+WR0089,EQP,WIP Information-BCR ID#22,ASCII,,EQ,WIP_Information_BCR_2,10,TS_2_2,,,,,,,WR,137,WR89
+WR008A,EQP,WIP Information-BCR ID#23,ASCII,,EQ,WIP_Information_BCR_3,11,TS_2_2,,,,,,,WR,138,WR8A
+WR008B,EQP,WIP Information-BCR ID#24,ASCII,,EQ,WIP_Information_BCR_4,12,TS_2_2,,,,,,,WR,139,WR8B
+WR008C,EQP,WIP Information-BCR ID#25,ASCII,,EQ,WIP_Information_BCR_5,13,TS_2_2,,,,,,,WR,140,WR8C
+WR008D,EQP,WIP Information-BCR ID#26,ASCII,,EQ,WIP_Information_BCR_6,14,TS_2_2,,,,,,,WR,141,WR8D
+WR008E,EQP,WIP Information-BCR ID#27,ASCII,,EQ,WIP_Information_BCR_7,15,TS_2_2,,,,,,,WR,142,WR8E
+WR008F,EQP,WIP Information-BCR ID#28,ASCII,,EQ,WIP_Information_BCR_8,16,TS_2_2,,,,,,,WR,143,WR8F
+WR0090,EQP,WIP Information-BCR ID#29,ASCII,,EQ,WIP_Information_BCR_9,17,TS_2_2,,,,,,,WR,144,WR90
+WR0091,EQP,WIP Information-BCR ID#30,ASCII,,EQ,WIP_Information_BCR_10,18,TS_2_2,,,,,,,WR,145,WR91
+WR0092,EQP,,,,,,19,TS_2_2,,,,,,,WR,146,WR92
+WR0093,EQP,,,,,,20,TS_2_2,,,,,,,WR,147,WR93
+WR0094,EQP,,,,,,21,TS_2_2,,,,,,,WR,148,WR94
+WR0095,EQP,Port Type Status,Binary,,PORT2,Port_Type_Status,22,TS_2_2,,,,,,,WR,149,WR95
+WR0096,EQP,Port Auto/Manual Mode Status ,Binary,,PORT2,Port_Auto_Manual_Mode_Status,23,TS_2_2,,,,,,,WR,150,WR96
+WR0097,EQP,,,,,,24,TS_2_2,,,,,,,WR,151,WR97
+WR0098,EQP,WIP Information-BCR ID#21,ASCII,,EQ,WIP_Information_BCR_1,25,TS_2_2,,,,,,,WR,152,WR98
+WR0099,EQP,WIP Information-BCR ID#22,ASCII,,EQ,WIP_Information_BCR_2,26,TS_2_2,,,,,,,WR,153,WR99
+WR009A,EQP,WIP Information-BCR ID#23,ASCII,,EQ,WIP_Information_BCR_3,27,TS_2_2,,,,,,,WR,154,WR9A
+WR009B,EQP,WIP Information-BCR ID#24,ASCII,,EQ,WIP_Information_BCR_4,28,TS_2_2,,,,,,,WR,155,WR9B
+WR009C,EQP,WIP Information-BCR ID#25,ASCII,,EQ,WIP_Information_BCR_5,29,TS_2_2,,,,,,,WR,156,WR9C
+WR009D,EQP,WIP Information-BCR ID#26,ASCII,,EQ,WIP_Information_BCR_6,30,TS_2_2,,,,,,,WR,157,WR9D
+WR009E,EQP,WIP Information-BCR ID#27,ASCII,,EQ,WIP_Information_BCR_7,31,TS_2_2,,,,,,,WR,158,WR9E
+WR009F,EQP,WIP Information-BCR ID#28,ASCII,,EQ,WIP_Information_BCR_8,32,TS_2_2,,,,,,,WR,159,WR9F
+WR00A0,EQP,WIP Information-BCR ID#29,ASCII,,EQ,WIP_Information_BCR_9,33,TS_2_2,,,,,,,WR,160,WRA0
+WR00A1,EQP,WIP Information-BCR ID#30,ASCII,,EQ,WIP_Information_BCR_10,34,TS_2_2,,,,,,,WR,161,WRA1
+WR00A2,EQP,,,,,,35,TS_2_2,,,,,,,WR,162,WRA2
+WR00A3,EQP,,,,,,36,TS_2_2,,,,,,,WR,163,WRA3
+WR00A4,EQP,,,,,,37,TS_2_2,,,,,,,WR,164,WRA4
+WR00A5,EQP,,,,,,38,TS_2_2,,,,,,,WR,165,WRA5
+WR00A6,EQP,,,,,,39,TS_2_2,,,,,,,WR,166,WRA6
+WR00A7,EQP,,,,,,40,TS_2_2,,,,,,,WR,167,WRA7
+WR00A8,EQP,,,,,,41,TS_2_2,,,,,,,WR,168,WRA8
+WR00A9,EQP,,,,,,42,TS_2_2,,,,,,,WR,169,WRA9
+WR00AA,EQP,Warning Report Index,Binary,,EQ,Warning_Report_Index,43,TS_2_2,,,,,,,WR,170,WRAA
+WR00AB,EQP,Warning Code (1-18),Binary,,EQ,Warning_Code_1_16,44,TS_2_2,,,,,,,WR,171,WRAB
+WR00AC,EQP,Warning Code (17-34),Binary,,EQ,Warning_Code_17_32,45,TS_2_2,,,,,,,WR,172,WRAC
+WR00AD,EQP,Warning Code (33-50),Binary,,EQ,Warning_Code_33_48,46,TS_2_2,,,,,,,WR,173,WRAD
+WR00AE,EQP,,,,,,47,TS_2_2,,,,,,,WR,174,WRAE
+WR00AF,EQP,,,,,,48,TS_2_2,,,,,,,WR,175,WRAF
+WR00B0,EQP,,,,,,49,TS_2_2,,,,,,,WR,176,WRB0
+WR00B1,EQP,Alarm Report Index,Binary,,EQ,Alarm_Report_Index,50,TS_2_2,,,,,,,WR,177,WRB1
+WR00B2,EQP,Alarm Code (1-18),Binary,,EQ,Alarm_Code_1_16,51,TS_2_2,,,,,,,WR,178,WRB2
+WR00B3,EQP,Alarm Code (17-34),Binary,,EQ,Alarm_Code_17_32,52,TS_2_2,,,,,,,WR,179,WRB3
+WR00B4,EQP,Alarm Code (33-50),Binary,,EQ,Alarm_Code_33_48,53,TS_2_2,,,,,,,WR,180,WRB4
+WR00B5,EQP,,,,,,,TS_2_2,,,,,,,WR,181,WRB5
+WR00B6,EQP,,,,,,,TS_2_2,,,,,,,WR,182,WRB6
+WR00B7,EQP,,,,,,,TS_2_2,,,,,,,WR,183,WRB7
+WR00B8,EQP,,,,,,,TS_2_2,,,,,,,WR,184,WRB8
+WR00B9,EQP,,,,,,,TS_2_2,,,,,,,WR,185,WRB9
+WR00BA,EQP,,,,,,,TS_2_2,,,,,,,WR,186,WRBA
+WR00BB,EQP,,,,,,,TS_2_2,,,,,,,WR,187,WRBB
+WR00BC,EQP,,,,,,,TS_2_2,,,,,,,WR,188,WRBC
+WR00BD,EQP,,,,,,,TS_2_2,,,,,,,WR,189,WRBD
+WR00BE,EQP,,,,,,,TS_2_2,,,,,,,WR,190,WRBE
+WR00BF,EQP,,,,,,,TS_2_2,,,,,,,WR,191,WRBF
+WR00C0,EQP,Interface Clock,Binary,,EQ,Interface_Clock,1,TS_3,,,,,,,WR,192,WRC0
+WR00C1,EQP,,,,,,2,TS_3,,,,,,,WR,193,WRC1
+WR00C2,EQP,,,,,,3,TS_3,,,,,,,WR,194,WRC2
+WR00C3,EQP,EQP ON/OFFLine Mode Status ,Binary,,EQ,EQP_ON_OFFLine_Mode_Status,4,TS_3,,,,,,,WR,195,WRC3
+WR00C4,EQP,,,,,,5,TS_3,,,,,,,WR,196,WRC4
 WR00C5,EQP,Port Type Status ,Binary,,PORT1,Port_Type_Status,6,TS_3,,,,,,,WR,197,WRC5
 WR00C6,EQP,Port Auto/Manual Mode Status ,Binary,,PORT1,Port_Auto_Manual_Mode_Status,7,TS_3,,,,,,,WR,198,WRC6
-WR00C7,EQP,,,,PORT1,,8,TS_3,,,,,,,WR,199,WRC7
-WR00C8,EQP,WIP Information-BCR ID#31,ASCII,,PORT1,WIP_Information_BCR_1,9,TS_3,,,,,,,WR,200,WRC8
-WR00C9,EQP,WIP Information-BCR ID#32,ASCII,,PORT1,WIP_Information_BCR_2,10,TS_3,,,,,,,WR,201,WRC9
-WR00CA,EQP,WIP Information-BCR ID#33,ASCII,,PORT1,WIP_Information_BCR_3,11,TS_3,,,,,,,WR,202,WRCA
-WR00CB,EQP,WIP Information-BCR ID#34,ASCII,,PORT1,WIP_Information_BCR_4,12,TS_3,,,,,,,WR,203,WRCB
-WR00CC,EQP,WIP Information-BCR ID#35,ASCII,,PORT1,WIP_Information_BCR_5,13,TS_3,,,,,,,WR,204,WRCC
-WR00CD,EQP,WIP Information-BCR ID#36,ASCII,,PORT1,WIP_Information_BCR_6,14,TS_3,,,,,,,WR,205,WRCD
-WR00CE,EQP,WIP Information-BCR ID#37,ASCII,,PORT1,WIP_Information_BCR_7,15,TS_3,,,,,,,WR,206,WRCE
-WR00CF,EQP,WIP Information-BCR ID#38,ASCII,,PORT1,WIP_Information_BCR_8,16,TS_3,,,,,,,WR,207,WRCF
-WR00D0,EQP,WIP Information-BCR ID#39,ASCII,,PORT1,WIP_Information_BCR_9,17,TS_3,,,,,,,WR,208,WRD0
-WR00D1,EQP,WIP Information-BCR ID#40,ASCII,,PORT1,WIP_Information_BCR_10,18,TS_3,,,,,,,WR,209,WRD1
-WR00D2,EQP,,,,PORT1,,19,TS_3,,,,,,,WR,210,WRD2
-WR00D3,EQP,,,,PORT1,,20,TS_3,,,,,,,WR,211,WRD3
-WR00D4,EQP,,,,PORT1,,21,TS_3,,,,,,,WR,212,WRD4
-WR00D5,EQP,Port Type Status,Binary,,PORT1,Port_Type_Status,22,TS_3,,,,,,,WR,213,WRD5
-WR00D6,EQP,Port Auto/Manual Mode Status ,Binary,,PORT1,Port_Auto_Manual_Mode_Status,23,TS_3,,,,,,,WR,214,WRD6
-WR00D7,EQP,,,,PORT1,,24,TS_3,,,,,,,WR,215,WRD7
-WR00D8,EQP,WIP Information-BCR ID#31,ASCII,,PORT1,WIP_Information_BCR_1,25,TS_3,,,,,,,WR,216,WRD8
-WR00D9,EQP,WIP Information-BCR ID#32,ASCII,,PORT1,WIP_Information_BCR_2,26,TS_3,,,,,,,WR,217,WRD9
-WR00DA,EQP,WIP Information-BCR ID#33,ASCII,,PORT1,WIP_Information_BCR_3,27,TS_3,,,,,,,WR,218,WRDA
-WR00DB,EQP,WIP Information-BCR ID#34,ASCII,,PORT1,WIP_Information_BCR_4,28,TS_3,,,,,,,WR,219,WRDB
-WR00DC,EQP,WIP Information-BCR ID#35,ASCII,,PORT1,WIP_Information_BCR_5,29,TS_3,,,,,,,WR,220,WRDC
-WR00DD,EQP,WIP Information-BCR ID#36,ASCII,,PORT1,WIP_Information_BCR_6,30,TS_3,,,,,,,WR,221,WRDD
-WR00DE,EQP,WIP Information-BCR ID#37,ASCII,,PORT1,WIP_Information_BCR_7,31,TS_3,,,,,,,WR,222,WRDE
-WR00DF,EQP,WIP Information-BCR ID#38,ASCII,,PORT1,WIP_Information_BCR_8,32,TS_3,,,,,,,WR,223,WRDF
-WR00E0,EQP,WIP Information-BCR ID#39,ASCII,,PORT1,WIP_Information_BCR_9,33,TS_3,,,,,,,WR,224,WRE0
-WR00E1,EQP,WIP Information-BCR ID#40,ASCII,,PORT1,WIP_Information_BCR_10,34,TS_3,,,,,,,WR,225,WRE1
-WR00E2,EQP,,,,PORT1,,35,TS_3,,,,,,,WR,226,WRE2
-WR00E3,EQP,,,,PORT1,,36,TS_3,,,,,,,WR,227,WRE3
-WR00E4,EQP,,,,PORT1,,37,TS_3,,,,,,,WR,228,WRE4
-WR00E5,EQP,,,,PORT1,,38,TS_3,,,,,,,WR,229,WRE5
-WR00E6,EQP,,,,PORT1,,39,TS_3,,,,,,,WR,230,WRE6
-WR00E7,EQP,,,,PORT1,,40,TS_3,,,,,,,WR,231,WRE7
-WR00E8,EQP,,,,PORT1,,41,TS_3,,,,,,,WR,232,WRE8
-WR00E9,EQP,,,,PORT1,,42,TS_3,,,,,,,WR,233,WRE9
-WR00EA,EQP,Warning Report Index,Binary,,PORT1,Warning_Report_Index,43,TS_3,,,,,,,WR,234,WREA
-WR00EB,EQP,Warning Code (1-19),Binary,,PORT1,Warning_Code_1_16,44,TS_3,,,,,,,WR,235,WREB
-WR00EC,EQP,Warning Code (17-35),Binary,,PORT1,Warning_Code_17_32,45,TS_3,,,,,,,WR,236,WREC
-WR00ED,EQP,Warning Code (33-51),Binary,,PORT1,Warning_Code_33_48,46,TS_3,,,,,,,WR,237,WRED
-WR00EE,EQP,,,,PORT1,,47,TS_3,,,,,,,WR,238,WREE
-WR00EF,EQP,,,,PORT1,,48,TS_3,,,,,,,WR,239,WREF
-WR00F0,EQP,,,,PORT1,,49,TS_3,,,,,,,WR,240,WRF0
-WR00F1,EQP,Alarm Report Index,Binary,,PORT1,Alarm_Report_Index,50,TS_3,,,,,,,WR,241,WRF1
-WR00F2,EQP,Alarm Code (1-19),Binary,,PORT1,Alarm_Code_1_16,51,TS_3,,,,,,,WR,242,WRF2
-WR00F3,EQP,Alarm Code (17-35),Binary,,PORT1,Alarm_Code_17_32,52,TS_3,,,,,,,WR,243,WRF3
-WR00F4,EQP,Alarm Code (33-51),Binary,,PORT1,Alarm_Code_33_48,53,TS_3,,,,,,,WR,244,WRF4
-WR00F5,EQP,,,,PORT1,,,TS_3,,,,,,,WR,245,WRF5
-WR00F6,EQP,,,,PORT1,,,TS_3,,,,,,,WR,246,WRF6
-WR00F7,EQP,,,,PORT1,,,TS_3,,,,,,,WR,247,WRF7
-WR00F8,EQP,,,,PORT1,,,TS_3,,,,,,,WR,248,WRF8
-WR00F9,EQP,,,,PORT1,,,TS_3,,,,,,,WR,249,WRF9
-WR00FA,EQP,,,,PORT1,,,TS_3,,,,,,,WR,250,WRFA
-WR00FB,EQP,,,,PORT1,,,TS_3,,,,,,,WR,251,WRFB
-WR00FC,EQP,,,,PORT1,,,TS_3,,,,,,,WR,252,WRFC
-WR00FD,EQP,,,,PORT1,,,TS_3,,,,,,,WR,253,WRFD
-WR00FE,EQP,,,,PORT1,,,TS_3,,,,,,,WR,254,WRFE
-WR00FF,EQP,,,,PORT1,,,TS_3,,,,,,,WR,255,WRFF
+WR00C7,EQP,,,,,,8,TS_3,,,,,,,WR,199,WRC7
+WR00C8,EQP,WIP Information-BCR ID#31,ASCII,,EQ,WIP_Information_BCR_1,9,TS_3,,,,,,,WR,200,WRC8
+WR00C9,EQP,WIP Information-BCR ID#32,ASCII,,EQ,WIP_Information_BCR_2,10,TS_3,,,,,,,WR,201,WRC9
+WR00CA,EQP,WIP Information-BCR ID#33,ASCII,,EQ,WIP_Information_BCR_3,11,TS_3,,,,,,,WR,202,WRCA
+WR00CB,EQP,WIP Information-BCR ID#34,ASCII,,EQ,WIP_Information_BCR_4,12,TS_3,,,,,,,WR,203,WRCB
+WR00CC,EQP,WIP Information-BCR ID#35,ASCII,,EQ,WIP_Information_BCR_5,13,TS_3,,,,,,,WR,204,WRCC
+WR00CD,EQP,WIP Information-BCR ID#36,ASCII,,EQ,WIP_Information_BCR_6,14,TS_3,,,,,,,WR,205,WRCD
+WR00CE,EQP,WIP Information-BCR ID#37,ASCII,,EQ,WIP_Information_BCR_7,15,TS_3,,,,,,,WR,206,WRCE
+WR00CF,EQP,WIP Information-BCR ID#38,ASCII,,EQ,WIP_Information_BCR_8,16,TS_3,,,,,,,WR,207,WRCF
+WR00D0,EQP,WIP Information-BCR ID#39,ASCII,,EQ,WIP_Information_BCR_9,17,TS_3,,,,,,,WR,208,WRD0
+WR00D1,EQP,WIP Information-BCR ID#40,ASCII,,EQ,WIP_Information_BCR_10,18,TS_3,,,,,,,WR,209,WRD1
+WR00D2,EQP,,,,,,19,TS_3,,,,,,,WR,210,WRD2
+WR00D3,EQP,,,,,,20,TS_3,,,,,,,WR,211,WRD3
+WR00D4,EQP,,,,,,21,TS_3,,,,,,,WR,212,WRD4
+WR00D5,EQP,Port Type Status,Binary,,PORT2,Port_Type_Status,22,TS_3,,,,,,,WR,213,WRD5
+WR00D6,EQP,Port Auto/Manual Mode Status ,Binary,,PORT2,Port_Auto_Manual_Mode_Status,23,TS_3,,,,,,,WR,214,WRD6
+WR00D7,EQP,,,,,,24,TS_3,,,,,,,WR,215,WRD7
+WR00D8,EQP,WIP Information-BCR ID#31,ASCII,,EQ,WIP_Information_BCR_1,25,TS_3,,,,,,,WR,216,WRD8
+WR00D9,EQP,WIP Information-BCR ID#32,ASCII,,EQ,WIP_Information_BCR_2,26,TS_3,,,,,,,WR,217,WRD9
+WR00DA,EQP,WIP Information-BCR ID#33,ASCII,,EQ,WIP_Information_BCR_3,27,TS_3,,,,,,,WR,218,WRDA
+WR00DB,EQP,WIP Information-BCR ID#34,ASCII,,EQ,WIP_Information_BCR_4,28,TS_3,,,,,,,WR,219,WRDB
+WR00DC,EQP,WIP Information-BCR ID#35,ASCII,,EQ,WIP_Information_BCR_5,29,TS_3,,,,,,,WR,220,WRDC
+WR00DD,EQP,WIP Information-BCR ID#36,ASCII,,EQ,WIP_Information_BCR_6,30,TS_3,,,,,,,WR,221,WRDD
+WR00DE,EQP,WIP Information-BCR ID#37,ASCII,,EQ,WIP_Information_BCR_7,31,TS_3,,,,,,,WR,222,WRDE
+WR00DF,EQP,WIP Information-BCR ID#38,ASCII,,EQ,WIP_Information_BCR_8,32,TS_3,,,,,,,WR,223,WRDF
+WR00E0,EQP,WIP Information-BCR ID#39,ASCII,,EQ,WIP_Information_BCR_9,33,TS_3,,,,,,,WR,224,WRE0
+WR00E1,EQP,WIP Information-BCR ID#40,ASCII,,EQ,WIP_Information_BCR_10,34,TS_3,,,,,,,WR,225,WRE1
+WR00E2,EQP,,,,,,35,TS_3,,,,,,,WR,226,WRE2
+WR00E3,EQP,,,,,,36,TS_3,,,,,,,WR,227,WRE3
+WR00E4,EQP,,,,,,37,TS_3,,,,,,,WR,228,WRE4
+WR00E5,EQP,,,,,,38,TS_3,,,,,,,WR,229,WRE5
+WR00E6,EQP,,,,,,39,TS_3,,,,,,,WR,230,WRE6
+WR00E7,EQP,,,,,,40,TS_3,,,,,,,WR,231,WRE7
+WR00E8,EQP,,,,,,41,TS_3,,,,,,,WR,232,WRE8
+WR00E9,EQP,,,,,,42,TS_3,,,,,,,WR,233,WRE9
+WR00EA,EQP,Warning Report Index,Binary,,EQ,Warning_Report_Index,43,TS_3,,,,,,,WR,234,WREA
+WR00EB,EQP,Warning Code (1-19),Binary,,EQ,Warning_Code_1_16,44,TS_3,,,,,,,WR,235,WREB
+WR00EC,EQP,Warning Code (17-35),Binary,,EQ,Warning_Code_17_32,45,TS_3,,,,,,,WR,236,WREC
+WR00ED,EQP,Warning Code (33-51),Binary,,EQ,Warning_Code_33_48,46,TS_3,,,,,,,WR,237,WRED
+WR00EE,EQP,,,,,,47,TS_3,,,,,,,WR,238,WREE
+WR00EF,EQP,,,,,,48,TS_3,,,,,,,WR,239,WREF
+WR00F0,EQP,,,,,,49,TS_3,,,,,,,WR,240,WRF0
+WR00F1,EQP,Alarm Report Index,Binary,,EQ,Alarm_Report_Index,50,TS_3,,,,,,,WR,241,WRF1
+WR00F2,EQP,Alarm Code (1-19),Binary,,EQ,Alarm_Code_1_16,51,TS_3,,,,,,,WR,242,WRF2
+WR00F3,EQP,Alarm Code (17-35),Binary,,EQ,Alarm_Code_17_32,52,TS_3,,,,,,,WR,243,WRF3
+WR00F4,EQP,Alarm Code (33-51),Binary,,EQ,Alarm_Code_33_48,53,TS_3,,,,,,,WR,244,WRF4
+WR00F5,EQP,,,,,,,TS_3,,,,,,,WR,245,WRF5
+WR00F6,EQP,,,,,,,TS_3,,,,,,,WR,246,WRF6
+WR00F7,EQP,,,,,,,TS_3,,,,,,,WR,247,WRF7
+WR00F8,EQP,,,,,,,TS_3,,,,,,,WR,248,WRF8
+WR00F9,EQP,,,,,,,TS_3,,,,,,,WR,249,WRF9
+WR00FA,EQP,,,,,,,TS_3,,,,,,,WR,250,WRFA
+WR00FB,EQP,,,,,,,TS_3,,,,,,,WR,251,WRFB
+WR00FC,EQP,,,,,,,TS_3,,,,,,,WR,252,WRFC
+WR00FD,EQP,,,,,,,TS_3,,,,,,,WR,253,WRFD
+WR00FE,EQP,,,,,,,TS_3,,,,,,,WR,254,WRFE
+WR00FF,EQP,,,,,,,TS_3,,,,,,,WR,255,WRFF

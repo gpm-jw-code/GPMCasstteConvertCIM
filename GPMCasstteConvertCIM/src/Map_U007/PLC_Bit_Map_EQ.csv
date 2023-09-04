@@ -319,9 +319,9 @@ X013C,EQP,,Boolean,,PORT2,,,AOS_4,,,,,,,X,316,X13C
 X013D,EQP,,Boolean,,PORT2,,,AOS_4,,,,,,,X,317,X13D
 X013E,EQP,,Boolean,,PORT2,,,AOS_4,,,,,,,X,318,X13E
 X013F,EQP,,Boolean,,PORT2,,,AOS_4,,,,,,,X,319,X13F
-X0140,EQP,EQP Status Run,Boolean,,PORT1,EQP_RUN,,TS_1,,,,,,,X,320,X140
-X0141,EQP,EQP Status Idle,Boolean,,PORT1,EQP_IDLE,,TS_1,,,,,,,X,321,X141
-X0142,EQP,EQP Status Down,Boolean,,PORT1,EQP_DOWN,,TS_1,,,,,,,X,322,X142
+X0140,EQP,EQP Status Run,Boolean,,EQ,EQP_RUN,,TS_1,,,,,,,X,320,X140
+X0141,EQP,EQP Status Idle,Boolean,,EQ,EQP_IDLE,,TS_1,,,,,,,X,321,X141
+X0142,EQP,EQP Status Down,Boolean,,EQ,EQP_DOWN,,TS_1,,,,,,,X,322,X142
 X0143,EQP,,Boolean,,PORT1,,,TS_1,,,,,,,X,323,X143
 X0144,EQP,,Boolean,,PORT1,,,TS_1,,,,,,,X,324,X144
 X0145,EQP,,Boolean,,PORT1,,,TS_1,,,,,,,X,325,X145
@@ -447,9 +447,9 @@ X01BC,EQP,,Boolean,,,,,TS_1,,,,,,,X,444,X1BC
 X01BD,EQP,,Boolean,,,,,TS_1,,,,,,,X,445,X1BD
 X01BE,EQP,,Boolean,,,,,TS_1,,,,,,,X,446,X1BE
 X01BF,EQP,,Boolean,,,,,TS_1,,,,,,,X,447,X1BF
-X01C0,EQP,EQP Status Run,Boolean,,PORT1,EQP_RUN,,TS_2_1,,,,,,,X,448,X1C0
-X01C1,EQP,EQP Status Idle,Boolean,,PORT1,EQP_IDLE,,TS_2_1,,,,,,,X,449,X1C1
-X01C2,EQP,EQP Status Down,Boolean,,PORT1,EQP_DOWN,,TS_2_1,,,,,,,X,450,X1C2
+X01C0,EQP,EQP Status Run,Boolean,,EQ,EQP_RUN,,TS_2_1,,,,,,,X,448,X1C0
+X01C1,EQP,EQP Status Idle,Boolean,,EQ,EQP_IDLE,,TS_2_1,,,,,,,X,449,X1C1
+X01C2,EQP,EQP Status Down,Boolean,,EQ,EQP_DOWN,,TS_2_1,,,,,,,X,450,X1C2
 X01C3,EQP,,Boolean,,PORT1,,,TS_2_1,,,,,,,X,451,X1C3
 X01C4,EQP,,Boolean,,PORT1,,,TS_2_1,,,,,,,X,452,X1C4
 X01C5,EQP,,Boolean,,PORT1,,,TS_2_1,,,,,,,X,453,X1C5
@@ -575,9 +575,9 @@ X023C,EQP,,Boolean,,,,,TS_2_1,,,,,,,X,572,X23C
 X023D,EQP,,Boolean,,,,,TS_2_1,,,,,,,X,573,X23D
 X023E,EQP,,Boolean,,,,,TS_2_1,,,,,,,X,574,X23E
 X023F,EQP,,Boolean,,,,,TS_2_1,,,,,,,X,575,X23F
-X0240,EQP,EQP Status Run,Boolean,,PORT1,EQP_RUN,,TS_2_2,,,,,,,X,576,X240
-X0241,EQP,EQP Status Idle,Boolean,,PORT1,EQP_IDLE,,TS_2_2,,,,,,,X,577,X241
-X0242,EQP,EQP Status Down,Boolean,,PORT1,EQP_DOWN,,TS_2_2,,,,,,,X,578,X242
+X0240,EQP,EQP Status Run,Boolean,,EQ,EQP_RUN,,TS_2_2,,,,,,,X,576,X240
+X0241,EQP,EQP Status Idle,Boolean,,EQ,EQP_IDLE,,TS_2_2,,,,,,,X,577,X241
+X0242,EQP,EQP Status Down,Boolean,,EQ,EQP_DOWN,,TS_2_2,,,,,,,X,578,X242
 X0243,EQP,,Boolean,,PORT1,,,TS_2_2,,,,,,,X,579,X243
 X0244,EQP,,Boolean,,PORT1,,,TS_2_2,,,,,,,X,580,X244
 X0245,EQP,,Boolean,,PORT1,,,TS_2_2,,,,,,,X,581,X245
@@ -703,9 +703,9 @@ X02BC,EQP,,Boolean,,,,,TS_2_2,,,,,,,X,700,X2BC
 X02BD,EQP,,Boolean,,,,,TS_2_2,,,,,,,X,701,X2BD
 X02BE,EQP,,Boolean,,,,,TS_2_2,,,,,,,X,702,X2BE
 X02BF,EQP,,Boolean,,,,,TS_2_2,,,,,,,X,703,X2BF
-X02C0,EQP,EQP Status Run,Boolean,,PORT1,EQP_RUN,,TS_3,,,,,,,X,704,X2C0
-X02C1,EQP,EQP Status Idle,Boolean,,PORT1,EQP_IDLE,,TS_3,,,,,,,X,705,X2C1
-X02C2,EQP,EQP Status Down,Boolean,,PORT1,EQP_DOWN,,TS_3,,,,,,,X,706,X2C2
+X02C0,EQP,EQP Status Run,Boolean,,EQ,EQP_RUN,,TS_3,,,,,,,X,704,X2C0
+X02C1,EQP,EQP Status Idle,Boolean,,EQ,EQP_IDLE,,TS_3,,,,,,,X,705,X2C1
+X02C2,EQP,EQP Status Down,Boolean,,EQ,EQP_DOWN,,TS_3,,,,,,,X,706,X2C2
 X02C3,EQP,,Boolean,,PORT1,,,TS_3,,,,,,,X,707,X2C3
 X02C4,EQP,,Boolean,,PORT1,,,TS_3,,,,,,,X,708,X2C4
 X02C5,EQP,,Boolean,,PORT1,,,TS_3,,,,,,,X,709,X2C5
