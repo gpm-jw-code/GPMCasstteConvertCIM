@@ -66,7 +66,7 @@ namespace GPMCasstteConvertCIM.Emulators
         }
 
 
-        private int CIM_StartHoldingRegisterNumber => casstte_port.converterParent.LinkWordMap.FindAll(mem => mem.Link_Modbus_Register_Number != -1).OrderBy(mem => mem.Link_Modbus_Register_Number).ToList().FirstOrDefault(mem => mem.EOwner == OWNER.CIM).Link_Modbus_Register_Number - 1;
+        private int CIM_StartHoldingRegisterNumber => casstte_port.EQParent.LinkWordMap.FindAll(mem => mem.Link_Modbus_Register_Number != -1).OrderBy(mem => mem.Link_Modbus_Register_Number).ToList().FirstOrDefault(mem => mem.EOwner == OWNER.CIM).Link_Modbus_Register_Number - 1;
 
         private void UscAGVSModbusClientEmulator_Load(object sender, EventArgs e)
         {
@@ -83,9 +83,9 @@ namespace GPMCasstteConvertCIM.Emulators
 
 
             string PortName = $"PORT{casstte_port.Properties.PortNo + 1}";
-            List<CasstteConverter.Data.clsMemoryAddress> modbus_linked_addresses = casstte_port.converterParent.LinkBitMap.FindAll(mem => mem.EOwner == OWNER.EQP && mem.EScope.ToString() == PortName && mem.Link_Modbus_Register_Number != -1);
-            List<CasstteConverter.Data.clsMemoryAddress> DI_modbus_linked_addresses = casstte_port.converterParent.LinkBitMap.FindAll(mem => mem.EOwner == OWNER.CIM && mem.EScope.ToString() == PortName && mem.Link_Modbus_Register_Number != -1);
-            List<CasstteConverter.Data.clsMemoryAddress> word_address = casstte_port.converterParent.LinkWordMap.FindAll(mem => mem.Link_Modbus_Register_Number != -1).OrderBy(mem => mem.Link_Modbus_Register_Number).ToList();
+            List<CasstteConverter.Data.clsMemoryAddress> modbus_linked_addresses = casstte_port.EQParent.LinkBitMap.FindAll(mem => mem.EOwner == OWNER.EQP && mem.EScope.ToString() == PortName && mem.Link_Modbus_Register_Number != -1);
+            List<CasstteConverter.Data.clsMemoryAddress> DI_modbus_linked_addresses = casstte_port.EQParent.LinkBitMap.FindAll(mem => mem.EOwner == OWNER.CIM && mem.EScope.ToString() == PortName && mem.Link_Modbus_Register_Number != -1);
+            List<CasstteConverter.Data.clsMemoryAddress> word_address = casstte_port.EQParent.LinkWordMap.FindAll(mem => mem.Link_Modbus_Register_Number != -1).OrderBy(mem => mem.Link_Modbus_Register_Number).ToList();
 
             for (int i = 1; i <= 255; i++)
             {

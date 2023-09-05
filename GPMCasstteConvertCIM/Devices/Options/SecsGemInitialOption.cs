@@ -5,7 +5,7 @@ namespace GPMCasstteConvertCIM.Devices
 {
     public partial class DevicesManager
     {
-        public static UscEQStatus EqStatusUI { get; internal set; }
+
 
         public class SecsGemInitialOption : InitialOption
         {

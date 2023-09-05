@@ -1,0 +1,18 @@
+{
+  "Simulation": false,
+  "Log": {
+    "SyslogFolder": "D:\\CIMLOG",
+    "LogFileUnit": "ByHour"
+  },
+  "SECS": {
+    "T3": 45000,
+    "T5": 10000,
+    "T6": 5000,
+    "T7": 10000,
+    "T8": 5000,
+    "LinkTestInterval": 60000,
+    "SocketRecieveBufferSize": 32768,
+    "ASCIIEncoding": 0
+  },
+  "Project": "U007"
+}

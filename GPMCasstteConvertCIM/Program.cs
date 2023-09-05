@@ -20,11 +20,33 @@ namespace GPMCasstteConvertCIM
             // see https://aka.ms/applicationconfiguration.
             Application.SetCompatibleTextRenderingDefault(false);
             ApplicationConfiguration.Initialize();
+
+            StartBGAPP();
             Application.Run(new frmMain());
         }
-        private static void BuildHttpService()
+
+
+        private static void StartBGAPP()
         {
+            var pros = Process.GetProcessesByName("GPMBGAPP");
+            if (pros.Length == 0)
+            {
+                string folder = Path.Combine(Environment.CurrentDirectory, "BackgroundApp");
+                string filePath = Path.Combine(folder, "GPMBGAPP.exe");
+                if (File.Exists(filePath))
+                {
+                    ProcessStartInfo startInfo = new ProcessStartInfo()
+                    {
+                        UseShellExecute = false,
+                        WorkingDirectory = folder,
+                        FileName = filePath,
+                        CreateNoWindow = true,
+                    };
+                    Process.Start(startInfo);
+                }
+            }
         }
+
         private static void CheckProgramOpenState()
         {
             var pros = Process.GetProcessesByName(Application.ProductName);

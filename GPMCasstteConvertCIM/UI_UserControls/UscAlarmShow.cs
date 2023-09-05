@@ -14,7 +14,7 @@ namespace GPMCasstteConvertCIM.UI_UserControls
 {
     public partial class UscAlarmShow : UserControl
     {
-        public List<clsAlarmDto> alarms => AlarmManager.AlarmsList;
+        public List<clsAlarmDto> alarms => AlarmManager.AlarmsList.ToList();
         private bool hasAlarm => alarms.Count > 0;
         private int playingAlarmIndex = 0;
         public bool showAlarmResetBtn
@@ -46,13 +46,11 @@ namespace GPMCasstteConvertCIM.UI_UserControls
                 playingAlarmIndex = 0;
                 return;
             }
-
             if (playingAlarmIndex >= alarms.Count)
             {
                 playingAlarmIndex = 0;
                 return;
             }
-
             var alarm = alarms[playingAlarmIndex];
             if (alarm != null)
             {
@@ -78,8 +76,8 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             Color textColor = Color.Black;
             if (level == ALARM_LEVEL.None)
             {
-                bgColor = Color.Gray;
-                textColor = Color.Black;
+                bgColor = Color.FromArgb(0, 57, 155);
+                textColor = Color.White;
             }
             else if (level == ALARM_LEVEL.WARNING)
             {
@@ -90,7 +88,7 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             else
             {
                 //alrm
-                bgColor = Color.Red;
+                bgColor =  Color.FromArgb(255, 92, 97);
                 textColor = Color.White;
             }
 

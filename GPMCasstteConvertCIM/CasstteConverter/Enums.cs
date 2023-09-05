@@ -43,11 +43,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             AOS_3,
             AOS_4,
             TS_1,
-            TS_2,
+            TS_2_1,
+            TS_2_2,
             TS_3,
-            TS_4,
             Unkown
-
         }
         public enum EQ_SCOPE
         {
@@ -132,7 +131,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             Carrier_WaitIn_System_Reply,
             Carrier_WaitIn_System_Accept,
             Carrier_WaitIn_System_Refuse,
-            Carrier_WawitOut_System_Reply,
+            Carrier_WaitOut_System_Reply,
             Carrier_Removed_Completed_Report_Reply,
             Carrier_Force_In_System_Reply,
             To_EQ_Up,

@@ -34,9 +34,9 @@ namespace GPMCasstteConvertCIM
                 var crMsg = MsgHelper.COMMUNICATION.EstablishCommunicationRequestMessage("Model_SN_123", "v1.2.3");
                 var secondMesg = await SECSEmulatorManager.mcsEmulator.secsIF.secsGem.SendAsync(crMsg);
 
-                if (secondMesg.TryGetConnectRequestAckResult(out MsgHelper.COMMACK ack, out string _mdln, out string softrev))
+                if (secondMesg.TryGetConnectRequestAckResult(out COMMACK ack, out string _mdln, out string softrev))
                 {
-                    if (ack != MsgHelper.COMMACK.Accepted)
+                    if (ack != COMMACK.Accepted)
                     {
                         MessageBox.Show($"Connect Establish Fail..{ack.ToString()}");
                         return;
@@ -92,13 +92,13 @@ namespace GPMCasstteConvertCIM
         private async void btnSendPortTypeChangeMsg_Click(object sender, EventArgs e)
         {
              var msg = MsgHelper.RemoteCommand.PortTypeChange(txbPortID.Text, (PortUnitType)cmbPortTypeSelector.SelectedItem);
-            var rpt = await SECSEmulatorManager.mcsEmulator.secsIF.SendAsync(msg);
+            var rpt = await SECSEmulatorManager.mcsEmulator.secsIF.SendMsg(msg);
         }
 
         private async void btnTransferTask_Click(object sender, EventArgs e)
         {
 
-            var reply = await SECSEmulatorManager.mcsEmulator.secsIF.SendAsync(new SecsMessage(2, 49)
+            var reply = await SECSEmulatorManager.mcsEmulator.secsIF.SendMsg(new SecsMessage(2, 49)
             {
                 SecsItem =
                 Item.L(

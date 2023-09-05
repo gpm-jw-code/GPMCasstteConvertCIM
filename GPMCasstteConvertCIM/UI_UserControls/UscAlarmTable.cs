@@ -24,19 +24,27 @@ namespace GPMCasstteConvertCIM.UI_UserControls
         {
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
             {
-                var alarm = dataGridView1.Rows[e.RowIndex].DataBoundItem as clsAlarmDto;
-                if (alarm != null)
+                try
                 {
-                    dataGridView1.Rows[e.RowIndex].DefaultCellStyle.BackColor = alarm.Level == ALARM_LEVEL.ALARM ? Color.Red : Color.Orange;
-                    dataGridView1.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.White;
-                }
+                    var alarm = dataGridView1.Rows[e.RowIndex].DataBoundItem as clsAlarmDto;
+                    if (alarm != null)
+                    {
+                        dataGridView1.Rows[e.RowIndex].DefaultCellStyle.BackColor = alarm.Level == ALARM_LEVEL.ALARM ? Color.FromArgb(255, 92, 97) : Color.FromArgb(255, 126, 0);
+                        dataGridView1.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.White;
+                    }
 
-                var val = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
-                if (val is DateTime)
-                {
-                    e.Value = ((DateTime)val).ToString("yyyy/MM/dd HH:mm:ss");
-                    e.FormattingApplied = true;
+                    var val = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+                    if (val is DateTime)
+                    {
+                        e.Value = ((DateTime)val).ToString("yyyy/MM/dd HH:mm:ss");
+                        e.FormattingApplied = true;
+                    }
                 }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+             
             }
         }
 

@@ -10,6 +10,7 @@ using Secs4Net;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -41,7 +42,7 @@ namespace GPMCasstteConvertCIM.Devices
         /// <summary>
         /// 轉換架1
         /// </summary>
-        internal static List<CasstteConverter.clsCasstteConverter> casstteConverters = new List<CasstteConverter.clsCasstteConverter>();
+        internal static List<clsCasstteConverter> casstteConverters = new List<CasstteConverter.clsCasstteConverter>();
 
 
         internal static List<GPM_Modbus.ModbusTCPServer> modbus_servers = new List<GPM_Modbus.ModbusTCPServer>();
@@ -49,6 +50,12 @@ namespace GPMCasstteConvertCIM.Devices
         internal static event EventHandler<ConnectionStateChangeArgs> DeviceConnectionStateOnChanged;
 
         public static clsCCLinkIE_Master cclink_master;
+
+        public static UscEQStatus EqStatusUI { get; internal set; }
+        private static LoggerBase SysLog => Utility.SystemLogger;
+
+        private static string DeviceConnectionConfigName => Utility.SysConfigs.Project == Utilities.SysConfigs.clsSystemConfigs.PROJECT.U003 ? "DevicesConnections.json" : "DevicesConnections-U007.json";
+
         internal static void Connect()
         {
 
@@ -63,47 +70,81 @@ namespace GPMCasstteConvertCIM.Devices
 
             });
 
-            ////Secs host(CIM_AGVS)
-            ///
-            secs_host_for_mcs = new SECSBase("Host_For_MCS");
-            secs_host_for_mcs.ConnectionChanged += SECS_E_ConnectionChangeHandle;
-            secs_host_for_mcs.OnPrimaryMessageRecieve += MCSMessageHandler.PrimaryMessageOnReceivedAsync; ;
-            secs_host_for_mcs.Active(DevicesConnectionsOpts.SECS_HOST.ToSecsGenOptions(), DevicesConnectionsOpts.SECS_HOST.logRichTextBox, DevicesConnectionsOpts.SECS_HOST.dgvSendBufferTable, DevicesConnectionsOpts.SECS_HOST.dgvRevBufferTable);
-
-            ////Secs client(CIM_MCS)
-            secs_client_for_agvs = new SECSBase("Client_For_AGVS");
-            secs_client_for_agvs.ConnectionChanged += SECS_H_ConnectionChangeHandle;
-            secs_client_for_agvs.OnPrimaryMessageRecieve += AGVSMessageHandler.PrimaryMessageOnReceivedAsync;
-            secs_client_for_agvs.Active(DevicesConnectionsOpts.SECS_CLIENT.ToSecsGenOptions(), DevicesConnectionsOpts.SECS_CLIENT.logRichTextBox, DevicesConnectionsOpts.SECS_CLIENT.dgvSendBufferTable, DevicesConnectionsOpts.SECS_CLIENT.dgvRevBufferTable);
-
-            cclink_master = new clsCCLinkIE_Master("CCLINK_MASTER", EqStatusUI);
-            cclink_master.ActiveAsync(new McInterfaceOptions { });
-            foreach (Options.ConverterEQPInitialOption item in DevicesConnectionsOpts.PLCEQS)
+            try
             {
-                try
+                ////Secs host(CIM_AGVS)
+                ///
+                secs_host_for_mcs = new SECSBase("MCS");
+                secs_host_for_mcs.ConnectionChanged += SECS_E_ConnectionChangeHandle;
+                secs_host_for_mcs.OnPrimaryMessageRecieve += MCSMessageHandler.PrimaryMessageOnReceivedAsync; ;
+                secs_host_for_mcs.Active(DevicesConnectionsOpts.SECS_HOST.ToSecsGenOptions(), DevicesConnectionsOpts.SECS_HOST.logRichTextBox, DevicesConnectionsOpts.SECS_HOST.dgvSendBufferTable, DevicesConnectionsOpts.SECS_HOST.dgvRevBufferTable);
+            }
+            catch (Exception ex)
+            {
+
+            }
+            try
+            {
+
+                ////Secs client(CIM_MCS)
+                secs_client_for_agvs = new SECSBase("AGVS");
+                secs_client_for_agvs.ConnectionChanged += SECS_H_ConnectionChangeHandle;
+                secs_client_for_agvs.OnPrimaryMessageRecieve += AGVSMessageHandler.PrimaryMessageOnReceivedAsync;
+                secs_client_for_agvs.Active(DevicesConnectionsOpts.SECS_CLIENT.ToSecsGenOptions(), DevicesConnectionsOpts.SECS_CLIENT.logRichTextBox, DevicesConnectionsOpts.SECS_CLIENT.dgvSendBufferTable, DevicesConnectionsOpts.SECS_CLIENT.dgvRevBufferTable);
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            if (Utility.SysConfigs.Project == Utilities.SysConfigs.clsSystemConfigs.PROJECT.U007)
+            {
+                cclink_master = new clsCCLinkIE_Master("CCLINK_MASTER", EqStatusUI);
+                cclink_master.ActiveAsync(new McInterfaceOptions { });
+
+                foreach (Options.ConverterEQPInitialOption item in DevicesConnectionsOpts.PLCEQS)
                 {
-                    clsCCLinkIE_Station EQ = new clsCCLinkIE_Station(item.Eq_Name, item.Ports, cclink_master);
-                    //clsCasstteConverter EQ = new CasstteConverter.clsCasstteConverter(item.Name, (UscCasstteConverter)item.mainUI, item.ConverterType, item.Ports);
-                    EQ.ConnectionStateChanged += CasstteConverter_ConnectionStateChanged;
-                    EQ.ActiveAsync(item.ToMCIFOptions());
-                    casstteConverters.Add(EQ);
-                    cclink_master.Stations.Add(EQ);
+                    try
+                    {
+                        clsCCLinkIE_Station EQ = new clsCCLinkIE_Station(item.Eq_Name, item.Ports, cclink_master);
+                        //clsCasstteConverter EQ = new CasstteConverter.clsCasstteConverter(item.Name, (UscCasstteConverter)item.mainUI, item.ConverterType, item.Ports);
+                        EQ.ConnectionStateChanged += CasstteConverter_ConnectionStateChanged;
+                        EQ.ActiveAsync(item.ToMCIFOptions());
+                        casstteConverters.Add(EQ);
+                        cclink_master.Stations.Add(EQ);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
                 }
-                catch (Exception ex)
+                cclink_master.mainGUI.BindData(cclink_master.AllEqPortList);
+            }
+            else
+            {
+
+                foreach (Options.ConverterEQPInitialOption item in DevicesConnectionsOpts.PLCEQS)
                 {
-                    throw ex;
+                    try
+                    {
+                        var EQ = new clsCasstteConverter(item.DeviceId, item.Name, (UscCasstteConverter)item.mainUI, item.ConverterType, item.Ports);
+                        EQ.ConnectionStateChanged += CasstteConverter_ConnectionStateChanged;
+                        EQ.ActiveAsync(item.ToMCIFOptions());
+                        casstteConverters.Add(EQ);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
                 }
             }
-            cclink_master.mainGUI.BindData(cclink_master.AllEqPortList);
 
-            //foreach (var item in DevicesConnectionsOpts.Modbus_Servers)
-            //{
-            //    var modbus_server = new GPM_Modbus.ModbusTCPServer();
-            //    modbus_server.Active(item, casstteConverters.First(cc => cc.index == item.DeviceId));
-            //    modbus_servers.Add(modbus_server);
-            //}
         }
-
+        public static void SaveDeviceConnectionOpts()
+        {
+            string deviceConnectionCofigsFile = Path.Combine(Utility.configsFolder, "DevicesConnections.json");
+            File.WriteAllText(deviceConnectionCofigsFile, JsonConvert.SerializeObject(DevicesConnectionsOpts, Formatting.Indented));
+        }
         private static void CasstteConverter_ConnectionStateChanged(object? sender, Common.CONNECTION_STATE connectionState)
         {
             //Utility.SystemLogger.Log($"Converter Connecstion State Change:{connectionState}", connectionState != Common.CONNECTION_STATE.CONNECTED ? LoggerBase.LOG_LEVEL.WARNING : LoggerBase.LOG_LEVEL.INFO);
@@ -116,6 +157,30 @@ namespace GPMCasstteConvertCIM.Devices
             var _connectionState = connectionState.ToCommonConnectionState();
             Utility.SystemLogger.Log($"SECS_TO_MCS Connecstion State Change:{connectionState}", _connectionState != Common.CONNECTION_STATE.CONNECTED ? LoggerBase.LOG_LEVEL.WARNING : LoggerBase.LOG_LEVEL.INFO);
             DeviceConnectionStateOnChanged?.Invoke(secs_client_for_agvs, new ConnectionStateChangeArgs(secs_client_for_agvs, CIM_DEVICE_TYPES.SECS_CLIENT, _connectionState));
+
+            if (connectionState == ConnectionState.Selected)
+            {
+                //
+                Task.Run(async () =>
+                {
+                    await Task.Delay(1000);
+                    SysLog.Info($"Start Report Port States To MCS When Connected!");
+                    foreach (clsConverterPort port in GetAllPorts())
+                    {
+                        if (port.Port_Enabled_Report)
+                            port.SecsEventReport(CEID.PortInServiceReport);
+                        else
+                            port.SecsEventReport(CEID.PortOutOfServiceReport);
+
+                        if (port.PortType == 0)
+                            port.SecsEventReport(CEID.PortTypeInputReport);
+                        else if (port.PortType == 1)
+                            port.SecsEventReport(CEID.PortTypeOutputReport);
+                    }
+                    SysLog.Info($"Report Port States To MCS Done");
+
+                });
+            }
             //uscConnectionStates1.SECS_E_ConnectionChange(obj);
         }
 
@@ -126,11 +191,7 @@ namespace GPMCasstteConvertCIM.Devices
             DeviceConnectionStateOnChanged?.Invoke(secs_host_for_mcs, new ConnectionStateChangeArgs(secs_host_for_mcs, CIM_DEVICE_TYPES.SECS_HOST, _connectionState));
             //uscConnectionStates1.SECS_H_ConnectionChange(e);
         }
-        public static void SaveDeviceConnectionOpts()
-        {
-            string deviceConnectionCofigsFile = Path.Combine(Utility.configsFolder, "DevicesConnections.json");
-            File.WriteAllText(deviceConnectionCofigsFile, JsonConvert.SerializeObject(DevicesConnectionsOpts, Formatting.Indented));
-        }
+
         public static void LoadDeviceConnectionOpts(out bool config_error, out bool eqplc_config_error, out string errorMsg)
         {
             errorMsg = "";
@@ -139,19 +200,13 @@ namespace GPMCasstteConvertCIM.Devices
             Directory.CreateDirectory(Utility.configsFolder);
             try
             {
-                string deviceConnectionCofigsFile = Path.Combine(Utility.configsFolder, "DevicesConnections.json");
+                string deviceConnectionCofigsFile = Path.Combine(Utility.configsFolder, DeviceConnectionConfigName);
                 if (File.Exists(deviceConnectionCofigsFile))
                 {
                     DevicesConnectionsOpts = JsonConvert.DeserializeObject<DeviceConnectionOptions>(File.ReadAllText(deviceConnectionCofigsFile));
                 }
                 File.WriteAllText(deviceConnectionCofigsFile, JsonConvert.SerializeObject(DevicesConnectionsOpts, Formatting.Indented));
 
-                //check
-                //eqplc_config_error = DevicesConnectionsOpts.PLCEQS.Any(eqp => (eqp.ConverterType == Enums.CONVERTER_TYPE.IN_SYS && eqp.Ports.Count != 1) | (eqp.ConverterType == Enums.CONVERTER_TYPE.SYS_2_SYS && eqp.Ports.Count != 2));
-                //if (eqplc_config_error)
-                //{
-                //    errorMsg = "轉換架類型與Port數量不匹配";
-                //}
             }
             catch (Exception ex)
             {
@@ -163,15 +218,7 @@ namespace GPMCasstteConvertCIM.Devices
 
         internal static List<clsConverterPort> GetAllPorts()
         {
-            List<clsConverterPort> portlist = new List<clsConverterPort>();
-            foreach (var eq in casstteConverters)
-            {
-                foreach (var port in eq.PortDatas)
-                {
-                    portlist.Add(port);
-                } 
-            }
-            return portlist;
+            return casstteConverters.SelectMany(cst => cst.PortDatas).ToList();
         }
         internal static clsConverterPort GetPortByPortID(string port_id)
         {

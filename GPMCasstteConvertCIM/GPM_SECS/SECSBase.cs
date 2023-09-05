@@ -4,16 +4,18 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using GPMCasstteConvertCIM.Alarm;
 using GPMCasstteConvertCIM.Utilities;
 using Microsoft.Extensions.Options;
 using Secs4Net;
+using Secs4Net.Sml;
 
 namespace GPMCasstteConvertCIM.GPM_SECS
 {
     internal class SECSBase
     {
-
+        public static event EventHandler<API.WebsocketSupport.ViewModel.SecsLogViewModel> OnPrimaryMsgSendOut;
         public Action<ConnectionState> ConnectionChanged { get; internal set; }
         public string name { get; }
 
@@ -31,6 +33,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS
 
         private DataGridView? SendBufferDgvTable;
         private DataGridView? RevBufferDgvTable;
+        private LoggerBase Syslogger => Utility.SystemLogger;
 
         internal SECSBase(string name)
         {
@@ -87,18 +90,14 @@ namespace GPMCasstteConvertCIM.GPM_SECS
                             {
                                 await Task.Delay(1);
                             }
-
                             AddPrimaryMsgToRevBuffer(primaryMessage);
 
                         });
-
                     }
                     else
                     {
                         AddPrimaryMsgToRevBuffer(primaryMessage);
-
                     }
-
                 }
             }
             catch (OperationCanceledException)
@@ -109,19 +108,6 @@ namespace GPMCasstteConvertCIM.GPM_SECS
             {
                 throw ex;
             }
-
-            //SecsMessage ms = new SecsMessage(1, 3)
-            //{
-            //    SecsItem = Item.L(
-            //                    Item.A(),
-            //                    Item.U2(),
-            //                    Item.U2()
-            //         )
-            //};
-
-
-            //SecsMessage ReplyMsg = await secsGem.SendAsync(ms);
-            //ReplyMsg.SecsItem.Items[0].Items[1].FirstValue<byte>();
         }
 
         /// <summary>
@@ -130,13 +116,14 @@ namespace GPMCasstteConvertCIM.GPM_SECS
         /// <param name="message"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        internal async Task<SecsMessage> SendAsync(SecsMessage message, CancellationToken cancellationToken = default)
+        internal async Task<SecsMessage> SendMsg(SecsMessage message, CancellationToken cancellationToken = default)
         {
             return await Task.Run(async () =>
             {
-                SecsMessage? secondaryMessage = null;
                 try
                 {
+                    MsgSendOutInvokeHandle(message, true);
+                    SecsMessage? secondaryMessage = null;
                     secondaryMessage = await secsGem?.SendAsync(message, cancellationToken);
                     try
                     {
@@ -144,25 +131,40 @@ namespace GPMCasstteConvertCIM.GPM_SECS
                     }
                     catch (Exception ex)
                     {
+                        Syslogger.Error("SECSBase SendAsync Error", ex);
+                    }
 
-                    }
-                    if (secondaryMessage.S == 6 && secondaryMessage.F == 12)
-                    {
-                        secondaryMessage.TryGetEventReportAckResult(out SECSMessageHelper.ACKC6 ack);
-                        if (ack != SECSMessageHelper.ACKC6.Accpeted)
-                        {
-                            AlarmManager.AddWarning(ALARM_CODES.EVENT_REPORT_COMPLETED_BUT_ACK_IS_SYSTEM_ERROR_65, "SECS BASE");
-                        }
-                    }
+                    MsgSendOutInvokeHandle(secondaryMessage, false);
                     return secondaryMessage;
                 }
                 catch (Exception ex)
                 {
-                    return secondaryMessage;
+                    Syslogger.Error("SECSBase SendAsync Error", ex);
+                    return SECSMessageHelper.S9F7_IllegalDataMsg();
                 }
             });
         }
 
+        internal void MsgSendOutInvokeHandle(SecsMessage message, bool IsSend)
+        {
+            _ = Task.Factory.StartNew(() =>
+            {
+                try
+                {
+                    OnPrimaryMsgSendOut?.Invoke(this, new API.WebsocketSupport.ViewModel.SecsLogViewModel
+                    {
+                        Direction = $" {(IsSend ? $"CIM-->{name}" : $" {name}-->CIM ")}",
+                        Time = DateTime.Now,
+                        SxFx = $"S{message.S}F{message.F} {(message.ReplyExpected ? "W" : "")}",
+                        Sml = message.ToSml()
+                    });
+                }
+                catch (Exception ex)
+                {
+                }
+
+            });
+        }
 
         private void AddPrimaryMsgToRevBuffer(PrimaryMessageWrapper primaryMessage)
         {

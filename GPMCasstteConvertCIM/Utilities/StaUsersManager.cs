@@ -60,7 +60,7 @@ namespace GPMCasstteConvertCIM.Utilities
                 {
                     Group = USER_GROUP.GPM_RD,
                     Name = "Developer"
-                }; 
+                };
                 OnRD_Login?.Invoke("", EventArgs.Empty);
 
                 return true;
@@ -85,8 +85,6 @@ namespace GPMCasstteConvertCIM.Utilities
             {
                 Group = USER_GROUP.VISITOR
             };
-            OnLogout?.Invoke("", EventArgs.Empty);
-
         }
     }
 }

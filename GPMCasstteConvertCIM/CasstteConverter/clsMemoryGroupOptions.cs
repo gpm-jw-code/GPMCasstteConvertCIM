@@ -92,8 +92,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         {
             get
             {
-                bitStartAddress.SplitAddress(IsBitHexTable, out _, out int startNumber);
-                bitEndAddress.SplitAddress(IsBitHexTable, out _, out int endNumber);
+                bitStartAddress.SplitAddress(IsBitHexTable, out _, out int startNumber,out string startStr);
+                bitEndAddress.SplitAddress(IsBitHexTable, out _, out int endNumber, out startStr);
                 return endNumber - startNumber + 1;
             }
         }
@@ -101,8 +101,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         {
             get
             {
-                wordStartAddress.SplitAddress(IsWordHexTable, out _, out int startNumber);
-                wordEndAddress.SplitAddress(IsWordHexTable, out _, out int endNumber);
+                wordStartAddress.SplitAddress(IsWordHexTable, out _, out int startNumber, out string addressNumtStr);
+                wordEndAddress.SplitAddress(IsWordHexTable, out _, out int endNumber, out addressNumtStr);
                 return endNumber - startNumber + 1;
             }
         }
@@ -112,7 +112,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         {
             get
             {
-                bitStartAddress.SplitAddress(true, out string bitRegionName, out int bitStartNumber);
+                bitStartAddress.SplitAddress(true, out string bitRegionName, out int bitStartNumber, out string addressNumtStr);
                 List<string> output = new List<string>();
 
                 for (int i = 0; i < bitSize; i++)
@@ -128,7 +128,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         {
             get
             {
-                wordStartAddress.SplitAddress(true, out string wordRegionName, out int wordStartNumber);
+                wordStartAddress.SplitAddress(true, out string wordRegionName, out int wordStartNumber, out string addressNumtStr);
                 List<string> output = new List<string>();
 
                 for (int i = 0; i < wordSize; i++)

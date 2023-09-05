@@ -6,6 +6,8 @@
     <Nullable>enable</Nullable>
 
     <IsPackable>false</IsPackable>
+
+    <Platforms>AnyCPU;x86</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,6 +19,15 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GPMCasstteConvertCIM\GPMCasstteConvertCIM.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="CIMComponent">
+      <HintPath>..\..\..\..\..\ProjectProgram\Smart IOT\dll\CIMComponent.dll</HintPath>
+    </Reference>
+    <Reference Include="Secs4Net.Sml">
+      <HintPath>..\GPMCasstteConvertCIM\src\Secs4Net.Sml.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>

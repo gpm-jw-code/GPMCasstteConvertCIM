@@ -1,46 +1,44 @@
-﻿using GPMCasstteConvertCIM.Devices;
-using GPMCasstteConvertCIM.GPM_SECS;
+﻿using GPMCasstteConvertCIM.Alarm;
+using GPMCasstteConvertCIM.CasstteConverter;
+using GPMCasstteConvertCIM.Devices;
 using GPMCasstteConvertCIM.Utilities;
 using Secs4Net;
 using Secs4Net.Sml;
 using static Secs4Net.Item;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GPMCasstteConvertCIM.CasstteConverter;
-using System.Diagnostics;
-using static GPMCasstteConvertCIM.GPM_SECS.SECSMessageHelper;
-using GPMCasstteConvertCIM.Alarm;
+using GPMCasstteConvertCIM.GPM_SECS;
+using Microsoft.VisualBasic.Logging;
 
 namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
 {
-    internal class MCSMessageHandler
+    public class MCSMessageHandler
     {
-
-        internal static void PrimaryMessageOnReceivedAsync(object? sender, PrimaryMessageWrapper _primaryMessageWrapper)
+        private static SECSBase AGVS => DevicesManager.secs_client_for_agvs;
+        internal static async void PrimaryMessageOnReceivedAsync(object? sender, PrimaryMessageWrapper _primaryMessageWrapper)
         {
             var secs_client = sender as SECSBase;
             using SecsMessage _primaryMessage = _primaryMessageWrapper.PrimaryMessage;
-
             bool reply = false;
 
+            if (_primaryMessage.S == 2 && (_primaryMessage.F == 41 | _primaryMessage.F == 49))
+            {
+                _primaryMessage.TryGetRCMDAction(_primaryMessage.F, out RCMD cmd, out Item parameterGroups);
 
-            if (_primaryMessage.S == 2 && _primaryMessage.F == 33) // Define Report
-            {
-                DefineReport(_primaryMessage);
-            }
-            if (_primaryMessage.S == 2 && _primaryMessage.F == 35) // Link Event Report
-            {
-                LinkEventReport(_primaryMessage);
-            }
-            if (_primaryMessage.S == 2 && _primaryMessage.F == 41)
-            {
-                _primaryMessage.TryGetRCMDAction_S2F41(out RCMD cmd, out Item parameterGroups);
                 if (cmd == RCMD.PORTTYPECHG)
                 {
                     PortTypeChangeHandler(parameterGroups, _primaryMessageWrapper);
+                    return;
+                }
+                if (cmd == RCMD.TRANSFER)
+                {
+                    (bool confirm, ALARM_CODES alarmcode) handleResult = await TransferHandler(parameterGroups, _primaryMessageWrapper);
+                    //if (!handleResult.confirm)
+                    //{
+                    //    return;
+                    //}
+                }
+                if (cmd == RCMD.NOTRANSFERNOTIFY)
+                {
+                    NoTransferHandler(_primaryMessageWrapper);
                     return;
                 }
             }
@@ -49,29 +47,128 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
 
         }
 
+        private static async Task<(bool confirm, ALARM_CODES alarmcode)> TransferHandler(Item parameterGroups, PrimaryMessageWrapper primaryMessageWrapper)
+        {
+            Item transfer_info = parameterGroups.Items[1];
+            string carrier_id = transfer_info.Items[1].Items[0].Items[1].GetString();
+            clsConverterPort? port_match_carrier_id = DevicesManager.GetAllPorts().FirstOrDefault(port => port.WIPINFO_BCR_ID == carrier_id);
+
+            if (port_match_carrier_id != null)
+            {
+                port_match_carrier_id.CstTransferInvoke();
+                bool success = await port_match_carrier_id.WaitLoadUnloadRequestON();
+                if (!success)
+                    return (false, ALARM_CODES.WAIT_Load_Unload_Request_Bit_ON_When_MCS_Transfering);
+            }
+            return (true, ALARM_CODES.None);
+        }
+
+        private static void NoTransferHandler(PrimaryMessageWrapper _primaryMessageWrapper)
+        {
+            try
+            {
+                Item Params = _primaryMessageWrapper.PrimaryMessage.SecsItem.Items[1];
+                SecsMessage S2F42_Reply = new SecsMessage(2, 42, false)
+                {
+                    SecsItem = L(
+                                B((byte)HCACK.Acknowledge_Perform_Later), //command will be perform with completion signaled later by an event
+                                Params
+                        )
+                };
+                _primaryMessageWrapper.TryReplyAsync(S2F42_Reply);
+
+                string cstid = Params.Items[0].Items[1].GetString();
+                string port_id = Params.Items[1].Items[1].GetString();
+
+                Utility.SystemLogger.Info($"MCS NOTRANSFER Notify, PORT ={port_id} , CST ID = {cstid} ");
+
+                var port = DevicesManager.GetPortByPortID(port_id);
+                if (port != null)
+                    port.NoTransferNotifyInovke(port_id, cstid);
+            }
+            catch (Exception ex)
+            {
+                Utility.SystemLogger.Info($"NOTRANSFER, EX = {ex.Message} ");
+            }
+
+
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="parameterGroups"></param>
+        /// <param name="_primaryMessageWrapper"></param>
         private async static void PortTypeChangeHandler(Item parameterGroups, PrimaryMessageWrapper _primaryMessageWrapper)
         {
-            //L(
-            //  L(
-            //     A('PORTID')
-            //     A('port ID')
-            //   )
-
-            //  L(
-            //     A('PORTUNITTYPE')
-            //     U2(0) //0:input,1:output
-            //   )
-            //)
-
+            HCACK ack = HCACK.Acknowledge;
             string port_id = parameterGroups.Items[0].Items[1].GetString();
             ushort port_type = parameterGroups.Items[1].Items[1].FirstValue<ushort>();
+            PortUnitType port_type_to_change = port_type == 0 ? PortUnitType.Input : PortUnitType.Output;
+            _Log($"MCS Port Type Change Request In.  Port ID = {port_id} , Port Type = {port_type_to_change} ");
             clsConverterPort port = DevicesManager.GetPortByPortID(port_id);
-            bool accept = await port.Mode_Change_RequestAsync(port_type == 0 ? PortUnitType.Input : PortUnitType.Output);
-
-            //TODO SEND REPLY TO MCS(PORTTYPECHANGE ack)
-            _primaryMessageWrapper.TryReplyAsync(new SecsMessage(2, 42, false)
+            byte CPACK_PROTID = 0;
+            byte CPACK_PORTTYPE = 0;
+            if (port_type > 1)
+                CPACK_PORTTYPE = 2;
+            else
             {
-            });
+                if (port == null)
+                {
+                    ack = HCACK.At_least_one_parameter_is_invalid;
+                    _Log($"Port ID = {port_id}  Not in cim system");
+                    CPACK_PROTID = 1;
+                }
+                else
+                {
+                    port.MCSReservePortType = port_type_to_change;
+                    if (port.EPortType == port_type_to_change)
+                    {
+                        ack = HCACK.Rejected_Already_in_desired_condition;
+                        _Log($"Port ( {port_id} ) already in {port_type_to_change} Mode.");
+                    }
+                    else
+                    {
+                        bool accept = await port.ModeChangeRequestHandshake(port_type_to_change);
+                        ack = accept ? HCACK.Acknowledge : HCACK.Cannot_Perform_Now;
+                        _Log($"Port ( {port_id} ) {(accept ? "ACCEPT" : "REJECT")}  Port Type Change Request.");
+                    }
+                }
+
+            }
+            SecsMessage replyMsg = null;
+            if (CPACK_PORTTYPE != 0 | CPACK_PROTID != 0)
+            {
+                replyMsg = new SecsMessage(2, 42, false)
+                {
+                    SecsItem = L(
+                                B((byte)HCACK.At_least_one_parameter_is_invalid),
+                                L(
+                                    L(
+                                           A("PORTID"),
+                                           B(CPACK_PROTID)
+                                        )
+                                    ),
+                                    L(
+                                          A("PORTUNITTYPE"),
+                                          B(CPACK_PORTTYPE)
+                                       )
+                                )
+                };
+            }
+            else
+            {
+                replyMsg = new SecsMessage(2, 42, false)
+                {
+                    SecsItem = L(
+                                B(0)
+                            )
+                };
+            }
+
+            await _primaryMessageWrapper.TryReplyAsync(replyMsg);
+            _Log($"Reply MCS Port Type Change Request : {replyMsg.ToSml()}");
+
+            //port.PortTypeReport();
         }
 
         private static async void TransmitMsgToAGVS(PrimaryMessageWrapper _primaryMessageWrapper)
@@ -79,17 +176,50 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
             try
             {
                 var primaryMsgFromMcs = _primaryMessageWrapper.PrimaryMessage;
-                Utility.SystemLogger.Info($"[MCS SECS Message > AGVS] From MCS : {primaryMsgFromMcs.ToSml()}");
+                _primaryMessageWrapper.PrimaryMessage.Name = "MCS_To_CIM";
+                Utility.SystemLogger.SecsTransferLog($"Primary Mesaage From MCS : {primaryMsgFromMcs.ToSml()}");
+
 
                 SecsMessage replyMessage;
+                var S = primaryMsgFromMcs.S;
+                var F = primaryMsgFromMcs.F;
+                var Name = $"S{S}F{F}";
 
-                if (primaryMsgFromMcs.S == 1 && primaryMsgFromMcs.F == 3)
+                if (S == 1 && F == 13)
                 {
+                    SecsMessage Establish_Communication_Request_DENIED_Acknowledge = new SecsMessage(1, 14, false)
+                    {
+                        SecsItem = L(
+                                B((byte)COMMACK.Denied_Try_Again),
+                                L(
+                                    A(""),
+                                    A("")
+                                 )
+                            )
+                    };
+                    if (AGVS.connector == null)
+                    {
+                        Utility.SystemLogger.SecsTransferLog($"AGVS Not Connected, Send S1F14  COMMACK =1 (Denied)");
+                        _primaryMessageWrapper.TryReplyAsync(Establish_Communication_Request_DENIED_Acknowledge);
+                        return;
+                    }
+                    if (AGVS.connector.State != ConnectionState.Selected)
+                    {
+                        Utility.SystemLogger.SecsTransferLog($"AGVS Not Selected, Send S1F14  COMMACK =1 (Denied)");
+                        _primaryMessageWrapper.TryReplyAsync(Establish_Communication_Request_DENIED_Acknowledge);
+                        return;
+                    }
+                }
+
+                if (S == 1 && F == 3) //Selected Equipment Status Request
+                {
+                    Utility.SystemLogger.SecsTransferLog($"Start Transfer To AGVS[{Name}]");
                     replyMessage = await S1F3RequestHandle(primaryMsgFromMcs);
                 }
                 else
                 {
-                    replyMessage = await DevicesManager.secs_client_for_agvs.SendAsync(primaryMsgFromMcs);
+                    Utility.SystemLogger.SecsTransferLog($"Start Transfer To AGVS[{Name}]");
+                    replyMessage = await AGVS.SendMsg(primaryMsgFromMcs);
 
                 }
                 if (replyMessage == null)
@@ -98,27 +228,35 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                 }
                 else
                 {
-                    await Task.Delay(100);
-                    Utility.SystemLogger.Info($"[MCS SECS Message > AGVS] AGVS Reply : {replyMessage.ToSml()}");
+                    Utility.SystemLogger.SecsTransferLog($"AGVS Reply : {replyMessage.ToSml()}");
                     //回傳給MCS
+
                     bool reply_to_mcs_succss = await _primaryMessageWrapper.TryReplyAsync(replyMessage);
                     if (reply_to_mcs_succss)
-                        Utility.SystemLogger.Info($"[MCS SECS Message > AGVS] Message Transfer Finish");
+                        Utility.SystemLogger.SecsTransferLog($"Message Reply to MCS Finish");
                     else
+                    {
+                        Utility.SystemLogger.SecsTransferLog($"Message Reply to MCS Fail..");
                         _AddAlarm(ALARM_CODES.AGVS_REPLY_MCS_MSG_BUT_ERROR_WHEN_REPLY_TO_MCS);
+                    }
                 }
 
             }
             catch (Exception ex)
             {
-                
+
+                Utility.SystemLogger.SecsTransferLog($"Transfer Exception (MCS -> AGVS) ! [{ex}]");
                 _AddAlarm(ALARM_CODES.CODE_EXCEPTION_WHEN_TRANSFER_MSG_TO_AGVS);
             }
 
         }
 
         /// <summary>
-        /// 處理S1F3 , SVID 2005/2009 是CIM要處理但AGVS不處理
+        /// 處理S1F3 , SVID 2005/2007/2009 是CIM要處理的
+        /// 流程:
+        /// 1. 移除2005/2007/2009之後送給KGS，得到回覆Msg
+        /// 2. CIM 處理 2005/2007/2009
+        /// 3. 根據 MCS 下發的 VID順序把KGS跟CIM的資料灌到S1F4裡面
         /// </summary>
         /// <param name="primaryMsgFromMcs"></param>
         /// <returns></returns>
@@ -126,122 +264,158 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
         {
             try
             {
+                List<(ushort vid, Item secs_item)> svid_data_store = new List<(ushort vid, Item secs_item)>();
                 List<Item> svid_items = primaryMsgFromMcs.SecsItem.Items.ToList();
-                Dictionary<ushort, Item> svid_data_store = new Dictionary<ushort, Item>();
 
-                List<Item> itemsToCIM = svid_items.FindAll(item => item.FirstValue<ushort>() is 2005 or 2009);
+                List<Item> itemsToCIM = svid_items.FindAll(item => item.FirstValue<ushort>() is 2005 or 2007 or 2009);
                 if (itemsToCIM.Count > 0)
                 {
                     foreach (var item in itemsToCIM)
                     {
                         var sid = item.FirstValue<ushort>();
-                        if (sid is 2005)
+                        if (sid is 2005)    //CurrentPortStates
                         {
-                            Item[] portStates = CreatePortInfosItem();
-                            svid_data_store.Add(2005, L(portStates));
+                            svid_data_store.Add((2005, L(CreateCurrentPortStatesItem())));
                         }
-                        else if (sid is 2009)
+                        else if (sid is 2007) //CurrEqPortStatus
                         {
-                            Item[] portStates = CreatePortTypesItem();
-                            svid_data_store.Add(2009, L(portStates));
+                            svid_data_store.Add((2007, L(CreateCurrEqPortStatusItem())));
+                        }
+                        else if (sid is 2009) //PortTypes
+                        {
+                            svid_data_store.Add((2009, L(CreatePortInfosItem())));
                         }
                     }
+                    Utility.SystemLogger?.Info($"CIM Create VIDS ({svid_data_store.ToJson()}) Data Content Done");
                 }
-
-                List<Item> itemsToAGVS = svid_items.FindAll(item => item.FirstValue<ushort>() is not 2005 and not 2009);
+                List<Item> itemsToAGVS = svid_items.FindAll(item => item.FirstValue<ushort>() is not 2005 and not 2007 and not 2009);
                 if (itemsToAGVS.Count != 0)
                 {
                     List<Item> toAGVSItems = new List<Item>();
                     foreach (var item in itemsToAGVS)
                         toAGVSItems.Add(U2(item.FirstValue<ushort>()));
 
-                    var AGVSReplyMessage = await DevicesManager.secs_client_for_agvs.SendAsync(new SecsMessage(1, 3)
+                    SecsMessage? AGVSReplyMessage = await AGVS.SendMsg(new SecsMessage(1, 3)
                     {
                         SecsItem = L(toAGVSItems)
                     });
-
+                    bool IsAGVSReplySuccess = !AGVSReplyMessage.IsS9F7();
+                    if (!IsAGVSReplySuccess)
+                    {
+                        AlarmManager.AddAlarm(ALARM_CODES.AGVS_NO_REPLY_FOR_S1F3, "MCSMSGHANDLER");
+                    }
                     for (int i = 0; i < itemsToAGVS.Count; i++)
-                        svid_data_store.Add(itemsToAGVS[i].FirstValue<ushort>(), AGVSReplyMessage.SecsItem.Items[i]);
-
+                    {
+                        try
+                        {
+                            svid_data_store.Add((itemsToAGVS[i].FirstValue<ushort>(), IsAGVSReplySuccess ? AGVSReplyMessage.SecsItem.Items[i] : L()));
+                        }
+                        catch (Exception ex)
+                        {
+                            Utility.SystemLogger?.Info($"Convert secs data from mcs FAIL.{itemsToAGVS[i].ToJson()}\r\n{ex.Message}");
+                        }
+                    }
                 }
                 //Combined
                 List<Item> datas = new List<Item>();
+
+
                 foreach (Item? item in svid_items)
                 {
                     ushort svid = item.FirstValue<ushort>();
-                    bool exist = svid_data_store.TryGetValue(svid, out Item data);
-                    if (exist)
-                        datas.Add(data);
+                    (ushort vid, Item secs_item) item_store = svid_data_store.FirstOrDefault(v => v.vid == svid);
+
+                    if (item_store.secs_item != null)
+                    {
+                        if (item_store.vid == 2004)
+                        {
+
+                            List<Item>? ori = item_store.secs_item.Items.ToList();
+                            Utility.SystemLogger.Info($"SV2004 Expand. Add Port Carrier Info,{ori.Count} ");
+                            Item[]? portInfos = CreateEnhancedCarrierInfo();
+                            ori.AddRange(portInfos);
+                            Item newItem = L(ori);
+                            datas.Add(newItem);
+                            Utility.SystemLogger.Info($"SV2004 Expand Done,{ori.Count} ");
+
+                        }
+                        else
+                        {
+                            datas.Add(item_store.secs_item);
+                        }
+                    }
                 }
 
                 var replyMessage = new SecsMessage(1, 4, false)
                 {
+                    Name = "Selected Equipment Status Reply",
                     SecsItem = L(datas)
                 };
+
+                Utility.SystemLogger?.Info($"S1F3 Reply Message Create Done:\r\n{replyMessage.ToSml()}");
+
                 return replyMessage;
             }
             catch (Exception ex)
             {
+                Utility.SystemLogger.Error("S1F3RequestHandle", ex);
+                _AddAlarm(ALARM_CODES.CIM_HANDLE_S1F3_OCCUR_ERROR);
                 return new SecsMessage(1, 4, false) { };
             }
 
         }
-
-
-        /// <summary>
-        /// 收集轉換架Ports的資訊然後加到回傳MESSAGE裡面
-        /// </summary>
-        /// <param name="primaryMsgFromMcs"></param>
-        /// <param name="secondaryMsgFromAGVS"></param>
-        private static void AppendPortDataToS1F4MessageItems(SecsMessage primaryMsgFromMcs, ref SecsMessage secondaryMsgFromAGVS)
+        public static void AddPortDataToVID2004(ref SecsMessage message)
         {
-            var SVIDItemList = primaryMsgFromMcs.SecsItem.Items.ToList();
-            //找到2009是第幾個
-            Item? CurrentPortStatesItems = SVIDItemList.FirstOrDefault(item => item.FirstValue<ushort>() == 2005);
-            Item? PortTypesItems = SVIDItemList.FirstOrDefault(item => item.FirstValue<ushort>() == 2009);
+        }
+        private static Item[] CreateCurrEqPortStatusItem()
+        {
 
-            //SVID:2005
-            if (CurrentPortStatesItems != null)
+            //<L[4]
+            //<PortID>
+            //<PortTransferState>
+            //<EqReqSatus>
+            //<EqPresenceStatus> >
+            List<clsConverterPort> ports = DevicesManager.GetAllPorts();
+            ports = ports.OrderBy(p => p.Properties.PortID).ToList();
+            Item GetCurrEqPortStatus(clsConverterPort port)
             {
-                int CurrentPortStatesItemsIndex = SVIDItemList.FindIndex(item => item == CurrentPortStatesItems);
-                //
-                Item[] portStates = CreatePortInfosItem();
-                Item[] oriPortStatesItems = secondaryMsgFromAGVS.SecsItem[CurrentPortStatesItemsIndex].Items;
-                List<Item> newPortStateItems = new List<Item>();
-                newPortStateItems.AddRange(oriPortStatesItems);
+                return L(
+                            A(port.Properties.PortID),
+                            U2((ushort)(port.Properties.InSerivce ? 1 : 0)),
+                            U2((ushort)(!port.LoadRequest && !port.UnloadRequest ? 0 : port.LoadRequest ? 1 : 2)),
+                            U2(0)
 
-                foreach (var item in portStates)
-                    newPortStateItems.Add(item);
-
-                //secondaryMsgFromAGVS.SecsItem[CurrentPortStatesItemsIndex] = L(newPortStateItems);
-                secondaryMsgFromAGVS.SecsItem.Items.Append(L(newPortStateItems));
+                        );
             }
+            return ports.Select(port => GetCurrEqPortStatus(port)).ToArray();
 
-            //SVID:2009
-            if (PortTypesItems != null)
-            {
-                int PortTypesIndex = SVIDItemList.FindIndex(item => item == PortTypesItems);
-                Item[] portTypes = CreatePortTypesItem();
-
-                Item[] oriPortTypesItems = secondaryMsgFromAGVS.SecsItem[PortTypesIndex].Items;
-                List<Item> newPortTypesItems = new List<Item>();
-                newPortTypesItems.AddRange(oriPortTypesItems);
-
-                foreach (var item in portTypes)
-                    newPortTypesItems.Add(item);
-
-                //secondaryMsgFromAGVS.SecsItem[PortTypesIndex] = L(newPortTypesItems);
-                secondaryMsgFromAGVS.SecsItem.Items.Append(L(newPortTypesItems));
-
-            }
         }
 
-        private static Item[] CreatePortTypesItem()
+        private static Item[] CreateEnhancedCarrierInfo()
+        {
+            List<clsConverterPort> ports = DevicesManager.GetAllPorts();
+            ports = ports.OrderBy(p => p.Properties.PortID).ToList();
+            Item CarrierInfo(clsConverterPort port)
+            {
+                return L(
+                            A(port.WIPINFO_BCR_ID),
+                            A(port.Properties.PortID),
+                            A(""),
+                            A(port.CarrierInstallTime.ToString("yyyyMMddHHmmssff")),
+                            U2((ushort)(port.PortType == 0 ? 0 : 4))
+                        );
+            }
+            return ports.Select(port => CarrierInfo(port)).ToArray();
+
+        }
+
+        private static Item[] CreateCurrentPortStatesItem()
         {
             //< L[2]
             //  A <PortID>
             //  U2<PortTransferState> 0=out of service; 1= in service
             List<clsConverterPort> ports = DevicesManager.GetAllPorts();
+            ports = ports.OrderBy(p => p.Properties.PortID).ToList();
 
             Item GetPortType(clsConverterPort port)
             {
@@ -260,12 +434,12 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
             //  A <PortID>
             //  U2<PortUnitType> 0=Input ; 1=Output
             List<clsConverterPort> ports = DevicesManager.GetAllPorts();
-
+            ports = ports.OrderBy(p => p.Properties.PortID).ToList();
             Item GetPortTypeInfo(clsConverterPort port)
             {
                 return L(
                             A(port.Properties.PortID),
-                            U2((ushort)port.Properties.PortType)
+                            U2((ushort)(port.EPortType == PortUnitType.Input_Output ? port.MCSReservePortType : port.EPortType))
                         );
             }
 
@@ -275,6 +449,11 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
         private static void _AddAlarm(ALARM_CODES alarm_code)
         {
             AlarmManager.AddAlarm(alarm_code, "MCSMessage Transfer");
+        }
+
+        private static void _Log(string msg)
+        {
+            Utility.SystemLogger.Info(msg);
         }
     }
 }

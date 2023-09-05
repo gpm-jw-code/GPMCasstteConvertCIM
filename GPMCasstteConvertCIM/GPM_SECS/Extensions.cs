@@ -93,15 +93,17 @@ namespace GPMCasstteConvertCIM.GPM_SECS
             }
         }
 
-        public static bool TryGetRCMDAction_S2F41(this SecsMessage priMsg, out RCMD cmd, out Item ParameterGroups)
+        public static bool TryGetRCMDAction(this SecsMessage priMsg, byte F, out RCMD cmd, out Item ParameterGroups)
         {
             ParameterGroups = null;
             cmd = RCMD.REMOVE;
+            int RCMD_Index = F == 41 ? 0 : F == 49 ? 2 : 0;
+            int ParameterGroups_Index = F == 41 ? 1 : F == 49 ? 3 : 0;
             try
             {
-                var cmdStr = priMsg.SecsItem[0].GetString();
+                var cmdStr = priMsg.SecsItem[RCMD_Index].GetString();
                 cmd = Enum.GetValues(typeof(RCMD)).Cast<RCMD>().FirstOrDefault(f => cmdStr == f.ToString());
-                ParameterGroups = priMsg.SecsItem[1];
+                ParameterGroups = priMsg.SecsItem[ParameterGroups_Index];
                 return true;
             }
             catch (Exception)
@@ -134,6 +136,70 @@ namespace GPMCasstteConvertCIM.GPM_SECS
         public static ACKC6 ToACKC6(this byte val)
         {
             return Enum.GetValues(typeof(ACKC6)).Cast<ACKC6>().FirstOrDefault(f => val == (byte)f);
+        }
+        internal static bool IsS9F7(this SecsMessage msg)
+        {
+            return msg.S == 9 && msg.F == 7;
+        }
+        public static bool IsAGVSOnlineReport(this SecsMessage msg, out bool isRemote)
+        {
+            isRemote = false;
+            if (msg.S != 6 && msg.F != 11)
+                return false;
+            try
+            {
+                var item_check = msg.SecsItem.Items[1];
+                var ce_id = item_check.FirstValue<ushort>();
+                isRemote = ce_id == 3;
+                return ce_id == 2 | ce_id == 3;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+        public static bool IsAGVSOfflineReport(this SecsMessage msg)
+        {
+            if (msg.S != 6 && msg.F != 11)
+                return false;
+            try
+            {
+                var item_check = msg.SecsItem.Items[1];
+                var ce_id = item_check.FirstValue<ushort>();
+                return ce_id == 1;
+
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public static bool IsAGVSTransferCompletedReport(this SecsMessage msg, out string port_id, out string carrier_id)
+        {
+            port_id = carrier_id = string.Empty;
+
+            if (msg.S != 6 && msg.F != 11)
+                return false;
+            try
+            {
+                var item_check = msg.SecsItem.Items[1];
+                var ce_id = item_check.FirstValue<ushort>();
+                bool isCEID107 = ce_id == 107;
+
+                if (isCEID107)
+                {
+                    var paramsItems = msg.SecsItem.Items[2][0][1];
+                    carrier_id = paramsItems.Items[1].GetString();
+                    port_id = paramsItems.Items[2].GetString();
+                }
+
+                return isCEID107;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
 

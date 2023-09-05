@@ -18,6 +18,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter.Data
         public event PropertyChangedEventHandler? PropertyChanged;
 
         private int _InterfaceClock = -1;
+
         public clsEQPData()
         {
         }

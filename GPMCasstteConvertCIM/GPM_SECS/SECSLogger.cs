@@ -23,7 +23,6 @@ namespace GPMCasstteConvertCIM.GPM_SECS
             _richTextBox?.Invoke((MethodInvoker)delegate
             {
                 _richTextBox.ScrollToCaret();
-
             });
         }
 

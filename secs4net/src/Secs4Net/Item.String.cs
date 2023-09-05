@@ -31,7 +31,8 @@ partial class Item
                 return;
             }
 
-            var encoder = Format == SecsFormat.ASCII ? Encoding.ASCII : Jis8Encoding;
+
+            var encoder = Format == SecsFormat.ASCII ? EncodingSetting.ASCIIEncoding : Jis8Encoding;
             var bytelength = encoder.GetByteCount(_value);
             EncodeItemHeader(Format, bytelength, buffer);
             var length = encoder.GetBytes(_value, buffer.GetSpan(bytelength));

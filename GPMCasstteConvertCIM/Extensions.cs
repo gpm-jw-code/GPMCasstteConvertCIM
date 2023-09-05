@@ -1,6 +1,7 @@
 ﻿using GPMCasstteConvertCIM.CasstteConverter;
 using GPMCasstteConvertCIM.Devices;
 using GPMCasstteConvertCIM.Utilities;
+using Newtonsoft.Json;
 using Secs4Net;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,18 @@ namespace GPMCasstteConvertCIM
 {
     public static class Extensions
     {
+        public static string ToJson(this object obj)
+        {
+            try
+            {
+                return JsonConvert.SerializeObject(obj, Formatting.Indented);
+
+            }
+            catch (Exception)
+            {
+                return "";
+            }
+        }
         public static SecsGemOptions ToSecsGenOptions(this InitialOption gpmInitailOptions)
         {
             var secs_config = Utility.SysConfigs.SECS;
@@ -27,7 +40,9 @@ namespace GPMCasstteConvertCIM
                 T5 = secs_config.T5,
                 T6 = secs_config.T6,
                 T7 = secs_config.T7,
-                T8 = secs_config.T8
+                T8 = secs_config.T8,
+                SocketReceiveBufferSize = secs_config.SocketRecieveBufferSize,
+                EncodeBufferInitialSize = 32768,
             };
 
         }
@@ -60,5 +75,7 @@ namespace GPMCasstteConvertCIM
                     return Common.CONNECTION_STATE.DISCONNECTED;
             }
         }
+
+       
     }
 }

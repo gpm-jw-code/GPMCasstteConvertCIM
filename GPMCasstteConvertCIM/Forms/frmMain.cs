@@ -8,10 +8,11 @@ using GPMCasstteConvertCIM.Devices.Options;
 using GPMCasstteConvertCIM.Emulators;
 using GPMCasstteConvertCIM.Emulators.SecsEmu;
 using GPMCasstteConvertCIM.GPM_SECS;
-using GPMCasstteConvertCIM.UI_UserControls;
+using GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle;
 using GPMCasstteConvertCIM.Utilities;
 using Secs4Net;
 using Secs4Net.Sml;
+using System.Text;
 using System.Windows.Forms;
 using static Secs4Net.Item;
 namespace GPMCasstteConvertCIM.Forms
@@ -20,6 +21,8 @@ namespace GPMCasstteConvertCIM.Forms
     {
         CasstteConverter.clsCasstteConverter casstteConverter_1;
         CasstteConverter.clsCasstteConverter casstteConverter_2;
+
+
         public frmMain()
         {
             InitializeComponent();
@@ -33,8 +36,8 @@ namespace GPMCasstteConvertCIM.Forms
         {
             Invoke(new Action(() =>
             {
-                richTextBox3.SelectionColor = Color.Black;
-                richTextBox3.AppendText($"{e.Exception.Message}\n");
+                rtbSystemLogShow.SelectionColor = Color.Black;
+                rtbSystemLogShow.AppendText($"{e.Exception.Message}\n");
             }));
         }
 
@@ -43,15 +46,21 @@ namespace GPMCasstteConvertCIM.Forms
 
             Invoke(new Action(() =>
             {
-                richTextBox3.SelectionColor = Color.Black;
-                richTextBox3.AppendText($"{(e.ExceptionObject as Exception).InnerException?.Message}\n");
+                rtbSystemLogShow.SelectionColor = Color.Black;
+                rtbSystemLogShow.AppendText($"{(e.ExceptionObject as Exception).InnerException?.Message}\n");
             }));
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            tabControl1.TabPages.RemoveAt(1);//把原本的HOME PAGE移除
+
             Utility.LoadConfigs();
+            Secs4Net.EncodingSetting.ASCIIEncoding = Utility.SysConfigs.SECS.SECESAEncoding; //設定編碼
+            if (Utility.SysConfigs.Project == Utilities.SysConfigs.clsSystemConfigs.PROJECT.U007)
+                tabControl1.TabPages.RemoveAt(1);//把原本的HOME PAGE移除
+            else
+                tabControl1.TabPages.RemoveAt(0);
+
             DevicesManager.LoadDeviceConnectionOpts(out bool config_error, out bool eqplc_config_error, out string errMsg);
 
             if (config_error | eqplc_config_error)
@@ -64,6 +73,8 @@ namespace GPMCasstteConvertCIM.Forms
 
 
             Utility.SystemLogger = new LoggerBase(rtbSystemLogShow, Path.Combine(Utility.SysConfigs.Log.SyslogFolder, "Sys Log"));
+
+
             Utility.SystemLogger.Info("GPM CIM System Start");
 
             uscConnectionStates1.InitializeConnectionState();
@@ -80,7 +91,6 @@ namespace GPMCasstteConvertCIM.Forms
             tlpConverterContainer.SuspendLayout();
             foreach (Devices.Options.ConverterEQPInitialOption item in DevicesManager.DevicesConnectionsOpts.PLCEQS)
             {
-                item.logRichTextBox = rtbCasstteConvertLog;
                 UI_UserControls.UscCasstteConverter mainUI = new UI_UserControls.UscCasstteConverter();
                 item.mainUI = mainUI;
                 tlpConverterContainer.Controls.Add(mainUI);
@@ -88,13 +98,11 @@ namespace GPMCasstteConvertCIM.Forms
 
                 foreach (clsConverterPort.clsPortProperty port in item.Ports.Values)
                 {
-
                     ToolStripMenuItem agvs_modbus_emu_selBtn = new ToolStripMenuItem()
                     {
                         Text = $"{item.Eq_Name}-{port.PortID}",
                         Tag = port //ConverterEQPInitialOption
                     };
-
                     agvs_modbus_emu_selBtn.Click += Agvs_modbus_emu_selBtn_Click;
                     AGVS_modbus_sim_ToolStripMenuItem.DropDownItems.Add(agvs_modbus_emu_selBtn);
                 }
@@ -112,7 +120,6 @@ namespace GPMCasstteConvertCIM.Forms
 
 
             DevicesManager.DeviceConnectionStateOnChanged += CIMDevices_DeviceConnectionStateOnChanged;
-
             DevicesManager.EqStatusUI = usceqStatus1;
             DevicesManager.Connect();
 
@@ -124,19 +131,22 @@ namespace GPMCasstteConvertCIM.Forms
 
             SystemAPI systemAPI = new SystemAPI();
             systemAPI.Start();
+
             WebsocketMiddleware.ServerBuild();
-            uscAlarmTable1.BindData(AlarmManager.AlarmsList);
+            uscAlarmTable1.BindData(AlarmManager.AlarmsList.ToList());
             AlarmManager.onAlarmAdded += (sender, arg) =>
             {
-                uscAlarmTable1.Invoke(new Action(() =>
+                Invoke(new Action(() =>
                 {
-                    uscAlarmTable1.GUIRefresh();
+                    uscAlarmTable1.BindData(AlarmManager.AlarmsList.ToList());
+                    uscAlarmTable1.alarmListBinding.ResetBindings();
                 }));
             };
             //dgvMsgFromAGVS.DataSource = CIMDevices.secs_host.recvBuffer;
             //dgvActiveMsgToAGVS.DataSource = CIMDevices.secs_host.sendBuffer;
             //dgvMsgFromMCS.DataSource = CIMDevices.secs_client.recvBuffer;
             //dgvActiveMsgToMCS.DataSource = CIMDevices.secs_client.sendBuffer;
+
 
         }
 
@@ -145,8 +155,9 @@ namespace GPMCasstteConvertCIM.Forms
         {
             ToolStripMenuItem agvs_modbus_emu_selBtn = (ToolStripMenuItem)sender;
             clsConverterPort.clsPortProperty opt = (clsConverterPort.clsPortProperty)agvs_modbus_emu_selBtn.Tag;
-            var allports = DevicesManager.GetAllPorts();
-            clsConverterPort? port = allports.FirstOrDefault(c => c.Properties.PortID == opt.PortID);
+            if (opt == null)
+                return;
+            clsConverterPort? port = DevicesManager.GetAllPorts().FirstOrDefault(c => c.Properties.PortID == opt.PortID);
             frmAGVS_Modbus_Emulator emu = new frmAGVS_Modbus_Emulator(port)
             {
                 Text = $"AGV交握模擬-{port.Properties.ModbusServer_IP}:{port.Properties.ModbusServer_PORT}({port.PortNameWithEQName})"
@@ -212,7 +223,7 @@ namespace GPMCasstteConvertCIM.Forms
         {
             try
             {
-                SecsMessage? se = await DevicesManager.secs_host_for_mcs?.SendAsync(new SecsMessage(1, 3)
+                SecsMessage? se = await DevicesManager.secs_host_for_mcs?.SendMsg(new SecsMessage(1, 3)
                 {
                     Name = "S1F3",
                     SecsItem = L(
@@ -289,6 +300,8 @@ namespace GPMCasstteConvertCIM.Forms
         private void SysTimer_Tick(object sender, EventArgs e)
         {
             labSysTime.Text = DateTime.Now.ToString();
+            ckbRemoteModeIndi.Checked = SECSState.IsRemote;
+            cknOnlineModeIndi.Checked = SECSState.IsOnline;
         }
 
         private void aGVS派車模擬器ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -342,6 +355,53 @@ namespace GPMCasstteConvertCIM.Forms
             {
                 uscAlarmTable1.alarmListBinding.ResetBindings();
             }
+        }
+
+        private void GPMRDMenuStrip_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
+
+        private void uscConnectionStates1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void uscConnectionStates1_Click(object sender, EventArgs e)
+        {
+            Utility.SystemLogger.SecsTransferLog("Log Test");
+        }
+
+        private void pnlSideLeft_Click(object sender, EventArgs e)
+        {
+            Utility.SystemLogger.SecsTransferLog("Log Test");
+
+        }
+
+        private void ckbRemoteModeIndi_CheckedChanged(object sender, EventArgs e)
+        {
+            ckbRemoteModeIndi.Text = ckbRemoteModeIndi.Checked ? "REMOTE" : "LOCAL";
+        }
+
+        private void btnClearInfoLog_Click(object sender, EventArgs e)
+        {
+            rtbSystemLogShow.Clear();
+        }
+
+        private void cknOnlineModeIndi_CheckedChanged(object sender, EventArgs e)
+        {
+            cknOnlineModeIndi.Text = cknOnlineModeIndi.Checked ? "ONLINE" : "OFFLINE";
+            string ch = "中文測試";
+            var bytes = Encoding.ASCII.GetBytes(ch);
+
+            var big5ch = Encoding.Unicode.GetString(bytes, 0, bytes.Length);
+            var big5Bytes = Encoding.BigEndianUnicode.GetBytes(big5ch);
+            //
+            DevicesManager.secs_host_for_mcs.SendMsg(new SecsMessage(5, 9)
+            {
+                SecsItem = A(ch)
+            });
+
         }
     }
 }

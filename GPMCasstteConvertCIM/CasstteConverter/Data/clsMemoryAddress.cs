@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -30,6 +31,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter.Data
         }
         public DATA_TYPE DataType { get; private set; }
         public OWNER EOwner => Owner == "AGVS" ? OWNER.CIM : OWNER.EQP;
+
+        internal bool IsCIMUse => EOwner == OWNER.CIM;
+        internal bool IsEQUse => EOwner == OWNER.EQP;
+
         public string Address { get; set; }
 
         public object _Value = 0;
@@ -74,6 +79,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter.Data
         public string Owner { get; set; }
         public int Link_Modbus_Register_Number { get; set; }
         public EQ_NAMES EQ_Name { get; set; }
+
         public string Link_Modbus_Address_Hex
         {
             get
@@ -95,6 +101,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter.Data
             set
             {
                 _Scope = value;
+                if (value == "EQ")
+                {
+
+                }
                 EScope = Enum.GetValues(typeof(Enums.EQ_SCOPE)).Cast<Enums.EQ_SCOPE>().FirstOrDefault(s => s.ToString() == _Scope);
             }
         }
@@ -109,6 +119,11 @@ namespace GPMCasstteConvertCIM.CasstteConverter.Data
                 _PropertyName = value;
                 EProperty = Enum.GetValues(typeof(Enums.PROPERTY)).Cast<Enums.PROPERTY>().FirstOrDefault(s => s.ToString() == _PropertyName);
             }
+        }
+
+        internal clsMemoryAddress Copy()
+        {
+            return JsonConvert.DeserializeObject<clsMemoryAddress>(JsonConvert.SerializeObject(this));
         }
     }
 }
