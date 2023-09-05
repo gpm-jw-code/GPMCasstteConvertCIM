@@ -67,7 +67,7 @@ namespace GPMCasstteConvertCIM.UI_UserControls
 
             try
             {
-                labPLCMCAddress.Text = string.Format("{0}:{1}", _casstteConverter.InterfaceOptions.RemoteIP, _casstteConverter.InterfaceOptions.RemotePort);
+                labPLCMCAddress.Text = string.Format("{0}:{1}", _casstteConverter.mcInterfaceOptions.RemoteIP, _casstteConverter.mcInterfaceOptions.RemotePort);
 
                 var eqpData = casstteConverter.EQPData;
                 var btnRun_BackColor = eqpData.EQP_RUN ? Color.SeaGreen : Color.Black;

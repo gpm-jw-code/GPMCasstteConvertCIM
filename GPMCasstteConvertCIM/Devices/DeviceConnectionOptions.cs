@@ -65,7 +65,7 @@ namespace GPMCasstteConvertCIM.Devices
                         }
                     }
                 }
-            }, 
+            },
             new ConverterEQPInitialOption
             {
                 IsActive = true,
@@ -304,30 +304,39 @@ namespace GPMCasstteConvertCIM.Devices
             new ConverterEQPInitialOption
             {
                 IsActive = true,
-                Name = "TS_2",
-                Eq_Name = CasstteConverter.Enums.EQ_NAMES.TS_2,
+                Name = "TS_2_1",
+                Eq_Name = CasstteConverter.Enums.EQ_NAMES.TS_2_1,
                 ConverterType = CasstteConverter.Enums.CONVERTER_TYPE.SYS_2_SYS,
                 Ports = new Dictionary<int, CasstteConverter.clsConverterPort.clsPortProperty>()
                 {
                     { 0 , new CasstteConverter.clsConverterPort.clsPortProperty(){
                          ModbusServer_Enable = true,
                           PortNo= 0,
-                           PortID = "TS_2_In_Sys_Port",
+                           PortID = "TS_2_1_In_Sys_Port",
                             ModbusServer_IP="127.0.0.1",
                              ModbusServer_PORT = 1522,
                         }
-                    },
-
-                    { 1, new CasstteConverter.clsConverterPort.clsPortProperty(){
+                    }
+                }
+            },
+            new ConverterEQPInitialOption
+            {
+                IsActive = true,
+                Name = "TS_2_2",
+                Eq_Name = CasstteConverter.Enums.EQ_NAMES.TS_2_2,
+                ConverterType = CasstteConverter.Enums.CONVERTER_TYPE.SYS_2_SYS,
+                Ports = new Dictionary<int, CasstteConverter.clsConverterPort.clsPortProperty>()
+                {
+                    { 0 , new CasstteConverter.clsConverterPort.clsPortProperty(){
                          ModbusServer_Enable = true,
                           PortNo= 0,
-                           PortID = "TS_2_Out_Sys_Port",
+                           PortID = "TS_2_2_In_Sys_Port",
                             ModbusServer_IP="127.0.0.1",
-                             ModbusServer_PORT = 1523,
+                             ModbusServer_PORT = 1522,
                         }
                     }
                 }
-            },   
+            },
             new ConverterEQPInitialOption
             {
                 IsActive = true,
