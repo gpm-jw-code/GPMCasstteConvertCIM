@@ -141,7 +141,7 @@ namespace GPMCasstteConvertCIM.Utilities
             if (show_in_richbox)
                 _richTextBox?.Invoke((MethodInvoker)delegate
                 {
-                    _richTextBox.SelectionColor = Color.Green;
+                    _richTextBox.SelectionColor = Color.FromArgb(69, 203, 94);
                     _richTextBox.AppendText($"{msg}\n");
                 });
             WriteToFile(time, LOG_LEVEL.WARNING, msg);
@@ -153,7 +153,7 @@ namespace GPMCasstteConvertCIM.Utilities
             if (show_in_richbox)
                 _richTextBox?.Invoke((MethodInvoker)delegate
                 {
-                    _richTextBox.SelectionColor = Color.Red;
+                    _richTextBox.SelectionColor = Color.FromArgb(255, 92, 97);
                     _richTextBox.AppendText($"{msg}\n");
                     _richTextBox.SelectionColor = Color.Gray;
                     _richTextBox.AppendText($"{ex}\n");

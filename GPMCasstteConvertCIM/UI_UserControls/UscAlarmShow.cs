@@ -88,7 +88,7 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             else
             {
                 //alrm
-                bgColor = Color.Red;
+                bgColor =  Color.FromArgb(255, 92, 97);
                 textColor = Color.White;
             }
 

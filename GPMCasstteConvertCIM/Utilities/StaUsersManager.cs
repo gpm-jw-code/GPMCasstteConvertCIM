@@ -10,6 +10,8 @@ namespace GPMCasstteConvertCIM.Utilities
 {
     internal class StaUsersManager
     {
+        internal static event EventHandler<EventArgs> OnRD_Login;
+        internal static event EventHandler<EventArgs> OnLogout;
         internal enum USER_GROUP
         {
             VISITOR,
@@ -59,6 +61,8 @@ namespace GPMCasstteConvertCIM.Utilities
                     Group = USER_GROUP.GPM_RD,
                     Name = "Developer"
                 };
+                OnRD_Login?.Invoke("", EventArgs.Empty);
+
                 return true;
             }
 
@@ -68,7 +72,10 @@ namespace GPMCasstteConvertCIM.Utilities
             {
                 Group = USER_GROUP.VISITOR,
             };
-
+            if (user.Group == USER_GROUP.GPM_RD)
+            {
+                OnRD_Login?.Invoke("", EventArgs.Empty);
+            }
             return success;
         }
 

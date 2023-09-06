@@ -53,8 +53,13 @@ namespace GPMCasstteConvertCIM.Forms
 
         private void Form1_Load(object sender, EventArgs e)
         {
+
             Utility.LoadConfigs();
             Secs4Net.EncodingSetting.ASCIIEncoding = Utility.SysConfigs.SECS.SECESAEncoding; //設定編碼
+            if (Utility.SysConfigs.Project == Utilities.SysConfigs.clsSystemConfigs.PROJECT.U007)
+                tabControl1.TabPages.RemoveAt(1);//把原本的HOME PAGE移除
+            else
+                tabControl1.TabPages.RemoveAt(0);
 
             DevicesManager.LoadDeviceConnectionOpts(out bool config_error, out bool eqplc_config_error, out string errMsg);
 
@@ -93,13 +98,11 @@ namespace GPMCasstteConvertCIM.Forms
 
                 foreach (clsConverterPort.clsPortProperty port in item.Ports.Values)
                 {
-
                     ToolStripMenuItem agvs_modbus_emu_selBtn = new ToolStripMenuItem()
                     {
-                        Text = $"轉換架-{item.DeviceId}({item.ConverterType})-Port{port.PortNo}",
+                        Text = $"{item.Eq_Name}-{port.PortID}",
                         Tag = port //ConverterEQPInitialOption
                     };
-
                     agvs_modbus_emu_selBtn.Click += Agvs_modbus_emu_selBtn_Click;
                     AGVS_modbus_sim_ToolStripMenuItem.DropDownItems.Add(agvs_modbus_emu_selBtn);
                 }
@@ -117,7 +120,7 @@ namespace GPMCasstteConvertCIM.Forms
 
 
             DevicesManager.DeviceConnectionStateOnChanged += CIMDevices_DeviceConnectionStateOnChanged;
-
+            DevicesManager.EqStatusUI = usceqStatus1;
             DevicesManager.Connect();
 
 
@@ -152,7 +155,8 @@ namespace GPMCasstteConvertCIM.Forms
         {
             ToolStripMenuItem agvs_modbus_emu_selBtn = (ToolStripMenuItem)sender;
             clsConverterPort.clsPortProperty opt = (clsConverterPort.clsPortProperty)agvs_modbus_emu_selBtn.Tag;
-
+            if (opt == null)
+                return;
             clsConverterPort? port = DevicesManager.GetAllPorts().FirstOrDefault(c => c.Properties.PortID == opt.PortID);
             frmAGVS_Modbus_Emulator emu = new frmAGVS_Modbus_Emulator(port)
             {

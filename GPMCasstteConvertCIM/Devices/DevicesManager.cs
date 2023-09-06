@@ -1,4 +1,5 @@
 ﻿using GPMCasstteConvertCIM.CasstteConverter;
+using GPMCasstteConvertCIM.Cclink_IE_Sturcture;
 using GPMCasstteConvertCIM.Forms;
 using GPMCasstteConvertCIM.GPM_SECS;
 using GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle;
@@ -48,7 +49,12 @@ namespace GPMCasstteConvertCIM.Devices
 
         internal static event EventHandler<ConnectionStateChangeArgs> DeviceConnectionStateOnChanged;
 
+        public static clsCCLinkIE_Master cclink_master;
+
+        public static UscEQStatus EqStatusUI { get; internal set; }
         private static LoggerBase SysLog => Utility.SystemLogger;
+
+        private static string DeviceConnectionConfigName => Utility.SysConfigs.Project == Utilities.SysConfigs.clsSystemConfigs.PROJECT.U003 ? "DevicesConnections.json" : "DevicesConnections-U007.json";
 
         internal static void Connect()
         {
@@ -85,39 +91,60 @@ namespace GPMCasstteConvertCIM.Devices
                 secs_client_for_agvs.ConnectionChanged += SECS_H_ConnectionChangeHandle;
                 secs_client_for_agvs.OnPrimaryMessageRecieve += AGVSMessageHandler.PrimaryMessageOnReceivedAsync;
                 secs_client_for_agvs.Active(DevicesConnectionsOpts.SECS_CLIENT.ToSecsGenOptions(), DevicesConnectionsOpts.SECS_CLIENT.logRichTextBox, DevicesConnectionsOpts.SECS_CLIENT.dgvSendBufferTable, DevicesConnectionsOpts.SECS_CLIENT.dgvRevBufferTable);
-
-
             }
             catch (Exception ex)
             {
 
             }
-            ////轉換架1
-            ///
-            foreach (Options.ConverterEQPInitialOption item in DevicesConnectionsOpts.PLCEQS)
+
+            if (Utility.SysConfigs.Project == Utilities.SysConfigs.clsSystemConfigs.PROJECT.U007)
             {
-                try
+                cclink_master = new clsCCLinkIE_Master("CCLINK_MASTER", EqStatusUI);
+                cclink_master.ActiveAsync(new McInterfaceOptions { });
+
+                foreach (Options.ConverterEQPInitialOption item in DevicesConnectionsOpts.PLCEQS)
                 {
-                    var EQ = new CasstteConverter.clsCasstteConverter(item.DeviceId, item.Name, (UscCasstteConverter)item.mainUI, item.ConverterType, item.Ports);
-                    EQ.ConnectionStateChanged += CasstteConverter_ConnectionStateChanged;
-                    EQ.ActiveAsync(item.ToMCIFOptions());
-                    casstteConverters.Add(EQ);
+                    try
+                    {
+                        clsCCLinkIE_Station EQ = new clsCCLinkIE_Station(item.Eq_Name, item.Ports, cclink_master);
+                        //clsCasstteConverter EQ = new CasstteConverter.clsCasstteConverter(item.Name, (UscCasstteConverter)item.mainUI, item.ConverterType, item.Ports);
+                        EQ.ConnectionStateChanged += CasstteConverter_ConnectionStateChanged;
+                        EQ.ActiveAsync(item.ToMCIFOptions());
+                        casstteConverters.Add(EQ);
+                        cclink_master.Stations.Add(EQ);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
                 }
-                catch (Exception ex)
+                cclink_master.mainGUI.BindData(cclink_master.AllEqPortList);
+            }
+            else
+            {
+
+                foreach (Options.ConverterEQPInitialOption item in DevicesConnectionsOpts.PLCEQS)
                 {
-                    throw ex;
+                    try
+                    {
+                        var EQ = new clsCasstteConverter(item.DeviceId, item.Name, (UscCasstteConverter)item.mainUI, item.ConverterType, item.Ports);
+                        EQ.ConnectionStateChanged += CasstteConverter_ConnectionStateChanged;
+                        EQ.ActiveAsync(item.ToMCIFOptions());
+                        casstteConverters.Add(EQ);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
                 }
             }
 
-
-            //foreach (var item in DevicesConnectionsOpts.Modbus_Servers)
-            //{
-            //    var modbus_server = new GPM_Modbus.ModbusTCPServer();
-            //    modbus_server.Active(item, casstteConverters.First(cc => cc.index == item.DeviceId));
-            //    modbus_servers.Add(modbus_server);
-            //}
         }
-
+        public static void SaveDeviceConnectionOpts()
+        {
+            string deviceConnectionCofigsFile = Path.Combine(Utility.configsFolder, "DevicesConnections.json");
+            File.WriteAllText(deviceConnectionCofigsFile, JsonConvert.SerializeObject(DevicesConnectionsOpts, Formatting.Indented));
+        }
         private static void CasstteConverter_ConnectionStateChanged(object? sender, Common.CONNECTION_STATE connectionState)
         {
             //Utility.SystemLogger.Log($"Converter Connecstion State Change:{connectionState}", connectionState != Common.CONNECTION_STATE.CONNECTED ? LoggerBase.LOG_LEVEL.WARNING : LoggerBase.LOG_LEVEL.INFO);
@@ -173,19 +200,13 @@ namespace GPMCasstteConvertCIM.Devices
             Directory.CreateDirectory(Utility.configsFolder);
             try
             {
-                string deviceConnectionCofigsFile = Path.Combine(Utility.configsFolder, "DevicesConnections.json");
+                string deviceConnectionCofigsFile = Path.Combine(Utility.configsFolder, DeviceConnectionConfigName);
                 if (File.Exists(deviceConnectionCofigsFile))
                 {
                     DevicesConnectionsOpts = JsonConvert.DeserializeObject<DeviceConnectionOptions>(File.ReadAllText(deviceConnectionCofigsFile));
                 }
                 File.WriteAllText(deviceConnectionCofigsFile, JsonConvert.SerializeObject(DevicesConnectionsOpts, Formatting.Indented));
 
-                //check
-                eqplc_config_error = DevicesConnectionsOpts.PLCEQS.Any(eqp => (eqp.ConverterType == Enums.CONVERTER_TYPE.IN_SYS && eqp.Ports.Count != 1) | (eqp.ConverterType == Enums.CONVERTER_TYPE.SYS_2_SYS && eqp.Ports.Count != 2));
-                if (eqplc_config_error)
-                {
-                    errorMsg = "轉換架類型與Port數量不匹配";
-                }
             }
             catch (Exception ex)
             {
@@ -197,7 +218,7 @@ namespace GPMCasstteConvertCIM.Devices
 
         internal static List<clsConverterPort> GetAllPorts()
         {
-            return casstteConverters.SelectMany(cst => cst.EQPData.PortDatas).ToList();
+            return casstteConverters.SelectMany(cst => cst.PortDatas).ToList();
         }
         internal static clsConverterPort GetPortByPortID(string port_id)
         {

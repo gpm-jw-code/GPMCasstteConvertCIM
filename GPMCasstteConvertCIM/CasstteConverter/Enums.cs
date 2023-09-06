@@ -30,11 +30,35 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             CONNECT = 1,
             Unknown = 999
         }
-
+        public enum EQ_NAMES
+        {
+            STK,
+            QV,
+            AOI_1,
+            AOI_2,
+            AOI_3,
+            AOI_4,
+            AOS_1,
+            AOS_2,
+            AOS_3,
+            AOS_4,
+            TS_1,
+            TS_2_1,
+            TS_2_2,
+            TS_3,
+            Unkown
+        }
         public enum EQ_SCOPE
         {
             Unknown,
-            AGVS, EQ, PORT1, PORT2
+            AGVS,
+            EQ,
+            PORT1,
+            PORT2,
+            PORT3,
+            PORT4,
+            LOAD_PORT,
+            UNLOAD_PORT
         }
 
         public enum PROPERTY

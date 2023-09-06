@@ -1,65 +1,65 @@
 ﻿Memory (Hex),Owner,Data Name,Data Format,Explanation,Device,Code_Property,Modbus_Register,,,,,,,,Memory Type _ 1,Memory Address,
-B0,AGVS,,Boolean,,,,,,,,,,,,B,0,B0
-B1,AGVS,,Boolean,,,,,,,,,,,,B,1,B1
-B2,AGVS,,Boolean,,,,,,,,,,,,B,2,B2
-B3,AGVS,,Boolean,,,,,,,,,,,,B,3,B3
-B4,AGVS,VALID,Boolean,5.2.2 Status Download by AGVS,PORT1,VALID,16,,,,,,,,B,4,B4
-B5,AGVS,TR-REQ,Boolean,5.2.2 Status Download by AGVS,PORT1,TR_REQ,17,,,,,,,,B,5,B5
-B6,AGVS,BUSY,Boolean,5.2.2 Status Download by AGVS,PORT1,BUSY,18,,,,,,,,B,6,B6
-B7,AGVS,COMPT,Boolean,5.2.2 Status Download by AGVS,PORT1,COMPT,19,,,,,,,,B,7,B7
-B8,AGVS,AGV_READY,Boolean,,PORT1,AGV_READY,20,,,,,,,,B,8,B8
-B9,AGVS,,Boolean,,,,,,,,,,,,B,9,B9
-BA,AGVS,,Boolean,,,,,,,,,,,,B,10,BA
-BB,AGVS,,Boolean,,,,,,,,,,,,B,11,BB
-BC,AGVS,Port Mode Change Request,Boolean,,PORT1,Port_Mode_Change_Request,,,,,,,,,B,12,BC
-BD,AGVS,Port Mode Changed Report Reply,Boolean,,PORT1,Port_Mode_Changed_Report_Reply,,,,,,,,,B,13,BD
-BE,AGVS,Port Disabled Report Reply,Boolean,,PORT1,Port_Disabled_Report_Reply,,,,,,,,,B,14,BE
-BF,AGVS,Port Enbled Report Reply,Boolean,,PORT1,Port_Enbled_Report_Reply,,,,,,,,,B,15,BF
-B10,AGVS,,Boolean,6.1 Rack Load Request,PORT1,,,,,,,,,,B,16,B10
-B11,AGVS,Carrier WaitIn System Reply,Boolean,6.1 Rack Unload Request,PORT1,Carrier_WaitIn_System_Reply,,,,,,,,,B,17,B11
-B12,AGVS,Carrier WaitIn System Accept,Boolean,6.2 Change Mode CMD,PORT1,Carrier_WaitIn_System_Accept,,,,,,,,,B,18,B12
-B13,AGVS,Carrier WaitIn System Refuse,Boolean,6.3 Manual Load Complete,PORT1,Carrier_WaitIn_System_Refuse,,,,,,,,,B,19,B13
-B14,AGVS,Carrier WawitOut System Reply,Boolean,6.3 Manual Unload Complete,PORT1,Carrier_WaitOut_System_Reply,,,,,,,,,B,20,B14
-B15,AGVS,Carrier Removed Completed Report Reply,Boolean,6.4 Mode Change Request,PORT1,Carrier_Removed_Completed_Report_Reply,,,,,,,,,B,21,B15
-B16,AGVS,Carrier Force In System Reply,Boolean,6.4 Mode Change Request,PORT1,Carrier_Force_In_System_Reply,,,,,,,,,B,22,B16
-B17,AGVS,To EQ Up,Boolean,,PORT1,To_EQ_Up,24,,,,,,,,B,23,B17
-B18,AGVS,To EQ Low,Boolean,,PORT1,To_EQ_Low,25,,,,,,,,B,24,B18
-B19,AGVS,CMD reserve Up,Boolean,,PORT1,CMD_reserve_Up,26,,,,,,,,B,25,B19
-B1A,AGVS,CMD reserve Low,Boolean,6.5 Proceed Request,PORT1,CMD_reserve_Low,27,,,,,,,,B,26,B1A
-B1B,AGVS,,Boolean,6.6 Release Request,,,,,,,,,,,B,27,B1B
-B1C,AGVS,VALID,Boolean,,PORT2,VALID,16,,,,,,,,B,28,B1C
-B1D,AGVS,TR-REQ,Boolean,,PORT2,TR_REQ,17,,,,,,,,B,29,B1D
-B1E,AGVS,BUSY,Boolean,,PORT2,BUSY,18,,,,,,,,B,30,B1E
-B1F,AGVS,COMPT,Boolean,,PORT2,COMPT,19,,,,,,,,B,31,B1F
-B20,AGVS,AGV_READY,Boolean,,PORT2,AGV_READY,20,,,,,,,,B,32,B20
-B21,AGVS,,Boolean,,PORT2,,,,,,,,,,B,33,B21
-B22,AGVS,Port Mode Change Request,Boolean,,PORT2,Port_Mode_Change_Request,,,,,,,,,B,34,B22
-B23,AGVS,Port Mode Changed Report Reply,Boolean,,PORT2,Port_Mode_Changed_Report_Reply,,,,,,,,,B,35,B23
-B24,AGVS,Port Disabled Report Reply,Boolean,,PORT2,Port_Disabled_Report_Reply,,,,,,,,,B,36,B24
-B25,AGVS,Port Enabled Report Reply,Boolean,,PORT2,Port_Enbled_Report_Reply,,,,,,,,,B,37,B25
-B26,AGVS,,Boolean,,PORT2,,,,,,,,,,B,38,B26
-B27,AGVS,Carrier WaitIn System Reply,Boolean,,PORT2,Carrier_WaitIn_System_Reply,,,,,,,,,B,39,B27
-B28,AGVS,Carrier WaitIn System Accept,Boolean,,PORT2,Carrier_WaitIn_System_Accept,,,,,,,,,B,40,B28
-B29,AGVS,Carrier WaitIn System Refuse,Boolean,,PORT2,Carrier_WaitIn_System_Refuse,,,,,,,,,B,41,B29
-B2A,AGVS,Carrier WawitOut System Reply,Boolean,,PORT2,Carrier_WaitOut_System_Reply,,,,,,,,,B,42,B2A
-B2B,AGVS,Carrier Removed Completed Report Reply,Boolean,,PORT2,Carrier_Removed_Completed_Report_Reply,,,,,,,,,B,43,B2B
-B2C,AGVS,Carrier Force In System Reply,Boolean,,PORT2,Carrier_Force_In_System_Reply,,,,,,,,,B,44,B2C
-B2D,AGVS,To EQ Up,Boolean,,PORT2,To_EQ_Up,24,,,,,,,,B,45,B2D
-B2E,AGVS,To EQ Low,Boolean,,PORT2,To_EQ_Low,25,,,,,,,,B,46,B2E
-B2F,AGVS,CMD reserve Up,Boolean,,PORT2,CMD_reserve_Up,26,,,,,,,,B,47,B2F
-B30,AGVS,CMD reserve Low,Boolean,,PORT2,CMD_reserve_Low,27,,,,,,,,B,48,B30
-B31,AGVS,,Boolean,,,,,,,,,,,,B,49,B31
-B32,AGVS,,Boolean,,,,,,,,,,,,B,50,B32
-B33,AGVS,,Boolean,,,,,,,,,,,,B,51,B33
-B34,AGVS,,Boolean,,,,,,,,,,,,B,52,B34
-B35,AGVS,,Boolean,,,,,,,,,,,,B,53,B35
-B36,AGVS,,Boolean,,,,,,,,,,,,B,54,B36
-B37,AGVS,,Boolean,,,,,,,,,,,,B,55,B37
-B38,AGVS,,Boolean,,,,,,,,,,,,B,56,B38
-B39,AGVS,,Boolean,,,,,,,,,,,,B,57,B39
-B3A,AGVS,,Boolean,,,,,,,,,,,,B,58,B3A
-B3B,AGVS,,Boolean,,,,,,,,,,,,B,59,B3B
-B3C,AGVS,,Boolean,,,,,,,,,,,,B,60,B3C
-B3D,AGVS,,Boolean,,,,,,,,,,,,B,61,B3D
-B3E,AGVS,,Boolean,,,,,,,,,,,,B,62,B3E
-B3F,AGVS,,Boolean,,,,,,,,,,,,B,63,B3F
+B0000,AGVS,,Boolean,,,,,,,,,,,,B,0,B0
+B0001,AGVS,,Boolean,,,,,,,,,,,,B,1,B1
+B0002,AGVS,,Boolean,,,,,,,,,,,,B,2,B2
+B0003,AGVS,,Boolean,,,,,,,,,,,,B,3,B3
+B0004,AGVS,VALID,Boolean,5.2.2 Status Download by AGVS,PORT1,VALID,16,,,,,,,,B,4,B4
+B0005,AGVS,TR-REQ,Boolean,5.2.2 Status Download by AGVS,PORT1,TR_REQ,17,,,,,,,,B,5,B5
+B0006,AGVS,BUSY,Boolean,5.2.2 Status Download by AGVS,PORT1,BUSY,18,,,,,,,,B,6,B6
+B0007,AGVS,COMPT,Boolean,5.2.2 Status Download by AGVS,PORT1,COMPT,19,,,,,,,,B,7,B7
+B0008,AGVS,AGV_READY,Boolean,,PORT1,AGV_READY,20,,,,,,,,B,8,B8
+B0009,AGVS,,Boolean,,,,,,,,,,,,B,9,B9
+B000A,AGVS,,Boolean,,,,,,,,,,,,B,10,BA
+B000B,AGVS,,Boolean,,,,,,,,,,,,B,11,BB
+B000C,AGVS,Port Mode Change Request,Boolean,,PORT1,Port_Mode_Change_Request,,,,,,,,,B,12,BC
+B000D,AGVS,Port Mode Changed Report Reply,Boolean,,PORT1,Port_Mode_Changed_Report_Reply,,,,,,,,,B,13,BD
+B000E,AGVS,Port Disabled Report Reply,Boolean,,PORT1,Port_Disabled_Report_Reply,,,,,,,,,B,14,BE
+B000F,AGVS,Port Enbled Report Reply,Boolean,,PORT1,Port_Enbled_Report_Reply,,,,,,,,,B,15,BF
+B0010,AGVS,,Boolean,6.1 Rack Load Request,PORT1,,,,,,,,,,B,16,B10
+B0011,AGVS,Carrier WaitIn System Reply,Boolean,6.1 Rack Unload Request,PORT1,Carrier_WaitIn_System_Reply,,,,,,,,,B,17,B11
+B0012,AGVS,Carrier WaitIn System Accept,Boolean,6.2 Change Mode CMD,PORT1,Carrier_WaitIn_System_Accept,,,,,,,,,B,18,B12
+B0013,AGVS,Carrier WaitIn System Refuse,Boolean,6.3 Manual Load Complete,PORT1,Carrier_WaitIn_System_Refuse,,,,,,,,,B,19,B13
+B0014,AGVS,Carrier WawitOut System Reply,Boolean,6.3 Manual Unload Complete,PORT1,Carrier_WaitOut_System_Reply,,,,,,,,,B,20,B14
+B0015,AGVS,Carrier Removed Completed Report Reply,Boolean,6.4 Mode Change Request,PORT1,Carrier_Removed_Completed_Report_Reply,,,,,,,,,B,21,B15
+B0016,AGVS,Carrier Force In System Reply,Boolean,6.4 Mode Change Request,PORT1,Carrier_Force_In_System_Reply,,,,,,,,,B,22,B16
+B0017,AGVS,To EQ Up,Boolean,,PORT1,To_EQ_Up,24,,,,,,,,B,23,B17
+B0018,AGVS,To EQ Low,Boolean,,PORT1,To_EQ_Low,25,,,,,,,,B,24,B18
+B0019,AGVS,CMD reserve Up,Boolean,,PORT1,CMD_reserve_Up,26,,,,,,,,B,25,B19
+B001A,AGVS,CMD reserve Low,Boolean,6.5 Proceed Request,PORT1,CMD_reserve_Low,27,,,,,,,,B,26,B1A
+B001B,AGVS,,Boolean,6.6 Release Request,,,,,,,,,,,B,27,B1B
+B001C,AGVS,VALID,Boolean,,PORT2,VALID,16,,,,,,,,B,28,B1C
+B001D,AGVS,TR-REQ,Boolean,,PORT2,TR_REQ,17,,,,,,,,B,29,B1D
+B001E,AGVS,BUSY,Boolean,,PORT2,BUSY,18,,,,,,,,B,30,B1E
+B001F,AGVS,COMPT,Boolean,,PORT2,COMPT,19,,,,,,,,B,31,B1F
+B0020,AGVS,AGV_READY,Boolean,,PORT2,AGV_READY,20,,,,,,,,B,32,B20
+B0021,AGVS,,Boolean,,PORT2,,,,,,,,,,B,33,B21
+B0022,AGVS,Port Mode Change Request,Boolean,,PORT2,Port_Mode_Change_Request,,,,,,,,,B,34,B22
+B0023,AGVS,Port Mode Changed Report Reply,Boolean,,PORT2,Port_Mode_Changed_Report_Reply,,,,,,,,,B,35,B23
+B0024,AGVS,Port Disabled Report Reply,Boolean,,PORT2,Port_Disabled_Report_Reply,,,,,,,,,B,36,B24
+B0025,AGVS,Port Enabled Report Reply,Boolean,,PORT2,Port_Enbled_Report_Reply,,,,,,,,,B,37,B25
+B0026,AGVS,,Boolean,,PORT2,,,,,,,,,,B,38,B26
+B0027,AGVS,Carrier WaitIn System Reply,Boolean,,PORT2,Carrier_WaitIn_System_Reply,,,,,,,,,B,39,B27
+B0028,AGVS,Carrier WaitIn System Accept,Boolean,,PORT2,Carrier_WaitIn_System_Accept,,,,,,,,,B,40,B28
+B0029,AGVS,Carrier WaitIn System Refuse,Boolean,,PORT2,Carrier_WaitIn_System_Refuse,,,,,,,,,B,41,B29
+B002A,AGVS,Carrier WawitOut System Reply,Boolean,,PORT2,Carrier_WaitOut_System_Reply,,,,,,,,,B,42,B2A
+B002B,AGVS,Carrier Removed Completed Report Reply,Boolean,,PORT2,Carrier_Removed_Completed_Report_Reply,,,,,,,,,B,43,B2B
+B002C,AGVS,Carrier Force In System Reply,Boolean,,PORT2,Carrier_Force_In_System_Reply,,,,,,,,,B,44,B2C
+B002D,AGVS,To EQ Up,Boolean,,PORT2,To_EQ_Up,24,,,,,,,,B,45,B2D
+B002E,AGVS,To EQ Low,Boolean,,PORT2,To_EQ_Low,25,,,,,,,,B,46,B2E
+B002F,AGVS,CMD reserve Up,Boolean,,PORT2,CMD_reserve_Up,26,,,,,,,,B,47,B2F
+B0030,AGVS,CMD reserve Low,Boolean,,PORT2,CMD_reserve_Low,27,,,,,,,,B,48,B30
+B0031,AGVS,,Boolean,,,,,,,,,,,,B,49,B31
+B0032,AGVS,,Boolean,,,,,,,,,,,,B,50,B32
+B0033,AGVS,,Boolean,,,,,,,,,,,,B,51,B33
+B0034,AGVS,,Boolean,,,,,,,,,,,,B,52,B34
+B0035,AGVS,,Boolean,,,,,,,,,,,,B,53,B35
+B0036,AGVS,,Boolean,,,,,,,,,,,,B,54,B36
+B0037,AGVS,,Boolean,,,,,,,,,,,,B,55,B37
+B0038,AGVS,,Boolean,,,,,,,,,,,,B,56,B38
+B0039,AGVS,,Boolean,,,,,,,,,,,,B,57,B39
+B003A,AGVS,,Boolean,,,,,,,,,,,,B,58,B3A
+B003B,AGVS,,Boolean,,,,,,,,,,,,B,59,B3B
+B003C,AGVS,,Boolean,,,,,,,,,,,,B,60,B3C
+B003D,AGVS,,Boolean,,,,,,,,,,,,B,61,B3D
+B003E,AGVS,,Boolean,,,,,,,,,,,,B,62,B3E
+B003F,AGVS,,Boolean,,,,,,,,,,,,B,63,B3F
