@@ -308,26 +308,36 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                             bool wait_in_accept = false;
                             if (WIPINFO_BCR_ID != "")
                             {
-                                if (!SECSState.IsOnline && !SECSState.IsRemote)
+                                if (NoTransferNotifyFlag == true)
                                 {
-                                    wait_in_accept = true;
-                                    Utility.SystemLogger.Info($"CIM  Accept  Carrier Wait IN Request first because MCS isn't ONLINE _ REMOTE");
+                                    wait_in_accept = false;
                                 }
                                 else
                                 {
-                                    bool lduld_req = await WaitLoadUnloadRequestON();
-                                    if (!lduld_req)
-                                        return;
-
-                                    if (!IsCarrierInstallReported)
-                                    {
-                                        await SecsEventReport(CEID.CarrierInstallCompletedReport, WIPINFO_BCR_ID);
-                                        IsCarrierInstallReported = true;
-                                    }
-                                    wait_in_accept = await SecsEventReport(CEID.CarrierWaitIn);
-                                    Utility.SystemLogger.Info($"MCS {(wait_in_accept ? "Accept" : "Reject")} Carrier Wait IN Request..");
+                                    if (CurrentCSTHasTransferTaskFlag && portNoName == PortName)
+                                    wait_in_accept = true;
                                 }
-                            }
+                                Utility.SystemLogger.Info($"MCS {(wait_in_accept ? "Accept" : "Reject")} Carrier Wait IN Request..");
+                                //if (!SECSState.IsOnline && !SECSState.IsRemote)
+                                //{
+                                //    wait_in_accept = true;
+                                //    Utility.SystemLogger.Info($"CIM  Accept  Carrier Wait IN Request first because MCS isn't ONLINE _ REMOTE");
+                                //}
+                                //else
+                                //{
+                                //    bool lduld_req = await WaitLoadUnloadRequestON();
+                                //    if (!lduld_req)
+                                //        return;
+
+                                //    if (!IsCarrierInstallReported)
+                                //    {
+                                //        await SecsEventReport(CEID.CarrierInstallCompletedReport, WIPINFO_BCR_ID);
+                                //        IsCarrierInstallReported = true;
+                                //    }
+                                //    wait_in_accept = await SecsEventReport(CEID.CarrierWaitIn);
+                                //    Utility.SystemLogger.Info($"MCS {(wait_in_accept ? "Accept" : "Reject")} Carrier Wait IN Request..");
+                                //}
+                            } 
                             else
                             {
                                 AlarmManager.AddWarning(ALARM_CODES.CARRIER_WAIT_IN_BUT_BCR_ID_IS_EMPTY, Properties.PortID);
