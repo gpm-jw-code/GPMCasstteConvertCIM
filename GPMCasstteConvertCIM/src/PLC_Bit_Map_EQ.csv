@@ -1,129 +1,129 @@
 Memory (Hex),Owner,Data Name,Data Format,Explanation,Device,Code_Property,Modbus_Register,,,,,,,,Memory Type _ 1,Memory Address,
-B0100,EQP,EQP Status Run,Boolean,5.2.1 Status Report by EQ,EQ,EQP_RUN,,,,,,,,,B,256,B100
-B0101,EQP,EQP Status Idle,Boolean,5.2.1 Status Report by EQ,EQ,EQP_IDLE,,,,,,,,,B,257,B101
-B0102,EQP,EQP Status Down,Boolean,5.2.1 Status Report by EQ,EQ,EQP_DOWN,,,,,,,,,B,258,B102
-B0103,EQP,,Boolean,5.2.1 Status Report by EQ,,,,,,,,,,,B,259,B103
-B0104,EQP,L_REQ,Boolean,5.2.1 Status Report by EQ,PORT1,L_REQ,1,,,,,,,,B,260,B104
-B0105,EQP,U_REQ,Boolean,5.2.1 Status Report by EQ,PORT1,U_REQ,2,,,,,,,,B,261,B105
-B0106,EQP,EQ_READY,Boolean,5.2.1 Status Report by EQ,PORT1,EQ_READY,3,,,,,,,,B,262,B106
-B0107,EQP,EQ_BUSY,Boolean,5.2.1 Status Report by EQ,PORT1,EQ_BUSY,4,,,,,,,,B,263,B107
-B0108,EQP,,Boolean,5.2.1 Status Report by EQ,PORT1,,5,,,,,,,,B,264,B108
-B0109,EQP,Load_Request,Boolean,5.2.1 Status Report by EQ,PORT1,Load_Request,6,,,,,,,,B,265,B109
-B010A,EQP,Unload_Request,Boolean,5.2.1 Status Report by EQ,PORT1,Unload_Request,7,,,,,,,,B,266,B10A
-B010B,EQP,Port_Exist,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Exist,8,,,,,,,,B,267,B10B
-B010C,EQP,Port Status Down,Boolean,,PORT1,Port_Status_Down,11,,,,,,,,B,268,B10C
-B010D,EQP,LD_UP_POS,Boolean,,PORT1,LD_UP_POS,9,,,,,,,,B,269,B10D
-B010E,EQP,LD_DOWN_POS,Boolean,,PORT1,LD_DOWN_POS,10,,,,,,,,B,270,B10E
-B010F,EQP,Door Opened,Boolean,,PORT1,Door_Opened,13,,,,,,,,B,271,B10F
-B0110,EQP,TB_DOWN_POS,Boolean,6.1 Rack Load Request,PORT1,TB_DOWN_POS,12,,,,,,,,B,272,B110
-B0111,EQP,,Boolean,6.1 Rack Unload Request,PORT1,,,,,,,,,,B,273,B111
-B0112,EQP,,Boolean,6.2 Change Mode CMD,PORT1,,,,,,,,,,B,274,B112
-B0113,EQP,,Boolean,6.3 Manual Load Complete,PORT1,,,,,,,,,,B,275,B113
-B0114,EQP,,Boolean,6.3 Manual Unload Complete,PORT1,,,,,,,,,,B,276,B114
-B0115,EQP,,Boolean,6.4 Mode Change Request,PORT1,,,,,,,,,,B,277,B115
-B0116,EQP,Carrier WaitIn System Request (Flag),Boolean,,PORT1,Carrier_WaitIn_System_Request,,,,,,,,,B,278,B116
-B0117,EQP,Carrier WaitOut System Report (Flag),Boolean,,PORT1,Carrier_WaitOut_System_Report,,,,,,,,,B,279,B117
-B0118,EQP,Carrier Removed Completed Report,Boolean,,PORT1,Carrier_Removed_Completed_Report,,,,,,,,,B,280,B118
-B0119,EQP,Carrier Force In System Request,Boolean,,PORT1,Carrier_Force_In_System_Request,,,,,,,,,B,281,B119
-B011A,EQP,,Boolean,,PORT1,,,,,,,,,,B,282,B11A
-B011B,EQP,,Boolean,,PORT1,,,,,,,,,,B,283,B11B
-B011C,EQP,,Boolean,,PORT1,,,,,,,,,,B,284,B11C
-B011D,EQP,,Boolean,,PORT1,,,,,,,,,,B,285,B11D
-B011E,EQP,,Boolean,,PORT1,,,,,,,,,,B,286,B11E
-B011F,EQP,Port Mode Change Accept (Flag),Boolean,,PORT1,Port_Mode_Change_Accept,,,,,,,,,B,287,B11F
-B0120,EQP,Port Mode Changed Refuse (Flag),Boolean,,PORT1,Port_Mode_Changed_Refuse,,,,,,,,,B,288,B120
-B0121,EQP,Port Mode Changed Report(Flag),Boolean,,PORT1,Port_Mode_Changed_Report,,,,,,,,,B,289,B121
-B0122,EQP,Port Disabled Report,Boolean,,PORT1,Port_Disabled_Report,,,,,,,,,B,290,B122
-B0123,EQP,Port Enabled Report,Boolean,,PORT1,Port_Enabled_Report,,,,,,,,,B,291,B123
-B0124,EQP,,Boolean,,,,,,,,,,,,B,292,B124
-B0125,EQP,,Boolean,,,,,,,,,,,,B,293,B125
-B0126,EQP,,Boolean,,,,,,,,,,,,B,294,B126
-B0127,EQP,,Boolean,,,,,,,,,,,,B,295,B127
-B0128,EQP,L_REQ,Boolean,,PORT2,L_REQ,1,,,,,,,,B,296,B128
-B0129,EQP,U_REQ,Boolean,,PORT2,U_REQ,2,,,,,,,,B,297,B129
-B012A,EQP,EQ_READY,Boolean,,PORT2,EQ_READY,3,,,,,,,,B,298,B12A
-B012B,EQP,EQ_BUSY,Boolean,,PORT2,EQ_BUSY,4,,,,,,,,B,299,B12B
-B012C,EQP,,Boolean,,PORT2,,5,,,,,,,,B,300,B12C
-B012D,EQP,Load_Request,Boolean,,PORT2,Load_Request,6,,,,,,,,B,301,B12D
-B012E,EQP,Unload_Request,Boolean,,PORT2,Unload_Request,7,,,,,,,,B,302,B12E
-B012F,EQP,Port_Exist,Boolean,,PORT2,Port_Exist,8,,,,,,,,B,303,B12F
-B0130,EQP,Port Status Down,Boolean,,PORT2,Port_Status_Down,11,,,,,,,,B,304,B130
-B0131,EQP,LD_UP_POS,Boolean,,PORT2,LD_UP_POS,9,,,,,,,,B,305,B131
-B0132,EQP,LD_DOWN_POS,Boolean,,PORT2,LD_DOWN_POS,10,,,,,,,,B,306,B132
-B0133,EQP,Door Opened,Boolean,,PORT2,Door_Opened,13,,,,,,,,B,307,B133
-B0134,EQP,TB_DOWN_POS,Boolean,,PORT2,TB_DOWN_POS,12,,,,,,,,B,308,B134
-B0135,EQP,,Boolean,,PORT2,,,,,,,,,,B,309,B135
-B0136,EQP,,Boolean,,PORT2,,,,,,,,,,B,310,B136
-B0137,EQP,,Boolean,,PORT2,,,,,,,,,,B,311,B137
-B0138,EQP,,Boolean,,PORT2,,,,,,,,,,B,312,B138
-B0139,EQP,,Boolean,,PORT2,,,,,,,,,,B,313,B139
-B013A,EQP,Carrier WaitIn System Request (Flag),Boolean,,PORT2,Carrier_WaitIn_System_Request,,,,,,,,,B,314,B13A
-B013B,EQP,Carrier WaitOut System Report (Flag),Boolean,,PORT2,Carrier_WaitOut_System_Report,,,,,,,,,B,315,B13B
-B013C,EQP,Carrier Removed Completed Report,Boolean,,PORT2,Carrier_Removed_Completed_Report,,,,,,,,,B,316,B13C
-B013D,EQP,Carrier Force In System Request,Boolean,,PORT2,Carrier_Force_In_System_Request,,,,,,,,,B,317,B13D
-B013E,EQP,,Boolean,,PORT2,,,,,,,,,,B,318,B13E
-B013F,EQP,,Boolean,,PORT2,,,,,,,,,,B,319,B13F
-B0140,EQP,,Boolean,,PORT2,,,,,,,,,,B,320,B140
-B0141,EQP,,Boolean,,PORT2,,,,,,,,,,B,321,B141
-B0142,EQP,,Boolean,,PORT2,,,,,,,,,,B,322,B142
-B0143,EQP,Port Mode Change Accept (Flag),Boolean,,PORT2,Port_Mode_Change_Accept,,,,,,,,,B,323,B143
-B0144,EQP,Port Mode Changed Refuse (Flag),Boolean,,PORT2,Port_Mode_Changed_Refuse,,,,,,,,,B,324,B144
-B0145,EQP,Port Mode Changed Report(Flag),Boolean,,PORT2,Port_Mode_Changed_Report,,,,,,,,,B,325,B145
-B0146,EQP,Port Disabled Report,Boolean,,PORT2,Port_Disabled_Report,,,,,,,,,B,326,B146
-B0147,EQP,Port Enabled Report,Boolean,,PORT2,Port_Enabled_Report,,,,,,,,,B,327,B147
-B0148,EQP,,Boolean,,,,,,,,,,,,B,328,B148
-B0149,EQP,,Boolean,,,,,,,,,,,,B,329,B149
-B014A,EQP,,Boolean,,,,,,,,,,,,B,330,B14A
-B014B,EQP,,Boolean,,,,,,,,,,,,B,331,B14B
-B014C,EQP,,Boolean,,,,,,,,,,,,B,332,B14C
-B014D,EQP,,Boolean,,,,,,,,,,,,B,333,B14D
-B014E,EQP,,Boolean,,,,,,,,,,,,B,334,B14E
-B014F,EQP,,Boolean,,,,,,,,,,,,B,335,B14F
-B0150,EQP,,Boolean,,,,,,,,,,,,B,336,B150
-B0151,EQP,,Boolean,,,,,,,,,,,,B,337,B151
-B0152,EQP,,Boolean,,,,,,,,,,,,B,338,B152
-B0153,EQP,,Boolean,,,,,,,,,,,,B,339,B153
-B0154,EQP,,Boolean,,,,,,,,,,,,B,340,B154
-B0155,EQP,,Boolean,,,,,,,,,,,,B,341,B155
-B0156,EQP,,Boolean,,,,,,,,,,,,B,342,B156
-B0157,EQP,,Boolean,,,,,,,,,,,,B,343,B157
-B0158,EQP,,Boolean,,,,,,,,,,,,B,344,B158
-B0159,EQP,,Boolean,,,,,,,,,,,,B,345,B159
-B015A,EQP,,Boolean,,,,,,,,,,,,B,346,B15A
-B015B,EQP,,Boolean,,,,,,,,,,,,B,347,B15B
-B015C,EQP,,Boolean,,,,,,,,,,,,B,348,B15C
-B015D,EQP,,Boolean,,,,,,,,,,,,B,349,B15D
-B015E,EQP,,Boolean,,,,,,,,,,,,B,350,B15E
-B015F,EQP,,Boolean,,,,,,,,,,,,B,351,B15F
-B0160,EQP,,Boolean,,,,,,,,,,,,B,352,B160
-B0161,EQP,,Boolean,,,,,,,,,,,,B,353,B161
-B0162,EQP,,Boolean,,,,,,,,,,,,B,354,B162
-B0163,EQP,,Boolean,,,,,,,,,,,,B,355,B163
-B0164,EQP,,Boolean,,,,,,,,,,,,B,356,B164
-B0165,EQP,,Boolean,,,,,,,,,,,,B,357,B165
-B0166,EQP,,Boolean,,,,,,,,,,,,B,358,B166
-B0167,EQP,,Boolean,,,,,,,,,,,,B,359,B167
-B0168,EQP,,Boolean,,,,,,,,,,,,B,360,B168
-B0169,EQP,,Boolean,,,,,,,,,,,,B,361,B169
-B016A,EQP,,Boolean,,,,,,,,,,,,B,362,B16A
-B016B,EQP,,Boolean,,,,,,,,,,,,B,363,B16B
-B016C,EQP,,Boolean,,,,,,,,,,,,B,364,B16C
-B016D,EQP,,Boolean,,,,,,,,,,,,B,365,B16D
-B016E,EQP,,Boolean,,,,,,,,,,,,B,366,B16E
-B016F,EQP,,Boolean,,,,,,,,,,,,B,367,B16F
-B0170,EQP,,Boolean,,,,,,,,,,,,B,368,B170
-B0171,EQP,,Boolean,,,,,,,,,,,,B,369,B171
-B0172,EQP,,Boolean,,,,,,,,,,,,B,370,B172
-B0173,EQP,,Boolean,,,,,,,,,,,,B,371,B173
-B0174,EQP,,Boolean,,,,,,,,,,,,B,372,B174
-B0175,EQP,,Boolean,,,,,,,,,,,,B,373,B175
-B0176,EQP,,Boolean,,,,,,,,,,,,B,374,B176
-B0177,EQP,,Boolean,,,,,,,,,,,,B,375,B177
-B0178,EQP,,Boolean,,,,,,,,,,,,B,376,B178
-B0179,EQP,,Boolean,,,,,,,,,,,,B,377,B179
-B017A,EQP,,Boolean,,,,,,,,,,,,B,378,B17A
-B017B,EQP,,Boolean,,,,,,,,,,,,B,379,B17B
-B017C,EQP,,Boolean,,,,,,,,,,,,B,380,B17C
-B017D,EQP,,Boolean,,,,,,,,,,,,B,381,B17D
-B017E,EQP,,Boolean,,,,,,,,,,,,B,382,B17E
-B017F,EQP,,Boolean,,,,,,,,,,,,B,383,B17F
+B100,EQP,EQP Status Run,Boolean,5.2.1 Status Report by EQ,EQ,EQP_RUN,,,,,,,,,B,256,B100
+B101,EQP,EQP Status Idle,Boolean,5.2.1 Status Report by EQ,EQ,EQP_IDLE,,,,,,,,,B,257,B101
+B102,EQP,EQP Status Down,Boolean,5.2.1 Status Report by EQ,EQ,EQP_DOWN,,,,,,,,,B,258,B102
+B103,EQP,,Boolean,5.2.1 Status Report by EQ,,,,,,,,,,,B,259,B103
+B104,EQP,L_REQ,Boolean,5.2.1 Status Report by EQ,PORT1,L_REQ,1,,,,,,,,B,260,B104
+B105,EQP,U_REQ,Boolean,5.2.1 Status Report by EQ,PORT1,U_REQ,2,,,,,,,,B,261,B105
+B106,EQP,EQ_READY,Boolean,5.2.1 Status Report by EQ,PORT1,EQ_READY,3,,,,,,,,B,262,B106
+B107,EQP,EQ_BUSY,Boolean,5.2.1 Status Report by EQ,PORT1,EQ_BUSY,4,,,,,,,,B,263,B107
+B108,EQP,,Boolean,5.2.1 Status Report by EQ,PORT1,,5,,,,,,,,B,264,B108
+B109,EQP,Load_Request,Boolean,5.2.1 Status Report by EQ,PORT1,Load_Request,6,,,,,,,,B,265,B109
+B10A,EQP,Unload_Request,Boolean,5.2.1 Status Report by EQ,PORT1,Unload_Request,7,,,,,,,,B,266,B10A
+B10B,EQP,Port_Exist,Boolean,5.2.1 Status Report by EQ,PORT1,Port_Exist,8,,,,,,,,B,267,B10B
+B10C,EQP,Port Status Down,Boolean,,PORT1,Port_Status_Down,11,,,,,,,,B,268,B10C
+B10D,EQP,LD_UP_POS,Boolean,,PORT1,LD_UP_POS,9,,,,,,,,B,269,B10D
+B10E,EQP,LD_DOWN_POS,Boolean,,PORT1,LD_DOWN_POS,10,,,,,,,,B,270,B10E
+B10F,EQP,Door Opened,Boolean,,PORT1,Door_Opened,13,,,,,,,,B,271,B10F
+B110,EQP,TB_DOWN_POS,Boolean,6.1 Rack Load Request,PORT1,TB_DOWN_POS,12,,,,,,,,B,272,B110
+B111,EQP,,Boolean,6.1 Rack Unload Request,PORT1,,,,,,,,,,B,273,B111
+B112,EQP,,Boolean,6.2 Change Mode CMD,PORT1,,,,,,,,,,B,274,B112
+B113,EQP,,Boolean,6.3 Manual Load Complete,PORT1,,,,,,,,,,B,275,B113
+B114,EQP,,Boolean,6.3 Manual Unload Complete,PORT1,,,,,,,,,,B,276,B114
+B115,EQP,,Boolean,6.4 Mode Change Request,PORT1,,,,,,,,,,B,277,B115
+B116,EQP,Carrier WaitIn System Request (Flag),Boolean,,PORT1,Carrier_WaitIn_System_Request,,,,,,,,,B,278,B116
+B117,EQP,Carrier WaitOut System Report (Flag),Boolean,,PORT1,Carrier_WaitOut_System_Report,,,,,,,,,B,279,B117
+B118,EQP,Carrier Removed Completed Report,Boolean,,PORT1,Carrier_Removed_Completed_Report,,,,,,,,,B,280,B118
+B119,EQP,Carrier Force In System Request,Boolean,,PORT1,Carrier_Force_In_System_Request,,,,,,,,,B,281,B119
+B11A,EQP,,Boolean,,PORT1,,,,,,,,,,B,282,B11A
+B11B,EQP,,Boolean,,PORT1,,,,,,,,,,B,283,B11B
+B11C,EQP,,Boolean,,PORT1,,,,,,,,,,B,284,B11C
+B11D,EQP,,Boolean,,PORT1,,,,,,,,,,B,285,B11D
+B11E,EQP,,Boolean,,PORT1,,,,,,,,,,B,286,B11E
+B11F,EQP,Port Mode Change Accept (Flag),Boolean,,PORT1,Port_Mode_Change_Accept,,,,,,,,,B,287,B11F
+B120,EQP,Port Mode Changed Refuse (Flag),Boolean,,PORT1,Port_Mode_Changed_Refuse,,,,,,,,,B,288,B120
+B121,EQP,Port Mode Changed Report(Flag),Boolean,,PORT1,Port_Mode_Changed_Report,,,,,,,,,B,289,B121
+B122,EQP,Port Disabled Report,Boolean,,PORT1,Port_Disabled_Report,,,,,,,,,B,290,B122
+B123,EQP,Port Enabled Report,Boolean,,PORT1,Port_Enabled_Report,,,,,,,,,B,291,B123
+B124,EQP,,Boolean,,,,,,,,,,,,B,292,B124
+B125,EQP,,Boolean,,,,,,,,,,,,B,293,B125
+B126,EQP,,Boolean,,,,,,,,,,,,B,294,B126
+B127,EQP,,Boolean,,,,,,,,,,,,B,295,B127
+B128,EQP,L_REQ,Boolean,,PORT2,L_REQ,1,,,,,,,,B,296,B128
+B129,EQP,U_REQ,Boolean,,PORT2,U_REQ,2,,,,,,,,B,297,B129
+B12A,EQP,EQ_READY,Boolean,,PORT2,EQ_READY,3,,,,,,,,B,298,B12A
+B12B,EQP,EQ_BUSY,Boolean,,PORT2,EQ_BUSY,4,,,,,,,,B,299,B12B
+B12C,EQP,,Boolean,,PORT2,,5,,,,,,,,B,300,B12C
+B12D,EQP,Load_Request,Boolean,,PORT2,Load_Request,6,,,,,,,,B,301,B12D
+B12E,EQP,Unload_Request,Boolean,,PORT2,Unload_Request,7,,,,,,,,B,302,B12E
+B12F,EQP,Port_Exist,Boolean,,PORT2,Port_Exist,8,,,,,,,,B,303,B12F
+B130,EQP,Port Status Down,Boolean,,PORT2,Port_Status_Down,11,,,,,,,,B,304,B130
+B131,EQP,LD_UP_POS,Boolean,,PORT2,LD_UP_POS,9,,,,,,,,B,305,B131
+B132,EQP,LD_DOWN_POS,Boolean,,PORT2,LD_DOWN_POS,10,,,,,,,,B,306,B132
+B133,EQP,Door Opened,Boolean,,PORT2,Door_Opened,13,,,,,,,,B,307,B133
+B134,EQP,TB_DOWN_POS,Boolean,,PORT2,TB_DOWN_POS,12,,,,,,,,B,308,B134
+B135,EQP,,Boolean,,PORT2,,,,,,,,,,B,309,B135
+B136,EQP,,Boolean,,PORT2,,,,,,,,,,B,310,B136
+B137,EQP,,Boolean,,PORT2,,,,,,,,,,B,311,B137
+B138,EQP,,Boolean,,PORT2,,,,,,,,,,B,312,B138
+B139,EQP,,Boolean,,PORT2,,,,,,,,,,B,313,B139
+B13A,EQP,Carrier WaitIn System Request (Flag),Boolean,,PORT2,Carrier_WaitIn_System_Request,,,,,,,,,B,314,B13A
+B13B,EQP,Carrier WaitOut System Report (Flag),Boolean,,PORT2,Carrier_WaitOut_System_Report,,,,,,,,,B,315,B13B
+B13C,EQP,Carrier Removed Completed Report,Boolean,,PORT2,Carrier_Removed_Completed_Report,,,,,,,,,B,316,B13C
+B13D,EQP,Carrier Force In System Request,Boolean,,PORT2,Carrier_Force_In_System_Request,,,,,,,,,B,317,B13D
+B13E,EQP,,Boolean,,PORT2,,,,,,,,,,B,318,B13E
+B13F,EQP,,Boolean,,PORT2,,,,,,,,,,B,319,B13F
+B140,EQP,,Boolean,,PORT2,,,,,,,,,,B,320,B140
+B141,EQP,,Boolean,,PORT2,,,,,,,,,,B,321,B141
+B142,EQP,,Boolean,,PORT2,,,,,,,,,,B,322,B142
+B143,EQP,Port Mode Change Accept (Flag),Boolean,,PORT2,Port_Mode_Change_Accept,,,,,,,,,B,323,B143
+B144,EQP,Port Mode Changed Refuse (Flag),Boolean,,PORT2,Port_Mode_Changed_Refuse,,,,,,,,,B,324,B144
+B145,EQP,Port Mode Changed Report(Flag),Boolean,,PORT2,Port_Mode_Changed_Report,,,,,,,,,B,325,B145
+B146,EQP,Port Disabled Report,Boolean,,PORT2,Port_Disabled_Report,,,,,,,,,B,326,B146
+B147,EQP,Port Enabled Report,Boolean,,PORT2,Port_Enabled_Report,,,,,,,,,B,327,B147
+B148,EQP,,Boolean,,,,,,,,,,,,B,328,B148
+B149,EQP,,Boolean,,,,,,,,,,,,B,329,B149
+B14A,EQP,,Boolean,,,,,,,,,,,,B,330,B14A
+B14B,EQP,,Boolean,,,,,,,,,,,,B,331,B14B
+B14C,EQP,,Boolean,,,,,,,,,,,,B,332,B14C
+B14D,EQP,,Boolean,,,,,,,,,,,,B,333,B14D
+B14E,EQP,,Boolean,,,,,,,,,,,,B,334,B14E
+B14F,EQP,,Boolean,,,,,,,,,,,,B,335,B14F
+B150,EQP,,Boolean,,,,,,,,,,,,B,336,B150
+B151,EQP,,Boolean,,,,,,,,,,,,B,337,B151
+B152,EQP,,Boolean,,,,,,,,,,,,B,338,B152
+B153,EQP,,Boolean,,,,,,,,,,,,B,339,B153
+B154,EQP,,Boolean,,,,,,,,,,,,B,340,B154
+B155,EQP,,Boolean,,,,,,,,,,,,B,341,B155
+B156,EQP,,Boolean,,,,,,,,,,,,B,342,B156
+B157,EQP,,Boolean,,,,,,,,,,,,B,343,B157
+B158,EQP,,Boolean,,,,,,,,,,,,B,344,B158
+B159,EQP,,Boolean,,,,,,,,,,,,B,345,B159
+B15A,EQP,,Boolean,,,,,,,,,,,,B,346,B15A
+B15B,EQP,,Boolean,,,,,,,,,,,,B,347,B15B
+B15C,EQP,,Boolean,,,,,,,,,,,,B,348,B15C
+B15D,EQP,,Boolean,,,,,,,,,,,,B,349,B15D
+B15E,EQP,,Boolean,,,,,,,,,,,,B,350,B15E
+B15F,EQP,,Boolean,,,,,,,,,,,,B,351,B15F
+B160,EQP,,Boolean,,,,,,,,,,,,B,352,B160
+B161,EQP,,Boolean,,,,,,,,,,,,B,353,B161
+B162,EQP,,Boolean,,,,,,,,,,,,B,354,B162
+B163,EQP,,Boolean,,,,,,,,,,,,B,355,B163
+B164,EQP,,Boolean,,,,,,,,,,,,B,356,B164
+B165,EQP,,Boolean,,,,,,,,,,,,B,357,B165
+B166,EQP,,Boolean,,,,,,,,,,,,B,358,B166
+B167,EQP,,Boolean,,,,,,,,,,,,B,359,B167
+B168,EQP,,Boolean,,,,,,,,,,,,B,360,B168
+B169,EQP,,Boolean,,,,,,,,,,,,B,361,B169
+B16A,EQP,,Boolean,,,,,,,,,,,,B,362,B16A
+B16B,EQP,,Boolean,,,,,,,,,,,,B,363,B16B
+B16C,EQP,,Boolean,,,,,,,,,,,,B,364,B16C
+B16D,EQP,,Boolean,,,,,,,,,,,,B,365,B16D
+B16E,EQP,,Boolean,,,,,,,,,,,,B,366,B16E
+B16F,EQP,,Boolean,,,,,,,,,,,,B,367,B16F
+B170,EQP,,Boolean,,,,,,,,,,,,B,368,B170
+B171,EQP,,Boolean,,,,,,,,,,,,B,369,B171
+B172,EQP,,Boolean,,,,,,,,,,,,B,370,B172
+B173,EQP,,Boolean,,,,,,,,,,,,B,371,B173
+B174,EQP,,Boolean,,,,,,,,,,,,B,372,B174
+B175,EQP,,Boolean,,,,,,,,,,,,B,373,B175
+B176,EQP,,Boolean,,,,,,,,,,,,B,374,B176
+B177,EQP,,Boolean,,,,,,,,,,,,B,375,B177
+B178,EQP,,Boolean,,,,,,,,,,,,B,376,B178
+B179,EQP,,Boolean,,,,,,,,,,,,B,377,B179
+B17A,EQP,,Boolean,,,,,,,,,,,,B,378,B17A
+B17B,EQP,,Boolean,,,,,,,,,,,,B,379,B17B
+B17C,EQP,,Boolean,,,,,,,,,,,,B,380,B17C
+B17D,EQP,,Boolean,,,,,,,,,,,,B,381,B17D
+B17E,EQP,,Boolean,,,,,,,,,,,,B,382,B17E
+B17F,EQP,,Boolean,,,,,,,,,,,,B,383,B17F
