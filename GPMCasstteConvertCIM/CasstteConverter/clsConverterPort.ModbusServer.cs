@@ -112,9 +112,16 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                         modbus_server.discreteInputs.localArray[item.Link_Modbus_Register_Number] = bolState;
                     }
 
-                    foreach (var item in EQModbusLinkWordAddress)
+                    foreach (Data.clsMemoryAddress item in EQModbusLinkWordAddress)
                     {
-                        int value = EQParent.EQPMemOptions.memoryTable.ReadBinary(item.Address);
+                        int value = 0;
+                        if (Utility.SysConfigs.EQLoadUnload_RequestSimulation)
+                        {
+                            if (item.EProperty == Enums.PROPERTY.Load_Request | item.EProperty == Enums.PROPERTY.Unload_Request)
+                                value = 1;
+                        }
+                        else
+                            value = EQParent.EQPMemOptions.memoryTable.ReadBinary(item.Address);
                         modbus_server.holdingRegisters.localArray[item.Link_Modbus_Register_Number] = (short)value;
                     }
 

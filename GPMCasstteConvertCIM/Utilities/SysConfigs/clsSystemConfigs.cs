@@ -13,6 +13,7 @@ namespace GPMCasstteConvertCIM.Utilities.SysConfigs
         public bool Simulation { get; set; } = true;
         public clsLogConfigs Log { get; set; } = new clsLogConfigs();
         public clsSECSConfigs SECS { get; set; } = new clsSECSConfigs();
+        public bool EQLoadUnload_RequestSimulation { get; set; } = true;
 
         [JsonConverter(typeof(StringEnumConverter))]
         public PROJECT Project { get; set; }

@@ -17,7 +17,7 @@ namespace GPMCasstteConvertCIM.Utilities
 
         public static string configsFolder = "configs";
 
-        internal static clsSystemConfigs SysConfigs = new clsSystemConfigs();
+        public static clsSystemConfigs SysConfigs = new clsSystemConfigs();
 
         internal static LoggerBase SystemLogger;
 
