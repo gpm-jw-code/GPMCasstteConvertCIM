@@ -38,7 +38,14 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             SECSState.OnMCSOnlineRemote += SECSState_OnMCSOnlineRemote;
 
         }
+        public enum EQ_PORT_LD_STATE
+        {
+            Load,
+            Unload,
+            Busy
+        }
 
+        public EQ_PORT_LD_STATE PortStateSimulation { get; set; } = EQ_PORT_LD_STATE.Busy;
         private async void SECSState_OnMCSOnlineRemote(object? sender, EventArgs e)
         {
 
@@ -315,7 +322,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                                 else
                                 {
                                     if (CurrentCSTHasTransferTaskFlag && portNoName == PortName)
-                                    wait_in_accept = true;
+                                        wait_in_accept = true;
                                 }
                                 Utility.SystemLogger.Info($"MCS {(wait_in_accept ? "Accept" : "Reject")} Carrier Wait IN Request..");
                                 //if (!SECSState.IsOnline && !SECSState.IsRemote)
@@ -337,7 +344,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                                 //    wait_in_accept = await SecsEventReport(CEID.CarrierWaitIn);
                                 //    Utility.SystemLogger.Info($"MCS {(wait_in_accept ? "Accept" : "Reject")} Carrier Wait IN Request..");
                                 //}
-                            } 
+                            }
                             else
                             {
                                 AlarmManager.AddWarning(ALARM_CODES.CARRIER_WAIT_IN_BUT_BCR_ID_IS_EMPTY, Properties.PortID);

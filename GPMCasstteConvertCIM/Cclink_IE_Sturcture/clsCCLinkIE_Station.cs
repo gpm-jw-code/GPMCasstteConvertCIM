@@ -185,6 +185,11 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
                             if (item.Link_Modbus_Register_Number != -1)
                             {
                                 bool bolState = DevicesManager.cclink_master.EQPMemOptions.memoryTable.ReadOneBit(item.Address);
+                                if (Utility.SysConfigs.EQLoadUnload_RequestSimulation && this.Properties.LoadUnlloadStateSimulation)
+                                {
+                                    if (item.EProperty == Enums.PROPERTY.Load_Request | item.EProperty == Enums.PROPERTY.Unload_Request)
+                                        bolState = true;
+                                }
                                 modbus_server.discreteInputs.localArray[item.Link_Modbus_Register_Number] = bolState;
                             }
                         }

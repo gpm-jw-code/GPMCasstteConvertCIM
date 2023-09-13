@@ -22,6 +22,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             internal PortUnitType PortType { get; set; }
 
             public bool CarrierWaitInOutReport_Enable { get; set; } = true;
+            public bool LoadUnlloadStateSimulation { get; set; } = false;
 
         }
 
