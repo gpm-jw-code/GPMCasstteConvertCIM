@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GPMCasstteConvertCIM.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -16,14 +17,24 @@ namespace GPMCasstteConvertCIM.API.TcpSupport
         {
             CreateTcpServer();
         }
+        public virtual int Port { get; set; } = 23000;
         private void CreateTcpServer()
         {
-            Socket server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, 23000);
-            server.Bind(endPoint);
-            server.Listen(1000);
+            try
+            {
 
-            StertListenAccept(server);
+                Socket server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, Port);
+                server.Bind(endPoint);
+                server.Listen(1000);
+                StertListenAccept(server);
+                Utility.SystemLogger.Info($"TCP/IP Server{endPoint.ToString()} Created !");
+
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
         public class clsSocketState
         {
@@ -49,7 +60,7 @@ namespace GPMCasstteConvertCIM.API.TcpSupport
             });
         }
 
-        private void ClientRecieveCB(IAsyncResult ar)
+        public virtual void ClientRecieveCB(IAsyncResult ar)
         {
             try
             {

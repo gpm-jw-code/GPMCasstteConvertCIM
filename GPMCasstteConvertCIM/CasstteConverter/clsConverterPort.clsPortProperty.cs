@@ -24,6 +24,16 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             public bool CarrierWaitInOutReport_Enable { get; set; } = true;
             public bool LoadUnlloadStateSimulation { get; set; } = false;
 
+            /// <summary>
+            /// 是否使用SECS通訊上報狀態或下載請求
+            /// </summary>
+            public bool SecsReport { get; set; } = false;
+
+            /// <summary>
+            /// 在派車系統上設定的Tag編號
+            /// </summary>
+            public int TagNumberInAGVS { get; set; } = 1;
+
         }
 
     }

@@ -130,8 +130,9 @@ namespace GPMCasstteConvertCIM.Forms
             VirtualAGVSystem.StaVirtualAGVS.Initialize();
 
             SystemAPI systemAPI = new SystemAPI();
+            EQDIODataAPI EqDIOAPIService = new EQDIODataAPI();
             systemAPI.Start();
-
+            EqDIOAPIService.Start();
             WebsocketMiddleware.ServerBuild();
             uscAlarmTable1.BindData(AlarmManager.AlarmsList.ToList());
             AlarmManager.onAlarmAdded += (sender, arg) =>

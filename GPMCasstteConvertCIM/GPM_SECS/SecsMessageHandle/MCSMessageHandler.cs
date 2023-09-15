@@ -72,7 +72,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                 {
                     SecsItem = L(
                                 B((byte)0) //command will be perform with completion signaled later by an event
-                                
+
                         )
                 };
                 _primaryMessageWrapper.TryReplyAsync(S2F42_Reply);
@@ -375,7 +375,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
             //<PortTransferState>
             //<EqReqSatus>
             //<EqPresenceStatus> >
-            List<clsConverterPort> ports = DevicesManager.GetAllPorts();
+            List<clsConverterPort> ports = DevicesManager.GetAllPorts().FindAll(p => p.Properties.SecsReport);
             ports = ports.OrderBy(p => p.Properties.PortID).ToList();
             Item GetCurrEqPortStatus(clsConverterPort port)
             {
@@ -414,7 +414,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
             //< L[2]
             //  A <PortID>
             //  U2<PortTransferState> 0=out of service; 1= in service
-            List<clsConverterPort> ports = DevicesManager.GetAllPorts();
+            List<clsConverterPort> ports = DevicesManager.GetAllPorts().FindAll(port => port.Properties.SecsReport);
             ports = ports.OrderBy(p => p.Properties.PortID).ToList();
 
             Item GetPortType(clsConverterPort port)
@@ -433,7 +433,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
             //< L[2]
             //  A <PortID>
             //  U2<PortUnitType> 0=Input ; 1=Output
-            List<clsConverterPort> ports = DevicesManager.GetAllPorts();
+            List<clsConverterPort> ports = DevicesManager.GetAllPorts().FindAll(p => p.Properties.SecsReport); ;
             ports = ports.OrderBy(p => p.Properties.PortID).ToList();
             Item GetPortTypeInfo(clsConverterPort port)
             {

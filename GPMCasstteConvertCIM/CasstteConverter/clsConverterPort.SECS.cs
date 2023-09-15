@@ -28,6 +28,12 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         }
         public async Task<bool> SecsEventReport(CEID ceid)
         {
+            if (!Properties.SecsReport)
+            {
+                Utility.SystemLogger.Info($"{PortName} SECS Report is disabled, {ceid} Secs Event Can't Report Out.");
+                return false;
+            }
+
             bool isCarrierWaitInOutReport = ceid == CEID.CarrierWaitIn | ceid == CEID.CarrierWaitOut;
             if (isCarrierWaitInOutReport && Properties.CarrierWaitInOutReport_Enable == false)
             {
@@ -65,11 +71,11 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 else
                 {
                     Utility.SystemLogger.Info($"Event Report MCS Reply = {msgReply.ToSml()}");
-                    if (ceid == CEID.CarrierWaitIn )
+                    if (ceid == CEID.CarrierWaitIn)
                     {
                         bool mcs_accpet = msgReply.SecsItem.FirstValue<byte>() == 0;
-                        if (mcs_accpet ) { await WaitTransferTaskDownloaded(); }
-                        return mcs_accpet ;
+                        if (mcs_accpet) { await WaitTransferTaskDownloaded(); }
+                        return mcs_accpet;
                     }
 
                     return true;
