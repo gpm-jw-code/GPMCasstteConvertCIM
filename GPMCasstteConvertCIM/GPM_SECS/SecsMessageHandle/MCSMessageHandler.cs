@@ -329,7 +329,6 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                     {
                         if (item_store.vid == 2004)
                         {
-
                             List<Item>? ori = item_store.secs_item.Items.ToList();
                             Utility.SystemLogger.Info($"SV2004 Expand. Add Port Carrier Info,{ori.Count} ");
                             Item[]? portInfos = CreateEnhancedCarrierInfo();
@@ -393,7 +392,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
 
         private static Item[] CreateEnhancedCarrierInfo()
         {
-            List<clsConverterPort> ports = DevicesManager.GetAllPorts();
+            List<clsConverterPort> ports = DevicesManager.GetAllPorts().FindAll(p => p.Properties.SecsReport);
             ports = ports.OrderBy(p => p.Properties.PortID).ToList();
             Item CarrierInfo(clsConverterPort port)
             {

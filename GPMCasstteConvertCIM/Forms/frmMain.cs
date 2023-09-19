@@ -391,18 +391,6 @@ namespace GPMCasstteConvertCIM.Forms
 
         private void cknOnlineModeIndi_CheckedChanged(object sender, EventArgs e)
         {
-            cknOnlineModeIndi.Text = cknOnlineModeIndi.Checked ? "ONLINE" : "OFFLINE";
-            string ch = "¤¤¤å´ú¸Õ";
-            var bytes = Encoding.ASCII.GetBytes(ch);
-
-            var big5ch = Encoding.Unicode.GetString(bytes, 0, bytes.Length);
-            var big5Bytes = Encoding.BigEndianUnicode.GetBytes(big5ch);
-            //
-            DevicesManager.secs_host_for_mcs.SendMsg(new SecsMessage(5, 9)
-            {
-                SecsItem = A(ch)
-            });
-
         }
     }
 }

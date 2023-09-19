@@ -186,7 +186,23 @@ namespace GPMCasstteConvertCIM.GPM_SECS
 
         private void AddPrimaryMsgToSendBuffer(SecsMessage primaryMsg, SecsMessage secondaryMessage)
         {
-            SendBufferDgvTable?.Invoke(new Action(() =>
+            if (SendBufferDgvTable.Created)
+            {
+                SendBufferDgvTable?.Invoke(new Action(() =>
+                {
+                    if (sendBuffer.Count > 10)
+                    {
+                        sendBuffer.Clear();
+                    }
+                    sendBuffer.Add(new PrimaryMessageWrapper()
+                    {
+                        PrimaryMessage = primaryMsg,
+                        SecondaryMessage = secondaryMessage,
+                    });
+                    SendBufferDgvTable?.Invalidate();
+                }));
+            }
+            else
             {
                 if (sendBuffer.Count > 10)
                 {
@@ -197,8 +213,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS
                     PrimaryMessage = primaryMsg,
                     SecondaryMessage = secondaryMessage,
                 });
-                SendBufferDgvTable?.Invalidate();
-            }));
+            }
 
         }
     }
