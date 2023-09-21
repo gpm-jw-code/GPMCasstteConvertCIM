@@ -182,7 +182,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             string? carrier_wait_in_result_flag_address = PortCIMBitAddress[wait_in_];
             string? carrier_wait_in_reply_address = PortCIMBitAddress[PROPERTY.Carrier_WaitIn_System_Reply];
 
-            PortUnitType _portType =this.EPortType;
+            PortUnitType _portType = this.EPortType;
             if (_portType == PortUnitType.Input)
             {
                 EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_in_result_flag_address, true);
@@ -225,10 +225,27 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 Utility.SystemLogger.Info($"Carrier Wait In HS Failed");
             }
 
-                return (!timeout, timeout ? ALARM_CODES.CarrierWaitIn_HS_EQ_Timeout : ALARM_CODES.None);
+            return (!timeout, timeout ? ALARM_CODES.CarrierWaitIn_HS_EQ_Timeout : ALARM_CODES.None);
 
         }
 
+        internal async Task<bool> WaitAGVSTransferCompleteReported()
+        {
+            CancellationTokenSource cts = new CancellationTokenSource(TimeSpan.FromSeconds(25));
+            Utility.SystemLogger.Info($"{PortName} Wait AGVS Transfer Completed Reported");
+            while (!Carrier_TransferCompletedFlag)
+            {
+                await Task.Delay(1);
+                if (cts.IsCancellationRequested)
+                {
+                    Utility.SystemLogger.Info($"{PortName} Wait AGVS Transfer Completed Reported Timeout....");
+                    return false;
+                }
+            }
+
+            Utility.SystemLogger.Info($"{PortName} AGVS Transfer Completed Reported Done.");
+            return true;
+        }
         internal async Task<bool> WaitLoadUnloadRequestON()
         {
             Utility.SystemLogger.Info("Wait_Load/Unload Request ON...");
@@ -250,7 +267,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         private bool NoTransferNotifyFlag = false;
         private bool CurrentCSTHasTransferTaskFlag = false;
 
-         
+
         internal void CstTransferInvoke()
         {
             CurrentCSTHasTransferTaskFlag = true;

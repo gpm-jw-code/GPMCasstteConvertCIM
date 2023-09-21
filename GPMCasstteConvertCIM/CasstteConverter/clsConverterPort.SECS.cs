@@ -50,10 +50,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     IsCarrierWaitInQueuing = false;
             }
 
-
-            if (ceid == CEID.CarrierWaitOut)
-                await WaitTransferCompleted();
-
             try
             {
                 SecsMessage msgReply = await MCS.SendMsg(msgSend);
@@ -133,7 +129,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             }
         }
 
-        public   CancellationTokenSource WaitTransferTaskDownloadCts = new CancellationTokenSource();
+        public CancellationTokenSource WaitTransferTaskDownloadCts = new CancellationTokenSource();
         /// <summary>
         ///等待MCS有下Transfer任務給AGVS取當前Carrier。
         /// </summary>
@@ -144,7 +140,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             WaitTransferTaskDownloadCts = new CancellationTokenSource(TimeSpan.FromSeconds(200));
             while (!CurrentCSTHasTransferTaskFlag)
             {
-                
                 if (WaitTransferTaskDownloadCts.IsCancellationRequested)
                 {
                     NoTransferNotifyInovke(Properties.PortID, WIPINFO_BCR_ID);
@@ -164,26 +159,9 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             }
             WaitTransferTaskDownloadCts.Cancel();
             Utility.SystemLogger.Warning($"{Properties.PortID} _ Carrier- {WIPINFO_BCR_ID} AGV Will Transfer this carrier later.");
-            CurrentCSTHasTransferTaskFlag = false; //reset flag
             return true;
         }
 
-        /// <summary>
-        /// 等待
-        /// </summary>
-        /// <returns></returns>
-        private async Task WaitTransferCompleted(int timeout_sec = 5)
-        {
-            //確保Wait Out Event Report在 Transfer Completed 之後
-            CancellationTokenSource cts = new CancellationTokenSource(TimeSpan.FromSeconds(timeout_sec));
-            while (!Carrier_TransferCompletedFlag)
-            {
-                if (cts.IsCancellationRequested)
-                    break;
-                await Task.Delay(1);
-            }
-            Carrier_TransferCompletedFlag = false;
-        }
 
 
     }
