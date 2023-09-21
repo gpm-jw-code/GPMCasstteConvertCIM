@@ -56,10 +56,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     IsCarrierWaitInQueuing = false;
             }
 
-
-            if (ceid == CEID.CarrierWaitOut)
-                await WaitTransferCompleted();
-
             try
             {
                 SecsMessage msgReply = await MCS.SendMsg(msgSend);
@@ -74,7 +70,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     if (ceid == CEID.CarrierWaitIn)
                     {
                         bool mcs_accpet = msgReply.SecsItem.FirstValue<byte>() == 0;
-                        if (mcs_accpet) { await WaitTransferTaskDownloaded(); }
+                        if (mcs_accpet)
+                        {
+                            await WaitTransferTaskDownloaded();
+                        }
                         return mcs_accpet;
                     }
 
@@ -136,6 +135,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             }
         }
 
+        public CancellationTokenSource WaitTransferTaskDownloadCts = new CancellationTokenSource();
         /// <summary>
         ///等待MCS有下Transfer任務給AGVS取當前Carrier。
         /// </summary>
@@ -143,43 +143,31 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         /// <returns></returns>
         private async Task<bool> WaitTransferTaskDownloaded()
         {
-            CancellationTokenSource cancelwait = new CancellationTokenSource(TimeSpan.FromSeconds(60));
+            WaitTransferTaskDownloadCts = new CancellationTokenSource(TimeSpan.FromSeconds(200));
             while (!CurrentCSTHasTransferTaskFlag)
             {
-                if (cancelwait.IsCancellationRequested)
+                if (WaitTransferTaskDownloadCts.IsCancellationRequested)
                 {
+                    NoTransferNotifyInovke(Properties.PortID, WIPINFO_BCR_ID);
                     Utility.SystemLogger.Warning($"{Properties.PortID} _ Carrier- {WIPINFO_BCR_ID} No body known where to go . No AGV To Transfer....");
+                    NoTransferNotifyFlag = false; //reset flag
                     return false;
                 }
                 if (NoTransferNotifyFlag)
                 {
+                    WaitTransferTaskDownloadCts.Cancel();
+                    NoTransferNotifyInovke(Properties.PortID, WIPINFO_BCR_ID);
                     Utility.SystemLogger.Warning($"{Properties.PortID} _ Carrier- {WIPINFO_BCR_ID} MCS NO Transfer Notify. No AGV To Transfer...");
                     NoTransferNotifyFlag = false; //reset flag
                     return false;
                 }
                 await Task.Delay(1);
             }
+            WaitTransferTaskDownloadCts.Cancel();
             Utility.SystemLogger.Warning($"{Properties.PortID} _ Carrier- {WIPINFO_BCR_ID} AGV Will Transfer this carrier later.");
-            CurrentCSTHasTransferTaskFlag = false; //reset flag
             return true;
         }
 
-        /// <summary>
-        /// 等待
-        /// </summary>
-        /// <returns></returns>
-        private async Task WaitTransferCompleted(int timeout_sec = 5)
-        {
-            //確保Wait Out Event Report在 Transfer Completed 之後
-            CancellationTokenSource cts = new CancellationTokenSource(TimeSpan.FromSeconds(timeout_sec));
-            while (!Carrier_TransferCompletedFlag)
-            {
-                if (cts.IsCancellationRequested)
-                    break;
-                await Task.Delay(1);
-            }
-            Carrier_TransferCompletedFlag = false;
-        }
 
 
     }

@@ -240,6 +240,23 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         }
 
+        internal async Task<bool> WaitAGVSTransferCompleteReported()
+        {
+            CancellationTokenSource cts = new CancellationTokenSource(TimeSpan.FromSeconds(25));
+            Utility.SystemLogger.Info($"{PortName} Wait AGVS Transfer Completed Reported");
+            while (!Carrier_TransferCompletedFlag)
+            {
+                await Task.Delay(1);
+                if (cts.IsCancellationRequested)
+                {
+                    Utility.SystemLogger.Info($"{PortName} Wait AGVS Transfer Completed Reported Timeout....");
+                    return false;
+                }
+            }
+
+            Utility.SystemLogger.Info($"{PortName} AGVS Transfer Completed Reported Done.");
+            return true;
+        }
         internal async Task<bool> WaitLoadUnloadRequestON()
         {
             Utility.SystemLogger.Info("Wait_Load/Unload Request ON...");
