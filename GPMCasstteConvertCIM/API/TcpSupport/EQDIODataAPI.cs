@@ -1,4 +1,5 @@
 ﻿using GPMCasstteConvertCIM.Devices;
+using GPMCasstteConvertCIM.Utilities;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -47,8 +48,17 @@ namespace GPMCasstteConvertCIM.API.TcpSupport
                         state.socket.Send(Encoding.ASCII.GetBytes(json));
                     }
                 }
-
-                state.socket.BeginReceive(state.buffer, 0, 4096, SocketFlags.None, new AsyncCallback(ClientRecieveCB), state);
+                Task.Factory.StartNew(() =>
+                {
+                    try
+                    {
+                        state.socket.BeginReceive(state.buffer, 0, 4096, SocketFlags.None, new AsyncCallback(ClientRecieveCB), state);
+                    }
+                    catch (Exception ex)
+                    {
+                        Utility.SystemLogger.Error(ex.Message, ex);
+                    }
+                });
             }
             catch (Exception ex)
             {

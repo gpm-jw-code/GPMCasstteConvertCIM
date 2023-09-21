@@ -73,7 +73,6 @@ namespace GPMCasstteConvertCIM.Devices
             try
             {
                 ////Secs host(CIM_AGVS)
-                ///
                 secs_host_for_mcs = new SECSBase("MCS");
                 secs_host_for_mcs.ConnectionChanged += SECS_E_ConnectionChangeHandle;
                 secs_host_for_mcs.OnPrimaryMessageRecieve += MCSMessageHandler.PrimaryMessageOnReceivedAsync; ;
@@ -85,7 +84,6 @@ namespace GPMCasstteConvertCIM.Devices
             }
             try
             {
-
                 ////Secs client(CIM_MCS)
                 secs_client_for_agvs = new SECSBase("AGVS");
                 secs_client_for_agvs.ConnectionChanged += SECS_H_ConnectionChangeHandle;

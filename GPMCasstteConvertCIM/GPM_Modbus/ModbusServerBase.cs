@@ -31,6 +31,7 @@ using System.Threading;
 using System.Net.NetworkInformation;
 using System.IO.Ports;
 using System.IO;
+using GPMCasstteConvertCIM.Utilities;
 
 namespace GPMCasstteConvertCIM.GPM_Modbus
 {
@@ -98,8 +99,15 @@ namespace GPMCasstteConvertCIM.GPM_Modbus
         {
             IPAddress localAddr = IPAddress.Any;
             server = new TcpListener(localAddr, port);
-            server.Start();
-            server.BeginAcceptTcpClient(AcceptTcpClientCallback, null);
+            try
+            {
+                server.Start();
+                server.BeginAcceptTcpClient(AcceptTcpClientCallback, null);
+            }
+            catch (Exception ex)
+            {
+                Utility.SystemLogger.Error(ex.Message, ex);
+            }
         }
 
         public TCPHandler(string ipAddress, int port)

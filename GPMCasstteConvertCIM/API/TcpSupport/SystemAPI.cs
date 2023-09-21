@@ -49,13 +49,20 @@ namespace GPMCasstteConvertCIM.API.TcpSupport
         private async void StertListenAccept(Socket server)
         {
             await Task.Delay(1);
-            _ = Task.Run(() =>
+            _ = Task.Factory.StartNew(async () =>
             {
                 while (true)
                 {
+                    await Task.Delay(1);
                     Socket client = server.Accept();
                     clsSocketState state = new clsSocketState(client);
-                    client.BeginReceive(state.buffer, 0, 4096, SocketFlags.None, new AsyncCallback(ClientRecieveCB), state);
+                    try
+                    {
+                        client.BeginReceive(state.buffer, 0, 4096, SocketFlags.None, new AsyncCallback(ClientRecieveCB), state);
+                    }
+                    catch (Exception ex)
+                    {
+                    }
                 }
             });
         }
@@ -78,7 +85,17 @@ namespace GPMCasstteConvertCIM.API.TcpSupport
                     }
                 }
 
-                state.socket.BeginReceive(state.buffer, 0, 4096, SocketFlags.None, new AsyncCallback(ClientRecieveCB), state);
+                Task.Factory.StartNew(() =>
+                {
+                    try
+                    {
+                        state.socket.BeginReceive(state.buffer, 0, 4096, SocketFlags.None, new AsyncCallback(ClientRecieveCB), state);
+                    }
+                    catch (Exception ex)
+                    {
+                        Utility.SystemLogger.Error(ex.Message, ex);
+                    }
+                });
             }
             catch (Exception ex)
             {

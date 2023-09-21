@@ -24,7 +24,6 @@ namespace GPMCasstteConvertCIM.Alarm
                 Code = Enum.GetValues(typeof(ALARM_CODES)).Cast<ALARM_CODES>().FirstOrDefault(c => (int)c == value);
             }
         }
-        public double Duration { get; set; }
         public clsAlarmDto(ALARM_CODES code, string classify, string description)
         {
             Code = code;

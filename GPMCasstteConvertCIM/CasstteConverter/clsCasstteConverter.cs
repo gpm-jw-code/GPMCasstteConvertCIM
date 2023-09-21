@@ -315,7 +315,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         {
             _ = Task.Run(async () =>
             {
-
                 while (true)
                 {
                     try
@@ -325,7 +324,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                         {
                             continue;
                         }
-                        Stopwatch sw = Stopwatch.StartNew();
                         if (!simulation_mode)
                         {
                             int ret_code = -1;
@@ -361,8 +359,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                                 continue;
                             }
                         }
-                        sw.Stop();
-
                     }
                     catch (Exception ex)
                     {

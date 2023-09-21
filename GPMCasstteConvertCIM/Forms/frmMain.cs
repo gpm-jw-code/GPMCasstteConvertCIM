@@ -34,21 +34,14 @@ namespace GPMCasstteConvertCIM.Forms
 
         private void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
         {
-            Invoke(new Action(() =>
-            {
-                rtbSystemLogShow.SelectionColor = Color.Black;
-                rtbSystemLogShow.AppendText($"{e.Exception.Message}\n");
-            }));
+            var exception = e.Exception;
+            Utility.SystemLogger.Error(exception.Message, exception, false);
         }
 
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-
-            Invoke(new Action(() =>
-            {
-                rtbSystemLogShow.SelectionColor = Color.Black;
-                rtbSystemLogShow.AppendText($"{(e.ExceptionObject as Exception).InnerException?.Message}\n");
-            }));
+            var exception = (e.ExceptionObject as Exception).InnerException;
+            Utility.SystemLogger.Error(exception.Message, exception, false);
         }
 
         private void Form1_Load(object sender, EventArgs e)

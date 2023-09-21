@@ -67,7 +67,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 modbus_server.linkedCasstteConverter = EQParent;
                 ui.ModbusTCPServer = modbus_server;
                 modbus_server.Active(Properties.ModbusServer_IP, Properties.ModbusServer_PORT, ui);
-
                 return true;
             }
             catch (Exception ex)
@@ -88,7 +87,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     int register_num = item.Link_Modbus_Register_Number;
                     var localCoilsAry = modbus_server.coils.localArray;
                     bool state = localCoilsAry[register_num + 1];
-                    EQParent.CIMMemOptions.memoryTable.WriteOneBit(item.Address, state);
+                    CIMMemoryTable.WriteOneBit(item.Address, state);
                 }
 
             });
@@ -96,11 +95,11 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         public virtual void SyncRegisterData()
         {
-            Task.Run(async () =>
+            Task.Factory.StartNew(async () =>
             {
                 while (true)
                 {
-
+                    await Task.Delay(10);
                     foreach (Data.clsMemoryAddress item in EQModbusLinkBitAddress)
                     {
                         bool bolState = EQParent.EQPMemOptions.memoryTable.ReadOneBit(item.Address);
@@ -130,8 +129,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                         int value = EQParent.CIMMemOptions.memoryTable.ReadBinary(item.Address);
                         modbus_server.holdingRegisters.localArray[item.Link_Modbus_Register_Number] = (short)value;
                     }
-
-                    await Task.Delay(10);
                 }
 
             });

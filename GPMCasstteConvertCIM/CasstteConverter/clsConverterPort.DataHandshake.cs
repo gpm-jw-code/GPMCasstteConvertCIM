@@ -1,4 +1,5 @@
-﻿using GPMCasstteConvertCIM.Alarm;
+﻿using CIMComponent;
+using GPMCasstteConvertCIM.Alarm;
 using GPMCasstteConvertCIM.CasstteConverter.Data;
 using GPMCasstteConvertCIM.Devices;
 using GPMCasstteConvertCIM.GPM_SECS;
@@ -14,6 +15,13 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 {
     public partial class clsConverterPort
     {
+        public virtual MemoryTable CIMMemoryTable
+        {
+            get
+            {
+                return EQParent.CIMMemOptions.memoryTable;
+            }
+        }
         private SECSBase MCS => DevicesManager.secs_host_for_mcs;
         private bool CarrierWaitIn_Reply = false;
         private bool CarrierWaitIn_Accept = false;
@@ -90,7 +98,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 clsMemoryAddress eq_to_cim_report_adress = EQParent.LinkBitMap.First(i => i.EOwner == OWNER.EQP && i.EScope.ToString() == portNoName && i.EProperty == PROPERTY.Port_Mode_Changed_Report);
                 string cim_2_eq_reply_address = PortCIMBitAddress[PROPERTY.Port_Mode_Changed_Report_Reply];
                 //ON CIM BIT
-                EQParent.CIMMemOptions.memoryTable.WriteOneBit(cim_2_eq_reply_address, true);
+                CIMMemoryTable.WriteOneBit(cim_2_eq_reply_address, true);
                 CancellationTokenSource cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
                 bool timeout = false;
                 //等待EQ OFF BIT
@@ -104,7 +112,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     }
                 }
                 //OFF CIM BIT
-                EQParent.CIMMemOptions.memoryTable.WriteOneBit(cim_2_eq_reply_address, false);
+                CIMMemoryTable.WriteOneBit(cim_2_eq_reply_address, false);
                 cts.Dispose();
 
             });
@@ -120,18 +128,21 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         public async Task CarrierRemovedCompletedReply()
         {
             var carrier_removed_com_reply_address = PortCIMBitAddress[PROPERTY.Carrier_Removed_Completed_Report_Reply];
-            EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_removed_com_reply_address, true);
-            CancellationTokenSource cst = new CancellationTokenSource(TimeSpan.FromSeconds(5000));
+            CIMMemoryTable.WriteOneBit(carrier_removed_com_reply_address, true);
+            CancellationTokenSource cst = new CancellationTokenSource(TimeSpan.FromSeconds(5));
             while (CarrierRemovedCompletedReport)
             {
                 if (cst.IsCancellationRequested)
                 {
-                    AlarmManager.AddWarning(ALARM_CODES.CarrierRemovedCompolete_HS_EQ_Timeout, Properties.PortID);
+                    Utility.SystemLogger.Info($"Carrier Remove Completed HS Fail-> EQ Timeout");
+                    AlarmManager.AddWarning(ALARM_CODES.CarrierRemovedCompolete_HS_EQ_Timeout, PortName);
                     break;
                 }
                 await Task.Delay(1);
             }
-            EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_removed_com_reply_address, false);
+            CIMMemoryTable.WriteOneBit(carrier_removed_com_reply_address, false);
+            Utility.SystemLogger.Info($"[{PortName}] Carrier Remove Completed HS Finish");
+
         }
 
 
@@ -145,7 +156,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         {
             if (PortCIMBitAddress.TryGetValue(PROPERTY.Carrier_WaitOut_System_Reply, out string carrier_wait_out_reply_address))
             {
-                EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_out_reply_address, true);
+                CIMMemoryTable.WriteOneBit(carrier_wait_out_reply_address, true);
 
                 Utility.SystemLogger.Info($"Carrier Wait Out HS Start_ {carrier_wait_out_reply_address} ON");
                 CancellationTokenSource cst = new CancellationTokenSource(TimeSpan.FromMilliseconds(EQ_T_timeout));
@@ -159,7 +170,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     }
                     await Task.Delay(1);
                 }
-                EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_out_reply_address, false);
+                CIMMemoryTable.WriteOneBit(carrier_wait_out_reply_address, false);
 
 
                 Utility.SystemLogger.Info($"Carrier Wait Out HS Done");
@@ -182,12 +193,12 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             string? carrier_wait_in_result_flag_address = PortCIMBitAddress[wait_in_];
             string? carrier_wait_in_reply_address = PortCIMBitAddress[PROPERTY.Carrier_WaitIn_System_Reply];
 
-            PortUnitType _portType =this.EPortType;
+            PortUnitType _portType = this.EPortType;
             if (_portType == PortUnitType.Input)
             {
-                EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_in_result_flag_address, true);
+                CIMMemoryTable.WriteOneBit(carrier_wait_in_result_flag_address, true);
                 await Task.Delay(300);
-                EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_in_reply_address, true);
+                CIMMemoryTable.WriteOneBit(carrier_wait_in_reply_address, true);
                 Stopwatch sw = Stopwatch.StartNew();
                 while (CarrierWaitINSystemRequest)
                 {
@@ -199,14 +210,14 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     await Task.Delay(1);
                 }
 
-                EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_in_reply_address, false);
-                EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_in_result_flag_address, false);
+                CIMMemoryTable.WriteOneBit(carrier_wait_in_reply_address, false);
+                CIMMemoryTable.WriteOneBit(carrier_wait_in_result_flag_address, false);
             }
             else if (_portType == PortUnitType.Input_Output)
             {
-                EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_in_result_flag_address, true);
+                CIMMemoryTable.WriteOneBit(carrier_wait_in_result_flag_address, true);
                 await Task.Delay(300);
-                EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_in_reply_address, true);
+                CIMMemoryTable.WriteOneBit(carrier_wait_in_reply_address, true);
                 Stopwatch sw = Stopwatch.StartNew();
                 while (CarrierWaitINSystemRequest)
                 {
@@ -217,15 +228,15 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     }
                     await Task.Delay(1);
                 }
-                EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_in_reply_address, false);
-                EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_in_result_flag_address, false);
+                CIMMemoryTable.WriteOneBit(carrier_wait_in_reply_address, false);
+                CIMMemoryTable.WriteOneBit(carrier_wait_in_result_flag_address, false);
             }
             else if (_portType == PortUnitType.Output)
             {
                 Utility.SystemLogger.Info($"Carrier Wait In HS Failed");
             }
 
-                return (!timeout, timeout ? ALARM_CODES.CarrierWaitIn_HS_EQ_Timeout : ALARM_CODES.None);
+            return (!timeout, timeout ? ALARM_CODES.CarrierWaitIn_HS_EQ_Timeout : ALARM_CODES.None);
 
         }
 
