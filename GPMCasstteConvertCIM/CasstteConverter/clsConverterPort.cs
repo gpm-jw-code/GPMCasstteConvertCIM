@@ -56,9 +56,12 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 return;
             }
             //檢查ID
-            if (WIPINFO_BCR_ID == "")
+            if (WIPINFO_BCR_ID == "" | IsBCR_READ_ERROR())
             {
-                Utility.SystemLogger.Info($"Carrier Wait In and Carrier Exist But Carrier ID Is Empty");
+                if (IsBCR_READ_ERROR())
+                    Utility.SystemLogger.Info($"Carrier Wait In and Carrier Exist But Carrier ID Is Empty");
+                else
+                    Utility.SystemLogger.Info($"Carrier Wait In and Carrier Exist But Carrier ID Read Fail");
                 return;
             }
 
@@ -243,6 +246,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         public string Previous_WIPINFO_BCR_ID { get; internal set; } = "";
         public string _WIPINFO_BCR_ID = "";
         public DateTime WIPUPdateTime { get; set; } = DateTime.MinValue;
+        internal bool IsBCR_READ_ERROR()
+        {
+            return WIPINFO_BCR_ID.Contains("ERROR");
+        }
         public string WIPINFO_BCR_ID
         {
             get => _WIPINFO_BCR_ID;
@@ -306,7 +313,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                         {
                             await Task.Delay(1000);
                             bool wait_in_accept = false;
-                            if (WIPINFO_BCR_ID != "")
+                            if (WIPINFO_BCR_ID != "" && !IsBCR_READ_ERROR())
                             {
                                 if (!SECSState.IsOnline || !SECSState.IsRemote)
                                 {

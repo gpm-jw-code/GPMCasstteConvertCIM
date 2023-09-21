@@ -51,7 +51,6 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
             if (IsTransferCompleteReport && !port.IsCarrierInstallReported)
             {
                 port.IsCarrierInstallReported = true;
-                port.SecsEventReport(CEID.CarrierInstallCompletedReport, carrier_id);
             }
 
             var S = _primaryMessage_FromAGVS.S;
