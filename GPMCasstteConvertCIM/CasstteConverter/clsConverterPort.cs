@@ -4,6 +4,7 @@ using GPMCasstteConvertCIM.Devices;
 using GPMCasstteConvertCIM.Forms;
 using GPMCasstteConvertCIM.GPM_Modbus;
 using GPMCasstteConvertCIM.GPM_SECS;
+using GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle;
 using GPMCasstteConvertCIM.Utilities;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -293,36 +294,34 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             get => _CarrierWaitINSystemRequest;
             internal set
             {
+
                 if (value != _CarrierWaitINSystemRequest)
                 {
-
                     _CarrierWaitINSystemRequest = value;
                     if (_CarrierWaitINSystemRequest)
                     {
                         Previous_WIPINFO_BCR_ID = WIPINFO_BCR_ID;
                         CarrierInstallTime = DateTime.Now;
-
                         Task.Factory.StartNew(async () =>
                         {
                             await Task.Delay(1000);
                             bool wait_in_accept = false;
                             if (WIPINFO_BCR_ID != "")
                             {
-                                if (NoTransferNotifyFlag == true)
+                                if (!SECSState.IsOnline || !SECSState.IsRemote)
                                 {
-                                    wait_in_accept = false;
-                                }
-                                else
-                                {
-                                    if (CurrentCSTHasTransferTaskFlag && portNoName == PortName)
                                     wait_in_accept = true;
+                                    Utility.SystemLogger.Info($"CIM  Accept  Carrier Wait IN Request first because MCS isn't ONLINE _ REMOTE");
+                                    await CarrierWaitInReply(wait_in_accept, 30000);
+                                    return;
                                 }
+                                await SecsEventReport(CEID.CarrierInstallCompletedReport, WIPINFO_BCR_ID);
+                                Utility.SystemLogger.Info($"Wait S2F41 or S2F49 Message reachded..");
+                                await SecsEventReport(CEID.CarrierWaitIn, WIPINFO_BCR_ID);
+                                Utility.SystemLogger.Info($"{(CurrentCSTHasTransferTaskFlag ? "S2F49_Transfer" : "S2F41_No_Transfer")} Message reachded!");
+                                wait_in_accept = CurrentCSTHasTransferTaskFlag;
                                 Utility.SystemLogger.Info($"MCS {(wait_in_accept ? "Accept" : "Reject")} Carrier Wait IN Request..");
-                                //if (!SECSState.IsOnline && !SECSState.IsRemote)
-                                //{
-                                //    wait_in_accept = true;
-                                //    Utility.SystemLogger.Info($"CIM  Accept  Carrier Wait IN Request first because MCS isn't ONLINE _ REMOTE");
-                                //}
+                                
                                 //else
                                 //{
                                 //    bool lduld_req = await WaitLoadUnloadRequestON();
@@ -337,7 +336,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                                 //    wait_in_accept = await SecsEventReport(CEID.CarrierWaitIn);
                                 //    Utility.SystemLogger.Info($"MCS {(wait_in_accept ? "Accept" : "Reject")} Carrier Wait IN Request..");
                                 //}
-                            } 
+                            }
                             else
                             {
                                 AlarmManager.AddWarning(ALARM_CODES.CARRIER_WAIT_IN_BUT_BCR_ID_IS_EMPTY, Properties.PortID);
