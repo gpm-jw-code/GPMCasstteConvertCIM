@@ -50,8 +50,8 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
 
             if (IsTransferCompleteReport && !port.IsCarrierInstallReported)
             {
+                //ERROR-LOAD
                 port.IsCarrierInstallReported = true;
-                port.SecsEventReport(CEID.CarrierInstallCompletedReport, carrier_id);
             }
 
             var S = _primaryMessage_FromAGVS.S;
@@ -116,8 +116,6 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                 {
                     SECSState.IsOnline = true;
                     SECSState.IsRemote = isRemote;
-
-
 
                     if (ack6 == 0)
                     {

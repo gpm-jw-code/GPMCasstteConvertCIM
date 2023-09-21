@@ -100,7 +100,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             switch (ceid)
             {
                 case CEID.CarrierWaitIn:
-                    await WaitBARCODEREADIN();
                     return EventsMsg.CarrierWaitIn(carrier_id, port_id);
                 case CEID.CarrierWaitOut:
                     return EventsMsg.CarrierWaitOut(carrier_id, port_id);
@@ -143,7 +142,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         /// <returns></returns>
         private async Task<bool> WaitTransferTaskDownloaded()
         {
-            WaitTransferTaskDownloadCts = new CancellationTokenSource(TimeSpan.FromSeconds(200));
+            WaitTransferTaskDownloadCts = new CancellationTokenSource(TimeSpan.FromSeconds(240));
             while (!CurrentCSTHasTransferTaskFlag)
             {
                 if (WaitTransferTaskDownloadCts.IsCancellationRequested)
