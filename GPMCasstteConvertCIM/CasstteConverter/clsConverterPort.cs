@@ -411,6 +411,13 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                                 {
                                     Utility.SystemLogger.Info($"PLC  Carrier Wait  Out HS Error!");
                                 }
+                                else
+                                {
+                                    if (!SECSState.IsRemote && EPortType != PortUnitType.Output)
+                                    {
+                                        await ModeChangeRequestHandshake(PortUnitType.Output, "GPM_CIM");
+                                    }
+                                }
                             }
                             catch (Exception ex)
                             {

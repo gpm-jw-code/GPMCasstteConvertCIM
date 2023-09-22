@@ -24,10 +24,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         /// </summary>
         /// <param name="portUnitType"></param>
         /// <returns></returns>
-        internal async Task<bool> ModeChangeRequestHandshake(PortUnitType portUnitType)
+        internal async Task<bool> ModeChangeRequestHandshake(PortUnitType portUnitType, string requester_name = "MCS")
         {
 
-            Utilities.Utility.SystemLogger.Info($"MCS Request [{Properties.PortID}] Change Port Type To {portUnitType}");
+            Utilities.Utility.SystemLogger.Info($"{requester_name} Request [{Properties.PortID}] Change Port Type To {portUnitType}");
 
             bool plc_accept = false;
             string port_type_data_address_name = PortCIMWordAddress[PROPERTY.Port_Type_Status];
