@@ -319,6 +319,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                         Task.Factory.StartNew(async () =>
                         {
                             await Task.Delay(1000);
+                            Utility.SystemLogger.Info($"{PortName}-Carrier Wait In Request ON , With CST ID＝{WIPINFO_BCR_ID}");
                             bool wait_in_accept = false;
                             if (WIPINFO_BCR_ID != "" && !IsBCR_READ_ERROR())
                             {
@@ -335,24 +336,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                                 Utility.SystemLogger.Info($"{(CurrentCSTHasTransferTaskFlag ? "S2F49_Transfer" : "S2F41_No_Transfer")} Message reachded!");
                                 wait_in_accept = CurrentCSTHasTransferTaskFlag;
                                 Utility.SystemLogger.Info($"MCS {(wait_in_accept ? "Accept" : "Reject")} Carrier Wait IN Request..");
-
-                                //else
-                                //{
-                                //    bool lduld_req = await WaitLoadUnloadRequestON();
-                                //    if (!lduld_req)
-                                //        return;
-
-                                //    if (!IsCarrierInstallReported)
-                                //    {
-                                //        await SecsEventReport(CEID.CarrierInstallCompletedReport, WIPINFO_BCR_ID);
-                                //        IsCarrierInstallReported = true;
-                                //    }
-                                //    wait_in_accept = await SecsEventReport(CEID.CarrierWaitIn);
-                                //    Utility.SystemLogger.Info($"MCS {(wait_in_accept ? "Accept" : "Reject")} Carrier Wait IN Request..");
-                                //}
                             }
                             else
                             {
+                                Utility.SystemLogger.Info($"{PortName}-Carrier Wait In Request Reject, With CST ID Incorrect , CST ID ＝{WIPINFO_BCR_ID}");
                                 AlarmManager.AddWarning(ALARM_CODES.CARRIER_WAIT_IN_BUT_BCR_ID_IS_EMPTY, Properties.PortID);
                                 wait_in_accept = false;
                             }
@@ -417,6 +404,30 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                                 if (!success_hs)
                                 {
                                     Utility.SystemLogger.Info($"PLC  Carrier Wait  Out HS Error!");
+                                }
+                                else
+                                {
+                                    if (!SECSState.IsRemote && EPortType != PortUnitType.Output)
+                                    {
+                                        _ = Task.Factory.StartNew(async () =>
+                                         {
+                                             bool plc_accpet = false;
+                                             int cnt = 0;
+                                             while (!plc_accpet)
+                                             {
+                                                 plc_accpet = await ModeChangeRequestHandshake(PortUnitType.Output, "GPM_CIM");
+                                                 Utility.SystemLogger.Info($"PLC Reject OUTPUT MODE Request. Retry.");
+                                                 await Task.Delay(1000);
+                                                 cnt++;
+                                                 if (cnt >= 11)
+                                                 {
+                                                     Utility.SystemLogger.Info($"Retry times reach 11 ... .Port {PortName} Can't  change to OUTPUT MODE.");
+                                                     break;
+                                                 }
+                                             }
+                                         });
+
+                                    }
                                 }
                             }
                             catch (Exception ex)

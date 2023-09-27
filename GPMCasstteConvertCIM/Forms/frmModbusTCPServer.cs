@@ -81,6 +81,8 @@ namespace GPMCasstteConvertCIM.Forms
         private delegate void WriteLogDelagate(string msg, Color foreColor);
         private void WriteLog(string msg, Color foreColor)
         {
+            if (WindowState == FormWindowState.Minimized)
+                return;
             if (!Created)
             {
                 return;
@@ -92,6 +94,9 @@ namespace GPMCasstteConvertCIM.Forms
             }
             else
             {
+                if(richTextBox1.Text.Length > 16384) {
+                    richTextBox1.ResetText();
+                }
                 richTextBox1.SelectionColor = foreColor;
                 richTextBox1.AppendText(msg + "\n");
                 richTextBox1.ScrollToCaret();
