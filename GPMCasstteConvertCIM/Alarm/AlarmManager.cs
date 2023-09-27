@@ -74,7 +74,6 @@ namespace GPMCasstteConvertCIM.Alarm
                 AlarmsList.Enqueue(alarmDto);
             else
             {
-                alarmExist.Duration += (DateTime.Now - alarmExist.Time).TotalSeconds;
                 alarmExist.Time = alarmDto.Time;
             }
 

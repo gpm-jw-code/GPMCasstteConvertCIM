@@ -62,7 +62,7 @@ namespace GPMCasstteConvertCIM.Utilities
         {
             _richTextBox?.Invoke((MethodInvoker)delegate
             {
-                if (_richTextBox.Text.Length > 65535)
+                if (_richTextBox.Text.Length > 16384)
                     _richTextBox.Clear();
                 _richTextBox.ScrollToCaret();
 
@@ -103,19 +103,15 @@ namespace GPMCasstteConvertCIM.Utilities
 
         public void SecsTransferLog(string msg)
         {
-            AppendDateTime(out DateTime time);
-            //_richTextBox?.Invoke((MethodInvoker)delegate
-            //{
-            //    _richTextBox.SelectionColor = Color.Yellow;
-            //    _richTextBox.AppendText($"[SECS Msg Transfer] {msg}\n");
-            //});
+            AppendDateTime(out DateTime time, false);
             WriteToFile(time, LOG_LEVEL.SECS_MSG_TRANSFER, msg);
         }
         public void Info(string msg, bool show_in_richbox = true)
         {
-            AppendDateTime(out DateTime time, show_in_richbox);
+            DateTime time = DateTime.MinValue;
             if (show_in_richbox)
             {
+                AppendDateTime(out time, show_in_richbox);
                 _richTextBox?.Invoke((MethodInvoker)delegate
                 {
                     _richTextBox.SelectionColor = Color.LightBlue;
@@ -126,18 +122,22 @@ namespace GPMCasstteConvertCIM.Utilities
         }
         public void Info(string msg, Color foreCOlor, bool show_in_richbox = true)
         {
-            AppendDateTime(out DateTime time, show_in_richbox);
+            DateTime time = DateTime.MinValue;
             if (show_in_richbox)
+            {
+                AppendDateTime(out time, show_in_richbox);
                 _richTextBox?.Invoke((MethodInvoker)delegate
                 {
                     _richTextBox.SelectionColor = foreCOlor;
                     _richTextBox.AppendText($"{msg}\n");
                 });
+            }
             WriteToFile(time, LOG_LEVEL.INFO, msg);
         }
         public void Warning(string msg, bool show_in_richbox = true)
         {
-            AppendDateTime(out DateTime time, show_in_richbox);
+            DateTime time = DateTime.MinValue;
+            AppendDateTime(out time, show_in_richbox);
             if (show_in_richbox)
                 _richTextBox?.Invoke((MethodInvoker)delegate
                 {
@@ -149,15 +149,18 @@ namespace GPMCasstteConvertCIM.Utilities
 
         public void Error(string msg, Exception? ex, bool show_in_richbox = true)
         {
-            AppendDateTime(out DateTime time, show_in_richbox);
+            DateTime time = DateTime.MinValue;
             if (show_in_richbox)
+            {
+                AppendDateTime(out time, show_in_richbox);
                 _richTextBox?.Invoke((MethodInvoker)delegate
-                {
-                    _richTextBox.SelectionColor = Color.FromArgb(255, 92, 97);
-                    _richTextBox.AppendText($"{msg}\n");
-                    _richTextBox.SelectionColor = Color.Gray;
-                    _richTextBox.AppendText($"{ex}\n");
-                });
+                    {
+                        _richTextBox.SelectionColor = Color.FromArgb(255, 92, 97);
+                        _richTextBox.AppendText($"{msg}\n");
+                        _richTextBox.SelectionColor = Color.Gray;
+                        _richTextBox.AppendText($"{ex}\n");
+                    });
+            }
             WriteToFile(time, LOG_LEVEL.ERROR, $"{msg}-{ex?.Message}-{ex?.StackTrace}");
         }
         public class clsLogItem
@@ -180,11 +183,11 @@ namespace GPMCasstteConvertCIM.Utilities
 
         private async Task WriteLogWorker()
         {
-            _ = Task.Run(() =>
+            _ = Task.Run(async () =>
              {
                  while (true)
                  {
-                     Thread.Sleep(1);
+                     await Task.Delay(1);
 
                      if (!LogItemsQueue.TryDequeue(out clsLogItem logItem))
                          continue;
@@ -194,6 +197,10 @@ namespace GPMCasstteConvertCIM.Utilities
                          if (saveFolder == "")
                          {
                              return;
+                         }
+                         if (logItem.msg == "")
+                         {
+                             continue;
                          }
                          string folder = Path.Combine(saveFolder, logItem.level.ToString());
                          folder = Path.Combine(folder, DateTime.Now.ToString("yyyy-MM-dd"));

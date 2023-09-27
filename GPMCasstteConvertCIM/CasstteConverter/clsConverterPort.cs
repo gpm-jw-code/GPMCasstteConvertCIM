@@ -415,7 +415,24 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                                 {
                                     if (!SECSState.IsRemote && EPortType != PortUnitType.Output)
                                     {
-                                        await ModeChangeRequestHandshake(PortUnitType.Output, "GPM_CIM");
+                                        _ = Task.Factory.StartNew(async () =>
+                                         {
+                                             bool plc_accpet = false;
+                                             int cnt = 0;
+                                             while (!plc_accpet)
+                                             {
+                                                 plc_accpet = await ModeChangeRequestHandshake(PortUnitType.Output, "GPM_CIM");
+                                                 Utility.SystemLogger.Info($"PLC Reject OUTPUT MODE Request. Retry.");
+                                                 await Task.Delay(1000);
+                                                 cnt++;
+                                                 if (cnt >= 11)
+                                                 {
+                                                     Utility.SystemLogger.Info($"Retry times reach 11 ... .Port {PortName} Can't  change to OUTPUT MODE.");
+                                                     break;
+                                                 }
+                                             }
+                                         });
+
                                     }
                                 }
                             }
