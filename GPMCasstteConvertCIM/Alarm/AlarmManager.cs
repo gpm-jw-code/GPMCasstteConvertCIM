@@ -20,6 +20,9 @@ namespace GPMCasstteConvertCIM.Alarm
         {
             if (AlarmCodes.TryGetValue(alarm_code, out clsAlarmDto alarmDeffined))
             {
+                if (AlarmsList.Count >= 50)
+                    AlarmsList.TryDequeue(out var oldest);
+
                 var newAalrm = new clsAlarmDto()
                 {
                     Classify = alarmDeffined.Classify,
@@ -45,6 +48,8 @@ namespace GPMCasstteConvertCIM.Alarm
             //AlarmList.Add(alarm);
             if (AlarmCodes.TryGetValue(alarm_code, out clsAlarmDto alarmDeffined))
             {
+                if (AlarmsList.Count >= 50)
+                    AlarmsList.TryDequeue(out var oldest);
                 var newAalrm = new clsAlarmDto()
                 {
                     Classify = alarmDeffined.Classify,
