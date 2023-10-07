@@ -281,7 +281,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         internal async void TransferCompletedInvoke(string carrier_id)
         {
-
+            CSTID_From_TransferCompletedReport = carrier_id;
             if (WIPINFO_BCR_ID == carrier_id)
                 Carrier_TransferCompletedFlag = true;
         }

@@ -42,7 +42,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
             _primaryMessageWrapper.PrimaryMessage.Name = "AGVS_To_CIM";
             clsConverterPort port = null;
             bool IsTransferCompleteReport = false;
-            if (_primaryMessage_FromAGVS.IsAGVSTransferCompletedReport(out string port_id, out string carrier_id))
+            if (_primaryMessage_FromAGVS.IsAGVSTransferCompletedReport(out string port_id, out string carrier_id_from_agvs_transferComplete))
             {
                 port = DevicesManager.GetPortByPortID(port_id);
                 IsTransferCompleteReport = (port != null);
@@ -134,7 +134,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                 }
                 if (IsTransferCompleteReport)
                 {
-                    port.TransferCompletedInvoke(carrier_id);
+                    port.TransferCompletedInvoke(carrier_id_from_agvs_transferComplete);
                 }
             }
             catch (Exception ex)

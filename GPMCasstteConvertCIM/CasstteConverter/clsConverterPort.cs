@@ -250,6 +250,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         {
             return WIPINFO_BCR_ID.Contains("ERROR");
         }
+        public string CSTID_From_TransferCompletedReport = "";
         public string WIPINFO_BCR_ID
         {
             get => _WIPINFO_BCR_ID;
@@ -323,6 +324,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                                     await CarrierWaitInReply(wait_in_accept, 30000);
                                     return;
                                 }
+
+
                                 await SecsEventReport(CEID.CarrierInstallCompletedReport, WIPINFO_BCR_ID);
                                 Utility.SystemLogger.Info($"Wait S2F41 or S2F49 Message reachded..");
                                 await SecsEventReport(CEID.CarrierWaitIn, WIPINFO_BCR_ID);
@@ -370,21 +373,34 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     if (value)
                     {
                         Previous_WIPINFO_BCR_ID = WIPINFO_BCR_ID;
-                        CarrierInstallTime = DateTime.Now;
                         Utility.SystemLogger.Info("Carrier Wait out Request bit ON ");
 
                         //Secs Report
                         Task.Factory.StartNew(async () =>
                         {
                             await Task.Delay(1000);
-                            //TODO 要等TransferComplete上報後才報
+                            //要等TransferComplete上報後才報
                             bool transfer_completed_reported = await WaitAGVSTransferCompleteReported();
                             if (transfer_completed_reported)
                             {
-                                await SecsEventReport(CEID.CarrierInstallCompletedReport, WIPINFO_BCR_ID);
+                                var isCSTIDMismatch = WIPINFO_BCR_ID == CSTID_From_TransferCompletedReport;
+                                if (isCSTIDMismatch)
+                                {
+                                    Utility.SystemLogger.Warning($"Carrier ID Miss match,Carrier Remove Report To MCS First.. From Transfer Task = {CSTID_From_TransferCompletedReport}, BCR Reader={WIPINFO_BCR_ID}");
+                                    await SecsEventReport(CEID.CarrierRemovedCompletedReport, CSTID_From_TransferCompletedReport);
+                                }
+                                bool IsBCRReadFail = IsBCR_READ_ERROR() | WIPINFO_BCR_ID == "";
+                                var id_report = IsBCRReadFail ? $"TUN032{DateTime.Now.ToString("dhmsf")}" : WIPINFO_BCR_ID;
+                                await SecsEventReport(CEID.CarrierInstallCompletedReport, id_report);
+                                if (IsBCRReadFail)
+                                    Utility.SystemLogger.Warning($"BCR Carrier ID Read Fail.  BCR Reader={WIPINFO_BCR_ID}, Carrier Installed Report To MCS  With CST Virtual ID={id_report}");
+                                else
+                                    Utility.SystemLogger.Info($"Carrier Installed Report To MCS  With CST ID={id_report}");
+
                                 await Task.Delay(1000);
                                 await SecsEventReport(CEID.CarrierWaitOut);
                                 Carrier_TransferCompletedFlag = false;
+                                CarrierInstallTime = DateTime.Now;
                             }
                         });
 

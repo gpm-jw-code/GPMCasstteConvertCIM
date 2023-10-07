@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using GPMCasstteConvertCIM.Utilities;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -45,6 +46,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter.Data
             {
                 if (_Value?.ToString() != value.ToString())
                 {
+                    Utility.SystemLogger.Info($"{ Address} -Changed to  { value } ");
                     _Value = value;
                     if (PropertyChanged != null)
                     {
