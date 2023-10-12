@@ -77,6 +77,8 @@ namespace GPMCasstteConvertCIM.Alarm
         CarrierInstallReportFail,
         CODE_ERROR,
         SYNCMEMDATA_FUNCTION_CODE_ERROR,
-        MX_INTERFACE_OPEN_FAIL
+        MX_INTERFACE_OPEN_FAIL,
+        CARRIER_WAIT_IN_BUT_NO_CARGO_IN_EQ,
+        CARRIER_WAIT_OUT_BUT_NO_CARGO_IN_EQ
     }
 }

@@ -308,6 +308,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     _CarrierWaitINSystemRequest = value;
                     if (_CarrierWaitINSystemRequest)
                     {
+
                         Previous_WIPINFO_BCR_ID = WIPINFO_BCR_ID;
                         CarrierInstallTime = DateTime.Now;
                         Task.Factory.StartNew(async () =>
@@ -315,7 +316,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                             await Task.Delay(1000);
                             Utility.SystemLogger.Info($"{PortName}-Carrier Wait In Request ON , With CST ID＝{WIPINFO_BCR_ID}");
                             bool wait_in_accept = false;
-                            if (WIPINFO_BCR_ID != "" && !IsBCR_READ_ERROR())
+                            if (WIPINFO_BCR_ID != "" && !IsBCR_READ_ERROR() && PortExist)
                             {
                                 if (!SECSState.IsOnline || !SECSState.IsRemote)
                                 {
@@ -335,9 +336,9 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                             }
                             else
                             {
-                                Utility.SystemLogger.Info($"{PortName}-Carrier Wait In Request Reject, With CST ID Incorrect , CST ID ＝{WIPINFO_BCR_ID}");
-                                AlarmManager.AddWarning(ALARM_CODES.CARRIER_WAIT_IN_BUT_BCR_ID_IS_EMPTY, Properties.PortID);
                                 wait_in_accept = false;
+                                Utility.SystemLogger.Info($"{PortName}-Carrier Wait In Request Reject, Cause: {(!PortExist ? $"No any cargo in Equipment" : $" With CST ID Incorrect , CST ID ＝{WIPINFO_BCR_ID}")}");
+                                AlarmManager.AddWarning(!PortExist ? ALARM_CODES.CARRIER_WAIT_IN_BUT_NO_CARGO_IN_EQ : ALARM_CODES.CARRIER_WAIT_IN_BUT_BCR_ID_IS_EMPTY, Properties.PortID);
                             }
 
                             (bool confirm, ALARM_CODES alarm_code) result = await CarrierWaitInReply(wait_in_accept, 30000);
@@ -381,7 +382,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                             await Task.Delay(1000);
                             //要等TransferComplete上報後才報
                             bool transfer_completed_reported = await WaitAGVSTransferCompleteReported();
-                            if (transfer_completed_reported)
+                            if (transfer_completed_reported && PortExist)
                             {
                                 var isCSTIDMismatch = WIPINFO_BCR_ID == CSTID_From_TransferCompletedReport;
                                 if (isCSTIDMismatch)
@@ -398,9 +399,14 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                                     Utility.SystemLogger.Info($"Carrier Installed Report To MCS  With CST ID={id_report}");
 
                                 await Task.Delay(1000);
-                                await SecsEventReport(CEID.CarrierWaitOut);
+                                await SecsEventReport(CEID.CarrierWaitOut, id_report);
                                 Carrier_TransferCompletedFlag = false;
                                 CarrierInstallTime = DateTime.Now;
+                            }
+                            if (!PortExist)
+                            {
+                                Utility.SystemLogger.Info($"{PortName}-Carrier Wait Out but No Cargo in EQ. Cariier Install and WaitOut doesn't report To MCS");
+                                AlarmManager.AddWarning(ALARM_CODES.CARRIER_WAIT_OUT_BUT_NO_CARGO_IN_EQ, Properties.PortID);
                             }
                         });
 
@@ -416,7 +422,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                                 }
                                 else
                                 {
-                                    if (!SECSState.IsRemote && EPortType != PortUnitType.Output)
+                                    if (!SECSState.IsRemote && EPortType != PortUnitType.Output && PortExist)
                                     {
                                         _ = Task.Factory.StartNew(async () =>
                                          {
