@@ -141,10 +141,13 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         /// </summary>
         /// <param name="EQ_T_timeout"></param>
         /// <returns></returns>
-        public async Task<bool> CarrierWaitOutReply(int EQ_T_timeout = 5000)
+        public async Task<bool> CarrierWaitOutReply(bool wait_out_accept, int EQ_T_timeout = 5000)
         {
             if (PortCIMBitAddress.TryGetValue(PROPERTY.Carrier_WaitOut_System_Reply, out string carrier_wait_out_reply_address))
             {
+                PortCIMBitAddress.TryGetValue(PROPERTY.Carrier_WaitOut_System_Refuse, out string wait_out_refuse_address);
+
+                EQParent.CIMMemOptions.memoryTable.WriteOneBit(wait_out_refuse_address, !wait_out_accept);
                 EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_out_reply_address, true);
 
                 Utility.SystemLogger.Info($"Carrier Wait Out HS Start_ {carrier_wait_out_reply_address} ON");
@@ -159,8 +162,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     }
                     await Task.Delay(1);
                 }
+                EQParent.CIMMemOptions.memoryTable.WriteOneBit(wait_out_refuse_address, false);
                 EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_wait_out_reply_address, false);
-
 
                 Utility.SystemLogger.Info($"Carrier Wait Out HS Done");
 

@@ -87,6 +87,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         public event EventHandler<clsConverterPort> CarrierWaitOutOnReport;
         public event EventHandler<clsConverterPort> CarrierRemovedCompletedOnReport;
         public event EventHandler<clsConverterPort> OnValidSignalActive;
+        /// <summary>
+        /// 當CIM拒絕轉換架Wait out請求事件
+        /// </summary>
+        public event EventHandler<clsConverterPort> OnWaitOutRefuseByCIM;
         public string PortNameWithEQName => EQParent.Name + $"-[{Properties.PortID}]";
         public string EqName => EQParent.Name;
 
@@ -375,7 +379,12 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     {
                         Previous_WIPINFO_BCR_ID = WIPINFO_BCR_ID;
                         Utility.SystemLogger.Info("Carrier Wait out Request bit ON ");
-
+                        bool wait_out_accept = PortExist;
+                        if (!wait_out_accept)
+                        {
+                            AlarmManager.AddAlarm(ALARM_CODES.CARRIER_WAIT_OUT_BUT_NO_CARGO_IN_EQ, PortName, true);
+                            OnWaitOutRefuseByCIM?.Invoke(this, this);
+                        }
                         //Secs Report
                         Task.Factory.StartNew(async () =>
                         {
@@ -406,7 +415,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                             if (!PortExist)
                             {
                                 Utility.SystemLogger.Info($"{PortName}-Carrier Wait Out but No Cargo in EQ. Cariier Install and WaitOut doesn't report To MCS");
-                                AlarmManager.AddWarning(ALARM_CODES.CARRIER_WAIT_OUT_BUT_NO_CARGO_IN_EQ, Properties.PortID);
                             }
                         });
 
@@ -415,7 +423,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                             Utility.SystemLogger.Info($"PLC Carrier Wait  Out HS Start");
                             try
                             {
-                                bool success_hs = await CarrierWaitOutReply(10000);
+                                bool success_hs = await CarrierWaitOutReply(wait_out_accept, 10000);
                                 if (!success_hs)
                                 {
                                     Utility.SystemLogger.Info($"PLC  Carrier Wait  Out HS Error!");

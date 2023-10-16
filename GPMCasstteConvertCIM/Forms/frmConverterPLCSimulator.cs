@@ -28,6 +28,7 @@ namespace GPMCasstteConvertCIM.Forms
             uscMemoryTable1.CIMBitValueOnChanged += UscMemoryTable1_CIMBitValueOnChanged;
             uscMemoryTable1.EQPWordValueOnChanged += UscMemoryTable1_wordValueOnChanged; ;
             uscMemoryTable1.CIMWordValueOnChanged += UscMemoryTable1_CIMWordValueOnChanged;
+            uscMemoryTable1.SpecficEqName = "ALL";
         }
 
 

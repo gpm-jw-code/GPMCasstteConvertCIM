@@ -23,16 +23,11 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             {
                 _CstCVPort = value;
                 if (_CstCVPort != null)
+                {
                     _CstCVPort.OnMCSNoTransferNotify += _CstCVPort_OnMCSNoTransferNotify;
+                    _CstCVPort.OnWaitOutRefuseByCIM += HandleCVPortWaitOutRefuseByCIM;
+                }
             }
-        }
-
-        private void _CstCVPort_OnMCSNoTransferNotify(object? sender, Tuple<string, string> mcs_notify_dto)
-        {
-            Task.Factory.StartNew(() =>
-            {
-                MessageBox.Show($"MCS NO TRANSFER TASK NOW NOTIFY !  \r\nPort ID = {mcs_notify_dto.Item1}\r\nCarrier ID = {mcs_notify_dto.Item2}", "MCS Notifier", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            });
         }
 
         public UscConverterPortStatus()
@@ -108,6 +103,32 @@ namespace GPMCasstteConvertCIM.UI_UserControls
                     CstCVPort.PortStatusDownForceOn = true;
                 }
             }
+        }
+
+        private void HandleCVPortWaitOutRefuseByCIM(object? sender, clsConverterPort e)
+        {
+            Task.Factory.StartNew(() =>
+            {
+                Form frm = new Form()
+                {
+                    TopMost = true,
+                    TopLevel = true,
+                    StartPosition = FormStartPosition.CenterScreen
+                };
+                frm.BringToFront();
+                if (MessageBox.Show(frm, $"轉換架Wait Out請求異常(轉換架內無貨物)", $"{DateTime.Now} | Carrier Wait Out Abnormal Suituation", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
+                {
+                    frm.Dispose();
+                }
+            });
+        }
+
+        private void _CstCVPort_OnMCSNoTransferNotify(object? sender, Tuple<string, string> mcs_notify_dto)
+        {
+            Task.Factory.StartNew(() =>
+            {
+                MessageBox.Show($"MCS NO TRANSFER TASK NOW NOTIFY !  \r\nPort ID = {mcs_notify_dto.Item1}\r\nCarrier ID = {mcs_notify_dto.Item2}", "MCS Notifier", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            });
         }
 
         private void labAutoStatus_DoubleClick(object sender, EventArgs e)
