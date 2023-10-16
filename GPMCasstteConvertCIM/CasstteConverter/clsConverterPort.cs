@@ -255,6 +255,38 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             return WIPINFO_BCR_ID.Contains("ERROR");
         }
         public string CSTID_From_TransferCompletedReport = "";
+        private string previousCSTIDReportedToMCS = "";
+        public string CSTIDReportedToMCS
+        {
+            get => previousCSTIDReportedToMCS;
+            set
+            {
+                if (previousCSTIDReportedToMCS != value)
+                {
+
+                    bool IsInstalled = previousCSTIDReportedToMCS != "";
+
+                    Task.Run(async () =>
+                    {
+
+                        if (IsInstalled)
+                        {
+                            Utility.SystemLogger.Info($"[{PortName}] CST Installed First({previousCSTIDReportedToMCS}),before installed report, Removed report first");
+                            await SecsEventReport(CEID.CarrierRemovedCompletedReport, CSTIDReportedToMCS);
+                        }
+
+                        if (PortExist)
+                        {
+                            Utility.SystemLogger.Info($"Carrier Installed Report To MCS, ID = {value}");
+                            await SecsEventReport(CEID.CarrierInstallCompletedReport, value);
+                        }
+                        else
+                            AlarmManager.AddWarning(ALARM_CODES.Cannot_InstallCompleteReport_When_CST_Not_Exist, PortName, true);
+                    });
+                    previousCSTIDReportedToMCS = value;
+                }
+            }
+        }
         public string WIPINFO_BCR_ID
         {
             get => _WIPINFO_BCR_ID;
@@ -268,6 +300,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                         Previous_WIPINFO_BCR_ID = value;
                         WIPUPdateTime = DateTime.Now;
                         Utility.SystemLogger.Info($"Port {Properties.PortID} WIP Updated : {_WIPINFO_BCR_ID}");
+                        CSTIDReportedToMCS = IsBCR_READ_ERROR() ? $"TUN032{DateTime.Now.ToString("dhmsf")}" : _WIPINFO_BCR_ID;
                     }
                 }
             }
@@ -330,8 +363,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                                     return;
                                 }
 
-
-                                await SecsEventReport(CEID.CarrierInstallCompletedReport, WIPINFO_BCR_ID);
                                 Utility.SystemLogger.Info($"Wait S2F41 or S2F49 Message reachded..");
                                 await SecsEventReport(CEID.CarrierWaitIn, WIPINFO_BCR_ID);
                                 Utility.SystemLogger.Info($"{(CurrentCSTHasTransferTaskFlag ? "S2F49_Transfer" : "S2F41_No_Transfer")} Message reachded!");
@@ -396,19 +427,19 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                                 var isCSTIDMismatch = WIPINFO_BCR_ID == CSTID_From_TransferCompletedReport;
                                 if (isCSTIDMismatch)
                                 {
-                                    Utility.SystemLogger.Warning($"Carrier ID Miss match,Carrier Remove Report To MCS First.. From Transfer Task = {CSTID_From_TransferCompletedReport}, BCR Reader={WIPINFO_BCR_ID}");
+                                    Utility.SystemLogger.Warning($"Carrier ID Miss match,Carrier Remove Report To MCS First.. CST ID From Transfer Task = {CSTID_From_TransferCompletedReport}, BCR Reader={WIPINFO_BCR_ID}");
                                     await SecsEventReport(CEID.CarrierRemovedCompletedReport, CSTID_From_TransferCompletedReport);
                                 }
                                 bool IsBCRReadFail = IsBCR_READ_ERROR() | WIPINFO_BCR_ID == "";
-                                var id_report = IsBCRReadFail ? $"TUN032{DateTime.Now.ToString("dhmsf")}" : WIPINFO_BCR_ID;
-                                await SecsEventReport(CEID.CarrierInstallCompletedReport, id_report);
+                                CSTIDReportedToMCS = IsBCRReadFail ? $"TUN032{DateTime.Now.ToString("dhmsf")}" : WIPINFO_BCR_ID;
+
                                 if (IsBCRReadFail)
-                                    Utility.SystemLogger.Warning($"BCR Carrier ID Read Fail.  BCR Reader={WIPINFO_BCR_ID}, Carrier Installed Report To MCS  With CST Virtual ID={id_report}");
+                                    Utility.SystemLogger.Warning($"BCR Carrier ID Read Fail.  BCR Reader={WIPINFO_BCR_ID}, Carrier Installed Report To MCS  With CST Virtual ID={CSTIDReportedToMCS}");
                                 else
-                                    Utility.SystemLogger.Info($"Carrier Installed Report To MCS  With CST ID={id_report}");
+                                    Utility.SystemLogger.Info($"Carrier Installed Report To MCS  With CST ID={CSTIDReportedToMCS}");
 
                                 await Task.Delay(1000);
-                                await SecsEventReport(CEID.CarrierWaitOut, id_report);
+                                await SecsEventReport(CEID.CarrierWaitOut, CSTIDReportedToMCS);
                                 Carrier_TransferCompletedFlag = false;
                                 CarrierInstallTime = DateTime.Now;
                             }
@@ -481,8 +512,13 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     if (_CarrierRemovedCompletedReport)
                     {
                         IsCarrierInstallReported = false;
-                        Utility.SystemLogger.Info($"Carrier Remove Completed Report Start");
-                        SecsEventReport(CEID.CarrierRemovedCompletedReport);
+
+                        Task.Factory.StartNew(async () =>
+                        {
+                            Utility.SystemLogger.Info($"[MCS] Carrier Remove Completed Report Start");
+                            await SecsEventReport(CEID.CarrierRemovedCompletedReport, CSTIDReportedToMCS);
+                            CSTIDReportedToMCS = "";
+                        });
                         Utility.SystemLogger.Info($"Carrier Remove Completed HS Start");
                         CarrierRemovedCompletedReply();
                     }
