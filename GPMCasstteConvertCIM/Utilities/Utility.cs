@@ -27,6 +27,7 @@ namespace GPMCasstteConvertCIM.Utilities
 
         internal static frmVirtualAGVS VirtualAGVS = new frmVirtualAGVS();
 
+        internal static bool IsHotRunMode = false;
 
         internal static void LoadConfigs()
         {

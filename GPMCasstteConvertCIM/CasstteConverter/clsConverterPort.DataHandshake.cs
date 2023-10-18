@@ -27,6 +27,11 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         internal async Task<bool> ModeChangeRequestHandshake(PortUnitType portUnitType, string requester_name = "MCS")
         {
 
+            if (EPortType == portUnitType)
+            {
+                Utilities.Utility.SystemLogger.Info($"{requester_name} Request [{Properties.PortID}] Change Port Type To {portUnitType}, But Port Already {portUnitType}");
+                return true;
+            }
             Utilities.Utility.SystemLogger.Info($"{requester_name} Request [{Properties.PortID}] Change Port Type To {portUnitType}");
 
             bool plc_accept = false;
@@ -133,8 +138,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             }
             EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_removed_com_reply_address, false);
         }
-
-
 
         /// <summary>
         ///  EQ->CIM->MCS : Carrier Wait out 

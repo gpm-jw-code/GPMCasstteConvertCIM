@@ -252,7 +252,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         public DateTime WIPUPdateTime { get; set; } = DateTime.MinValue;
         internal bool IsBCR_READ_ERROR()
         {
-            return WIPINFO_BCR_ID.Contains("ERROR");
+            bool IsErrorRead = _WIPINFO_BCR_ID.Contains("ERROR");
+            if (IsErrorRead)
+                Utility.SystemLogger.Info($"TS Barcode Read Fail. {_WIPINFO_BCR_ID} Is Error");
+            return IsErrorRead;
         }
         public string CSTID_From_TransferCompletedReport = "";
         private string previousCSTIDReportedToMCS = "";
@@ -264,15 +267,15 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 if (previousCSTIDReportedToMCS != value)
                 {
 
+                    string toRemoveCSTID = previousCSTIDReportedToMCS + "";
                     bool IsInstalled = previousCSTIDReportedToMCS != "";
-
                     Task.Run(async () =>
                     {
 
                         if (IsInstalled)
                         {
-                            Utility.SystemLogger.Info($"[{PortName}] CST Installed First({previousCSTIDReportedToMCS}),before installed report, Removed report first");
-                            await SecsEventReport(CEID.CarrierRemovedCompletedReport, CSTIDReportedToMCS);
+                            Utility.SystemLogger.Info($"[{PortName}] CST Installed,({toRemoveCSTID}),before installed report, Removed report first");
+                            await SecsEventReport(CEID.CarrierRemovedCompletedReport, toRemoveCSTID);
                         }
 
                         if (PortExist)
@@ -281,7 +284,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                             await SecsEventReport(CEID.CarrierInstallCompletedReport, value);
                         }
                         else
+                        {
+                            Utility.SystemLogger.Info($"");
                             AlarmManager.AddWarning(ALARM_CODES.Cannot_InstallCompleteReport_When_CST_Not_Exist, PortName, true);
+                        }
                     });
                     previousCSTIDReportedToMCS = value;
                 }
@@ -454,7 +460,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                             Utility.SystemLogger.Info($"PLC Carrier Wait  Out HS Start");
                             try
                             {
-                                bool success_hs = await CarrierWaitOutReply(wait_out_accept, 10000);
+                                bool success_hs = await CarrierWaitOutReply(Utility.IsHotRunMode ? true : wait_out_accept, 10000);
                                 if (!success_hs)
                                 {
                                     Utility.SystemLogger.Info($"PLC  Carrier Wait  Out HS Error!");
@@ -469,7 +475,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                                              int cnt = 0;
                                              while (!plc_accpet)
                                              {
-                                                 plc_accpet = await ModeChangeRequestHandshake(PortUnitType.Output, "GPM_CIM");
+
+                                                 plc_accpet = await ModeChangeRequestHandshake(Utility.IsHotRunMode ? PortUnitType.Input : PortUnitType.Output, "GPM_CIM");
                                                  Utility.SystemLogger.Info($"PLC Reject OUTPUT MODE Request. Retry.");
                                                  await Task.Delay(1000);
                                                  cnt++;
@@ -516,7 +523,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                         Task.Factory.StartNew(async () =>
                         {
                             Utility.SystemLogger.Info($"[MCS] Carrier Remove Completed Report Start");
-                            await SecsEventReport(CEID.CarrierRemovedCompletedReport, CSTIDReportedToMCS);
+                            await SecsEventReport(CEID.CarrierRemovedCompletedReport, previousCSTIDReportedToMCS);
                             CSTIDReportedToMCS = "";
                         });
                         Utility.SystemLogger.Info($"Carrier Remove Completed HS Start");

@@ -403,5 +403,26 @@ namespace GPMCasstteConvertCIM.Forms
             });
 
         }
+
+        private void ckbHotRunMode_CheckedChanged(object sender, EventArgs e)
+        {
+            Utility.IsHotRunMode = ckbHotRunMode.Checked;
+            if (Utility.IsHotRunMode)
+            {
+                if (SECSState.IsOnline && SECSState.IsRemote)
+                {
+                    ckbHotRunMode.Checked = false;
+                    MessageBox.Show($"SECS ONLINE/REMOTE 篈ぃち传Hot Run家Α", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
+                Utility.SystemLogger.Info($"User Enable Hot Run Mode");
+                MessageBox.Show($"Hot Run家Α币笆\r\n - 锣传琜 Wait Out叫―盢穦砆钡PortType(よ)眏ち传[INPUT]", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                Utility.SystemLogger.Info($"User Disable Hot Run Mode");
+            }
+        }
     }
 }

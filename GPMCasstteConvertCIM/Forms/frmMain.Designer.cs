@@ -80,6 +80,7 @@
             aGVSEmuToolStripMenuItem = new ToolStripMenuItem();
             toolStripMenuItem1 = new ToolStripMenuItem();
             pnlSideLeft = new Panel();
+            ckbHotRunMode = new CheckBox();
             btnOpenLoginFOrm = new Button();
             label6 = new Label();
             uscConnectionStates1 = new UI_UserControls.UscConnectionStates();
@@ -660,6 +661,7 @@
             // 
             pnlSideLeft.BackColor = Color.FromArgb(51, 51, 51);
             pnlSideLeft.BorderStyle = BorderStyle.FixedSingle;
+            pnlSideLeft.Controls.Add(ckbHotRunMode);
             pnlSideLeft.Controls.Add(btnOpenLoginFOrm);
             pnlSideLeft.Controls.Add(label6);
             pnlSideLeft.Controls.Add(uscConnectionStates1);
@@ -670,6 +672,19 @@
             pnlSideLeft.Name = "pnlSideLeft";
             pnlSideLeft.Size = new Size(133, 667);
             pnlSideLeft.TabIndex = 5;
+            // 
+            // ckbHotRunMode
+            // 
+            ckbHotRunMode.AutoSize = true;
+            ckbHotRunMode.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Bold, GraphicsUnit.Point);
+            ckbHotRunMode.ForeColor = Color.Red;
+            ckbHotRunMode.Location = new Point(11, 130);
+            ckbHotRunMode.Name = "ckbHotRunMode";
+            ckbHotRunMode.Size = new Size(119, 28);
+            ckbHotRunMode.TabIndex = 9;
+            ckbHotRunMode.Text = "HOT RUN";
+            ckbHotRunMode.UseVisualStyleBackColor = true;
+            ckbHotRunMode.CheckedChanged += ckbHotRunMode_CheckedChanged;
             // 
             // btnOpenLoginFOrm
             // 
@@ -992,5 +1007,6 @@
         private CheckBox cknOnlineModeIndi;
         private TabPage tabPage4;
         private UI_UserControls.UscEQStatus usceqStatus1;
+        private CheckBox ckbHotRunMode;
     }
 }
