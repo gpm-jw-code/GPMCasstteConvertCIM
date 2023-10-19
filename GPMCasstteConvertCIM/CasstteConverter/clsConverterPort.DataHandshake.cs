@@ -241,7 +241,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         internal async Task<bool> WaitAGVSTransferCompleteReported()
         {
-            CancellationTokenSource cts = new CancellationTokenSource(TimeSpan.FromSeconds(25));
+            CancellationTokenSource cts = new CancellationTokenSource(TimeSpan.FromSeconds(90));
             Utility.SystemLogger.Info($"{PortName} Wait AGVS Transfer Completed Reported");
             while (!Carrier_TransferCompletedFlag)
             {
@@ -291,6 +291,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         internal async void TransferCompletedInvoke(string carrier_id)
         {
+            Utility.SystemLogger.Info($"{PortName}- AGVS Transfer Cargo To {PortName} Compelted  |AGVS->MCS");
             CSTID_From_TransferCompletedReport = carrier_id;
             if (WIPINFO_BCR_ID == carrier_id)
                 Carrier_TransferCompletedFlag = true;

@@ -430,17 +430,16 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                             bool transfer_completed_reported = await WaitAGVSTransferCompleteReported();
                             if (transfer_completed_reported && PortExist)
                             {
-                                var isCSTIDMismatch = WIPINFO_BCR_ID == CSTID_From_TransferCompletedReport;
-                                if (isCSTIDMismatch)
-                                {
-                                    Utility.SystemLogger.Warning($"Carrier ID Miss match,Carrier Remove Report To MCS First.. CST ID From Transfer Task = {CSTID_From_TransferCompletedReport}, BCR Reader={WIPINFO_BCR_ID}");
-                                    await SecsEventReport(CEID.CarrierRemovedCompletedReport, CSTID_From_TransferCompletedReport);
-                                }
+                                var isCSTIDMismatch = WIPINFO_BCR_ID != CSTID_From_TransferCompletedReport;
                                 bool IsBCRReadFail = IsBCR_READ_ERROR() | WIPINFO_BCR_ID == "";
-                                CSTIDReportedToMCS = IsBCRReadFail ? $"TUN032{DateTime.Now.ToString("dhmsf")}" : WIPINFO_BCR_ID;
+                                if (isCSTIDMismatch)
+                                    Utility.SystemLogger.Info($"Carrier ID Miss match CST ID From Transfer Task = {CSTID_From_TransferCompletedReport}, BCR Reader={WIPINFO_BCR_ID}");
+                                //讀取失敗=>報TUN,否則一律報READER讀值
+                                previousCSTIDReportedToMCS = IsBCRReadFail ? $"TUN032{DateTime.Now.ToString("dhmsf")}" : WIPINFO_BCR_ID;
+                                await SecsEventReport(CEID.CarrierInstallCompletedReport, previousCSTIDReportedToMCS);
 
                                 if (IsBCRReadFail)
-                                    Utility.SystemLogger.Warning($"BCR Carrier ID Read Fail.  BCR Reader={WIPINFO_BCR_ID}, Carrier Installed Report To MCS  With CST Virtual ID={CSTIDReportedToMCS}");
+                                    Utility.SystemLogger.Info($"BCR Carrier ID Read Fail.  BCR Reader={WIPINFO_BCR_ID}, Carrier Installed Report To MCS  With CST Virtual ID={CSTIDReportedToMCS}");
                                 else
                                     Utility.SystemLogger.Info($"Carrier Installed Report To MCS  With CST ID={CSTIDReportedToMCS}");
 
