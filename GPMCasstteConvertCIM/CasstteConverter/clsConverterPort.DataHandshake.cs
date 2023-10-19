@@ -116,7 +116,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 Utility.SystemLogger.Info($"{PortName}- Port Type Changed Handshake Finish !(Changed to {EPortType})");
                 cts.Dispose();
 
-
             });
         }
 
