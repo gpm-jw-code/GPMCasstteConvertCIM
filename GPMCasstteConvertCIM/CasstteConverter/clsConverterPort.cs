@@ -587,6 +587,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     {
                         try
                         {
+                            await Task.Delay(1000);
                             await PortTypeReport();
                         }
                         catch (Exception ex)

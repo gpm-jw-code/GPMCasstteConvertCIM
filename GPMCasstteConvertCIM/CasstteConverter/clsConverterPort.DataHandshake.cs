@@ -92,6 +92,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         {
             _ = Task.Factory.StartNew(() =>
             {
+                Utility.SystemLogger.Info($"{PortName}- Port Type Changed Handshake Start !(Changed to {EPortType})");
                 clsMemoryAddress eq_to_cim_report_adress = EQParent.LinkBitMap.First(i => i.EOwner == OWNER.EQP && i.EScope.ToString() == portNoName && i.EProperty == PROPERTY.Port_Mode_Changed_Report);
                 string cim_2_eq_reply_address = PortCIMBitAddress[PROPERTY.Port_Mode_Changed_Report_Reply];
                 //ON CIM BIT
@@ -105,12 +106,16 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     if (cts.IsCancellationRequested)
                     {
                         timeout = true;//T3 Timeout
+                        AlarmManager.AddAlarm(ALARM_CODES.PortTypeChangedReport_HS_EQ_Timeout, PortName);
+                        Utility.SystemLogger.Info($"{PortName}- Port Type Changed Handshake EQP Timeout({eq_to_cim_report_adress.Address}) Not OFF...(Changed to {EPortType})");
                         break;
                     }
                 }
                 //OFF CIM BIT
                 EQParent.CIMMemOptions.memoryTable.WriteOneBit(cim_2_eq_reply_address, false);
+                Utility.SystemLogger.Info($"{PortName}- Port Type Changed Handshake Finish !(Changed to {EPortType})");
                 cts.Dispose();
+
 
             });
         }
