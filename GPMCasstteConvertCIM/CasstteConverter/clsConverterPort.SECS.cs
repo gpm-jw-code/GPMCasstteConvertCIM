@@ -23,11 +23,18 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         internal async Task<bool> SecsEventReport(CEID ceid, string carrier_id)
         {
+
+
             speficCarrierID = carrier_id;
             return await SecsEventReport(ceid);
         }
         public async Task<bool> SecsEventReport(CEID ceid)
         {
+            if (ceid == CEID.CarrierInstallCompletedReport)
+                _CarrierRemovedReportedFlag = false;
+
+
+
             bool isCarrierWaitInOutReport = ceid == CEID.CarrierWaitIn | ceid == CEID.CarrierWaitOut;
             if (isCarrierWaitInOutReport && Properties.CarrierWaitInOutReport_Enable == false)
             {

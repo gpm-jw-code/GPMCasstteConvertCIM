@@ -272,7 +272,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     Task.Run(async () =>
                     {
 
-                        if (IsInstalled)
+                        if (IsInstalled && !_CarrierRemovedReportedFlag)
                         {
                             Utility.SystemLogger.Info($"[{PortName}] CST Installed,({toRemoveCSTID}),before installed report, Removed report first");
                             await SecsEventReport(CEID.CarrierRemovedCompletedReport, toRemoveCSTID);
@@ -507,6 +507,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
 
         private bool _CarrierRemovedCompletedReport;
+        private bool _CarrierRemovedReportedFlag = false;
         public bool CarrierRemovedCompletedReport
         {
             get => _CarrierRemovedCompletedReport;
@@ -519,11 +520,11 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     if (_CarrierRemovedCompletedReport)
                     {
                         IsCarrierInstallReported = false;
-
                         Task.Factory.StartNew(async () =>
                         {
                             Utility.SystemLogger.Info($"[MCS] Carrier Remove Completed Report Start");
                             await SecsEventReport(CEID.CarrierRemovedCompletedReport, previousCSTIDReportedToMCS);
+                            _CarrierRemovedReportedFlag = true;
                             CSTIDReportedToMCS = "";
                         });
                         Utility.SystemLogger.Info($"Carrier Remove Completed HS Start");
