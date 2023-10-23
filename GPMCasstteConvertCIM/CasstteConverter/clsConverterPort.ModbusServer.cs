@@ -20,7 +20,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         /// </summary>
         public PortUnitType MCSReservePortType { get; internal set; }
         public bool PortStatusDownForceOn { get; set; } = false;
-        private bool _IsCarrierInstallReported;
+        private bool _IsCarrierInstallReported = false;
         public bool IsCarrierInstallReported
         {
             get
@@ -30,6 +30,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             }
             set
             {
+                _CarrierRemovedReportedFlag = !value;
                 _IsCarrierInstallReported = value;
                 Utility.SystemLogger.Info($"_IsCarrierInstallReported  => {_IsCarrierInstallReported}");
             }

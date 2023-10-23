@@ -24,16 +24,15 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         internal async Task<bool> SecsEventReport(CEID ceid, string carrier_id)
         {
 
-
-            speficCarrierID = carrier_id;
+            speficCarrierID = carrier_id + "";
             return await SecsEventReport(ceid);
         }
         public async Task<bool> SecsEventReport(CEID ceid)
         {
             if (ceid == CEID.CarrierInstallCompletedReport)
-                _CarrierRemovedReportedFlag = false;
-
-
+                IsCarrierInstallReported = true;
+            if (ceid == CEID.CarrierRemovedCompletedReport)
+                IsCarrierInstallReported = false;
 
             bool isCarrierWaitInOutReport = ceid == CEID.CarrierWaitIn | ceid == CEID.CarrierWaitOut;
             if (isCarrierWaitInOutReport && Properties.CarrierWaitInOutReport_Enable == false)
@@ -92,7 +91,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         private async Task<SecsMessage> CreateMsgByCEID(CEID ceid)
         {
-            string carrier_id = speficCarrierID != "" ? speficCarrierID.ToString() : (Previous_WIPINFO_BCR_ID != "" ? Previous_WIPINFO_BCR_ID : WIPINFO_BCR_ID);
+            string carrier_id = speficCarrierID != "" ? speficCarrierID.ToString() : WIPINFO_BCR_ID;
             string port_id = Properties.PortID;
 
             speficCarrierID = "";

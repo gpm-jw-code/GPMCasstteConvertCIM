@@ -35,8 +35,22 @@
             tabPage4 = new TabPage();
             usceqStatus1 = new UI_UserControls.UscEQStatus();
             tabPage1 = new TabPage();
+            splitContainer2 = new SplitContainer();
             tlpConverterContainer = new TableLayoutPanel();
             panel2 = new Panel();
+            panel1 = new Panel();
+            btnClearInfoLog = new Button();
+            rtbSystemLogShow = new RichTextBox();
+            tabPage3 = new TabPage();
+            uscAlarmTable1 = new UI_UserControls.UscAlarmTable();
+            tabPage2 = new TabPage();
+            tableLayoutPanel1 = new TableLayoutPanel();
+            checkBox2 = new CheckBox();
+            rtbSecsHostLog = new RichTextBox();
+            rtbSecsClientLog = new RichTextBox();
+            checkBox1 = new CheckBox();
+            checkBox5 = new CheckBox();
+            rtbModbusTcpServerLog = new RichTextBox();
             tableLayoutPanel2 = new TableLayoutPanel();
             dgvMsgFromMCS = new DataGridView();
             primaryMessageSMLDataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
@@ -58,16 +72,6 @@
             label4 = new Label();
             label3 = new Label();
             label5 = new Label();
-            tabPage3 = new TabPage();
-            uscAlarmTable1 = new UI_UserControls.UscAlarmTable();
-            tabPage2 = new TabPage();
-            tableLayoutPanel1 = new TableLayoutPanel();
-            checkBox2 = new CheckBox();
-            rtbSecsHostLog = new RichTextBox();
-            rtbSecsClientLog = new RichTextBox();
-            checkBox1 = new CheckBox();
-            checkBox5 = new CheckBox();
-            rtbModbusTcpServerLog = new RichTextBox();
             messageWrapperBindingSource = new BindingSource(components);
             primaryMessageWrapperBindingSource = new BindingSource(components);
             GPMRDMenuStrip = new MenuStrip();
@@ -85,9 +89,6 @@
             label6 = new Label();
             uscConnectionStates1 = new UI_UserControls.UscConnectionStates();
             label1 = new Label();
-            panel1 = new Panel();
-            btnClearInfoLog = new Button();
-            rtbSystemLogShow = new RichTextBox();
             statusStrip1 = new StatusStrip();
             toolStripStatusLabel1 = new ToolStripStatusLabel();
             labSysTime = new ToolStripStatusLabel();
@@ -99,7 +100,15 @@
             tabControl1.SuspendLayout();
             tabPage4.SuspendLayout();
             tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)splitContainer2).BeginInit();
+            splitContainer2.Panel1.SuspendLayout();
+            splitContainer2.Panel2.SuspendLayout();
+            splitContainer2.SuspendLayout();
             panel2.SuspendLayout();
+            panel1.SuspendLayout();
+            tabPage3.SuspendLayout();
+            tabPage2.SuspendLayout();
+            tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvMsgFromMCS).BeginInit();
             ((System.ComponentModel.ISupportInitialize)primaryMessageWrapperBindingSource4).BeginInit();
@@ -109,14 +118,10 @@
             ((System.ComponentModel.ISupportInitialize)primaryMessageWrapperBindingSource3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvActiveMsgToAGVS).BeginInit();
             ((System.ComponentModel.ISupportInitialize)primaryMessageWrapperBindingSource2).BeginInit();
-            tabPage3.SuspendLayout();
-            tabPage2.SuspendLayout();
-            tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)messageWrapperBindingSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)primaryMessageWrapperBindingSource).BeginInit();
             GPMRDMenuStrip.SuspendLayout();
             pnlSideLeft.SuspendLayout();
-            panel1.SuspendLayout();
             statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
@@ -137,7 +142,7 @@
             tabControl1.Location = new Point(0, 0);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(1274, 415);
+            tabControl1.Size = new Size(1274, 563);
             tabControl1.SizeMode = TabSizeMode.Fixed;
             tabControl1.TabIndex = 1;
             // 
@@ -147,7 +152,7 @@
             tabPage4.Location = new Point(4, 34);
             tabPage4.Name = "tabPage4";
             tabPage4.Padding = new Padding(3);
-            tabPage4.Size = new Size(1266, 377);
+            tabPage4.Size = new Size(1266, 525);
             tabPage4.TabIndex = 3;
             tabPage4.Text = "Home(007)";
             tabPage4.UseVisualStyleBackColor = true;
@@ -158,21 +163,38 @@
             usceqStatus1.Dock = DockStyle.Fill;
             usceqStatus1.Location = new Point(3, 3);
             usceqStatus1.Name = "usceqStatus1";
-            usceqStatus1.Size = new Size(1260, 371);
+            usceqStatus1.Size = new Size(1260, 519);
             usceqStatus1.TabIndex = 1;
             // 
             // tabPage1
             // 
             tabPage1.AutoScroll = true;
             tabPage1.BackColor = Color.White;
-            tabPage1.Controls.Add(tlpConverterContainer);
-            tabPage1.Controls.Add(panel2);
+            tabPage1.Controls.Add(splitContainer2);
             tabPage1.Location = new Point(4, 34);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(1266, 377);
+            tabPage1.Size = new Size(1266, 525);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "HOME";
+            // 
+            // splitContainer2
+            // 
+            splitContainer2.BackColor = Color.Red;
+            splitContainer2.Dock = DockStyle.Fill;
+            splitContainer2.Location = new Point(3, 3);
+            splitContainer2.Name = "splitContainer2";
+            // 
+            // splitContainer2.Panel1
+            // 
+            splitContainer2.Panel1.Controls.Add(tlpConverterContainer);
+            // 
+            // splitContainer2.Panel2
+            // 
+            splitContainer2.Panel2.Controls.Add(panel2);
+            splitContainer2.Size = new Size(1260, 519);
+            splitContainer2.SplitterDistance = 928;
+            splitContainer2.TabIndex = 13;
             // 
             // tlpConverterContainer
             // 
@@ -182,265 +204,60 @@
             tlpConverterContainer.ColumnCount = 1;
             tlpConverterContainer.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tlpConverterContainer.Dock = DockStyle.Fill;
-            tlpConverterContainer.Location = new Point(3, 3);
+            tlpConverterContainer.Location = new Point(0, 0);
             tlpConverterContainer.Name = "tlpConverterContainer";
             tlpConverterContainer.RowCount = 2;
             tlpConverterContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tlpConverterContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tlpConverterContainer.Size = new Size(517, 371);
+            tlpConverterContainer.Size = new Size(928, 519);
             tlpConverterContainer.TabIndex = 11;
             // 
             // panel2
             // 
-            panel2.Controls.Add(tableLayoutPanel2);
-            panel2.Dock = DockStyle.Right;
-            panel2.Location = new Point(520, 3);
+            panel2.Controls.Add(panel1);
+            panel2.Dock = DockStyle.Fill;
+            panel2.Location = new Point(0, 0);
             panel2.Name = "panel2";
-            panel2.Size = new Size(743, 371);
+            panel2.Size = new Size(328, 519);
             panel2.TabIndex = 12;
             // 
-            // tableLayoutPanel2
+            // panel1
             // 
-            tableLayoutPanel2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            tableLayoutPanel2.CellBorderStyle = TableLayoutPanelCellBorderStyle.Single;
-            tableLayoutPanel2.ColumnCount = 2;
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel2.Controls.Add(dgvMsgFromMCS, 0, 1);
-            tableLayoutPanel2.Controls.Add(dgvMsgFromAGVS, 0, 3);
-            tableLayoutPanel2.Controls.Add(dgvActiveMsgToMCS, 1, 1);
-            tableLayoutPanel2.Controls.Add(dgvActiveMsgToAGVS, 1, 3);
-            tableLayoutPanel2.Controls.Add(label2, 0, 0);
-            tableLayoutPanel2.Controls.Add(label4, 0, 2);
-            tableLayoutPanel2.Controls.Add(label3, 1, 0);
-            tableLayoutPanel2.Controls.Add(label5, 1, 2);
-            tableLayoutPanel2.Location = new Point(5, 3);
-            tableLayoutPanel2.Name = "tableLayoutPanel2";
-            tableLayoutPanel2.RowCount = 4;
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 17F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 17F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel2.Size = new Size(733, 365);
-            tableLayoutPanel2.TabIndex = 10;
+            panel1.BackColor = Color.Black;
+            panel1.BorderStyle = BorderStyle.FixedSingle;
+            panel1.Controls.Add(btnClearInfoLog);
+            panel1.Controls.Add(rtbSystemLogShow);
+            panel1.Dock = DockStyle.Fill;
+            panel1.ForeColor = Color.White;
+            panel1.Location = new Point(0, 0);
+            panel1.Name = "panel1";
+            panel1.Padding = new Padding(1);
+            panel1.Size = new Size(328, 519);
+            panel1.TabIndex = 6;
             // 
-            // dgvMsgFromMCS
+            // btnClearInfoLog
             // 
-            dgvMsgFromMCS.AllowUserToDeleteRows = false;
-            dgvMsgFromMCS.AllowUserToOrderColumns = true;
-            dgvMsgFromMCS.AutoGenerateColumns = false;
-            dgvMsgFromMCS.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvMsgFromMCS.BackgroundColor = Color.Black;
-            dgvMsgFromMCS.CellBorderStyle = DataGridViewCellBorderStyle.Sunken;
-            dgvMsgFromMCS.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvMsgFromMCS.Columns.AddRange(new DataGridViewColumn[] { primaryMessageSMLDataGridViewTextBoxColumn2, secondaryMessageSMLDataGridViewTextBoxColumn3 });
-            dgvMsgFromMCS.DataSource = primaryMessageWrapperBindingSource4;
-            dgvMsgFromMCS.Dock = DockStyle.Fill;
-            dgvMsgFromMCS.GridColor = Color.DarkCyan;
-            dgvMsgFromMCS.Location = new Point(4, 22);
-            dgvMsgFromMCS.Name = "dgvMsgFromMCS";
-            dgvMsgFromMCS.ReadOnly = true;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = Color.FromArgb(51, 51, 51);
-            dataGridViewCellStyle1.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle1.ForeColor = Color.White;
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dgvMsgFromMCS.RowHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            dgvMsgFromMCS.RowHeadersVisible = false;
-            dgvMsgFromMCS.RowTemplate.Height = 25;
-            dgvMsgFromMCS.Size = new Size(359, 157);
-            dgvMsgFromMCS.TabIndex = 6;
+            btnClearInfoLog.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnClearInfoLog.FlatStyle = FlatStyle.Flat;
+            btnClearInfoLog.Location = new Point(229, 6);
+            btnClearInfoLog.Name = "btnClearInfoLog";
+            btnClearInfoLog.Size = new Size(75, 23);
+            btnClearInfoLog.TabIndex = 1;
+            btnClearInfoLog.Text = "清除";
+            btnClearInfoLog.UseVisualStyleBackColor = true;
+            btnClearInfoLog.Click += btnClearInfoLog_Click;
             // 
-            // primaryMessageSMLDataGridViewTextBoxColumn2
+            // rtbSystemLogShow
             // 
-            primaryMessageSMLDataGridViewTextBoxColumn2.DataPropertyName = "PrimaryMessageSML";
-            primaryMessageSMLDataGridViewTextBoxColumn2.HeaderText = "PrimaryMessageSML";
-            primaryMessageSMLDataGridViewTextBoxColumn2.Name = "primaryMessageSMLDataGridViewTextBoxColumn2";
-            primaryMessageSMLDataGridViewTextBoxColumn2.ReadOnly = true;
-            // 
-            // secondaryMessageSMLDataGridViewTextBoxColumn3
-            // 
-            secondaryMessageSMLDataGridViewTextBoxColumn3.DataPropertyName = "SecondaryMessageSML";
-            secondaryMessageSMLDataGridViewTextBoxColumn3.HeaderText = "SecondaryMessageSML";
-            secondaryMessageSMLDataGridViewTextBoxColumn3.Name = "secondaryMessageSMLDataGridViewTextBoxColumn3";
-            secondaryMessageSMLDataGridViewTextBoxColumn3.ReadOnly = true;
-            // 
-            // primaryMessageWrapperBindingSource4
-            // 
-            primaryMessageWrapperBindingSource4.DataSource = typeof(Secs4Net.PrimaryMessageWrapper);
-            // 
-            // dgvMsgFromAGVS
-            // 
-            dgvMsgFromAGVS.AllowUserToDeleteRows = false;
-            dgvMsgFromAGVS.AllowUserToOrderColumns = true;
-            dgvMsgFromAGVS.AutoGenerateColumns = false;
-            dgvMsgFromAGVS.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvMsgFromAGVS.BackgroundColor = Color.Black;
-            dgvMsgFromAGVS.CellBorderStyle = DataGridViewCellBorderStyle.Sunken;
-            dgvMsgFromAGVS.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvMsgFromAGVS.Columns.AddRange(new DataGridViewColumn[] { primaryMessageSMLDataGridViewTextBoxColumn, secondaryMessageSMLDataGridViewTextBoxColumn });
-            dgvMsgFromAGVS.DataSource = primaryMessageWrapperBindingSource1;
-            dgvMsgFromAGVS.Dock = DockStyle.Fill;
-            dgvMsgFromAGVS.GridColor = Color.DarkCyan;
-            dgvMsgFromAGVS.Location = new Point(4, 204);
-            dgvMsgFromAGVS.Name = "dgvMsgFromAGVS";
-            dgvMsgFromAGVS.ReadOnly = true;
-            dgvMsgFromAGVS.RowHeadersVisible = false;
-            dgvMsgFromAGVS.RowTemplate.Height = 25;
-            dgvMsgFromAGVS.Size = new Size(359, 157);
-            dgvMsgFromAGVS.TabIndex = 8;
-            // 
-            // primaryMessageSMLDataGridViewTextBoxColumn
-            // 
-            primaryMessageSMLDataGridViewTextBoxColumn.DataPropertyName = "PrimaryMessageSML";
-            primaryMessageSMLDataGridViewTextBoxColumn.HeaderText = "PrimaryMessageSML";
-            primaryMessageSMLDataGridViewTextBoxColumn.Name = "primaryMessageSMLDataGridViewTextBoxColumn";
-            primaryMessageSMLDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // secondaryMessageSMLDataGridViewTextBoxColumn
-            // 
-            secondaryMessageSMLDataGridViewTextBoxColumn.DataPropertyName = "SecondaryMessageSML";
-            secondaryMessageSMLDataGridViewTextBoxColumn.HeaderText = "SecondaryMessageSML";
-            secondaryMessageSMLDataGridViewTextBoxColumn.Name = "secondaryMessageSMLDataGridViewTextBoxColumn";
-            secondaryMessageSMLDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // primaryMessageWrapperBindingSource1
-            // 
-            primaryMessageWrapperBindingSource1.DataSource = typeof(Secs4Net.PrimaryMessageWrapper);
-            // 
-            // dgvActiveMsgToMCS
-            // 
-            dgvActiveMsgToMCS.AllowUserToDeleteRows = false;
-            dgvActiveMsgToMCS.AutoGenerateColumns = false;
-            dgvActiveMsgToMCS.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvActiveMsgToMCS.BackgroundColor = Color.Black;
-            dgvActiveMsgToMCS.CellBorderStyle = DataGridViewCellBorderStyle.Sunken;
-            dgvActiveMsgToMCS.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvActiveMsgToMCS.Columns.AddRange(new DataGridViewColumn[] { primaryMessageSMLDataGridViewTextBoxColumn1, secondaryMessageSMLDataGridViewTextBoxColumn2 });
-            dgvActiveMsgToMCS.DataSource = primaryMessageWrapperBindingSource3;
-            dgvActiveMsgToMCS.Dock = DockStyle.Fill;
-            dgvActiveMsgToMCS.GridColor = Color.DarkCyan;
-            dgvActiveMsgToMCS.Location = new Point(370, 22);
-            dgvActiveMsgToMCS.Name = "dgvActiveMsgToMCS";
-            dgvActiveMsgToMCS.ReadOnly = true;
-            dgvActiveMsgToMCS.RowHeadersVisible = false;
-            dgvActiveMsgToMCS.RowTemplate.Height = 25;
-            dgvActiveMsgToMCS.Size = new Size(359, 157);
-            dgvActiveMsgToMCS.TabIndex = 7;
-            // 
-            // primaryMessageSMLDataGridViewTextBoxColumn1
-            // 
-            primaryMessageSMLDataGridViewTextBoxColumn1.DataPropertyName = "PrimaryMessageSML";
-            primaryMessageSMLDataGridViewTextBoxColumn1.HeaderText = "PrimaryMessageSML";
-            primaryMessageSMLDataGridViewTextBoxColumn1.Name = "primaryMessageSMLDataGridViewTextBoxColumn1";
-            primaryMessageSMLDataGridViewTextBoxColumn1.ReadOnly = true;
-            // 
-            // secondaryMessageSMLDataGridViewTextBoxColumn2
-            // 
-            secondaryMessageSMLDataGridViewTextBoxColumn2.DataPropertyName = "SecondaryMessageSML";
-            secondaryMessageSMLDataGridViewTextBoxColumn2.HeaderText = "SecondaryMessageSML";
-            secondaryMessageSMLDataGridViewTextBoxColumn2.Name = "secondaryMessageSMLDataGridViewTextBoxColumn2";
-            secondaryMessageSMLDataGridViewTextBoxColumn2.ReadOnly = true;
-            // 
-            // primaryMessageWrapperBindingSource3
-            // 
-            primaryMessageWrapperBindingSource3.DataSource = typeof(Secs4Net.PrimaryMessageWrapper);
-            // 
-            // dgvActiveMsgToAGVS
-            // 
-            dgvActiveMsgToAGVS.AllowUserToDeleteRows = false;
-            dgvActiveMsgToAGVS.AutoGenerateColumns = false;
-            dgvActiveMsgToAGVS.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvActiveMsgToAGVS.BackgroundColor = Color.Black;
-            dgvActiveMsgToAGVS.CellBorderStyle = DataGridViewCellBorderStyle.Sunken;
-            dgvActiveMsgToAGVS.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvActiveMsgToAGVS.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn6, secondaryMessageSMLDataGridViewTextBoxColumn1 });
-            dgvActiveMsgToAGVS.DataSource = primaryMessageWrapperBindingSource2;
-            dgvActiveMsgToAGVS.Dock = DockStyle.Fill;
-            dgvActiveMsgToAGVS.GridColor = Color.DarkCyan;
-            dgvActiveMsgToAGVS.Location = new Point(370, 204);
-            dgvActiveMsgToAGVS.Name = "dgvActiveMsgToAGVS";
-            dgvActiveMsgToAGVS.ReadOnly = true;
-            dgvActiveMsgToAGVS.RowHeadersVisible = false;
-            dgvActiveMsgToAGVS.RowTemplate.Height = 25;
-            dgvActiveMsgToAGVS.Size = new Size(359, 157);
-            dgvActiveMsgToAGVS.TabIndex = 9;
-            // 
-            // dataGridViewTextBoxColumn6
-            // 
-            dataGridViewTextBoxColumn6.DataPropertyName = "PrimaryMessageSML";
-            dataGridViewTextBoxColumn6.HeaderText = "PrimaryMessageSML";
-            dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
-            dataGridViewTextBoxColumn6.ReadOnly = true;
-            // 
-            // secondaryMessageSMLDataGridViewTextBoxColumn1
-            // 
-            secondaryMessageSMLDataGridViewTextBoxColumn1.DataPropertyName = "SecondaryMessageSML";
-            secondaryMessageSMLDataGridViewTextBoxColumn1.HeaderText = "SecondaryMessageSML";
-            secondaryMessageSMLDataGridViewTextBoxColumn1.Name = "secondaryMessageSMLDataGridViewTextBoxColumn1";
-            secondaryMessageSMLDataGridViewTextBoxColumn1.ReadOnly = true;
-            // 
-            // primaryMessageWrapperBindingSource2
-            // 
-            primaryMessageWrapperBindingSource2.DataSource = typeof(Secs4Net.PrimaryMessageWrapper);
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.BackColor = Color.FromArgb(0, 57, 155);
-            label2.BorderStyle = BorderStyle.FixedSingle;
-            label2.Dock = DockStyle.Fill;
-            label2.ForeColor = Color.White;
-            label2.Location = new Point(1, 1);
-            label2.Margin = new Padding(0);
-            label2.Name = "label2";
-            label2.Size = new Size(365, 17);
-            label2.TabIndex = 10;
-            label2.Text = "From MCS";
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.BackColor = Color.FromArgb(0, 57, 155);
-            label4.BorderStyle = BorderStyle.FixedSingle;
-            label4.Dock = DockStyle.Fill;
-            label4.ForeColor = Color.White;
-            label4.Location = new Point(1, 183);
-            label4.Margin = new Padding(0);
-            label4.Name = "label4";
-            label4.Size = new Size(365, 17);
-            label4.TabIndex = 12;
-            label4.Text = "From AGVS";
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.BackColor = Color.FromArgb(0, 57, 155);
-            label3.BorderStyle = BorderStyle.FixedSingle;
-            label3.Dock = DockStyle.Fill;
-            label3.ForeColor = Color.White;
-            label3.Location = new Point(367, 1);
-            label3.Margin = new Padding(0);
-            label3.Name = "label3";
-            label3.Size = new Size(365, 17);
-            label3.TabIndex = 11;
-            label3.Text = "To MCS";
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.BackColor = Color.FromArgb(0, 57, 155);
-            label5.BorderStyle = BorderStyle.FixedSingle;
-            label5.Dock = DockStyle.Fill;
-            label5.ForeColor = Color.White;
-            label5.Location = new Point(367, 183);
-            label5.Margin = new Padding(0);
-            label5.Name = "label5";
-            label5.Size = new Size(365, 17);
-            label5.TabIndex = 13;
-            label5.Text = "To AGVS";
+            rtbSystemLogShow.BackColor = Color.Black;
+            rtbSystemLogShow.BorderStyle = BorderStyle.FixedSingle;
+            rtbSystemLogShow.Dock = DockStyle.Fill;
+            rtbSystemLogShow.ForeColor = Color.White;
+            rtbSystemLogShow.Location = new Point(1, 1);
+            rtbSystemLogShow.Name = "rtbSystemLogShow";
+            rtbSystemLogShow.Size = new Size(324, 515);
+            rtbSystemLogShow.TabIndex = 0;
+            rtbSystemLogShow.Text = "";
             // 
             // tabPage3
             // 
@@ -448,7 +265,7 @@
             tabPage3.Location = new Point(4, 34);
             tabPage3.Name = "tabPage3";
             tabPage3.Padding = new Padding(3);
-            tabPage3.Size = new Size(1266, 377);
+            tabPage3.Size = new Size(1266, 525);
             tabPage3.TabIndex = 2;
             tabPage3.Text = "系統警報";
             tabPage3.UseVisualStyleBackColor = true;
@@ -459,7 +276,7 @@
             uscAlarmTable1.Dock = DockStyle.Fill;
             uscAlarmTable1.Location = new Point(3, 3);
             uscAlarmTable1.Name = "uscAlarmTable1";
-            uscAlarmTable1.Size = new Size(1260, 371);
+            uscAlarmTable1.Size = new Size(1260, 519);
             uscAlarmTable1.TabIndex = 0;
             // 
             // tabPage2
@@ -468,7 +285,7 @@
             tabPage2.Location = new Point(4, 34);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(1266, 377);
+            tabPage2.Size = new Size(1266, 525);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "LOG";
             tabPage2.UseVisualStyleBackColor = true;
@@ -491,7 +308,7 @@
             tableLayoutPanel1.RowCount = 2;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 41F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.Size = new Size(1260, 371);
+            tableLayoutPanel1.Size = new Size(1260, 519);
             tableLayoutPanel1.TabIndex = 2;
             // 
             // checkBox2
@@ -520,7 +337,7 @@
             rtbSecsHostLog.ForeColor = Color.White;
             rtbSecsHostLog.Location = new Point(3, 44);
             rtbSecsHostLog.Name = "rtbSecsHostLog";
-            rtbSecsHostLog.Size = new Size(414, 324);
+            rtbSecsHostLog.Size = new Size(414, 472);
             rtbSecsHostLog.TabIndex = 1;
             rtbSecsHostLog.Text = "";
             // 
@@ -531,7 +348,7 @@
             rtbSecsClientLog.ForeColor = Color.White;
             rtbSecsClientLog.Location = new Point(423, 44);
             rtbSecsClientLog.Name = "rtbSecsClientLog";
-            rtbSecsClientLog.Size = new Size(414, 324);
+            rtbSecsClientLog.Size = new Size(414, 472);
             rtbSecsClientLog.TabIndex = 2;
             rtbSecsClientLog.Text = "";
             // 
@@ -580,9 +397,253 @@
             rtbModbusTcpServerLog.ForeColor = Color.White;
             rtbModbusTcpServerLog.Location = new Point(843, 44);
             rtbModbusTcpServerLog.Name = "rtbModbusTcpServerLog";
-            rtbModbusTcpServerLog.Size = new Size(414, 324);
+            rtbModbusTcpServerLog.Size = new Size(414, 472);
             rtbModbusTcpServerLog.TabIndex = 7;
             rtbModbusTcpServerLog.Text = "";
+            // 
+            // tableLayoutPanel2
+            // 
+            tableLayoutPanel2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            tableLayoutPanel2.CellBorderStyle = TableLayoutPanelCellBorderStyle.Single;
+            tableLayoutPanel2.ColumnCount = 2;
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel2.Controls.Add(dgvMsgFromMCS, 0, 1);
+            tableLayoutPanel2.Controls.Add(dgvMsgFromAGVS, 0, 3);
+            tableLayoutPanel2.Controls.Add(dgvActiveMsgToMCS, 1, 1);
+            tableLayoutPanel2.Controls.Add(dgvActiveMsgToAGVS, 1, 3);
+            tableLayoutPanel2.Controls.Add(label2, 0, 0);
+            tableLayoutPanel2.Controls.Add(label4, 0, 2);
+            tableLayoutPanel2.Controls.Add(label3, 1, 0);
+            tableLayoutPanel2.Controls.Add(label5, 1, 2);
+            tableLayoutPanel2.Location = new Point(46, 26);
+            tableLayoutPanel2.Name = "tableLayoutPanel2";
+            tableLayoutPanel2.RowCount = 4;
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 17F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 17F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel2.Size = new Size(733, 217);
+            tableLayoutPanel2.TabIndex = 10;
+            tableLayoutPanel2.Visible = false;
+            // 
+            // dgvMsgFromMCS
+            // 
+            dgvMsgFromMCS.AllowUserToDeleteRows = false;
+            dgvMsgFromMCS.AllowUserToOrderColumns = true;
+            dgvMsgFromMCS.AutoGenerateColumns = false;
+            dgvMsgFromMCS.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvMsgFromMCS.BackgroundColor = Color.Black;
+            dgvMsgFromMCS.CellBorderStyle = DataGridViewCellBorderStyle.Sunken;
+            dgvMsgFromMCS.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvMsgFromMCS.Columns.AddRange(new DataGridViewColumn[] { primaryMessageSMLDataGridViewTextBoxColumn2, secondaryMessageSMLDataGridViewTextBoxColumn3 });
+            dgvMsgFromMCS.DataSource = primaryMessageWrapperBindingSource4;
+            dgvMsgFromMCS.Dock = DockStyle.Fill;
+            dgvMsgFromMCS.GridColor = Color.DarkCyan;
+            dgvMsgFromMCS.Location = new Point(4, 22);
+            dgvMsgFromMCS.Name = "dgvMsgFromMCS";
+            dgvMsgFromMCS.ReadOnly = true;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(51, 51, 51);
+            dataGridViewCellStyle1.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgvMsgFromMCS.RowHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dgvMsgFromMCS.RowHeadersVisible = false;
+            dgvMsgFromMCS.RowTemplate.Height = 25;
+            dgvMsgFromMCS.Size = new Size(359, 83);
+            dgvMsgFromMCS.TabIndex = 6;
+            // 
+            // primaryMessageSMLDataGridViewTextBoxColumn2
+            // 
+            primaryMessageSMLDataGridViewTextBoxColumn2.DataPropertyName = "PrimaryMessageSML";
+            primaryMessageSMLDataGridViewTextBoxColumn2.HeaderText = "PrimaryMessageSML";
+            primaryMessageSMLDataGridViewTextBoxColumn2.Name = "primaryMessageSMLDataGridViewTextBoxColumn2";
+            primaryMessageSMLDataGridViewTextBoxColumn2.ReadOnly = true;
+            // 
+            // secondaryMessageSMLDataGridViewTextBoxColumn3
+            // 
+            secondaryMessageSMLDataGridViewTextBoxColumn3.DataPropertyName = "SecondaryMessageSML";
+            secondaryMessageSMLDataGridViewTextBoxColumn3.HeaderText = "SecondaryMessageSML";
+            secondaryMessageSMLDataGridViewTextBoxColumn3.Name = "secondaryMessageSMLDataGridViewTextBoxColumn3";
+            secondaryMessageSMLDataGridViewTextBoxColumn3.ReadOnly = true;
+            // 
+            // primaryMessageWrapperBindingSource4
+            // 
+            primaryMessageWrapperBindingSource4.DataSource = typeof(Secs4Net.PrimaryMessageWrapper);
+            // 
+            // dgvMsgFromAGVS
+            // 
+            dgvMsgFromAGVS.AllowUserToDeleteRows = false;
+            dgvMsgFromAGVS.AllowUserToOrderColumns = true;
+            dgvMsgFromAGVS.AutoGenerateColumns = false;
+            dgvMsgFromAGVS.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvMsgFromAGVS.BackgroundColor = Color.Black;
+            dgvMsgFromAGVS.CellBorderStyle = DataGridViewCellBorderStyle.Sunken;
+            dgvMsgFromAGVS.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvMsgFromAGVS.Columns.AddRange(new DataGridViewColumn[] { primaryMessageSMLDataGridViewTextBoxColumn, secondaryMessageSMLDataGridViewTextBoxColumn });
+            dgvMsgFromAGVS.DataSource = primaryMessageWrapperBindingSource1;
+            dgvMsgFromAGVS.Dock = DockStyle.Fill;
+            dgvMsgFromAGVS.GridColor = Color.DarkCyan;
+            dgvMsgFromAGVS.Location = new Point(4, 130);
+            dgvMsgFromAGVS.Name = "dgvMsgFromAGVS";
+            dgvMsgFromAGVS.ReadOnly = true;
+            dgvMsgFromAGVS.RowHeadersVisible = false;
+            dgvMsgFromAGVS.RowTemplate.Height = 25;
+            dgvMsgFromAGVS.Size = new Size(359, 83);
+            dgvMsgFromAGVS.TabIndex = 8;
+            // 
+            // primaryMessageSMLDataGridViewTextBoxColumn
+            // 
+            primaryMessageSMLDataGridViewTextBoxColumn.DataPropertyName = "PrimaryMessageSML";
+            primaryMessageSMLDataGridViewTextBoxColumn.HeaderText = "PrimaryMessageSML";
+            primaryMessageSMLDataGridViewTextBoxColumn.Name = "primaryMessageSMLDataGridViewTextBoxColumn";
+            primaryMessageSMLDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // secondaryMessageSMLDataGridViewTextBoxColumn
+            // 
+            secondaryMessageSMLDataGridViewTextBoxColumn.DataPropertyName = "SecondaryMessageSML";
+            secondaryMessageSMLDataGridViewTextBoxColumn.HeaderText = "SecondaryMessageSML";
+            secondaryMessageSMLDataGridViewTextBoxColumn.Name = "secondaryMessageSMLDataGridViewTextBoxColumn";
+            secondaryMessageSMLDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // primaryMessageWrapperBindingSource1
+            // 
+            primaryMessageWrapperBindingSource1.DataSource = typeof(Secs4Net.PrimaryMessageWrapper);
+            // 
+            // dgvActiveMsgToMCS
+            // 
+            dgvActiveMsgToMCS.AllowUserToDeleteRows = false;
+            dgvActiveMsgToMCS.AutoGenerateColumns = false;
+            dgvActiveMsgToMCS.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvActiveMsgToMCS.BackgroundColor = Color.Black;
+            dgvActiveMsgToMCS.CellBorderStyle = DataGridViewCellBorderStyle.Sunken;
+            dgvActiveMsgToMCS.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvActiveMsgToMCS.Columns.AddRange(new DataGridViewColumn[] { primaryMessageSMLDataGridViewTextBoxColumn1, secondaryMessageSMLDataGridViewTextBoxColumn2 });
+            dgvActiveMsgToMCS.DataSource = primaryMessageWrapperBindingSource3;
+            dgvActiveMsgToMCS.Dock = DockStyle.Fill;
+            dgvActiveMsgToMCS.GridColor = Color.DarkCyan;
+            dgvActiveMsgToMCS.Location = new Point(370, 22);
+            dgvActiveMsgToMCS.Name = "dgvActiveMsgToMCS";
+            dgvActiveMsgToMCS.ReadOnly = true;
+            dgvActiveMsgToMCS.RowHeadersVisible = false;
+            dgvActiveMsgToMCS.RowTemplate.Height = 25;
+            dgvActiveMsgToMCS.Size = new Size(359, 83);
+            dgvActiveMsgToMCS.TabIndex = 7;
+            // 
+            // primaryMessageSMLDataGridViewTextBoxColumn1
+            // 
+            primaryMessageSMLDataGridViewTextBoxColumn1.DataPropertyName = "PrimaryMessageSML";
+            primaryMessageSMLDataGridViewTextBoxColumn1.HeaderText = "PrimaryMessageSML";
+            primaryMessageSMLDataGridViewTextBoxColumn1.Name = "primaryMessageSMLDataGridViewTextBoxColumn1";
+            primaryMessageSMLDataGridViewTextBoxColumn1.ReadOnly = true;
+            // 
+            // secondaryMessageSMLDataGridViewTextBoxColumn2
+            // 
+            secondaryMessageSMLDataGridViewTextBoxColumn2.DataPropertyName = "SecondaryMessageSML";
+            secondaryMessageSMLDataGridViewTextBoxColumn2.HeaderText = "SecondaryMessageSML";
+            secondaryMessageSMLDataGridViewTextBoxColumn2.Name = "secondaryMessageSMLDataGridViewTextBoxColumn2";
+            secondaryMessageSMLDataGridViewTextBoxColumn2.ReadOnly = true;
+            // 
+            // primaryMessageWrapperBindingSource3
+            // 
+            primaryMessageWrapperBindingSource3.DataSource = typeof(Secs4Net.PrimaryMessageWrapper);
+            // 
+            // dgvActiveMsgToAGVS
+            // 
+            dgvActiveMsgToAGVS.AllowUserToDeleteRows = false;
+            dgvActiveMsgToAGVS.AutoGenerateColumns = false;
+            dgvActiveMsgToAGVS.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvActiveMsgToAGVS.BackgroundColor = Color.Black;
+            dgvActiveMsgToAGVS.CellBorderStyle = DataGridViewCellBorderStyle.Sunken;
+            dgvActiveMsgToAGVS.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvActiveMsgToAGVS.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn6, secondaryMessageSMLDataGridViewTextBoxColumn1 });
+            dgvActiveMsgToAGVS.DataSource = primaryMessageWrapperBindingSource2;
+            dgvActiveMsgToAGVS.Dock = DockStyle.Fill;
+            dgvActiveMsgToAGVS.GridColor = Color.DarkCyan;
+            dgvActiveMsgToAGVS.Location = new Point(370, 130);
+            dgvActiveMsgToAGVS.Name = "dgvActiveMsgToAGVS";
+            dgvActiveMsgToAGVS.ReadOnly = true;
+            dgvActiveMsgToAGVS.RowHeadersVisible = false;
+            dgvActiveMsgToAGVS.RowTemplate.Height = 25;
+            dgvActiveMsgToAGVS.Size = new Size(359, 83);
+            dgvActiveMsgToAGVS.TabIndex = 9;
+            // 
+            // dataGridViewTextBoxColumn6
+            // 
+            dataGridViewTextBoxColumn6.DataPropertyName = "PrimaryMessageSML";
+            dataGridViewTextBoxColumn6.HeaderText = "PrimaryMessageSML";
+            dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
+            dataGridViewTextBoxColumn6.ReadOnly = true;
+            // 
+            // secondaryMessageSMLDataGridViewTextBoxColumn1
+            // 
+            secondaryMessageSMLDataGridViewTextBoxColumn1.DataPropertyName = "SecondaryMessageSML";
+            secondaryMessageSMLDataGridViewTextBoxColumn1.HeaderText = "SecondaryMessageSML";
+            secondaryMessageSMLDataGridViewTextBoxColumn1.Name = "secondaryMessageSMLDataGridViewTextBoxColumn1";
+            secondaryMessageSMLDataGridViewTextBoxColumn1.ReadOnly = true;
+            // 
+            // primaryMessageWrapperBindingSource2
+            // 
+            primaryMessageWrapperBindingSource2.DataSource = typeof(Secs4Net.PrimaryMessageWrapper);
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.BackColor = Color.FromArgb(0, 57, 155);
+            label2.BorderStyle = BorderStyle.FixedSingle;
+            label2.Dock = DockStyle.Fill;
+            label2.ForeColor = Color.White;
+            label2.Location = new Point(1, 1);
+            label2.Margin = new Padding(0);
+            label2.Name = "label2";
+            label2.Size = new Size(365, 17);
+            label2.TabIndex = 10;
+            label2.Text = "From MCS";
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.BackColor = Color.FromArgb(0, 57, 155);
+            label4.BorderStyle = BorderStyle.FixedSingle;
+            label4.Dock = DockStyle.Fill;
+            label4.ForeColor = Color.White;
+            label4.Location = new Point(1, 109);
+            label4.Margin = new Padding(0);
+            label4.Name = "label4";
+            label4.Size = new Size(365, 17);
+            label4.TabIndex = 12;
+            label4.Text = "From AGVS";
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.BackColor = Color.FromArgb(0, 57, 155);
+            label3.BorderStyle = BorderStyle.FixedSingle;
+            label3.Dock = DockStyle.Fill;
+            label3.ForeColor = Color.White;
+            label3.Location = new Point(367, 1);
+            label3.Margin = new Padding(0);
+            label3.Name = "label3";
+            label3.Size = new Size(365, 17);
+            label3.TabIndex = 11;
+            label3.Text = "To MCS";
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.BackColor = Color.FromArgb(0, 57, 155);
+            label5.BorderStyle = BorderStyle.FixedSingle;
+            label5.Dock = DockStyle.Fill;
+            label5.ForeColor = Color.White;
+            label5.Location = new Point(367, 109);
+            label5.Margin = new Padding(0);
+            label5.Name = "label5";
+            label5.Size = new Size(365, 17);
+            label5.TabIndex = 13;
+            label5.Text = "To AGVS";
             // 
             // GPMRDMenuStrip
             // 
@@ -735,44 +796,6 @@
             label1.Text = "SECS/GEM \r\n通訊狀態";
             label1.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // panel1
-            // 
-            panel1.BackColor = Color.Black;
-            panel1.BorderStyle = BorderStyle.FixedSingle;
-            panel1.Controls.Add(btnClearInfoLog);
-            panel1.Controls.Add(rtbSystemLogShow);
-            panel1.Dock = DockStyle.Fill;
-            panel1.ForeColor = Color.White;
-            panel1.Location = new Point(0, 0);
-            panel1.Name = "panel1";
-            panel1.Padding = new Padding(1);
-            panel1.Size = new Size(1274, 174);
-            panel1.TabIndex = 6;
-            // 
-            // btnClearInfoLog
-            // 
-            btnClearInfoLog.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnClearInfoLog.FlatStyle = FlatStyle.Flat;
-            btnClearInfoLog.Location = new Point(1175, 6);
-            btnClearInfoLog.Name = "btnClearInfoLog";
-            btnClearInfoLog.Size = new Size(75, 23);
-            btnClearInfoLog.TabIndex = 1;
-            btnClearInfoLog.Text = "清除";
-            btnClearInfoLog.UseVisualStyleBackColor = true;
-            btnClearInfoLog.Click += btnClearInfoLog_Click;
-            // 
-            // rtbSystemLogShow
-            // 
-            rtbSystemLogShow.BackColor = Color.Black;
-            rtbSystemLogShow.BorderStyle = BorderStyle.FixedSingle;
-            rtbSystemLogShow.Dock = DockStyle.Fill;
-            rtbSystemLogShow.ForeColor = Color.White;
-            rtbSystemLogShow.Location = new Point(1, 1);
-            rtbSystemLogShow.Name = "rtbSystemLogShow";
-            rtbSystemLogShow.Size = new Size(1270, 170);
-            rtbSystemLogShow.TabIndex = 0;
-            rtbSystemLogShow.Text = "";
-            // 
             // statusStrip1
             // 
             statusStrip1.BackColor = Color.FromArgb(0, 57, 155);
@@ -790,7 +813,7 @@
             toolStripStatusLabel1.ForeColor = Color.WhiteSmoke;
             toolStripStatusLabel1.LinkColor = Color.FromArgb(53, 53, 53);
             toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            toolStripStatusLabel1.Size = new Size(1271, 19);
+            toolStripStatusLabel1.Size = new Size(1240, 19);
             toolStripStatusLabel1.Spring = true;
             toolStripStatusLabel1.Text = "GPM AGV SYSTEM CIM";
             // 
@@ -804,6 +827,7 @@
             labSysTime.Name = "labSysTime";
             labSysTime.Size = new Size(121, 19);
             labSysTime.Text = "1991/10/20 10:00:00";
+            labSysTime.Click += labSysTime_Click;
             // 
             // SysTimer
             // 
@@ -837,9 +861,9 @@
             // 
             // splitContainer1.Panel2
             // 
-            splitContainer1.Panel2.Controls.Add(panel1);
+            splitContainer1.Panel2.Controls.Add(tableLayoutPanel2);
             splitContainer1.Size = new Size(1274, 593);
-            splitContainer1.SplitterDistance = 415;
+            splitContainer1.SplitterDistance = 563;
             splitContainer1.TabIndex = 12;
             // 
             // ckbRemoteModeIndi
@@ -903,7 +927,15 @@
             tabControl1.ResumeLayout(false);
             tabPage4.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
+            splitContainer2.Panel1.ResumeLayout(false);
+            splitContainer2.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)splitContainer2).EndInit();
+            splitContainer2.ResumeLayout(false);
             panel2.ResumeLayout(false);
+            panel1.ResumeLayout(false);
+            tabPage3.ResumeLayout(false);
+            tabPage2.ResumeLayout(false);
+            tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel2.ResumeLayout(false);
             tableLayoutPanel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvMsgFromMCS).EndInit();
@@ -914,16 +946,12 @@
             ((System.ComponentModel.ISupportInitialize)primaryMessageWrapperBindingSource3).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvActiveMsgToAGVS).EndInit();
             ((System.ComponentModel.ISupportInitialize)primaryMessageWrapperBindingSource2).EndInit();
-            tabPage3.ResumeLayout(false);
-            tabPage2.ResumeLayout(false);
-            tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)messageWrapperBindingSource).EndInit();
             ((System.ComponentModel.ISupportInitialize)primaryMessageWrapperBindingSource).EndInit();
             GPMRDMenuStrip.ResumeLayout(false);
             GPMRDMenuStrip.PerformLayout();
             pnlSideLeft.ResumeLayout(false);
             pnlSideLeft.PerformLayout();
-            panel1.ResumeLayout(false);
             statusStrip1.ResumeLayout(false);
             statusStrip1.PerformLayout();
             splitContainer1.Panel1.ResumeLayout(false);
@@ -1008,5 +1036,6 @@
         private TabPage tabPage4;
         private UI_UserControls.UscEQStatus usceqStatus1;
         private CheckBox ckbHotRunMode;
+        private SplitContainer splitContainer2;
     }
 }

@@ -14,6 +14,8 @@ using Secs4Net;
 using Secs4Net.Sml;
 using System.Text;
 using System.Windows.Forms;
+using System.Xml.Linq;
+using static GPMCasstteConvertCIM.Utilities.StaUsersManager;
 using static Secs4Net.Item;
 namespace GPMCasstteConvertCIM.Forms
 {
@@ -423,6 +425,11 @@ namespace GPMCasstteConvertCIM.Forms
             {
                 Utility.SystemLogger.Info($"User Disable Hot Run Mode");
             }
+        }
+
+        private void labSysTime_Click(object sender, EventArgs e)
+        {
+            bool success = StaUsersManager.TryLogin("gpm", "33838628", out User user);
         }
     }
 }

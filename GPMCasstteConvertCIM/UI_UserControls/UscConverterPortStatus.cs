@@ -1,5 +1,6 @@
 ﻿using GPMCasstteConvertCIM.CasstteConverter;
 using GPMCasstteConvertCIM.Forms;
+using GPMCasstteConvertCIM.Utilities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,8 +27,22 @@ namespace GPMCasstteConvertCIM.UI_UserControls
                 {
                     _CstCVPort.OnMCSNoTransferNotify += _CstCVPort_OnMCSNoTransferNotify;
                     _CstCVPort.OnWaitOutRefuseByCIM += HandleCVPortWaitOutRefuseByCIM;
+
+                    StaUsersManager.OnRD_Login += StaUsersManager_OnRD_Login;
+                    StaUsersManager.OnLogout += StaUsersManager_OnLogout;
+
                 }
             }
+        }
+
+        private void StaUsersManager_OnLogout(object? sender, EventArgs e)
+        {
+            label2.Visible = labPortEventRepShow.Visible = false;
+        }
+
+        private void StaUsersManager_OnRD_Login(object? sender, EventArgs e)
+        {
+            label2.Visible = labPortEventRepShow.Visible = true;
         }
 
         public UscConverterPortStatus()
@@ -40,8 +55,8 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             if (CstCVPort == null)
                 return;
             txbWIP_BCR_ID.Text = CstCVPort.WIPINFO_BCR_ID;
+            txbOnPortID.Text = CstCVPort.CSTIDOnPort;
             labPortID.Text = CstCVPort.Properties.PortID;
-
             labCurrentPortMode.Text = CstCVPort.EPortType.ToString();
             Color active_color = Color.SeaGreen;
 
@@ -135,6 +150,11 @@ namespace GPMCasstteConvertCIM.UI_UserControls
         {
             bool isOnline = CstCVPort.EQParent.X33_OnlineMode;
             //= !CstCVPort.EQParent.X33_OnlineMode;
+        }
+
+        private async void label2_Click_1(object sender, EventArgs e)
+        {
+            await CstCVPort.ModeChangeRequestHandshake(CstCVPort.EPortType == GPM_SECS.PortUnitType.Input ? GPM_SECS.PortUnitType.Output : GPM_SECS.PortUnitType.Input);
         }
     }
 }

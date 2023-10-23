@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Secs4Net;
 using Secs4Net.Sml;
+using System;
 using System.Diagnostics;
 using System.DirectoryServices.ActiveDirectory;
 using System.Windows.Forms.Design;
@@ -247,7 +248,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             }
         }
 
-        public string Previous_WIPINFO_BCR_ID { get; internal set; } = "";
         public string _WIPINFO_BCR_ID = "";
         public DateTime WIPUPdateTime { get; set; } = DateTime.MinValue;
         internal bool IsBCR_READ_ERROR()
@@ -258,41 +258,9 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             return IsErrorRead;
         }
         public string CSTID_From_TransferCompletedReport = "";
-        private string previousCSTIDReportedToMCS = "";
-        public string CSTIDReportedToMCS
-        {
-            get => previousCSTIDReportedToMCS;
-            set
-            {
-                if (previousCSTIDReportedToMCS != value)
-                {
+        public string CSTIDOnPort = "";
 
-                    string toRemoveCSTID = previousCSTIDReportedToMCS + "";
-                    bool IsInstalled = previousCSTIDReportedToMCS != "";
-                    Task.Run(async () =>
-                    {
-
-                        if (IsInstalled && !_CarrierRemovedReportedFlag)
-                        {
-                            Utility.SystemLogger.Info($"[{PortName}] CST Installed,({toRemoveCSTID}),before installed report, Removed report first");
-                            await SecsEventReport(CEID.CarrierRemovedCompletedReport, toRemoveCSTID);
-                        }
-
-                        if (PortExist)
-                        {
-                            Utility.SystemLogger.Info($"Carrier Installed Report To MCS, ID = {value}");
-                            await SecsEventReport(CEID.CarrierInstallCompletedReport, value);
-                        }
-                        else
-                        {
-                            Utility.SystemLogger.Info($"");
-                            AlarmManager.AddWarning(ALARM_CODES.Cannot_InstallCompleteReport_When_CST_Not_Exist, PortName, true);
-                        }
-                    });
-                    previousCSTIDReportedToMCS = value;
-                }
-            }
-        }
+        private string TUNID = "";
         public string WIPINFO_BCR_ID
         {
             get => _WIPINFO_BCR_ID;
@@ -303,15 +271,44 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     _WIPINFO_BCR_ID = value;
                     if (value != "")
                     {
-                        Previous_WIPINFO_BCR_ID = value;
+                        Utility.SystemLogger.Info($"Port {PortName} BCR ID Updated = {_WIPINFO_BCR_ID}");
                         WIPUPdateTime = DateTime.Now;
-                        Utility.SystemLogger.Info($"Port {Properties.PortID} WIP Updated : {_WIPINFO_BCR_ID}");
-                        CSTIDReportedToMCS = IsBCR_READ_ERROR() ? $"TUN032{DateTime.Now.ToString("dhmsf")}" : _WIPINFO_BCR_ID;
+                        TUNID = CreateTUNID();
+                        string cst = IsBCR_READ_ERROR() ? TUNID : value;
+                        InstallCarrier(cst + "");
+                    }
+                    else
+                    {
+                        Utility.SystemLogger.Info($"Port {PortName} BCR ID Clear-ON PORT={CSTIDOnPort}");
+                        RemoveCarrier(CSTIDOnPort + "");
                     }
                 }
             }
         }
+        private int TUNIDLFOW = 1;
+        private string CreateTUNID()
+        {
+            TUNIDLFOW += 1;
+            if (TUNIDLFOW >= int.MaxValue)
+            {
+                TUNIDLFOW = 1;
+            }
+            return $"TUN032{TUNIDLFOW.ToString("D5")}";
 
+        }
+        private async Task RemoveCarrier(string cst_id)
+        {
+            Utility.SystemLogger.Info($"{PortName}-Remove Carrier_{cst_id}");
+            bool remove_reported = await SecsEventReport(CEID.CarrierRemovedCompletedReport, cst_id + "");
+        }
+        private async Task InstallCarrier(string cst_id)
+        {
+            if (!PortExist)
+                return;
+            CSTIDOnPort = cst_id + "";
+            Utility.SystemLogger.Info($"{PortName}-Install Carrier_{cst_id}");
+            await SecsEventReport(CEID.CarrierInstallCompletedReport, cst_id);
+        }
 
         internal string GetWIPIDFromMem()
         {
@@ -351,13 +348,11 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     _CarrierWaitINSystemRequest = value;
                     if (_CarrierWaitINSystemRequest)
                     {
-
-                        Previous_WIPINFO_BCR_ID = WIPINFO_BCR_ID;
                         CarrierInstallTime = DateTime.Now;
                         Task.Factory.StartNew(async () =>
                         {
                             await Task.Delay(1000);
-                            Utility.SystemLogger.Info($"{PortName}-Carrier Wait In Request ON , With CST ID＝{WIPINFO_BCR_ID}");
+                            Utility.SystemLogger.Info($"{PortName}-Carrier Wait In Request ON , With CST ID＝{CSTIDOnPort}");
                             bool wait_in_accept = false;
                             if (WIPINFO_BCR_ID != "" && !IsBCR_READ_ERROR() && PortExist)
                             {
@@ -414,7 +409,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 {
                     if (value)
                     {
-                        Previous_WIPINFO_BCR_ID = WIPINFO_BCR_ID;
                         Utility.SystemLogger.Info("Carrier Wait out Request bit ON ");
                         bool wait_out_accept = PortExist;
                         if (!wait_out_accept)
@@ -430,21 +424,37 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                             bool transfer_completed_reported = await WaitAGVSTransferCompleteReported();
                             if (transfer_completed_reported && PortExist)
                             {
+                                await Task.Delay(3000);
                                 var isCSTIDMismatch = WIPINFO_BCR_ID != CSTID_From_TransferCompletedReport;
                                 bool IsBCRReadFail = IsBCR_READ_ERROR() | WIPINFO_BCR_ID == "";
-                                if (isCSTIDMismatch)
-                                    Utility.SystemLogger.Info($"Carrier ID Miss match CST ID From Transfer Task = {CSTID_From_TransferCompletedReport}, BCR Reader={WIPINFO_BCR_ID}");
-                                //讀取失敗=>報TUN,否則一律報READER讀值
-                                previousCSTIDReportedToMCS = IsBCRReadFail ? $"TUN032{DateTime.Now.ToString("dhmsf")}" : WIPINFO_BCR_ID;
-                                await SecsEventReport(CEID.CarrierInstallCompletedReport, previousCSTIDReportedToMCS);
 
-                                if (IsBCRReadFail)
-                                    Utility.SystemLogger.Info($"BCR Carrier ID Read Fail.  BCR Reader={WIPINFO_BCR_ID}, Carrier Installed Report To MCS  With CST Virtual ID={CSTIDReportedToMCS}");
+                                if (IsBCRReadFail)//讀取失敗=>報TUN
+                                {
+                                    //如果Retry在107 之前完成,最後要清107
+                                    if (CSTIDOnPort == CSTID_From_TransferCompletedReport)
+                                    {
+                                        Utility.SystemLogger.Info($"BCR Carrier ID Read Fail.  BCR Reader={WIPINFO_BCR_ID}, Carrier Installed Report To MCS  With CST Virtual ID={CSTIDOnPort}");
+                                        Utility.SystemLogger.Info($"[Before Wait out Report To_MCS - BCR ID Read Fail] Remove 107 Carrier ID({CSTIDOnPort}) First");
+                                        await RemoveCarrier(CSTIDOnPort + "");
+                                        await Task.Delay(100);
+                                        var _TUNID = CreateTUNID();
+                                        await InstallCarrier(_TUNID);
+                                    }
+                                }
                                 else
-                                    Utility.SystemLogger.Info($"Carrier Installed Report To MCS  With CST ID={CSTIDReportedToMCS}");
-
+                                {
+                                    if (isCSTIDMismatch)//讀取成功但與107 Carrier ID不符
+                                    {
+                                        Utility.SystemLogger.Info($"Carrier ID Miss match CST ID From Transfer Task = {CSTID_From_TransferCompletedReport}, BCR Reader={WIPINFO_BCR_ID}");
+                                        Utility.SystemLogger.Info($"[Before Wait out Report To_MCS - ID Missmatch] Remove 107 Carrier ID({CSTID_From_TransferCompletedReport}) First");
+                                        await RemoveCarrier(CSTID_From_TransferCompletedReport + "");
+                                        await Task.Delay(100);
+                                        await InstallCarrier(WIPINFO_BCR_ID);
+                                    }
+                                }
                                 await Task.Delay(1000);
-                                await SecsEventReport(CEID.CarrierWaitOut, CSTIDReportedToMCS);
+                                Utility.SystemLogger.Info($"{PortName}-Carrier Wait Out Report to MCS with CSTID = {CSTIDOnPort}");
+                                await SecsEventReport(CEID.CarrierWaitOut, CSTIDOnPort);
                                 Carrier_TransferCompletedFlag = false;
                                 CarrierInstallTime = DateTime.Now;
                             }
@@ -456,7 +466,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
                         Task.Factory.StartNew(async () =>
                         {
-                            Utility.SystemLogger.Info($"PLC Carrier Wait  Out HS Start");
+                            Utility.SystemLogger.Info($"PLC Carrier Wait Out HS Start");
                             try
                             {
                                 bool success_hs = await CarrierWaitOutReply(Utility.IsHotRunMode ? true : wait_out_accept, 10000);
@@ -474,7 +484,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                                              int cnt = 0;
                                              while (!plc_accpet)
                                              {
-
                                                  plc_accpet = await ModeChangeRequestHandshake(Utility.IsHotRunMode ? PortUnitType.Input : PortUnitType.Output, "GPM_CIM");
                                                  Utility.SystemLogger.Info($"PLC Reject OUTPUT MODE Request. Retry.");
                                                  await Task.Delay(1000);
@@ -518,14 +527,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     _CarrierRemovedCompletedReport = value;
                     if (_CarrierRemovedCompletedReport)
                     {
-                        IsCarrierInstallReported = false;
-                        Task.Factory.StartNew(async () =>
-                        {
-                            Utility.SystemLogger.Info($"[MCS] Carrier Remove Completed Report Start");
-                            await SecsEventReport(CEID.CarrierRemovedCompletedReport, previousCSTIDReportedToMCS);
-                            _CarrierRemovedReportedFlag = true;
-                            CSTIDReportedToMCS = "";
-                        });
                         Utility.SystemLogger.Info($"Carrier Remove Completed HS Start");
                         CarrierRemovedCompletedReply();
                     }

@@ -292,9 +292,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         internal async void TransferCompletedInvoke(string carrier_id)
         {
             Utility.SystemLogger.Info($"{PortName}- AGVS Transfer Cargo To {PortName} Compelted  |AGVS->MCS");
-            CSTID_From_TransferCompletedReport = carrier_id;
-            if (WIPINFO_BCR_ID == carrier_id)
-                Carrier_TransferCompletedFlag = true;
+            CSTID_From_TransferCompletedReport = CSTIDOnPort = carrier_id;
+            Carrier_TransferCompletedFlag = true;
         }
     }
 }

@@ -41,14 +41,14 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
 
             _primaryMessageWrapper.PrimaryMessage.Name = "AGVS_To_CIM";
             clsConverterPort port = null;
-            bool IsTransferCompleteReport = false;
+            bool IsTransferCompleteToTSReport = false;
             if (_primaryMessage_FromAGVS.IsAGVSTransferCompletedReport(out string port_id, out string carrier_id_from_agvs_transferComplete))
             {
                 port = DevicesManager.GetPortByPortID(port_id);
-                IsTransferCompleteReport = (port != null);
+                IsTransferCompleteToTSReport = (port != null);
             }
 
-            if (IsTransferCompleteReport && !port.IsCarrierInstallReported)
+            if (IsTransferCompleteToTSReport && !port.IsCarrierInstallReported)
             {
                 port.IsCarrierInstallReported = true;
             }
@@ -132,7 +132,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                     if (ack6 == 0)
                         OnAGVSOffline?.Invoke("", EventArgs.Empty);
                 }
-                if (IsTransferCompleteReport)
+                if (IsTransferCompleteToTSReport)
                 {
                     port.TransferCompletedInvoke(carrier_id_from_agvs_transferComplete);
                 }
