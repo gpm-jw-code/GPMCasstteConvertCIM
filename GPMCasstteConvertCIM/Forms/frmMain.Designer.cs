@@ -745,6 +745,7 @@
             ckbHotRunMode.TabIndex = 9;
             ckbHotRunMode.Text = "HOT RUN";
             ckbHotRunMode.UseVisualStyleBackColor = true;
+            ckbHotRunMode.Visible = false;
             ckbHotRunMode.CheckedChanged += ckbHotRunMode_CheckedChanged;
             // 
             // btnOpenLoginFOrm
@@ -813,7 +814,7 @@
             toolStripStatusLabel1.ForeColor = Color.WhiteSmoke;
             toolStripStatusLabel1.LinkColor = Color.FromArgb(53, 53, 53);
             toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            toolStripStatusLabel1.Size = new Size(1240, 19);
+            toolStripStatusLabel1.Size = new Size(1271, 19);
             toolStripStatusLabel1.Spring = true;
             toolStripStatusLabel1.Text = "GPM AGV SYSTEM CIM";
             // 

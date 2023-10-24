@@ -160,7 +160,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                 replyMsg = new SecsMessage(2, 42, false)
                 {
                     SecsItem = L(
-                                B(0)
+                                B((byte)ack)
                             )
                 };
             }

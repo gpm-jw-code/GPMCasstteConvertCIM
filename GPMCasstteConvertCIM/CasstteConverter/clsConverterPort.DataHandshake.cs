@@ -50,7 +50,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             VirtualMemoryTable.WriteOneBit(cim_2_eq_port_mode_change_req_address_name, true);
             //wait EQ Bit on
 
-            CancellationTokenSource cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+            CancellationTokenSource cts = new CancellationTokenSource(TimeSpan.FromSeconds(Debugger.IsAttached? 15: 5));
             bool timeout = false;
             while (!(bool)plc_accept_address.Value && !(bool)plc_refuse_address.Value)
             {

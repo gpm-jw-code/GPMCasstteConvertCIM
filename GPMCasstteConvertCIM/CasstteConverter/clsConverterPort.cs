@@ -144,7 +144,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         internal List<clsMemoryAddress> EQModbusLinkBitAddress => EQParent.LinkBitMap.FindAll(ad => ad.EOwner == OWNER.EQP && ad.EScope.ToString() == portNoName && ad.Link_Modbus_Register_Number != -1);
         internal List<clsMemoryAddress> EQModbusLinkWordAddress => EQParent.LinkWordMap.FindAll(ad => ad.EOwner == OWNER.EQP && ad.EScope.ToString() == portNoName && ad.Link_Modbus_Register_Number != -1);
-        internal List<clsMemoryAddress> CIMModbusLinkWordAddress => EQParent.LinkWordMap.FindAll(ad => ad.EOwner == OWNER.CIM && ad.EScope.ToString() == portNoName && ad.Link_Modbus_Register_Number != -1);
+        internal List<clsMemoryAddress> CIMModbusLinkWordAddress => EQParent.LinkWordMap.FindAll(ad => ad.EOwner == OWNER.CIM && ad.Link_Modbus_Register_Number != -1);
         private CIMComponent.MemoryTable VirtualMemoryTable => EQParent.CIMMemOptions.memoryTable;
 
 
@@ -276,6 +276,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                         TUNID = CreateTUNID();
                         string cst = IsBCR_READ_ERROR() ? TUNID : value;
                         InstallCarrier(cst + "");
+
+
+
+
                     }
                     else
                     {
@@ -298,6 +302,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         }
         private async Task RemoveCarrier(string cst_id)
         {
+            UpdateModbusBCRReport(true);
             Utility.SystemLogger.Info($"{PortName}-Remove Carrier_{cst_id}");
             bool remove_reported = await SecsEventReport(CEID.CarrierRemovedCompletedReport, cst_id + "");
         }
@@ -307,7 +312,37 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 return;
             CSTIDOnPort = cst_id + "";
             Utility.SystemLogger.Info($"{PortName}-Install Carrier_{cst_id}");
+            UpdateModbusBCRReport();
             await SecsEventReport(CEID.CarrierInstallCompletedReport, cst_id);
+
+        }
+
+        private void UpdateModbusBCRReport(bool isClearBCR = false)
+        {
+            clsMemoryAddress? agvs_msg_1_address = EQParent.LinkWordMap.FirstOrDefault(v => v.EProperty == PROPERTY.AGVS_MSG_1);
+            clsMemoryAddress? agvs_msg_download_inedx_address = EQParent.LinkWordMap.FirstOrDefault(v => v.EProperty == PROPERTY.AGVS_MSG_DOWNLOAD_INDEX);
+            if (agvs_msg_1_address != null)
+            {
+                int[] bcr_id_ints = isClearBCR ? new int[10] : new int[10] {
+                WIPInfo_BCR_ID_1,
+                WIPInfo_BCR_ID_2,
+                WIPInfo_BCR_ID_3,
+                WIPInfo_BCR_ID_4,
+                WIPInfo_BCR_ID_5,
+                WIPInfo_BCR_ID_6,
+                WIPInfo_BCR_ID_7,
+                WIPInfo_BCR_ID_8,
+                WIPInfo_BCR_ID_9,
+                WIPInfo_BCR_ID_10
+                };
+                EQParent.CIMMemOptions.memoryTable.WriteWord(agvs_msg_1_address.Address, ref bcr_id_ints);
+                int[] vals = new int[1];
+                EQParent.CIMMemOptions.memoryTable.ReadWord(agvs_msg_download_inedx_address.Address, 1, ref vals);
+                vals[0] = vals[0] + 1;
+                if (vals[0] == int.MaxValue)
+                    vals[0] = 0;
+                EQParent.CIMMemOptions.memoryTable.WriteWord(agvs_msg_download_inedx_address.Address, ref vals);
+            }
         }
 
         internal string GetWIPIDFromMem()
