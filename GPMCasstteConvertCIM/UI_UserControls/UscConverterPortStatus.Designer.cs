@@ -59,6 +59,8 @@
             txbOnPortID = new TextBox();
             label6 = new Label();
             labAGVReadyToTransfer = new Label();
+            labWaitIn = new Label();
+            labWaitOut = new Label();
             flowLayoutPanel1.SuspendLayout();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
@@ -76,6 +78,8 @@
             flowLayoutPanel1.Controls.Add(labBusyBit);
             flowLayoutPanel1.Controls.Add(labUpPosition);
             flowLayoutPanel1.Controls.Add(labDownPosition);
+            flowLayoutPanel1.Controls.Add(labWaitIn);
+            flowLayoutPanel1.Controls.Add(labWaitOut);
             flowLayoutPanel1.Location = new Point(3, 103);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
             flowLayoutPanel1.Padding = new Padding(3);
@@ -482,6 +486,36 @@
             labAGVReadyToTransfer.Text = "AGV 準備取放";
             labAGVReadyToTransfer.Visible = false;
             // 
+            // labWaitIn
+            // 
+            labWaitIn.BackColor = SystemColors.AppWorkspace;
+            labWaitIn.BorderStyle = BorderStyle.FixedSingle;
+            labWaitIn.FlatStyle = FlatStyle.Flat;
+            labWaitIn.Font = new Font("Microsoft JhengHei UI", 7F, FontStyle.Regular, GraphicsUnit.Point);
+            labWaitIn.ForeColor = Color.White;
+            labWaitIn.Location = new Point(184, 68);
+            labWaitIn.Margin = new Padding(1);
+            labWaitIn.Name = "labWaitIn";
+            labWaitIn.Size = new Size(88, 30);
+            labWaitIn.TabIndex = 24;
+            labWaitIn.Text = "Wait In";
+            labWaitIn.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // labWaitOut
+            // 
+            labWaitOut.BackColor = SystemColors.AppWorkspace;
+            labWaitOut.BorderStyle = BorderStyle.FixedSingle;
+            labWaitOut.FlatStyle = FlatStyle.Flat;
+            labWaitOut.Font = new Font("Microsoft JhengHei UI", 7F, FontStyle.Regular, GraphicsUnit.Point);
+            labWaitOut.ForeColor = Color.White;
+            labWaitOut.Location = new Point(274, 68);
+            labWaitOut.Margin = new Padding(1);
+            labWaitOut.Name = "labWaitOut";
+            labWaitOut.Size = new Size(88, 30);
+            labWaitOut.TabIndex = 25;
+            labWaitOut.Text = "Wait Out";
+            labWaitOut.TextAlign = ContentAlignment.MiddleCenter;
+            // 
             // UscConverterPortStatus
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -544,5 +578,7 @@
         private TextBox txbOnPortID;
         private Label label6;
         private Label labAGVReadyToTransfer;
+        private Label labWaitIn;
+        private Label labWaitOut;
     }
 }

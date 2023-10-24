@@ -319,29 +319,24 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         private void UpdateModbusBCRReport(bool isClearBCR = false)
         {
+            Utility.SystemLogger.Info($"{PortName} Update BCR ID to CIM Memory Table");
             clsMemoryAddress? agvs_msg_1_address = EQParent.LinkWordMap.FirstOrDefault(v => v.EProperty == PROPERTY.AGVS_MSG_1);
             clsMemoryAddress? agvs_msg_download_inedx_address = EQParent.LinkWordMap.FirstOrDefault(v => v.EProperty == PROPERTY.AGVS_MSG_DOWNLOAD_INDEX);
             if (agvs_msg_1_address != null)
             {
-                int[] bcr_id_ints = isClearBCR ? new int[10] : new int[10] {
-                WIPInfo_BCR_ID_1,
-                WIPInfo_BCR_ID_2,
-                WIPInfo_BCR_ID_3,
-                WIPInfo_BCR_ID_4,
-                WIPInfo_BCR_ID_5,
-                WIPInfo_BCR_ID_6,
-                WIPInfo_BCR_ID_7,
-                WIPInfo_BCR_ID_8,
-                WIPInfo_BCR_ID_9,
-                WIPInfo_BCR_ID_10
-                };
+                int[] bcr_id_ints = isClearBCR ? new int[10] : new int[10] { WIPInfo_BCR_ID_1, WIPInfo_BCR_ID_2, WIPInfo_BCR_ID_3, WIPInfo_BCR_ID_4, WIPInfo_BCR_ID_5, WIPInfo_BCR_ID_6, WIPInfo_BCR_ID_7, WIPInfo_BCR_ID_8, WIPInfo_BCR_ID_9, WIPInfo_BCR_ID_10 };
                 EQParent.CIMMemOptions.memoryTable.WriteWord(agvs_msg_1_address.Address, ref bcr_id_ints);
+
+                //Update Report Index(+1)
                 int[] vals = new int[1];
                 EQParent.CIMMemOptions.memoryTable.ReadWord(agvs_msg_download_inedx_address.Address, 1, ref vals);
-                vals[0] = vals[0] + 1;
-                if (vals[0] == int.MaxValue)
-                    vals[0] = 0;
+                vals[0] = vals[0] == int.MaxValue ? 0 : vals[0] + 1;
                 EQParent.CIMMemOptions.memoryTable.WriteWord(agvs_msg_download_inedx_address.Address, ref vals);
+                //Update Report Index(+1)---END
+            }
+            else
+            {
+                Utility.SystemLogger.Info($"{PortName} Update BCR ID to CIM Memory Table");
             }
         }
 

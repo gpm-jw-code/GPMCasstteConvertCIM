@@ -55,7 +55,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS
             }
 
 
-            _logger = new SECSLogger(logRichTextBox, Path.Combine(Utility.SysConfigs.Log.SyslogFolder, "SECS"));
+            _logger = new SECSLogger(logRichTextBox, Utility.SysConfigs.Log.SyslogFolder, "SECS");
             secsGem?.Dispose();
 
             if (connector is not null)

@@ -318,7 +318,7 @@
             checkBox2.Checked = true;
             checkBox2.CheckState = CheckState.Checked;
             checkBox2.Dock = DockStyle.Fill;
-            checkBox2.FlatAppearance.CheckedBackColor = Color.Green;
+            checkBox2.FlatAppearance.CheckedBackColor = Color.LightCoral;
             checkBox2.FlatStyle = FlatStyle.Flat;
             checkBox2.Font = new Font("Microsoft JhengHei UI", 15F, FontStyle.Regular, GraphicsUnit.Point);
             checkBox2.ForeColor = Color.White;
@@ -359,7 +359,7 @@
             checkBox1.Checked = true;
             checkBox1.CheckState = CheckState.Checked;
             checkBox1.Dock = DockStyle.Fill;
-            checkBox1.FlatAppearance.CheckedBackColor = Color.Green;
+            checkBox1.FlatAppearance.CheckedBackColor = SystemColors.InactiveCaptionText;
             checkBox1.FlatStyle = FlatStyle.Flat;
             checkBox1.Font = new Font("Microsoft JhengHei UI", 15F, FontStyle.Regular, GraphicsUnit.Point);
             checkBox1.ForeColor = Color.White;
@@ -389,6 +389,7 @@
             checkBox5.Text = "ModbusTcpServer";
             checkBox5.TextAlign = ContentAlignment.MiddleCenter;
             checkBox5.UseVisualStyleBackColor = false;
+            checkBox5.Visible = false;
             // 
             // rtbModbusTcpServerLog
             // 
@@ -400,6 +401,7 @@
             rtbModbusTcpServerLog.Size = new Size(414, 472);
             rtbModbusTcpServerLog.TabIndex = 7;
             rtbModbusTcpServerLog.Text = "";
+            rtbModbusTcpServerLog.Visible = false;
             // 
             // tableLayoutPanel2
             // 
@@ -999,10 +1001,8 @@
         private Label label4;
         private Label label2;
         private Label label3;
-        private RichTextBox rtbModbusTcpServerLog;
         private RichTextBox rtbSecsHostLog;
         private RichTextBox rtbSecsClientLog;
-        private CheckBox checkBox5;
         private ToolStripMenuItem AGVS_modbus_sim_ToolStripMenuItem;
         private StatusStrip statusStrip1;
         private ToolStripStatusLabel labSysTime;
@@ -1038,5 +1038,7 @@
         private UI_UserControls.UscEQStatus usceqStatus1;
         private CheckBox ckbHotRunMode;
         private SplitContainer splitContainer2;
+        private CheckBox checkBox5;
+        private RichTextBox rtbModbusTcpServerLog;
     }
 }

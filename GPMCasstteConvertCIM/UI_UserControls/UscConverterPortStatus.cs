@@ -88,6 +88,9 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             labServiceStatusText.Text = CstCVPort.Properties.InSerivce ? "In Service" : "Out of Service";
             labServiceStatusText.ForeColor = CstCVPort.Properties.InSerivce ? Color.FromArgb(0, 57, 155) : Color.Red;
 
+            labWaitIn.RenderBGColorByState(CstCVPort.CarrierWaitINSystemRequest, Color.Red);
+            labWaitOut.RenderBGColorByState(CstCVPort.CarrierWaitOUTSystemRequest, Color.Red);
+
         }
 
         private void label2_Click(object sender, EventArgs e)

@@ -7,13 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 
 namespace GPMCasstteConvertCIM.GPM_SECS
 {
     internal class SECSLogger : LoggerBase, ISecsGemLogger
     {
 
-        internal SECSLogger(RichTextBox? richTextBox, string saveFolder) : base(richTextBox, saveFolder)
+        internal SECSLogger(RichTextBox? richTextBox, string saveFolder,string subFolderName) : base(richTextBox, saveFolder, subFolderName)
         {
 
         }
@@ -28,8 +29,8 @@ namespace GPMCasstteConvertCIM.GPM_SECS
 
         public void MessageIn(SecsMessage msg, int id)
         {
-            AppendDateTime(out DateTime time);
-            string log_str = $"<-- [0x{id:X8}] {msg.ToSml()}\n";
+            var time = DateTime.Now;
+            string log_str = $"{time} <-- [0x{id:X8}] {msg.ToSml()}\n";
             _richTextBox?.Invoke((MethodInvoker)delegate
             {
                 _richTextBox.SelectionColor = Color.Yellow;
@@ -40,8 +41,8 @@ namespace GPMCasstteConvertCIM.GPM_SECS
 
         public void MessageOut(SecsMessage msg, int id)
         {
-            AppendDateTime(out DateTime time);
-            string log_str = $"--> [0x{id:X8}] {msg.ToSml()}\n";
+            var time = DateTime.Now;
+            string log_str = $"{time} --> [0x{id:X8}] {msg.ToSml()}\n";
             _richTextBox?.Invoke((MethodInvoker)delegate
             {
                 _richTextBox.SelectionColor = Color.Green;

@@ -74,7 +74,7 @@ namespace GPMCasstteConvertCIM.Forms
             LoggerBase.logTimeUnit = Utility.SysConfigs.Log.LogFileUnit;
 
 
-            Utility.SystemLogger = new LoggerBase(rtbSystemLogShow, Path.Combine(Utility.SysConfigs.Log.SyslogFolder, "Sys Log"));
+            Utility.SystemLogger = new LoggerBase(rtbSystemLogShow, Utility.SysConfigs.Log.SyslogFolder, "Sys Log");
 
 
             Utility.SystemLogger.Info("GPM CIM System Start");
