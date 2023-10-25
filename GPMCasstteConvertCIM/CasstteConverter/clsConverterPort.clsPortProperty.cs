@@ -1,4 +1,6 @@
 ﻿using GPMCasstteConvertCIM.GPM_SECS;
+using System.ComponentModel.Design;
+using System.DirectoryServices.ActiveDirectory;
 using static GPMCasstteConvertCIM.GPM_SECS.SECSMessageHelper;
 
 namespace GPMCasstteConvertCIM.CasstteConverter
@@ -22,6 +24,11 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             internal PortUnitType PortType { get; set; }
 
             public bool CarrierWaitInOutReport_Enable { get; set; } = true;
+
+            public string PreviousOnPortID { get; set; } = "";
+            public bool IsInstalledLastTime { get; set; } = false;
+
+            public DateTime CarrierInstallTime { get; set; } = DateTime.MinValue;
 
         }
 

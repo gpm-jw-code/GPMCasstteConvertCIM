@@ -32,6 +32,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         public clsConverterPort(clsPortProperty property, clsCasstteConverter converterParent)
         {
             this.Properties = property;
+            CSTIDOnPort = property.PreviousOnPortID;
             this.EQParent = converterParent;
 
             AGVSignals = new clsHS_Status_Signals();
@@ -303,6 +304,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         private async Task RemoveCarrier(string cst_id)
         {
             UpdateModbusBCRReport(true);
+            Properties.IsInstalledLastTime = false;
+            DevicesManager.SaveDeviceConnectionOpts();
             Utility.SystemLogger.Info($"{PortName}-Remove Carrier_{cst_id}");
             bool remove_reported = await SecsEventReport(CEID.CarrierRemovedCompletedReport, cst_id + "");
         }
@@ -310,7 +313,17 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         {
             if (!PortExist)
                 return;
+
+            if (Properties.IsInstalledLastTime && cst_id != Properties.PreviousOnPortID)
+            {
+                await RemoveCarrier(Properties.PreviousOnPortID);
+            }
+
+            Properties.PreviousOnPortID = cst_id;
             CSTIDOnPort = cst_id + "";
+            Properties.IsInstalledLastTime = true;
+            Properties.CarrierInstallTime = DateTime.Now;
+            DevicesManager.SaveDeviceConnectionOpts();
             Utility.SystemLogger.Info($"{PortName}-Install Carrier_{cst_id}");
             UpdateModbusBCRReport();
             await SecsEventReport(CEID.CarrierInstallCompletedReport, cst_id);
