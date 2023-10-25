@@ -82,8 +82,6 @@ namespace GPMCasstteConvertCIM.Forms
 
             uscConnectionStates1.InitializeConnectionState();
 
-            //SECSEmulatorManager.Start();
-
             DevicesManager.DevicesConnectionsOpts.SECS_HOST.logRichTextBox = rtbSecsHostLog;
             DevicesManager.DevicesConnectionsOpts.SECS_HOST.dgvRevBufferTable = dgvMsgFromAGVS;
             DevicesManager.DevicesConnectionsOpts.SECS_HOST.dgvSendBufferTable = dgvActiveMsgToAGVS;
@@ -126,10 +124,6 @@ namespace GPMCasstteConvertCIM.Forms
             DevicesManager.EqStatusUI = usceqStatus1;
             DevicesManager.Connect();
 
-
-            //DevicesManager.Connect(DevicesManager.DevicesConnectionsOpts.SECS_HOST, DevicesManager.DevicesConnectionsOpts.SECS_CLIENT,
-            //    DevicesManager.DevicesConnectionsOpts.PLCEQ1, DevicesManager.DevicesConnectionsOpts.PLCEQ2, DevicesManager.DevicesConnectionsOpts.Modbus_Server);
-
             VirtualAGVSystem.StaVirtualAGVS.Initialize();
 
             SystemAPI systemAPI = new SystemAPI();
@@ -146,12 +140,6 @@ namespace GPMCasstteConvertCIM.Forms
                     uscAlarmTable1.alarmListBinding.ResetBindings();
                 }));
             };
-            //dgvMsgFromAGVS.DataSource = CIMDevices.secs_host.recvBuffer;
-            //dgvActiveMsgToAGVS.DataSource = CIMDevices.secs_host.sendBuffer;
-            //dgvMsgFromMCS.DataSource = CIMDevices.secs_client.recvBuffer;
-            //dgvActiveMsgToMCS.DataSource = CIMDevices.secs_client.sendBuffer;
-
-
         }
 
 
