@@ -1,6 +1,7 @@
 ﻿using GPMCasstteConvertCIM.CasstteConverter;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Security.Policy;
 using System.Text;
@@ -10,8 +11,10 @@ namespace GPMCasstteConvertCIM.Alarm
 {
     public class clsAlarmDto
     {
-        public ALARM_LEVEL Level { get; set; }
+
+        [Key]
         public DateTime Time { get; set; }
+        public ALARM_LEVEL Level { get; set; }
         public string Description { get; set; } = string.Empty;
         public string Classify { get; set; } = string.Empty;
         public string EQPName { get; set; } = string.Empty;

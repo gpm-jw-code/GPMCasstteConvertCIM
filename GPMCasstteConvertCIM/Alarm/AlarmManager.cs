@@ -33,6 +33,7 @@ namespace GPMCasstteConvertCIM.Alarm
                     AlarmsList.Enqueue(newAalrm);
                 else
                     TryUpdate(newAalrm);
+                
                 onAlarmAdded?.Invoke("", newAalrm);
             }
             else

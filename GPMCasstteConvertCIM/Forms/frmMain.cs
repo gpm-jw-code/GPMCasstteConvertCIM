@@ -32,6 +32,7 @@ namespace GPMCasstteConvertCIM.Forms
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             toolStripComboBox_Emulators.Visible = false;
 
+
         }
 
         private void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
@@ -55,7 +56,7 @@ namespace GPMCasstteConvertCIM.Forms
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            DBhelper.Initialize();
             Utility.LoadConfigs();
             Secs4Net.EncodingSetting.ASCIIEncoding = Utility.SysConfigs.SECS.SECESAEncoding; //³]©w½s½X
             if (Utility.SysConfigs.Project == Utilities.SysConfigs.clsSystemConfigs.PROJECT.U007)
@@ -136,10 +137,11 @@ namespace GPMCasstteConvertCIM.Forms
 
             WebsocketMiddleware.ServerBuild();
             uscAlarmTable1.BindData(AlarmManager.AlarmsList.ToList());
-            AlarmManager.onAlarmAdded += (sender, arg) =>
+            AlarmManager.onAlarmAdded += (sender, alarm) =>
             {
                 Invoke(new Action(() =>
                 {
+                    DBhelper.InsertAlarm(alarm);
                     uscAlarmTable1.BindData(AlarmManager.AlarmsList.ToList());
                     uscAlarmTable1.alarmListBinding.ResetBindings();
                 }));
