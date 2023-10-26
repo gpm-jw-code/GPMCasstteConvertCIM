@@ -47,7 +47,6 @@ namespace GPMCasstteConvertCIM.Utilities
         internal string saveFolder { get; set; } = "";
 
         private string subFolderName;
-        private object lock_object = new object();
 
         protected RichTextBox? _richTextBox;
         internal LoggerBase(RichTextBox? richTextBox, string saveFolder, string subFolderName)
@@ -104,7 +103,7 @@ namespace GPMCasstteConvertCIM.Utilities
             {
                 _richTextBox?.Invoke((MethodInvoker)delegate
                 {
-                    _richTextBox.SelectionColor = Color.LightBlue;
+                    _richTextBox.SelectionColor = Color.White;
                     _richTextBox.AppendText($"{time} {msg}\n");
                 });
             }

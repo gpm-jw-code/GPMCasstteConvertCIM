@@ -35,15 +35,33 @@ namespace GPMCasstteConvertCIM.Utilities
         internal static Dictionary<USER_GROUP, List<User>> Users = new Dictionary<USER_GROUP, List<User>>()
         {
             {
-                USER_GROUP.USER_ENG, new List<User>() { new User()} },
+                USER_GROUP.USER_ENG, new List<User>() {
+                    new User() {
+                         Group = USER_GROUP.USER_ENG,
+                          Name = "ENG",
+                          Password = "12345678"
+                    }
+                } },
             {
-                USER_GROUP.GPM_ENG, new List<User>() { new User()} },
+                USER_GROUP.GPM_ENG, new List<User>() {
+                    new User() {
+                         Group = USER_GROUP.GPM_ENG,
+                          Name = "ENG",
+                          Password = "33838628"
+                    }
+                }
+            },
             {
                 USER_GROUP.GPM_RD, new List<User>() {
                     new User(){
                          Group = USER_GROUP.GPM_RD,
                          Name = "GPM",
                          Password ="33838628"
+                    },
+                    new User(){
+                         Group = USER_GROUP.GPM_RD,
+                         Name = "GPM",
+                         Password ="12345678"
                     }
                 }
             },

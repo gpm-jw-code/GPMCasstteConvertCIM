@@ -74,10 +74,7 @@ namespace GPMCasstteConvertCIM.Forms
 
             LoggerBase.logTimeUnit = Utility.SysConfigs.Log.LogFileUnit;
 
-
             Utility.SystemLogger = new LoggerBase(rtbSystemLogShow, Utility.SysConfigs.Log.SyslogFolder, "Sys Log");
-
-
             Utility.SystemLogger.Info("GPM CIM System Start");
 
             uscConnectionStates1.InitializeConnectionState();
@@ -271,7 +268,7 @@ namespace GPMCasstteConvertCIM.Forms
         }
 
 
-        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        private async void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
 
             if (MessageBox.Show("確定要關閉CIM程式", "Exit APP Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
@@ -280,7 +277,8 @@ namespace GPMCasstteConvertCIM.Forms
                 return;
             }
 
-
+            Utility.SystemLogger.Info($"User {CurrentUser.Name} closed CIM APP", true);
+            Thread.Sleep(1000);
             foreach (var item in DevicesManager.casstteConverters)
             {
                 item.mcInterface?.Close();

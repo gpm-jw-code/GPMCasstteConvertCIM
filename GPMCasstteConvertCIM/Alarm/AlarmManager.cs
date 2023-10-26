@@ -16,6 +16,14 @@ namespace GPMCasstteConvertCIM.Alarm
 
         public static event EventHandler<clsAlarmDto> onAlarmAdded;
 
+        internal static void LoadNewestAlarmsFromDatabase(int count = 30)
+        {
+            List<clsAlarmDto> alarms =DBhelper.QueryAlarm(1, count);
+            foreach (var item in alarms)
+            {
+                AlarmsList.Enqueue(item);
+            }
+        }
         public static void AddWarning(ALARM_CODES alarm_code, string EQPName, bool add_new_one_when_exist_same_code = true)
         {
             if (AlarmCodes.TryGetValue(alarm_code, out clsAlarmDto alarmDeffined))
@@ -100,7 +108,6 @@ namespace GPMCasstteConvertCIM.Alarm
             onAlarmAdded?.Invoke("", null);
 
         }
-
 
         internal static void TryRemoveAlarm(ALARM_CODES alarmCode, string EQPName)
         {
