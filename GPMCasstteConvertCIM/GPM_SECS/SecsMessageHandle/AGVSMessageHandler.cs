@@ -116,8 +116,6 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                     SECSState.IsOnline = true;
                     SECSState.IsRemote = isRemote;
 
-
-
                     if (ack6 == 0)
                     {
                         if (isRemote)

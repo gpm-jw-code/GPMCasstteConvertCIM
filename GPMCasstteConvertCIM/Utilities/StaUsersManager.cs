@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -103,6 +104,7 @@ namespace GPMCasstteConvertCIM.Utilities
             {
                 Group = USER_GROUP.VISITOR
             };
+            OnLogout?.Invoke("", EventArgs.Empty);
         }
     }
 }

@@ -57,7 +57,7 @@
             label4 = new Label();
             labServiceStatusText = new Label();
             label3 = new Label();
-            label2 = new Label();
+            labPortTypeChgReq = new Label();
             txbOnPortID = new TextBox();
             label6 = new Label();
             labAGVReadyToTransfer = new Label();
@@ -461,23 +461,23 @@
             label3.Text = "IO LINK";
             label3.Click += label3_Click;
             // 
-            // label2
+            // labPortTypeChgReq
             // 
-            label2.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            label2.BackColor = Color.Firebrick;
-            label2.BorderStyle = BorderStyle.FixedSingle;
-            label2.FlatStyle = FlatStyle.Flat;
-            label2.Font = new Font("Microsoft JhengHei UI", 7F, FontStyle.Regular, GraphicsUnit.Point);
-            label2.ForeColor = Color.White;
-            label2.Location = new Point(288, 283);
-            label2.Margin = new Padding(1);
-            label2.Name = "label2";
-            label2.Size = new Size(95, 24);
-            label2.TabIndex = 42;
-            label2.Text = "Port Type Change";
-            label2.TextAlign = ContentAlignment.MiddleCenter;
-            label2.Visible = false;
-            label2.Click += label2_Click_1;
+            labPortTypeChgReq.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            labPortTypeChgReq.BackColor = Color.Firebrick;
+            labPortTypeChgReq.BorderStyle = BorderStyle.FixedSingle;
+            labPortTypeChgReq.FlatStyle = FlatStyle.Flat;
+            labPortTypeChgReq.Font = new Font("Microsoft JhengHei UI", 7F, FontStyle.Regular, GraphicsUnit.Point);
+            labPortTypeChgReq.ForeColor = Color.White;
+            labPortTypeChgReq.Location = new Point(288, 283);
+            labPortTypeChgReq.Margin = new Padding(1);
+            labPortTypeChgReq.Name = "labPortTypeChgReq";
+            labPortTypeChgReq.Size = new Size(95, 24);
+            labPortTypeChgReq.TabIndex = 42;
+            labPortTypeChgReq.Text = "Port Type Change";
+            labPortTypeChgReq.TextAlign = ContentAlignment.MiddleCenter;
+            labPortTypeChgReq.Visible = false;
+            labPortTypeChgReq.Click += label2_Click_1;
             // 
             // txbOnPortID
             // 
@@ -522,7 +522,7 @@
             Controls.Add(labAGVReadyToTransfer);
             Controls.Add(txbOnPortID);
             Controls.Add(label6);
-            Controls.Add(label2);
+            Controls.Add(labPortTypeChgReq);
             Controls.Add(label3);
             Controls.Add(labServiceStatusText);
             Controls.Add(panel2);
@@ -572,7 +572,7 @@
         private Label label3;
         private Label labPortStatusDown;
         private Label labEQReadyBit;
-        private Label label2;
+        private Label labPortTypeChgReq;
         private TextBox txbOnPortID;
         private Label label6;
         private Label labAGVReadyToTransfer;

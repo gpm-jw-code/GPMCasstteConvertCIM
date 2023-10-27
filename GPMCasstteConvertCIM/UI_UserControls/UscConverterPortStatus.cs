@@ -37,12 +37,12 @@ namespace GPMCasstteConvertCIM.UI_UserControls
 
         private void StaUsersManager_OnLogout(object? sender, EventArgs e)
         {
-            label2.Visible = labPortEventRepShow.Visible = false;
+            labPortTypeChgReq.Visible = labPortEventRepShow.Visible = false;
         }
 
         private void StaUsersManager_OnRD_Login(object? sender, EventArgs e)
         {
-            label2.Visible = labPortEventRepShow.Visible = true;
+            labPortTypeChgReq.Visible = labPortEventRepShow.Visible = true;
         }
 
         public UscConverterPortStatus()
@@ -157,7 +157,7 @@ namespace GPMCasstteConvertCIM.UI_UserControls
 
         private async void label2_Click_1(object sender, EventArgs e)
         {
-            await CstCVPort.ModeChangeRequestHandshake(CstCVPort.EPortType == GPM_SECS.PortUnitType.Input ? GPM_SECS.PortUnitType.Output : GPM_SECS.PortUnitType.Input);
+            await CstCVPort.ModeChangeRequestHandshake(CstCVPort.EPortType == GPM_SECS.PortUnitType.Input ? GPM_SECS.PortUnitType.Output : GPM_SECS.PortUnitType.Input, "GPM_CIM");
         }
     }
 }

@@ -84,6 +84,8 @@ namespace GPMCasstteConvertCIM.Alarm
         CARRIER_WAIT_IN_BUT_NO_CARGO_IN_EQ,
         CARRIER_WAIT_OUT_BUT_NO_CARGO_IN_EQ,
         Cannot_InstallCompleteReport_When_CST_Not_Exist,
-        PortTypeChangedReport_HS_EQ_Timeout
+        PortTypeChangedReport_HS_EQ_Timeout,
+        PLC_IF_READ_FAIL,
+        PLC_IF_WRITE_FAIL
     }
 }
