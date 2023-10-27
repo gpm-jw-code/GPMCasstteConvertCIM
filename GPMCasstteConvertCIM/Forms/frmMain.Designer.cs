@@ -893,6 +893,7 @@
             ckbRemoteModeIndi.TextAlign = ContentAlignment.MiddleCenter;
             ckbRemoteModeIndi.UseVisualStyleBackColor = false;
             ckbRemoteModeIndi.CheckedChanged += ckbRemoteModeIndi_CheckedChanged;
+            ckbRemoteModeIndi.Click += ckbRemoteModeIndi_Click;
             // 
             // cknOnlineModeIndi
             // 
@@ -911,6 +912,7 @@
             cknOnlineModeIndi.TextAlign = ContentAlignment.MiddleCenter;
             cknOnlineModeIndi.UseVisualStyleBackColor = false;
             cknOnlineModeIndi.CheckedChanged += cknOnlineModeIndi_CheckedChanged;
+            cknOnlineModeIndi.Click += cknOnlineModeIndi_Click;
             // 
             // frmMain
             // 

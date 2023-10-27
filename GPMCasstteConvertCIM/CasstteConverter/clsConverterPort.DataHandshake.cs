@@ -29,10 +29,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
             if (EPortType == portUnitType)
             {
-                Utilities.Utility.SystemLogger.Info($"{requester_name} Request [{Properties.PortID}] Change Port Type To {portUnitType}, But Port Already {portUnitType}");
+                Utility.SystemLogger.Info($"{requester_name} Request [{Properties.PortID}] Change Port Type To {portUnitType}, But Port Already {portUnitType}");
                 return true;
             }
-            Utilities.Utility.SystemLogger.Info($"{requester_name} Request [{Properties.PortID}] Change Port Type To {portUnitType}");
+            Utility.SystemLogger.Info($"{requester_name} Request [{Properties.PortID}] Change Port Type To {portUnitType}");
 
             bool plc_accept = false;
             string port_type_data_address_name = PortCIMWordAddress[PROPERTY.Port_Type_Status];
@@ -50,7 +50,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             VirtualMemoryTable.WriteOneBit(cim_2_eq_port_mode_change_req_address_name, true);
             //wait EQ Bit on
 
-            CancellationTokenSource cts = new CancellationTokenSource(TimeSpan.FromSeconds(Debugger.IsAttached? 15: 5));
+            CancellationTokenSource cts = new CancellationTokenSource(TimeSpan.FromSeconds(Debugger.IsAttached ? 15 : 5));
             bool timeout = false;
             while (!(bool)plc_accept_address.Value && !(bool)plc_refuse_address.Value)
             {
@@ -65,7 +65,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 }
             }
             plc_accept = (bool)plc_accept_address.Value;
-            Utilities.Utility.SystemLogger.Info($"PLC Reply {plc_accept} ,[{Properties.PortID}] Change Port Type To {portUnitType}");
+            Utility.SystemLogger.Info($"PLC Reply {plc_accept} ,[{Properties.PortID}] Change Port Type To {portUnitType}");
 
             VirtualMemoryTable.WriteOneBit(cim_2_eq_port_mode_change_req_address_name, false);
             cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
@@ -241,8 +241,9 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         internal async Task<bool> WaitAGVSTransferCompleteReported()
         {
-            CancellationTokenSource cts = new CancellationTokenSource(TimeSpan.FromSeconds(90));
-            Utility.SystemLogger.Info($"{PortName} Wait AGVS Transfer Completed Reported");
+            int timeout = Debugger.IsAttached ? 5 : 90;
+            CancellationTokenSource cts = new CancellationTokenSource(TimeSpan.FromSeconds(timeout));
+            Utility.SystemLogger.Info($"{PortName} Wait AGVS Transfer Completed Reported(Timeout Setting = {timeout} sec)");
             while (!Carrier_TransferCompletedFlag)
             {
                 await Task.Delay(1);

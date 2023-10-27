@@ -277,10 +277,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                         TUNID = CreateTUNID();
                         string cst = IsBCR_READ_ERROR() ? TUNID : value;
                         InstallCarrier(cst + "");
-
-
-
-
                     }
                     else
                     {
@@ -529,25 +525,23 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                             }
                             if (!SECSState.IsRemote && EPortType != PortUnitType.Output && PortExist)
                             {
-                                _ = Task.Factory.StartNew(async () =>
+
+                                Utility.SystemLogger.Info($"After Carrier waitout HS done and Now is Local Mode, GPM_CIM Start Request PLC Port Type Change to OUTPUT");
+                                bool plc_accpet = false;
+                                int cnt = 0;
+                                while (!plc_accpet)
                                 {
-                                    Utility.SystemLogger.Info($"After Carrier waitout HS done and Now is Local Mode, GPM_CIM Start Request PLC Port Type Change to OUTPUT");
-                                    bool plc_accpet = false;
-                                    int cnt = 0;
-                                    while (!plc_accpet)
+                                    await Task.Delay(100);
+                                    plc_accpet = await ModeChangeRequestHandshake(Utility.IsHotRunMode ? PortUnitType.Input : PortUnitType.Output, "GPM_CIM");
+                                    Utility.SystemLogger.Info($"PLC Reject OUTPUT MODE Request. Retry-{cnt}");
+                                    await Task.Delay(1000);
+                                    cnt++;
+                                    if (cnt >= 11)
                                     {
-                                        await Task.Delay(100);
-                                        plc_accpet = await ModeChangeRequestHandshake(Utility.IsHotRunMode ? PortUnitType.Input : PortUnitType.Output, "GPM_CIM");
-                                        Utility.SystemLogger.Info($"PLC Reject OUTPUT MODE Request. Retry-{cnt}");
-                                        await Task.Delay(1000);
-                                        cnt++;
-                                        if (cnt >= 11)
-                                        {
-                                            Utility.SystemLogger.Info($"Retry times reach 11 ... .Port {PortName} Can't  change to OUTPUT MODE.");
-                                            break;
-                                        }
+                                        Utility.SystemLogger.Info($"Retry times reach 11 ... .Port {PortName} Can't  change to OUTPUT MODE.");
+                                        break;
                                     }
-                                });
+                                }
 
                             }
                         });

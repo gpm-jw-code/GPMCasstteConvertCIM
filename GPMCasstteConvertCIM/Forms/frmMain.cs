@@ -12,6 +12,7 @@ using GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle;
 using GPMCasstteConvertCIM.Utilities;
 using Secs4Net;
 using Secs4Net.Sml;
+using System.Diagnostics;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml.Linq;
@@ -418,6 +419,22 @@ namespace GPMCasstteConvertCIM.Forms
         private void labSysTime_Click(object sender, EventArgs e)
         {
             bool success = StaUsersManager.TryLogin("gpm", "33838628", out User user);
+        }
+
+        private void ckbRemoteModeIndi_Click(object sender, EventArgs e)
+        {
+            if (Debugger.IsAttached)
+            {
+                SECSState.IsRemote = !SECSState.IsRemote;
+            }
+        }
+
+        private void cknOnlineModeIndi_Click(object sender, EventArgs e)
+        {
+            if (Debugger.IsAttached)
+            {
+                SECSState.IsOnline = !SECSState.IsOnline;
+            }
         }
     }
 }
