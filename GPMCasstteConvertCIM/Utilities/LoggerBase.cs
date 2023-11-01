@@ -46,12 +46,13 @@ namespace GPMCasstteConvertCIM.Utilities
         internal static LOG_TIME_UNIT logTimeUnit = LOG_TIME_UNIT.ByHour;
         internal string saveFolder { get; set; } = "";
 
-        private object lock_object = new object();
+        private string subFolderName;
 
         protected RichTextBox? _richTextBox;
-        internal LoggerBase(RichTextBox? richTextBox, string saveFolder)
+        internal LoggerBase(RichTextBox? richTextBox, string saveFolder, string subFolderName)
         {
             this.saveFolder = saveFolder;
+            this.subFolderName = subFolderName;
             _richTextBox = richTextBox;
             if (richTextBox != null)
                 _richTextBox.TextChanged += _richTextBox_TextChanged;
@@ -68,17 +69,7 @@ namespace GPMCasstteConvertCIM.Utilities
 
             });
         }
-        protected void AppendDateTime(out DateTime time, bool show_in_richbox = true)
-        {
-            var _time = DateTime.Now;
 
-            if (show_in_richbox)
-                _richTextBox?.Invoke((MethodInvoker)delegate
-                {
-                    _richTextBox.AppendText($"{_time} ");
-                });
-            time = _time;
-        }
 
         public void Log(string msg, LOG_LEVEL log_level = LOG_LEVEL.INFO, Exception ex = null)
         {
@@ -103,60 +94,55 @@ namespace GPMCasstteConvertCIM.Utilities
 
         public void SecsTransferLog(string msg)
         {
-            AppendDateTime(out DateTime time, false);
-            WriteToFile(time, LOG_LEVEL.SECS_MSG_TRANSFER, msg);
+            WriteToFile(DateTime.Now, LOG_LEVEL.SECS_MSG_TRANSFER, msg);
         }
         public void Info(string msg, bool show_in_richbox = true)
         {
-            DateTime time = DateTime.MinValue;
+            DateTime time = DateTime.Now;
             if (show_in_richbox)
             {
-                AppendDateTime(out time, show_in_richbox);
                 _richTextBox?.Invoke((MethodInvoker)delegate
                 {
-                    _richTextBox.SelectionColor = Color.LightBlue;
-                    _richTextBox.AppendText($"{msg}\n");
+                    _richTextBox.SelectionColor = Color.White;
+                    _richTextBox.AppendText($"{time} {msg}\n");
                 });
             }
             WriteToFile(time, LOG_LEVEL.INFO, msg);
         }
         public void Info(string msg, Color foreCOlor, bool show_in_richbox = true)
         {
-            DateTime time = DateTime.MinValue;
+            DateTime time = DateTime.Now;
             if (show_in_richbox)
             {
-                AppendDateTime(out time, show_in_richbox);
                 _richTextBox?.Invoke((MethodInvoker)delegate
                 {
                     _richTextBox.SelectionColor = foreCOlor;
-                    _richTextBox.AppendText($"{msg}\n");
+                    _richTextBox.AppendText($"{time} {msg}\n");
                 });
             }
             WriteToFile(time, LOG_LEVEL.INFO, msg);
         }
         public void Warning(string msg, bool show_in_richbox = true)
         {
-            DateTime time = DateTime.MinValue;
-            AppendDateTime(out time, show_in_richbox);
+            DateTime time = DateTime.Now;
             if (show_in_richbox)
                 _richTextBox?.Invoke((MethodInvoker)delegate
                 {
                     _richTextBox.SelectionColor = Color.FromArgb(69, 203, 94);
-                    _richTextBox.AppendText($"{msg}\n");
+                    _richTextBox.AppendText($"{time} {msg}\n");
                 });
             WriteToFile(time, LOG_LEVEL.WARNING, msg);
         }
 
         public void Error(string msg, Exception? ex, bool show_in_richbox = true)
         {
-            DateTime time = DateTime.MinValue;
+            DateTime time = DateTime.Now;
             if (show_in_richbox)
             {
-                AppendDateTime(out time, show_in_richbox);
                 _richTextBox?.Invoke((MethodInvoker)delegate
                     {
                         _richTextBox.SelectionColor = Color.FromArgb(255, 92, 97);
-                        _richTextBox.AppendText($"{msg}\n");
+                        _richTextBox.AppendText($"{time} {msg}\n");
                         _richTextBox.SelectionColor = Color.Gray;
                         _richTextBox.AppendText($"{ex}\n");
                     });
@@ -171,11 +157,11 @@ namespace GPMCasstteConvertCIM.Utilities
         }
         public void Debug(string msg)
         {
-            AppendDateTime(out DateTime time);
+            var time = DateTime.Now;
             _richTextBox?.Invoke((MethodInvoker)delegate
             {
                 _richTextBox.SelectionColor = Color.Yellow;
-                _richTextBox.AppendText($"{msg}\n");
+                _richTextBox.AppendText($"{time} {msg}\n");
             });
             WriteToFile(time, LOG_LEVEL.DEBUG, msg);
         }
@@ -202,14 +188,15 @@ namespace GPMCasstteConvertCIM.Utilities
                          {
                              continue;
                          }
-                         string folder = Path.Combine(saveFolder, logItem.level.ToString());
-                         folder = Path.Combine(folder, DateTime.Now.ToString("yyyy-MM-dd"));
+                         string folder = Path.Combine(saveFolder, DateTime.Now.ToString("yyyy-MM-dd"));
+                         folder = Path.Combine(folder, subFolderName);
                          if (!Directory.Exists(folder))
                              Directory.CreateDirectory(folder);
+
                          string log_file = Path.Combine(folder, $"{DateTime.Now.ToString(FileTimeFormat)}.log");
                          using (StreamWriter sw = new StreamWriter(log_file, true))
                          {
-                             sw.WriteLine($"{logItem.time}|{logItem.level}|{logItem.msg}");
+                             sw.WriteLine($"{logItem.time.ToString("yyyy/MM/dd HH:mm:ss.ffff")}|{logItem.level}|{logItem.msg}");
                          }
                      }
                      catch (Exception ex)

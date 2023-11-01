@@ -160,7 +160,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                 replyMsg = new SecsMessage(2, 42, false)
                 {
                     SecsItem = L(
-                                B(0)
+                                B((byte)ack)
                             )
                 };
             }
@@ -397,10 +397,10 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
             Item CarrierInfo(clsConverterPort port)
             {
                 return L(
-                            A(port.WIPINFO_BCR_ID),
+                            A(port.PortExist ? port.CSTIDOnPort : ""),
                             A(port.Properties.PortID),
                             A(""),
-                            A(port.CarrierInstallTime.ToString("yyyyMMddHHmmssff")),
+                            A(port.Properties.CarrierInstallTime.ToString("yyyyMMddHHmmssff")),
                             U2((ushort)(port.PortType == 0 ? 0 : 4))
                         );
             }

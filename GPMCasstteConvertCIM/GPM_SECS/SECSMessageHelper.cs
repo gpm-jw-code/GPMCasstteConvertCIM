@@ -179,7 +179,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS
                                     ),
                                     L(
                                         A("PORTUNITTYPE"),
-                                        A(((short)portUnitType).ToString())
+                                        U2((byte)portUnitType)
                                     )
                                  )
                             )

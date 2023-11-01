@@ -35,7 +35,12 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         internal async Task<bool> ModeChangeRequestHandshake(PortUnitType portUnitType, string requester_name = "MCS")
         {
 
-            Utilities.Utility.SystemLogger.Info($"{requester_name} Request [{Properties.PortID}] Change Port Type To {portUnitType}");
+            if (EPortType == portUnitType)
+            {
+                Utility.SystemLogger.Info($"{requester_name} Request [{Properties.PortID}] Change Port Type To {portUnitType}, But Port Already {portUnitType}");
+                return true;
+            }
+            Utility.SystemLogger.Info($"{requester_name} Request [{Properties.PortID}] Change Port Type To {portUnitType}");
 
             bool plc_accept = false;
             string port_type_data_address_name = PortCIMWordAddress[PROPERTY.Port_Type_Status];
@@ -53,7 +58,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             VirtualMemoryTable.WriteOneBit(cim_2_eq_port_mode_change_req_address_name, true);
             //wait EQ Bit on
 
-            CancellationTokenSource cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+            CancellationTokenSource cts = new CancellationTokenSource(TimeSpan.FromSeconds(Debugger.IsAttached ? 15 : 5));
             bool timeout = false;
             while (!(bool)plc_accept_address.Value && !(bool)plc_refuse_address.Value)
             {
@@ -68,7 +73,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 }
             }
             plc_accept = (bool)plc_accept_address.Value;
-            Utilities.Utility.SystemLogger.Info($"PLC Reply {plc_accept} ,[{Properties.PortID}] Change Port Type To {portUnitType}");
+            Utility.SystemLogger.Info($"PLC Reply {plc_accept} ,[{Properties.PortID}] Change Port Type To {portUnitType}");
 
             VirtualMemoryTable.WriteOneBit(cim_2_eq_port_mode_change_req_address_name, false);
             cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
@@ -95,6 +100,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         {
             _ = Task.Factory.StartNew(() =>
             {
+                Utility.SystemLogger.Info($"{PortName}- Port Type Changed Handshake Start !(Changed to {EPortType})");
                 clsMemoryAddress eq_to_cim_report_adress = EQParent.LinkBitMap.First(i => i.EOwner == OWNER.EQP && i.EScope.ToString() == portNoName && i.EProperty == PROPERTY.Port_Mode_Changed_Report);
                 string cim_2_eq_reply_address = PortCIMBitAddress[PROPERTY.Port_Mode_Changed_Report_Reply];
                 //ON CIM BIT
@@ -108,11 +114,14 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     if (cts.IsCancellationRequested)
                     {
                         timeout = true;//T3 Timeout
+                        AlarmManager.AddAlarm(ALARM_CODES.PortTypeChangedReport_HS_EQ_Timeout, PortName);
+                        Utility.SystemLogger.Info($"{PortName}- Port Type Changed Handshake EQP Timeout({eq_to_cim_report_adress.Address}) Not OFF...(Changed to {EPortType})");
                         break;
                     }
                 }
                 //OFF CIM BIT
                 CIMMemoryTable.WriteOneBit(cim_2_eq_reply_address, false);
+                Utility.SystemLogger.Info($"{PortName}- Port Type Changed Handshake Finish !(Changed to {EPortType})");
                 cts.Dispose();
 
             });
@@ -145,14 +154,12 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         }
 
-
-
         /// <summary>
         ///  EQ->CIM->MCS : Carrier Wait out 
         /// </summary>
         /// <param name="EQ_T_timeout"></param>
         /// <returns></returns>
-        public async Task<bool> CarrierWaitOutReply(int EQ_T_timeout = 5000)
+        public async Task<bool> CarrierWaitOutReply(bool wait_out_accept, int EQ_T_timeout = 5000)
         {
             if (PortCIMBitAddress.TryGetValue(PROPERTY.Carrier_WaitOut_System_Reply, out string carrier_wait_out_reply_address))
             {
@@ -171,7 +178,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     await Task.Delay(1);
                 }
                 CIMMemoryTable.WriteOneBit(carrier_wait_out_reply_address, false);
-
 
                 Utility.SystemLogger.Info($"Carrier Wait Out HS Done");
 
@@ -242,8 +248,9 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         internal async Task<bool> WaitAGVSTransferCompleteReported()
         {
-            CancellationTokenSource cts = new CancellationTokenSource(TimeSpan.FromSeconds(25));
-            Utility.SystemLogger.Info($"{PortName} Wait AGVS Transfer Completed Reported");
+            int timeout = Debugger.IsAttached ? 5 : 90;
+            CancellationTokenSource cts = new CancellationTokenSource(TimeSpan.FromSeconds(timeout));
+            Utility.SystemLogger.Info($"{PortName} Wait AGVS Transfer Completed Reported(Timeout Setting = {timeout} sec)");
             while (!Carrier_TransferCompletedFlag)
             {
                 await Task.Delay(1);
@@ -292,9 +299,9 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         internal async void TransferCompletedInvoke(string carrier_id)
         {
-
-            if (WIPINFO_BCR_ID == carrier_id)
-                Carrier_TransferCompletedFlag = true;
+            Utility.SystemLogger.Info($"{PortName}- AGVS Transfer Cargo To {PortName} Compelted  |AGVS->MCS");
+            CSTID_From_TransferCompletedReport = CSTIDOnPort = carrier_id;
+            Carrier_TransferCompletedFlag = true;
         }
     }
 }

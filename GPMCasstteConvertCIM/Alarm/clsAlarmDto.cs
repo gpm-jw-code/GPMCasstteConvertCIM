@@ -1,6 +1,7 @@
 ﻿using GPMCasstteConvertCIM.CasstteConverter;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Security.Policy;
 using System.Text;
@@ -10,8 +11,10 @@ namespace GPMCasstteConvertCIM.Alarm
 {
     public class clsAlarmDto
     {
-        public ALARM_LEVEL Level { get; set; }
+
+        [Key]
         public DateTime Time { get; set; }
+        public ALARM_LEVEL Level { get; set; }
         public string Description { get; set; } = string.Empty;
         public string Classify { get; set; } = string.Empty;
         public string EQPName { get; set; } = string.Empty;
@@ -77,6 +80,12 @@ namespace GPMCasstteConvertCIM.Alarm
         CarrierInstallReportFail,
         CODE_ERROR,
         SYNCMEMDATA_FUNCTION_CODE_ERROR,
-        MX_INTERFACE_OPEN_FAIL
+        MX_INTERFACE_OPEN_FAIL,
+        CARRIER_WAIT_IN_BUT_NO_CARGO_IN_EQ,
+        CARRIER_WAIT_OUT_BUT_NO_CARGO_IN_EQ,
+        Cannot_InstallCompleteReport_When_CST_Not_Exist,
+        PortTypeChangedReport_HS_EQ_Timeout,
+        PLC_IF_READ_FAIL,
+        PLC_IF_WRITE_FAIL
     }
 }

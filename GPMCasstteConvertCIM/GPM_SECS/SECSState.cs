@@ -1,4 +1,5 @@
-﻿using Secs4Net;
+﻿using GPMCasstteConvertCIM.Utilities;
+using Secs4Net;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS
             {
                 if (_IsOnline != value)
                 {
+                    Utility.SystemLogger.Info($"AGVS/MCS Online Mode Changed to {(value ? "Online" : "Offline")}");
                     _IsOnline = value;
                     if (_IsRemote && _IsOnline)
                     {
@@ -34,10 +36,11 @@ namespace GPMCasstteConvertCIM.GPM_SECS
             {
                 if (_IsRemote != value)
                 {
+                    Utility.SystemLogger.Info($"AGVS/MCS Operation Mode Changed to {(value ? "Remote" : "Local")}");
                     _IsRemote = value;
-                    if(_IsRemote && _IsOnline)
+                    if (_IsRemote && _IsOnline)
                     {
-                        OnMCSOnlineRemote("",EventArgs.Empty);
+                        OnMCSOnlineRemote("", EventArgs.Empty);
                     }
                 }
             }

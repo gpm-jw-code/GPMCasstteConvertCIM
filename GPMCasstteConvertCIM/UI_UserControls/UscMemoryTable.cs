@@ -1,4 +1,5 @@
 ﻿using GPMCasstteConvertCIM.CasstteConverter.Data;
+using GPMCasstteConvertCIM.Utilities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -33,6 +34,8 @@ namespace GPMCasstteConvertCIM.UI_UserControls
         internal event EventHandler<clsMemoryAddress> EQPWordValueOnChanged;
         internal event EventHandler<clsMemoryAddress> CIMWordValueOnChanged;
 
+        private int BitMapToggleBtnColIndex = 6;
+        private int WordMapValueColIndex = 5;
         private string _SpecficEqName = "STK";
         public string SpecficEqName
         {
@@ -149,7 +152,6 @@ namespace GPMCasstteConvertCIM.UI_UserControls
                 return;
             Invoke(new Action(() =>
             {
-
                 clsMemoryAddress? addressData = dgvEQPBitMap.Rows[e.RowIndex].DataBoundItem as clsMemoryAddress;
                 addressData.Value = !(bool)addressData.Value;
                 EQPBitValueOnChanged?.Invoke(this, (addressData.Address, (bool)addressData.Value));
@@ -171,7 +173,7 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             //dgvEQPWordMap
             //dgvCIMWordMap
 
-            if (!Editable | e.ColumnIndex != 3 | e.RowIndex < 0)
+            if (!Editable | e.ColumnIndex != WordMapValueColIndex | e.RowIndex < 0)
                 return;
 
             DataGridView word_dgv = sender as DataGridView;
@@ -208,20 +210,18 @@ namespace GPMCasstteConvertCIM.UI_UserControls
 
         private void dgvEQPBitMap_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            if (e.ColumnIndex == 4)
+            if (e.ColumnIndex == BitMapToggleBtnColIndex)
             {
                 clsMemoryAddress? addressData = dgvEQPBitMap.Rows[e.RowIndex].DataBoundItem as clsMemoryAddress;
                 bool state = !(bool)addressData.Value;
                 eqp_bitMemoryAddressList[e.RowIndex].Value = state;
-
                 EQPBitValueOnChanged?.Invoke(this, (addressData.Address, state));
-
             }
         }
 
         private void dgvCIMBitMap_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            if (e.ColumnIndex == 4)
+            if (e.ColumnIndex == BitMapToggleBtnColIndex)
             {
                 clsMemoryAddress? addressData = dgvCIMBitMap.Rows[e.RowIndex].DataBoundItem as clsMemoryAddress;
                 bool state = !(bool)addressData.Value;

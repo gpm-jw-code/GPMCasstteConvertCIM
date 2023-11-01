@@ -39,7 +39,7 @@ namespace GPMCasstteConvertCIM.GPM_Modbus
             this.linkedCasstteConverter = linkedCasstteConverter;
             UI = (frmModbusTCPServer)modbusTcpServer_opt.mainUI;
             UI.ModbusTCPServer = this;
-            logger = new LoggerBase(modbusTcpServer_opt.logRichTextBox, Path.Combine(Utility.SysConfigs.Log.SyslogFolder, "Modbus TCP Server"));
+            logger = new LoggerBase(modbusTcpServer_opt.logRichTextBox, Utility.SysConfigs.Log.SyslogFolder, "Modbus TCP Server");
             NumberOfConnectedClientsChanged += ModbusTCPServer_NumberOfConnectedClientsChanged;
             Port = modbusTcpServer_opt.Port;
             Listen();

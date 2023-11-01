@@ -12,8 +12,11 @@ using GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle;
 using GPMCasstteConvertCIM.Utilities;
 using Secs4Net;
 using Secs4Net.Sml;
+using System.Diagnostics;
 using System.Text;
 using System.Windows.Forms;
+using System.Xml.Linq;
+using static GPMCasstteConvertCIM.Utilities.StaUsersManager;
 using static Secs4Net.Item;
 namespace GPMCasstteConvertCIM.Forms
 {
@@ -29,6 +32,7 @@ namespace GPMCasstteConvertCIM.Forms
             Application.ThreadException += Application_ThreadException; ;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             toolStripComboBox_Emulators.Visible = false;
+
 
         }
 
@@ -46,7 +50,7 @@ namespace GPMCasstteConvertCIM.Forms
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            DBhelper.Initialize();
             Utility.LoadConfigs();
             Secs4Net.EncodingSetting.ASCIIEncoding = Utility.SysConfigs.SECS.SECESAEncoding; //設定編碼
             if (Utility.SysConfigs.Project == Utilities.SysConfigs.clsSystemConfigs.PROJECT.U007)
@@ -64,15 +68,10 @@ namespace GPMCasstteConvertCIM.Forms
 
             LoggerBase.logTimeUnit = Utility.SysConfigs.Log.LogFileUnit;
 
-
-            Utility.SystemLogger = new LoggerBase(rtbSystemLogShow, Path.Combine(Utility.SysConfigs.Log.SyslogFolder, "Sys Log"));
-
-
+            Utility.SystemLogger = new LoggerBase(rtbSystemLogShow, Utility.SysConfigs.Log.SyslogFolder, "Sys Log");
             Utility.SystemLogger.Info("GPM CIM System Start");
 
             uscConnectionStates1.InitializeConnectionState();
-
-            //SECSEmulatorManager.Start();
 
             DevicesManager.DevicesConnectionsOpts.SECS_HOST.logRichTextBox = rtbSecsHostLog;
             DevicesManager.DevicesConnectionsOpts.SECS_HOST.dgvRevBufferTable = dgvMsgFromAGVS;
@@ -116,10 +115,6 @@ namespace GPMCasstteConvertCIM.Forms
             DevicesManager.EqStatusUI = usceqStatus1;
             DevicesManager.Connect();
 
-
-            //DevicesManager.Connect(DevicesManager.DevicesConnectionsOpts.SECS_HOST, DevicesManager.DevicesConnectionsOpts.SECS_CLIENT,
-            //    DevicesManager.DevicesConnectionsOpts.PLCEQ1, DevicesManager.DevicesConnectionsOpts.PLCEQ2, DevicesManager.DevicesConnectionsOpts.Modbus_Server);
-
             VirtualAGVSystem.StaVirtualAGVS.Initialize();
 
             SystemAPI systemAPI = new SystemAPI();
@@ -128,20 +123,15 @@ namespace GPMCasstteConvertCIM.Forms
             EqDIOAPIService.Start();
             WebsocketMiddleware.ServerBuild();
             uscAlarmTable1.BindData(AlarmManager.AlarmsList.ToList());
-            AlarmManager.onAlarmAdded += (sender, arg) =>
+            AlarmManager.onAlarmAdded += (sender, alarm) =>
             {
                 Invoke(new Action(() =>
                 {
+                    DBhelper.InsertAlarm(alarm);
                     uscAlarmTable1.BindData(AlarmManager.AlarmsList.ToList());
                     uscAlarmTable1.alarmListBinding.ResetBindings();
                 }));
             };
-            //dgvMsgFromAGVS.DataSource = CIMDevices.secs_host.recvBuffer;
-            //dgvActiveMsgToAGVS.DataSource = CIMDevices.secs_host.sendBuffer;
-            //dgvMsgFromMCS.DataSource = CIMDevices.secs_client.recvBuffer;
-            //dgvActiveMsgToMCS.DataSource = CIMDevices.secs_client.sendBuffer;
-
-
         }
 
 
@@ -273,7 +263,7 @@ namespace GPMCasstteConvertCIM.Forms
         }
 
 
-        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        private async void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
 
             if (MessageBox.Show("確定要關閉CIM程式", "Exit APP Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
@@ -282,7 +272,8 @@ namespace GPMCasstteConvertCIM.Forms
                 return;
             }
 
-
+            Utility.SystemLogger.Info($"User {CurrentUser.Name} closed CIM APP", true);
+            Thread.Sleep(1000);
             foreach (var item in DevicesManager.casstteConverters)
             {
                 item.mcInterface?.Close();
@@ -314,7 +305,7 @@ namespace GPMCasstteConvertCIM.Forms
                     StaUsersManager.Logout();
                     btnOpenLoginFOrm.Text = "Login";
                     label6.Text = "VISITOR";
-                    toolStripComboBox_Emulators.Visible = false;
+                    ckbHotRunMode.Visible = toolStripComboBox_Emulators.Visible = false;
                 }
                 return;
             }
@@ -329,10 +320,10 @@ namespace GPMCasstteConvertCIM.Forms
                 SuspendLayout();
                 if (StaUsersManager.CurrentUser.Group == StaUsersManager.USER_GROUP.GPM_ENG | StaUsersManager.CurrentUser.Group == StaUsersManager.USER_GROUP.GPM_RD)
                 {
-                    uscAlarmShow1.showAlarmResetBtn = toolStripComboBox_Emulators.Visible = true;
+                    ckbHotRunMode.Visible = uscAlarmShow1.showAlarmResetBtn = toolStripComboBox_Emulators.Visible = true;
                 }
                 else
-                    uscAlarmShow1.showAlarmResetBtn = toolStripComboBox_Emulators.Visible = false;
+                    ckbHotRunMode.Visible = uscAlarmShow1.showAlarmResetBtn = toolStripComboBox_Emulators.Visible = false;
                 ResumeLayout();
             }
 
@@ -384,6 +375,48 @@ namespace GPMCasstteConvertCIM.Forms
 
         private void cknOnlineModeIndi_CheckedChanged(object sender, EventArgs e)
         {
+        }
+
+        private void ckbHotRunMode_CheckedChanged(object sender, EventArgs e)
+        {
+            Utility.IsHotRunMode = ckbHotRunMode.Checked;
+            if (Utility.IsHotRunMode)
+            {
+                if (SECSState.IsOnline && SECSState.IsRemote)
+                {
+                    ckbHotRunMode.Checked = false;
+                    MessageBox.Show($"SECS ONLINE/REMOTE 的狀態下不可切換為Hot Run模式", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
+                Utility.SystemLogger.Info($"User Enable Hot Run Mode");
+                MessageBox.Show($"Hot Run模式已啟動\r\n - 轉換架 Wait Out請求將會被接受，但PortType(方向)強制切換為[INPUT]", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                Utility.SystemLogger.Info($"User Disable Hot Run Mode");
+            }
+        }
+
+        private void labSysTime_Click(object sender, EventArgs e)
+        {
+            bool success = StaUsersManager.TryLogin("gpm", "33838628", out User user);
+        }
+
+        private void ckbRemoteModeIndi_Click(object sender, EventArgs e)
+        {
+            if (Debugger.IsAttached)
+            {
+                SECSState.IsRemote = !SECSState.IsRemote;
+            }
+        }
+
+        private void cknOnlineModeIndi_Click(object sender, EventArgs e)
+        {
+            if (Debugger.IsAttached)
+            {
+                SECSState.IsOnline = !SECSState.IsOnline;
+            }
         }
     }
 }

@@ -26,7 +26,7 @@ B17,AGVS,To EQ Up,Boolean,,PORT1,To_EQ_Up,24,,,,,,,,B,23,B17
 B18,AGVS,To EQ Low,Boolean,,PORT1,To_EQ_Low,25,,,,,,,,B,24,B18
 B19,AGVS,CMD reserve Up,Boolean,,PORT1,CMD_reserve_Up,26,,,,,,,,B,25,B19
 B1A,AGVS,CMD reserve Low,Boolean,6.5 Proceed Request,PORT1,CMD_reserve_Low,27,,,,,,,,B,26,B1A
-B1B,AGVS,,Boolean,6.6 Release Request,,,,,,,,,,,B,27,B1B
+B1B,AGVS,Carrier WaitOut System Refuse,Boolean,,PORT1,Carrier_WaitOut_System_Refuse,,,,,,,,,B,27,B1B
 B1C,AGVS,VALID,Boolean,,PORT2,VALID,16,,,,,,,,B,28,B1C
 B1D,AGVS,TR-REQ,Boolean,,PORT2,TR_REQ,17,,,,,,,,B,29,B1D
 B1E,AGVS,BUSY,Boolean,,PORT2,BUSY,18,,,,,,,,B,30,B1E
@@ -48,7 +48,7 @@ B2D,AGVS,To EQ Up,Boolean,,PORT2,To_EQ_Up,24,,,,,,,,B,45,B2D
 B2E,AGVS,To EQ Low,Boolean,,PORT2,To_EQ_Low,25,,,,,,,,B,46,B2E
 B2F,AGVS,CMD reserve Up,Boolean,,PORT2,CMD_reserve_Up,26,,,,,,,,B,47,B2F
 B30,AGVS,CMD reserve Low,Boolean,,PORT2,CMD_reserve_Low,27,,,,,,,,B,48,B30
-B31,AGVS,,Boolean,,,,,,,,,,,,B,49,B31
+B31,AGVS,Carrier WaitOut System Refuse,Boolean,,PORT2,Carrier_WaitOut_System_Refuse,,,,,,,,,B,49,B31
 B32,AGVS,,Boolean,,,,,,,,,,,,B,50,B32
 B33,AGVS,,Boolean,,,,,,,,,,,,B,51,B33
 B34,AGVS,,Boolean,,,,,,,,,,,,B,52,B34

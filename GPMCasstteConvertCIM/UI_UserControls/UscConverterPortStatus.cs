@@ -1,5 +1,6 @@
 ﻿using GPMCasstteConvertCIM.CasstteConverter;
 using GPMCasstteConvertCIM.Forms;
+using GPMCasstteConvertCIM.Utilities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -23,16 +24,25 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             {
                 _CstCVPort = value;
                 if (_CstCVPort != null)
+                {
                     _CstCVPort.OnMCSNoTransferNotify += _CstCVPort_OnMCSNoTransferNotify;
+                    _CstCVPort.OnWaitOutRefuseByCIM += HandleCVPortWaitOutRefuseByCIM;
+
+                    StaUsersManager.OnRD_Login += StaUsersManager_OnRD_Login;
+                    StaUsersManager.OnLogout += StaUsersManager_OnLogout;
+
+                }
             }
         }
 
-        private void _CstCVPort_OnMCSNoTransferNotify(object? sender, Tuple<string, string> mcs_notify_dto)
+        private void StaUsersManager_OnLogout(object? sender, EventArgs e)
         {
-            Task.Factory.StartNew(() =>
-            {
-                MessageBox.Show($"MCS NO TRANSFER TASK NOW NOTIFY !  \r\nPort ID = {mcs_notify_dto.Item1}\r\nCarrier ID = {mcs_notify_dto.Item2}", "MCS Notifier", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            });
+            labPortTypeChgReq.Visible = labPortEventRepShow.Visible = false;
+        }
+
+        private void StaUsersManager_OnRD_Login(object? sender, EventArgs e)
+        {
+            labPortTypeChgReq.Visible = labPortEventRepShow.Visible = true;
         }
 
         public UscConverterPortStatus()
@@ -45,8 +55,8 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             if (CstCVPort == null)
                 return;
             txbWIP_BCR_ID.Text = CstCVPort.WIPINFO_BCR_ID;
-            labPortID.Text = CstCVPort.Properties.PortID;
-
+            txbOnPortID.Text = CstCVPort.CSTIDOnPort;
+            txbPortID.Text = CstCVPort.Properties.PortID;
             labCurrentPortMode.Text = CstCVPort.EPortType.ToString();
             Color active_color = Color.SeaGreen;
 
@@ -77,6 +87,9 @@ namespace GPMCasstteConvertCIM.UI_UserControls
 
             labServiceStatusText.Text = CstCVPort.Properties.InSerivce ? "In Service" : "Out of Service";
             labServiceStatusText.ForeColor = CstCVPort.Properties.InSerivce ? Color.FromArgb(0, 57, 155) : Color.Red;
+
+            labWaitIn.RenderBGColorByState(CstCVPort.CarrierWaitINSystemRequest, Color.Red);
+            labWaitOut.RenderBGColorByState(CstCVPort.CarrierWaitOUTSystemRequest, Color.Red);
 
         }
 
@@ -110,10 +123,41 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             }
         }
 
+        private void HandleCVPortWaitOutRefuseByCIM(object? sender, clsConverterPort e)
+        {
+            Task.Factory.StartNew(() =>
+            {
+                Form frm = new Form()
+                {
+                    TopMost = true,
+                    TopLevel = true,
+                    StartPosition = FormStartPosition.CenterScreen
+                };
+                frm.BringToFront();
+                if (MessageBox.Show(frm, $"轉換架Wait Out請求異常(轉換架內無貨物)", $"{DateTime.Now} | Carrier Wait Out Abnormal Suituation", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
+                {
+                    frm.Dispose();
+                }
+            });
+        }
+
+        private void _CstCVPort_OnMCSNoTransferNotify(object? sender, Tuple<string, string> mcs_notify_dto)
+        {
+            Task.Factory.StartNew(() =>
+            {
+                MessageBox.Show($"MCS NO TRANSFER TASK NOW NOTIFY !  \r\nPort ID = {mcs_notify_dto.Item1}\r\nCarrier ID = {mcs_notify_dto.Item2}", "MCS Notifier", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            });
+        }
+
         private void labAutoStatus_DoubleClick(object sender, EventArgs e)
         {
             bool isOnline = CstCVPort.EQParent.X33_OnlineMode;
             //= !CstCVPort.EQParent.X33_OnlineMode;
+        }
+
+        private async void label2_Click_1(object sender, EventArgs e)
+        {
+            await CstCVPort.ModeChangeRequestHandshake(CstCVPort.EPortType == GPM_SECS.PortUnitType.Input ? GPM_SECS.PortUnitType.Output : GPM_SECS.PortUnitType.Input, "GPM_CIM");
         }
     }
 }

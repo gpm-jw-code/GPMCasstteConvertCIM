@@ -132,12 +132,16 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             Carrier_WaitIn_System_Accept,
             Carrier_WaitIn_System_Refuse,
             Carrier_WaitOut_System_Reply,
+            Carrier_WaitOut_System_Refuse,
             Carrier_Removed_Completed_Report_Reply,
             Carrier_Force_In_System_Reply,
             To_EQ_Up,
             To_EQ_Low,
             CMD_reserve_Up,
             CMD_reserve_Low,
+            AGVS_MSG_DOWNLOAD_INDEX,
+            AGVS_MSG_1,
+            AGVS_MSG_17
 
         }
 
