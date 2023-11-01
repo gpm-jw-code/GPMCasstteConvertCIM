@@ -72,8 +72,8 @@ namespace GPMCasstteConvertCIM.Forms
             LoggerBase.logTimeUnit = Utility.SysConfigs.Log.LogFileUnit;
 
             Utility.SystemLogger = new LoggerBase(rtbSystemLogShow, Utility.SysConfigs.Log.SyslogFolder, "Sys Log");
-            Utility.SystemLogger.Info("GPM CIM System Start");
 
+            Utility.SystemLogger.Info("GPM CIM System Start");
             uscConnectionStates1.InitializeConnectionState();
 
             DevicesManager.DevicesConnectionsOpts.SECS_HOST.logRichTextBox = rtbSecsHostLog;

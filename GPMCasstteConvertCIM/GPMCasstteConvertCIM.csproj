@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-	<AssemblyVersion>11.1.4</AssemblyVersion>
+	<AssemblyVersion>11.1.20</AssemblyVersion>
     <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
     <FileVersion>11.1.1</FileVersion>
     <ApplicationIcon>cimico.ico</ApplicationIcon>
@@ -70,7 +70,7 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
     <None Update="configs\SystemConfigs.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
     <None Update="Interop.ACTMULTILib.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -117,5 +117,21 @@
 		<Exec Command="powershell.exe -ExecutionPolicy Bypass -File &quot;AutoVersionModify.ps1&quot;" />
 	</Target>
 </Project>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

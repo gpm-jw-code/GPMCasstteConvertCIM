@@ -46,7 +46,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter.Data
             {
                 if (_Value?.ToString() != value.ToString())
                 {
-                    if (this.EProperty != PROPERTY.Interface_Clock)
+                    if (this.EProperty != PROPERTY.Interface_Clock && !firstUse)
                         Utility.SystemLogger.Info($"{Address} -Changed to  {value} ", !firstUse);
                     _Value = value;
                     firstUse = false;
