@@ -523,7 +523,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                                 Utility.SystemLogger.Info($"PLC  Carrier Wait  Out HS ex! {ex.Message},{ex.StackTrace}");
 
                             }
-                            if (!SECSState.IsRemote && EPortType != PortUnitType.Output && PortExist)
+                            if (!SECSState.IsRemote && EPortType != PortUnitType.Output && EQParent.converterType == CONVERTER_TYPE.IN_SYS && PortExist)
                             {
 
                                 Utility.SystemLogger.Info($"After Carrier waitout HS done and Now is Local Mode, GPM_CIM Start Request PLC Port Type Change to OUTPUT");
