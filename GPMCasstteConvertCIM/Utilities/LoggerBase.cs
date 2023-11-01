@@ -61,6 +61,8 @@ namespace GPMCasstteConvertCIM.Utilities
 
         private void _richTextBox_TextChanged(object? sender, EventArgs e)
         {
+            if (!_richTextBox.Created)
+                return;
             _richTextBox?.Invoke((MethodInvoker)delegate
             {
                 if (_richTextBox.Text.Length > 16384)
@@ -99,7 +101,7 @@ namespace GPMCasstteConvertCIM.Utilities
         public void Info(string msg, bool show_in_richbox = true)
         {
             DateTime time = DateTime.Now;
-            if (show_in_richbox)
+            if (show_in_richbox & _richTextBox.Created)
             {
                 _richTextBox?.Invoke((MethodInvoker)delegate
                 {
@@ -112,7 +114,7 @@ namespace GPMCasstteConvertCIM.Utilities
         public void Info(string msg, Color foreCOlor, bool show_in_richbox = true)
         {
             DateTime time = DateTime.Now;
-            if (show_in_richbox)
+            if (show_in_richbox & _richTextBox.Created)
             {
                 _richTextBox?.Invoke((MethodInvoker)delegate
                 {
@@ -125,7 +127,7 @@ namespace GPMCasstteConvertCIM.Utilities
         public void Warning(string msg, bool show_in_richbox = true)
         {
             DateTime time = DateTime.Now;
-            if (show_in_richbox)
+            if (show_in_richbox & _richTextBox.Created)
                 _richTextBox?.Invoke((MethodInvoker)delegate
                 {
                     _richTextBox.SelectionColor = Color.FromArgb(69, 203, 94);
@@ -137,7 +139,7 @@ namespace GPMCasstteConvertCIM.Utilities
         public void Error(string msg, Exception? ex, bool show_in_richbox = true)
         {
             DateTime time = DateTime.Now;
-            if (show_in_richbox)
+            if (show_in_richbox & _richTextBox.Created)
             {
                 _richTextBox?.Invoke((MethodInvoker)delegate
                     {
@@ -158,11 +160,13 @@ namespace GPMCasstteConvertCIM.Utilities
         public void Debug(string msg)
         {
             var time = DateTime.Now;
-            _richTextBox?.Invoke((MethodInvoker)delegate
-            {
-                _richTextBox.SelectionColor = Color.Yellow;
-                _richTextBox.AppendText($"{time} {msg}\n");
-            });
+
+            if (_richTextBox.Created)
+                _richTextBox?.Invoke((MethodInvoker)delegate
+                {
+                    _richTextBox.SelectionColor = Color.Yellow;
+                    _richTextBox.AppendText($"{time} {msg}\n");
+                });
             WriteToFile(time, LOG_LEVEL.DEBUG, msg);
         }
         private ConcurrentQueue<clsLogItem> LogItemsQueue = new ConcurrentQueue<clsLogItem>();
