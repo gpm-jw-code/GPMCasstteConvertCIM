@@ -1,13 +1,13 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+	<AssemblyVersion>11.1.4</AssemblyVersion>
     <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
-    <FileVersion>23.6.1.1</FileVersion>
+    <FileVersion>11.1.1</FileVersion>
     <ApplicationIcon>cimico.ico</ApplicationIcon>
     <Platforms>AnyCPU;x86</Platforms>
   </PropertyGroup>
@@ -113,5 +113,9 @@
   <ItemGroup>
     <Folder Include="DataBase\" />
   </ItemGroup>
-
+	<Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+		<Exec Command="powershell.exe -ExecutionPolicy Bypass -File &quot;AutoVersionModify.ps1&quot;" />
+	</Target>
 </Project>
+
+

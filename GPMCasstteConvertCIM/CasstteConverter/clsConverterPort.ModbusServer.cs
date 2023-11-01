@@ -2,9 +2,11 @@
 using GPMCasstteConvertCIM.GPM_Modbus;
 using GPMCasstteConvertCIM.GPM_SECS;
 using GPMCasstteConvertCIM.Utilities;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using static GPMCasstteConvertCIM.CasstteConverter.Data.clsMemoryAddress;
@@ -273,16 +275,26 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                         }
                         else
                             value = EQParent.EQPMemOptions.memoryTable.ReadBinary(item.Address);
-                        modbus_server.holdingRegisters.localArray[item.Link_Modbus_Register_Number] = (short)value;
+                        modbus_server.holdingRegisters.localArray[item.Link_Modbus_Register_Number] = Convert.ToInt16(value);
                     }
 
+                    Data.clsMemoryAddress MsgDownloadIndexAddress = CIMModbusLinkWordAddress.First(ad => ad.EProperty == Enums.PROPERTY.AGVS_MSG_DOWNLOAD_INDEX);
+                    int CSTHoldingRegisterAddressStart = CIMModbusLinkWordAddress.First(ad => ad.EProperty == Enums.PROPERTY.AGVS_MSG_1).Link_Modbus_Register_Number;
+                    Data.clsMemoryAddress CSTIDStoredStartAddress = CIMModbusLinkWordAddress.First(ad => Properties.PortNo == 0 ? ad.EProperty == Enums.PROPERTY.AGVS_MSG_1 : ad.EProperty == Enums.PROPERTY.AGVS_MSG_17);
 
-                    foreach (var item in CIMModbusLinkWordAddress)
+                    int indexOfCSTIDStore = CIMModbusLinkWordAddress.IndexOf(CSTIDStoredStartAddress);
+                    for (int i = CSTHoldingRegisterAddressStart; i < CSTHoldingRegisterAddressStart + 10; i++)
                     {
-                        int value = EQParent.CIMMemOptions.memoryTable.ReadBinary(item.Address);
-                        modbus_server.holdingRegisters.localArray[item.Link_Modbus_Register_Number] = (short)value;
+                        try
+                        {
+                            modbus_server.holdingRegisters.localArray[i] = Convert.ToInt16(CIMModbusLinkWordAddress[indexOfCSTIDStore].Value);
+                        }
+                        catch (Exception ex)
+                        {
+                        }
+                        indexOfCSTIDStore += 1;
                     }
-
+                    modbus_server.holdingRegisters.localArray[MsgDownloadIndexAddress.Link_Modbus_Register_Number] = Convert.ToInt16(MsgDownloadIndexAddress.Value);
                     await Task.Delay(10);
                 }
 
