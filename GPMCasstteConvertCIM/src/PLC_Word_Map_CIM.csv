@@ -5,10 +5,10 @@ W0002,AGVS,Port1 - Port Mode Status Request,Binary,7.6 Port Mode Change Request,
 W0003,AGVS,Port2 - Port Mode Status Request,Binary,7.6 Port Mode Change Request,PORT2,Port_Type_Status,58,,,,,,,,5000
 W0004,AGVS,,,,,,59,,,,,,,,5000
 W0005,AGVS,,,,,,60,,,,,,,,5000
-W0006,AGVS,AGVS Message Download Index,Binary,6.4.1 AGVS Message Display,AGVS,,61,,,,,,,,5000
+W0006,AGVS,AGVS Message Download Index,Binary,6.4.1 AGVS Message Display,AGVS,AGVS_MSG_DOWNLOAD_INDEX,61,,,,,,,,5000
 W0007,AGVS,Trigger Equipment,Binary,6.4.1 AGVS Message Display,AGVS,,62,,,,,,,,5000
 W0008,AGVS,Buzzer Flag,Binary,6.4.1 AGVS Message Display,AGVS,,63,,,,,,,,5000
-W0009,AGVS,AGVS Message # 1,ASCII,6.4.1 AGVS Message Display,AGVS,,64,,,,,,,,5000
+W0009,AGVS,AGVS Message # 1,ASCII,6.4.1 AGVS Message Display,AGVS,AGVS_MSG_1,64,,,,,,,,5000
 W000A,AGVS,AGVS Message # 2,ASCII,6.4.1 AGVS Message Display,AGVS,,65,,,,,,,,5000
 W000B,AGVS,AGVS Message # 3,ASCII,6.4.1 AGVS Message Display,AGVS,,66,,,,,,,,5000
 W000C,AGVS,AGVS Message # 4,ASCII,6.4.1 AGVS Message Display,AGVS,,67,,,,,,,,5000
@@ -24,7 +24,7 @@ W0015,AGVS,AGVS Message # 13,ASCII,6.4.1 AGVS Message Display,AGVS,,76,,,,,,,,50
 W0016,AGVS,AGVS Message # 14,ASCII,6.4.1 AGVS Message Display,AGVS,,77,,,,,,,,5000
 W0017,AGVS,AGVS Message # 15,ASCII,6.4.1 AGVS Message Display,AGVS,,78,,,,,,,,5000
 W0018,AGVS,AGVS Message # 16,ASCII,6.4.1 AGVS Message Display,AGVS,,79,,,,,,,,5000
-W0019,AGVS,AGVS Message # 17,ASCII,6.4.1 AGVS Message Display,AGVS,,80,,,,,,,,5000
+W0019,AGVS,AGVS Message # 17,ASCII,6.4.1 AGVS Message Display,AGVS,AGVS_MSG_17,80,,,,,,,,5000
 W001A,AGVS,AGVS Message # 18,ASCII,6.4.1 AGVS Message Display,AGVS,,81,,,,,,,,5000
 W001B,AGVS,AGVS Message # 19,ASCII,6.4.1 AGVS Message Display,AGVS,,82,,,,,,,,5000
 W001C,AGVS,AGVS Message # 20,ASCII,6.4.1 AGVS Message Display,AGVS,,83,,,,,,,,5000

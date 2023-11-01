@@ -177,7 +177,7 @@ namespace GPMCasstteConvertCIM.Emulators
                         while (RegisterWritesQueue.Count != 0)
                         {
                             HoldingRegisterWrite toWrite = RegisterWritesQueue.Dequeue();
-                            modbus.WriteMultipleRegisters(toWrite.startIndex, toWrite.values);
+                             modbus.WriteMultipleRegisters(toWrite.startIndex, toWrite.values);
                         }
                         try
                         {

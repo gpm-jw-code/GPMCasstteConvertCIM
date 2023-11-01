@@ -310,7 +310,12 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             Properties.IsInstalledLastTime = false;
             DevicesManager.SaveDeviceConnectionOpts();
             Utility.SystemLogger.Info($"{PortName}-Remove Carrier_{cst_id}");
-            bool remove_reported = await SecsEventReport(CEID.CarrierRemovedCompletedReport, cst_id + "");
+            if (EPortType == PortUnitType.Output) //20231101 MCS說AGV取走時為進系統的時候不用報Remove
+            {
+                Utility.SystemLogger.Info($"Port Type Now = {EPortType}, Carrier removed Report to MCS ");
+                bool remove_reported = await SecsEventReport(CEID.CarrierRemovedCompletedReport, cst_id + "");
+                Utility.SystemLogger.Info($"Port Type Now = {EPortType}, Carrier removed Report to MCS Result = {(remove_reported ? "Success" : "Fail")}");
+            }
         }
         private async Task InstallCarrier(string cst_id)
         {
@@ -336,7 +341,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         private void UpdateModbusBCRReport(bool isClearBCR = false)
         {
             Utility.SystemLogger.Info($"{PortName} Update BCR ID to CIM Memory Table");
-            clsMemoryAddress? agvs_msg_1_address = EQParent.LinkWordMap.FirstOrDefault(v => v.EProperty == PROPERTY.AGVS_MSG_1);
+            clsMemoryAddress? agvs_msg_1_address = EQParent.LinkWordMap.FirstOrDefault(v => Properties.PortNo == 0 ? v.EProperty == PROPERTY.AGVS_MSG_1 : v.EProperty == PROPERTY.AGVS_MSG_17);
             clsMemoryAddress? agvs_msg_download_inedx_address = EQParent.LinkWordMap.FirstOrDefault(v => v.EProperty == PROPERTY.AGVS_MSG_DOWNLOAD_INDEX);
             if (agvs_msg_1_address != null)
             {
@@ -348,7 +353,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 EQParent.CIMMemOptions.memoryTable.ReadWord(agvs_msg_download_inedx_address.Address, 1, ref vals);
                 vals[0] = vals[0] == int.MaxValue ? 0 : vals[0] + 1;
                 EQParent.CIMMemOptions.memoryTable.WriteWord(agvs_msg_download_inedx_address.Address, ref vals);
-                //Update Report Index(+1)---END
             }
             else
             {
@@ -530,7 +534,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                                 Utility.SystemLogger.Info($"PLC  Carrier Wait  Out HS ex! {ex.Message},{ex.StackTrace}");
 
                             }
-                            if (!SECSState.IsRemote && EPortType != PortUnitType.Output && PortExist)
+                            if (!SECSState.IsRemote && EPortType != PortUnitType.Output && EQParent.converterType == CONVERTER_TYPE.IN_SYS && PortExist)
                             {
 
                                 Utility.SystemLogger.Info($"After Carrier waitout HS done and Now is Local Mode, GPM_CIM Start Request PLC Port Type Change to OUTPUT");
