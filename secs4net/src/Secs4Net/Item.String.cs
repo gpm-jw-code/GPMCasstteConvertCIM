@@ -32,7 +32,7 @@ partial class Item
             }
 
 
-            var encoder = Format == SecsFormat.ASCII ? EncodingSetting.ASCIIEncoding : Jis8Encoding;
+            var encoder =EncodingSetting.ASCIIEncoding;
             var bytelength = encoder.GetByteCount(_value);
             EncodeItemHeader(Format, bytelength, buffer);
             var length = encoder.GetBytes(_value, buffer.GetSpan(bytelength));

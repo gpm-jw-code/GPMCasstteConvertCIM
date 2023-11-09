@@ -20,7 +20,7 @@ partial class Item
             _owner = owner;
             _value = new Lazy<string>(() =>
             {
-                var encoding = Format == SecsFormat.ASCII ? EncodingSetting.ASCIIEncoding : Jis8Encoding;
+                var encoding =  EncodingSetting.ASCIIEncoding;
                 return encoding.GetString(_owner.Memory.Span);
             }, isThreadSafe: false);
         }

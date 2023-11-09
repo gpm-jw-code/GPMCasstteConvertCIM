@@ -217,9 +217,12 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                 else
                 {
                     Utility.SystemLogger.SecsTransferLog($"Start Transfer To AGVS[{Name}]");
-                    replyMessage = await AGVS.SendMsg(primaryMsgFromMcs);
+                    replyMessage = await AGVS.SendMsg(primaryMsgFromMcs, msg_name: "CIM->AGVS");
 
                 }
+
+
+
                 if (replyMessage == null)
                 {
                     _AddAlarm(ALARM_CODES.TRANSFER_MCS_MSG_TO_AGVS_BUT_AGVS_NO_REPLY);
@@ -296,7 +299,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                     SecsMessage? AGVSReplyMessage = await AGVS.SendMsg(new SecsMessage(1, 3)
                     {
                         SecsItem = L(toAGVSItems)
-                    });
+                    },msg_name:"CIM->AGVS");
                     bool IsAGVSReplySuccess = !AGVSReplyMessage.IsS9F7();
                     if (!IsAGVSReplySuccess)
                     {

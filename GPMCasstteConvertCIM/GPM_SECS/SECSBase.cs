@@ -116,12 +116,14 @@ namespace GPMCasstteConvertCIM.GPM_SECS
         /// <param name="message"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        internal async Task<SecsMessage> SendMsg(SecsMessage message, CancellationToken cancellationToken = default)
+        internal async Task<SecsMessage> SendMsg(SecsMessage message, CancellationToken cancellationToken = default, string msg_name = null)
         {
-            return await Task.Run(async () =>
+            Task<SecsMessage> ret = await Task.Factory.StartNew(async () =>
             {
                 try
                 {
+                    if (msg_name != null)
+                        message.Name = msg_name;
                     MsgSendOutInvokeHandle(message, true);
                     SecsMessage? secondaryMessage = null;
                     secondaryMessage = await secsGem?.SendAsync(message, cancellationToken);
@@ -143,6 +145,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS
                     return SECSMessageHelper.S9F7_IllegalDataMsg();
                 }
             });
+            return await ret;
         }
 
         internal void MsgSendOutInvokeHandle(SecsMessage message, bool IsSend)
