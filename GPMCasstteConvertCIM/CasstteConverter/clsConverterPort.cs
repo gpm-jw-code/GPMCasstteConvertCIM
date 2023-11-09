@@ -294,7 +294,12 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             {
                 TUNIDLFOW = 1;
             }
-            return $"TUN032{TUNIDLFOW.ToString("D5")}";
+            var unid = $"{Utility.SysConfigs.UnknowCargoIDHead}{TUNIDLFOW.ToString("D5")}";
+            if (Debugger.IsAttached)
+            {
+                Utility.SystemLogger.Info($"UNID={unid}");
+            }
+            return unid;
 
         }
         private async Task RemoveCarrier(string cst_id)
@@ -303,7 +308,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             Properties.IsInstalledLastTime = false;
             DevicesManager.SaveDeviceConnectionOpts();
             Utility.SystemLogger.Info($"{PortName}-Remove Carrier_{cst_id}");
-            if (EPortType == PortUnitType.Output) 
+            if (EPortType == PortUnitType.Output)
             {
                 Utility.SystemLogger.Info($"Port Type Now = {EPortType}, Carrier removed Report to MCS ");
                 bool remove_reported = await SecsEventReport(CEID.CarrierRemovedCompletedReport, cst_id + "");
