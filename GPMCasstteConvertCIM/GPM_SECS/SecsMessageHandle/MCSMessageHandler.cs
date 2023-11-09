@@ -83,8 +83,6 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                 Utility.SystemLogger.Info($"MCS NOTRANSFER Notify, PORT ={port_id} , CST ID = {cstid} ");
 
                 var port = DevicesManager.GetPortByPortID(port_id);
-                if (port != null)
-                    port.NoTransferNotifyInovke(port_id, cstid);
             }
             catch (Exception ex)
             {

@@ -98,8 +98,14 @@ namespace GPMCasstteConvertCIM.GPM_Modbus
         {
             IPAddress localAddr = IPAddress.Any;
             server = new TcpListener(localAddr, port);
-            server.Start();
-            server.BeginAcceptTcpClient(AcceptTcpClientCallback, null);
+            try
+            {
+                server.Start();
+                server.BeginAcceptTcpClient(AcceptTcpClientCallback, null);
+            }
+            catch (Exception ex)
+            {
+            }
         }
 
         public TCPHandler(string ipAddress, int port)

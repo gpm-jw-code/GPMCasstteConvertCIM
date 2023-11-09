@@ -38,7 +38,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             }
         }
 
-        public event EventHandler<Tuple<string, string>> OnMCSNoTransferNotify;
+        public event EventHandler<Tuple<string, string, string>> OnMCSNoTransferNotify;
 
         public bool BuildModbusTCPServer(string ip, int port, out string error_msg)
         {

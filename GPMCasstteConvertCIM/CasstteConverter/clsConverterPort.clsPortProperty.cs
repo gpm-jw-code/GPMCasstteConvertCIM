@@ -29,6 +29,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             public bool IsInstalledLastTime { get; set; } = false;
 
             public DateTime CarrierInstallTime { get; set; } = DateTime.MinValue;
+            public bool CarrierWaitInNeedWaitingS2F41OrS2F49{ get; set; } = false;
 
         }
 
