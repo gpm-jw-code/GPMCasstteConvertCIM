@@ -1,4 +1,5 @@
-﻿using GPMCasstteConvertCIM.Forms;
+﻿using GPMCasstteConvertCIM.CasstteConverter.Data;
+using GPMCasstteConvertCIM.Forms;
 using GPMCasstteConvertCIM.GPM_Modbus;
 using GPMCasstteConvertCIM.GPM_SECS;
 using GPMCasstteConvertCIM.Utilities;
@@ -201,7 +202,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         private void LogAGVHandshakeSignalChange(string name, bool state)
         {
-            Utility.SystemLogger.Info($"{PortName} --> AGV Handshake Signal-{name} Changed to {(state ? "1" : "0")}");
+            Utility.SystemLogger.Info($"|{PortName}| --> AGV Handshake Signal-|{name}| Changed to {(state ? "1" : "0")}");
         }
 
         protected virtual void Modbus_server_CoilsOnChanged(object? sender, ModbusProtocol e)
@@ -217,32 +218,35 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     var localCoilsAry = modbus_server.coils.localArray;
                     bool state = localCoilsAry[register_num + 1];
                     CIMMemoryTable.WriteOneBit(item.Address, state);
-
-                    if (item.EProperty == Enums.PROPERTY.VALID)
-                        AGV_VALID = state;
-                    if (item.EProperty == Enums.PROPERTY.TR_REQ)
-                        AGV_TR_REQ = state;
-                    if (item.EProperty == Enums.PROPERTY.BUSY)
-                        AGV_BUSY = state;
-                    if (item.EProperty == Enums.PROPERTY.COMPT)
-                        AGV_COMPT = state;
-                    if (item.EProperty == Enums.PROPERTY.AGV_READY)
-                        AGV_READY = state;
-
-
-                    if (item.EProperty == Enums.PROPERTY.To_EQ_Up)
-                        To_EQ_UP = state;
-                    if (item.EProperty == Enums.PROPERTY.To_EQ_Low)
-                        To_EQ_Low = state;
-                    if (item.EProperty == Enums.PROPERTY.CMD_reserve_Up)
-                        CMD_Reserve_Up = state;
-                    if (item.EProperty == Enums.PROPERTY.CMD_reserve_Low)
-                        CMD_Reserve_Low = state;
-
+                    AGVHandshakeIO(item, state);
                     EQParent.CIMMemOptions.memoryTable.WriteOneBit(item.Address, state);
                 }
 
             });
+        }
+
+        protected void AGVHandshakeIO(clsMemoryAddress item, bool state)
+        {
+            if (item.EProperty == Enums.PROPERTY.VALID)
+                AGV_VALID = state;
+            if (item.EProperty == Enums.PROPERTY.TR_REQ)
+                AGV_TR_REQ = state;
+            if (item.EProperty == Enums.PROPERTY.BUSY)
+                AGV_BUSY = state;
+            if (item.EProperty == Enums.PROPERTY.COMPT)
+                AGV_COMPT = state;
+            if (item.EProperty == Enums.PROPERTY.AGV_READY)
+                AGV_READY = state;
+
+
+            if (item.EProperty == Enums.PROPERTY.To_EQ_Up)
+                To_EQ_UP = state;
+            if (item.EProperty == Enums.PROPERTY.To_EQ_Low)
+                To_EQ_Low = state;
+            if (item.EProperty == Enums.PROPERTY.CMD_reserve_Up)
+                CMD_Reserve_Up = state;
+            if (item.EProperty == Enums.PROPERTY.CMD_reserve_Low)
+                CMD_Reserve_Low = state;
         }
 
         public virtual void SyncRegisterData()

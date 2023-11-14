@@ -57,7 +57,10 @@ namespace GPMCasstteConvertCIM.Forms
             Utility.LoadConfigs();
             Secs4Net.EncodingSetting.ASCIIEncoding = Utility.SysConfigs.SECS.SECESAEncoding; //設定編碼
             if (Utility.SysConfigs.Project == Utilities.SysConfigs.clsSystemConfigs.PROJECT.U007)
+            {
                 tabControl1.TabPages.RemoveAt(1);//把原本的HOME PAGE移除
+                splitContainer1.Panel2.Controls.Add(pnlSyslogRtbContainer);//Move container of  LOG to the Main View(Home) of Project.U007
+            }
             else
                 tabControl1.TabPages.RemoveAt(0);
 

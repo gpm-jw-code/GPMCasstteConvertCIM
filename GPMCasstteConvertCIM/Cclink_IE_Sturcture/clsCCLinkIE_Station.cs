@@ -169,6 +169,7 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
                     int register_num = item.Link_Modbus_Register_Number;
                     var localCoilsAry = modbus_server.coils.localArray;
                     bool state = localCoilsAry[register_num + 1];
+                    AGVHandshakeIO(item, state);
                     DevicesManager.cclink_master.CIMMemOptions.memoryTable.WriteOneBit(item.Address, state);
                 }
             });
