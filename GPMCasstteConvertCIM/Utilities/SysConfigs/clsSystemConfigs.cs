@@ -15,6 +15,8 @@ namespace GPMCasstteConvertCIM.Utilities.SysConfigs
         public clsSECSConfigs SECS { get; set; } = new clsSECSConfigs();
         public bool EQLoadUnload_RequestSimulation { get; set; } = true;
 
+        public string UnknowCargoIDHead { get; set; } = "UN032";
+
         [JsonConverter(typeof(StringEnumConverter))]
         public PROJECT Project { get; set; }
 

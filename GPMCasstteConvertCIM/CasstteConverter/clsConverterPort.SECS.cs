@@ -6,6 +6,7 @@ using Secs4Net.Sml;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -73,17 +74,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 else
                 {
                     Utility.SystemLogger.Info($"Event Report MCS Reply = {msgReply.ToSml()}");
-                    if (ceid == CEID.CarrierWaitIn)
-                    {
-                        bool mcs_accpet = msgReply.SecsItem.FirstValue<byte>() == 0;
-                        if (mcs_accpet)
-                        {
-                            await WaitTransferTaskDownloaded();
-                        }
-                        return mcs_accpet;
-                    }
-
-                    return true;
+                    return msgReply.SecsItem.FirstValue<byte>() == 0;
                 }
             }
             catch (Exception)
@@ -148,20 +139,21 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         /// <returns></returns>
         private async Task<bool> WaitTransferTaskDownloaded()
         {
-            WaitTransferTaskDownloadCts = new CancellationTokenSource(TimeSpan.FromSeconds(240));
+            WaitTransferTaskDownloadCts = new CancellationTokenSource(TimeSpan.FromSeconds(Debugger.IsAttached ? 5 : 240));
             while (!CurrentCSTHasTransferTaskFlag)
             {
                 if (WaitTransferTaskDownloadCts.IsCancellationRequested)
                 {
-                    NoTransferNotifyInovke(Properties.PortID, WIPINFO_BCR_ID);
+                    NoTransferNotifyInovke(Properties.PortID, WIPINFO_BCR_ID,"Wait S2F41/49 Timeout");
                     Utility.SystemLogger.Warning($"{Properties.PortID} _ Carrier- {WIPINFO_BCR_ID} No body known where to go . No AGV To Transfer....");
                     NoTransferNotifyFlag = false; //reset flag
                     return false;
                 }
+
                 if (NoTransferNotifyFlag)
                 {
                     WaitTransferTaskDownloadCts.Cancel();
-                    NoTransferNotifyInovke(Properties.PortID, WIPINFO_BCR_ID);
+                    NoTransferNotifyInovke(Properties.PortID, WIPINFO_BCR_ID, "MCS Send S2F41-NO Transfer Notify");
                     Utility.SystemLogger.Warning($"{Properties.PortID} _ Carrier- {WIPINFO_BCR_ID} MCS NO Transfer Notify. No AGV To Transfer...");
                     NoTransferNotifyFlag = false; //reset flag
                     return false;

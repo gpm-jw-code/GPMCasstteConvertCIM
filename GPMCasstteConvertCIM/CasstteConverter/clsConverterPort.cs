@@ -301,7 +301,12 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             {
                 TUNIDLFOW = 1;
             }
-            return $"TUN032{TUNIDLFOW.ToString("D5")}";
+            var unid = $"{Utility.SysConfigs.UnknowCargoIDHead}{TUNIDLFOW.ToString("D5")}";
+            if (Debugger.IsAttached)
+            {
+                Utility.SystemLogger.Info($"UNID={unid}");
+            }
+            return unid;
 
         }
         private async Task RemoveCarrier(string cst_id)
@@ -310,11 +315,15 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             Properties.IsInstalledLastTime = false;
             DevicesManager.SaveDeviceConnectionOpts();
             Utility.SystemLogger.Info($"{PortName}-Remove Carrier_{cst_id}");
-            if (EPortType == PortUnitType.Output) //20231101 MCS說AGV取走時為進系統的時候不用報Remove
+            if (EPortType == PortUnitType.Output)
             {
                 Utility.SystemLogger.Info($"Port Type Now = {EPortType}, Carrier removed Report to MCS ");
                 bool remove_reported = await SecsEventReport(CEID.CarrierRemovedCompletedReport, cst_id + "");
                 Utility.SystemLogger.Info($"Port Type Now = {EPortType}, Carrier removed Report to MCS Result = {(remove_reported ? "Success" : "Fail")}");
+            }
+            else//20231101 MCS說AGV取走時為進系統的時候不用報Remove
+            {
+                Utility.SystemLogger.Warning($"BCR ID Clear but Port Type ={previousPortType}, Carrier removed not REPORT to MCS");
             }
         }
         private async Task InstallCarrier(string cst_id)
@@ -414,11 +423,21 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                                     return;
                                 }
 
-                                Utility.SystemLogger.Info($"Wait S2F41 or S2F49 Message reachded..");
-                                await SecsEventReport(CEID.CarrierWaitIn, WIPINFO_BCR_ID);
-                                Utility.SystemLogger.Info($"{(CurrentCSTHasTransferTaskFlag ? "S2F49_Transfer" : "S2F41_No_Transfer")} Message reachded!");
-                                wait_in_accept = CurrentCSTHasTransferTaskFlag;
-                                Utility.SystemLogger.Info($"MCS {(wait_in_accept ? "Accept" : "Reject")} Carrier Wait IN Request..");
+                                bool mcs_accpet = Debugger.IsAttached ? true : await SecsEventReport(CEID.CarrierWaitIn, WIPINFO_BCR_ID);
+
+                                if (mcs_accpet && Properties.CarrierWaitInNeedWaitingS2F41OrS2F49)
+                                {
+                                    Utility.SystemLogger.Info($"Wait S2F41 or S2F49 Message reachded..");
+                                    wait_in_accept = await WaitTransferTaskDownloaded();
+                                    if (wait_in_accept)
+                                        Utility.SystemLogger.Info($"{(CurrentCSTHasTransferTaskFlag ? "S2F49_Transfer" : "S2F41_No_Transfer")} Message reachded!");
+                                    Utility.SystemLogger.Info($"MCS {(wait_in_accept ? "Accept" : "Reject")} Carrier Wait IN Request..");
+                                    wait_in_accept = CurrentCSTHasTransferTaskFlag;
+                                }
+                                else
+                                {
+                                    wait_in_accept = mcs_accpet;
+                                }
                             }
                             else
                             {
@@ -578,7 +597,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     _CarrierRemovedCompletedReport = value;
                     if (_CarrierRemovedCompletedReport)
                     {
-                        Utility.SystemLogger.Info($"Carrier Remove Completed HS Start");
+                        Utility.SystemLogger.Info($"{PortName}-Carrier Remove Completed HS Start");
                         CarrierRemovedCompletedReply();
                     }
                 }
@@ -622,6 +641,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 }
             }
         }
+        public PortUnitType previousPortType = PortUnitType.Input;
         public int Port_Auto_Manual_Mode_Status { get; internal set; }
         private int _PortType = 0;
         /// <summary>

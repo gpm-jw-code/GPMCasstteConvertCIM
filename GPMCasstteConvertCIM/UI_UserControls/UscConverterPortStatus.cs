@@ -141,11 +141,11 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             });
         }
 
-        private void _CstCVPort_OnMCSNoTransferNotify(object? sender, Tuple<string, string> mcs_notify_dto)
+        private void _CstCVPort_OnMCSNoTransferNotify(object? sender, Tuple<string, string, string> mcs_notify_dto)
         {
             Task.Factory.StartNew(() =>
             {
-                MessageBox.Show($"MCS NO TRANSFER TASK NOW NOTIFY !  \r\nPort ID = {mcs_notify_dto.Item1}\r\nCarrier ID = {mcs_notify_dto.Item2}", "MCS Notifier", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show($"NO TRANSFER TASK NOW NOTIFY -{mcs_notify_dto.Item3}\r\nPort ID = {mcs_notify_dto.Item1}\r\nCarrier ID = {mcs_notify_dto.Item2}", "NO TRANSFER TASK NOW NOTIFY", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             });
         }
 
