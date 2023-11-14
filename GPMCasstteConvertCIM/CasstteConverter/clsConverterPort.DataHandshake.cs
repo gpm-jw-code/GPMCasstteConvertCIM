@@ -141,6 +141,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 await Task.Delay(1);
             }
             EQParent.CIMMemOptions.memoryTable.WriteOneBit(carrier_removed_com_reply_address, false);
+            Utility.SystemLogger.Info($"{PortName}-Carrier Remove Completed HS Completed!");
+
         }
 
         /// <summary>
@@ -287,7 +289,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         internal void NoTransferNotifyInovke(string carrier_id, string cstid, string reason)
         {
             NoTransferNotifyFlag = true;
-            OnMCSNoTransferNotify?.Invoke(this, new Tuple<string, string,string >(carrier_id, cstid, reason));
+            OnMCSNoTransferNotify?.Invoke(this, new Tuple<string, string, string>(carrier_id, cstid, reason));
         }
 
         internal async void TransferCompletedInvoke(string carrier_id)

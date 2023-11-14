@@ -590,7 +590,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     _CarrierRemovedCompletedReport = value;
                     if (_CarrierRemovedCompletedReport)
                     {
-                        Utility.SystemLogger.Info($"Carrier Remove Completed HS Start");
+                        Utility.SystemLogger.Info($"{PortName}-Carrier Remove Completed HS Start");
                         CarrierRemovedCompletedReply();
                     }
                 }
