@@ -1,6 +1,5 @@
-using GPMCasstteConvertCIM.Forms;
+ï»¿using GPMCasstteConvertCIM.Forms;
 using GPMCasstteConvertCIM.Utilities;
-using Microsoft.VisualBasic.ApplicationServices;
 using System;
 using System.Diagnostics;
 using System.Windows.Forms;
@@ -23,7 +22,6 @@ namespace GPMCasstteConvertCIM
             StartBGAPP();
             Application.Run(new frmMain());
         }
-
 
         private static void StartBGAPP()
         {
@@ -51,7 +49,7 @@ namespace GPMCasstteConvertCIM
             var pros = Process.GetProcessesByName(Application.ProductName);
             if (pros.Length > 1)
             {
-                MessageBox.Show("CIM µ{¦¡¤w¸g±Ò°Ê");
+                MessageBox.Show("CIM ç¨‹å¼å·²ç¶“å•Ÿå‹•");
                 Environment.Exit(0);
             }
         }
@@ -62,4 +60,5 @@ namespace GPMCasstteConvertCIM
         }
 
     }
+
 }

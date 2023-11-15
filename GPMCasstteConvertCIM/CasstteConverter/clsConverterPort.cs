@@ -279,6 +279,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     _WIPINFO_BCR_ID = value;
                     if (value != "")
                     {
+                        JudgeDUCSTORNOT(value, out var DUID1, out var DUID2);
                         Utility.SystemLogger.Info($"Port {PortName} BCR ID Updated = {_WIPINFO_BCR_ID}");
                         WIPUPdateTime = DateTime.Now;
                         TUNID = CreateTUNID();
@@ -293,6 +294,13 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 }
             }
         }
+
+        private bool JudgeDUCSTORNOT(string value, out string DUID1, out string DUID2)
+        {
+            DUID1 = DUID2 = string.Empty;
+            return false;
+        }
+
         private int TUNIDLFOW = 1;
         private string CreateTUNID()
         {

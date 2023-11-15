@@ -125,8 +125,10 @@ namespace GPMCasstteConvertCIM.Forms
 
             SystemAPI systemAPI = new SystemAPI();
             EQDIODataAPI EqDIOAPIService = new EQDIODataAPI();
+            AGVsDataBaseAPI AgvsDBAPIService = new AGVsDataBaseAPI();
             systemAPI.Start();
             EqDIOAPIService.Start();
+            AgvsDBAPIService.Start();
             WebsocketMiddleware.ServerBuild();
             uscAlarmTable1.BindData(AlarmManager.AlarmsList.ToList());
             AlarmManager.onAlarmAdded += (sender, alarm) =>
