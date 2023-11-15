@@ -14,7 +14,6 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
     public class clsCCLinkIE_Master : clsCasstteConverter
     {
 
-
         protected  override string BitMapFileName_EQ { get; set; } = "src\\Map_U007\\PLC_Bit_Map_EQ.csv";
         protected  override string WordMapFileName_EQ { get; set; } = "src\\Map_U007\\PLC_Word_Map_EQ.csv";
         protected  override string BitMapFileName_CIM { get; set; } = "src\\Map_U007\\PLC_Bit_Map_CIM.csv";

@@ -41,7 +41,14 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             SECSState.OnMCSOnlineRemote += SECSState_OnMCSOnlineRemote;
 
         }
+        public enum EQ_PORT_LD_STATE
+        {
+            Load,
+            Unload,
+            Busy
+        }
 
+        public EQ_PORT_LD_STATE PortStateSimulation { get; set; } = EQ_PORT_LD_STATE.Busy;
         private async void SECSState_OnMCSOnlineRemote(object? sender, EventArgs e)
         {
 
@@ -272,10 +279,16 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     _WIPINFO_BCR_ID = value;
                     if (value != "")
                     {
+                        string thisPortDUID = string.Empty;
+                        bool isDUIDHappen = JudgeDUCSTORNOT(value, out var portsHasSameID);
+                        if (isDUIDHappen)
+                        {
+                            SetDUID(portsHasSameID, out thisPortDUID);
+                        }
                         Utility.SystemLogger.Info($"Port {PortName} BCR ID Updated = {_WIPINFO_BCR_ID}");
                         WIPUPdateTime = DateTime.Now;
                         TUNID = CreateTUNID();
-                        string cst = IsBCR_READ_ERROR() ? TUNID : value;
+                        string cst = IsBCR_READ_ERROR() ? TUNID : (isDUIDHappen ? thisPortDUID : value);
                         InstallCarrier(cst + "");
                     }
                     else
@@ -286,7 +299,46 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 }
             }
         }
-        private int TUNIDLFOW = 1;
+
+        private void SetDUID(IEnumerable<clsConverterPort> portsHasSameID, out string thisPortDUID)
+        {
+            CSTIDOnPort = thisPortDUID = CreateDUID();
+            Task.Factory.StartNew(async () =>
+            {
+                foreach (var port in portsHasSameID)
+                {
+                    var uiid = CreateDUID();
+                    Utility.SystemLogger.Info($"Try Change {port.PortName} to DUID={uiid}");
+                    await port.InstallCarrier(uiid);
+                }
+            });
+        }
+
+        private bool JudgeDUCSTORNOT(string value, out IEnumerable<clsConverterPort> doubleUIDPorts)
+        {
+            doubleUIDPorts = null;
+            doubleUIDPorts = DevicesManager.GetAllPorts().Where(port => port.PortName != PortName).Where(port => port.CSTIDOnPort == value);
+            return doubleUIDPorts.Any();
+        }
+
+        private static int TUNIDLFOW
+        {
+            get => Utility.SysConfigs.TUNFlowNumberUsed;
+            set
+            {
+                Utility.SysConfigs.TUNFlowNumberUsed = value;
+                Utility.SaveConfigs();
+            }
+        }
+        private static int DUIDLFOW
+        {
+            get => Utility.SysConfigs.DUFlowNumberUsed;
+            set
+            {
+                Utility.SysConfigs.DUFlowNumberUsed = value;
+                Utility.SaveConfigs();
+            }
+        }
         private string CreateTUNID()
         {
             TUNIDLFOW += 1;
@@ -302,9 +354,26 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             return unid;
 
         }
+
+        private string CreateDUID()
+        {
+            DUIDLFOW += 1;
+            if (DUIDLFOW >= int.MaxValue)
+            {
+                DUIDLFOW = 0;
+            }
+            var duid = $"DU{DUIDLFOW.ToString("D5")}";
+            if (Debugger.IsAttached)
+            {
+                Utility.SystemLogger.Info($"UNID={duid}");
+            }
+            return duid;
+
+        }
+
         private async Task RemoveCarrier(string cst_id)
         {
-            UpdateModbusBCRReport(true);
+            UpdateModbusBCRReport("", isClearBCR: true);
             Properties.IsInstalledLastTime = false;
             DevicesManager.SaveDeviceConnectionOpts();
             Utility.SystemLogger.Info($"{PortName}-Remove Carrier_{cst_id}");
@@ -335,21 +404,22 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             Properties.CarrierInstallTime = DateTime.Now;
             DevicesManager.SaveDeviceConnectionOpts();
             Utility.SystemLogger.Info($"{PortName}-Install Carrier_{cst_id}");
-            UpdateModbusBCRReport();
+            UpdateModbusBCRReport(cst_id);
             await SecsEventReport(CEID.CarrierInstallCompletedReport, cst_id);
 
         }
 
-        private void UpdateModbusBCRReport(bool isClearBCR = false)
+        private void UpdateModbusBCRReport(string cst_id_on_port, bool isClearBCR = false)
         {
             Utility.SystemLogger.Info($"{PortName} Update BCR ID to CIM Memory Table");
             clsMemoryAddress? agvs_msg_1_address = EQParent.LinkWordMap.FirstOrDefault(v => Properties.PortNo == 0 ? v.EProperty == PROPERTY.AGVS_MSG_1 : v.EProperty == PROPERTY.AGVS_MSG_17);
             clsMemoryAddress? agvs_msg_download_inedx_address = EQParent.LinkWordMap.FirstOrDefault(v => v.EProperty == PROPERTY.AGVS_MSG_DOWNLOAD_INDEX);
             if (agvs_msg_1_address != null)
             {
-                int[] bcr_id_ints = isClearBCR ? new int[10] : new int[10] { WIPInfo_BCR_ID_1, WIPInfo_BCR_ID_2, WIPInfo_BCR_ID_3, WIPInfo_BCR_ID_4, WIPInfo_BCR_ID_5, WIPInfo_BCR_ID_6, WIPInfo_BCR_ID_7, WIPInfo_BCR_ID_8, WIPInfo_BCR_ID_9, WIPInfo_BCR_ID_10 };
+                int[] ascii_bytes = cst_id_on_port.ToASCIIWords();
+                //int[] bcr_id_ints = isClearBCR ? new int[10] : new int[10] { WIPInfo_BCR_ID_1, WIPInfo_BCR_ID_2, WIPInfo_BCR_ID_3, WIPInfo_BCR_ID_4, WIPInfo_BCR_ID_5, WIPInfo_BCR_ID_6, WIPInfo_BCR_ID_7, WIPInfo_BCR_ID_8, WIPInfo_BCR_ID_9, WIPInfo_BCR_ID_10 };
+                int[] bcr_id_ints = isClearBCR ? new int[10] : ascii_bytes;
                 EQParent.CIMMemOptions.memoryTable.WriteWord(agvs_msg_1_address.Address, ref bcr_id_ints);
-
                 //Update Report Index(+1)
                 int[] vals = new int[1];
                 EQParent.CIMMemOptions.memoryTable.ReadWord(agvs_msg_download_inedx_address.Address, 1, ref vals);

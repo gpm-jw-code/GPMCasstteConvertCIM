@@ -30,14 +30,13 @@
         {
             components = new System.ComponentModel.Container();
             dataGridView1 = new DataGridView();
+            clsAlarmDtoBindingSource = new BindingSource(components);
             timeDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             levelDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             Code_int = new DataGridViewTextBoxColumn();
             classifyDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             descriptionDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             eQPNameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            durationDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            clsAlarmDtoBindingSource = new BindingSource(components);
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)clsAlarmDtoBindingSource).BeginInit();
             SuspendLayout();
@@ -50,7 +49,7 @@
             dataGridView1.AutoGenerateColumns = false;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { timeDataGridViewTextBoxColumn, levelDataGridViewTextBoxColumn, Code_int, classifyDataGridViewTextBoxColumn, descriptionDataGridViewTextBoxColumn, eQPNameDataGridViewTextBoxColumn, durationDataGridViewTextBoxColumn });
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { timeDataGridViewTextBoxColumn, levelDataGridViewTextBoxColumn, Code_int, classifyDataGridViewTextBoxColumn, descriptionDataGridViewTextBoxColumn, eQPNameDataGridViewTextBoxColumn });
             dataGridView1.DataSource = clsAlarmDtoBindingSource;
             dataGridView1.Dock = DockStyle.Fill;
             dataGridView1.Location = new Point(0, 0);
@@ -61,6 +60,11 @@
             dataGridView1.Size = new Size(1084, 467);
             dataGridView1.TabIndex = 0;
             dataGridView1.DataError += dataGridView1_DataError;
+            // 
+            // clsAlarmDtoBindingSource
+            // 
+            clsAlarmDtoBindingSource.DataSource = typeof(Alarm.clsAlarmDto);
+            clsAlarmDtoBindingSource.CurrentChanged += clsAlarmDtoBindingSource_CurrentChanged;
             // 
             // timeDataGridViewTextBoxColumn
             // 
@@ -114,19 +118,6 @@
             eQPNameDataGridViewTextBoxColumn.ReadOnly = true;
             eQPNameDataGridViewTextBoxColumn.Width = 80;
             // 
-            // durationDataGridViewTextBoxColumn
-            // 
-            durationDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            durationDataGridViewTextBoxColumn.DataPropertyName = "Duration";
-            durationDataGridViewTextBoxColumn.HeaderText = "歷時";
-            durationDataGridViewTextBoxColumn.Name = "durationDataGridViewTextBoxColumn";
-            durationDataGridViewTextBoxColumn.ReadOnly = true;
-            durationDataGridViewTextBoxColumn.Width = 56;
-            // 
-            // clsAlarmDtoBindingSource
-            // 
-            clsAlarmDtoBindingSource.DataSource = typeof(Alarm.clsAlarmDto);
-            // 
             // UscAlarmTable
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -150,6 +141,5 @@
         private DataGridViewTextBoxColumn classifyDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn descriptionDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn eQPNameDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn durationDataGridViewTextBoxColumn;
     }
 }

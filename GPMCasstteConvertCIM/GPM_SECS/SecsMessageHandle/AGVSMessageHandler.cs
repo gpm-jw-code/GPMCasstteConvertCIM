@@ -50,6 +50,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
 
             if (IsTransferCompleteToTSReport && !port.IsCarrierInstallReported)
             {
+                //ERROR-LOAD
                 port.IsCarrierInstallReported = true;
             }
 

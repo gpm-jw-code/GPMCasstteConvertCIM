@@ -2,11 +2,9 @@
 using GPMCasstteConvertCIM.GPM_Modbus;
 using GPMCasstteConvertCIM.GPM_SECS;
 using GPMCasstteConvertCIM.Utilities;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using static GPMCasstteConvertCIM.CasstteConverter.Data.clsMemoryAddress;
@@ -70,7 +68,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 modbus_server.linkedCasstteConverter = EQParent;
                 ui.ModbusTCPServer = modbus_server;
                 modbus_server.Active(Properties.ModbusServer_IP, Properties.ModbusServer_PORT, ui);
-
                 return true;
             }
             catch (Exception ex)
@@ -219,6 +216,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     int register_num = item.Link_Modbus_Register_Number;
                     var localCoilsAry = modbus_server.coils.localArray;
                     bool state = localCoilsAry[register_num + 1];
+                    CIMMemoryTable.WriteOneBit(item.Address, state);
 
                     if (item.EProperty == Enums.PROPERTY.VALID)
                         AGV_VALID = state;
@@ -249,11 +247,11 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         public virtual void SyncRegisterData()
         {
-            Task.Run(async () =>
+            Task.Factory.StartNew(async () =>
             {
                 while (true)
                 {
-
+                    await Task.Delay(10);
                     foreach (Data.clsMemoryAddress item in EQModbusLinkBitAddress)
                     {
                         bool bolState = EQParent.EQPMemOptions.memoryTable.ReadOneBit(item.Address);
@@ -262,40 +260,27 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                             if ((bool)item.Value == false && PortStatusDownForceOn)
                                 bolState = true; //強制PortStatusDown ON
                         }
+                        if (Utility.SysConfigs.EQLoadUnload_RequestSimulation)
+                        {
+                            if (item.EProperty == Enums.PROPERTY.Load_Request | item.EProperty == Enums.PROPERTY.Unload_Request)
+                                bolState = true;
+                        }
                         modbus_server.discreteInputs.localArray[item.Link_Modbus_Register_Number] = bolState;
                     }
 
                     foreach (Data.clsMemoryAddress item in EQModbusLinkWordAddress)
                     {
-                        int value = 0;
-                        if (Utility.SysConfigs.EQLoadUnload_RequestSimulation)
-                        {
-                            if (item.EProperty == Enums.PROPERTY.Load_Request | item.EProperty == Enums.PROPERTY.Unload_Request)
-                                value = 1;
-                        }
-                        else
-                            value = EQParent.EQPMemOptions.memoryTable.ReadBinary(item.Address);
-                        modbus_server.holdingRegisters.localArray[item.Link_Modbus_Register_Number] = Convert.ToInt16(value);
+
+                        int value = EQParent.EQPMemOptions.memoryTable.ReadBinary(item.Address);
+                        modbus_server.holdingRegisters.localArray[item.Link_Modbus_Register_Number] = (short)value;
                     }
 
-                    Data.clsMemoryAddress MsgDownloadIndexAddress = CIMModbusLinkWordAddress.First(ad => ad.EProperty == Enums.PROPERTY.AGVS_MSG_DOWNLOAD_INDEX);
-                    int CSTHoldingRegisterAddressStart = CIMModbusLinkWordAddress.First(ad => ad.EProperty == Enums.PROPERTY.AGVS_MSG_1).Link_Modbus_Register_Number;
-                    Data.clsMemoryAddress CSTIDStoredStartAddress = CIMModbusLinkWordAddress.First(ad => Properties.PortNo == 0 ? ad.EProperty == Enums.PROPERTY.AGVS_MSG_1 : ad.EProperty == Enums.PROPERTY.AGVS_MSG_17);
 
-                    int indexOfCSTIDStore = CIMModbusLinkWordAddress.IndexOf(CSTIDStoredStartAddress);
-                    for (int i = CSTHoldingRegisterAddressStart; i < CSTHoldingRegisterAddressStart + 10; i++)
+                    foreach (var item in CIMModbusLinkWordAddress)
                     {
-                        try
-                        {
-                            modbus_server.holdingRegisters.localArray[i] = Convert.ToInt16(CIMModbusLinkWordAddress[indexOfCSTIDStore].Value);
-                        }
-                        catch (Exception ex)
-                        {
-                        }
-                        indexOfCSTIDStore += 1;
+                        int value = EQParent.CIMMemOptions.memoryTable.ReadBinary(item.Address);
+                        modbus_server.holdingRegisters.localArray[item.Link_Modbus_Register_Number] = (short)value;
                     }
-                    modbus_server.holdingRegisters.localArray[MsgDownloadIndexAddress.Link_Modbus_Register_Number] = Convert.ToInt16(MsgDownloadIndexAddress.Value);
-                    await Task.Delay(10);
                 }
 
             });

@@ -39,21 +39,14 @@ namespace GPMCasstteConvertCIM.Forms
 
         private void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
         {
-            Invoke(new Action(() =>
-            {
-                rtbSystemLogShow.SelectionColor = Color.Black;
-                rtbSystemLogShow.AppendText($"{e.Exception.Message}\n");
-            }));
+            var exception = e.Exception;
+            Utility.SystemLogger.Error(exception.Message, exception, false);
         }
 
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-
-            Invoke(new Action(() =>
-            {
-                rtbSystemLogShow.SelectionColor = Color.Black;
-                rtbSystemLogShow.AppendText($"{(e.ExceptionObject as Exception).InnerException?.Message}\n");
-            }));
+            var exception = (e.ExceptionObject as Exception).InnerException;
+            Utility.SystemLogger.Error(exception.Message, exception, false);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -64,7 +57,10 @@ namespace GPMCasstteConvertCIM.Forms
             Utility.LoadConfigs();
             Secs4Net.EncodingSetting.ASCIIEncoding = Utility.SysConfigs.SECS.SECESAEncoding; //設定編碼
             if (Utility.SysConfigs.Project == Utilities.SysConfigs.clsSystemConfigs.PROJECT.U007)
+            {
                 tabControl1.TabPages.RemoveAt(1);//把原本的HOME PAGE移除
+                splitContainer1.Panel2.Controls.Add(pnlSyslogRtbContainer);//Move container of  LOG to the Main View(Home) of Project.U007
+            }
             else
                 tabControl1.TabPages.RemoveAt(0);
 
@@ -79,8 +75,8 @@ namespace GPMCasstteConvertCIM.Forms
             LoggerBase.logTimeUnit = Utility.SysConfigs.Log.LogFileUnit;
 
             Utility.SystemLogger = new LoggerBase(rtbSystemLogShow, Utility.SysConfigs.Log.SyslogFolder, "Sys Log");
-            Utility.SystemLogger.Info("GPM CIM System Start");
 
+            Utility.SystemLogger.Info("GPM CIM System Start");
             uscConnectionStates1.InitializeConnectionState();
 
             DevicesManager.DevicesConnectionsOpts.SECS_HOST.logRichTextBox = rtbSecsHostLog;
@@ -128,8 +124,11 @@ namespace GPMCasstteConvertCIM.Forms
             VirtualAGVSystem.StaVirtualAGVS.Initialize();
 
             SystemAPI systemAPI = new SystemAPI();
+            EQDIODataAPI EqDIOAPIService = new EQDIODataAPI();
+            AGVsDataBaseAPI AgvsDBAPIService = new AGVsDataBaseAPI();
             systemAPI.Start();
-
+            EqDIOAPIService.Start();
+            AgvsDBAPIService.Start();
             WebsocketMiddleware.ServerBuild();
             uscAlarmTable1.BindData(AlarmManager.AlarmsList.ToList());
             AlarmManager.onAlarmAdded += (sender, alarm) =>
@@ -384,18 +383,6 @@ namespace GPMCasstteConvertCIM.Forms
 
         private void cknOnlineModeIndi_CheckedChanged(object sender, EventArgs e)
         {
-            cknOnlineModeIndi.Text = cknOnlineModeIndi.Checked ? "ONLINE" : "OFFLINE";
-            string ch = "中文測試";
-            var bytes = Encoding.ASCII.GetBytes(ch);
-
-            var big5ch = Encoding.Unicode.GetString(bytes, 0, bytes.Length);
-            var big5Bytes = Encoding.BigEndianUnicode.GetBytes(big5ch);
-            //
-            DevicesManager.secs_host_for_mcs.SendMsg(new SecsMessage(5, 9)
-            {
-                SecsItem = A(ch)
-            });
-
         }
 
         private void ckbHotRunMode_CheckedChanged(object sender, EventArgs e)

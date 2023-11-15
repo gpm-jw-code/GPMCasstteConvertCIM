@@ -16,9 +16,9 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         }
         internal static void SetMemoryStart(this MemoryTable memTable, string bitStartAddress, string wordStartAddress)
         {
-            bitStartAddress.SplitAddress(true, out string bitRegionName, out int address,out string addressStr);
+            bitStartAddress.SplitAddress(true, out string bitRegionName, out int address, out string addressStr);
             string bitStartAddress_Num = addressStr.ToString();
-            wordStartAddress.SplitAddress(true, out string wordRegionName, out address, out  addressStr);
+            wordStartAddress.SplitAddress(true, out string wordRegionName, out address, out addressStr);
             string wordStartAddress_Num = addressStr.ToString();
             memTable.SetMemoryStart(bitRegionName, bitStartAddress_Num, wordRegionName, wordStartAddress_Num);
         }
@@ -54,7 +54,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             errMsg = string.Empty;
             //string bitRegionName = memoryGroupOptions.bitStartAddress.Substring(0, 1);
             memoryGroupOptions.bitStartAddress.SplitAddress(true, out string bitRegionName, out int bitStartAddressNum, out string addressNumtStr);
-            memoryGroupOptions.bitEndAddress.SplitAddress(true, out _, out int bitEndAddressNum, out  addressNumtStr);
+            memoryGroupOptions.bitEndAddress.SplitAddress(true, out _, out int bitEndAddressNum, out addressNumtStr);
             string bitStartAddress_Num = memoryGroupOptions.bitStartAddress.Replace(bitRegionName, "");
 
 
@@ -86,7 +86,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             }
         }
 
-        internal static void SplitAddress(this string address, bool isHex, out string regionName, out int addressNum,out string addressStr)
+        internal static void SplitAddress(this string address, bool isHex, out string regionName, out int addressNum, out string addressStr)
         {
             char ss = address.First(chr => int.TryParse(chr.ToString(), out int _v));
             var indexEndOfWordRegName = address.IndexOf(ss);
@@ -124,6 +124,34 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         {
             var bb = words.SelectMany(_int => new ArraySegment<byte>(BitConverter.GetBytes(_int), 0, 2).Select(b => b));
             return Encoding.ASCII.GetString(bb.ToArray());
+        }
+
+        public static int[] ToASCIIWords(this string input)
+        {
+            var strLen = input.Length;
+            if (strLen != 10)
+            {
+                //ABC123 12-6=6
+                for (int i = 0; i < 10 - strLen; i++)
+                {
+                    input += " ";
+                }
+            }
+            List<ushort> result = new List<ushort> { };
+            for (int i = 0; i < input.Length; i += 2)
+            {
+                ushort char1 = i < input.Length ? (ushort)input[i] : (ushort)0;
+                ushort char2 = i + 1 < input.Length ? (ushort)input[i + 1] : (ushort)0;
+                // char1 占低 8 位，char2 占高 8 位
+                ushort combined = (ushort)(char2 << 8 | char1);
+                //result[i / 2 * 2] = (ushort)(combined & 0xFF);         // 低位字节
+                //result[i / 2 * 2 + 1] = (ushort)((combined >> 8) & 0xFF); // 高位字节
+                result.Add(combined);
+            }
+            var ret = result.Select(s => Convert.ToInt32(s)).ToArray();
+            var outputs = new int[10];
+            Array.Copy(ret, 0, outputs, 0, ret.Length);
+            return outputs;
         }
     }
 }

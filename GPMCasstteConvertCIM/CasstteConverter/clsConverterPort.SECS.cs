@@ -30,6 +30,12 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         }
         public async Task<bool> SecsEventReport(CEID ceid)
         {
+            if (!Properties.SecsReport)
+            {
+                Utility.SystemLogger.Info($"{PortName} SECS Report is disabled, {ceid} Secs Event Can't Report Out.");
+                return false;
+            }
+
             if (ceid == CEID.CarrierInstallCompletedReport)
                 IsCarrierInstallReported = true;
             if (ceid == CEID.CarrierRemovedCompletedReport)

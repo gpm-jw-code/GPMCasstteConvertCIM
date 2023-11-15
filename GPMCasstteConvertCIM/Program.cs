@@ -1,5 +1,6 @@
-using GPMCasstteConvertCIM.Forms;
-using Microsoft.VisualBasic.ApplicationServices;
+ï»¿using GPMCasstteConvertCIM.Forms;
+using GPMCasstteConvertCIM.Utilities;
+using System;
 using System.Diagnostics;
 using System.Windows.Forms;
 
@@ -16,15 +17,11 @@ namespace GPMCasstteConvertCIM
             CheckProgramOpenState();
             Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
             Application.ThreadException += Application_ThreadException; ;
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
             Application.SetCompatibleTextRenderingDefault(false);
             ApplicationConfiguration.Initialize();
-
             StartBGAPP();
             Application.Run(new frmMain());
         }
-
 
         private static void StartBGAPP()
         {
@@ -52,14 +49,16 @@ namespace GPMCasstteConvertCIM
             var pros = Process.GetProcessesByName(Application.ProductName);
             if (pros.Length > 1)
             {
-                MessageBox.Show("CIM µ{¦¡¤w¸g±Ò°Ê");
+                MessageBox.Show("CIM ç¨‹å¼å·²ç¶“å•Ÿå‹•");
                 Environment.Exit(0);
             }
         }
 
         private static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
         {
+            Utility.SystemLogger.Error(e.Exception.Message, e.Exception, false);
         }
 
     }
+
 }

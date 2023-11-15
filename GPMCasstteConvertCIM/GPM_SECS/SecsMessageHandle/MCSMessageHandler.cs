@@ -330,7 +330,6 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                     {
                         if (item_store.vid == 2004)
                         {
-
                             List<Item>? ori = item_store.secs_item.Items.ToList();
                             Utility.SystemLogger.Info($"SV2004 Expand. Add Port Carrier Info,{ori.Count} ");
                             Item[]? portInfos = CreateEnhancedCarrierInfo();
@@ -376,7 +375,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
             //<PortTransferState>
             //<EqReqSatus>
             //<EqPresenceStatus> >
-            List<clsConverterPort> ports = DevicesManager.GetAllPorts();
+            List<clsConverterPort> ports = DevicesManager.GetAllPorts().FindAll(p => p.Properties.SecsReport);
             ports = ports.OrderBy(p => p.Properties.PortID).ToList();
             Item GetCurrEqPortStatus(clsConverterPort port)
             {
@@ -394,7 +393,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
 
         private static Item[] CreateEnhancedCarrierInfo()
         {
-            List<clsConverterPort> ports = DevicesManager.GetAllPorts();
+            List<clsConverterPort> ports = DevicesManager.GetAllPorts().FindAll(p => p.Properties.SecsReport);
             ports = ports.OrderBy(p => p.Properties.PortID).ToList();
             Item CarrierInfo(clsConverterPort port)
             {
@@ -415,7 +414,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
             //< L[2]
             //  A <PortID>
             //  U2<PortTransferState> 0=out of service; 1= in service
-            List<clsConverterPort> ports = DevicesManager.GetAllPorts();
+            List<clsConverterPort> ports = DevicesManager.GetAllPorts().FindAll(port => port.Properties.SecsReport);
             ports = ports.OrderBy(p => p.Properties.PortID).ToList();
 
             Item GetPortType(clsConverterPort port)
@@ -434,7 +433,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
             //< L[2]
             //  A <PortID>
             //  U2<PortUnitType> 0=Input ; 1=Output
-            List<clsConverterPort> ports = DevicesManager.GetAllPorts();
+            List<clsConverterPort> ports = DevicesManager.GetAllPorts().FindAll(p => p.Properties.SecsReport); ;
             ports = ports.OrderBy(p => p.Properties.PortID).ToList();
             Item GetPortTypeInfo(clsConverterPort port)
             {

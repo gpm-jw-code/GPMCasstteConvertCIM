@@ -37,10 +37,6 @@
             tabPage1 = new TabPage();
             splitContainer2 = new SplitContainer();
             tlpConverterContainer = new TableLayoutPanel();
-            panel2 = new Panel();
-            panel1 = new Panel();
-            btnClearInfoLog = new Button();
-            rtbSystemLogShow = new RichTextBox();
             tabPage3 = new TabPage();
             uscAlarmTable1 = new UI_UserControls.UscAlarmTable();
             tabPage2 = new TabPage();
@@ -97,6 +93,10 @@
             splitContainer1 = new SplitContainer();
             ckbRemoteModeIndi = new CheckBox();
             cknOnlineModeIndi = new CheckBox();
+            panel2 = new Panel();
+            rtbSystemLogShow = new RichTextBox();
+            btnClearInfoLog = new Button();
+            pnlSyslogRtbContainer = new Panel();
             tabControl1.SuspendLayout();
             tabPage4.SuspendLayout();
             tabPage1.SuspendLayout();
@@ -104,8 +104,6 @@
             splitContainer2.Panel1.SuspendLayout();
             splitContainer2.Panel2.SuspendLayout();
             splitContainer2.SuspendLayout();
-            panel2.SuspendLayout();
-            panel1.SuspendLayout();
             tabPage3.SuspendLayout();
             tabPage2.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
@@ -127,6 +125,8 @@
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
             splitContainer1.SuspendLayout();
+            panel2.SuspendLayout();
+            pnlSyslogRtbContainer.SuspendLayout();
             SuspendLayout();
             // 
             // tabControl1
@@ -212,54 +212,6 @@
             tlpConverterContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tlpConverterContainer.Size = new Size(911, 519);
             tlpConverterContainer.TabIndex = 11;
-            // 
-            // panel2
-            // 
-            panel2.BackColor = Color.White;
-            panel2.Controls.Add(panel1);
-            panel2.Dock = DockStyle.Fill;
-            panel2.Location = new Point(0, 0);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(323, 519);
-            panel2.TabIndex = 12;
-            // 
-            // panel1
-            // 
-            panel1.BackColor = Color.Black;
-            panel1.BorderStyle = BorderStyle.FixedSingle;
-            panel1.Controls.Add(btnClearInfoLog);
-            panel1.Controls.Add(rtbSystemLogShow);
-            panel1.Dock = DockStyle.Fill;
-            panel1.ForeColor = Color.White;
-            panel1.Location = new Point(0, 0);
-            panel1.Name = "panel1";
-            panel1.Padding = new Padding(1);
-            panel1.Size = new Size(323, 519);
-            panel1.TabIndex = 6;
-            // 
-            // btnClearInfoLog
-            // 
-            btnClearInfoLog.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnClearInfoLog.FlatStyle = FlatStyle.Flat;
-            btnClearInfoLog.Location = new Point(224, 6);
-            btnClearInfoLog.Name = "btnClearInfoLog";
-            btnClearInfoLog.Size = new Size(75, 23);
-            btnClearInfoLog.TabIndex = 1;
-            btnClearInfoLog.Text = "清除";
-            btnClearInfoLog.UseVisualStyleBackColor = true;
-            btnClearInfoLog.Click += btnClearInfoLog_Click;
-            // 
-            // rtbSystemLogShow
-            // 
-            rtbSystemLogShow.BackColor = Color.Black;
-            rtbSystemLogShow.BorderStyle = BorderStyle.FixedSingle;
-            rtbSystemLogShow.Dock = DockStyle.Fill;
-            rtbSystemLogShow.ForeColor = Color.White;
-            rtbSystemLogShow.Location = new Point(1, 1);
-            rtbSystemLogShow.Name = "rtbSystemLogShow";
-            rtbSystemLogShow.Size = new Size(319, 515);
-            rtbSystemLogShow.TabIndex = 0;
-            rtbSystemLogShow.Text = "";
             // 
             // tabPage3
             // 
@@ -914,6 +866,54 @@
             cknOnlineModeIndi.CheckedChanged += cknOnlineModeIndi_CheckedChanged;
             cknOnlineModeIndi.Click += cknOnlineModeIndi_Click;
             // 
+            // panel2
+            // 
+            panel2.BackColor = Color.White;
+            panel2.Controls.Add(pnlSyslogRtbContainer);
+            panel2.Dock = DockStyle.Fill;
+            panel2.Location = new Point(0, 0);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(323, 519);
+            panel2.TabIndex = 12;
+            // 
+            // rtbSystemLogShow
+            // 
+            rtbSystemLogShow.BackColor = Color.Black;
+            rtbSystemLogShow.BorderStyle = BorderStyle.FixedSingle;
+            rtbSystemLogShow.Dock = DockStyle.Fill;
+            rtbSystemLogShow.ForeColor = Color.White;
+            rtbSystemLogShow.Location = new Point(1, 1);
+            rtbSystemLogShow.Name = "rtbSystemLogShow";
+            rtbSystemLogShow.Size = new Size(319, 515);
+            rtbSystemLogShow.TabIndex = 0;
+            rtbSystemLogShow.Text = "";
+            // 
+            // btnClearInfoLog
+            // 
+            btnClearInfoLog.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnClearInfoLog.FlatStyle = FlatStyle.Flat;
+            btnClearInfoLog.Location = new Point(224, 6);
+            btnClearInfoLog.Name = "btnClearInfoLog";
+            btnClearInfoLog.Size = new Size(75, 23);
+            btnClearInfoLog.TabIndex = 1;
+            btnClearInfoLog.Text = "清除";
+            btnClearInfoLog.UseVisualStyleBackColor = true;
+            btnClearInfoLog.Click += btnClearInfoLog_Click;
+            // 
+            // pnlSyslogRtbContainer
+            // 
+            pnlSyslogRtbContainer.BackColor = Color.Black;
+            pnlSyslogRtbContainer.BorderStyle = BorderStyle.FixedSingle;
+            pnlSyslogRtbContainer.Controls.Add(btnClearInfoLog);
+            pnlSyslogRtbContainer.Controls.Add(rtbSystemLogShow);
+            pnlSyslogRtbContainer.Dock = DockStyle.Fill;
+            pnlSyslogRtbContainer.ForeColor = Color.White;
+            pnlSyslogRtbContainer.Location = new Point(0, 0);
+            pnlSyslogRtbContainer.Name = "pnlSyslogRtbContainer";
+            pnlSyslogRtbContainer.Padding = new Padding(1);
+            pnlSyslogRtbContainer.Size = new Size(323, 519);
+            pnlSyslogRtbContainer.TabIndex = 6;
+            // 
             // frmMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -943,8 +943,6 @@
             splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainer2).EndInit();
             splitContainer2.ResumeLayout(false);
-            panel2.ResumeLayout(false);
-            panel1.ResumeLayout(false);
             tabPage3.ResumeLayout(false);
             tabPage2.ResumeLayout(false);
             tableLayoutPanel1.ResumeLayout(false);
@@ -970,6 +968,8 @@
             splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
+            panel2.ResumeLayout(false);
+            pnlSyslogRtbContainer.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -990,8 +990,6 @@
         private ToolStripMenuItem toolStripMenuItem_OpenConvert_2_Simulator;
         private Panel pnlSideLeft;
         private Label label1;
-        private Panel panel1;
-        private RichTextBox rtbSystemLogShow;
         private DataGridView dgvMsgFromMCS;
         private DataGridView dgvActiveMsgToMCS;
         private DataGridView dgvMsgFromAGVS;
@@ -1030,7 +1028,6 @@
         private BindingSource primaryMessageWrapperBindingSource2;
         private ToolStripMenuItem aGVSEmuToolStripMenuItem;
         private TableLayoutPanel tlpConverterContainer;
-        private Panel panel2;
         private UI_UserControls.UscConnectionStates uscConnectionStates1;
         private Label label6;
         private Button btnOpenLoginFOrm;
@@ -1041,7 +1038,6 @@
         private SplitContainer splitContainer1;
         private ToolStripMenuItem toolStripMenuItem1;
         private CheckBox ckbRemoteModeIndi;
-        private Button btnClearInfoLog;
         private CheckBox cknOnlineModeIndi;
         private TabPage tabPage4;
         private UI_UserControls.UscEQStatus usceqStatus1;
@@ -1049,5 +1045,9 @@
         private SplitContainer splitContainer2;
         private CheckBox checkBox5;
         private RichTextBox rtbModbusTcpServerLog;
+        private Panel panel2;
+        private Panel pnlSyslogRtbContainer;
+        private Button btnClearInfoLog;
+        private RichTextBox rtbSystemLogShow;
     }
 }

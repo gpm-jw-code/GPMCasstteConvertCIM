@@ -33,7 +33,13 @@ namespace GPMCasstteConvertCIM.Utilities
         {
             LoadSysConfigs();
         }
-
+        internal static void SaveConfigs()
+        {
+            if (!Directory.Exists(configsFolder))
+                Directory.CreateDirectory(configsFolder);
+            string SysCofigsFile = Path.Combine(configsFolder, "SystemConfigs.json");
+            File.WriteAllText(SysCofigsFile, JsonConvert.SerializeObject(SysConfigs, Formatting.Indented));
+        }
         private static void LoadSysConfigs()
         {
 
@@ -45,7 +51,7 @@ namespace GPMCasstteConvertCIM.Utilities
             {
                 SysConfigs = JsonConvert.DeserializeObject<clsSystemConfigs>(File.ReadAllText(SysCofigsFile));
             }
-            File.WriteAllText(SysCofigsFile, JsonConvert.SerializeObject(SysConfigs, Formatting.Indented));
+            SaveConfigs();
         }
 
     }

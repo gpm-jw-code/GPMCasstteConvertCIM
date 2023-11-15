@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GPMCasstteConvertCIM.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -16,14 +17,24 @@ namespace GPMCasstteConvertCIM.API.TcpSupport
         {
             CreateTcpServer();
         }
+        public virtual int Port { get; set; } = 23000;
         private void CreateTcpServer()
         {
-            Socket server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, 23000);
-            server.Bind(endPoint);
-            server.Listen(1000);
+            try
+            {
 
-            StertListenAccept(server);
+                Socket server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, Port);
+                server.Bind(endPoint);
+                server.Listen(1000);
+                StertListenAccept(server);
+                Utility.SystemLogger.Info($"TCP/IP Server{endPoint.ToString()} Created !");
+
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
         public class clsSocketState
         {
@@ -38,18 +49,25 @@ namespace GPMCasstteConvertCIM.API.TcpSupport
         private async void StertListenAccept(Socket server)
         {
             await Task.Delay(1);
-            _ = Task.Run(() =>
+            _ = Task.Factory.StartNew(async () =>
             {
                 while (true)
                 {
+                    await Task.Delay(1);
                     Socket client = server.Accept();
                     clsSocketState state = new clsSocketState(client);
-                    client.BeginReceive(state.buffer, 0, 4096, SocketFlags.None, new AsyncCallback(ClientRecieveCB), state);
+                    try
+                    {
+                        client.BeginReceive(state.buffer, 0, 4096, SocketFlags.None, new AsyncCallback(ClientRecieveCB), state);
+                    }
+                    catch (Exception ex)
+                    {
+                    }
                 }
             });
         }
 
-        private void ClientRecieveCB(IAsyncResult ar)
+        public virtual void ClientRecieveCB(IAsyncResult ar)
         {
             try
             {
@@ -67,7 +85,17 @@ namespace GPMCasstteConvertCIM.API.TcpSupport
                     }
                 }
 
-                state.socket.BeginReceive(state.buffer, 0, 4096, SocketFlags.None, new AsyncCallback(ClientRecieveCB), state);
+                Task.Factory.StartNew(() =>
+                {
+                    try
+                    {
+                        state.socket.BeginReceive(state.buffer, 0, 4096, SocketFlags.None, new AsyncCallback(ClientRecieveCB), state);
+                    }
+                    catch (Exception ex)
+                    {
+                        Utility.SystemLogger.Error(ex.Message, ex);
+                    }
+                });
             }
             catch (Exception ex)
             {

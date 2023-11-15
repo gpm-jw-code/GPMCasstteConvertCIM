@@ -351,7 +351,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         {
             _ = Task.Run(async () =>
             {
-
                 while (true)
                 {
                     try

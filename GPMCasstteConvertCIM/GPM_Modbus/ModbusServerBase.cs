@@ -31,6 +31,7 @@ using System.Threading;
 using System.Net.NetworkInformation;
 using System.IO.Ports;
 using System.IO;
+using GPMCasstteConvertCIM.Utilities;
 
 namespace GPMCasstteConvertCIM.GPM_Modbus
 {
@@ -105,6 +106,7 @@ namespace GPMCasstteConvertCIM.GPM_Modbus
             }
             catch (Exception ex)
             {
+                Utility.SystemLogger.Error(ex.Message, ex);
             }
         }
 

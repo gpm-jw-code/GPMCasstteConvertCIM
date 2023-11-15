@@ -1,4 +1,5 @@
-﻿using GPMCasstteConvertCIM.Alarm;
+﻿using CIMComponent;
+using GPMCasstteConvertCIM.Alarm;
 using GPMCasstteConvertCIM.CasstteConverter;
 using GPMCasstteConvertCIM.CasstteConverter.Data;
 using GPMCasstteConvertCIM.Devices;
@@ -47,17 +48,18 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
             for (int i = 0; i < portProperties.Count; i++)
             {
                 var portProp = portProperties[i];
-                PortDatas.Add(new clsStationPort(portProp, this)
+                var stationPort = new clsStationPort(portProp, this)
                 {
                     LinkBitMap = this.LinkBitMap,
                     LinkWordMap = this.LinkWordMap,
                     EQParent = this
-                });
+                };
+                PortDatas.Add(stationPort);
             }
             //this.mainGUI = mainGUI;
             //this.mainGUI.casstteConverter = this;
             PortModbusServersActive();
-            EQPInterfaceClockMonitor();
+            // EQPInterfaceClockMonitor();
 
             if (Eq_Name == EQ_NAMES.TS_1 | Eq_Name == EQ_NAMES.TS_2_1 | Eq_Name == EQ_NAMES.TS_2_2 | Eq_Name == EQ_NAMES.TS_3)
                 CIMInterfaceClockUpdate();
@@ -145,6 +147,13 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
     {
         internal List<clsMemoryAddress> LinkBitMap { get; set; }
         internal List<clsMemoryAddress> LinkWordMap { get; set; }
+        public override MemoryTable CIMMemoryTable
+        {
+            get
+            {
+                return DevicesManager.cclink_master.CIMMemOptions.memoryTable;
+            }
+        }
         public clsStationPort(clsPortProperty property, clsCasstteConverter converterParent) : base(property, converterParent)
         {
         }
@@ -160,14 +169,14 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
                     int register_num = item.Link_Modbus_Register_Number;
                     var localCoilsAry = modbus_server.coils.localArray;
                     bool state = localCoilsAry[register_num + 1];
+                    AGVHandshakeIO(item, state);
                     DevicesManager.cclink_master.CIMMemOptions.memoryTable.WriteOneBit(item.Address, state);
                 }
-
             });
         }
         public override void SyncRegisterData()
         {
-            Task.Run(async () =>
+            Task.Factory.StartNew(async () =>
             {
                 while (true)
                 {
@@ -185,6 +194,11 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
                             if (item.Link_Modbus_Register_Number != -1)
                             {
                                 bool bolState = DevicesManager.cclink_master.EQPMemOptions.memoryTable.ReadOneBit(item.Address);
+                                if (Utility.SysConfigs.EQLoadUnload_RequestSimulation && this.Properties.LoadUnlloadStateSimulation)
+                                {
+                                    if (item.EProperty == Enums.PROPERTY.Load_Request | item.EProperty == Enums.PROPERTY.Unload_Request)
+                                        bolState = true;
+                                }
                                 modbus_server.discreteInputs.localArray[item.Link_Modbus_Register_Number] = bolState;
                             }
                         }
@@ -197,21 +211,12 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
                                 modbus_server.holdingRegisters.localArray[item.Link_Modbus_Register_Number] = (short)value;
                             }
                         }
-
-
                     }
                     catch (Exception ex)
                     {
                         AlarmManager.AddAlarm(ALARM_CODES.CODE_ERROR, "clsStationPort", false);
                     }
-                    //foreach (var item in CIMModbusLinkWordAddress)
-                    //{
-                    //    int value = converterParent.CIMMemOptions.memoryTable.ReadBinary(item.Address);
-                    //    modbus_server.holdingRegisters.localArray[item.Link_Modbus_Register_Number] = (short)value;
-                    //}
-
                 }
-
             });
         }
     }

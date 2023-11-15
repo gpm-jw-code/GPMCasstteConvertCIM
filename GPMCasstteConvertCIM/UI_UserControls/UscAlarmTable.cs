@@ -44,7 +44,7 @@ namespace GPMCasstteConvertCIM.UI_UserControls
                 {
                     Console.WriteLine(ex.Message);
                 }
-             
+
             }
         }
 
@@ -62,6 +62,11 @@ namespace GPMCasstteConvertCIM.UI_UserControls
         internal void GUIRefresh()
         {
             dataGridView1.Refresh();
+        }
+
+        private void clsAlarmDtoBindingSource_CurrentChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

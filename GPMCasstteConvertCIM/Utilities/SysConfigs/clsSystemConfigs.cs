@@ -17,6 +17,9 @@ namespace GPMCasstteConvertCIM.Utilities.SysConfigs
 
         public string UnknowCargoIDHead { get; set; } = "UN032";
 
+        public int TUNFlowNumberUsed { get; set; } = 0;
+        public int DUFlowNumberUsed { get; set; } = 0;
+
         [JsonConverter(typeof(StringEnumConverter))]
         public PROJECT Project { get; set; }
 
