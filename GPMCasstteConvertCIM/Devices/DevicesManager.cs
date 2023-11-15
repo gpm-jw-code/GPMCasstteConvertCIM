@@ -120,7 +120,6 @@ namespace GPMCasstteConvertCIM.Devices
             }
             else
             {
-
                 foreach (Options.ConverterEQPInitialOption item in DevicesConnectionsOpts.PLCEQS)
                 {
                     try
@@ -129,6 +128,10 @@ namespace GPMCasstteConvertCIM.Devices
                         EQ.ConnectionStateChanged += CasstteConverter_ConnectionStateChanged;
                         EQ.ActiveAsync(item.ToMCIFOptions());
                         casstteConverters.Add(EQ);
+                        EQ.PortDatas.ForEach(port =>
+                        {
+                            port.UpdateModbusBCRReport(port.CSTIDOnPort);
+                        });
                     }
                     catch (Exception ex)
                     {

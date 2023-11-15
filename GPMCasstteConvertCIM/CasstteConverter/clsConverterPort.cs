@@ -32,14 +32,12 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         public clsConverterPort(clsPortProperty property, clsCasstteConverter converterParent)
         {
             this.Properties = property;
-            CSTIDOnPort = property.PreviousOnPortID;
             this.EQParent = converterParent;
 
             AGVSignals = new clsHS_Status_Signals();
             AGVSignals.OnValidSignalActive += AGVSignals_OnValidSignalActive;
-
             SECSState.OnMCSOnlineRemote += SECSState_OnMCSOnlineRemote;
-
+            CSTIDOnPort = property.PreviousOnPortID;
         }
         public enum EQ_PORT_LD_STATE
         {
@@ -409,7 +407,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         }
 
-        private void UpdateModbusBCRReport(string cst_id_on_port, bool isClearBCR = false)
+        public void UpdateModbusBCRReport(string cst_id_on_port, bool isClearBCR = false)
         {
             Utility.SystemLogger.Info($"{PortName} Update BCR ID to CIM Memory Table");
             clsMemoryAddress? agvs_msg_1_address = EQParent.LinkWordMap.FirstOrDefault(v => Properties.PortNo == 0 ? v.EProperty == PROPERTY.AGVS_MSG_1 : v.EProperty == PROPERTY.AGVS_MSG_17);
