@@ -14,10 +14,10 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
     public class clsCCLinkIE_Master : clsCasstteConverter
     {
 
-        protected  override string BitMapFileName_EQ { get; set; } = "src\\Map_U007\\PLC_Bit_Map_EQ.csv";
-        protected  override string WordMapFileName_EQ { get; set; } = "src\\Map_U007\\PLC_Word_Map_EQ.csv";
-        protected  override string BitMapFileName_CIM { get; set; } = "src\\Map_U007\\PLC_Bit_Map_CIM.csv";
-        protected  override string WordMapFileName_CIM { get; set; } = "src\\Map_U007\\PLC_Word_Map_CIM.csv";
+        protected override string BitMapFileName_EQ { get; set; } = "src\\Map_U007\\PLC_Bit_Map_EQ.csv";
+        protected override string WordMapFileName_EQ { get; set; } = "src\\Map_U007\\PLC_Word_Map_EQ.csv";
+        protected override string BitMapFileName_CIM { get; set; } = "src\\Map_U007\\PLC_Bit_Map_CIM.csv";
+        protected override string WordMapFileName_CIM { get; set; } = "src\\Map_U007\\PLC_Word_Map_CIM.csv";
 
         internal new UscEQStatus mainGUI;
 
@@ -46,11 +46,11 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
         {
         }
 
-        protected override void SyncMemData()
+        protected override async Task SyncMemData()
         {
             try
             {
-                base.SyncMemData();
+                await base.SyncMemData();
                 if (mainGUI.BindingPorts != null)
                 {
                     mainGUI.Invoke(new Action(() =>
@@ -61,7 +61,7 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
             }
             catch (Exception ex)
             {
-                AlarmManager.AddAlarm( ALARM_CODES.SYNCMEMDATA_FUNCTION_CODE_ERROR , GetType().Name,false);
+                AlarmManager.AddAlarm(ALARM_CODES.SYNCMEMDATA_FUNCTION_CODE_ERROR, GetType().Name, false);
             }
         }
     }

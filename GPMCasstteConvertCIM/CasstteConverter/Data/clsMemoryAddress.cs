@@ -12,6 +12,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter.Data
 {
     public class clsMemoryAddress : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public enum DATA_TYPE
         {
             BIT, WORD
@@ -52,8 +54,13 @@ namespace GPMCasstteConvertCIM.CasstteConverter.Data
                         Utility.SystemLogger.Info($"{Address}({EProperty})-Changed to {_Value} ", !firstUse);
                     }
                     firstUse = false;
+                    OnPropertyChanged(nameof(Value));
                 }
             }
+        }
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         public string ValueDisplay
         {
@@ -87,7 +94,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter.Data
             }
         }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
         private string _Scope = "";
 
         public Enums.EQ_SCOPE EScope { get; private set; } = Enums.EQ_SCOPE.Unknown;

@@ -297,7 +297,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 {
                     await Task.Delay(1);
                     Stopwatch stopwatch = Stopwatch.StartNew();
-                    SyncMemData();
+                    await SyncMemData();
                     stopwatch.Stop();
                     if (index == 0)
                     {
@@ -444,11 +444,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             }
         }
 
-        protected virtual void SyncMemData()
+        protected virtual async Task SyncMemData()
         {
             try
             {
-
                 //讀取
                 foreach (var item in LinkWordMap)
                 {
@@ -456,12 +455,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     if (item.EOwner == clsMemoryAddress.OWNER.EQP)
                     {
                         item.Value = EQPMemOptions.memoryTable.ReadBinary(item.Address);
-                        //EQPData.TrySetPropertyValue(item.PropertyName, item.Value, out bool valChanged);
                     }
                     else
                     {
                         item.Value = CIMMemOptions.memoryTable.ReadBinary(item.Address);
-                        //AGVSData.TrySetPropertyValue(item.PropertyName, item.Value, out bool valChanged);
                     }
                 }
                 //寫入
@@ -471,58 +468,18 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     if (item.EOwner == clsMemoryAddress.OWNER.EQP)
                     {
                         item.Value = EQPMemOptions.memoryTable.ReadOneBit(item.Address);
-                        //EQPData.TrySetPropertyValue(item.PropertyName, item.Value, out bool valChanged);
                     }
                     else
                     {
                         item.Value = CIMMemOptions.memoryTable.ReadOneBit(item.Address);
-                        //AGVSData.TrySetPropertyValue(item.PropertyName, item.Value, out bool valChanged);
                     }
                 }
-
-                bool[] cim_bit_states = new bool[CIMMemOptions.bitSize];
-                int[] cim_word_datas = new int[CIMMemOptions.wordSize];
-
-                bool[] eqp_bit_states = new bool[EQPMemOptions.bitSize];
-                int[] eqp_word_datas = new int[EQPMemOptions.wordSize];
-
-                CIMMemOptions.memoryTable.ReadBit(CIMMemOptions.bitStartAddress, CIMMemOptions.bitSize, ref cim_bit_states);
-                CIMMemOptions.memoryTable.ReadWord(CIMMemOptions.wordStartAddress, CIMMemOptions.wordSize, ref cim_word_datas);
-                EQPMemOptions.memoryTable.ReadBit(EQPMemOptions.bitStartAddress, EQPMemOptions.bitSize, ref eqp_bit_states);
-                EQPMemOptions.memoryTable.ReadWord(EQPMemOptions.wordStartAddress, EQPMemOptions.wordSize, ref eqp_word_datas);
-
-                List<clsMemoryAddress> cimBitData = LinkBitMap.FindAll(v => v.EOwner == clsMemoryAddress.OWNER.CIM);
-                List<clsMemoryAddress> eqpBitData = LinkBitMap.FindAll(v => v.EOwner == clsMemoryAddress.OWNER.EQP);
-
-                List<clsMemoryAddress> cimWordData = LinkWordMap.FindAll(v => v.EOwner == clsMemoryAddress.OWNER.CIM);
-                List<clsMemoryAddress> eqpWordData = LinkWordMap.FindAll(v => v.EOwner == clsMemoryAddress.OWNER.EQP);
-
-                for (int i = 0; i < cim_bit_states.Length; i++)
-                {
-                    cimBitData[i].Value = cim_bit_states[i];
-                }
-
-                for (int i = 0; i < cim_word_datas.Length; i++)
-                {
-                    cimWordData[i].Value = cim_word_datas[i];
-                }
-
-
-                for (int i = 0; i < eqp_bit_states.Length; i++)
-                {
-                    eqpBitData[i].Value = eqp_bit_states[i];
-                }
-                for (int i = 0; i < eqp_word_datas.Length; i++)
-                {
-                    eqpWordData[i].Value = eqp_word_datas[i];
-                }
-
                 PLCMemoryDatatToEQDataDTO();
 
             }
             catch (Exception ex)
             {
-
+                Utility.SystemLogger.Error("SyncMemData Function Exception Happen", ex);
                 throw ex;
             }
         }
@@ -565,7 +522,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     }
                     catch (Exception ex)
                     {
-
+                        Utility.SystemLogger.Error(ex.Message, ex);
                     }
                     EQPORT.AGVSignals.To_EQ_Up = (bool)LinkBitMap.First(f => f.EOwner == clsMemoryAddress.OWNER.CIM && f.EScope == port && f.EProperty == PROPERTY.To_EQ_Up).Value;
                     EQPORT.AGVSignals.To_EQ_Low = (bool)LinkBitMap.First(f => f.EOwner == clsMemoryAddress.OWNER.CIM && f.EScope == port && f.EProperty == PROPERTY.To_EQ_Low).Value;
@@ -584,6 +541,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     }
                     catch (Exception ex)
                     {
+                        Utility.SystemLogger.Error(ex.Message, ex);
                     }
 
                     EQPORT.LoadRequest = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Load_Request).Value;
@@ -628,17 +586,16 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                         EQPORT.WIPInfo_BCR_ID_10 = (int)LinkWordMap.First(f => !f.IsCIMUse && f.EScope == port && f.EProperty == PROPERTY.WIP_Information_BCR_10).Value;
                         EQPORT.WIPINFO_BCR_ID = IsSimulation ? EQPORT.Properties.PreviousOnPortID : EQPORT.GetWIPIDFromMem();
                     }
-                    catch (Exception ed)
+                    catch (Exception ex)
                     {
-
+                        Utility.SystemLogger.Error(ex.Message, ex);
                     }
                 }
                 IsPLCDataUpdated = IsPLCMemoryDataReadDone == true;
             }
             catch (Exception ex)
             {
-
-                throw ex;
+                Utility.SystemLogger.Error(ex.Message, ex);
             }
 
         }
@@ -681,6 +638,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             }
             catch (Exception ex)
             {
+                Utility.SystemLogger.Error(ex.Message, ex);
+                MessageBox.Show($"LoadPLCMapData Error\r\n{ex.Message}\r\n{ex.StackTrace}", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

@@ -77,6 +77,7 @@ namespace GPMCasstteConvertCIM.UI_UserControls
 
             dgvEQPBitMap.CellFormatting += DgvEQPBitMap_CellFormatting;
             dgvCIMBitMap.CellFormatting += DgvEQPBitMap_CellFormatting;
+
         }
 
         private void DgvEQPBitMap_CellFormatting(object? sender, DataGridViewCellFormattingEventArgs e)
@@ -148,14 +149,14 @@ namespace GPMCasstteConvertCIM.UI_UserControls
 
         private void dgvBitMap_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (!Editable | e.ColumnIndex < 0 | e.RowIndex < 0)
-                return;
-            Invoke(new Action(() =>
-            {
-                clsMemoryAddress? addressData = dgvEQPBitMap.Rows[e.RowIndex].DataBoundItem as clsMemoryAddress;
-                addressData.Value = !(bool)addressData.Value;
-                EQPBitValueOnChanged?.Invoke(this, (addressData.Address, (bool)addressData.Value));
-            }));
+            //if (!Editable | e.ColumnIndex < 0 | e.RowIndex < 0)
+            //    return;
+            //Invoke(new Action(() =>
+            //{
+            //    clsMemoryAddress? addressData = dgvEQPBitMap.Rows[e.RowIndex].DataBoundItem as clsMemoryAddress;
+            //    var newValue = !(bool)addressData.Value;
+            //    EQPBitValueOnChanged?.Invoke(this, (addressData.Address, newValue));
+            //}));
         }
 
         private void dgvWordMap_CellEndEdit(object sender, DataGridViewCellEventArgs e)
@@ -189,6 +190,8 @@ namespace GPMCasstteConvertCIM.UI_UserControls
                     EQPWordValueOnChanged?.Invoke(this, addressDataCopy);
                 else
                     CIMWordValueOnChanged?.Invoke(this, addressDataCopy);
+
+                Invalidate();
             }
         }
 
@@ -198,7 +201,6 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             dgvEQPWordMap.Invalidate();
             dgvCIMBitMap.Invalidate();
             dgvCIMWordMap.Invalidate();
-
             base.Invalidate();
         }
 
@@ -214,8 +216,8 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             {
                 clsMemoryAddress? addressData = dgvEQPBitMap.Rows[e.RowIndex].DataBoundItem as clsMemoryAddress;
                 bool state = !(bool)addressData.Value;
-                eqp_bitMemoryAddressList[e.RowIndex].Value = state;
                 EQPBitValueOnChanged?.Invoke(this, (addressData.Address, state));
+                dgvEQPBitMap.Invalidate();
             }
         }
 
@@ -225,9 +227,8 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             {
                 clsMemoryAddress? addressData = dgvCIMBitMap.Rows[e.RowIndex].DataBoundItem as clsMemoryAddress;
                 bool state = !(bool)addressData.Value;
-                cim_bitMemoryAddressList[e.RowIndex].Value = state;
                 CIMBitValueOnChanged?.Invoke(this, (addressData.Address, state));
-
+                dgvCIMBitMap.Invalidate();
             }
         }
     }
