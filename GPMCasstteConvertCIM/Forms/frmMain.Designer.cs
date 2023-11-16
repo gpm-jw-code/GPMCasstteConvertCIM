@@ -37,6 +37,10 @@
             tabPage1 = new TabPage();
             splitContainer2 = new SplitContainer();
             tlpConverterContainer = new TableLayoutPanel();
+            panel2 = new Panel();
+            pnlSyslogRtbContainer = new Panel();
+            btnClearInfoLog = new Button();
+            rtbSystemLogShow = new RichTextBox();
             tabPage3 = new TabPage();
             uscAlarmTable1 = new UI_UserControls.UscAlarmTable();
             tabPage2 = new TabPage();
@@ -93,10 +97,7 @@
             splitContainer1 = new SplitContainer();
             ckbRemoteModeIndi = new CheckBox();
             cknOnlineModeIndi = new CheckBox();
-            panel2 = new Panel();
-            rtbSystemLogShow = new RichTextBox();
-            btnClearInfoLog = new Button();
-            pnlSyslogRtbContainer = new Panel();
+            labCurrentEncodingName = new ToolStripStatusLabel();
             tabControl1.SuspendLayout();
             tabPage4.SuspendLayout();
             tabPage1.SuspendLayout();
@@ -104,6 +105,8 @@
             splitContainer2.Panel1.SuspendLayout();
             splitContainer2.Panel2.SuspendLayout();
             splitContainer2.SuspendLayout();
+            panel2.SuspendLayout();
+            pnlSyslogRtbContainer.SuspendLayout();
             tabPage3.SuspendLayout();
             tabPage2.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
@@ -125,8 +128,6 @@
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
             splitContainer1.SuspendLayout();
-            panel2.SuspendLayout();
-            pnlSyslogRtbContainer.SuspendLayout();
             SuspendLayout();
             // 
             // tabControl1
@@ -142,7 +143,7 @@
             tabControl1.Location = new Point(0, 0);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(1252, 563);
+            tabControl1.Size = new Size(1252, 564);
             tabControl1.SizeMode = TabSizeMode.Fixed;
             tabControl1.TabIndex = 1;
             // 
@@ -152,7 +153,7 @@
             tabPage4.Location = new Point(4, 34);
             tabPage4.Name = "tabPage4";
             tabPage4.Padding = new Padding(3);
-            tabPage4.Size = new Size(1244, 525);
+            tabPage4.Size = new Size(1244, 526);
             tabPage4.TabIndex = 3;
             tabPage4.Text = "Home(007)";
             tabPage4.UseVisualStyleBackColor = true;
@@ -163,7 +164,7 @@
             usceqStatus1.Dock = DockStyle.Fill;
             usceqStatus1.Location = new Point(3, 3);
             usceqStatus1.Name = "usceqStatus1";
-            usceqStatus1.Size = new Size(1238, 519);
+            usceqStatus1.Size = new Size(1238, 520);
             usceqStatus1.TabIndex = 1;
             // 
             // tabPage1
@@ -212,6 +213,54 @@
             tlpConverterContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tlpConverterContainer.Size = new Size(911, 519);
             tlpConverterContainer.TabIndex = 11;
+            // 
+            // panel2
+            // 
+            panel2.BackColor = Color.White;
+            panel2.Controls.Add(pnlSyslogRtbContainer);
+            panel2.Dock = DockStyle.Fill;
+            panel2.Location = new Point(0, 0);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(323, 519);
+            panel2.TabIndex = 12;
+            // 
+            // pnlSyslogRtbContainer
+            // 
+            pnlSyslogRtbContainer.BackColor = Color.Black;
+            pnlSyslogRtbContainer.BorderStyle = BorderStyle.FixedSingle;
+            pnlSyslogRtbContainer.Controls.Add(btnClearInfoLog);
+            pnlSyslogRtbContainer.Controls.Add(rtbSystemLogShow);
+            pnlSyslogRtbContainer.Dock = DockStyle.Fill;
+            pnlSyslogRtbContainer.ForeColor = Color.White;
+            pnlSyslogRtbContainer.Location = new Point(0, 0);
+            pnlSyslogRtbContainer.Name = "pnlSyslogRtbContainer";
+            pnlSyslogRtbContainer.Padding = new Padding(1);
+            pnlSyslogRtbContainer.Size = new Size(323, 519);
+            pnlSyslogRtbContainer.TabIndex = 6;
+            // 
+            // btnClearInfoLog
+            // 
+            btnClearInfoLog.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnClearInfoLog.FlatStyle = FlatStyle.Flat;
+            btnClearInfoLog.Location = new Point(224, 6);
+            btnClearInfoLog.Name = "btnClearInfoLog";
+            btnClearInfoLog.Size = new Size(75, 23);
+            btnClearInfoLog.TabIndex = 1;
+            btnClearInfoLog.Text = "清除";
+            btnClearInfoLog.UseVisualStyleBackColor = true;
+            btnClearInfoLog.Click += btnClearInfoLog_Click;
+            // 
+            // rtbSystemLogShow
+            // 
+            rtbSystemLogShow.BackColor = Color.Black;
+            rtbSystemLogShow.BorderStyle = BorderStyle.FixedSingle;
+            rtbSystemLogShow.Dock = DockStyle.Fill;
+            rtbSystemLogShow.ForeColor = Color.White;
+            rtbSystemLogShow.Location = new Point(1, 1);
+            rtbSystemLogShow.Name = "rtbSystemLogShow";
+            rtbSystemLogShow.Size = new Size(319, 515);
+            rtbSystemLogShow.TabIndex = 0;
+            rtbSystemLogShow.Text = "";
             // 
             // tabPage3
             // 
@@ -383,7 +432,7 @@
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 17F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel2.Size = new Size(711, 217);
+            tableLayoutPanel2.Size = new Size(711, 218);
             tableLayoutPanel2.TabIndex = 10;
             tableLayoutPanel2.Visible = false;
             // 
@@ -452,7 +501,7 @@
             dgvMsgFromAGVS.ReadOnly = true;
             dgvMsgFromAGVS.RowHeadersVisible = false;
             dgvMsgFromAGVS.RowTemplate.Height = 25;
-            dgvMsgFromAGVS.Size = new Size(348, 83);
+            dgvMsgFromAGVS.Size = new Size(348, 84);
             dgvMsgFromAGVS.TabIndex = 8;
             // 
             // primaryMessageSMLDataGridViewTextBoxColumn
@@ -528,7 +577,7 @@
             dgvActiveMsgToAGVS.ReadOnly = true;
             dgvActiveMsgToAGVS.RowHeadersVisible = false;
             dgvActiveMsgToAGVS.RowTemplate.Height = 25;
-            dgvActiveMsgToAGVS.Size = new Size(348, 83);
+            dgvActiveMsgToAGVS.Size = new Size(348, 84);
             dgvActiveMsgToAGVS.TabIndex = 9;
             // 
             // dataGridViewTextBoxColumn6
@@ -691,7 +740,7 @@
             pnlSideLeft.ForeColor = Color.White;
             pnlSideLeft.Location = new Point(0, 32);
             pnlSideLeft.Name = "pnlSideLeft";
-            pnlSideLeft.Size = new Size(155, 667);
+            pnlSideLeft.Size = new Size(155, 669);
             pnlSideLeft.TabIndex = 5;
             // 
             // ckbHotRunMode
@@ -736,7 +785,7 @@
             uscConnectionStates1.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             uscConnectionStates1.AutoSize = true;
             uscConnectionStates1.BackColor = Color.Transparent;
-            uscConnectionStates1.Location = new Point(11, 566);
+            uscConnectionStates1.Location = new Point(11, 568);
             uscConnectionStates1.MaximumSize = new Size(134, 96);
             uscConnectionStates1.MinimumSize = new Size(134, 96);
             uscConnectionStates1.Name = "uscConnectionStates1";
@@ -751,7 +800,7 @@
             label1.BorderStyle = BorderStyle.FixedSingle;
             label1.Font = new Font("Microsoft JhengHei UI", 13F, FontStyle.Regular, GraphicsUnit.Point);
             label1.ForeColor = Color.WhiteSmoke;
-            label1.Location = new Point(-9, 512);
+            label1.Location = new Point(-9, 514);
             label1.Name = "label1";
             label1.Size = new Size(164, 51);
             label1.TabIndex = 6;
@@ -761,10 +810,10 @@
             // statusStrip1
             // 
             statusStrip1.BackColor = Color.FromArgb(0, 57, 155);
-            statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel1, labSysTime });
-            statusStrip1.Location = new Point(0, 699);
+            statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel1, labCurrentEncodingName, labSysTime });
+            statusStrip1.Location = new Point(0, 701);
             statusStrip1.Name = "statusStrip1";
-            statusStrip1.Size = new Size(1407, 24);
+            statusStrip1.Size = new Size(1407, 22);
             statusStrip1.TabIndex = 8;
             statusStrip1.Text = "statusStrip1";
             // 
@@ -774,20 +823,21 @@
             toolStripStatusLabel1.Font = new Font("Yu Gothic UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
             toolStripStatusLabel1.ForeColor = Color.WhiteSmoke;
             toolStripStatusLabel1.LinkColor = Color.FromArgb(53, 53, 53);
+            toolStripStatusLabel1.Margin = new Padding(0);
             toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            toolStripStatusLabel1.Size = new Size(1271, 19);
+            toolStripStatusLabel1.Size = new Size(1198, 22);
             toolStripStatusLabel1.Spring = true;
             toolStripStatusLabel1.Text = "GPM AGV SYSTEM CIM";
             // 
             // labSysTime
             // 
-            labSysTime.BackColor = Color.Transparent;
-            labSysTime.BorderSides = ToolStripStatusLabelBorderSides.Left;
+            labSysTime.BackColor = Color.Black;
             labSysTime.Font = new Font("Maiandra GD", 9F, FontStyle.Regular, GraphicsUnit.Point);
             labSysTime.ForeColor = Color.Snow;
             labSysTime.LinkColor = Color.FromArgb(53, 53, 53);
+            labSysTime.Margin = new Padding(0);
             labSysTime.Name = "labSysTime";
-            labSysTime.Size = new Size(121, 19);
+            labSysTime.Size = new Size(117, 22);
             labSysTime.Text = "1991/10/20 10:00:00";
             labSysTime.Click += labSysTime_Click;
             // 
@@ -824,8 +874,8 @@
             // splitContainer1.Panel2
             // 
             splitContainer1.Panel2.Controls.Add(tableLayoutPanel2);
-            splitContainer1.Size = new Size(1252, 593);
-            splitContainer1.SplitterDistance = 563;
+            splitContainer1.Size = new Size(1252, 595);
+            splitContainer1.SplitterDistance = 564;
             splitContainer1.TabIndex = 12;
             // 
             // ckbRemoteModeIndi
@@ -866,53 +916,16 @@
             cknOnlineModeIndi.CheckedChanged += cknOnlineModeIndi_CheckedChanged;
             cknOnlineModeIndi.Click += cknOnlineModeIndi_Click;
             // 
-            // panel2
+            // labCurrentEncodingName
             // 
-            panel2.BackColor = Color.White;
-            panel2.Controls.Add(pnlSyslogRtbContainer);
-            panel2.Dock = DockStyle.Fill;
-            panel2.Location = new Point(0, 0);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(323, 519);
-            panel2.TabIndex = 12;
-            // 
-            // rtbSystemLogShow
-            // 
-            rtbSystemLogShow.BackColor = Color.Black;
-            rtbSystemLogShow.BorderStyle = BorderStyle.FixedSingle;
-            rtbSystemLogShow.Dock = DockStyle.Fill;
-            rtbSystemLogShow.ForeColor = Color.White;
-            rtbSystemLogShow.Location = new Point(1, 1);
-            rtbSystemLogShow.Name = "rtbSystemLogShow";
-            rtbSystemLogShow.Size = new Size(319, 515);
-            rtbSystemLogShow.TabIndex = 0;
-            rtbSystemLogShow.Text = "";
-            // 
-            // btnClearInfoLog
-            // 
-            btnClearInfoLog.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnClearInfoLog.FlatStyle = FlatStyle.Flat;
-            btnClearInfoLog.Location = new Point(224, 6);
-            btnClearInfoLog.Name = "btnClearInfoLog";
-            btnClearInfoLog.Size = new Size(75, 23);
-            btnClearInfoLog.TabIndex = 1;
-            btnClearInfoLog.Text = "清除";
-            btnClearInfoLog.UseVisualStyleBackColor = true;
-            btnClearInfoLog.Click += btnClearInfoLog_Click;
-            // 
-            // pnlSyslogRtbContainer
-            // 
-            pnlSyslogRtbContainer.BackColor = Color.Black;
-            pnlSyslogRtbContainer.BorderStyle = BorderStyle.FixedSingle;
-            pnlSyslogRtbContainer.Controls.Add(btnClearInfoLog);
-            pnlSyslogRtbContainer.Controls.Add(rtbSystemLogShow);
-            pnlSyslogRtbContainer.Dock = DockStyle.Fill;
-            pnlSyslogRtbContainer.ForeColor = Color.White;
-            pnlSyslogRtbContainer.Location = new Point(0, 0);
-            pnlSyslogRtbContainer.Name = "pnlSyslogRtbContainer";
-            pnlSyslogRtbContainer.Padding = new Padding(1);
-            pnlSyslogRtbContainer.Size = new Size(323, 519);
-            pnlSyslogRtbContainer.TabIndex = 6;
+            labCurrentEncodingName.BackColor = Color.FromArgb(255, 128, 0);
+            labCurrentEncodingName.Font = new Font("Maiandra GD", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            labCurrentEncodingName.ForeColor = Color.Snow;
+            labCurrentEncodingName.LinkColor = Color.FromArgb(53, 53, 53);
+            labCurrentEncodingName.Margin = new Padding(0);
+            labCurrentEncodingName.Name = "labCurrentEncodingName";
+            labCurrentEncodingName.Size = new Size(46, 22);
+            labCurrentEncodingName.Text = "Default";
             // 
             // frmMain
             // 
@@ -943,6 +956,8 @@
             splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainer2).EndInit();
             splitContainer2.ResumeLayout(false);
+            panel2.ResumeLayout(false);
+            pnlSyslogRtbContainer.ResumeLayout(false);
             tabPage3.ResumeLayout(false);
             tabPage2.ResumeLayout(false);
             tableLayoutPanel1.ResumeLayout(false);
@@ -968,8 +983,6 @@
             splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
-            panel2.ResumeLayout(false);
-            pnlSyslogRtbContainer.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -1049,5 +1062,6 @@
         private Panel pnlSyslogRtbContainer;
         private Button btnClearInfoLog;
         private RichTextBox rtbSystemLogShow;
+        private ToolStripStatusLabel labCurrentEncodingName;
     }
 }

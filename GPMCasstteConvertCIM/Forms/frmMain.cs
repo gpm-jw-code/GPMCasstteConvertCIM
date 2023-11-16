@@ -148,7 +148,7 @@ namespace GPMCasstteConvertCIM.Forms
                     uscAlarmTable1.alarmListBinding.ResetBindings();
                 }));
             };
-
+            labCurrentEncodingName.Text = Utility.SysConfigs.SECS.SECESAEncoding.EncodingName;
             Utility.SystemLogger.Info($"當前預設編碼={Utility.SysConfigs.SECS.SECESAEncoding.EncodingName}");
         }
 

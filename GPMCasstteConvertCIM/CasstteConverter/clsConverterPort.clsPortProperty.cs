@@ -37,7 +37,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             public int TagNumberInAGVS { get; set; } = 1;
 
             public string PreviousOnPortID { get; set; } = "";
-            public bool IsInstalledLastTime { get; set; } = false;
+            public bool IsInstalled { get; set; } = false;
 
             public DateTime CarrierInstallTime { get; set; } = DateTime.MinValue;
             public bool CarrierWaitInNeedWaitingS2F41OrS2F49{ get; set; } = false;

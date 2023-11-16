@@ -37,7 +37,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             AGVSignals = new clsHS_Status_Signals();
             AGVSignals.OnValidSignalActive += AGVSignals_OnValidSignalActive;
             SECSState.OnMCSOnlineRemote += SECSState_OnMCSOnlineRemote;
-            CSTIDOnPort = property.PreviousOnPortID;
+            
         }
         public enum EQ_PORT_LD_STATE
         {
@@ -372,7 +372,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         private async Task RemoveCarrier(string cst_id)
         {
             UpdateModbusBCRReport("", isClearBCR: true);
-            Properties.IsInstalledLastTime = false;
+            Properties.IsInstalled = false;
             DevicesManager.SaveDeviceConnectionOpts();
             Utility.SystemLogger.Info($"{PortName}-Remove Carrier_{cst_id}");
             if (EPortType == PortUnitType.Output)
@@ -391,14 +391,14 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             if (!PortExist)
                 return;
 
-            if (Properties.IsInstalledLastTime && cst_id != Properties.PreviousOnPortID)
+            if (Properties.IsInstalled && cst_id != Properties.PreviousOnPortID)
             {
                 await RemoveCarrier(Properties.PreviousOnPortID);
             }
 
             Properties.PreviousOnPortID = cst_id;
             CSTIDOnPort = cst_id + "";
-            Properties.IsInstalledLastTime = true;
+            Properties.IsInstalled = true;
             Properties.CarrierInstallTime = DateTime.Now;
             DevicesManager.SaveDeviceConnectionOpts();
             Utility.SystemLogger.Info($"{PortName}-Install Carrier_{cst_id}");

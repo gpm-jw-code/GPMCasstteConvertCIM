@@ -130,7 +130,8 @@ namespace GPMCasstteConvertCIM.Devices
                         casstteConverters.Add(EQ);
                         EQ.PortDatas.ForEach(port =>
                         {
-                            port.UpdateModbusBCRReport(port.CSTIDOnPort);
+                            if (port.PortExist && port.Properties.IsInstalled)
+                                port.UpdateModbusBCRReport(port.CSTIDOnPort);
                         });
                     }
                     catch (Exception ex)
