@@ -15,12 +15,6 @@ namespace GPMCasstteConvertCIM.Utilities.SysConfigs
             Default,
             ASCII,
             UTF8,
-            UTF32,
-            BigEndianUnicode,
-            Unicode,
-            UTF7,
-            Latin1
-
         }
         /// <summary>
         /// Configure the timeout interval in milliseconds between the primary message sent till to receive the secondary message.
@@ -71,21 +65,11 @@ namespace GPMCasstteConvertCIM.Utilities.SysConfigs
                     case ENCODING.ASCII:
                         return Encoding.ASCII;
                     case ENCODING.Default:
-                        return Encoding.Default;
+                        return Encoding.GetEncoding("big5");
                     case ENCODING.UTF8:
                         return Encoding.UTF8;
-                    case ENCODING.Unicode:
-                        return Encoding.Unicode;
-                    case ENCODING.BigEndianUnicode:
-                        return Encoding.BigEndianUnicode;
-                    case ENCODING.UTF32:
-                        return Encoding.UTF32;
-                    case ENCODING.UTF7:
-                        return Encoding.UTF7;
-                    case ENCODING.Latin1:
-                        return Encoding.Latin1;
                     default:
-                        return Encoding.Default;
+                        return Encoding.GetEncoding("big5");
 
                 }
             }

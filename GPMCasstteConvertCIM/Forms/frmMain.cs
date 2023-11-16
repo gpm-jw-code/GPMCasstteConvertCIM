@@ -39,8 +39,16 @@ namespace GPMCasstteConvertCIM.Forms
 
         private void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
         {
-            var exception = e.Exception;
-            Utility.SystemLogger.Error(exception.Message, exception, false);
+            try
+            {
+
+                var exception = e.Exception;
+                Utility.SystemLogger.Error(exception.Message, exception, false);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{e.Exception.Message + "\r\n" + e.Exception.StackTrace}");
+            }
         }
 
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
@@ -140,6 +148,8 @@ namespace GPMCasstteConvertCIM.Forms
                     uscAlarmTable1.alarmListBinding.ResetBindings();
                 }));
             };
+
+            Utility.SystemLogger.Info($"當前預設編碼={Utility.SysConfigs.SECS.SECESAEncoding.EncodingName}");
         }
 
 

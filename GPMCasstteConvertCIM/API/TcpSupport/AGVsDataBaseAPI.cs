@@ -13,7 +13,7 @@ namespace GPMCasstteConvertCIM.API.TcpSupport
 {
     internal class AGVsDataBaseAPI : SystemAPI
     {
-        public override int Port { get; set; } = 6200;
+        public override int Port { get; set; } = 5200;
         public override void ClientRecieveCB(IAsyncResult ar)
         {
             try
@@ -25,6 +25,7 @@ namespace GPMCasstteConvertCIM.API.TcpSupport
                 if (revLen > 0)
                 {
                     string msg = Encoding.ASCII.GetString(state.buffer, 0, revLen);
+                    Utility.SystemLogger.Info($"Rev: {msg}");
                     if (msg.Contains("QueryTaskInfo:"))//QueryTaskInfo:MI1234123
                     {
                         string[] splited = msg.Split(':');

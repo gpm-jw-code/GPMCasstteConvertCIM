@@ -14,6 +14,7 @@ namespace GPMCasstteConvertCIM
         [STAThread]
         static void Main()
         {
+            
             CheckProgramOpenState();
             Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
             Application.ThreadException += Application_ThreadException; ;
