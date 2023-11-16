@@ -54,8 +54,19 @@ namespace GPMCasstteConvertCIM.Utilities.SysConfigs
 
         public int SocketRecieveBufferSize { get; set; } = 32768;
         [JsonConverter(typeof(StringEnumConverter))]
-        public ENCODING ASCIIEncoding { get; set; } = ENCODING.Default;
-
+        public ENCODING _ASCIIEncoding = ENCODING.Default;
+        public ENCODING ASCIIEncoding
+        {
+            get => _ASCIIEncoding;
+            set
+            {
+                if (_ASCIIEncoding != value)
+                {
+                    _ASCIIEncoding = value;
+                    Secs4Net.EncodingSetting.ASCIIEncoding = SECESAEncoding; //設定編碼
+                }
+            }
+        }
         internal Encoding SECESAEncoding
         {
             get

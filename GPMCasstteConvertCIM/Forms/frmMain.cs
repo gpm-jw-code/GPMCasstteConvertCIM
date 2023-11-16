@@ -148,8 +148,7 @@ namespace GPMCasstteConvertCIM.Forms
                     uscAlarmTable1.alarmListBinding.ResetBindings();
                 }));
             };
-            labCurrentEncodingName.Text = Utility.SysConfigs.SECS.SECESAEncoding.EncodingName;
-            Utility.SystemLogger.Info($"當前預設編碼={Utility.SysConfigs.SECS.SECESAEncoding.EncodingName}");
+            SetCurrentEncodingName();
         }
 
 
@@ -431,10 +430,31 @@ namespace GPMCasstteConvertCIM.Forms
 
         private void cknOnlineModeIndi_Click(object sender, EventArgs e)
         {
+            DevicesManager.secs_host_for_mcs.SendMsg(new SecsMessage(2, 52)
+            {
+                SecsItem = Item.L(
+                        Item.A("中文測試1_(AGV_中文)AHGBBBB")
+                    )
+            });
             if (Debugger.IsAttached)
             {
                 SECSState.IsOnline = !SECSState.IsOnline;
             }
+        }
+
+        private void labCurrentEncodingName_Click(object sender, EventArgs e)
+        {
+            EncodingSettingDialog dialog = new EncodingSettingDialog();
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                SetCurrentEncodingName();
+            }
+
+        }
+        private void SetCurrentEncodingName()
+        {
+            labCurrentEncodingName.Text = $"{Utility.SysConfigs.SECS.ASCIIEncoding}({Utility.SysConfigs.SECS.SECESAEncoding.EncodingName})";
+
         }
     }
 }

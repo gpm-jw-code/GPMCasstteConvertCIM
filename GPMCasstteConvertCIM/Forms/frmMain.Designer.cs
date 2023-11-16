@@ -175,7 +175,7 @@
             tabPage1.Location = new Point(4, 34);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(1244, 526);
+            tabPage1.Size = new Size(1244, 525);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "HOME";
             // 
@@ -194,7 +194,7 @@
             // 
             splitContainer2.Panel2.BackColor = Color.White;
             splitContainer2.Panel2.Controls.Add(panel2);
-            splitContainer2.Size = new Size(1238, 520);
+            splitContainer2.Size = new Size(1238, 519);
             splitContainer2.SplitterDistance = 911;
             splitContainer2.TabIndex = 13;
             // 
@@ -211,7 +211,7 @@
             tlpConverterContainer.RowCount = 2;
             tlpConverterContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tlpConverterContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tlpConverterContainer.Size = new Size(911, 520);
+            tlpConverterContainer.Size = new Size(911, 519);
             tlpConverterContainer.TabIndex = 11;
             // 
             // panel2
@@ -221,7 +221,7 @@
             panel2.Dock = DockStyle.Fill;
             panel2.Location = new Point(0, 0);
             panel2.Name = "panel2";
-            panel2.Size = new Size(323, 520);
+            panel2.Size = new Size(323, 519);
             panel2.TabIndex = 12;
             // 
             // pnlSyslogRtbContainer
@@ -235,7 +235,7 @@
             pnlSyslogRtbContainer.Location = new Point(0, 0);
             pnlSyslogRtbContainer.Name = "pnlSyslogRtbContainer";
             pnlSyslogRtbContainer.Padding = new Padding(1);
-            pnlSyslogRtbContainer.Size = new Size(323, 520);
+            pnlSyslogRtbContainer.Size = new Size(323, 519);
             pnlSyslogRtbContainer.TabIndex = 6;
             // 
             // btnClearInfoLog
@@ -258,7 +258,7 @@
             rtbSystemLogShow.ForeColor = Color.White;
             rtbSystemLogShow.Location = new Point(1, 1);
             rtbSystemLogShow.Name = "rtbSystemLogShow";
-            rtbSystemLogShow.Size = new Size(319, 516);
+            rtbSystemLogShow.Size = new Size(319, 515);
             rtbSystemLogShow.TabIndex = 0;
             rtbSystemLogShow.Text = "";
             // 
@@ -268,7 +268,7 @@
             tabPage3.Location = new Point(4, 34);
             tabPage3.Name = "tabPage3";
             tabPage3.Padding = new Padding(3);
-            tabPage3.Size = new Size(1244, 526);
+            tabPage3.Size = new Size(1244, 525);
             tabPage3.TabIndex = 2;
             tabPage3.Text = "系統警報";
             tabPage3.UseVisualStyleBackColor = true;
@@ -279,7 +279,7 @@
             uscAlarmTable1.Dock = DockStyle.Fill;
             uscAlarmTable1.Location = new Point(3, 3);
             uscAlarmTable1.Name = "uscAlarmTable1";
-            uscAlarmTable1.Size = new Size(1238, 520);
+            uscAlarmTable1.Size = new Size(1238, 519);
             uscAlarmTable1.TabIndex = 0;
             // 
             // tabPage2
@@ -288,7 +288,7 @@
             tabPage2.Location = new Point(4, 34);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(1244, 526);
+            tabPage2.Size = new Size(1244, 525);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "LOG";
             tabPage2.UseVisualStyleBackColor = true;
@@ -312,7 +312,7 @@
             tableLayoutPanel1.RowCount = 2;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 41F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.Size = new Size(1238, 520);
+            tableLayoutPanel1.Size = new Size(1238, 519);
             tableLayoutPanel1.TabIndex = 2;
             // 
             // checkBox2
@@ -343,7 +343,7 @@
             rtbSecsHostLog.Location = new Point(0, 41);
             rtbSecsHostLog.Margin = new Padding(0);
             rtbSecsHostLog.Name = "rtbSecsHostLog";
-            rtbSecsHostLog.Size = new Size(412, 479);
+            rtbSecsHostLog.Size = new Size(412, 478);
             rtbSecsHostLog.TabIndex = 1;
             rtbSecsHostLog.Text = "";
             // 
@@ -355,7 +355,7 @@
             rtbSecsClientLog.Location = new Point(412, 41);
             rtbSecsClientLog.Margin = new Padding(0);
             rtbSecsClientLog.Name = "rtbSecsClientLog";
-            rtbSecsClientLog.Size = new Size(412, 479);
+            rtbSecsClientLog.Size = new Size(412, 478);
             rtbSecsClientLog.TabIndex = 2;
             rtbSecsClientLog.Text = "";
             // 
@@ -406,7 +406,7 @@
             rtbModbusTcpServerLog.Location = new Point(824, 41);
             rtbModbusTcpServerLog.Margin = new Padding(0);
             rtbModbusTcpServerLog.Name = "rtbModbusTcpServerLog";
-            rtbModbusTcpServerLog.Size = new Size(414, 479);
+            rtbModbusTcpServerLog.Size = new Size(414, 478);
             rtbModbusTcpServerLog.TabIndex = 7;
             rtbModbusTcpServerLog.Text = "";
             // 
@@ -695,7 +695,7 @@
             // 
             toolStripMenuItem_OpenConvert_1_Simulator.Name = "toolStripMenuItem_OpenConvert_1_Simulator";
             toolStripMenuItem_OpenConvert_1_Simulator.ShortcutKeys = Keys.F3;
-            toolStripMenuItem_OpenConvert_1_Simulator.Size = new Size(180, 24);
+            toolStripMenuItem_OpenConvert_1_Simulator.Size = new Size(175, 24);
             toolStripMenuItem_OpenConvert_1_Simulator.Text = "轉換架 [1]";
             toolStripMenuItem_OpenConvert_1_Simulator.Click += toolStripMenuItem_OpenConvert_1_Simulator_Click;
             // 
@@ -703,7 +703,7 @@
             // 
             toolStripMenuItem_OpenConvert_2_Simulator.Name = "toolStripMenuItem_OpenConvert_2_Simulator";
             toolStripMenuItem_OpenConvert_2_Simulator.ShortcutKeys = Keys.F4;
-            toolStripMenuItem_OpenConvert_2_Simulator.Size = new Size(180, 24);
+            toolStripMenuItem_OpenConvert_2_Simulator.Size = new Size(175, 24);
             toolStripMenuItem_OpenConvert_2_Simulator.Text = "轉換架 [2]";
             toolStripMenuItem_OpenConvert_2_Simulator.Click += toolStripMenuItem_OpenConvert_2_Simulator_Click;
             // 
@@ -825,7 +825,7 @@
             toolStripStatusLabel1.LinkColor = Color.FromArgb(53, 53, 53);
             toolStripStatusLabel1.Margin = new Padding(0);
             toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            toolStripStatusLabel1.Size = new Size(1229, 22);
+            toolStripStatusLabel1.Size = new Size(1198, 22);
             toolStripStatusLabel1.Spring = true;
             toolStripStatusLabel1.Text = "GPM AGV SYSTEM CIM";
             // 
@@ -839,6 +839,7 @@
             labCurrentEncodingName.Name = "labCurrentEncodingName";
             labCurrentEncodingName.Size = new Size(46, 22);
             labCurrentEncodingName.Text = "Default";
+            labCurrentEncodingName.Click += labCurrentEncodingName_Click;
             // 
             // labSysTime
             // 
