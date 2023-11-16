@@ -119,7 +119,9 @@ namespace GPMCasstteConvertCIM.UI_UserControls
 
         public void OpenConvertPLCSumulator()
         {
+
             PLCSimulator.Show();
+
         }
 
         private void btnDown_Click(object sender, EventArgs e)

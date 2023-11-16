@@ -128,11 +128,16 @@ namespace GPMCasstteConvertCIM.Devices
                         EQ.ConnectionStateChanged += CasstteConverter_ConnectionStateChanged;
                         EQ.ActiveAsync(item.ToMCIFOptions());
                         casstteConverters.Add(EQ);
-                        EQ.PortDatas.ForEach(port =>
+                        Task.Factory.StartNew(() =>
                         {
-                            if (port.PortExist && port.Properties.IsInstalled)
-                                port.UpdateModbusBCRReport(port.CSTIDOnPort);
+                            Utility.SystemLogger.Warning($"Wait EQ-{EQ.Name} PLC Data Updated and Port Install Status Will initialize");
+                            while (!EQ.IsPLCDataUpdated)
+                            {
+                                Thread.Sleep(1);
+                            }
+                            EQ.InitPortStatus();
                         });
+
                     }
                     catch (Exception ex)
                     {

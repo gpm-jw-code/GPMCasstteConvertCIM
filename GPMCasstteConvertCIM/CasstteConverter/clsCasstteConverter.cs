@@ -25,7 +25,21 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             MX,
             MC
         }
-        internal bool simulation_mode = false;
+        internal bool _simulation_mode = false;
+        internal bool simulation_mode
+        {
+            get => _simulation_mode;
+            set
+            {
+                if (_simulation_mode != value)
+                {
+                    _simulation_mode = value;
+                    Utility.SystemLogger.Info($"{Name} Simulation Mode Changed :{(value ? "Opened" : "Closed")}");
+                    if (value)
+                        IsPLCMemoryDataReadDone = true;
+                }
+            }
+        }
 
         protected virtual string BitMapFileName_EQ { get; set; } = "src\\PLC_Bit_Map_EQ.csv";
         protected virtual string WordMapFileName_EQ { get; set; } = "src\\PLC_Word_Map_EQ.csv";
@@ -34,7 +48,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         protected PLC_CONN_INTERFACE plcInterface = PLC_CONN_INTERFACE.MC;
         public virtual List<clsConverterPort> PortDatas { get; set; } = new List<clsConverterPort>();
-
+        internal bool IsPLCDataUpdated = false;
+        internal bool IsPLCMemoryDataReadDone = false;
         public clsCasstteConverter()
         {
 
@@ -360,37 +375,51 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                         {
                             continue;
                         }
-                        if (!simulation_mode)
+                        if (simulation_mode)
                         {
-                            try
+                            await Task.Delay(50);
+                            IsPLCMemoryDataReadDone = true;
+                            continue;
+                        }
+
+                        try
+                        {
+                            if (monitor)
                             {
-                                if (monitor)
+                                if (plcInterface == PLC_CONN_INTERFACE.MC)
                                 {
-                                    if (plcInterface == PLC_CONN_INTERFACE.MC)
+                                    PLC_IF_WRITE_Ret_Code = mcInterface.WriteBit(ref CIMMemOptions.memoryTable, CIMMemOptions.bitRegionName, CIMMemOptions.bitStartAddress_no_region, CIMMemOptions.bitSize);
+                                    PLC_IF_WRITE_Ret_Code = mcInterface.WriteWord(ref CIMMemOptions.memoryTable, CIMMemOptions.wordRegionName, CIMMemOptions.wordStartAddress_no_region, CIMMemOptions.wordSize);
+                                    if (PLC_IF_WRITE_Ret_Code == 0)
                                     {
-                                        PLC_IF_WRITE_Ret_Code = mcInterface.WriteBit(ref CIMMemOptions.memoryTable, CIMMemOptions.bitRegionName, CIMMemOptions.bitStartAddress_no_region, CIMMemOptions.bitSize);
-                                        PLC_IF_WRITE_Ret_Code = mcInterface.WriteWord(ref CIMMemOptions.memoryTable, CIMMemOptions.wordRegionName, CIMMemOptions.wordStartAddress_no_region, CIMMemOptions.wordSize);
                                         PLC_IF_READ_Ret_Code = mcInterface.ReadBit(ref EQPMemOptions.memoryTable, EQPMemOptions.bitRegionName, EQPMemOptions.bitStartAddress_no_region, EQPMemOptions.bitSize);
                                         PLC_IF_READ_Ret_Code = mcInterface.ReadWord(ref EQPMemOptions.memoryTable, EQPMemOptions.wordRegionName, EQPMemOptions.wordStartAddress_no_region, EQPMemOptions.wordSize);
+                                        IsPLCMemoryDataReadDone = PLC_IF_READ_Ret_Code == 0;
                                     }
-                                    else
+
+                                }
+                                else
+                                {
+                                    PLC_IF_WRITE_Ret_Code = mxInterface.WriteBit(ref CIMMemOptions.memoryTable, CIMMemOptions.bitRegionName, CIMMemOptions.bitStartAddress_no_region, CIMMemOptions.bitSize);
+                                    PLC_IF_WRITE_Ret_Code = mxInterface.WriteWord(ref CIMMemOptions.memoryTable, CIMMemOptions.wordRegionName, CIMMemOptions.wordStartAddress_no_region, CIMMemOptions.wordSize);
+                                    if (PLC_IF_WRITE_Ret_Code == 0)
                                     {
-                                        PLC_IF_WRITE_Ret_Code = mxInterface.WriteBit(ref CIMMemOptions.memoryTable, CIMMemOptions.bitRegionName, CIMMemOptions.bitStartAddress_no_region, CIMMemOptions.bitSize);
-                                        PLC_IF_WRITE_Ret_Code = mxInterface.WriteWord(ref CIMMemOptions.memoryTable, CIMMemOptions.wordRegionName, CIMMemOptions.wordStartAddress_no_region, CIMMemOptions.wordSize);
                                         PLC_IF_READ_Ret_Code = mxInterface.ReadBit(ref EQPMemOptions.memoryTable, EQPMemOptions.bitRegionName, EQPMemOptions.bitStartAddress_no_region, EQPMemOptions.bitSize);
                                         PLC_IF_READ_Ret_Code = mxInterface.ReadWord(ref EQPMemOptions.memoryTable, EQPMemOptions.wordRegionName, EQPMemOptions.wordStartAddress_no_region, EQPMemOptions.wordSize);
+                                        IsPLCMemoryDataReadDone = PLC_IF_READ_Ret_Code == 0;
                                     }
                                 }
+
                             }
-                            catch (SocketException ex)
-                            {
-                                _connectionState = Common.CONNECTION_STATE.DISCONNECTED;
-                                RetryConnectAsync();
-                            }
-                            catch (Exception ex)
-                            {
-                                continue;
-                            }
+                        }
+                        catch (SocketException ex)
+                        {
+                            _connectionState = Common.CONNECTION_STATE.DISCONNECTED;
+                            RetryConnectAsync();
+                        }
+                        catch (Exception ex)
+                        {
+                            continue;
                         }
 
                     }
@@ -499,6 +528,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         }
         protected virtual void PLCMemoryDatatToEQDataDTO()
         {
+            bool IsSimulation = Debugger.IsAttached;
             try
             {
                 //EQP 
@@ -558,7 +588,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
                     EQPORT.LoadRequest = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Load_Request).Value;
                     EQPORT.UnloadRequest = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Unload_Request).Value;
-                    EQPORT.PortExist = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Port_Exist).Value;
+                    EQPORT.PortExist = IsSimulation ? EQPORT.Properties.IsInstalled : (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Port_Exist).Value;
+                    //EQPORT.PortExist = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Port_Exist).Value;
                     bool port_status_down = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Port_Status_Down).Value;
                     EQPORT.PortStatusDown = port_status_down;
 
@@ -595,14 +626,14 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                         EQPORT.WIPInfo_BCR_ID_8 = (int)LinkWordMap.First(f => !f.IsCIMUse && f.EScope == port && f.EProperty == PROPERTY.WIP_Information_BCR_8).Value;
                         EQPORT.WIPInfo_BCR_ID_9 = (int)LinkWordMap.First(f => !f.IsCIMUse && f.EScope == port && f.EProperty == PROPERTY.WIP_Information_BCR_9).Value;
                         EQPORT.WIPInfo_BCR_ID_10 = (int)LinkWordMap.First(f => !f.IsCIMUse && f.EScope == port && f.EProperty == PROPERTY.WIP_Information_BCR_10).Value;
-                        EQPORT.WIPINFO_BCR_ID = EQPORT.GetWIPIDFromMem();
+                        EQPORT.WIPINFO_BCR_ID = IsSimulation ? EQPORT.Properties.PreviousOnPortID : EQPORT.GetWIPIDFromMem();
                     }
                     catch (Exception ed)
                     {
 
                     }
                 }
-
+                IsPLCDataUpdated = IsPLCMemoryDataReadDone == true;
             }
             catch (Exception ex)
             {
@@ -617,6 +648,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         /// </summary>
         internal void OpenSimulatorUI()
         {
+            simulation_mode = true;
             mainGUI?.OpenConvertPLCSumulator();
         }
         protected virtual void LoadPLCMapData()
@@ -713,6 +745,27 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         public void ReplyHostOnlineRequest()
         {
+        }
+
+        internal void InitPortStatus()
+        {
+            PortDatas.ForEach(port =>
+             {
+                 if (port.PortExist && port.Properties.IsInstalled)
+                 {
+                     if (port.IsBCR_READ_ERROR())
+                         port.InstallCarrier(port.CSTIDOnPort);
+                     else
+                     {
+                         port.InstallCarrier(port.WIPINFO_BCR_ID);
+                     }
+                 }
+                 else if (!port.PortExist && port.Properties.IsInstalled)
+                 {
+                     port.RemoveCarrier(port.Properties.PreviousOnPortID, false);
+                 }
+                 Utility.SystemLogger.Warning($"{port.PortName} Port Install Status initialize done.");
+             });
         }
     }
 }

@@ -19,7 +19,15 @@ namespace GPMCasstteConvertCIM.Forms
 {
     public partial class frmConverterPLCSimulator : Form
     {
-        internal clsCasstteConverter CasstteConverter { get; set; }
+        private clsCasstteConverter _CasstteConverter;
+        internal clsCasstteConverter CasstteConverter
+        {
+            get => _CasstteConverter;
+            set
+            {
+                _CasstteConverter = value;
+            }
+        }
 
         public frmConverterPLCSimulator()
         {
@@ -119,6 +127,7 @@ namespace GPMCasstteConvertCIM.Forms
 
         private void frmConverterPLCSimulator_FormClosing(object sender, FormClosingEventArgs e)
         {
+            CasstteConverter.simulation_mode = false;
             e.Cancel = true;
             Hide();
         }

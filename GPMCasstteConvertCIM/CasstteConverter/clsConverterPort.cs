@@ -37,7 +37,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             AGVSignals = new clsHS_Status_Signals();
             AGVSignals.OnValidSignalActive += AGVSignals_OnValidSignalActive;
             SECSState.OnMCSOnlineRemote += SECSState_OnMCSOnlineRemote;
-            
+
         }
         public enum EQ_PORT_LD_STATE
         {
@@ -285,8 +285,14 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                         }
                         Utility.SystemLogger.Info($"Port {PortName} BCR ID Updated = {_WIPINFO_BCR_ID}");
                         WIPUPdateTime = DateTime.Now;
-                        TUNID = CreateTUNID();
-                        string cst = IsBCR_READ_ERROR() ? TUNID : (isDUIDHappen ? thisPortDUID : value);
+                        string cst = string.Empty;
+                        if(IsBCR_READ_ERROR())
+                        {
+                            TUNID = CreateTUNID();
+                            cst = TUNID;
+                        }
+                        else
+                            cst = (isDUIDHappen ? thisPortDUID : value);
                         InstallCarrier(cst + "");
                     }
                     else
@@ -339,15 +345,15 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         }
         private string CreateTUNID()
         {
-            TUNIDLFOW += 1;
-            if (TUNIDLFOW >= int.MaxValue)
-            {
-                TUNIDLFOW = 1;
-            }
             var unid = $"{Utility.SysConfigs.UnknowCargoIDHead}{TUNIDLFOW.ToString("D5")}";
             if (Debugger.IsAttached)
             {
                 Utility.SystemLogger.Info($"UNID={unid}");
+            }
+            TUNIDLFOW += 1;
+            if (TUNIDLFOW >= int.MaxValue)
+            {
+                TUNIDLFOW = 1;
             }
             return unid;
 
@@ -355,29 +361,33 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         private string CreateDUID()
         {
-            DUIDLFOW += 1;
-            if (DUIDLFOW >= int.MaxValue)
-            {
-                DUIDLFOW = 0;
-            }
             var duid = $"DU{DUIDLFOW.ToString("D5")}";
             if (Debugger.IsAttached)
             {
                 Utility.SystemLogger.Info($"UNID={duid}");
             }
+            DUIDLFOW += 1;
+            if (DUIDLFOW >= int.MaxValue)
+            {
+                DUIDLFOW = 0;
+            }
             return duid;
 
         }
 
-        private async Task RemoveCarrier(string cst_id)
+        internal async Task RemoveCarrier(string cst_id, bool checkPortType = true)
         {
             UpdateModbusBCRReport("", isClearBCR: true);
             Properties.IsInstalled = false;
+            Properties.CarrierInstallTime = DateTime.MinValue;
             DevicesManager.SaveDeviceConnectionOpts();
             Utility.SystemLogger.Info($"{PortName}-Remove Carrier_{cst_id}");
-            if (EPortType == PortUnitType.Output)
+            if (!checkPortType | EPortType == PortUnitType.Output)
             {
-                Utility.SystemLogger.Info($"Port Type Now = {EPortType}, Carrier removed Report to MCS ");
+                if (!checkPortType)
+                    Utility.SystemLogger.Info($"Carrier removed Report to MCS without check PORTYPE");
+
+                Utility.SystemLogger.Info($"Port Type Now = {EPortType}, Carrier removed Report to MCS");
                 bool remove_reported = await SecsEventReport(CEID.CarrierRemovedCompletedReport, cst_id + "");
                 Utility.SystemLogger.Info($"Port Type Now = {EPortType}, Carrier removed Report to MCS Result = {(remove_reported ? "Success" : "Fail")}");
             }
@@ -386,7 +396,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 Utility.SystemLogger.Warning($"BCR ID Clear but Port Type ={previousPortType}, Carrier removed not REPORT to MCS");
             }
         }
-        private async Task InstallCarrier(string cst_id)
+        internal async Task InstallCarrier(string cst_id)
         {
             if (!PortExist)
                 return;
