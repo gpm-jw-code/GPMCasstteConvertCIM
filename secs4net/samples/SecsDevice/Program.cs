@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Windows.Forms;
 
 namespace SecsDevice;
@@ -11,7 +12,6 @@ static class Program
     [STAThread]
     static void Main()
     {
-
 #if NET
          Application.SetHighDpiMode(HighDpiMode.SystemAware);
 #endif

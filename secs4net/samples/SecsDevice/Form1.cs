@@ -4,6 +4,7 @@ using Secs4Net.Sml;
 using System;
 using System.ComponentModel;
 using System.Drawing;
+using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -235,5 +236,23 @@ public partial class Form1 : Form
     {
         gpmFrm._secsGem = _secsGem;
         gpmFrm.Show();
+    }
+
+    private void Form1_Load(object sender, EventArgs e)
+    {
+        Secs4Net.EncodingSetting.ASCIIEncoding = Encoding.GetEncoding("big5");
+        cmbEncodingSelector.Items.Add(Encoding.GetEncoding("big5"));
+        cmbEncodingSelector.Items.Add(Encoding.ASCII);
+        cmbEncodingSelector.Items.Add(Encoding.UTF8);
+        cmbEncodingSelector.SelectedItem = Secs4Net.EncodingSetting.ASCIIEncoding;
+
+        txtSendPrimary.Text = "DVLA:'S2F45' W\r\n    <L[2]\r\n        <U1[1] 0>\r\n        <L[1]\r\n            <L[2]\r\n                <U1[0]>\r\n                <L[1]\r\n                    <L[2]\r\n                        <B[0]>\r\n                        <L[2]\r\n                            <U1[0]>\r\n                            <A[8] AGBV(中文)>\r\n                        >\r\n                    >\r\n                >\r\n            >\r\n        >\r\n    >\r\n.";
+    }
+
+    private void cmbEncodingSelector_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        var settingVal = (Encoding)cmbEncodingSelector.SelectedItem;
+        Secs4Net.EncodingSetting.ASCIIEncoding = settingVal;
+
     }
 }
