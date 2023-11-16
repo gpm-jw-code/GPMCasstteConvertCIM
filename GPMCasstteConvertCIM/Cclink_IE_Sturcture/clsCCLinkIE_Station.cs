@@ -157,23 +157,35 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
         public clsStationPort(clsPortProperty property, clsCasstteConverter converterParent) : base(property, converterParent)
         {
         }
-        protected override void Modbus_server_CoilsOnChanged(object? sender, ModbusProtocol e)
-        {
-            ///要把Coil Data同步到PLC Memory 
+        protected override void CoilsStatesSyncWorker()
+        {///Coil Data同步到PLC Memory 
             Task.Factory.StartNew(() =>
             {
-                string portNoName = $"PORT{Properties.PortNo + 1}";
-                List<CasstteConverter.Data.clsMemoryAddress> CIMLinkAddress = DevicesManager.cclink_master.LinkBitMap.FindAll(ad => ad.EQ_Name == ((clsCCLinkIE_Station)EQParent).Eq_Name && ad.EOwner == OWNER.CIM && ad.EScope.ToString() == portNoName && ad.Link_Modbus_Register_Number != -1);
-                foreach (var item in CIMLinkAddress)
+                while (true)
                 {
-                    int register_num = item.Link_Modbus_Register_Number;
-                    var localCoilsAry = modbus_server.coils.localArray;
-                    bool state = localCoilsAry[register_num + 1];
-                    AGVHandshakeIO(item, state);
-                    DevicesManager.cclink_master.CIMMemOptions.memoryTable.WriteOneBit(item.Address, state);
+                    Thread.Sleep(10);
+                    string portNoName = $"PORT{Properties.PortNo + 1}";
+                    List<CasstteConverter.Data.clsMemoryAddress> CIMLinkAddress = DevicesManager.cclink_master.LinkBitMap.FindAll(ad => ad.EQ_Name == ((clsCCLinkIE_Station)EQParent).Eq_Name && ad.EOwner == OWNER.CIM && ad.EScope.ToString() == portNoName && ad.Link_Modbus_Register_Number != -1);
+                    foreach (var item in CIMLinkAddress)
+                    {
+                        try
+                        {
+                            int register_num = item.Link_Modbus_Register_Number;
+                            var localCoilsAry = modbus_server.coils.localArray;
+                            bool state = localCoilsAry[register_num + 1];
+                            AGVHandshakeIO(item, state);
+                            DevicesManager.cclink_master.CIMMemOptions.memoryTable.WriteOneBit(item.Address, state);
+
+                        }
+                        catch (Exception ex)
+                        {
+                            Utility.SystemLogger.Error(ex.Message, ex, false);
+                        }
+                    }
                 }
             });
         }
+
         public override void SyncRegisterData()
         {
             Task.Factory.StartNew(async () =>

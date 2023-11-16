@@ -1,4 +1,5 @@
-﻿using GPMCasstteConvertCIM.CasstteConverter.Data;
+﻿using GPMCasstteConvertCIM.Alarm;
+using GPMCasstteConvertCIM.CasstteConverter.Data;
 using GPMCasstteConvertCIM.Forms;
 using GPMCasstteConvertCIM.GPM_Modbus;
 using GPMCasstteConvertCIM.GPM_SECS;
@@ -65,10 +66,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             try
             {
                 modbus_server = new ModbusTCPServer();
-                modbus_server.CoilsOnChanged += Modbus_server_CoilsOnChanged;
                 modbus_server.linkedCasstteConverter = EQParent;
                 ui.ModbusTCPServer = modbus_server;
                 modbus_server.Active(Properties.ModbusServer_IP, Properties.ModbusServer_PORT, ui);
+                CoilsStatesSyncWorker();
                 return true;
             }
             catch (Exception ex)
@@ -76,6 +77,9 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 throw ex;
             }
         }
+
+
+
         private bool _AGV_VALID = false;
         private bool _AGV_READY = false;
         private bool _AGV_TR_REQ = false;
@@ -204,26 +208,35 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         {
             Utility.SystemLogger.Info($"|{PortName}| --> AGV Handshake Signal-|{name}| Changed to {(state ? "1" : "0")}");
         }
-
-        protected virtual void Modbus_server_CoilsOnChanged(object? sender, ModbusProtocol e)
+        protected virtual void CoilsStatesSyncWorker()
         {
-            ///要把Coil Data同步到PLC Memory 
-            Task.Factory.StartNew(() =>
+            ///Coil Data同步到PLC Memory 
+            Task.Factory.StartNew(async () =>
             {
-                string portNoName = $"PORT{Properties.PortNo + 1}";
-                List<CasstteConverter.Data.clsMemoryAddress> CIMLinkAddress = EQParent.LinkBitMap.FindAll(ad => ad.EOwner == OWNER.CIM && ad.EScope.ToString() == portNoName && ad.Link_Modbus_Register_Number != -1);
-                foreach (var item in CIMLinkAddress)
+                while (true)
                 {
-                    int register_num = item.Link_Modbus_Register_Number;
-                    var localCoilsAry = modbus_server.coils.localArray;
-                    bool state = localCoilsAry[register_num + 1];
-                    CIMMemoryTable.WriteOneBit(item.Address, state);
-                    AGVHandshakeIO(item, state);
-                    EQParent.CIMMemOptions.memoryTable.WriteOneBit(item.Address, state);
+                    await Task.Delay(50);
+                    string portNoName = $"PORT{Properties.PortNo + 1}";
+                    List<CasstteConverter.Data.clsMemoryAddress> CIMLinkAddress = EQParent.LinkBitMap.FindAll(ad => ad.EOwner == OWNER.CIM && ad.EScope.ToString() == portNoName && ad.Link_Modbus_Register_Number != -1);
+                    foreach (var item in CIMLinkAddress)
+                    {
+                        try
+                        {
+                            int register_num = item.Link_Modbus_Register_Number;
+                            var localCoilsAry = modbus_server.coils.localArray;
+                            bool state = localCoilsAry[register_num + 1];
+                            AGVHandshakeIO(item, state);
+                            EQParent.CIMMemOptions.memoryTable.WriteOneBit(item.Address, state);
+                        }
+                        catch (Exception ex)
+                        {
+                            Utility.SystemLogger.Error(ex.Message, ex, false);
+                        }
+                    }
                 }
-
             });
         }
+
 
         protected void AGVHandshakeIO(clsMemoryAddress item, bool state)
         {

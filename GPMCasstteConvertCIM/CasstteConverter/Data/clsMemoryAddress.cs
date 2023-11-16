@@ -44,30 +44,14 @@ namespace GPMCasstteConvertCIM.CasstteConverter.Data
             get => _Value;
             set
             {
-                if (_Value?.ToString() != value.ToString())
+                if (_Value + "" != value + "")
                 {
+                    _Value = value;
                     if (this.EProperty != PROPERTY.Interface_Clock && !firstUse)
                     {
-                        string valueString = string.Empty;
-                        if (DataType == DATA_TYPE.BIT)
-                            valueString = ((bool)value) ? "1" : "0";
-                        else
-                            valueString = value.ToString();
-
-                        Utility.SystemLogger.Info($"{Address}({EProperty})-Changed to {valueString} ", !firstUse);
+                        Utility.SystemLogger.Info($"{Address}({EProperty})-Changed to {_Value} ", !firstUse);
                     }
-                    _Value = value;
                     firstUse = false;
-                    if (PropertyChanged != null)
-                    {
-                        try
-                        {
-                            PropertyChanged(this, new PropertyChangedEventArgs(nameof(Value)));
-                        }
-                        catch (Exception ex)
-                        {
-                        }
-                    }
                 }
             }
         }
