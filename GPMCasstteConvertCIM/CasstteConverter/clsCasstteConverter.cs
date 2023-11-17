@@ -546,8 +546,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
                     EQPORT.LoadRequest = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Load_Request).Value;
                     EQPORT.UnloadRequest = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Unload_Request).Value;
-                    EQPORT.PortExist = IsSimulation ? EQPORT.Properties.IsInstalled : (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Port_Exist).Value;
-                    //EQPORT.PortExist = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Port_Exist).Value;
+                    //EQPORT.PortExist = IsSimulation ? EQPORT.Properties.IsInstalled : (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Port_Exist).Value;
+                    EQPORT.PortExist = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Port_Exist).Value;
                     bool port_status_down = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Port_Status_Down).Value;
                     EQPORT.PortStatusDown = port_status_down;
 
@@ -584,7 +584,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                         EQPORT.WIPInfo_BCR_ID_8 = (int)LinkWordMap.First(f => !f.IsCIMUse && f.EScope == port && f.EProperty == PROPERTY.WIP_Information_BCR_8).Value;
                         EQPORT.WIPInfo_BCR_ID_9 = (int)LinkWordMap.First(f => !f.IsCIMUse && f.EScope == port && f.EProperty == PROPERTY.WIP_Information_BCR_9).Value;
                         EQPORT.WIPInfo_BCR_ID_10 = (int)LinkWordMap.First(f => !f.IsCIMUse && f.EScope == port && f.EProperty == PROPERTY.WIP_Information_BCR_10).Value;
-                        EQPORT.WIPINFO_BCR_ID = IsSimulation ? EQPORT.Properties.PreviousOnPortID : EQPORT.GetWIPIDFromMem();
+                        EQPORT.WIPINFO_BCR_ID = EQPORT.GetWIPIDFromMem();
+                        //EQPORT.WIPINFO_BCR_ID = IsSimulation ? EQPORT.Properties.PreviousOnPortID : EQPORT.GetWIPIDFromMem();
                     }
                     catch (Exception ex)
                     {

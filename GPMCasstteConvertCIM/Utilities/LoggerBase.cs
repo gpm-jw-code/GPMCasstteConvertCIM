@@ -97,7 +97,7 @@ namespace GPMCasstteConvertCIM.Utilities
 
         public void SecsTransferLog(string msg)
         {
-            WriteToFile(DateTime.Now, LOG_LEVEL.SECS_MSG_TRANSFER, msg);
+            StoreLogItemToQueue(DateTime.Now, LOG_LEVEL.SECS_MSG_TRANSFER, msg);
         }
         public void Info(string msg, bool show_in_richbox = true)
         {
@@ -107,10 +107,10 @@ namespace GPMCasstteConvertCIM.Utilities
                 _richTextBox?.Invoke((MethodInvoker)delegate
                 {
                     _richTextBox.SelectionColor = Color.White;
-                    _richTextBox.AppendText($"{time} {msg}\n");
+                    _richTextBox.AppendText($"{time} [INFO] {msg}\n");
                 });
             }
-            WriteToFile(time, LOG_LEVEL.INFO, msg);
+            StoreLogItemToQueue(time, LOG_LEVEL.INFO, msg);
         }
         public void Info(string msg, Color foreCOlor, bool show_in_richbox = true)
         {
@@ -120,10 +120,10 @@ namespace GPMCasstteConvertCIM.Utilities
                 _richTextBox?.Invoke((MethodInvoker)delegate
                 {
                     _richTextBox.SelectionColor = foreCOlor;
-                    _richTextBox.AppendText($"{time} {msg}\n");
+                    _richTextBox.AppendText($"{time} [INFO] {msg}\n");
                 });
             }
-            WriteToFile(time, LOG_LEVEL.INFO, msg);
+            StoreLogItemToQueue(time, LOG_LEVEL.INFO, msg);
         }
         public void Warning(string msg, bool show_in_richbox = true)
         {
@@ -131,12 +131,16 @@ namespace GPMCasstteConvertCIM.Utilities
             if (show_in_richbox && _richTextBox.Created)
                 _richTextBox?.Invoke((MethodInvoker)delegate
                 {
-                    _richTextBox.SelectionColor = Color.FromArgb(69, 203, 94);
-                    _richTextBox.AppendText($"{time} {msg}\n");
+                    _richTextBox.SelectionColor = Color.Gold;
+                    _richTextBox.AppendText($"{time} [WARN] {msg}\n");
                 });
-            WriteToFile(time, LOG_LEVEL.WARNING, msg);
+            StoreLogItemToQueue(time, LOG_LEVEL.WARNING, msg);
         }
 
+        public void Error(Exception ex, bool show_in_richbox = true)
+        {
+            Error(ex.Message, ex, show_in_richbox);
+        }
         public void Error(string msg, Exception? ex, bool show_in_richbox = true)
         {
             DateTime time = DateTime.Now;
@@ -145,12 +149,12 @@ namespace GPMCasstteConvertCIM.Utilities
                 _richTextBox?.Invoke((MethodInvoker)delegate
                     {
                         _richTextBox.SelectionColor = Color.FromArgb(255, 92, 97);
-                        _richTextBox.AppendText($"{time} {msg}\n");
+                        _richTextBox.AppendText($"{time} [ERROR] {msg}\n");
                         _richTextBox.SelectionColor = Color.Gray;
                         _richTextBox.AppendText($"{ex}\n");
                     });
             }
-            WriteToFile(time, LOG_LEVEL.ERROR, $"{msg}-{ex?.Message}-{ex?.StackTrace}");
+            StoreLogItemToQueue(time, LOG_LEVEL.ERROR, $"{msg}-{ex?.Message}-{ex?.StackTrace}");
         }
         public class clsLogItem
         {
@@ -169,7 +173,7 @@ namespace GPMCasstteConvertCIM.Utilities
                 _richTextBox.AppendText($"{time} {msg}\n");
             });
             }
-            WriteToFile(time, LOG_LEVEL.DEBUG, msg);
+            StoreLogItemToQueue(time, LOG_LEVEL.DEBUG, msg);
         }
         private ConcurrentQueue<clsLogItem> LogItemsQueue = new ConcurrentQueue<clsLogItem>();
 
@@ -202,7 +206,7 @@ namespace GPMCasstteConvertCIM.Utilities
                          string log_file = Path.Combine(folder, $"{DateTime.Now.ToString(FileTimeFormat)}.log");
                          using (StreamWriter sw = new StreamWriter(log_file, true))
                          {
-                             sw.WriteLine($"{logItem.time.ToString("yyyy/MM/dd HH:mm:ss.ffff")}|{logItem.level}|{logItem.msg}");
+                             sw.WriteLine($"{logItem.time.ToString("yyyy/MM/dd HH:mm:ss.ffff")} [{logItem.level}] {logItem.msg}");
                          }
                      }
                      catch (Exception ex)
@@ -212,7 +216,7 @@ namespace GPMCasstteConvertCIM.Utilities
              });
         }
 
-        protected void WriteToFile(DateTime time, LOG_LEVEL log_level, string logStr)
+        protected void StoreLogItemToQueue(DateTime time, LOG_LEVEL log_level, string logStr)
         {
             LogItemsQueue.Enqueue(new clsLogItem
             {
@@ -222,5 +226,6 @@ namespace GPMCasstteConvertCIM.Utilities
             });
 
         }
+
     }
 }

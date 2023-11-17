@@ -102,7 +102,7 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
             }
         }
 
-        protected override void SyncMemData()
+        protected override async Task SyncMemData()
         {
             PLCMemoryDatatToEQDataDTO();
         }

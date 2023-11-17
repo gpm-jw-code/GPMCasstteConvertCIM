@@ -48,10 +48,13 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
             try
             {
+
                 modbus_server.Close();
                 modbus_server.Active(ip, port, modbus_server.UI);
                 Properties.ModbusServer_IP = ip;
                 Properties.ModbusServer_PORT = port;
+                modbus_server.tcpHandler.OnTcpIPClientConnected += HandleTcpIPClientConnected;
+
                 return true;
             }
             catch (Exception ex)
@@ -61,6 +64,12 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             }
 
         }
+
+        private void HandleTcpIPClientConnected(object? sender, System.Net.Sockets.TcpClient client)
+        {
+            Utility.SystemLogger.Info($"ModbusTCP Server-(Port:{modbus_server.Port}):: CLIENT= {client.Client.RemoteEndPoint.ToString()} Connected");
+        }
+
         public bool BuildModbusTCPServer(frmModbusTCPServer ui)
         {
             try
@@ -69,7 +78,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 modbus_server.linkedCasstteConverter = EQParent;
                 ui.ModbusTCPServer = modbus_server;
                 modbus_server.Active(Properties.ModbusServer_IP, Properties.ModbusServer_PORT, ui);
-                CoilsStatesSyncWorker();
+                modbus_server.OnServerListenStarted += (s, e) => modbus_server.tcpHandler.OnTcpIPClientConnected += HandleTcpIPClientConnected;
                 return true;
             }
             catch (Exception ex)
@@ -77,8 +86,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 throw ex;
             }
         }
-
-
 
         private bool _AGV_VALID = false;
         private bool _AGV_READY = false;

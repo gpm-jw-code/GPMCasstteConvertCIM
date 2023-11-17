@@ -83,15 +83,28 @@ namespace GPMCasstteConvertCIM.GPM_Modbus
         public delegate void DataChanged(object networkConnectionParameter);
         public event DataChanged dataChanged;
 
-        public delegate void NumberOfClientsChanged();
+        public delegate void NumberOfClientsChanged(int number);
         public event NumberOfClientsChanged numberOfClientsChanged;
-
+        public event EventHandler<TcpClient> OnTcpIPClientConnected;
         TcpListener server = null;
 
 
         private List<Client> tcpClientLastRequestList = new List<Client>();
 
-        public int NumberOfConnectedClients { get; set; }
+        public int _NumberOfConnectedClients = 0;
+        public int NumberOfConnectedClients
+        {
+            get => _NumberOfConnectedClients;
+            set
+            {
+                if (_NumberOfConnectedClients != value)
+                {
+                    _NumberOfConnectedClients = value;
+                    if (numberOfClientsChanged != null)
+                        numberOfClientsChanged(value);
+                }
+            }
+        }
 
         public string ipAddress = null;
 
@@ -126,6 +139,7 @@ namespace GPMCasstteConvertCIM.GPM_Modbus
             try
             {
                 tcpClient = server.EndAcceptTcpClient(asyncResult);
+                OnTcpIPClientConnected?.Invoke(this, tcpClient);
                 tcpClient.ReceiveTimeout = 4000;
                 if (ipAddress != null)
                 {
@@ -138,7 +152,10 @@ namespace GPMCasstteConvertCIM.GPM_Modbus
                     }
                 }
             }
-            catch (Exception) { }
+            catch (Exception ex)
+            {
+
+            }
             try
             {
                 server.BeginAcceptTcpClient(AcceptTcpClientCallback, null);
@@ -147,9 +164,9 @@ namespace GPMCasstteConvertCIM.GPM_Modbus
                 networkStream.ReadTimeout = 4000;
                 networkStream.BeginRead(client.Buffer, 0, client.Buffer.Length, ReadCallback, client);
             }
-            catch (Exception)
-            { 
-            
+            catch (Exception ex)
+            {
+
             }
         }
 
@@ -168,12 +185,14 @@ namespace GPMCasstteConvertCIM.GPM_Modbus
                 {
                     tcpClientLastRequestList.RemoveAll(delegate (Client c)
                         {
-                            return ((DateTime.Now.Ticks - c.Ticks) > 40000000);
+                            return ((DateTime.Now.Ticks - c.Ticks) > 10000000);
                         }
 
                         );
                 }
-                catch (Exception) { }
+                catch (Exception)
+                {
+                }
                 if (!objetExists)
                     tcpClientLastRequestList.Add(client);
 
@@ -188,8 +207,6 @@ namespace GPMCasstteConvertCIM.GPM_Modbus
             Client client = asyncResult.AsyncState as Client;
             client.Ticks = DateTime.Now.Ticks;
             NumberOfConnectedClients = GetAndCleanNumberOfConnectedClients(client);
-            if (numberOfClientsChanged != null)
-                numberOfClientsChanged();
             if (client != null)
             {
                 int read;
@@ -284,7 +301,7 @@ namespace GPMCasstteConvertCIM.GPM_Modbus
     /// </summary>
     public class ModbusServerBase
     {
-        private bool debug = false;
+        private bool debug = true;
         Int32 port = 502;
         ModbusProtocol receiveData;
         ModbusProtocol sendData = new ModbusProtocol();
@@ -307,7 +324,7 @@ namespace GPMCasstteConvertCIM.GPM_Modbus
         private IPAddress ipAddressIn;
         private UdpClient udpClient;
         private IPEndPoint iPEndPoint;
-        protected TCPHandler tcpHandler;
+        internal TCPHandler tcpHandler;
         Thread listenerThread;
         Thread clientConnectionThread;
         private ModbusProtocol[] modbusLogData = new ModbusProtocol[100];
@@ -349,7 +366,7 @@ namespace GPMCasstteConvertCIM.GPM_Modbus
         public delegate void HoldingRegistersChangedHandler(int register, int numberOfRegisters);
         public event HoldingRegistersChangedHandler HoldingRegistersChanged;
 
-        public delegate void NumberOfConnectedClientsChangedHandler();
+        public delegate void NumberOfConnectedClientsChangedHandler(int number);
         public event NumberOfConnectedClientsChangedHandler NumberOfConnectedClientsChanged;
 
         public delegate void LogDataChangedHandler();
@@ -358,7 +375,6 @@ namespace GPMCasstteConvertCIM.GPM_Modbus
 
         public void Listen()
         {
-
             listenerThread = new Thread(ListenerThread);
             listenerThread.Start();
         }
@@ -386,7 +402,7 @@ namespace GPMCasstteConvertCIM.GPM_Modbus
             }
             catch (Exception) { }
         }
-
+        internal event EventHandler OnServerListenStarted;
         private void ListenerThread()
         {
             if (!udpFlag & !serialFlag)
@@ -403,6 +419,7 @@ namespace GPMCasstteConvertCIM.GPM_Modbus
                 if (debug) StoreLogData.Instance.Store("EasyModbus Server listing for incomming data at Port " + port, System.DateTime.Now);
                 tcpHandler.dataChanged += new TCPHandler.DataChanged(ProcessReceivedData);
                 tcpHandler.numberOfClientsChanged += new TCPHandler.NumberOfClientsChanged(numberOfClientsChanged);
+                OnServerListenStarted?.Invoke(this, EventArgs.Empty);
             }
             else if (serialFlag)
             {
@@ -418,6 +435,8 @@ namespace GPMCasstteConvertCIM.GPM_Modbus
                     serialport.ReadTimeout = 1000;
                     serialport.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
                     serialport.Open();
+
+                    OnServerListenStarted?.Invoke(this, EventArgs.Empty);
                 }
             }
             else
@@ -499,11 +518,10 @@ namespace GPMCasstteConvertCIM.GPM_Modbus
         #endregion
 
         #region Method numberOfClientsChanged
-        private void numberOfClientsChanged()
+        private void numberOfClientsChanged(int number)
         {
-            numberOfConnections = tcpHandler.NumberOfConnectedClients;
             if (NumberOfConnectedClientsChanged != null)
-                NumberOfConnectedClientsChanged();
+                NumberOfConnectedClientsChanged(number);
         }
         #endregion
 

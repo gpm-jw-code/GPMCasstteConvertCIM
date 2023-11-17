@@ -25,6 +25,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 {
     public partial class clsConverterPort : IModbusHSable
     {
+        public static event EventHandler<clsConverterPort> OnWaitInReqRaiseButStatusError;
         public clsConverterPort()
         {
         }
@@ -158,8 +159,24 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         {
             if (Properties.ModbusServer_Enable)
             {
-                BuildModbusTCPServer(new frmModbusTCPServer());
-                SyncRegisterData();
+                try
+                {
+                    if (BuildModbusTCPServer(new frmModbusTCPServer()))
+                    {
+                        Utility.SystemLogger.Info($"ModbusTcp Server-0.0.0.0:{modbus_server.Port} is serving.");
+                        SyncRegisterData();
+                        CoilsStatesSyncWorker();
+
+                    }
+                    else
+                    {
+                        Utility.SystemLogger.Warning($"ModbusTcp Server-0.0.0.0:{modbus_server.Port} build FAIL");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Utility.SystemLogger.Error(ex);
+                }
             }
         }
 
@@ -286,7 +303,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                         Utility.SystemLogger.Info($"Port {PortName} BCR ID Updated = {_WIPINFO_BCR_ID}");
                         WIPUPdateTime = DateTime.Now;
                         string cst = string.Empty;
-                        if(IsBCR_READ_ERROR())
+                        if (IsBCR_READ_ERROR())
                         {
                             TUNID = CreateTUNID();
                             cst = TUNID;
@@ -515,6 +532,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                                 wait_in_accept = false;
                                 Utility.SystemLogger.Info($"{PortName}-Carrier Wait In Request Reject, Cause: {(!PortExist ? $"No any cargo in Equipment" : $" With CST ID Incorrect , CST ID ＝{WIPINFO_BCR_ID}")}");
                                 AlarmManager.AddWarning(!PortExist ? ALARM_CODES.CARRIER_WAIT_IN_BUT_NO_CARGO_IN_EQ : ALARM_CODES.CARRIER_WAIT_IN_BUT_BCR_ID_IS_EMPTY, Properties.PortID);
+                                OnWaitInReqRaiseButStatusError?.Invoke(this, this);
                             }
 
                             (bool confirm, ALARM_CODES alarm_code) result = await CarrierWaitInReply(wait_in_accept, 30000);

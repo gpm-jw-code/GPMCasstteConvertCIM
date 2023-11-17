@@ -39,7 +39,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS
                 _richTextBox.SelectionColor = Color.SeaGreen;
                 _richTextBox.AppendText(time.ToString("yyyy/MM/dd HH:mm:ss.ffff") + " " + log_str);
             });
-            WriteToFile(time, LOG_LEVEL.SECS_MSG, log_str);
+            StoreLogItemToQueue(time, LOG_LEVEL.SECS_MSG, log_str);
         }
 
         public void MessageOut(SecsMessage msg, int id)
@@ -54,7 +54,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS
                 _richTextBox.SelectionColor = Color.White;
                 _richTextBox.AppendText(time.ToString("yyyy/MM/dd HH:mm:ss.ffff") + " " + log_str);
             });
-            WriteToFile(time, LOG_LEVEL.SECS_MSG, log_str);
+            StoreLogItemToQueue(time, LOG_LEVEL.SECS_MSG, log_str);
         }
 
         public void Info(string msg)

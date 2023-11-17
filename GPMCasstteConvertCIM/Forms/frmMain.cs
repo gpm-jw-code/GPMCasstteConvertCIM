@@ -124,7 +124,7 @@ namespace GPMCasstteConvertCIM.Forms
                 item.logRichTextBox = rtbModbusTcpServerLog;
             }
 
-
+            clsConverterPort.OnWaitInReqRaiseButStatusError += ClsConverterPort_OnWaitInReqRaiseButStatusError;
             DevicesManager.DeviceConnectionStateOnChanged += CIMDevices_DeviceConnectionStateOnChanged;
             DevicesManager.EqStatusUI = usceqStatus1;
             DevicesManager.Connect();
@@ -149,6 +149,15 @@ namespace GPMCasstteConvertCIM.Forms
                 }));
             };
             SetCurrentEncodingName();
+        }
+
+        private void ClsConverterPort_OnWaitInReqRaiseButStatusError(object? sender, clsConverterPort port)
+        {
+            Task.Run(() =>
+            {
+                CarrierWaitInOutRefuseDialog dialog = new CarrierWaitInOutRefuseDialog();
+                dialog.ShowDialog(port);
+            });
         }
 
 

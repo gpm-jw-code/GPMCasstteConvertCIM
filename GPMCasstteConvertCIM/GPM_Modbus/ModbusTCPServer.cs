@@ -26,6 +26,7 @@ namespace GPMCasstteConvertCIM.GPM_Modbus
         internal int ConnectedClientNum => tcpHandler == null ? 0 : tcpHandler.NumberOfConnectedClients;
         internal void Active(string ip, int port, frmModbusTCPServer ui)
         {
+            NumberOfConnectedClientsChanged += ModbusTCPServer_NumberOfConnectedClientsChanged;
             Port = port;
             UI = ui;
             UI.ModbusTCPServer = this;
@@ -104,11 +105,22 @@ namespace GPMCasstteConvertCIM.GPM_Modbus
             });
         }
 
-
-        private void ModbusTCPServer_NumberOfConnectedClientsChanged()
+        private int _clients = 0;
+        public int clientNumber
         {
-            var tcph = tcpHandler;
-            //logger.Warning("Client ");
+            get => _clients;
+            set
+            {
+                if (_clients != value)
+                {
+                    _clients = value;
+                    Utility.SystemLogger.Info($"Modbus Tcp Server-{Port}| Client connections = {value}");
+                }
+            }
+        }
+        private void ModbusTCPServer_NumberOfConnectedClientsChanged(int number)
+        {
+            clientNumber = number;
         }
 
         internal void Close()

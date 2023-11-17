@@ -110,7 +110,7 @@ namespace GPMCasstteConvertCIM.Emulators
                     });
                 }
 
-                CasstteConverter.Data.clsMemoryAddress? do_address = DI_modbus_linked_addresses.FirstOrDefault(m => m.Link_Modbus_Register_Number == i-1);
+                CasstteConverter.Data.clsMemoryAddress? do_address = DI_modbus_linked_addresses.FirstOrDefault(m => m.Link_Modbus_Register_Number == i - 1);
                 if (do_address != null)
                 {
                     DigitalOutputs.Add(new DigitalIORegister(DigitalIORegister.IO_TYPE.INPUT)
@@ -177,7 +177,7 @@ namespace GPMCasstteConvertCIM.Emulators
                         while (RegisterWritesQueue.Count != 0)
                         {
                             HoldingRegisterWrite toWrite = RegisterWritesQueue.Dequeue();
-                             modbus.WriteMultipleRegisters(toWrite.startIndex, toWrite.values);
+                            modbus.WriteMultipleRegisters(toWrite.startIndex, toWrite.values);
                         }
                         try
                         {
@@ -256,6 +256,7 @@ namespace GPMCasstteConvertCIM.Emulators
 
         internal void CancelTask()
         {
+            modbus?.tcpClient.Close();
             cancellationToken?.Cancel();
         }
 
