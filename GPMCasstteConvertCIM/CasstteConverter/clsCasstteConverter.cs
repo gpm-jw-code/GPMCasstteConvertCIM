@@ -296,6 +296,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 while (true)
                 {
                     await Task.Delay(1);
+                    if (_connectionState != Common.CONNECTION_STATE.CONNECTED)
+                    {
+                        continue;
+                    }
                     Stopwatch stopwatch = Stopwatch.StartNew();
                     await SyncMemData();
                     stopwatch.Stop();
@@ -371,7 +375,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     try
                     {
                         Thread.Sleep(10);
-                        if (_connectionState != Common.CONNECTION_STATE.CONNECTED && !Debugger.IsAttached)
+                        if (_connectionState != Common.CONNECTION_STATE.CONNECTED)
                         {
                             continue;
                         }
@@ -541,7 +545,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     }
                     catch (Exception ex)
                     {
-                       // Utility.SystemLogger.Error(ex.Message, ex);
+                        // Utility.SystemLogger.Error(ex.Message, ex);
                     }
 
                     EQPORT.LoadRequest = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Load_Request).Value;
@@ -589,7 +593,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     }
                     catch (Exception ex)
                     {
-                       // Utility.SystemLogger.Error(ex.Message, ex);
+                        // Utility.SystemLogger.Error(ex.Message, ex);
                     }
                 }
                 IsPLCDataUpdated = IsPLCMemoryDataReadDone == true;

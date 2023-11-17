@@ -5,9 +5,9 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
-using GPMCasstteConvertCIM.DataBase;
-using GPMCasstteConvertCIM.Database;
 using Newtonsoft.Json;
+using GPMCasstteConvertCIM.DataBase.KGS_AGVs.Models;
+using GPMCasstteConvertCIM.DataBase.KGS_AGVs;
 
 namespace GPMCasstteConvertCIM.API.TcpSupport
 {

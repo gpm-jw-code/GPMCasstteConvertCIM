@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace GPMCasstteConvertCIM.Database;
+namespace GPMCasstteConvertCIM.DataBase.KGS_AGVs.Models;
 
-public partial class ExecutingSkdTask
+public partial class SkdTask
 {
     public string CommandID { get; set; } = null!;
 
@@ -19,9 +19,9 @@ public partial class ExecutingSkdTask
 
     public string? PatrolPoints { get; set; }
 
-    public string? FinishedPoints { get; set; }
-
-    public double? Progress { get; set; }
+    public string? FailedPoints { get; set; }
 
     public DateTime? StartTime { get; set; }
+
+    public DateTime? EndTime { get; set; }
 }

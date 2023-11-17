@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace GPMCasstteConvertCIM.Database;
+namespace GPMCasstteConvertCIM.DataBase.KGS_AGVs.Models;
 
 public partial class AGVInfo
 {

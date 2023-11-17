@@ -61,16 +61,17 @@ namespace GPMCasstteConvertCIM.Utilities
 
         private void _richTextBox_TextChanged(object? sender, EventArgs e)
         {
-            if (_richTextBox.Created)
-            {
-                _richTextBox?.Invoke((MethodInvoker)delegate
-            {
-                if (_richTextBox.Text.Length > 16384)
-                    _richTextBox.Clear();
-                _richTextBox.ScrollToCaret();
+            if (_richTextBox != null)
+                if (_richTextBox.Created)
+                {
+                    _richTextBox?.Invoke((MethodInvoker)delegate
+                {
+                    if (_richTextBox.Text.Length > 16384)
+                        _richTextBox.Clear();
+                    _richTextBox.ScrollToCaret();
 
-            });
-            }
+                });
+                }
         }
 
 
@@ -102,38 +103,44 @@ namespace GPMCasstteConvertCIM.Utilities
         public void Info(string msg, bool show_in_richbox = true)
         {
             DateTime time = DateTime.Now;
-            if (show_in_richbox && _richTextBox.Created)
+            if (_richTextBox != null)
             {
-                _richTextBox?.Invoke((MethodInvoker)delegate
+                if (show_in_richbox & _richTextBox.Created)
                 {
-                    _richTextBox.SelectionColor = Color.White;
-                    _richTextBox.AppendText($"{time} [INFO] {msg}\n");
-                });
+                    _richTextBox?.Invoke((MethodInvoker)delegate
+                    {
+                        _richTextBox.SelectionColor = Color.White;
+                        _richTextBox.AppendText($"{time} [INFO] {msg}\n");
+                    });
+                }
             }
+
             StoreLogItemToQueue(time, LOG_LEVEL.INFO, msg);
         }
         public void Info(string msg, Color foreCOlor, bool show_in_richbox = true)
         {
             DateTime time = DateTime.Now;
-            if (show_in_richbox && _richTextBox.Created)
-            {
-                _richTextBox?.Invoke((MethodInvoker)delegate
+            if (_richTextBox != null)
+                if (show_in_richbox && _richTextBox.Created)
                 {
-                    _richTextBox.SelectionColor = foreCOlor;
-                    _richTextBox.AppendText($"{time} [INFO] {msg}\n");
-                });
-            }
+                    _richTextBox?.Invoke((MethodInvoker)delegate
+                    {
+                        _richTextBox.SelectionColor = foreCOlor;
+                        _richTextBox.AppendText($"{time} [INFO] {msg}\n");
+                    });
+                }
             StoreLogItemToQueue(time, LOG_LEVEL.INFO, msg);
         }
         public void Warning(string msg, bool show_in_richbox = true)
         {
             DateTime time = DateTime.Now;
-            if (show_in_richbox && _richTextBox.Created)
-                _richTextBox?.Invoke((MethodInvoker)delegate
-                {
-                    _richTextBox.SelectionColor = Color.Gold;
-                    _richTextBox.AppendText($"{time} [WARN] {msg}\n");
-                });
+            if (_richTextBox != null)
+                if (show_in_richbox && _richTextBox.Created)
+                    _richTextBox?.Invoke((MethodInvoker)delegate
+                    {
+                        _richTextBox.SelectionColor = Color.Gold;
+                        _richTextBox.AppendText($"{time} [WARN] {msg}\n");
+                    });
             StoreLogItemToQueue(time, LOG_LEVEL.WARNING, msg);
         }
 
@@ -144,16 +151,17 @@ namespace GPMCasstteConvertCIM.Utilities
         public void Error(string msg, Exception? ex, bool show_in_richbox = true)
         {
             DateTime time = DateTime.Now;
-            if (show_in_richbox && _richTextBox.Created)
-            {
-                _richTextBox?.Invoke((MethodInvoker)delegate
-                    {
-                        _richTextBox.SelectionColor = Color.FromArgb(255, 92, 97);
-                        _richTextBox.AppendText($"{time} [ERROR] {msg}\n");
-                        _richTextBox.SelectionColor = Color.Gray;
-                        _richTextBox.AppendText($"{ex}\n");
-                    });
-            }
+            if (_richTextBox != null)
+                if (show_in_richbox && _richTextBox.Created)
+                {
+                    _richTextBox?.Invoke((MethodInvoker)delegate
+                        {
+                            _richTextBox.SelectionColor = Color.FromArgb(255, 92, 97);
+                            _richTextBox.AppendText($"{time} [ERROR] {msg}\n");
+                            _richTextBox.SelectionColor = Color.Gray;
+                            _richTextBox.AppendText($"{ex}\n");
+                        });
+                }
             StoreLogItemToQueue(time, LOG_LEVEL.ERROR, $"{msg}-{ex?.Message}-{ex?.StackTrace}");
         }
         public class clsLogItem

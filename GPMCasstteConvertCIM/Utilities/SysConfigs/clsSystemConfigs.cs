@@ -23,10 +23,13 @@ namespace GPMCasstteConvertCIM.Utilities.SysConfigs
         [JsonConverter(typeof(StringEnumConverter))]
         public PROJECT Project { get; set; }
 
+        public List<clsAGVInfo> AGVList { get; set; } = new List<clsAGVInfo>();
+
         public enum PROJECT
         {
             U003, U007
         }
+
 
     }
 }

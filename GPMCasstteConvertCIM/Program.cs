@@ -1,4 +1,5 @@
-﻿using GPMCasstteConvertCIM.Forms;
+﻿using GPMCasstteConvertCIM.DataBase.KGS_AGVs;
+using GPMCasstteConvertCIM.Forms;
 using GPMCasstteConvertCIM.Utilities;
 using System;
 using System.Diagnostics;
@@ -14,7 +15,8 @@ namespace GPMCasstteConvertCIM
         [STAThread]
         static void Main()
         {
-            
+            AGVSDBHelper.Init();
+
             CheckProgramOpenState();
             Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
             Application.ThreadException += Application_ThreadException; ;

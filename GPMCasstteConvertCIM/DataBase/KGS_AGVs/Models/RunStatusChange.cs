@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace GPMCasstteConvertCIM.Database;
+namespace GPMCasstteConvertCIM.DataBase.KGS_AGVs.Models;
 
-public partial class PathInfo
+public partial class RunStatusChange
 {
     public DateTime ChangeTime { get; set; }
 
     public int AGVID { get; set; }
 
-    public int? Location { get; set; }
+    public int AGVMainStatus { get; set; }
 }

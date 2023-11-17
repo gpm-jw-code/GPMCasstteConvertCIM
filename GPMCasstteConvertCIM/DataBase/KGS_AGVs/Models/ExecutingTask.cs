@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace GPMCasstteConvertCIM.Database;
+namespace GPMCasstteConvertCIM.DataBase.KGS_AGVs.Models;
 
 public partial class ExecutingTask
 {
     [Key]
-    public string Name { get; set; } 
+    public string Name { get; set; }
 
     public int Status { get; set; }
 

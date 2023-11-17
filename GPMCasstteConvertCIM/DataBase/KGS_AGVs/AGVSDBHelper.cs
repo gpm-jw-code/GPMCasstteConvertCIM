@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using GPMCasstteConvertCIM.DataBase.KGS_AGVs.Models;
+using GPMCasstteConvertCIM.Utilities.SysConfigs;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
@@ -7,12 +9,57 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GPMCasstteConvertCIM.Database
+namespace GPMCasstteConvertCIM.DataBase.KGS_AGVs
 {
     public class AGVSDBHelper
     {
+
         internal static string DBConnection = "Server=127.0.0.1;Database=WebAGVSystem;User Id=sa;Password=12345678;Encrypt=False";
 
+
+        public static event EventHandler<clsAGVInfo> OnAGVStartNewTask;
+        public static void Init()
+        {
+            var helper = new AGVSDBHelper();
+            helper.DBConn.Database.EnsureCreated();
+            helper.DBConn.SaveChanges();
+            ExcutingTaskMonitorWorker();
+        }
+        private static void ExcutingTaskMonitorWorker()
+        {
+            Task.Factory.StartNew(async () =>
+            {
+                var database = new AGVSDBHelper();
+                var context = database.DBConn;
+                Dictionary<int, string> agvExecutingTaskList = new Dictionary<int, string>();
+                while (true)
+                {
+                    await Task.Delay(1000);
+                    if (context.ExecutingTasks.Any())
+                    {
+                        foreach (var task in context.ExecutingTasks)
+                        {
+                            if (!agvExecutingTaskList.ContainsKey(task.AGVID))
+                                agvExecutingTaskList.Add(task.AGVID, task.Name);
+                            else
+                            {
+                                var previousTaskName = agvExecutingTaskList[task.AGVID];
+                                var currentTaskName = task.Name;
+                                if (previousTaskName != currentTaskName)
+                                {
+                                    agvExecutingTaskList[task.AGVID] = currentTaskName;
+                                    OnAGVStartNewTask?.Invoke("", new clsAGVInfo
+                                    {
+                                        AGVID = task.AGVID,
+                                        TaskNameExecuting = currentTaskName,
+                                    });
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
         public WebAGVSystemDbcontext DBConn
         {
             get
@@ -21,7 +68,8 @@ namespace GPMCasstteConvertCIM.Database
                 {
                     var optionbuilder = new DbContextOptionsBuilder<WebAGVSystemDbcontext>();
                     optionbuilder.UseSqlServer("Server=127.0.0.1;Database=WebAGVSystem;User Id=sa;Password=12345678;Encrypt=False");
-                    return new WebAGVSystemDbcontext(optionbuilder.Options);
+                    var context = new WebAGVSystemDbcontext(optionbuilder.Options);
+                    return context;
                 }
                 catch (Exception ex)
                 {

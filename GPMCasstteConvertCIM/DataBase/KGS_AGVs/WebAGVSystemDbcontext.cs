@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using GPMCasstteConvertCIM.Database;
+using GPMCasstteConvertCIM.DataBase.KGS_AGVs.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace GPMCasstteConvertCIM.Database;
+namespace GPMCasstteConvertCIM.DataBase.KGS_AGVs;
 
 public partial class WebAGVSystemDbcontext : DbContext
 {
