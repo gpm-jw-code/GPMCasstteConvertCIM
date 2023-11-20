@@ -15,8 +15,7 @@ namespace GPMCasstteConvertCIM
         [STAThread]
         static void Main()
         {
-            AGVSDBHelper.Init();
-
+            
             CheckProgramOpenState();
             Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
             Application.ThreadException += Application_ThreadException; ;

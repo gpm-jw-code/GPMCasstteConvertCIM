@@ -24,6 +24,7 @@ namespace GPMCasstteConvertCIM.Utilities.SysConfigs
         public PROJECT Project { get; set; }
 
         public List<clsAGVInfo> AGVList { get; set; } = new List<clsAGVInfo>();
+        public string MapFilePath { get; set; } = @"C:\CST\ini\Map_UMTC_3F_MEC.json";
 
         public enum PROJECT
         {

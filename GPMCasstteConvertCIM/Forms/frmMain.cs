@@ -1,8 +1,10 @@
+using GPMCasstteConvertCIM.AGVsMiddleware;
 using GPMCasstteConvertCIM.Alarm;
 using GPMCasstteConvertCIM.API.TcpSupport;
 using GPMCasstteConvertCIM.API.WebsocketSupport;
 using GPMCasstteConvertCIM.CasstteConverter;
 using GPMCasstteConvertCIM.CasstteConverter.Data;
+using GPMCasstteConvertCIM.DataBase.KGS_AGVs;
 using GPMCasstteConvertCIM.Devices;
 using GPMCasstteConvertCIM.Devices.Options;
 using GPMCasstteConvertCIM.Emulators;
@@ -149,6 +151,14 @@ namespace GPMCasstteConvertCIM.Forms
                 }));
             };
             SetCurrentEncodingName();
+            Task.Factory.StartNew(() =>
+            {
+                AGVsOrderInfoTransfer.Initialize();
+                if (!AGVSDBHelper.Init(out var erMsg))
+                {
+                    MessageBox.Show(erMsg);
+                }
+            });
         }
 
         private void ClsConverterPort_OnWaitInReqRaiseButStatusError(object? sender, clsConverterPort port)

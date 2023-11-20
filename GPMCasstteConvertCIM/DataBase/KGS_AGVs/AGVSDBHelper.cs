@@ -1,4 +1,5 @@
 ﻿using GPMCasstteConvertCIM.DataBase.KGS_AGVs.Models;
+using GPMCasstteConvertCIM.Utilities;
 using GPMCasstteConvertCIM.Utilities.SysConfigs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -14,16 +15,30 @@ namespace GPMCasstteConvertCIM.DataBase.KGS_AGVs
     public class AGVSDBHelper
     {
 
-        internal static string DBConnection = "Server=127.0.0.1;Database=WebAGVSystem;User Id=sa;Password=12345678;Encrypt=False";
+        internal static string DBConnection = "Server=192.168.1.100;Database=WebAGVSystem;User Id=sa;Password=12345678;Encrypt=False";
 
 
-        public static event EventHandler<clsAGVInfo> OnAGVStartNewTask;
-        public static void Init()
+        public static event EventHandler<clsNewTaskObj> OnAGVStartNewTask;
+        public class clsNewTaskObj : clsAGVInfo
         {
-            var helper = new AGVSDBHelper();
-            helper.DBConn.Database.EnsureCreated();
-            helper.DBConn.SaveChanges();
-            ExcutingTaskMonitorWorker();
+            public ExecutingTask OrderInfo { get; set; } = new ExecutingTask();
+        }
+        public static bool Init(out string errMsg)
+        {
+            errMsg = string.Empty;
+            try
+            {
+                var helper = new AGVSDBHelper();
+                helper.DBConn.Database.EnsureCreated();
+                helper.DBConn.SaveChanges();
+                ExcutingTaskMonitorWorker();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                errMsg = ex.Message;
+                return false;
+            }
         }
         private static void ExcutingTaskMonitorWorker()
         {
@@ -48,10 +63,11 @@ namespace GPMCasstteConvertCIM.DataBase.KGS_AGVs
                                 if (previousTaskName != currentTaskName)
                                 {
                                     agvExecutingTaskList[task.AGVID] = currentTaskName;
-                                    OnAGVStartNewTask?.Invoke("", new clsAGVInfo
+                                    OnAGVStartNewTask?.Invoke("", new clsNewTaskObj
                                     {
                                         AGVID = task.AGVID,
-                                        TaskNameExecuting = currentTaskName,
+                                        TaskNameExecuting = task.Name,
+                                        OrderInfo = task
                                     });
                                 }
                             }
@@ -67,7 +83,7 @@ namespace GPMCasstteConvertCIM.DataBase.KGS_AGVs
                 try
                 {
                     var optionbuilder = new DbContextOptionsBuilder<WebAGVSystemDbcontext>();
-                    optionbuilder.UseSqlServer("Server=127.0.0.1;Database=WebAGVSystem;User Id=sa;Password=12345678;Encrypt=False");
+                    optionbuilder.UseSqlServer(DBConnection);
                     var context = new WebAGVSystemDbcontext(optionbuilder.Options);
                     return context;
                 }

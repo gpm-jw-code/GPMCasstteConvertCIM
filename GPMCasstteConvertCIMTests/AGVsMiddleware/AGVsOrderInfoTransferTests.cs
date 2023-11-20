@@ -14,9 +14,14 @@ namespace GPMCasstteConvertCIM.AGVsMiddleware.Tests
         [TestMethod()]
         public void PostOrderInfoToAGVTest()
         {
-            var ret = AGVsOrderInfoTransfer.PostOrderInfoToAGV(new Utilities.SysConfigs.clsAGVInfo()
+            var ret = AGVsOrderInfoTransfer.PostOrderInfoToAGV(new DataBase.KGS_AGVs.AGVSDBHelper.clsNewTaskObj
             {
-                AGVIP = "192.168.1.101"
+                AGVID = 1,
+                AGVIP = "127.0.0.1",
+                OrderInfo = new DataBase.KGS_AGVs.Models.ExecutingTask
+                {
+                    ActionType = ""
+                }
             }).Result;
         }
     }

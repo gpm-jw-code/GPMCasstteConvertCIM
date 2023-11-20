@@ -441,10 +441,21 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 string Load_Request_address = port.PortEQBitAddress[PROPERTY.Load_Request];
                 string Unload_Request_address = port.PortEQBitAddress[PROPERTY.Unload_Request];
                 string Port_Status_Down_address = port.PortEQBitAddress[PROPERTY.Port_Status_Down];
+                try
+                {
 
-                EQPMemOptions.memoryTable.WriteOneBit(Load_Request_address, false);
-                EQPMemOptions.memoryTable.WriteOneBit(Unload_Request_address, false);
-                EQPMemOptions.memoryTable.WriteOneBit(Port_Status_Down_address, false);
+                    LinkBitMap.FirstOrDefault(i => i.Address == Load_Request_address).Value = false;
+                    LinkBitMap.FirstOrDefault(i => i.Address == Unload_Request_address).Value = false;
+                    LinkBitMap.FirstOrDefault(i => i.Address == Port_Status_Down_address).Value = false;
+
+                }
+                catch (Exception ex)
+                {
+                    Utility.SystemLogger.Error(ex);
+                }
+                //EQPMemOptions.memoryTable.WriteOneBit(Load_Request_address, false);
+                //EQPMemOptions.memoryTable.WriteOneBit(Unload_Request_address, false);
+                //EQPMemOptions.memoryTable.WriteOneBit(Port_Status_Down_address, false);
             }
         }
 
@@ -462,6 +473,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     }
                     else
                     {
+                        CIMMemOptions.memoryTable.WriteBinary(item.Address, (int)item.Value);
                         item.Value = CIMMemOptions.memoryTable.ReadBinary(item.Address);
                     }
                 }
@@ -475,6 +487,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     }
                     else
                     {
+                        CIMMemOptions.memoryTable.WriteOneBit(item.Address, (bool)item.Value);
                         item.Value = CIMMemOptions.memoryTable.ReadOneBit(item.Address);
                     }
                 }
