@@ -29,7 +29,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             /// <summary>
             /// 是否使用SECS通訊上報狀態或下載請求
             /// </summary>
-            public bool SecsReport { get; set; } = false;
+            public bool SecsReport { get; set; } = true;
 
             /// <summary>
             /// 在派車系統上設定的Tag編號
@@ -40,7 +40,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             public bool IsInstalled { get; set; } = false;
 
             public DateTime CarrierInstallTime { get; set; } = DateTime.MinValue;
-            public bool CarrierWaitInNeedWaitingS2F41OrS2F49{ get; set; } = false;
+            public bool CarrierWaitInNeedWaitingS2F41OrS2F49 { get; set; } = false;
 
         }
 

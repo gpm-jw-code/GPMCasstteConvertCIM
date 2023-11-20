@@ -500,42 +500,49 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                         {
                             await Task.Delay(1000);
                             Utility.SystemLogger.Info($"{PortName}-Carrier Wait In Request ON , With CST ID＝{CSTIDOnPort}");
+
                             bool wait_in_accept = false;
-                            if (WIPINFO_BCR_ID != "" && !IsBCR_READ_ERROR() && PortExist)
+                            if (Properties.SecsReport)
                             {
-                                if (!SECSState.IsOnline || !SECSState.IsRemote)
-                                {
-                                    wait_in_accept = true;
-                                    Utility.SystemLogger.Info($"CIM  Accept  Carrier Wait IN Request first because MCS isn't ONLINE _ REMOTE");
-                                    await CarrierWaitInReply(wait_in_accept, 30000);
-                                    return;
-                                }
 
-                                bool mcs_accpet = Debugger.IsAttached ? true : await SecsEventReport(CEID.CarrierWaitIn, WIPINFO_BCR_ID);
-
-                                if (mcs_accpet && Properties.CarrierWaitInNeedWaitingS2F41OrS2F49)
+                                if (WIPINFO_BCR_ID != "" && !IsBCR_READ_ERROR() && PortExist)
                                 {
-                                    Utility.SystemLogger.Info($"Wait S2F41 or S2F49 Message reachded..");
-                                    wait_in_accept = await WaitTransferTaskDownloaded();
-                                    if (wait_in_accept)
-                                        Utility.SystemLogger.Info($"{(CurrentCSTHasTransferTaskFlag ? "S2F49_Transfer" : "S2F41_No_Transfer")} Message reachded!");
-                                    Utility.SystemLogger.Info($"MCS {(wait_in_accept ? "Accept" : "Reject")} Carrier Wait IN Request..");
-                                    wait_in_accept = CurrentCSTHasTransferTaskFlag;
+                                    if (!SECSState.IsOnline || !SECSState.IsRemote)
+                                    {
+                                        wait_in_accept = true;
+                                        Utility.SystemLogger.Info($"CIM  Accept  Carrier Wait IN Request first because MCS isn't ONLINE _ REMOTE");
+                                        await CarrierWaitInReply(wait_in_accept, 30000);
+                                        return;
+                                    }
+
+                                    bool mcs_accpet = Debugger.IsAttached ? true : await SecsEventReport(CEID.CarrierWaitIn, WIPINFO_BCR_ID);
+
+                                    if (mcs_accpet && Properties.CarrierWaitInNeedWaitingS2F41OrS2F49)
+                                    {
+                                        Utility.SystemLogger.Info($"Wait S2F41 or S2F49 Message reachded..");
+                                        wait_in_accept = await WaitTransferTaskDownloaded();
+                                        if (wait_in_accept)
+                                            Utility.SystemLogger.Info($"{(CurrentCSTHasTransferTaskFlag ? "S2F49_Transfer" : "S2F41_No_Transfer")} Message reachded!");
+                                        Utility.SystemLogger.Info($"MCS {(wait_in_accept ? "Accept" : "Reject")} Carrier Wait IN Request..");
+                                        wait_in_accept = CurrentCSTHasTransferTaskFlag;
+                                    }
+                                    else
+                                    {
+                                        wait_in_accept = mcs_accpet;
+                                    }
                                 }
                                 else
                                 {
-                                    wait_in_accept = mcs_accpet;
+                                    wait_in_accept = false;
+                                    Utility.SystemLogger.Info($"{PortName}-Carrier Wait In Request Reject, Cause: {(!PortExist ? $"No any cargo in Equipment" : $" With CST ID Incorrect , CST ID ＝{WIPINFO_BCR_ID}")}");
+                                    AlarmManager.AddWarning(!PortExist ? ALARM_CODES.CARRIER_WAIT_IN_BUT_NO_CARGO_IN_EQ : ALARM_CODES.CARRIER_WAIT_IN_BUT_BCR_ID_IS_EMPTY, Properties.PortID);
+
+                                    OnWaitInReqRaiseButStatusError?.Invoke(this, this);
                                 }
+
                             }
                             else
-                            {
-                                wait_in_accept = false;
-                                Utility.SystemLogger.Info($"{PortName}-Carrier Wait In Request Reject, Cause: {(!PortExist ? $"No any cargo in Equipment" : $" With CST ID Incorrect , CST ID ＝{WIPINFO_BCR_ID}")}");
-                                AlarmManager.AddWarning(!PortExist ? ALARM_CODES.CARRIER_WAIT_IN_BUT_NO_CARGO_IN_EQ : ALARM_CODES.CARRIER_WAIT_IN_BUT_BCR_ID_IS_EMPTY, Properties.PortID);
-
-                                if (Properties.SecsReport)
-                                    OnWaitInReqRaiseButStatusError?.Invoke(this, this);
-                            }
+                                wait_in_accept = true;
 
                             (bool confirm, ALARM_CODES alarm_code) result = await CarrierWaitInReply(wait_in_accept, 30000);
                             CurrentCSTHasTransferTaskFlag = false; //reset flag
@@ -571,13 +578,13 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     {
                         Utility.SystemLogger.Info("Carrier Wait out Request bit ON ");
                         bool wait_out_accept = PortExist;
-                        if (!wait_out_accept)
+                        if (!wait_out_accept && Properties.SecsReport)
                         {
                             AlarmManager.AddAlarm(ALARM_CODES.CARRIER_WAIT_OUT_BUT_NO_CARGO_IN_EQ, PortName, true);
                             OnWaitOutRefuseByCIM?.Invoke(this, this);
                         }
                         //Secs Report
-                        if (SECSState.IsRemote)
+                        if (SECSState.IsRemote && Properties.SecsReport)
                         {
                             Task.Factory.StartNew(async () =>
                             {

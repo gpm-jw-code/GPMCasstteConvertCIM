@@ -123,7 +123,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 var port = PortDatas.FirstOrDefault(p => p.Properties.PortNo == portID);
                 Utility.SystemLogger.Info($"{Name}-{port.PortName} -->{add.DataName}({add.Address}) Changed to [{add.Value}]");
             }
-            else if (add.EScope == EQ_SCOPE.EQ)
+            else 
             {
                 Utility.SystemLogger.Info($"{Name} -->{add.DataName}({add.Address}) Changed to [{add.Value}]");
             }
@@ -501,7 +501,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     }
                     else
                     {
-                        CIMMemOptions.memoryTable.WriteBinary(item.Address, (int)item.Value);
                         item.Value = CIMMemOptions.memoryTable.ReadBinary(item.Address);
                     }
                 }
@@ -515,7 +514,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     }
                     else
                     {
-                        CIMMemOptions.memoryTable.WriteOneBit(item.Address, (bool)item.Value);
                         item.Value = CIMMemOptions.memoryTable.ReadOneBit(item.Address);
                     }
                 }
