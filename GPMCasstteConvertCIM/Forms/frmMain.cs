@@ -1,8 +1,10 @@
+using GPMCasstteConvertCIM.AGVsMiddleware;
 using GPMCasstteConvertCIM.Alarm;
 using GPMCasstteConvertCIM.API.TcpSupport;
 using GPMCasstteConvertCIM.API.WebsocketSupport;
 using GPMCasstteConvertCIM.CasstteConverter;
 using GPMCasstteConvertCIM.CasstteConverter.Data;
+using GPMCasstteConvertCIM.DataBase.KGS_AGVs;
 using GPMCasstteConvertCIM.Devices;
 using GPMCasstteConvertCIM.Devices.Options;
 using GPMCasstteConvertCIM.Emulators;
@@ -149,6 +151,20 @@ namespace GPMCasstteConvertCIM.Forms
                 }));
             };
             SetCurrentEncodingName();
+
+            if (!Utility.SysConfigs.PostOrderInfoToAGV)
+            {
+                tabControl1.TabPages.Remove(tabAGVSInfos);
+            }
+            else
+                Task.Factory.StartNew(() =>
+                {
+                    AGVsOrderInfoTransfer.Initialize(Utility.SystemLogger);
+                    if (!AGVSDBHelper.Init(Utility.SystemLogger, out var erMsg))
+                    {
+                        MessageBox.Show(erMsg);
+                    }
+                });
         }
 
         private void ClsConverterPort_OnWaitInReqRaiseButStatusError(object? sender, clsConverterPort port)
@@ -292,7 +308,8 @@ namespace GPMCasstteConvertCIM.Forms
         private async void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
 
-            if (MessageBox.Show("確定要關閉CIM程式", "Exit APP Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+            AppCloseConfirmDialog dialog = new AppCloseConfirmDialog();
+            if (dialog.ShowDialog() == DialogResult.Cancel)
             {
                 e.Cancel = true;
                 return;

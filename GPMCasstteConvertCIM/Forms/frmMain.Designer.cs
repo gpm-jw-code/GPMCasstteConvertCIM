@@ -51,6 +51,8 @@
             checkBox1 = new CheckBox();
             checkBox5 = new CheckBox();
             rtbModbusTcpServerLog = new RichTextBox();
+            tabAGVSInfos = new TabPage();
+            uscagVsInfo1 = new UI_UserControls.UscAGVsInfo();
             tableLayoutPanel2 = new TableLayoutPanel();
             dgvMsgFromMCS = new DataGridView();
             primaryMessageSMLDataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
@@ -110,6 +112,7 @@
             tabPage3.SuspendLayout();
             tabPage2.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
+            tabAGVSInfos.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvMsgFromMCS).BeginInit();
             ((System.ComponentModel.ISupportInitialize)primaryMessageWrapperBindingSource4).BeginInit();
@@ -137,6 +140,7 @@
             tabControl1.Controls.Add(tabPage1);
             tabControl1.Controls.Add(tabPage3);
             tabControl1.Controls.Add(tabPage2);
+            tabControl1.Controls.Add(tabAGVSInfos);
             tabControl1.Dock = DockStyle.Fill;
             tabControl1.HotTrack = true;
             tabControl1.ItemSize = new Size(96, 30);
@@ -409,6 +413,26 @@
             rtbModbusTcpServerLog.Size = new Size(414, 478);
             rtbModbusTcpServerLog.TabIndex = 7;
             rtbModbusTcpServerLog.Text = "";
+            // 
+            // tabAGVSInfos
+            // 
+            tabAGVSInfos.Controls.Add(uscagVsInfo1);
+            tabAGVSInfos.Location = new Point(4, 34);
+            tabAGVSInfos.Name = "tabAGVSInfos";
+            tabAGVSInfos.Padding = new Padding(3);
+            tabAGVSInfos.Size = new Size(1244, 525);
+            tabAGVSInfos.TabIndex = 4;
+            tabAGVSInfos.Text = "AGVs";
+            tabAGVSInfos.UseVisualStyleBackColor = true;
+            // 
+            // uscagVsInfo1
+            // 
+            uscagVsInfo1.BorderStyle = BorderStyle.FixedSingle;
+            uscagVsInfo1.Dock = DockStyle.Fill;
+            uscagVsInfo1.Location = new Point(3, 3);
+            uscagVsInfo1.Name = "uscagVsInfo1";
+            uscagVsInfo1.Size = new Size(1238, 519);
+            uscagVsInfo1.TabIndex = 0;
             // 
             // tableLayoutPanel2
             // 
@@ -825,7 +849,7 @@
             toolStripStatusLabel1.LinkColor = Color.FromArgb(53, 53, 53);
             toolStripStatusLabel1.Margin = new Padding(0);
             toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            toolStripStatusLabel1.Size = new Size(1198, 22);
+            toolStripStatusLabel1.Size = new Size(1229, 22);
             toolStripStatusLabel1.Spring = true;
             toolStripStatusLabel1.Text = "GPM AGV SYSTEM CIM";
             // 
@@ -962,6 +986,7 @@
             tabPage3.ResumeLayout(false);
             tabPage2.ResumeLayout(false);
             tableLayoutPanel1.ResumeLayout(false);
+            tabAGVSInfos.ResumeLayout(false);
             tableLayoutPanel2.ResumeLayout(false);
             tableLayoutPanel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvMsgFromMCS).EndInit();
@@ -1064,5 +1089,7 @@
         private Button btnClearInfoLog;
         private RichTextBox rtbSystemLogShow;
         private ToolStripStatusLabel labCurrentEncodingName;
+        private TabPage tabAGVSInfos;
+        private UI_UserControls.UscAGVsInfo uscagVsInfo1;
     }
 }

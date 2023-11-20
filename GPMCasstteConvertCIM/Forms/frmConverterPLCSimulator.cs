@@ -47,6 +47,11 @@ namespace GPMCasstteConvertCIM.Forms
 
         private void UscMemoryTable1_bitValueOnChanged(object? sender, (string bitAddress, bool state) e)
         {
+            //var ad = CasstteConverter.LinkBitMap.FirstOrDefault(bit => bit.Address == e.bitAddress);
+            //if (ad != null)
+            //{
+            //    ad.Value = e.state;
+            //}
             CasstteConverter.EQPMemOptions.memoryTable.WriteOneBit(e.bitAddress, e.state);
         }
 

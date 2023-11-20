@@ -233,7 +233,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                             var localCoilsAry = modbus_server.coils.localArray;
                             bool state = localCoilsAry[register_num + 1];
                             AGVHandshakeIO(item, state);
-                            EQParent.CIMMemOptions.memoryTable.WriteOneBit(item.Address, state);
+                            item.Value = state;
                         }
                         catch (Exception ex)
                         {
@@ -305,8 +305,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                         int value = EQParent.CIMMemOptions.memoryTable.ReadBinary(item.Address);
                         modbus_server.holdingRegisters.localArray[item.Link_Modbus_Register_Number] = (short)value;
                     }
-                }
 
+                }
             });
         }
 

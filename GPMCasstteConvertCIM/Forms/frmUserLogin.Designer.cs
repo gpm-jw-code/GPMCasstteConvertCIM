@@ -52,6 +52,9 @@
             txbAccount.PlaceholderText = "Account";
             txbAccount.Size = new Size(180, 23);
             txbAccount.TabIndex = 1;
+            txbAccount.Enter += txbAccount_Enter;
+            txbAccount.KeyDown += txbAccount_KeyDown;
+            txbAccount.Leave += txbAccount_Leave;
             // 
             // txbPassword
             // 
@@ -61,6 +64,9 @@
             txbPassword.PlaceholderText = "Password";
             txbPassword.Size = new Size(180, 23);
             txbPassword.TabIndex = 2;
+            txbPassword.TextChanged += txbPassword_TextChanged;
+            txbPassword.Enter += txbPassword_Enter;
+            txbPassword.KeyDown += txbPassword_KeyDown;
             // 
             // label2
             // 
@@ -100,7 +106,6 @@
             // 
             // frmUserLogin
             // 
-            AcceptButton = btnLogin;
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
@@ -116,6 +121,7 @@
             Name = "frmUserLogin";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Login";
+            KeyDown += frmUserLogin_KeyDown;
             ResumeLayout(false);
             PerformLayout();
         }

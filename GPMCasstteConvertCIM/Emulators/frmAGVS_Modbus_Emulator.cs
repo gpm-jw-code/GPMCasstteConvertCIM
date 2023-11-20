@@ -25,9 +25,9 @@ namespace GPMCasstteConvertCIM.Emulators
             InitializeComponent();
         }
 
-        private void frmAGVS_Modbus_Emulator_FormClosing(object sender, FormClosingEventArgs e)
+        private async void frmAGVS_Modbus_Emulator_FormClosing(object sender, FormClosingEventArgs e)
         {
-            uscagvsModbusClientEmulator1.CancelTask();
+            await uscagvsModbusClientEmulator1.CancelTask();
             uscagvsModbusClientEmulator1.Dispose();
             Dispose();
         }

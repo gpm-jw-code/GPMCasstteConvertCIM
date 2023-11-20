@@ -74,7 +74,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             CIMInterfaceClockUpdate();
             PLCMemorySyncTask();
             DataSyncTask();
-
         }
 
         internal clsCasstteConverter(int index, string name, UscCasstteConverter mainGUI, CONVERTER_TYPE converterType, Dictionary<int, clsPortProperty> portProperties)
@@ -98,6 +97,36 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             PLCMemorySyncTask();
             DataSyncTask();
 
+            foreach (var item in LinkBitMap)
+            {
+                item.PropertyChanged += Item_PropertyChanged;
+            }
+
+            foreach (var item in LinkWordMap)
+            {
+                item.PropertyChanged += Item_PropertyChanged;
+            }
+        }
+
+        private void Item_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            clsMemoryAddress add = (clsMemoryAddress)sender;
+
+            if (add.EProperty == PROPERTY.Interface_Clock)
+            {
+                return;
+            }
+
+            if (add.EScope == EQ_SCOPE.PORT1 | add.EScope == EQ_SCOPE.PORT2)
+            {
+                var portID = add.EScope == EQ_SCOPE.PORT1 ? 0 : 1;
+                var port = PortDatas.FirstOrDefault(p => p.Properties.PortNo == portID);
+                Utility.SystemLogger.Info($"{Name}-{port.PortName} -->{add.DataName}({add.Address}) Changed to [{add.Value}]");
+            }
+            else if (add.EScope == EQ_SCOPE.EQ)
+            {
+                Utility.SystemLogger.Info($"{Name} -->{add.DataName}({add.Address}) Changed to [{add.Value}]");
+            }
         }
 
         protected virtual void PortModbusServersActive()
@@ -124,6 +153,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                         {
 
                             AlarmManager.AddWarning(ALARM_CODES.ALIVE_CLOCK_EQP_DOWN, Name, false);
+                            Utility.SystemLogger.Info($"{Name} EQ Interface Clock Timeout=> ResetEQPHandshakeBits");
                             ResetEQPHandshakeBits();
 
                         }
@@ -133,7 +163,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                         AlarmManager.TryRemoveAlarm(ALARM_CODES.ALIVE_CLOCK_EQP_DOWN, Name);
                     }
                     lastInterfaceClock = EQPData.InterfaceClock;
-                    await Task.Delay(TimeSpan.FromSeconds(4));
+                    await Task.Delay(TimeSpan.FromSeconds(8));
                 }
             });
             EQPData.PropertyChanged += (sender, arg) =>
@@ -295,11 +325,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             {
                 while (true)
                 {
-                    await Task.Delay(1);
-                    if (_connectionState != Common.CONNECTION_STATE.CONNECTED)
-                    {
-                        continue;
-                    }
+                    await Task.Delay(10);
                     Stopwatch stopwatch = Stopwatch.StartNew();
                     await SyncMemData();
                     stopwatch.Stop();
@@ -442,9 +468,22 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 string Unload_Request_address = port.PortEQBitAddress[PROPERTY.Unload_Request];
                 string Port_Status_Down_address = port.PortEQBitAddress[PROPERTY.Port_Status_Down];
 
-                EQPMemOptions.memoryTable.WriteOneBit(Load_Request_address, false);
-                EQPMemOptions.memoryTable.WriteOneBit(Unload_Request_address, false);
-                EQPMemOptions.memoryTable.WriteOneBit(Port_Status_Down_address, false);
+                string[] addressList = new string[3] { Load_Request_address, Unload_Request_address, Port_Status_Down_address };
+                foreach (var address in addressList)
+                {
+                    try
+                    {
+                        var oristate = EQPMemOptions.memoryTable.ReadOneBit(address);
+                        if (oristate)
+                        {
+                            EQPMemOptions.memoryTable.WriteOneBit(address, false);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Utility.SystemLogger.Error(ex);
+                    }
+                }
             }
         }
 
@@ -462,6 +501,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     }
                     else
                     {
+                        CIMMemOptions.memoryTable.WriteBinary(item.Address, (int)item.Value);
                         item.Value = CIMMemOptions.memoryTable.ReadBinary(item.Address);
                     }
                 }
@@ -475,6 +515,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     }
                     else
                     {
+                        CIMMemOptions.memoryTable.WriteOneBit(item.Address, (bool)item.Value);
                         item.Value = CIMMemOptions.memoryTable.ReadOneBit(item.Address);
                     }
                 }
@@ -693,7 +734,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     PropertyName = lineSplited[6],
                     Link_Modbus_Register_Number = lineSplited[7] == "" ? -1 : int.Parse(lineSplited[7]),
                     EQ_Name = lineSplited[8] == "" ? EQ_NAMES.Unkown : Enum.GetValues(typeof(EQ_NAMES)).Cast<EQ_NAMES>().First(E => E.ToString() == lineSplited[8])
-
                 };
             }
             catch (Exception ex)
