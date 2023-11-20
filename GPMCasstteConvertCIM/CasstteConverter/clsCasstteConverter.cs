@@ -102,6 +102,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 item.PropertyChanged += Item_PropertyChanged;
             }
 
+            foreach (var item in LinkWordMap)
+            {
+                item.PropertyChanged += Item_PropertyChanged;
+            }
         }
 
         private void Item_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -117,11 +121,11 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             {
                 var portID = add.EScope == EQ_SCOPE.PORT1 ? 0 : 1;
                 var port = PortDatas.FirstOrDefault(p => p.Properties.PortNo == portID);
-                Utility.SystemLogger.Info($"{Name}-{port.PortName} -->{add.DataName}({add.Address}) Changed to {add.Value}");
+                Utility.SystemLogger.Info($"{Name}-{port.PortName} -->{add.DataName}({add.Address}) Changed to [{add.Value}]");
             }
             else if (add.EScope == EQ_SCOPE.EQ)
             {
-                Utility.SystemLogger.Info($"{Name} -->{add.DataName}({add.Address}) Changed to {add.Value}");
+                Utility.SystemLogger.Info($"{Name} -->{add.DataName}({add.Address}) Changed to [{add.Value}]");
             }
         }
 
@@ -464,7 +468,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 string Unload_Request_address = port.PortEQBitAddress[PROPERTY.Unload_Request];
                 string Port_Status_Down_address = port.PortEQBitAddress[PROPERTY.Port_Status_Down];
 
-                string[] addressList = new string[3] { Load_Request_address , Unload_Request_address, Port_Status_Down_address };
+                string[] addressList = new string[3] { Load_Request_address, Unload_Request_address, Port_Status_Down_address };
                 foreach (var address in addressList)
                 {
                     try
