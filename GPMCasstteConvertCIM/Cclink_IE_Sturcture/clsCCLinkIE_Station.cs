@@ -175,7 +175,6 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
                             bool state = localCoilsAry[register_num + 1];
                             AGVHandshakeIO(item, state);
                             DevicesManager.cclink_master.CIMMemOptions.memoryTable.WriteOneBit(item.Address, state);
-
                         }
                         catch (Exception ex)
                         {

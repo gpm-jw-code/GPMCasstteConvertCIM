@@ -234,7 +234,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                             bool state = localCoilsAry[register_num + 1];
                             AGVHandshakeIO(item, state);
                             CIMMemoryTable.WriteOneBit(item.Address, state);
-                            item.Value = state;
                         }
                         catch (Exception ex)
                         {
