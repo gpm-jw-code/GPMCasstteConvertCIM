@@ -30,9 +30,19 @@ namespace GPMCasstteConvertCIM.UI_UserControls
         {
             Text = string.Format("Word Value Change-[{0}]", address);
             labWordAddress.Text = address;
-            numericUpDown1.Value = value;
+            numericUpDown1.Value = numericUpDown2.Value = value;
             ShowDialog();
             return (int)numericUpDown2.Value;
+        }
+
+        private void WordValueChangeDialog_Load(object sender, EventArgs e)
+        {
+            numericUpDown2.Focus();
+        }
+
+        private void numericUpDown2_KeyDown(object sender, KeyEventArgs e)
+        {
+
         }
     }
 }
