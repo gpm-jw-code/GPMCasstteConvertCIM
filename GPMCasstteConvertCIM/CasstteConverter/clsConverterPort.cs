@@ -532,7 +532,9 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                                 wait_in_accept = false;
                                 Utility.SystemLogger.Info($"{PortName}-Carrier Wait In Request Reject, Cause: {(!PortExist ? $"No any cargo in Equipment" : $" With CST ID Incorrect , CST ID ＝{WIPINFO_BCR_ID}")}");
                                 AlarmManager.AddWarning(!PortExist ? ALARM_CODES.CARRIER_WAIT_IN_BUT_NO_CARGO_IN_EQ : ALARM_CODES.CARRIER_WAIT_IN_BUT_BCR_ID_IS_EMPTY, Properties.PortID);
-                                OnWaitInReqRaiseButStatusError?.Invoke(this, this);
+
+                                if (Properties.SecsReport)
+                                    OnWaitInReqRaiseButStatusError?.Invoke(this, this);
                             }
 
                             (bool confirm, ALARM_CODES alarm_code) result = await CarrierWaitInReply(wait_in_accept, 30000);
