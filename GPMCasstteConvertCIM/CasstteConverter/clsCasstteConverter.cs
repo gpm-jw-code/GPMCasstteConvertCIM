@@ -112,7 +112,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         {
             clsMemoryAddress add = (clsMemoryAddress)sender;
 
-            if (add.EProperty == PROPERTY.Interface_Clock || add.firstUse)
+            if (add.EProperty == PROPERTY.Interface_Clock)
             {
                 return;
             }
