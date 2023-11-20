@@ -53,8 +53,9 @@ namespace GPMCasstteConvertCIM.Utilities.SysConfigs
         public int LinkTestInterval { get; set; } = 60000;
 
         public int SocketRecieveBufferSize { get; set; } = 32768;
+
+        private ENCODING _ASCIIEncoding = ENCODING.Default;
         [JsonConverter(typeof(StringEnumConverter))]
-        public ENCODING _ASCIIEncoding = ENCODING.Default;
         public ENCODING ASCIIEncoding
         {
             get => _ASCIIEncoding;
