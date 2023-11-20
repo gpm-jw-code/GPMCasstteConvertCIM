@@ -91,7 +91,7 @@ namespace GPMCasstteConvertCIM.Utilities
             {
                 Group = USER_GROUP.VISITOR,
             };
-            if (user.Group == USER_GROUP.GPM_RD)
+            if (success && user.Group == USER_GROUP.GPM_RD)
             {
                 OnRD_Login?.Invoke("", EventArgs.Empty);
             }

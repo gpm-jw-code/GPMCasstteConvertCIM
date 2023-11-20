@@ -213,7 +213,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         private void LogAGVHandshakeSignalChange(string name, bool state)
         {
-            Utility.SystemLogger.Info($"|{PortName}| --> AGV Handshake Signal-|{name}| Changed to {(state ? "1" : "0")}");
+            //Utility.SystemLogger.Info($"|{PortName}| --> AGV Handshake Signal-|{name}| Changed to {(state ? "1" : "0")}");
         }
         protected virtual void CoilsStatesSyncWorker()
         {
@@ -224,7 +224,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 {
                     await Task.Delay(50);
                     string portNoName = $"PORT{Properties.PortNo + 1}";
-                    List<CasstteConverter.Data.clsMemoryAddress> CIMLinkAddress = EQParent.LinkBitMap.FindAll(ad => ad.EOwner == OWNER.CIM && ad.EScope.ToString() == portNoName && ad.Link_Modbus_Register_Number != -1);
+                    List<clsMemoryAddress> CIMLinkAddress = EQParent.LinkBitMap.FindAll(ad => ad.EOwner == OWNER.CIM && ad.EScope.ToString() == portNoName && ad.Link_Modbus_Register_Number != -1);
                     foreach (var item in CIMLinkAddress)
                     {
                         try
@@ -233,6 +233,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                             var localCoilsAry = modbus_server.coils.localArray;
                             bool state = localCoilsAry[register_num + 1];
                             AGVHandshakeIO(item, state);
+                            CIMMemoryTable.WriteOneBit(item.Address, state);
                             item.Value = state;
                         }
                         catch (Exception ex)

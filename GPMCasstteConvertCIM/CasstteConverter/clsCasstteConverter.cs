@@ -96,7 +96,11 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             CIMInterfaceClockUpdate();
             PLCMemorySyncTask();
             DataSyncTask();
+            RegistMemoryAddressValuesChangedEvent();
+        }
 
+        protected void RegistMemoryAddressValuesChangedEvent()
+        {
             foreach (var item in LinkBitMap)
             {
                 item.PropertyChanged += Item_PropertyChanged;
@@ -108,7 +112,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             }
         }
 
-        private void Item_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+        protected virtual void Item_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             clsMemoryAddress add = (clsMemoryAddress)sender;
 
@@ -123,7 +127,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 var port = PortDatas.FirstOrDefault(p => p.Properties.PortNo == portID);
                 Utility.SystemLogger.Info($"{Name}-{port.PortName} -->{add.DataName}({add.Address}) Changed to [{add.Value}]");
             }
-            else 
+            else
             {
                 Utility.SystemLogger.Info($"{Name} -->{add.DataName}({add.Address}) Changed to [{add.Value}]");
             }

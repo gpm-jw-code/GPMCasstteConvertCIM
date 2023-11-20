@@ -2,8 +2,10 @@
 using GPMCasstteConvertCIM.CasstteConverter;
 using GPMCasstteConvertCIM.CasstteConverter.Data;
 using GPMCasstteConvertCIM.UI_UserControls;
+using GPMCasstteConvertCIM.Utilities;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,9 +40,21 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
             LoadPLCMapData();
             PLCMemorySyncTask();
             DataSyncTask();
+            RegistMemoryAddressValuesChangedEvent();
         }
 
+        protected override void Item_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            clsMemoryAddress add = (clsMemoryAddress)sender;
 
+            if (add.EProperty == PROPERTY.Interface_Clock)
+            {
+                return;
+            }
+            clsCCLinkIE_Station? station = Stations.FirstOrDefault(st => st.LinkBitMap.Any(ad => ad.Address == add.Address));
+            var stationName = station == null ? "" : station.PortDatas[add.EScope == EQ_SCOPE.PORT1 ? 0 : 1].PortName;
+            Utility.SystemLogger.Info($"{Name}-{stationName}-->{add.DataName}({add.Address}) Changed to [{add.Value}]");
+        }
 
         protected override void PLCMemoryDatatToEQDataDTO()
         {
