@@ -151,14 +151,20 @@ namespace GPMCasstteConvertCIM.Forms
                 }));
             };
             SetCurrentEncodingName();
-            Task.Factory.StartNew(() =>
+
+            if (!Utility.SysConfigs.PostOrderInfoToAGV)
             {
-                AGVsOrderInfoTransfer.Initialize();
-                if (!AGVSDBHelper.Init(out var erMsg))
+                tabControl1.TabPages.Remove(tabAGVSInfos);
+            }
+            else
+                Task.Factory.StartNew(() =>
                 {
-                    MessageBox.Show(erMsg);
-                }
-            });
+                    AGVsOrderInfoTransfer.Initialize(Utility.SystemLogger);
+                    if (!AGVSDBHelper.Init(Utility.SystemLogger, out var erMsg))
+                    {
+                        MessageBox.Show(erMsg);
+                    }
+                });
         }
 
         private void ClsConverterPort_OnWaitInReqRaiseButStatusError(object? sender, clsConverterPort port)

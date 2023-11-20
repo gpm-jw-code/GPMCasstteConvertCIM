@@ -37,7 +37,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter.Data
 
         internal bool IsCIMUse => EOwner == OWNER.CIM;
         internal bool IsEQUse => EOwner == OWNER.EQP;
-        private bool firstUse = true;
+        internal bool firstUse = true;
         public string Address { get; set; }
 
         public object _Value = 0;
@@ -49,12 +49,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter.Data
                 if (_Value + "" != value + "")
                 {
                     _Value = value;
-                    if (this.EProperty != PROPERTY.Interface_Clock && !firstUse)
-                    {
-                        Utility.SystemLogger.Info($"{Address}({EProperty})-Changed to {_Value} ", !firstUse);
-                    }
-                    firstUse = false;
                     OnPropertyChanged(nameof(Value));
+                    firstUse = false;
                 }
             }
         }

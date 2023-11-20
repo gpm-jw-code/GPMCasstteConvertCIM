@@ -254,8 +254,13 @@ namespace GPMCasstteConvertCIM.Emulators
             modbus.WriteSingleCoil(reg.Index, reg.State);
         }
 
-        internal void CancelTask()
+        internal async Task CancelTask()
         {
+            foreach (var item in DigitalOutputs)
+            {
+                item.State = false;
+            }
+            await Task.Delay(1000);
             modbus?.tcpClient.Close();
             cancellationToken?.Cancel();
         }

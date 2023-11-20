@@ -143,7 +143,10 @@ namespace GPMCasstteConvertCIM.Utilities
                     });
             StoreLogItemToQueue(time, LOG_LEVEL.WARNING, msg);
         }
-
+        public void Error(string message, bool show_in_richbox = true)
+        {
+            Error(message, new Exception(message), show_in_richbox);
+        }
         public void Error(Exception ex, bool show_in_richbox = true)
         {
             Error(ex.Message, ex, show_in_richbox);
