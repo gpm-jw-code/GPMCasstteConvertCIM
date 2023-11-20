@@ -20,8 +20,10 @@ namespace GPMCasstteConvertCIM.AGVsMiddleware
     {
         public static List<clsAGVInfo> AGVList { get; private set; }
         private static Map _Map = new Map();
-        public static void Initialize()
+        static LoggerBase logger;
+        public static void Initialize(LoggerBase _logger = null)
         {
+            logger = _logger;
             Utility.LoadConfigs();
             AGVList = Utility.SysConfigs.AGVList;
             AGVSDBHelper.OnAGVStartNewTask += AGVSDBHelper_OnAGVStartNewTaskAsync;
@@ -35,15 +37,38 @@ namespace GPMCasstteConvertCIM.AGVsMiddleware
             var agv = AGVList.FirstOrDefault(agv => agv.AGVID == e.AGVID);
             if (agv == null)
                 return;
-            PostOrderInfoToAGV(e);
+            Task.Factory.StartNew(async () =>
+            {
+                await PostOrderInfoToAGV(new clsNewTaskObj
+                {
+                    AGVID = agv.AGVID,
+                    AGVIP = agv.AGVIP,
+                    OrderInfo = e.OrderInfo,
+                });
+            });
         }
 
         public static async Task<bool> PostOrderInfoToAGV(clsNewTaskObj? agv)
         {
             HttpHelper http = new HttpHelper($"http://{agv.AGVIP}:7025");
             clsOrderInfo order_info = CreateOrderInfo(agv.OrderInfo);
-            bool result = await http.PostAsync<bool, clsOrderInfo>("/api/TaskDispatch/OrderInfo", order_info);
-            return result;
+            logger.Info($"Try Post order_info to {agv.AGVIP}:7025 ({order_info.ToJson()})");
+            try
+            {
+                bool result = await http.PostAsync<bool, clsOrderInfo>("/api/TaskDispatch/OrderInfo", order_info);
+                if (!result)
+                {
+                    logger.Error($"Post order_info to {agv.AGVIP}:7025 Fail");
+                }
+                else
+                    logger.Info($"Post order_info to {agv.AGVIP}:7025 ({order_info.ToJson()}) SUCCESSFUL!");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                logger.Error($"Post order_info to {agv.AGVIP}:7025 Fail", ex);
+                return false;
+            }
 
         }
 

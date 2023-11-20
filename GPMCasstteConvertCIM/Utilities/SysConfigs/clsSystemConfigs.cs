@@ -14,6 +14,7 @@ namespace GPMCasstteConvertCIM.Utilities.SysConfigs
         public clsLogConfigs Log { get; set; } = new clsLogConfigs();
         public clsSECSConfigs SECS { get; set; } = new clsSECSConfigs();
         public bool EQLoadUnload_RequestSimulation { get; set; } = false;
+        public bool PostOrderInfoToAGV { get; set; } = false;
 
         public string UnknowCargoIDHead { get; set; } = "UN032";
 

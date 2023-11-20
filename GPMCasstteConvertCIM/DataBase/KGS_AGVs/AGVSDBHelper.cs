@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -16,15 +17,17 @@ namespace GPMCasstteConvertCIM.DataBase.KGS_AGVs
     {
 
         internal static string DBConnection = "Server=192.168.1.100;Database=WebAGVSystem;User Id=sa;Password=12345678;Encrypt=False";
-
-
         public static event EventHandler<clsNewTaskObj> OnAGVStartNewTask;
+        public static BindingList<ExecutingTask> ExecutingTaskList = new BindingList<ExecutingTask>();
+        public static event EventHandler OnExecutingTasksUpdated;
+        private static LoggerBase logger;
         public class clsNewTaskObj : clsAGVInfo
         {
             public ExecutingTask OrderInfo { get; set; } = new ExecutingTask();
         }
-        public static bool Init(out string errMsg)
+        public static bool Init(LoggerBase _logger, out string errMsg)
         {
+            logger = _logger;
             errMsg = string.Empty;
             try
             {
@@ -50,19 +53,18 @@ namespace GPMCasstteConvertCIM.DataBase.KGS_AGVs
                 while (true)
                 {
                     await Task.Delay(1000);
-                    if (context.ExecutingTasks.Any())
+                    try
                     {
-                        foreach (var task in context.ExecutingTasks)
+                        if (context.ExecutingTasks.AsNoTracking().Any())
                         {
-                            if (!agvExecutingTaskList.ContainsKey(task.AGVID))
-                                agvExecutingTaskList.Add(task.AGVID, task.Name);
-                            else
+                            ExecutingTaskList.Clear();
+                            foreach (var task in context.ExecutingTasks.AsNoTracking())
                             {
-                                var previousTaskName = agvExecutingTaskList[task.AGVID];
-                                var currentTaskName = task.Name;
-                                if (previousTaskName != currentTaskName)
+                                ExecutingTaskList.Add(task);
+
+                                if (!agvExecutingTaskList.ContainsKey(task.AGVID))
                                 {
-                                    agvExecutingTaskList[task.AGVID] = currentTaskName;
+                                    agvExecutingTaskList.Add(task.AGVID, task.Name);
                                     OnAGVStartNewTask?.Invoke("", new clsNewTaskObj
                                     {
                                         AGVID = task.AGVID,
@@ -70,9 +72,36 @@ namespace GPMCasstteConvertCIM.DataBase.KGS_AGVs
                                         OrderInfo = task
                                     });
                                 }
+                                else
+                                {
+                                    var previousTaskName = agvExecutingTaskList[task.AGVID];
+                                    var currentTaskName = task.Name;
+                                    if (previousTaskName != currentTaskName)
+                                    {
+                                        agvExecutingTaskList[task.AGVID] = currentTaskName;
+                                        OnAGVStartNewTask?.Invoke("", new clsNewTaskObj
+                                        {
+                                            AGVID = task.AGVID,
+                                            TaskNameExecuting = task.Name,
+                                            OrderInfo = task
+                                        });
+                                    }
+                                }
                             }
+                            OnExecutingTasksUpdated?.Invoke("", EventArgs.Empty);
+                        }
+                        else
+                        {
+                            ExecutingTaskList.Clear();
+                            OnExecutingTasksUpdated?.Invoke("", EventArgs.Empty);
                         }
                     }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace);
+                        throw ex;
+                    }
+
                 }
             });
         }

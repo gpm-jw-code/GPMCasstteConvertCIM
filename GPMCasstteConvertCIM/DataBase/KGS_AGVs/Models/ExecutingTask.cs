@@ -1,13 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace GPMCasstteConvertCIM.DataBase.KGS_AGVs.Models;
 
-public partial class ExecutingTask
+public partial class ExecutingTask:INotifyPropertyChanged
 {
+    public event PropertyChangedEventHandler? PropertyChanged;
+
     [Key]
-    public string Name { get; set; }
+    public string Name
+    {
+        get => _Name;
+        set
+        {
+            if (_Name != value)
+            {
+                _Name = value;
+                PropertyChanged?.Invoke(value, new PropertyChangedEventArgs("Name"));
+            }
+        }
+    }
+    private string _Name = "";
 
     public int Status { get; set; }
 
@@ -54,4 +69,5 @@ public partial class ExecutingTask
     public int? ToStationPortNo { get; set; } = 1;
 
     public int? ExeVehiclePos { get; set; } = 0;
+
 }
