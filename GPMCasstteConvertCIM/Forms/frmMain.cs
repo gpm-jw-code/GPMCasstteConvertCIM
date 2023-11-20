@@ -308,7 +308,8 @@ namespace GPMCasstteConvertCIM.Forms
         private async void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
 
-            if (MessageBox.Show("確定要關閉CIM程式", "Exit APP Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+            AppCloseConfirmDialog dialog = new AppCloseConfirmDialog();
+            if (dialog.ShowDialog() == DialogResult.Cancel)
             {
                 e.Cancel = true;
                 return;
