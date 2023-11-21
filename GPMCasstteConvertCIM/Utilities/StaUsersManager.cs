@@ -63,6 +63,16 @@ namespace GPMCasstteConvertCIM.Utilities
                          Group = USER_GROUP.GPM_RD,
                          Name = "GPM",
                          Password ="12345678"
+                    },
+                    new User(){
+                         Group = USER_GROUP.GPM_RD,
+                         Name = "GPM",
+                         Password ="1"
+                    },
+                    new User(){
+                         Group = USER_GROUP.GPM_RD,
+                         Name = "1",
+                         Password ="1"
                     }
                 }
             },

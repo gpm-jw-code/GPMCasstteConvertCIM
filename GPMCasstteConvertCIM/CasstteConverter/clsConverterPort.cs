@@ -11,6 +11,7 @@ using Newtonsoft.Json.Converters;
 using Secs4Net;
 using Secs4Net.Sml;
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.DirectoryServices.ActiveDirectory;
 using System.Windows.Forms.Design;
@@ -23,7 +24,7 @@ using Item = Secs4Net.Item;
 
 namespace GPMCasstteConvertCIM.CasstteConverter
 {
-    public partial class clsConverterPort : IModbusHSable
+    public partial class clsConverterPort : IModbusHSable, INotifyPropertyChanged
     {
         public static event EventHandler<clsConverterPort> OnWaitInReqRaiseButStatusError;
         public clsConverterPort()
@@ -99,6 +100,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         /// 當CIM拒絕轉換架Wait out請求事件
         /// </summary>
         public event EventHandler<clsConverterPort> OnWaitOutRefuseByCIM;
+        public event PropertyChangedEventHandler? PropertyChanged;
+
         public string PortNameWithEQName => EQParent.Name + $"-[{Properties.PortID}]";
         public string EqName => EQParent.Name;
 
@@ -203,8 +206,38 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         public clsHS_Status_Signals AGVSignals { get; set; }
 
         public bool ReadyStatus { get; set; } = false;
-        public bool LoadRequest { get; set; } = false;
-        public bool UnloadRequest { get; set; } = false;
+        private bool _LoadRequest = false;
+        private bool _UnloadRequest = false;
+        private bool _EQP_Status_Down = false;
+        private bool _PortStatusDown = false;
+        private bool _LD_UP_POS = false;
+        private bool _LD_DOWN_POS = false;
+        public bool LoadRequest
+        {
+            get => _LoadRequest;
+            set
+            {
+                if (_LoadRequest != value)
+                {
+                    _LoadRequest = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("LoadRequest"));
+                }
+            }
+
+        }
+        public bool UnloadRequest
+        {
+            get => _UnloadRequest;
+            set
+            {
+                if (_UnloadRequest != value)
+                {
+                    _UnloadRequest = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("UnloadRequest"));
+                }
+            }
+
+        }
         private bool _PortExist = false;
         public bool PortExist
         {
@@ -213,20 +246,70 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             {
                 if (_PortExist != value)
                 {
-                    //Task.Run(() =>
-                    //{
-                    //    if (value)
-                    //        ReportCarrierInstalledToMCS();
-                    //    else
-                    //        ReportCarrierRemovedCompToMCS();
-                    //});
                     _PortExist = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("PortExist"));
+
                 }
             }
         }
+
+        public bool PortStatusDown
+        {
+            get => _PortStatusDown;
+            set
+            {
+                if (_PortStatusDown != value)
+                {
+                    _PortStatusDown = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("PortStatusDown"));
+
+                }
+            }
+        }
+
+        public bool LD_UP_POS
+        {
+            get => _LD_UP_POS;
+            set
+            {
+                if (_LD_UP_POS != value)
+                {
+                    _LD_UP_POS = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("LD_UP_POS"));
+
+                }
+            }
+        }
+
+        public bool LD_DOWN_POS
+        {
+            get => _LD_DOWN_POS;
+            set
+            {
+                if (_LD_DOWN_POS != value)
+                {
+                    _LD_DOWN_POS = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("LD_DOWN_POS"));
+
+                }
+            }
+        }
+
         public bool EQP_Status_Run { get; set; } = false;
         public bool EQP_Status_Idle { get; set; } = false;
-        public bool EQP_Status_Down { get; set; } = false;
+        public bool EQP_Status_Down
+        {
+            get => _EQP_Status_Down;
+            set
+            {
+                if (_EQP_Status_Down != value)
+                {
+                    _EQP_Status_Down = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("EQP_Status_Down"));
+                }
+            }
+
+        }
         public bool L_REQ { get; set; } = false;
         public bool U_REQ { get; set; } = false;
         public bool EQ_READY { get; set; } = false;
@@ -476,9 +559,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         }
 
         public bool EQ_BUSY { get; internal set; }
-        public bool PortStatusDown { get; set; }
-        public bool LD_UP_POS { get; internal set; }
-        public bool LD_DOWN_POS { get; internal set; }
         public bool DoorOpened { get; internal set; }
         public bool TB_DOWN_POS { get; internal set; }
 

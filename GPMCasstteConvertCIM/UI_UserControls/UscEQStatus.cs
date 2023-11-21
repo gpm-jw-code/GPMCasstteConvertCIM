@@ -60,12 +60,32 @@ namespace GPMCasstteConvertCIM.UI_UserControls
                     state_to_change = data.LD_DOWN_POS;
                 if (e.ColumnIndex == StatusbitdataStartIndex + 5)
                     state_to_change = data.PortStatusDown;
+                if (e.ColumnIndex == StatusbitdataStartIndex + 6)
+                    state_to_change = data.To_EQ_UP;
+                if (e.ColumnIndex == StatusbitdataStartIndex + 7)
+                    state_to_change = data.To_EQ_Low;
+                if (e.ColumnIndex == StatusbitdataStartIndex + 8)
+                    state_to_change = data.CMD_Reserve_Up;
+                if (e.ColumnIndex == StatusbitdataStartIndex + 9)
+                    state_to_change = data.CMD_Reserve_Low;
 
+                var oriColor = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor;
 
                 if (e.ColumnIndex == StatusbitdataStartIndex + 5)
-                    dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = state_to_change ? Color.FromArgb(34, 181, 71) : Color.FromArgb(255, 92, 97);
+                {
+                    var color = state_to_change ? Color.FromArgb(34, 181, 71) : Color.FromArgb(255, 92, 97);
+                    if (oriColor == color)
+                        return;
+                    dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = color;
+                }
                 else
-                    dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = state_to_change ? Color.FromArgb(34, 181, 71) : Color.WhiteSmoke;
+                {
+                    var actived_color = e.ColumnIndex > StatusbitdataStartIndex + 5 ? Color.FromArgb(51, 211, 255) : Color.FromArgb(31, 255, 116);
+                    var color = state_to_change ? actived_color : Color.WhiteSmoke;
+                    if (oriColor == color)
+                        return;
+                    dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = color;
+                }
 
             }
         }
@@ -152,7 +172,7 @@ namespace GPMCasstteConvertCIM.UI_UserControls
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex != -1 && e.ColumnIndex == StatusbitdataStartIndex + 6)
+            if (e.RowIndex != -1 && e.ColumnIndex == StatusbitdataStartIndex + 10)
             {
                 frmEQPortInfo frm = new frmEQPortInfo(dataGridView1.Rows[e.RowIndex].DataBoundItem as clsConverterPort);
                 frm.Show();
@@ -173,6 +193,17 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             IEnumerable<clsConverterPort> filtered_ports = BindingPorts.Where(port => port.EqName == eq_name);
             var _BindingPorts = new BindingList<clsConverterPort>(filtered_ports.ToList());
             dataGridView1.DataSource = _BindingPorts;
+        }
+
+        private void dataGridView1_SizeChanged(object sender, EventArgs e)
+        {
+
+            dataGridView1.ResumeLayout();
+        }
+
+        private void dataGridView1_Resize(object sender, EventArgs e)
+        {
+            dataGridView1.SuspendLayout();
         }
 
         ///

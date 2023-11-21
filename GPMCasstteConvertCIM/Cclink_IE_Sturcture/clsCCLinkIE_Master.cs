@@ -65,13 +65,13 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
             try
             {
                 await base.SyncMemData();
-                if (mainGUI.BindingPorts != null)
-                {
-                    mainGUI.Invoke(new Action(() =>
-                    {
-                        mainGUI.GUIRefresh();
-                    }));
-                }
+                //if (mainGUI.BindingPorts != null)
+                //{
+                //    mainGUI.Invoke(new Action(() =>
+                //    {
+                //        mainGUI.GUIRefresh();
+                //    }));
+                //}
             }
             catch (Exception ex)
             {

@@ -6,6 +6,7 @@ using GPMCasstteConvertCIM.GPM_SECS;
 using GPMCasstteConvertCIM.Utilities;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -168,6 +169,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 {
                     _To_EQ_Up = value;
                     LogAGVHandshakeSignalChange("To_EQ_UP", value);
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("To_EQ_UP"));
                 }
             }
         }
@@ -181,6 +183,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 {
                     _To_EQ_Low = value;
                     LogAGVHandshakeSignalChange("To_EQ_Low", value);
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("To_EQ_Low"));
                 }
             }
         }
@@ -194,6 +197,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 {
                     _CMD_Reserve_Up = value;
                     LogAGVHandshakeSignalChange("CMD_Reserve_Up", value);
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("CMD_Reserve_Up"));
                 }
             }
         }
@@ -207,6 +211,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 {
                     _CMD_Reserve_Low = value;
                     LogAGVHandshakeSignalChange("CMD_Reserve_Low", value);
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("CMD_Reserve_Low"));
+
                 }
             }
         }
