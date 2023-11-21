@@ -50,6 +50,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         public virtual List<clsConverterPort> PortDatas { get; set; } = new List<clsConverterPort>();
         internal bool IsPLCDataUpdated = false;
         internal bool IsPLCMemoryDataReadDone = false;
+
         public clsCasstteConverter()
         {
 
@@ -265,6 +266,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             try
             {
                 connectionState = Common.CONNECTION_STATE.CONNECTING;
+                await Task.Delay(1000);
                 this.mcInterfaceOptions = mcInterfaceOptions;
                 int connRetCode = -1;
 

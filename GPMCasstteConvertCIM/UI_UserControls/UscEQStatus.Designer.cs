@@ -35,12 +35,6 @@
             DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             dataGridView1 = new DataGridView();
-            clsConverterPortBindingSource = new BindingSource(components);
-            panel1 = new Panel();
-            label1 = new Label();
-            eqCombobox1 = new EQCombobox();
-            btnOpenMasterMemTb = new Button();
-            ckbSimulationMode = new CheckBox();
             EqName = new DataGridViewTextBoxColumn();
             PortName = new DataGridViewTextBoxColumn();
             StatusMemStartAddress = new DataGridViewTextBoxColumn();
@@ -56,9 +50,16 @@
             CMD_Reserve_Low = new DataGridViewCheckBoxColumn();
             btnColumn = new DataGridViewButtonColumn();
             Column1 = new DataGridViewButtonColumn();
+            clsConverterPortBindingSource = new BindingSource(components);
+            pnlHeader = new Panel();
+            labConnectionState = new Label();
+            ckbSimulationMode = new CheckBox();
+            eqCombobox1 = new EQCombobox();
+            btnOpenMasterMemTb = new Button();
+            label1 = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)clsConverterPortBindingSource).BeginInit();
-            panel1.SuspendLayout();
+            pnlHeader.SuspendLayout();
             SuspendLayout();
             // 
             // dataGridView1
@@ -93,7 +94,7 @@
             dataGridView1.DefaultCellStyle = dataGridViewCellStyle4;
             dataGridView1.Dock = DockStyle.Fill;
             dataGridView1.GridColor = Color.Black;
-            dataGridView1.Location = new Point(0, 39);
+            dataGridView1.Location = new Point(0, 27);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersVisible = false;
@@ -109,80 +110,12 @@
             dataGridView1.ShowCellToolTips = false;
             dataGridView1.ShowEditingIcon = false;
             dataGridView1.ShowRowErrors = false;
-            dataGridView1.Size = new Size(883, 547);
+            dataGridView1.Size = new Size(1052, 559);
             dataGridView1.TabIndex = 0;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick;
             dataGridView1.SizeChanged += dataGridView1_SizeChanged;
             dataGridView1.Resize += dataGridView1_Resize;
-            // 
-            // clsConverterPortBindingSource
-            // 
-            clsConverterPortBindingSource.DataSource = typeof(CasstteConverter.clsConverterPort);
-            // 
-            // panel1
-            // 
-            panel1.BackColor = Color.Teal;
-            panel1.Controls.Add(label1);
-            panel1.Controls.Add(eqCombobox1);
-            panel1.Controls.Add(btnOpenMasterMemTb);
-            panel1.Controls.Add(ckbSimulationMode);
-            panel1.Dock = DockStyle.Top;
-            panel1.ForeColor = Color.White;
-            panel1.Location = new Point(0, 0);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(883, 39);
-            panel1.TabIndex = 1;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            label1.Location = new Point(3, 5);
-            label1.Name = "label1";
-            label1.Size = new Size(73, 20);
-            label1.TabIndex = 3;
-            label1.Text = "選擇設備";
-            // 
-            // eqCombobox1
-            // 
-            eqCombobox1.AutoSize = true;
-            eqCombobox1.DisplayText = "";
-            eqCombobox1.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            eqCombobox1.Location = new Point(87, 5);
-            eqCombobox1.Margin = new Padding(0);
-            eqCombobox1.Name = "eqCombobox1";
-            eqCombobox1.SelectedIndex = -1;
-            eqCombobox1.Size = new Size(264, 31);
-            eqCombobox1.TabIndex = 2;
-            eqCombobox1.OnEQSelectChanged += eqCombobox1_OnEQSelectChanged;
-            // 
-            // btnOpenMasterMemTb
-            // 
-            btnOpenMasterMemTb.BackColor = Color.FromArgb(64, 64, 64);
-            btnOpenMasterMemTb.Dock = DockStyle.Right;
-            btnOpenMasterMemTb.FlatStyle = FlatStyle.Flat;
-            btnOpenMasterMemTb.Font = new Font("微軟正黑體", 10F, FontStyle.Bold, GraphicsUnit.Point);
-            btnOpenMasterMemTb.ForeColor = Color.WhiteSmoke;
-            btnOpenMasterMemTb.Location = new Point(758, 0);
-            btnOpenMasterMemTb.Name = "btnOpenMasterMemTb";
-            btnOpenMasterMemTb.Size = new Size(125, 39);
-            btnOpenMasterMemTb.TabIndex = 1;
-            btnOpenMasterMemTb.Text = "Memory Table";
-            btnOpenMasterMemTb.UseVisualStyleBackColor = false;
-            btnOpenMasterMemTb.Click += btnOpenMasterMemTb_Click;
-            // 
-            // ckbSimulationMode
-            // 
-            ckbSimulationMode.AutoSize = true;
-            ckbSimulationMode.Location = new Point(354, 6);
-            ckbSimulationMode.Name = "ckbSimulationMode";
-            ckbSimulationMode.Size = new Size(74, 19);
-            ckbSimulationMode.TabIndex = 0;
-            ckbSimulationMode.Text = "模擬模式";
-            ckbSimulationMode.UseVisualStyleBackColor = true;
-            ckbSimulationMode.Visible = false;
-            ckbSimulationMode.CheckedChanged += ckbSimulationMode_CheckedChanged;
             // 
             // EqName
             // 
@@ -297,19 +230,107 @@
             Column1.Text = "Modbus";
             Column1.UseColumnTextForButtonValue = true;
             // 
+            // clsConverterPortBindingSource
+            // 
+            clsConverterPortBindingSource.DataSource = typeof(CasstteConverter.clsConverterPort);
+            // 
+            // pnlHeader
+            // 
+            pnlHeader.BackColor = Color.Red;
+            pnlHeader.Controls.Add(labConnectionState);
+            pnlHeader.Controls.Add(ckbSimulationMode);
+            pnlHeader.Controls.Add(eqCombobox1);
+            pnlHeader.Controls.Add(btnOpenMasterMemTb);
+            pnlHeader.Controls.Add(label1);
+            pnlHeader.Dock = DockStyle.Top;
+            pnlHeader.ForeColor = Color.White;
+            pnlHeader.Location = new Point(0, 0);
+            pnlHeader.Name = "pnlHeader";
+            pnlHeader.Size = new Size(1052, 27);
+            pnlHeader.TabIndex = 1;
+            // 
+            // labConnectionState
+            // 
+            labConnectionState.Dock = DockStyle.Fill;
+            labConnectionState.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            labConnectionState.Location = new Point(421, 0);
+            labConnectionState.Name = "labConnectionState";
+            labConnectionState.Padding = new Padding(0, 5, 0, 0);
+            labConnectionState.Size = new Size(506, 27);
+            labConnectionState.TabIndex = 4;
+            labConnectionState.Text = "斷線";
+            labConnectionState.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // ckbSimulationMode
+            // 
+            ckbSimulationMode.AutoSize = true;
+            ckbSimulationMode.Dock = DockStyle.Left;
+            ckbSimulationMode.Location = new Point(335, 0);
+            ckbSimulationMode.Name = "ckbSimulationMode";
+            ckbSimulationMode.Padding = new Padding(12, 0, 0, 0);
+            ckbSimulationMode.Size = new Size(86, 27);
+            ckbSimulationMode.TabIndex = 0;
+            ckbSimulationMode.Text = "模擬模式";
+            ckbSimulationMode.UseVisualStyleBackColor = true;
+            ckbSimulationMode.Visible = false;
+            ckbSimulationMode.CheckedChanged += ckbSimulationMode_CheckedChanged;
+            // 
+            // eqCombobox1
+            // 
+            eqCombobox1.AutoSize = true;
+            eqCombobox1.DisplayText = "";
+            eqCombobox1.Dock = DockStyle.Left;
+            eqCombobox1.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            eqCombobox1.Location = new Point(73, 0);
+            eqCombobox1.Margin = new Padding(0);
+            eqCombobox1.Name = "eqCombobox1";
+            eqCombobox1.Padding = new Padding(0, 6, 0, 0);
+            eqCombobox1.SelectedIndex = -1;
+            eqCombobox1.Size = new Size(262, 27);
+            eqCombobox1.TabIndex = 2;
+            eqCombobox1.OnEQSelectChanged += eqCombobox1_OnEQSelectChanged;
+            // 
+            // btnOpenMasterMemTb
+            // 
+            btnOpenMasterMemTb.BackColor = SystemColors.Control;
+            btnOpenMasterMemTb.Dock = DockStyle.Right;
+            btnOpenMasterMemTb.FlatStyle = FlatStyle.Flat;
+            btnOpenMasterMemTb.Font = new Font("微軟正黑體", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            btnOpenMasterMemTb.ForeColor = Color.Black;
+            btnOpenMasterMemTb.Location = new Point(927, 0);
+            btnOpenMasterMemTb.Name = "btnOpenMasterMemTb";
+            btnOpenMasterMemTb.Size = new Size(125, 27);
+            btnOpenMasterMemTb.TabIndex = 1;
+            btnOpenMasterMemTb.Text = "Memory Table";
+            btnOpenMasterMemTb.UseVisualStyleBackColor = false;
+            btnOpenMasterMemTb.Click += btnOpenMasterMemTb_Click;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Dock = DockStyle.Left;
+            label1.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            label1.Location = new Point(0, 0);
+            label1.Name = "label1";
+            label1.Padding = new Padding(0, 3, 0, 0);
+            label1.Size = new Size(73, 23);
+            label1.TabIndex = 3;
+            label1.Text = "選擇設備";
+            // 
             // UscEQStatus
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             Controls.Add(dataGridView1);
-            Controls.Add(panel1);
+            Controls.Add(pnlHeader);
             Name = "UscEQStatus";
-            Size = new Size(883, 586);
+            Size = new Size(1052, 586);
+            Load += UscEQStatus_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ((System.ComponentModel.ISupportInitialize)clsConverterPortBindingSource).EndInit();
-            panel1.ResumeLayout(false);
-            panel1.PerformLayout();
+            pnlHeader.ResumeLayout(false);
+            pnlHeader.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -317,7 +338,7 @@
 
         private DataGridView dataGridView1;
         private BindingSource clsConverterPortBindingSource;
-        private Panel panel1;
+        private Panel pnlHeader;
         private CheckBox ckbSimulationMode;
         private Button btnOpenMasterMemTb;
         private EQCombobox eqCombobox1;
@@ -337,5 +358,6 @@
         private DataGridViewCheckBoxColumn CMD_Reserve_Low;
         private DataGridViewButtonColumn btnColumn;
         private DataGridViewButtonColumn Column1;
+        private Label labConnectionState;
     }
 }

@@ -138,7 +138,6 @@
             // 
             // tabControl1
             // 
-            tabControl1.Appearance = TabAppearance.FlatButtons;
             tabControl1.Controls.Add(tabPage4);
             tabControl1.Controls.Add(tabPage1);
             tabControl1.Controls.Add(tabPage3);

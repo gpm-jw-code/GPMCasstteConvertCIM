@@ -181,7 +181,6 @@ namespace GPMCasstteConvertCIM.Forms
                             }
                         });
                     pnlLoading.SendToBack();
-                    WindowState = FormWindowState.Maximized;
                 }));
             });
         }

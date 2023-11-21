@@ -30,6 +30,30 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             StaUsersManager.OnRD_Login += StaUsersManager_OnRD_Login;
         }
 
+        private void UscEQStatus_Load(object sender, EventArgs e)
+        {
+            var timer = new System.Windows.Forms.Timer()
+            {
+                Interval = 1000,
+            };
+            timer.Tick += Timer_Tick;
+            timer.Enabled = true;
+        }
+
+        private void Timer_Tick(object? sender, EventArgs e)
+        {
+            if (DevicesManager.cclink_master != null)
+            {
+                var sTATE = DevicesManager.cclink_master.connectionState;
+                labConnectionState.Visible = sTATE != Common.CONNECTION_STATE.CONNECTED;
+                pnlHeader.BackColor = sTATE == Common.CONNECTION_STATE.CONNECTED ? Color.Teal : sTATE == Common.CONNECTION_STATE.CONNECTING ? Color.Orange : Color.Red;
+                labConnectionState.Text = sTATE == Common.CONNECTION_STATE.CONNECTING ? "CCLINK-嘗試重新連線中" : "CCLINK-已斷線";
+
+            }
+        }
+
+
+
         private void StaUsersManager_OnRD_Login(object? sender, EventArgs e)
         {
             ckbSimulationMode.Visible = true;
@@ -216,6 +240,7 @@ namespace GPMCasstteConvertCIM.UI_UserControls
         {
 
         }
+
 
         ///
         //uscAlarmTable1.BindData(AlarmManager.AlarmsList);
