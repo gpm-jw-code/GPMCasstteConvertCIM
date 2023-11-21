@@ -1,13 +1,5 @@
 ﻿using GPMCasstteConvertCIM.DataBase.KGS_AGVs;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace GPMCasstteConvertCIM.UI_UserControls
 {
@@ -21,27 +13,56 @@ namespace GPMCasstteConvertCIM.UI_UserControls
 
         private void UscAGVsInfo_Load(object sender, EventArgs e)
         {
-            dataGridView1.DataSource = DataSource;
-            AGVSDBHelper.OnExecutingTasksUpdated += (sender, e) =>
-            {
-                var _DataSource = AGVSDBHelper.ExecutingTaskList;
-                if (_DataSource.ToJson() != DataSource.ToJson())
-                {
-                    DataSource = new BindingList<DataBase.KGS_AGVs.Models.ExecutingTask>(_DataSource);
-
-                    this.Invoke(new Action(() =>
-                    {
-                        dataGridView1.DataSource = DataSource;
-                    }));
-
-                }
-
-            };
         }
+        private void Worker()
+        {
+            var db = new AGVSDBHelper();
+
+            dataGridView1.DataSource = db.GetExecutingTasks();
+        }
+     
 
         private void dataGridView1_DataError(object sender, DataGridViewDataErrorEventArgs e)
         {
 
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            var database = new AGVSDBHelper();
+            database.ClearExecutingTasks();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var database = new AGVSDBHelper();
+            database.ADD_TASK(new DataBase.KGS_AGVs.Models.ExecutingTask
+            {
+                AcquireTime = DateTime.Now,
+                DepositTime = DateTime.Now,
+                Receive_Time = DateTime.Now,
+                StartTime = DateTime.Now,
+                Name = $"Task-{DateTime.Now.ToString("yyyyMMddHHmmssfff")}",
+                AGVID = 1,
+                ExeVehicleID = 1,
+                CSTID = "",
+                ActionType = "Transfer",
+                AssignUserName = "RD",
+                CSTType = 1,
+                FromStation = "2",
+                FromStationId = 2,
+                FromStationName = "2-AA",
+                FromStationPortNo = 2,
+                ToStation = "3",
+                ToStationId = 3,
+                ToStationName = "3-BB",
+
+            });
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            Worker();
         }
     }
 }

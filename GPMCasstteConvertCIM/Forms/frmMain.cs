@@ -157,14 +157,16 @@ namespace GPMCasstteConvertCIM.Forms
                 tabControl1.TabPages.Remove(tabAGVSInfos);
             }
             else
-                Task.Factory.StartNew(() =>
+                Task.Run(async() =>
                 {
+                    await Task.Delay(1);
+                    Utility.SystemLogger.Info("Init AGVs");
                     AGVsOrderInfoTransfer.Initialize(Utility.SystemLogger);
                     AGVSDBHelper.OnError += (sender, msg) =>
                     {
                         Utility.SystemLogger.Error(msg);
                     };
-                    if (!AGVSDBHelper.Init(Utility.SystemLogger, out var erMsg, EnsureCreated: false, Utility.SysConfigs.KGSDBConnectionString))
+                    if (!AGVSDBHelper.Init(Utility.SystemLogger, out var erMsg, EnsureCreated: true, Utility.SysConfigs.KGSDBConnectionString))
                     {
                         Utility.SystemLogger.Error(erMsg);
                     }

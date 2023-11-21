@@ -108,8 +108,9 @@ namespace GPMCasstteConvertCIM.DataBase.KGS_AGVs
                             if (lastTasksNum > 0)
                             {
                                 OnExecutingTasksALLClear?.Invoke("", EventArgs.Empty);
+                                await Task.Delay(1000);
+                                lastTasksNum = 0;
                             }
-                            lastTasksNum = 0;
                             ExecutingTaskList.Clear();
                         }
                     }
@@ -204,5 +205,13 @@ namespace GPMCasstteConvertCIM.DataBase.KGS_AGVs
             }
         }
 
+        internal void ClearExecutingTasks()
+        {
+            using (var conn = DBConn)
+            {
+                conn.ExecutingTasks.ExecuteDelete();
+                conn.SaveChanges();
+            }
+        }
     }
 }

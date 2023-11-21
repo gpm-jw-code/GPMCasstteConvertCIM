@@ -47,11 +47,18 @@
             repeatTimeDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             exeVehicleIDDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             startTimeDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            distanceDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             acquireTimeDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            depositTimeDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            assignUserNameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             cSTTypeDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             fromStationPortNoDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             toStationPortNoDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            exeVehiclePosDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             executingTaskBindingSource = new BindingSource(components);
+            button1 = new Button();
+            button2 = new Button();
+            timer1 = new System.Windows.Forms.Timer(components);
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)executingTaskBindingSource).BeginInit();
             SuspendLayout();
@@ -60,7 +67,7 @@
             // 
             label1.AutoSize = true;
             label1.Dock = DockStyle.Bottom;
-            label1.Location = new Point(0, 481);
+            label1.Location = new Point(0, 493);
             label1.Name = "label1";
             label1.Size = new Size(37, 15);
             label1.TabIndex = 0;
@@ -73,7 +80,7 @@
             dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dataGridView1.AutoGenerateColumns = false;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { nameDataGridViewTextBoxColumn, statusDataGridViewTextBoxColumn, receiveTimeDataGridViewTextBoxColumn, fromStationIdDataGridViewTextBoxColumn, toStationIdDataGridViewTextBoxColumn, fromStationDataGridViewTextBoxColumn, toStationDataGridViewTextBoxColumn, fromStationNameDataGridViewTextBoxColumn, toStationNameDataGridViewTextBoxColumn, actionTypeDataGridViewTextBoxColumn, aGVIDDataGridViewTextBoxColumn, cSTIDDataGridViewTextBoxColumn, priorityDataGridViewTextBoxColumn, repeatTimeDataGridViewTextBoxColumn, exeVehicleIDDataGridViewTextBoxColumn, startTimeDataGridViewTextBoxColumn, acquireTimeDataGridViewTextBoxColumn, cSTTypeDataGridViewTextBoxColumn, fromStationPortNoDataGridViewTextBoxColumn, toStationPortNoDataGridViewTextBoxColumn });
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { nameDataGridViewTextBoxColumn, statusDataGridViewTextBoxColumn, receiveTimeDataGridViewTextBoxColumn, fromStationIdDataGridViewTextBoxColumn, toStationIdDataGridViewTextBoxColumn, fromStationDataGridViewTextBoxColumn, toStationDataGridViewTextBoxColumn, fromStationNameDataGridViewTextBoxColumn, toStationNameDataGridViewTextBoxColumn, actionTypeDataGridViewTextBoxColumn, aGVIDDataGridViewTextBoxColumn, cSTIDDataGridViewTextBoxColumn, priorityDataGridViewTextBoxColumn, repeatTimeDataGridViewTextBoxColumn, exeVehicleIDDataGridViewTextBoxColumn, startTimeDataGridViewTextBoxColumn, distanceDataGridViewTextBoxColumn, acquireTimeDataGridViewTextBoxColumn, depositTimeDataGridViewTextBoxColumn, assignUserNameDataGridViewTextBoxColumn, cSTTypeDataGridViewTextBoxColumn, fromStationPortNoDataGridViewTextBoxColumn, toStationPortNoDataGridViewTextBoxColumn, exeVehiclePosDataGridViewTextBoxColumn });
             dataGridView1.DataSource = executingTaskBindingSource;
             dataGridView1.Location = new Point(3, 3);
             dataGridView1.Name = "dataGridView1";
@@ -81,7 +88,7 @@
             dataGridView1.RowTemplate.Height = 25;
             dataGridView1.ShowCellErrors = false;
             dataGridView1.ShowRowErrors = false;
-            dataGridView1.Size = new Size(986, 475);
+            dataGridView1.Size = new Size(997, 423);
             dataGridView1.TabIndex = 1;
             dataGridView1.DataError += dataGridView1_DataError;
             // 
@@ -197,12 +204,33 @@
             startTimeDataGridViewTextBoxColumn.Name = "startTimeDataGridViewTextBoxColumn";
             startTimeDataGridViewTextBoxColumn.ReadOnly = true;
             // 
+            // distanceDataGridViewTextBoxColumn
+            // 
+            distanceDataGridViewTextBoxColumn.DataPropertyName = "Distance";
+            distanceDataGridViewTextBoxColumn.HeaderText = "Distance";
+            distanceDataGridViewTextBoxColumn.Name = "distanceDataGridViewTextBoxColumn";
+            distanceDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
             // acquireTimeDataGridViewTextBoxColumn
             // 
             acquireTimeDataGridViewTextBoxColumn.DataPropertyName = "AcquireTime";
             acquireTimeDataGridViewTextBoxColumn.HeaderText = "AcquireTime";
             acquireTimeDataGridViewTextBoxColumn.Name = "acquireTimeDataGridViewTextBoxColumn";
             acquireTimeDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // depositTimeDataGridViewTextBoxColumn
+            // 
+            depositTimeDataGridViewTextBoxColumn.DataPropertyName = "DepositTime";
+            depositTimeDataGridViewTextBoxColumn.HeaderText = "DepositTime";
+            depositTimeDataGridViewTextBoxColumn.Name = "depositTimeDataGridViewTextBoxColumn";
+            depositTimeDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // assignUserNameDataGridViewTextBoxColumn
+            // 
+            assignUserNameDataGridViewTextBoxColumn.DataPropertyName = "AssignUserName";
+            assignUserNameDataGridViewTextBoxColumn.HeaderText = "AssignUserName";
+            assignUserNameDataGridViewTextBoxColumn.Name = "assignUserNameDataGridViewTextBoxColumn";
+            assignUserNameDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // cSTTypeDataGridViewTextBoxColumn
             // 
@@ -225,18 +253,55 @@
             toStationPortNoDataGridViewTextBoxColumn.Name = "toStationPortNoDataGridViewTextBoxColumn";
             toStationPortNoDataGridViewTextBoxColumn.ReadOnly = true;
             // 
+            // exeVehiclePosDataGridViewTextBoxColumn
+            // 
+            exeVehiclePosDataGridViewTextBoxColumn.DataPropertyName = "ExeVehiclePos";
+            exeVehiclePosDataGridViewTextBoxColumn.HeaderText = "ExeVehiclePos";
+            exeVehiclePosDataGridViewTextBoxColumn.Name = "exeVehiclePosDataGridViewTextBoxColumn";
+            exeVehiclePosDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
             // executingTaskBindingSource
             // 
             executingTaskBindingSource.DataSource = typeof(DataBase.KGS_AGVs.Models.ExecutingTask);
+            // 
+            // button1
+            // 
+            button1.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            button1.Location = new Point(3, 432);
+            button1.Name = "button1";
+            button1.Size = new Size(92, 44);
+            button1.TabIndex = 2;
+            button1.Text = "生成假資料";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
+            // button2
+            // 
+            button2.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            button2.Location = new Point(101, 432);
+            button2.Name = "button2";
+            button2.Size = new Size(92, 44);
+            button2.TabIndex = 3;
+            button2.Text = "清空任務";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
+            // 
+            // timer1
+            // 
+            timer1.Enabled = true;
+            timer1.Interval = 1000;
+            timer1.Tick += timer1_Tick;
             // 
             // UscAGVsInfo
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(button2);
+            Controls.Add(button1);
             Controls.Add(dataGridView1);
             Controls.Add(label1);
             Name = "UscAGVsInfo";
-            Size = new Size(992, 496);
+            Size = new Size(1003, 508);
             Load += UscAGVsInfo_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ((System.ComponentModel.ISupportInitialize)executingTaskBindingSource).EndInit();
@@ -249,6 +314,8 @@
         private Label label1;
         private DataGridView dataGridView1;
         private BindingSource executingTaskBindingSource;
+        private Button button1;
+        private Button button2;
         private DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn statusDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn receiveTimeDataGridViewTextBoxColumn;
@@ -265,9 +332,14 @@
         private DataGridViewTextBoxColumn repeatTimeDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn exeVehicleIDDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn startTimeDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn distanceDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn acquireTimeDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn depositTimeDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn assignUserNameDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn cSTTypeDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn fromStationPortNoDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn toStationPortNoDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn exeVehiclePosDataGridViewTextBoxColumn;
+        private System.Windows.Forms.Timer timer1;
     }
 }

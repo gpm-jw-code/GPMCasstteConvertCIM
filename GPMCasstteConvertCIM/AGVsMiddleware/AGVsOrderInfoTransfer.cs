@@ -96,6 +96,13 @@ namespace GPMCasstteConvertCIM.AGVsMiddleware
 
         private static clsOrderInfo CreateOrderInfo(ExecutingTask orderInfo)
         {
+            if (orderInfo.ActionType == "NO_ACTION")
+            {
+                return new clsOrderInfo
+                {
+                    ActionName = AGVSystemCommonNet6.AGVDispatch.Messages.ACTION_TYPE.NoAction
+                };
+            }
             bool fromMapPointExist = _Map.Points.TryGetValue((int)orderInfo.FromStationId, out MapPoint fromMapPoint);
             bool toMapPointExist = _Map.Points.TryGetValue((int)orderInfo.ToStationId, out MapPoint toMapPoint);
 
