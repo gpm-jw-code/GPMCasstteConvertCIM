@@ -29,23 +29,23 @@ namespace GPMCasstteConvertCIM.AGVsMiddleware
             AGVSDBHelper.OnAGVStartNewTask += AGVSDBHelper_OnAGVStartNewTaskAsync;
             AGVSDBHelper.OnExecutingTasksALLClear += AGVSDBHelper_OnExecutingTasksALLClear;
             _Map = MapManager.LoadMapFromFile(Utility.SysConfigs.MapFilePath, out var errMsg, auto_create_segment: false, false);
-
+            logger.Info($"Map->{_Map.Name}:{_Map.Note}");
         }
 
         private static void AGVSDBHelper_OnExecutingTasksALLClear(object? sender, EventArgs e)
         {
             foreach (clsAGVInfo agvInfo in AGVList)
             {
+                agvInfo.PostCancelCTS.Cancel();
                 Task.Factory.StartNew(async () =>
                 {
-                    await PostOrderInfoToAGV(new clsNewTaskObj
+                    while (agvInfo.PostingFlag)
                     {
-                        AGVID = agvInfo.AGVID,
-                        AGVIP = agvInfo.AGVIP,
-                        OrderInfo = new ExecutingTask
-                        {
-                            ActionType = "NO_ACTION"
-                        }
+                        await Task.Delay(1000);
+                    }
+                    await PostOrderViaHttp(agvInfo.AGVIP, new clsOrderInfo
+                    {
+                        ActionName = AGVSystemCommonNet6.AGVDispatch.Messages.ACTION_TYPE.NoAction
                     });
                 });
             }
@@ -53,45 +53,73 @@ namespace GPMCasstteConvertCIM.AGVsMiddleware
 
         }
 
-        public static void AGVSDBHelper_OnAGVStartNewTaskAsync(object? sender, clsNewTaskObj e)
+        public static async void AGVSDBHelper_OnAGVStartNewTaskAsync(object? sender, clsNewTaskObj e)
         {
             logger.Info(e.OrderInfo.ToJson());
             var agv = AGVList.FirstOrDefault(agv => agv.AGVID == e.AGVID);
             if (agv == null)
                 return;
-            Task.Factory.StartNew(async () =>
+            agv.PostCancelCTS.Cancel();
+
+            while (agv.PostingFlag)
             {
-                await PostOrderInfoToAGV(new clsNewTaskObj
+                await Task.Delay(1000);
+            }
+
+            _ = Task.Factory.StartNew(async () =>
+            {
+                agv.PostCancelCTS = new CancellationTokenSource();
+                clsOrderInfo order_info = CreateOrderInfo(e.OrderInfo);
+                agv.PostingFlag = true;
+                while (true)
                 {
-                    AGVID = agv.AGVID,
-                    AGVIP = agv.AGVIP,
-                    OrderInfo = e.OrderInfo,
-                });
+                    try
+                    {
+                        if (agv.PostCancelCTS.IsCancellationRequested)
+                        {
+                            logger.Info($"{agv.AGVIP} Post Order Info Process Interupted");
+                            break;
+                        }
+                        await Task.Delay(1000);
+                        await PostOrderViaHttp(agv.AGVIP, order_info);
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.Error(ex);
+                        break;
+                    }
+
+                }
+                agv.PostingFlag = false;
             });
         }
 
-        public static async Task<bool> PostOrderInfoToAGV(clsNewTaskObj? agv)
+
+
+
+
+
+        private static async Task<bool> PostOrderViaHttp(string agvIP, clsOrderInfo order_info)
         {
-            HttpHelper http = new HttpHelper($"http://{agv.AGVIP}:7025");
-            clsOrderInfo order_info = CreateOrderInfo(agv.OrderInfo);
-            logger.Info($"Try Post order_info to {agv.AGVIP}:7025 ({order_info.ToJson()})");
             try
             {
+                HttpHelper http = new HttpHelper($"http://{agvIP}:7025",1);
+                logger.Info($"Try Post order_info to {agvIP}:7025-\r\n{order_info.ToJson()}");
+
                 bool result = await http.PostAsync<bool, clsOrderInfo>("/api/TaskDispatch/OrderInfo", order_info);
                 if (!result)
                 {
-                    logger.Error($"Post order_info to {agv.AGVIP}:7025 Fail");
+                    logger.Error($"Post order_info to {agvIP}:7025 Fail");
                 }
                 else
-                    logger.Info($"Post order_info to {agv.AGVIP}:7025 ({order_info.ToJson()}) SUCCESSFUL!");
+                    logger.Info($"Post order_info to {agvIP}:7025 ({order_info.ToJson()}) SUCCESSFUL!");
                 return result;
             }
             catch (Exception ex)
             {
-                logger.Error($"Post order_info to {agv.AGVIP}:7025 Fail", ex);
+                logger.Error($"Post order_info to {agvIP}:7025 Fail", ex);
                 return false;
             }
-
         }
 
         private static clsOrderInfo CreateOrderInfo(ExecutingTask orderInfo)
@@ -127,6 +155,8 @@ namespace GPMCasstteConvertCIM.AGVsMiddleware
         {
             switch (action_name)
             {
+                case "Transfer":
+                    return AGVSystemCommonNet6.AGVDispatch.Messages.ACTION_TYPE.Carry;
                 case "搬運":
                     return AGVSystemCommonNet6.AGVDispatch.Messages.ACTION_TYPE.Carry;
 

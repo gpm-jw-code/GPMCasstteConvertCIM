@@ -213,5 +213,20 @@ namespace GPMCasstteConvertCIM.DataBase.KGS_AGVs
                 conn.SaveChanges();
             }
         }
+
+        internal void RemoveTaskByID(string TaskName)
+        {
+            using (var conn = DBConn)
+            {
+                var existTask = conn.ExecutingTasks.FirstOrDefault(tk => tk.Name == TaskName);
+                if (existTask != null)
+                {
+                    conn.ExecutingTasks.Remove(existTask);
+                    conn.SaveChanges();
+                }
+            };
+        }
+
+
     }
 }

@@ -12,5 +12,10 @@ namespace GPMCasstteConvertCIM.Utilities.SysConfigs
         public string AGVIP { get; set; } = "192.168.1.101";
         [NonSerialized]
         public string TaskNameExecuting = "";
+
+        [NonSerialized]
+        internal CancellationTokenSource PostCancelCTS = new CancellationTokenSource();
+        [NonSerialized]
+        internal bool PostingFlag = false;
     }
 }

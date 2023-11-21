@@ -56,29 +56,34 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             var database = new AGVSDBHelper();
             database.ClearExecutingTasks();
         }
-
+        private string lastFakeTaskName = "";
         private void button1_Click(object sender, EventArgs e)
         {
+
             var database = new AGVSDBHelper();
+            if (lastFakeTaskName != "")
+                database.RemoveTaskByID(lastFakeTaskName);
+
+            lastFakeTaskName = $"Task-{DateTime.Now.ToString("yyyyMMddHHmmssfff")}";
             database.ADD_TASK(new DataBase.KGS_AGVs.Models.ExecutingTask
             {
                 AcquireTime = DateTime.Now,
                 DepositTime = DateTime.Now,
                 Receive_Time = DateTime.Now,
                 StartTime = DateTime.Now,
-                Name = $"Task-{DateTime.Now.ToString("yyyyMMddHHmmssfff")}",
+                Name = lastFakeTaskName,
                 AGVID = 1,
                 ExeVehicleID = 1,
                 CSTID = "",
                 ActionType = "Transfer",
                 AssignUserName = "RD",
                 CSTType = 1,
-                FromStation = "2",
-                FromStationId = 2,
+                FromStation = "186",
+                FromStationId = 186,
                 FromStationName = "2-AA",
                 FromStationPortNo = 2,
-                ToStation = "3",
-                ToStationId = 3,
+                ToStation = "195",
+                ToStationId = 195,
                 ToStationName = "3-BB",
 
             });
