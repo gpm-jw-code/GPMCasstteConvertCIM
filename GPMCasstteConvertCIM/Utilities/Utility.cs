@@ -43,13 +43,29 @@ namespace GPMCasstteConvertCIM.Utilities
         private static void LoadSysConfigs()
         {
 
-            if(!Directory.Exists(configsFolder))
+            if (!Directory.Exists(configsFolder))
                 Directory.CreateDirectory(configsFolder);
 
             string SysCofigsFile = Path.Combine(configsFolder, "SystemConfigs.json");
             if (File.Exists(SysCofigsFile))
             {
                 SysConfigs = JsonConvert.DeserializeObject<clsSystemConfigs>(File.ReadAllText(SysCofigsFile));
+                if (SysConfigs.AGVList.Count == 0 & SysConfigs.Project == clsSystemConfigs.PROJECT.U007)
+                {
+                    SysConfigs.AGVList = new List<clsAGVInfo>()
+                    {
+                         new clsAGVInfo()
+                         {
+                             AGVID = 1,
+                             AGVIP = "10.22.141.218",
+                         },
+                         new clsAGVInfo()
+                         {
+                             AGVID = 2,
+                             AGVIP = "10.22.141.219",
+                         }
+                    };
+                }
             }
             SaveConfigs();
         }

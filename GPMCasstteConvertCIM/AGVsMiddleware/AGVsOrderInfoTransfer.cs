@@ -27,13 +27,35 @@ namespace GPMCasstteConvertCIM.AGVsMiddleware
             Utility.LoadConfigs();
             AGVList = Utility.SysConfigs.AGVList;
             AGVSDBHelper.OnAGVStartNewTask += AGVSDBHelper_OnAGVStartNewTaskAsync;
-
+            AGVSDBHelper.OnExecutingTasksALLClear += AGVSDBHelper_OnExecutingTasksALLClear;
             _Map = MapManager.LoadMapFromFile(Utility.SysConfigs.MapFilePath, out var errMsg, auto_create_segment: false, false);
+
+        }
+
+        private static void AGVSDBHelper_OnExecutingTasksALLClear(object? sender, EventArgs e)
+        {
+            foreach (clsAGVInfo agvInfo in AGVList)
+            {
+                Task.Factory.StartNew(async () =>
+                {
+                    await PostOrderInfoToAGV(new clsNewTaskObj
+                    {
+                        AGVID = agvInfo.AGVID,
+                        AGVIP = agvInfo.AGVIP,
+                        OrderInfo = new ExecutingTask
+                        {
+                            ActionType = "NO_ACTION"
+                        }
+                    });
+                });
+            }
+
 
         }
 
         public static void AGVSDBHelper_OnAGVStartNewTaskAsync(object? sender, clsNewTaskObj e)
         {
+            logger.Info(e.OrderInfo.ToJson());
             var agv = AGVList.FirstOrDefault(agv => agv.AGVID == e.AGVID);
             if (agv == null)
                 return;
@@ -102,7 +124,7 @@ namespace GPMCasstteConvertCIM.AGVsMiddleware
                     return AGVSystemCommonNet6.AGVDispatch.Messages.ACTION_TYPE.Carry;
 
                 default:
-                    return AGVSystemCommonNet6.AGVDispatch.Messages.ACTION_TYPE.None;
+                    return AGVSystemCommonNet6.AGVDispatch.Messages.ACTION_TYPE.NoAction;
             }
         }
     }

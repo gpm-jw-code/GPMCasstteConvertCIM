@@ -16,24 +16,35 @@ namespace GPMCasstteConvertCIM.DataBase.KGS_AGVs
     public class AGVSDBHelper
     {
 
-        internal static string DBConnection = "Server=192.168.1.100;Database=WebAGVSystem;User Id=sa;Password=12345678;Encrypt=False";
+        public static string DBConnection = "Server=127.0.0.1;Database=WebAGVSystem;User Id=sa;Password=12345678;Encrypt=False";
         public static event EventHandler<clsNewTaskObj> OnAGVStartNewTask;
         public static BindingList<ExecutingTask> ExecutingTaskList = new BindingList<ExecutingTask>();
         public static event EventHandler OnExecutingTasksUpdated;
+        public static event EventHandler OnExecutingTasksALLClear;
+        public static event EventHandler<string> OnError;
+
         private static LoggerBase logger;
         public class clsNewTaskObj : clsAGVInfo
         {
             public ExecutingTask OrderInfo { get; set; } = new ExecutingTask();
         }
-        public static bool Init(LoggerBase _logger, out string errMsg)
+        public static bool Init(LoggerBase _logger, out string errMsg, bool EnsureCreated = false, string connectionStr = null)
         {
             logger = _logger;
             errMsg = string.Empty;
             try
             {
+                if (connectionStr != null)
+                {
+                    DBConnection = connectionStr;
+                }
+                logger.Info($"Init AGVs Database:{DBConnection}...");
                 var helper = new AGVSDBHelper();
-                helper.DBConn.Database.EnsureCreated();
-                helper.DBConn.SaveChanges();
+                if (EnsureCreated)
+                {
+                    helper.DBConn.Database.EnsureCreated();
+                    helper.DBConn.SaveChanges();
+                }
                 ExcutingTaskMonitorWorker();
                 return true;
             }
@@ -50,6 +61,7 @@ namespace GPMCasstteConvertCIM.DataBase.KGS_AGVs
                 var database = new AGVSDBHelper();
                 var context = database.DBConn;
                 Dictionary<int, string> agvExecutingTaskList = new Dictionary<int, string>();
+                int lastTasksNum = 0;
                 while (true)
                 {
                     await Task.Delay(1000);
@@ -57,6 +69,7 @@ namespace GPMCasstteConvertCIM.DataBase.KGS_AGVs
                     {
                         if (context.ExecutingTasks.AsNoTracking().Any())
                         {
+                            lastTasksNum = context.ExecutingTasks.Count();
                             ExecutingTaskList.Clear();
                             foreach (var task in context.ExecutingTasks.AsNoTracking())
                             {
@@ -92,14 +105,18 @@ namespace GPMCasstteConvertCIM.DataBase.KGS_AGVs
                         }
                         else
                         {
+                            if (lastTasksNum > 0)
+                            {
+                                OnExecutingTasksALLClear?.Invoke("", EventArgs.Empty);
+                            }
+                            lastTasksNum = 0;
                             ExecutingTaskList.Clear();
-                            OnExecutingTasksUpdated?.Invoke("", EventArgs.Empty);
                         }
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace);
-                        throw ex;
+                        OnError?.Invoke("", ex.Message);
+                        continue;
                     }
 
                 }

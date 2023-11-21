@@ -160,9 +160,17 @@ namespace GPMCasstteConvertCIM.Forms
                 Task.Factory.StartNew(() =>
                 {
                     AGVsOrderInfoTransfer.Initialize(Utility.SystemLogger);
-                    if (!AGVSDBHelper.Init(Utility.SystemLogger, out var erMsg))
+                    AGVSDBHelper.OnError += (sender, msg) =>
                     {
-                        MessageBox.Show(erMsg);
+                        Utility.SystemLogger.Error(msg);
+                    };
+                    if (!AGVSDBHelper.Init(Utility.SystemLogger, out var erMsg, EnsureCreated: false, Utility.SysConfigs.KGSDBConnectionString))
+                    {
+                        Utility.SystemLogger.Error(erMsg);
+                    }
+                    else
+                    {
+                        Utility.SystemLogger.Info($"Init AGVs Database:{AGVSDBHelper.DBConnection} SUCCESS!!");
                     }
                 });
         }
