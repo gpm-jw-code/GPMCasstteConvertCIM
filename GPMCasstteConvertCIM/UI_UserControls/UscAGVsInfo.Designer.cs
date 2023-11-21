@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            label1 = new Label();
             dataGridView1 = new DataGridView();
             nameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             statusDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
@@ -59,36 +58,31 @@
             button1 = new Button();
             button2 = new Button();
             timer1 = new System.Windows.Forms.Timer(components);
+            pnlDebug = new Panel();
+            panel2 = new Panel();
+            labConnection = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)executingTaskBindingSource).BeginInit();
+            pnlDebug.SuspendLayout();
+            panel2.SuspendLayout();
             SuspendLayout();
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Dock = DockStyle.Bottom;
-            label1.Location = new Point(0, 493);
-            label1.Name = "label1";
-            label1.Size = new Size(37, 15);
-            label1.TabIndex = 0;
-            label1.Text = "AGVs";
             // 
             // dataGridView1
             // 
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.AllowUserToDeleteRows = false;
-            dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dataGridView1.AutoGenerateColumns = false;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { nameDataGridViewTextBoxColumn, statusDataGridViewTextBoxColumn, receiveTimeDataGridViewTextBoxColumn, fromStationIdDataGridViewTextBoxColumn, toStationIdDataGridViewTextBoxColumn, fromStationDataGridViewTextBoxColumn, toStationDataGridViewTextBoxColumn, fromStationNameDataGridViewTextBoxColumn, toStationNameDataGridViewTextBoxColumn, actionTypeDataGridViewTextBoxColumn, aGVIDDataGridViewTextBoxColumn, cSTIDDataGridViewTextBoxColumn, priorityDataGridViewTextBoxColumn, repeatTimeDataGridViewTextBoxColumn, exeVehicleIDDataGridViewTextBoxColumn, startTimeDataGridViewTextBoxColumn, distanceDataGridViewTextBoxColumn, acquireTimeDataGridViewTextBoxColumn, depositTimeDataGridViewTextBoxColumn, assignUserNameDataGridViewTextBoxColumn, cSTTypeDataGridViewTextBoxColumn, fromStationPortNoDataGridViewTextBoxColumn, toStationPortNoDataGridViewTextBoxColumn, exeVehiclePosDataGridViewTextBoxColumn });
             dataGridView1.DataSource = executingTaskBindingSource;
-            dataGridView1.Location = new Point(3, 3);
+            dataGridView1.Dock = DockStyle.Fill;
+            dataGridView1.Location = new Point(0, 0);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
             dataGridView1.RowTemplate.Height = 25;
             dataGridView1.ShowCellErrors = false;
             dataGridView1.ShowRowErrors = false;
-            dataGridView1.Size = new Size(997, 423);
+            dataGridView1.Size = new Size(1003, 445);
             dataGridView1.TabIndex = 1;
             dataGridView1.DataError += dataGridView1_DataError;
             // 
@@ -266,10 +260,10 @@
             // 
             // button1
             // 
-            button1.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            button1.Location = new Point(3, 432);
+            button1.Dock = DockStyle.Left;
+            button1.Location = new Point(92, 0);
             button1.Name = "button1";
-            button1.Size = new Size(92, 44);
+            button1.Size = new Size(92, 41);
             button1.TabIndex = 2;
             button1.Text = "生成假資料";
             button1.UseVisualStyleBackColor = true;
@@ -277,10 +271,10 @@
             // 
             // button2
             // 
-            button2.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            button2.Location = new Point(101, 432);
+            button2.Dock = DockStyle.Left;
+            button2.Location = new Point(0, 0);
             button2.Name = "button2";
-            button2.Size = new Size(92, 44);
+            button2.Size = new Size(92, 41);
             button2.TabIndex = 3;
             button2.Text = "清空任務";
             button2.UseVisualStyleBackColor = true;
@@ -288,30 +282,61 @@
             // 
             // timer1
             // 
-            timer1.Enabled = true;
             timer1.Interval = 1000;
             timer1.Tick += timer1_Tick;
+            // 
+            // pnlDebug
+            // 
+            pnlDebug.BackColor = SystemColors.AppWorkspace;
+            pnlDebug.Controls.Add(button1);
+            pnlDebug.Controls.Add(button2);
+            pnlDebug.Dock = DockStyle.Bottom;
+            pnlDebug.Location = new Point(0, 445);
+            pnlDebug.Name = "pnlDebug";
+            pnlDebug.Size = new Size(1003, 41);
+            pnlDebug.TabIndex = 4;
+            pnlDebug.Visible = false;
+            // 
+            // panel2
+            // 
+            panel2.BackColor = SystemColors.ActiveCaptionText;
+            panel2.Controls.Add(labConnection);
+            panel2.Dock = DockStyle.Bottom;
+            panel2.ForeColor = Color.White;
+            panel2.Location = new Point(0, 486);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(1003, 22);
+            panel2.TabIndex = 6;
+            // 
+            // labConnection
+            // 
+            labConnection.AutoSize = true;
+            labConnection.Dock = DockStyle.Left;
+            labConnection.Location = new Point(0, 0);
+            labConnection.Name = "labConnection";
+            labConnection.Size = new Size(72, 15);
+            labConnection.TabIndex = 0;
+            labConnection.Text = "Connection";
             // 
             // UscAGVsInfo
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(button2);
-            Controls.Add(button1);
             Controls.Add(dataGridView1);
-            Controls.Add(label1);
+            Controls.Add(pnlDebug);
+            Controls.Add(panel2);
             Name = "UscAGVsInfo";
             Size = new Size(1003, 508);
             Load += UscAGVsInfo_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ((System.ComponentModel.ISupportInitialize)executingTaskBindingSource).EndInit();
+            pnlDebug.ResumeLayout(false);
+            panel2.ResumeLayout(false);
+            panel2.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
-
-        private Label label1;
         private DataGridView dataGridView1;
         private BindingSource executingTaskBindingSource;
         private Button button1;
@@ -341,5 +366,8 @@
         private DataGridViewTextBoxColumn toStationPortNoDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn exeVehiclePosDataGridViewTextBoxColumn;
         private System.Windows.Forms.Timer timer1;
+        private Panel pnlDebug;
+        private Panel panel2;
+        private Label labConnection;
     }
 }

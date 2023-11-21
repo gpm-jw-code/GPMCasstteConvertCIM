@@ -1,4 +1,5 @@
 ﻿using GPMCasstteConvertCIM.DataBase.KGS_AGVs;
+using GPMCasstteConvertCIM.Utilities;
 using System.ComponentModel;
 
 namespace GPMCasstteConvertCIM.UI_UserControls
@@ -13,14 +14,37 @@ namespace GPMCasstteConvertCIM.UI_UserControls
 
         private void UscAGVsInfo_Load(object sender, EventArgs e)
         {
+            pnlDebug.Visible = StaUsersManager.CurrentUser.Group != StaUsersManager.USER_GROUP.VISITOR;
+            StaUsersManager.OnRD_Login += StaUsersManager_OnRD_Login;
+            StaUsersManager.OnLogout += StaUsersManager_OnLogout;
+            var splited = AGVSDBHelper.DBConnection.Split(";");
+            labConnection.Text = string.Join(";", new string[3] { splited[0], splited[1], splited[2] });
+            timer1.Enabled = true;
         }
+
+        private void StaUsersManager_OnLogout(object? sender, EventArgs e)
+        {
+            pnlDebug.Visible = false;
+        }
+
+        private void StaUsersManager_OnRD_Login(object? sender, EventArgs e)
+        {
+            pnlDebug.Visible = true;
+        }
+
         private void Worker()
         {
-            var db = new AGVSDBHelper();
+            try
+            {
+                var db = new AGVSDBHelper();
+                dataGridView1.DataSource = db.GetExecutingTasks();
+            }
+            catch (Exception)
+            {
 
-            dataGridView1.DataSource = db.GetExecutingTasks();
+            }
         }
-     
+
 
         private void dataGridView1_DataError(object sender, DataGridViewDataErrorEventArgs e)
         {

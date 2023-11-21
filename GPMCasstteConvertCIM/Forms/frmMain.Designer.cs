@@ -772,7 +772,7 @@
             ckbHotRunMode.AutoSize = true;
             ckbHotRunMode.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Bold, GraphicsUnit.Point);
             ckbHotRunMode.ForeColor = Color.SandyBrown;
-            ckbHotRunMode.Location = new Point(11, 130);
+            ckbHotRunMode.Location = new Point(5, 164);
             ckbHotRunMode.Name = "ckbHotRunMode";
             ckbHotRunMode.Size = new Size(119, 28);
             ckbHotRunMode.TabIndex = 9;
@@ -787,7 +787,7 @@
             btnOpenLoginFOrm.ForeColor = Color.Black;
             btnOpenLoginFOrm.Location = new Point(5, 3);
             btnOpenLoginFOrm.Name = "btnOpenLoginFOrm";
-            btnOpenLoginFOrm.Size = new Size(143, 36);
+            btnOpenLoginFOrm.Size = new Size(143, 70);
             btnOpenLoginFOrm.TabIndex = 8;
             btnOpenLoginFOrm.Text = "Login";
             btnOpenLoginFOrm.UseVisualStyleBackColor = true;
@@ -797,9 +797,9 @@
             // 
             label6.Font = new Font("Microsoft JhengHei UI", 15F, FontStyle.Bold, GraphicsUnit.Point);
             label6.ForeColor = SystemColors.ActiveCaption;
-            label6.Location = new Point(3, 42);
+            label6.Location = new Point(3, 83);
             label6.Name = "label6";
-            label6.Size = new Size(145, 66);
+            label6.Size = new Size(145, 78);
             label6.TabIndex = 7;
             label6.Text = "VISITOR";
             label6.TextAlign = ContentAlignment.TopCenter;
