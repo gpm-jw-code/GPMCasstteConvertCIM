@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             dataGridView1 = new DataGridView();
             clsAlarmDtoBindingSource = new BindingSource(components);
             timeDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
@@ -48,14 +50,31 @@
             dataGridView1.AllowUserToOrderColumns = true;
             dataGridView1.AutoGenerateColumns = false;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = SystemColors.Control;
+            dataGridViewCellStyle1.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridView1.ColumnHeadersHeight = 55;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { timeDataGridViewTextBoxColumn, levelDataGridViewTextBoxColumn, Code_int, classifyDataGridViewTextBoxColumn, descriptionDataGridViewTextBoxColumn, eQPNameDataGridViewTextBoxColumn });
             dataGridView1.DataSource = clsAlarmDtoBindingSource;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.Window;
+            dataGridViewCellStyle2.Font = new Font("微軟正黑體", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
             dataGridView1.Dock = DockStyle.Fill;
             dataGridView1.Location = new Point(0, 0);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersVisible = false;
+            dataGridView1.RowHeadersWidth = 60;
             dataGridView1.RowTemplate.Height = 25;
             dataGridView1.Size = new Size(1084, 467);
             dataGridView1.TabIndex = 0;
@@ -68,42 +87,43 @@
             // 
             // timeDataGridViewTextBoxColumn
             // 
-            timeDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            timeDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             timeDataGridViewTextBoxColumn.DataPropertyName = "Time";
+            timeDataGridViewTextBoxColumn.FillWeight = 22F;
             timeDataGridViewTextBoxColumn.HeaderText = "時間";
             timeDataGridViewTextBoxColumn.Name = "timeDataGridViewTextBoxColumn";
             timeDataGridViewTextBoxColumn.ReadOnly = true;
-            timeDataGridViewTextBoxColumn.Width = 56;
             // 
             // levelDataGridViewTextBoxColumn
             // 
-            levelDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            levelDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             levelDataGridViewTextBoxColumn.DataPropertyName = "Level";
+            levelDataGridViewTextBoxColumn.FillWeight = 22F;
             levelDataGridViewTextBoxColumn.HeaderText = "警報類型";
             levelDataGridViewTextBoxColumn.Name = "levelDataGridViewTextBoxColumn";
             levelDataGridViewTextBoxColumn.ReadOnly = true;
-            levelDataGridViewTextBoxColumn.Width = 80;
             // 
             // Code_int
             // 
-            Code_int.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            Code_int.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             Code_int.DataPropertyName = "Code_int";
+            Code_int.FillWeight = 22F;
             Code_int.HeaderText = "異常碼";
             Code_int.Name = "Code_int";
             Code_int.ReadOnly = true;
-            Code_int.Width = 68;
             // 
             // classifyDataGridViewTextBoxColumn
             // 
-            classifyDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            classifyDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             classifyDataGridViewTextBoxColumn.DataPropertyName = "Classify";
+            classifyDataGridViewTextBoxColumn.FillWeight = 22F;
             classifyDataGridViewTextBoxColumn.HeaderText = "異常分類";
             classifyDataGridViewTextBoxColumn.Name = "classifyDataGridViewTextBoxColumn";
             classifyDataGridViewTextBoxColumn.ReadOnly = true;
-            classifyDataGridViewTextBoxColumn.Width = 80;
             // 
             // descriptionDataGridViewTextBoxColumn
             // 
+            descriptionDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             descriptionDataGridViewTextBoxColumn.DataPropertyName = "Description";
             descriptionDataGridViewTextBoxColumn.HeaderText = "異常描述";
             descriptionDataGridViewTextBoxColumn.Name = "descriptionDataGridViewTextBoxColumn";
@@ -111,12 +131,12 @@
             // 
             // eQPNameDataGridViewTextBoxColumn
             // 
-            eQPNameDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            eQPNameDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             eQPNameDataGridViewTextBoxColumn.DataPropertyName = "EQPName";
+            eQPNameDataGridViewTextBoxColumn.FillWeight = 22F;
             eQPNameDataGridViewTextBoxColumn.HeaderText = "設備名稱";
             eQPNameDataGridViewTextBoxColumn.Name = "eQPNameDataGridViewTextBoxColumn";
             eQPNameDataGridViewTextBoxColumn.ReadOnly = true;
-            eQPNameDataGridViewTextBoxColumn.Width = 80;
             // 
             // UscAlarmTable
             // 

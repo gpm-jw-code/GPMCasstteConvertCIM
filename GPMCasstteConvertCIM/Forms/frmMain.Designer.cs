@@ -100,6 +100,8 @@
             splitContainer1 = new SplitContainer();
             ckbRemoteModeIndi = new CheckBox();
             cknOnlineModeIndi = new CheckBox();
+            pnlLoading = new Panel();
+            label7 = new Label();
             tabControl1.SuspendLayout();
             tabPage4.SuspendLayout();
             tabPage1.SuspendLayout();
@@ -131,6 +133,7 @@
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
             splitContainer1.SuspendLayout();
+            pnlLoading.SuspendLayout();
             SuspendLayout();
             // 
             // tabControl1
@@ -142,6 +145,7 @@
             tabControl1.Controls.Add(tabPage2);
             tabControl1.Controls.Add(tabAGVSInfos);
             tabControl1.Dock = DockStyle.Fill;
+            tabControl1.Font = new Font("微軟正黑體", 9F, FontStyle.Regular, GraphicsUnit.Point);
             tabControl1.HotTrack = true;
             tabControl1.ItemSize = new Size(96, 30);
             tabControl1.Location = new Point(0, 0);
@@ -952,6 +956,28 @@
             cknOnlineModeIndi.CheckedChanged += cknOnlineModeIndi_CheckedChanged;
             cknOnlineModeIndi.Click += cknOnlineModeIndi_Click;
             // 
+            // pnlLoading
+            // 
+            pnlLoading.BackColor = Color.Black;
+            pnlLoading.Controls.Add(label7);
+            pnlLoading.Dock = DockStyle.Fill;
+            pnlLoading.Location = new Point(0, 0);
+            pnlLoading.Name = "pnlLoading";
+            pnlLoading.Size = new Size(1407, 723);
+            pnlLoading.TabIndex = 16;
+            // 
+            // label7
+            // 
+            label7.Dock = DockStyle.Fill;
+            label7.Font = new Font("Microsoft JhengHei UI", 44F, FontStyle.Regular, GraphicsUnit.Point);
+            label7.ForeColor = Color.White;
+            label7.Location = new Point(0, 0);
+            label7.Name = "label7";
+            label7.Size = new Size(1407, 723);
+            label7.TabIndex = 0;
+            label7.Text = "Loading...";
+            label7.TextAlign = ContentAlignment.MiddleCenter;
+            // 
             // frmMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -966,6 +992,7 @@
             Controls.Add(pnlSideLeft);
             Controls.Add(statusStrip1);
             Controls.Add(GPMRDMenuStrip);
+            Controls.Add(pnlLoading);
             Icon = (Icon)resources.GetObject("$this.Icon");
             MainMenuStrip = GPMRDMenuStrip;
             Name = "frmMain";
@@ -1009,6 +1036,7 @@
             splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
+            pnlLoading.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -1091,5 +1119,7 @@
         private ToolStripStatusLabel labCurrentEncodingName;
         private TabPage tabAGVSInfos;
         private UI_UserControls.UscAGVsInfo uscagVsInfo1;
+        private Panel pnlLoading;
+        private Label label7;
     }
 }

@@ -158,15 +158,16 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         private CIMComponent.MemoryTable VirtualMemoryTable => EQParent.CIMMemOptions.memoryTable;
 
 
-        public void ModbusServerActive()
+        public async void ModbusServerActive()
         {
+            await Task.Delay(1);
             if (Properties.ModbusServer_Enable)
             {
                 try
                 {
                     if (BuildModbusTCPServer(new frmModbusTCPServer()))
                     {
-                        Utility.SystemLogger.Info($"ModbusTcp Server-0.0.0.0:{modbus_server.Port} is serving.");
+                        Utility.SystemLogger.Info($"ModbusTcp Server-0.0.0.0:{modbus_server.Port} is serving.", false);
                         SyncRegisterData();
                         CoilsStatesSyncWorker();
 

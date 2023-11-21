@@ -61,120 +61,129 @@ namespace GPMCasstteConvertCIM.Forms
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            Text = $"GPM AGVS CIM-V{Assembly.GetExecutingAssembly().GetName().Version.ToString()}";
-
-            DBhelper.Initialize();
-            Utility.LoadConfigs();
-            Secs4Net.EncodingSetting.ASCIIEncoding = Utility.SysConfigs.SECS.SECESAEncoding; //設定編碼
-            if (Utility.SysConfigs.Project == Utilities.SysConfigs.clsSystemConfigs.PROJECT.U007)
+            pnlLoading.BringToFront();
+            Task.Run(async () =>
             {
-                tabControl1.TabPages.RemoveAt(1);//把原本的HOME PAGE移除
-                splitContainer1.Panel2.Controls.Add(pnlSyslogRtbContainer);//Move container of  LOG to the Main View(Home) of Project.U007
-            }
-            else
-                tabControl1.TabPages.RemoveAt(0);
-
-            DevicesManager.LoadDeviceConnectionOpts(out bool config_error, out bool eqplc_config_error, out string errMsg);
-
-            if (config_error | eqplc_config_error)
-            {
-                MessageBox.Show($"{errMsg}，請確認參數設定", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Environment.Exit(0);
-            }
-
-            LoggerBase.logTimeUnit = Utility.SysConfigs.Log.LogFileUnit;
-
-            Utility.SystemLogger = new LoggerBase(rtbSystemLogShow, Utility.SysConfigs.Log.SyslogFolder, "Sys Log");
-
-            Utility.SystemLogger.Info("GPM CIM System Start");
-            uscConnectionStates1.InitializeConnectionState();
-
-            DevicesManager.DevicesConnectionsOpts.SECS_HOST.logRichTextBox = rtbSecsHostLog;
-            DevicesManager.DevicesConnectionsOpts.SECS_HOST.dgvRevBufferTable = dgvMsgFromAGVS;
-            DevicesManager.DevicesConnectionsOpts.SECS_HOST.dgvSendBufferTable = dgvActiveMsgToAGVS;
-            DevicesManager.DevicesConnectionsOpts.SECS_CLIENT.logRichTextBox = rtbSecsClientLog;
-            DevicesManager.DevicesConnectionsOpts.SECS_CLIENT.dgvRevBufferTable = dgvMsgFromMCS;
-            DevicesManager.DevicesConnectionsOpts.SECS_CLIENT.dgvSendBufferTable = dgvActiveMsgToMCS;
-
-            tlpConverterContainer.SuspendLayout();
-            foreach (Devices.Options.ConverterEQPInitialOption item in DevicesManager.DevicesConnectionsOpts.PLCEQS)
-            {
-                UI_UserControls.UscCasstteConverter mainUI = new UI_UserControls.UscCasstteConverter();
-                item.mainUI = mainUI;
-                tlpConverterContainer.Controls.Add(mainUI);
-                mainUI.Dock = DockStyle.Fill;
-
-                foreach (clsConverterPort.clsPortProperty port in item.Ports.Values)
-                {
-                    ToolStripMenuItem agvs_modbus_emu_selBtn = new ToolStripMenuItem()
-                    {
-                        Text = $"{item.Eq_Name}-{port.PortID}",
-                        Tag = port //ConverterEQPInitialOption
-                    };
-                    agvs_modbus_emu_selBtn.Click += Agvs_modbus_emu_selBtn_Click;
-                    AGVS_modbus_sim_ToolStripMenuItem.DropDownItems.Add(agvs_modbus_emu_selBtn);
-                }
-
-
-            }
-            tlpConverterContainer.ResumeLayout();
-
-
-            foreach (var item in DevicesManager.DevicesConnectionsOpts.Modbus_Servers)
-            {
-                item.mainUI = new frmModbusTCPServer();
-                item.logRichTextBox = rtbModbusTcpServerLog;
-            }
-
-            clsConverterPort.OnWaitInReqRaiseButStatusError += ClsConverterPort_OnWaitInReqRaiseButStatusError;
-            DevicesManager.DeviceConnectionStateOnChanged += CIMDevices_DeviceConnectionStateOnChanged;
-            DevicesManager.EqStatusUI = usceqStatus1;
-            DevicesManager.Connect();
-
-            VirtualAGVSystem.StaVirtualAGVS.Initialize();
-
-            SystemAPI systemAPI = new SystemAPI();
-            EQDIODataAPI EqDIOAPIService = new EQDIODataAPI();
-            AGVsDataBaseAPI AgvsDBAPIService = new AGVsDataBaseAPI();
-            systemAPI.Start();
-            EqDIOAPIService.Start();
-            AgvsDBAPIService.Start();
-            WebsocketMiddleware.ServerBuild();
-            uscAlarmTable1.BindData(AlarmManager.AlarmsList.ToList());
-            AlarmManager.onAlarmAdded += (sender, alarm) =>
-            {
+                await Task.Delay(2000);
                 Invoke(new Action(() =>
                 {
-                    DBhelper.InsertAlarm(alarm);
-                    uscAlarmTable1.BindData(AlarmManager.AlarmsList.ToList());
-                    uscAlarmTable1.alarmListBinding.ResetBindings();
-                }));
-            };
-            SetCurrentEncodingName();
-
-            if (!Utility.SysConfigs.PostOrderInfoToAGV)
-            {
-                tabControl1.TabPages.Remove(tabAGVSInfos);
-            }
-            else
-                Task.Run(async() =>
-                {
-                    await Task.Delay(1);
-                    Utility.SystemLogger.Info("Init AGVs");
-                    AGVsOrderInfoTransfer.Initialize(Utility.SystemLogger);
-                    AGVSDBHelper.OnError += (sender, msg) =>
+                    Text = $"GPM AGVS CIM-V{Assembly.GetExecutingAssembly().GetName().Version.ToString()}";
+                    DBhelper.Initialize();
+                    Utility.LoadConfigs();
+                    Secs4Net.EncodingSetting.ASCIIEncoding = Utility.SysConfigs.SECS.SECESAEncoding; //設定編碼
+                    if (Utility.SysConfigs.Project == Utilities.SysConfigs.clsSystemConfigs.PROJECT.U007)
                     {
-                        Utility.SystemLogger.Error(msg);
-                    };
-                    if (!AGVSDBHelper.Init(Utility.SystemLogger, out var erMsg, EnsureCreated: true, Utility.SysConfigs.KGSDBConnectionString))
-                    {
-                        Utility.SystemLogger.Error(erMsg);
+                        tabControl1.TabPages.RemoveAt(1);//把原本的HOME PAGE移除
+                        splitContainer1.Panel2.Controls.Add(pnlSyslogRtbContainer);//Move container of  LOG to the Main View(Home) of Project.U007
                     }
                     else
+                        tabControl1.TabPages.RemoveAt(0);
+
+                    DevicesManager.LoadDeviceConnectionOpts(out bool config_error, out bool eqplc_config_error, out string errMsg);
+
+                    if (config_error | eqplc_config_error)
                     {
-                        Utility.SystemLogger.Info($"Init AGVs Database:{AGVSDBHelper.DBConnection} SUCCESS!!");
+                        MessageBox.Show($"{errMsg}，請確認參數設定", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        Environment.Exit(0);
                     }
-                });
+
+                    LoggerBase.logTimeUnit = Utility.SysConfigs.Log.LogFileUnit;
+
+                    Utility.SystemLogger = new LoggerBase(rtbSystemLogShow, Utility.SysConfigs.Log.SyslogFolder, "Sys Log");
+
+                    Utility.SystemLogger.Info("GPM CIM System Start");
+                    uscConnectionStates1.InitializeConnectionState();
+
+                    DevicesManager.DevicesConnectionsOpts.SECS_HOST.logRichTextBox = rtbSecsHostLog;
+                    DevicesManager.DevicesConnectionsOpts.SECS_HOST.dgvRevBufferTable = dgvMsgFromAGVS;
+                    DevicesManager.DevicesConnectionsOpts.SECS_HOST.dgvSendBufferTable = dgvActiveMsgToAGVS;
+                    DevicesManager.DevicesConnectionsOpts.SECS_CLIENT.logRichTextBox = rtbSecsClientLog;
+                    DevicesManager.DevicesConnectionsOpts.SECS_CLIENT.dgvRevBufferTable = dgvMsgFromMCS;
+                    DevicesManager.DevicesConnectionsOpts.SECS_CLIENT.dgvSendBufferTable = dgvActiveMsgToMCS;
+
+                    tlpConverterContainer.SuspendLayout();
+                    foreach (Devices.Options.ConverterEQPInitialOption item in DevicesManager.DevicesConnectionsOpts.PLCEQS)
+                    {
+                        UI_UserControls.UscCasstteConverter mainUI = new UI_UserControls.UscCasstteConverter();
+                        item.mainUI = mainUI;
+                        tlpConverterContainer.Controls.Add(mainUI);
+                        mainUI.Dock = DockStyle.Fill;
+
+                        foreach (clsConverterPort.clsPortProperty port in item.Ports.Values)
+                        {
+                            ToolStripMenuItem agvs_modbus_emu_selBtn = new ToolStripMenuItem()
+                            {
+                                Text = $"{item.Eq_Name}-{port.PortID}",
+                                Tag = port //ConverterEQPInitialOption
+                            };
+                            agvs_modbus_emu_selBtn.Click += Agvs_modbus_emu_selBtn_Click;
+                            AGVS_modbus_sim_ToolStripMenuItem.DropDownItems.Add(agvs_modbus_emu_selBtn);
+                        }
+
+
+                    }
+                    tlpConverterContainer.ResumeLayout();
+
+
+                    foreach (var item in DevicesManager.DevicesConnectionsOpts.Modbus_Servers)
+                    {
+                        item.mainUI = new frmModbusTCPServer();
+                        item.logRichTextBox = rtbModbusTcpServerLog;
+                    }
+
+                    clsConverterPort.OnWaitInReqRaiseButStatusError += ClsConverterPort_OnWaitInReqRaiseButStatusError;
+                    DevicesManager.DeviceConnectionStateOnChanged += CIMDevices_DeviceConnectionStateOnChanged;
+                    DevicesManager.EqStatusUI = usceqStatus1;
+                    DevicesManager.Connect();
+
+                    VirtualAGVSystem.StaVirtualAGVS.Initialize();
+
+                    SystemAPI systemAPI = new SystemAPI();
+                    EQDIODataAPI EqDIOAPIService = new EQDIODataAPI();
+                    AGVsDataBaseAPI AgvsDBAPIService = new AGVsDataBaseAPI();
+                    systemAPI.Start();
+                    EqDIOAPIService.Start();
+                    AgvsDBAPIService.Start();
+                    WebsocketMiddleware.ServerBuild();
+                    uscAlarmTable1.BindData(AlarmManager.AlarmsList.ToList());
+                    AlarmManager.onAlarmAdded += (sender, alarm) =>
+                    {
+                        Invoke(new Action(() =>
+                        {
+                            DBhelper.InsertAlarm(alarm);
+                            uscAlarmTable1.BindData(AlarmManager.AlarmsList.ToList());
+                            uscAlarmTable1.alarmListBinding.ResetBindings();
+                        }));
+                    };
+                    SetCurrentEncodingName();
+
+                    if (!Utility.SysConfigs.PostOrderInfoToAGV)
+                    {
+                        tabControl1.TabPages.Remove(tabAGVSInfos);
+                    }
+                    else
+                        Task.Run(async () =>
+                        {
+                            await Task.Delay(1);
+                            Utility.SystemLogger.Info("Init AGVs");
+                            AGVsOrderInfoTransfer.Initialize(Utility.SystemLogger);
+                            AGVSDBHelper.OnError += (sender, msg) =>
+                            {
+                                Utility.SystemLogger.Error(msg);
+                            };
+                            if (!AGVSDBHelper.Init(Utility.SystemLogger, out var erMsg, EnsureCreated: true, Utility.SysConfigs.KGSDBConnectionString))
+                            {
+                                Utility.SystemLogger.Error(erMsg);
+                            }
+                            else
+                            {
+                                Utility.SystemLogger.Info($"Init AGVs Database:{AGVSDBHelper.DBConnection} SUCCESS!!");
+                            }
+                        });
+                    pnlLoading.SendToBack();
+                    WindowState = FormWindowState.Maximized;
+                }));
+            });
         }
 
         private void ClsConverterPort_OnWaitInReqRaiseButStatusError(object? sender, clsConverterPort port)

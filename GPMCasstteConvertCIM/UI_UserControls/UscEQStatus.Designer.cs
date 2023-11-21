@@ -70,10 +70,11 @@
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCells;
             dataGridView1.BackgroundColor = Color.White;
+            dataGridView1.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = SystemColors.Control;
+            dataGridViewCellStyle2.BackColor = SystemColors.ControlDarkDark;
             dataGridViewCellStyle2.Font = new Font("微軟正黑體", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            dataGridViewCellStyle2.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle2.ForeColor = Color.White;
             dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
             dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
@@ -225,11 +226,13 @@
             // 
             // panel1
             // 
+            panel1.BackColor = Color.Teal;
             panel1.Controls.Add(label1);
             panel1.Controls.Add(eqCombobox1);
             panel1.Controls.Add(btnOpenMasterMemTb);
             panel1.Controls.Add(ckbSimulationMode);
             panel1.Dock = DockStyle.Top;
+            panel1.ForeColor = Color.White;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
             panel1.Size = new Size(1295, 39);
@@ -260,13 +263,14 @@
             // 
             // btnOpenMasterMemTb
             // 
-            btnOpenMasterMemTb.BackColor = Color.FromArgb(0, 192, 192);
+            btnOpenMasterMemTb.BackColor = Color.FromArgb(64, 64, 64);
             btnOpenMasterMemTb.Dock = DockStyle.Right;
-            btnOpenMasterMemTb.Font = new Font("微軟正黑體", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            btnOpenMasterMemTb.ForeColor = Color.White;
-            btnOpenMasterMemTb.Location = new Point(1164, 0);
+            btnOpenMasterMemTb.FlatStyle = FlatStyle.Flat;
+            btnOpenMasterMemTb.Font = new Font("微軟正黑體", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            btnOpenMasterMemTb.ForeColor = Color.WhiteSmoke;
+            btnOpenMasterMemTb.Location = new Point(1187, 0);
             btnOpenMasterMemTb.Name = "btnOpenMasterMemTb";
-            btnOpenMasterMemTb.Size = new Size(131, 39);
+            btnOpenMasterMemTb.Size = new Size(108, 39);
             btnOpenMasterMemTb.TabIndex = 1;
             btnOpenMasterMemTb.Text = "Memory Table";
             btnOpenMasterMemTb.UseVisualStyleBackColor = false;

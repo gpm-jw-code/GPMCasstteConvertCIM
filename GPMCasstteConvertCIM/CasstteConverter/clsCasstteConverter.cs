@@ -133,7 +133,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             }
         }
 
-        protected virtual void PortModbusServersActive()
+        protected virtual async void PortModbusServersActive()
         {
             foreach (var item in PortDatas)
             {

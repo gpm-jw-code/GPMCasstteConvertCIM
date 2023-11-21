@@ -94,7 +94,7 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
             LinkBitMap = cclink_master.LinkBitMap.FindAll(add => add.EQ_Name == this.Eq_Name);
             LinkWordMap = cclink_master.LinkWordMap.FindAll(add => add.EQ_Name == this.Eq_Name);
         }
-        protected override void PortModbusServersActive()
+        protected override async void PortModbusServersActive()
         {
             foreach (var item in PortDatas)
             {

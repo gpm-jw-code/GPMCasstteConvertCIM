@@ -105,7 +105,7 @@ namespace GPMCasstteConvertCIM.Utilities
             DateTime time = DateTime.Now;
             if (_richTextBox != null)
             {
-                if (show_in_richbox & _richTextBox.Created)
+                if (show_in_richbox && _richTextBox.Created)
                 {
                     _richTextBox?.Invoke((MethodInvoker)delegate
                     {
