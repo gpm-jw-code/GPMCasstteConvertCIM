@@ -71,6 +71,8 @@
             dataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
             groupBox1 = new GroupBox();
             richTextBox1 = new RichTextBox();
+            labLastClientRequestTime = new ToolStripStatusLabel();
+            toolStripStatusLabel3 = new ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)registerBindingSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)digitalIORegisterBindingSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)coilRegisterBindingSource).BeginInit();
@@ -174,7 +176,7 @@
             // 
             // statusStrip1
             // 
-            statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel1 });
+            statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel1, toolStripStatusLabel3, labLastClientRequestTime });
             statusStrip1.Location = new Point(0, 669);
             statusStrip1.Name = "statusStrip1";
             statusStrip1.RenderMode = ToolStripRenderMode.ManagerRenderMode;
@@ -463,6 +465,18 @@
             richTextBox1.TabIndex = 0;
             richTextBox1.Text = "";
             // 
+            // labLastClientRequestTime
+            // 
+            labLastClientRequestTime.Name = "labLastClientRequestTime";
+            labLastClientRequestTime.Size = new Size(124, 17);
+            labLastClientRequestTime.Text = "1991/10/20 19:00:00";
+            // 
+            // toolStripStatusLabel3
+            // 
+            toolStripStatusLabel3.Name = "toolStripStatusLabel3";
+            toolStripStatusLabel3.Size = new Size(1047, 17);
+            toolStripStatusLabel3.Spring = true;
+            // 
             // frmModbusTCPServer
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -538,5 +552,7 @@
         private DataGridViewTextBoxColumn Description;
         private DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn1;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private ToolStripStatusLabel toolStripStatusLabel3;
+        private ToolStripStatusLabel labLastClientRequestTime;
     }
 }

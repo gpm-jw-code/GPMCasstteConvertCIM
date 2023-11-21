@@ -73,9 +73,10 @@ namespace GPMCasstteConvertCIM.Forms
         {
             WriteLog(string.Format("{0} Server-->Client (FC{1}){2}", DateTime.Now, e[7], string.Join(" ", e.Select(b => b.ToString("X2")))), Color.LightBlue);
         }
-
+        private DateTime lastCoilsWriteTime = DateTime.MinValue;
         private void _ModbusTCPServer_OnMessageReceieved(object? sender, NetworkConnectionParameter e)
         {
+            lastCoilsWriteTime = DateTime.Now;
             WriteLog(string.Format("{0} Server<--Client (FC{1}){2}", DateTime.Now, e.bytes[7], string.Join(" ", e.bytes.Select(b => b.ToString("X2")))), Color.Orange);
         }
         private delegate void WriteLogDelagate(string msg, Color foreColor);
@@ -94,7 +95,8 @@ namespace GPMCasstteConvertCIM.Forms
             }
             else
             {
-                if(richTextBox1.Text.Length > 16384) {
+                if (richTextBox1.Text.Length > 16384)
+                {
                     richTextBox1.ResetText();
                 }
                 richTextBox1.SelectionColor = foreColor;
@@ -172,6 +174,7 @@ namespace GPMCasstteConvertCIM.Forms
 
         private void timer1_Tick(object sender, EventArgs e)
         {
+            labLastClientRequestTime.Text = lastCoilsWriteTime.ToString();
             if (ModbusTCPServer != null)
             {
                 labConnectedClientNum.Text = ModbusTCPServer.ConnectedClientNum.ToString();

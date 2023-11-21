@@ -177,6 +177,12 @@ namespace GPMCasstteConvertCIM.UI_UserControls
                 frmEQPortInfo frm = new frmEQPortInfo(dataGridView1.Rows[e.RowIndex].DataBoundItem as clsConverterPort);
                 frm.Show();
             }
+            if (e.RowIndex != -1 && e.ColumnIndex == StatusbitdataStartIndex + 11)
+            {
+                var station = (dataGridView1.Rows[e.RowIndex].DataBoundItem as clsConverterPort);
+                station.modbus_server.UI.Text = station.PortName;
+                station.modbus_server.UI.Show();
+            }
         }
 
         private void eqCombobox1_OnEQSelectChanged(object sender, string eq_name)
@@ -204,6 +210,11 @@ namespace GPMCasstteConvertCIM.UI_UserControls
         private void dataGridView1_Resize(object sender, EventArgs e)
         {
             dataGridView1.SuspendLayout();
+        }
+
+        private void btnOpenModbusServer_Click(object sender, EventArgs e)
+        {
+
         }
 
         ///

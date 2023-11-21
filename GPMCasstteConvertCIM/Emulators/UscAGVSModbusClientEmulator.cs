@@ -218,6 +218,9 @@ namespace GPMCasstteConvertCIM.Emulators
 
                             //write
                             modbus.WriteMultipleCoils(0, DigitalOutputs.Select(DO => DO.State).ToArray());
+                            var rollback = modbus.ReadCoils(0, DigitalOutputs.Count);
+
+
                             //modbus.WriteSingleCoil(0, DigitalOutputs[0].State);
                         }
                         catch (Exception ex)
