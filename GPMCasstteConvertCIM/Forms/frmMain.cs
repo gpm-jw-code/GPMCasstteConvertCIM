@@ -162,24 +162,10 @@ namespace GPMCasstteConvertCIM.Forms
                         tabControl1.TabPages.Remove(tabAGVSInfos);
                     }
                     else
-                        Task.Run(async () =>
-                        {
-                            await Task.Delay(1);
-                            Utility.SystemLogger.Info("Init AGVs");
-                            AGVsOrderInfoTransfer.Initialize(Utility.SystemLogger);
-                            AGVSDBHelper.OnError += (sender, msg) =>
-                            {
-                                Utility.SystemLogger.Error(msg);
-                            };
-                            if (!AGVSDBHelper.Init(Utility.SystemLogger, out var erMsg, EnsureCreated: true, Utility.SysConfigs.KGSDBConnectionString))
-                            {
-                                Utility.SystemLogger.Error(erMsg);
-                            }
-                            else
-                            {
-                                Utility.SystemLogger.Info($"Init AGVs Database:{AGVSDBHelper.DBConnection} SUCCESS!!");
-                            }
-                        });
+                    {
+                        Thread initTheard = new Thread(KGSDBInitWorker);
+                        initTheard.Start();
+                    }
                     pnlLoading.SendToBack();
                 }));
             });
@@ -194,7 +180,27 @@ namespace GPMCasstteConvertCIM.Forms
             });
         }
 
+        private async void KGSDBInitWorker()
+        {
+            await Task.Delay(1000);
+            Utility.SystemLogger.Info("Init AGVs");
+            AGVsOrderInfoTransfer.Initialize(Utility.SystemLogger);
+            AGVSDBHelper.OnError += (sender, msg) =>
+            {
+                Utility.SystemLogger.Error(msg);
+            };
+            if (!AGVSDBHelper.Init(Utility.SystemLogger, out var erMsg, EnsureCreated: true, Utility.SysConfigs.KGSDBConnectionString))
+            {
+                Utility.SystemLogger.Error(erMsg);
 
+                Thread initTheard = new Thread(KGSDBInitWorker);
+                initTheard.Start();
+            }
+            else
+            {
+                Utility.SystemLogger.Info($"Init AGVs Database:{AGVSDBHelper.DBConnection} SUCCESS!!");
+            }
+        }
         private void Agvs_modbus_emu_selBtn_Click(object? sender, EventArgs e)
         {
             ToolStripMenuItem agvs_modbus_emu_selBtn = (ToolStripMenuItem)sender;
