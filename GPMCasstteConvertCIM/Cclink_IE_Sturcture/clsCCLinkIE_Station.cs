@@ -157,71 +157,43 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
         public clsStationPort(clsPortProperty property, clsCasstteConverter converterParent) : base(property, converterParent)
         {
         }
-        protected override void CoilsStatesSyncWorker()
-        {///Coil Data同步到PLC Memory 
-            Task.Factory.StartNew(() =>
+
+        protected override void SyncAGVSCoilsDataWorker()
+        {
+            string portNoName = $"PORT{Properties.PortNo + 1}";
+            List<CasstteConverter.Data.clsMemoryAddress> CIMLinkAddress = DevicesManager.cclink_master.LinkBitMap.FindAll(ad => ad.EQ_Name == ((clsCCLinkIE_Station)EQParent).Eq_Name && ad.EOwner == OWNER.CIM && ad.EScope.ToString() == portNoName && ad.Link_Modbus_Register_Number != -1);
+            foreach (var item in CIMLinkAddress)
             {
-                while (true)
+                try
                 {
-                    Thread.Sleep(10);
-                    string portNoName = $"PORT{Properties.PortNo + 1}";
-                    List<CasstteConverter.Data.clsMemoryAddress> CIMLinkAddress = DevicesManager.cclink_master.LinkBitMap.FindAll(ad => ad.EQ_Name == ((clsCCLinkIE_Station)EQParent).Eq_Name && ad.EOwner == OWNER.CIM && ad.EScope.ToString() == portNoName && ad.Link_Modbus_Register_Number != -1);
-                    foreach (var item in CIMLinkAddress)
-                    {
-                        try
-                        {
-                            int register_num = item.Link_Modbus_Register_Number;
-                            var localCoilsAry = modbus_server.coils.localArray;
-                            bool state = localCoilsAry[register_num + 1];
-                            AGVHandshakeIO(item, state);
-                            DevicesManager.cclink_master.CIMMemOptions.memoryTable.WriteOneBit(item.Address, state);
-                        }
-                        catch (Exception ex)
-                        {
-                            Utility.SystemLogger.Error(ex.Message, ex, false);
-                        }
-                    }
+                    int register_num = item.Link_Modbus_Register_Number;
+                    var localCoilsAry = modbus_server.coils.localArray;
+                    bool state = localCoilsAry[register_num + 1];
+                    AGVHandshakeIO(item, state);
+                    DevicesManager.cclink_master.CIMMemOptions.memoryTable.WriteOneBit(item.Address, state);
                 }
-            });
+                catch (Exception ex)
+                {
+                    Utility.SystemLogger.Error(ex.Message, ex, false);
+                }
+            }
         }
 
-        public override void SyncRegisterData()
+        public override void SyncModbusDataWorker()
         {
             Task.Factory.StartNew(async () =>
             {
                 while (true)
                 {
                     await Task.Delay(10);
-                    var bitMap = LinkBitMap.FindAll(ad => ad.EScope.ToString() == this.portNoName && ad.EOwner == OWNER.EQP);
-                    var wordMap = LinkWordMap.FindAll(ad => ad.EScope.ToString() == this.portNoName && ad.EOwner == OWNER.EQP);
                     try
                     {
 
                         if (DevicesManager.cclink_master.EQPMemOptions == null)
                             continue;
-
-                        foreach (clsMemoryAddress item in bitMap)
-                        {
-                            if (item.Link_Modbus_Register_Number != -1)
-                            {
-                                bool bolState = DevicesManager.cclink_master.EQPMemOptions.memoryTable.ReadOneBit(item.Address);
-                                if (Utility.SysConfigs.EQLoadUnload_RequestSimulation && this.Properties.LoadUnlloadStateSimulation)
-                                {
-                                    if (item.EProperty == Enums.PROPERTY.Load_Request | item.EProperty == Enums.PROPERTY.Unload_Request)
-                                        bolState = true;
-                                }
-                                modbus_server.discreteInputs.localArray[item.Link_Modbus_Register_Number] = bolState;
-                            }
-                        }
-
-                        foreach (clsMemoryAddress item in wordMap)
-                        {
-                            if (item.Link_Modbus_Register_Number != -1)
-                            {
-                                int value = DevicesManager.cclink_master.EQPMemOptions.memoryTable.ReadBinary(item.Address);
-                                modbus_server.holdingRegisters.localArray[item.Link_Modbus_Register_Number] = (short)value;
-                            }
-                        }
+                        SyncAGVSInputsWorker();
+                        SyncEQHoldingRegistersWorker();
+                        SyncAGVSCoilsDataWorker();
                     }
                     catch (Exception ex)
                     {
@@ -229,6 +201,42 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
                     }
                 }
             });
+
+            Task.Factory.StartNew(() =>
+            {
+                CheckDiscardInputWriteResultBackgroundWorker();
+            });
+        }
+
+        protected override void SyncEQHoldingRegistersWorker()
+        {
+            var wordMap = LinkWordMap.FindAll(ad => ad.EScope.ToString() == this.portNoName && ad.EOwner == OWNER.EQP);
+            foreach (clsMemoryAddress item in wordMap)
+            {
+                if (item.Link_Modbus_Register_Number != -1)
+                {
+                    int value = DevicesManager.cclink_master.EQPMemOptions.memoryTable.ReadBinary(item.Address);
+                    modbus_server.holdingRegisters.localArray[item.Link_Modbus_Register_Number] = (short)value;
+                }
+            }
+        }
+
+        protected override void SyncAGVSInputsWorker()
+        {
+            var bitMap = LinkBitMap.FindAll(ad => ad.EScope.ToString() == this.portNoName && ad.EOwner == OWNER.EQP);
+            foreach (clsMemoryAddress item in bitMap)
+            {
+                if (item.Link_Modbus_Register_Number != -1)
+                {
+                    bool bolState = DevicesManager.cclink_master.EQPMemOptions.memoryTable.ReadOneBit(item.Address);
+                    if (Utility.SysConfigs.EQLoadUnload_RequestSimulation && this.Properties.LoadUnlloadStateSimulation)
+                    {
+                        if (item.EProperty == Enums.PROPERTY.Load_Request | item.EProperty == Enums.PROPERTY.Unload_Request)
+                            bolState = true;
+                    }
+                    modbus_server.discreteInputs.localArray[item.Link_Modbus_Register_Number] = bolState;
+                }
+            }
         }
     }
 

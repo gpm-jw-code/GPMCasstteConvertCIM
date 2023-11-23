@@ -37,10 +37,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
             if (EPortType == portUnitType)
             {
-                Utility.SystemLogger.Info($"{requester_name} Request [{Properties.PortID}] Change Port Type To {portUnitType}, But Port Already {portUnitType}");
+                Utility.SystemLogger.Info($"[{requester_name}] Request [{Properties.PortID}] Change Port Type To {portUnitType}, But Port Already {portUnitType}");
                 return true;
             }
-            Utility.SystemLogger.Info($"{requester_name} Request [{Properties.PortID}] Change Port Type To {portUnitType}");
+            Utility.SystemLogger.Info($"[{requester_name}] Request [{Properties.PortID}] Change Port Type To {portUnitType}");
 
             bool plc_accept = false;
             string port_type_data_address_name = PortCIMWordAddress[PROPERTY.Port_Type_Status];

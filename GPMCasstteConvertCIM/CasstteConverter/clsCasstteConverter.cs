@@ -116,21 +116,28 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         protected virtual void Item_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             clsMemoryAddress add = (clsMemoryAddress)sender;
-
-            if (add.EProperty == PROPERTY.Interface_Clock)
-            {
+            if (add == null || add.EProperty == PROPERTY.Interface_Clock)
                 return;
-            }
 
-            if (add.EScope == EQ_SCOPE.PORT1 | add.EScope == EQ_SCOPE.PORT2)
+            var owner_str = add.EOwner == clsMemoryAddress.OWNER.CIM ? "CIM/AGVS" : "EQ";
+            try
             {
-                var portID = add.EScope == EQ_SCOPE.PORT1 ? 0 : 1;
-                var port = PortDatas.FirstOrDefault(p => p.Properties.PortNo == portID);
-                Utility.SystemLogger.Info($"{Name}-{port.PortName} -->{add.DataName}({add.Address}) Changed to [{add.Value}]");
+                if (add.EScope == EQ_SCOPE.PORT1 | add.EScope == EQ_SCOPE.PORT2)
+                {
+                    var portID = add.EScope == EQ_SCOPE.PORT1 ? 0 : 1;
+                    var port = PortDatas.FirstOrDefault(p => p.Properties.PortNo == portID);
+                    var portName = port == null ? "" : port.PortName;
+                    Utility.SystemLogger.Info($"{Name}-{portName} -->[{owner_str}]{add.DataName}({add.Address}) Changed to [{add.Value}]");
+                }
+                else
+                {
+                    Utility.SystemLogger.Info($"{Name} -->[{owner_str}]{add.DataName}({add.Address}) Changed to [{add.Value}]");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                Utility.SystemLogger.Info($"{Name} -->{add.DataName}({add.Address}) Changed to [{add.Value}]");
+                Utility.SystemLogger.Warning(ex.Message);
+                Utility.SystemLogger.Info($"{Name} -->[{owner_str}]{add.DataName}({add.Address}) Changed to [{add.Value}]");
             }
         }
 
@@ -331,14 +338,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             {
                 while (true)
                 {
-                    await Task.Delay(10);
-                    Stopwatch stopwatch = Stopwatch.StartNew();
+                    await Task.Delay(50);
                     await SyncMemData();
-                    stopwatch.Stop();
-                    if (index == 0)
-                    {
-
-                    }
                 }
             });
         }
@@ -426,8 +427,15 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                                 {
                                     PLC_IF_WRITE_Ret_Code = mcInterface.WriteBit(ref CIMMemOptions.memoryTable, CIMMemOptions.bitRegionName, CIMMemOptions.bitStartAddress_no_region, CIMMemOptions.bitSize);
                                     PLC_IF_WRITE_Ret_Code = mcInterface.WriteWord(ref CIMMemOptions.memoryTable, CIMMemOptions.wordRegionName, CIMMemOptions.wordStartAddress_no_region, CIMMemOptions.wordSize);
+
+
+
                                     if (PLC_IF_WRITE_Ret_Code == 0)
                                     {
+                                        //讀回確認
+                                        PLC_IF_READ_Ret_Code = mcInterface.ReadBit(ref CIMMemOptions.memoryTable_read_back, CIMMemOptions.bitRegionName, CIMMemOptions.bitStartAddress_no_region, CIMMemOptions.bitSize);
+                                        PLC_IF_READ_Ret_Code = mcInterface.ReadWord(ref CIMMemOptions.memoryTable_read_back, CIMMemOptions.wordRegionName, CIMMemOptions.wordStartAddress_no_region, CIMMemOptions.wordSize);
+
                                         PLC_IF_READ_Ret_Code = mcInterface.ReadBit(ref EQPMemOptions.memoryTable, EQPMemOptions.bitRegionName, EQPMemOptions.bitStartAddress_no_region, EQPMemOptions.bitSize);
                                         PLC_IF_READ_Ret_Code = mcInterface.ReadWord(ref EQPMemOptions.memoryTable, EQPMemOptions.wordRegionName, EQPMemOptions.wordStartAddress_no_region, EQPMemOptions.wordSize);
                                         IsPLCMemoryDataReadDone = PLC_IF_READ_Ret_Code == 0;
@@ -440,6 +448,11 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                                     PLC_IF_WRITE_Ret_Code = mxInterface.WriteWord(ref CIMMemOptions.memoryTable, CIMMemOptions.wordRegionName, CIMMemOptions.wordStartAddress_no_region, CIMMemOptions.wordSize);
                                     if (PLC_IF_WRITE_Ret_Code == 0)
                                     {
+
+                                        //讀回確認
+                                        PLC_IF_READ_Ret_Code = mxInterface.ReadBit(ref CIMMemOptions.memoryTable_read_back, CIMMemOptions.bitRegionName, CIMMemOptions.bitStartAddress_no_region, CIMMemOptions.bitSize);
+                                        PLC_IF_READ_Ret_Code = mxInterface.ReadWord(ref CIMMemOptions.memoryTable_read_back, CIMMemOptions.wordRegionName, CIMMemOptions.wordStartAddress_no_region, CIMMemOptions.wordSize);
+
                                         PLC_IF_READ_Ret_Code = mxInterface.ReadBit(ref EQPMemOptions.memoryTable, EQPMemOptions.bitRegionName, EQPMemOptions.bitStartAddress_no_region, EQPMemOptions.bitSize);
                                         PLC_IF_READ_Ret_Code = mxInterface.ReadWord(ref EQPMemOptions.memoryTable, EQPMemOptions.wordRegionName, EQPMemOptions.wordStartAddress_no_region, EQPMemOptions.wordSize);
                                         IsPLCMemoryDataReadDone = PLC_IF_READ_Ret_Code == 0;
@@ -497,30 +510,31 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         {
             try
             {
-                //讀取
+                var cimMap = simulation_mode ? CIMMemOptions.memoryTable : CIMMemOptions.memoryTable_read_back;
+                var eqMap = EQPMemOptions.memoryTable;
+
                 foreach (var item in LinkWordMap)
                 {
 
                     if (item.EOwner == clsMemoryAddress.OWNER.EQP)
                     {
-                        item.Value = EQPMemOptions.memoryTable.ReadBinary(item.Address);
+                        item.Value = eqMap.ReadBinary(item.Address);
                     }
                     else
                     {
-                        item.Value = CIMMemOptions.memoryTable.ReadBinary(item.Address);
+                        item.Value = cimMap.ReadBinary(item.Address);
                     }
                 }
-                //寫入
                 foreach (var item in LinkBitMap)
                 {
 
                     if (item.EOwner == clsMemoryAddress.OWNER.EQP)
                     {
-                        item.Value = EQPMemOptions.memoryTable.ReadOneBit(item.Address);
+                        item.Value = eqMap.ReadOneBit(item.Address);
                     }
                     else
                     {
-                        item.Value = CIMMemOptions.memoryTable.ReadOneBit(item.Address);
+                        item.Value = cimMap.ReadOneBit(item.Address);
                     }
                 }
                 PLCMemoryDatatToEQDataDTO();

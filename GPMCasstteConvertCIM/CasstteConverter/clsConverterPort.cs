@@ -168,9 +168,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     if (BuildModbusTCPServer(new frmModbusTCPServer()))
                     {
                         Utility.SystemLogger.Info($"ModbusTcp Server-0.0.0.0:{modbus_server.Port} is serving.", false);
-                        SyncRegisterData();
-                        CoilsStatesSyncWorker();
-
+                        SyncModbusDataWorker();
                     }
                     else
                     {

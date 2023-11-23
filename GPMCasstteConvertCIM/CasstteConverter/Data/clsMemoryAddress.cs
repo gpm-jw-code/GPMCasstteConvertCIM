@@ -56,7 +56,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter.Data
         }
         protected virtual void OnPropertyChanged(string propertyName)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            Task.Factory.StartNew(() =>
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            });
         }
         public string ValueDisplay
         {

@@ -1,4 +1,5 @@
 ﻿using CIMComponent;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,7 +28,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         }
 
         internal MemoryTable memoryTable;
-
+        internal MemoryTable memoryTable_read_back;
 
         internal string GROUP_Name { get; set; } = "AGVS";
         internal readonly GROUP_TYPE memGoupType = GROUP_TYPE.AGVS;
@@ -68,7 +69,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             {
                 char ss = wordStartAddress.First(chr => int.TryParse(chr.ToString(), out int _v));
                 var indexEndOfWordRegName = wordStartAddress.IndexOf(ss);
-                return wordStartAddress.Substring(0, indexEndOfWordRegName );
+                return wordStartAddress.Substring(0, indexEndOfWordRegName);
             }
         }
 
@@ -92,7 +93,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         {
             get
             {
-                bitStartAddress.SplitAddress(IsBitHexTable, out _, out int startNumber,out string startStr);
+                bitStartAddress.SplitAddress(IsBitHexTable, out _, out int startNumber, out string startStr);
                 bitEndAddress.SplitAddress(IsBitHexTable, out _, out int endNumber, out startStr);
                 return endNumber - startNumber + 1;
             }
@@ -144,6 +145,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         {
             memoryTable = new MemoryTable(bitSize, IsBitHexTable, wordSize, IsWordHexTable, 32);
             memoryTable.SetMemoryStart(bitStartAddress, wordStartAddress);
+
+            memoryTable_read_back = new MemoryTable(bitSize, IsBitHexTable, wordSize, IsWordHexTable, 32);
+            memoryTable_read_back.SetMemoryStart(bitStartAddress, wordStartAddress);
+
         }
     }
 }

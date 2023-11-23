@@ -12,6 +12,6 @@ namespace GPMCasstteConvertCIM.GPM_Modbus
     {
         ModbusTCPServer modbus_server { get; set; }
         bool BuildModbusTCPServer(frmModbusTCPServer ui);
-        void SyncRegisterData();
+        void SyncModbusDataWorker();
     }
 }

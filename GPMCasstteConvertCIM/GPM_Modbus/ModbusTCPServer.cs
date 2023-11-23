@@ -18,6 +18,7 @@ namespace GPMCasstteConvertCIM.GPM_Modbus
             R40001 = 40001,
             R400001 = 400001,
         }
+        internal ModbusClientBase modbus_client_checker = new ModbusClientBase();
 
         internal clsCasstteConverter linkedCasstteConverter { get; set; }
 
@@ -32,7 +33,15 @@ namespace GPMCasstteConvertCIM.GPM_Modbus
             UI.ModbusTCPServer = this;
             Listen();
             UI.Port = Port;
-            //CoilsOnChanged += ModbusTCPServer_CoilsOnChanged;
+
+            try
+            {
+                modbus_client_checker.Connect(ip, port);
+            }
+            catch (Exception ex)
+            {
+                Utility.SystemLogger.Error($"Port={port} Modbus Checker Client Connect Fail", ex);
+            }
         }
 
         internal void Active(InitialOption modbusTcpServer_opt, clsCasstteConverter linkedCasstteConverter)
@@ -48,6 +57,7 @@ namespace GPMCasstteConvertCIM.GPM_Modbus
             HoldingRegisterOnChanged += ModbusTCPServer_HoldingRegisterOnChanged;
             logger.Info($"Modbus TCP Server Listening...(tcp://0.0.0.0:{Port})");
             SyncPLCMemory();
+            modbus_client_checker.Connect("127.0.0.1", modbusTcpServer_opt.Port);
         }
 
 

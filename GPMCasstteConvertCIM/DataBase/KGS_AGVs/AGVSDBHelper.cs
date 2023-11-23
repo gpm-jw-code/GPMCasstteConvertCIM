@@ -74,27 +74,27 @@ namespace GPMCasstteConvertCIM.DataBase.KGS_AGVs
                             foreach (var task in context.ExecutingTasks.AsNoTracking())
                             {
                                 ExecutingTaskList.Add(task);
-
-                                if (!agvExecutingTaskList.ContainsKey(task.AGVID))
+                                var agv_id = task.ExeVehicleID;
+                                if (!agvExecutingTaskList.ContainsKey(agv_id))
                                 {
-                                    agvExecutingTaskList.Add(task.AGVID, task.Name);
+                                    agvExecutingTaskList.Add(agv_id, task.Name);
                                     OnAGVStartNewTask?.Invoke("", new clsNewTaskObj
                                     {
-                                        AGVID = task.AGVID,
+                                        AGVID = agv_id,
                                         TaskNameExecuting = task.Name,
                                         OrderInfo = task
                                     });
                                 }
                                 else
                                 {
-                                    var previousTaskName = agvExecutingTaskList[task.AGVID];
+                                    var previousTaskName = agvExecutingTaskList[agv_id];
                                     var currentTaskName = task.Name;
                                     if (previousTaskName != currentTaskName)
                                     {
-                                        agvExecutingTaskList[task.AGVID] = currentTaskName;
+                                        agvExecutingTaskList[agv_id] = currentTaskName;
                                         OnAGVStartNewTask?.Invoke("", new clsNewTaskObj
                                         {
-                                            AGVID = task.AGVID,
+                                            AGVID = agv_id,
                                             TaskNameExecuting = task.Name,
                                             OrderInfo = task
                                         });

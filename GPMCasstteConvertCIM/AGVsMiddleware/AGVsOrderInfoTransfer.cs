@@ -59,15 +59,22 @@ namespace GPMCasstteConvertCIM.AGVsMiddleware
             var agv = AGVList.FirstOrDefault(agv => agv.AGVID == e.AGVID);
             if (agv == null)
                 return;
-            agv.PostCancelCTS.Cancel();
 
-            while (agv.PostingFlag)
+            if (agv.PostingFlag)
             {
-                await Task.Delay(1000);
+                logger.Info($"Cancel AGV-{agv.AGVID} Posting Processing");
+                agv.PostCancelCTS.Cancel();
+                while (agv.PostingFlag)
+                {
+                    await Task.Delay(1000);
+                }
+                logger.Info($"Cancel AGV-{agv.AGVID} Posting Process end!");
             }
 
+            await Task.Delay(500);
             _ = Task.Factory.StartNew(async () =>
             {
+                await Task.Delay(10);
                 agv.PostCancelCTS = new CancellationTokenSource();
                 clsOrderInfo order_info = CreateOrderInfo(e.OrderInfo);
                 agv.PostingFlag = true;
@@ -103,7 +110,7 @@ namespace GPMCasstteConvertCIM.AGVsMiddleware
         {
             try
             {
-                HttpHelper http = new HttpHelper($"http://{agvIP}:7025",1);
+                HttpHelper http = new HttpHelper($"http://{agvIP}:7025", 1);
                 logger.Info($"Try Post order_info to {agvIP}:7025-\r\n{order_info.ToJson()}");
 
                 bool result = await http.PostAsync<bool, clsOrderInfo>("/api/TaskDispatch/OrderInfo", order_info);
@@ -124,22 +131,34 @@ namespace GPMCasstteConvertCIM.AGVsMiddleware
 
         private static clsOrderInfo CreateOrderInfo(ExecutingTask orderInfo)
         {
-            if (orderInfo.ActionType == "NO_ACTION")
+            try
             {
+
+                if (orderInfo.ActionType == "NO_ACTION")
+                {
+                    return new clsOrderInfo
+                    {
+                        ActionName = AGVSystemCommonNet6.AGVDispatch.Messages.ACTION_TYPE.NoAction
+                    };
+                }
+                bool fromMapPointExist = _Map.Points.TryGetValue((int)orderInfo.FromStationId, out MapPoint fromMapPoint);
+                bool toMapPointExist = _Map.Points.TryGetValue((int)orderInfo.ToStationId, out MapPoint toMapPoint);
+                var _orderInfo = new clsOrderInfo
+                {
+                    ActionName = orderInfo.ActionType.ToActionEnum(),
+                    SourceName = fromMapPointExist ? fromMapPoint.Graph.Display : orderInfo.FromStationId.ToString(),
+                    DestineName = toMapPointExist ? toMapPoint.Graph.Display : orderInfo.ToStationId.ToString(),
+                };
+                logger.Info($"Order Info Post To AGV Created: {_orderInfo.ToJson()}");
+                return _orderInfo;
+            }
+            catch (Exception ex)
+            {
+                logger.Error("CreateOrderInfo Error:", ex);
                 return new clsOrderInfo
                 {
-                    ActionName = AGVSystemCommonNet6.AGVDispatch.Messages.ACTION_TYPE.NoAction
                 };
             }
-            bool fromMapPointExist = _Map.Points.TryGetValue((int)orderInfo.FromStationId, out MapPoint fromMapPoint);
-            bool toMapPointExist = _Map.Points.TryGetValue((int)orderInfo.ToStationId, out MapPoint toMapPoint);
-
-            return new clsOrderInfo
-            {
-                ActionName = orderInfo.ActionType.ToActionEnum(),
-                SourceName = fromMapPointExist ? fromMapPoint.Name : orderInfo.FromStationId.ToString(),
-                DestineName = toMapPointExist ? toMapPoint.Name : orderInfo.ToStationId.ToString(),
-            };
         }
 
         public class clsOrderInfo
@@ -157,9 +176,16 @@ namespace GPMCasstteConvertCIM.AGVsMiddleware
             {
                 case "Transfer":
                     return AGVSystemCommonNet6.AGVDispatch.Messages.ACTION_TYPE.Carry;
-                case "搬運":
-                    return AGVSystemCommonNet6.AGVDispatch.Messages.ACTION_TYPE.Carry;
-
+                case "Charge":
+                    return AGVSystemCommonNet6.AGVDispatch.Messages.ACTION_TYPE.Charge;
+                case "Move":
+                    return AGVSystemCommonNet6.AGVDispatch.Messages.ACTION_TYPE.None;
+                case "Park":
+                    return AGVSystemCommonNet6.AGVDispatch.Messages.ACTION_TYPE.Park;
+                case "Load":
+                    return AGVSystemCommonNet6.AGVDispatch.Messages.ACTION_TYPE.Load;
+                case "Unload":
+                    return AGVSystemCommonNet6.AGVDispatch.Messages.ACTION_TYPE.Unload;
                 default:
                     return AGVSystemCommonNet6.AGVDispatch.Messages.ACTION_TYPE.NoAction;
             }

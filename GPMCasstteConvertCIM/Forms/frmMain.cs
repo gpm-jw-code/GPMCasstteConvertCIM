@@ -163,7 +163,7 @@ namespace GPMCasstteConvertCIM.Forms
                     }
                     else
                     {
-                        Thread initTheard = new Thread(KGSDBInitWorker);
+                        Thread initTheard = new Thread(KGSAGVSHelperInitWorker);
                         initTheard.Start();
                     }
                     pnlLoading.SendToBack();
@@ -180,7 +180,7 @@ namespace GPMCasstteConvertCIM.Forms
             });
         }
 
-        private async void KGSDBInitWorker()
+        private async void KGSAGVSHelperInitWorker()
         {
             await Task.Delay(1000);
             Utility.SystemLogger.Info("Init AGVs");
@@ -189,11 +189,17 @@ namespace GPMCasstteConvertCIM.Forms
             {
                 Utility.SystemLogger.Error(msg);
             };
+            DBInitWorker();
+        }
+
+        private async void DBInitWorker()
+        {
+            await Task.Delay(1000);
             if (!AGVSDBHelper.Init(Utility.SystemLogger, out var erMsg, EnsureCreated: true, Utility.SysConfigs.KGSDBConnectionString))
             {
                 Utility.SystemLogger.Error(erMsg);
 
-                Thread initTheard = new Thread(KGSDBInitWorker);
+                Thread initTheard = new Thread(DBInitWorker);
                 initTheard.Start();
             }
             else

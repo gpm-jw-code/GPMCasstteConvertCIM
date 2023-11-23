@@ -221,35 +221,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         {
             //Utility.SystemLogger.Info($"|{PortName}| --> AGV Handshake Signal-|{name}| Changed to {(state ? "1" : "0")}");
         }
-        protected virtual void CoilsStatesSyncWorker()
-        {
-            ///Coil Data同步到PLC Memory 
-            Task.Factory.StartNew(async () =>
-            {
-                while (true)
-                {
-                    await Task.Delay(50);
-                    string portNoName = $"PORT{Properties.PortNo + 1}";
-                    List<clsMemoryAddress> CIMLinkAddress = EQParent.LinkBitMap.FindAll(ad => ad.EOwner == OWNER.CIM && ad.EScope.ToString() == portNoName && ad.Link_Modbus_Register_Number != -1);
-                    foreach (var item in CIMLinkAddress)
-                    {
-                        try
-                        {
-                            int register_num = item.Link_Modbus_Register_Number;
-                            var localCoilsAry = modbus_server.coils.localArray;
-                            bool state = localCoilsAry[register_num + 1];
-                            AGVHandshakeIO(item, state);
-                            CIMMemoryTable.WriteOneBit(item.Address, state);
-                        }
-                        catch (Exception ex)
-                        {
-                            Utility.SystemLogger.Error(ex.Message, ex, false);
-                        }
-                    }
-                }
-            });
-        }
-
 
         protected void AGVHandshakeIO(clsMemoryAddress item, bool state)
         {
@@ -275,47 +246,139 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 CMD_Reserve_Low = state;
         }
 
-        public virtual void SyncRegisterData()
+        public virtual void SyncModbusDataWorker()
         {
             Task.Factory.StartNew(async () =>
             {
                 while (true)
                 {
-                    await Task.Delay(10);
-                    foreach (Data.clsMemoryAddress item in EQModbusLinkBitAddress)
-                    {
-                        bool bolState = EQParent.EQPMemOptions.memoryTable.ReadOneBit(item.Address);
-                        if (item.EProperty == Enums.PROPERTY.Port_Status_Down)
-                        {
-                            if ((bool)item.Value == false && PortStatusDownForceOn)
-                                bolState = true; //強制PortStatusDown ON
-                        }
-                        if (Utility.SysConfigs.EQLoadUnload_RequestSimulation)
-                        {
-                            if (item.EProperty == Enums.PROPERTY.Load_Request | item.EProperty == Enums.PROPERTY.Unload_Request)
-                                bolState = true;
-                        }
-                        modbus_server.discreteInputs.localArray[item.Link_Modbus_Register_Number] = bolState;
-                    }
-
-                    foreach (Data.clsMemoryAddress item in EQModbusLinkWordAddress)
-                    {
-
-                        int value = EQParent.EQPMemOptions.memoryTable.ReadBinary(item.Address);
-                        modbus_server.holdingRegisters.localArray[item.Link_Modbus_Register_Number] = (short)value;
-                    }
-
-
-                    foreach (var item in CIMModbusLinkWordAddress)
-                    {
-                        int value = EQParent.CIMMemOptions.memoryTable.ReadBinary(item.Address);
-                        modbus_server.holdingRegisters.localArray[item.Link_Modbus_Register_Number] = (short)value;
-                    }
+                    await Task.Delay(100);
+                    SyncEQHoldingRegistersWorker();
+                    SyncAGVSHoldingRegistersWorker();
+                    SyncAGVSInputsWorker();
+                    SyncAGVSCoilsDataWorker();
 
                 }
             });
+
+            Task.Factory.StartNew(() =>
+            {
+                CheckDiscardInputWriteResultBackgroundWorker();
+            });
         }
 
+        protected async void CheckDiscardInputWriteResultBackgroundWorker()
+        {
+            bool[] inputs = new bool[32];
+            bool connected = modbus_server.modbus_client_checker.Connected;
+            while (true)
+            {
+                await Task.Delay(100);
+
+                if (!connected)
+                {
+                    connected = modbus_server.modbus_client_checker.Connect();
+                    continue;
+                }
+
+                bool[] _inputs = new bool[32];
+                try
+                {
+                    _inputs = modbus_server.modbus_client_checker.ReadDiscreteInputs(0, 32);
+                }
+                catch (Exception ex)
+                {
+                    modbus_server.modbus_client_checker.Disconnect();
+                    connected = false;
+                    Utility.SystemLogger.Error($"[{PortName}_Modbus Inputs Check:Port={modbus_server.Port}] Server Read Fail...Close Connection", ex);
+                    return;
+                }
+                for (int i = 0; i < _inputs.Length; i++)
+                {
+                    var plc_address = EQModbusLinkBitAddress.FirstOrDefault(add => add.Link_Modbus_Register_Number == i + 1);
+                    if (inputs[i] != _inputs[i])
+                    {
+                        Utility.SystemLogger.Info($"[{PortName}_Modbus Inputs Check:Port={modbus_server.Port}]-Input[{i}]_({plc_address?.EProperty}) change to [{_inputs[i]}]");
+                    }
+                }
+                inputs = _inputs;
+            }
+        }
+
+        protected virtual void SyncAGVSHoldingRegistersWorker()
+        {
+            foreach (var item in CIMModbusLinkWordAddress)
+            {
+                try
+                {
+                    int value = EQParent.CIMMemOptions.memoryTable.ReadBinary(item.Address);
+                    modbus_server.holdingRegisters.localArray[item.Link_Modbus_Register_Number] = (short)value;
+                }
+                catch (Exception ex)
+                {
+                    Utility.SystemLogger.Error($"SyncAGVSHoldingRegistersWorker Error Occur {item.Address}_Holding Regist[{item.Link_Modbus_Register_Number}]", ex);
+                }
+            }
+        }
+
+        protected virtual void SyncEQHoldingRegistersWorker()
+        {
+            foreach (Data.clsMemoryAddress item in EQModbusLinkWordAddress)
+            {
+                try
+                {
+                    int value = EQParent.EQPMemOptions.memoryTable.ReadBinary(item.Address);
+                    modbus_server.holdingRegisters.localArray[item.Link_Modbus_Register_Number] = (short)value;
+                }
+                catch (Exception ex)
+                {
+                    Utility.SystemLogger.Error($"SyncEQHoldingRegistersWorker Error Occur {item.Address}_Holding Regist[{item.Link_Modbus_Register_Number}]", ex);
+                }
+            }
+        }
+
+        protected virtual void SyncAGVSInputsWorker()
+        {
+            foreach (Data.clsMemoryAddress item in EQModbusLinkBitAddress)
+            {
+                try
+                {
+                    var mRindex = item.Link_Modbus_Register_Number;
+                    bool bolState = EQParent.EQPMemOptions.memoryTable.ReadOneBit(item.Address);
+                    modbus_server.discreteInputs.localArray[mRindex] = bolState;
+                    if (modbus_server.discreteInputs.localArray[mRindex] != bolState)
+                    {
+                        Utility.SystemLogger.Warning($"SyncAGVSInputsWorker- {item.Address} sync to Inputs[{mRindex}] fail.");
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Utility.SystemLogger.Error($"SyncAGVSInputsWorker Error Occur {item.Address}", ex);
+                }
+            }
+        }
+
+        protected virtual void SyncAGVSCoilsDataWorker()
+        {
+            string portNoName = $"PORT{Properties.PortNo + 1}";
+            List<clsMemoryAddress> CIMLinkAddress = EQParent.LinkBitMap.FindAll(ad => ad.EOwner == OWNER.CIM && ad.EScope.ToString() == portNoName && ad.Link_Modbus_Register_Number != -1);
+            foreach (var item in CIMLinkAddress)
+            {
+                int register_num = item.Link_Modbus_Register_Number + 1;
+                try
+                {
+                    var localCoilsAry = modbus_server.coils.localArray;
+                    bool state = localCoilsAry[register_num];
+                    AGVHandshakeIO(item, state);
+                    CIMMemoryTable.WriteOneBit(item.Address, state);
+                }
+                catch (Exception ex)
+                {
+                    Utility.SystemLogger.Error($"SyncAGVSCoilsDataWorker Error Occur {item.Address}_localCoilsAry[{register_num}]", ex);
+                }
+            }
+        }
 
     }
 }
