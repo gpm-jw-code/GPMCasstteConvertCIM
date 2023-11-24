@@ -441,11 +441,11 @@
             // 
             // labServiceStatusText
             // 
-            labServiceStatusText.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            labServiceStatusText.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             labServiceStatusText.AutoSize = true;
             labServiceStatusText.Font = new Font("Microsoft JhengHei UI", 16F, FontStyle.Bold, GraphicsUnit.Point);
             labServiceStatusText.ForeColor = Color.Red;
-            labServiceStatusText.Location = new Point(3, 279);
+            labServiceStatusText.Location = new Point(319, 6);
             labServiceStatusText.Name = "labServiceStatusText";
             labServiceStatusText.Size = new Size(167, 28);
             labServiceStatusText.TabIndex = 40;
@@ -507,8 +507,8 @@
             labAGVReadyToTransfer.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             labAGVReadyToTransfer.AutoSize = true;
             labAGVReadyToTransfer.Font = new Font("Microsoft JhengHei UI", 13F, FontStyle.Bold, GraphicsUnit.Point);
-            labAGVReadyToTransfer.ForeColor = Color.Red;
-            labAGVReadyToTransfer.Location = new Point(362, 7);
+            labAGVReadyToTransfer.ForeColor = Color.White;
+            labAGVReadyToTransfer.Location = new Point(354, 34);
             labAGVReadyToTransfer.Name = "labAGVReadyToTransfer";
             labAGVReadyToTransfer.Size = new Size(126, 23);
             labAGVReadyToTransfer.TabIndex = 45;
@@ -520,6 +520,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoScroll = true;
+            BackColor = Color.Gray;
             Controls.Add(labAGVReadyToTransfer);
             Controls.Add(txbOnPortID);
             Controls.Add(label6);

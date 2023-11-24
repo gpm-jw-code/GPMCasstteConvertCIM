@@ -101,35 +101,8 @@ namespace GPMCasstteConvertCIM.Forms
                     DevicesManager.DevicesConnectionsOpts.SECS_CLIENT.dgvRevBufferTable = dgvMsgFromMCS;
                     DevicesManager.DevicesConnectionsOpts.SECS_CLIENT.dgvSendBufferTable = dgvActiveMsgToMCS;
 
-                    tlpConverterContainer.SuspendLayout();
-                    foreach (Devices.Options.ConverterEQPInitialOption item in DevicesManager.DevicesConnectionsOpts.PLCEQS)
-                    {
-                        UI_UserControls.UscCasstteConverter mainUI = new UI_UserControls.UscCasstteConverter();
-                        item.mainUI = mainUI;
-                        if (item.ConverterType == Enums.CONVERTER_TYPE.IN_SYS)
-                        {
-                            tlpSingleConvertsContainer.Controls.Add(mainUI);
-                        }
-                        else
-                            tlpConverterContainer.Controls.Add(mainUI);
-                        mainUI.Dock = DockStyle.Fill;
 
-                        foreach (clsConverterPort.clsPortProperty port in item.Ports.Values)
-                        {
-                            ToolStripMenuItem agvs_modbus_emu_selBtn = new ToolStripMenuItem()
-                            {
-                                Text = $"{item.Eq_Name}-{port.PortID}",
-                                Tag = port //ConverterEQPInitialOption
-                            };
-                            agvs_modbus_emu_selBtn.Click += Agvs_modbus_emu_selBtn_Click;
-                            AGVS_modbus_sim_ToolStripMenuItem.DropDownItems.Add(agvs_modbus_emu_selBtn);
-                        }
-
-
-
-                    }
-                    tlpConverterContainer.ResumeLayout();
-
+                    CVUIRender();
 
                     foreach (var item in DevicesManager.DevicesConnectionsOpts.Modbus_Servers)
                     {
@@ -171,13 +144,52 @@ namespace GPMCasstteConvertCIM.Forms
                         Thread initTheard = new Thread(KGSAGVSHelperInitWorker);
                         initTheard.Start();
                     }
-
                     CreateCVSimulatorItemButtons();
                     Text = $"GPM AGVS CIM-V{Assembly.GetExecutingAssembly().GetName().Version.ToString()} {(Environment.Is64BitProcess ? "" : "(x86)")}-{Utility.SysConfigs.Project}";
                     labRegionName.Text = Utility.SysConfigs.RegionName;
                     pnlLoading.SendToBack();
                 }));
             });
+        }
+
+        private void CVUIRender()
+        {
+            var single_cvs = DevicesManager.DevicesConnectionsOpts.PLCEQS.Where(p => p.ConverterType == Enums.CONVERTER_TYPE.IN_SYS);
+            tlpSingleConvertsContainer.ColumnCount = single_cvs.Count();
+            tlpSingleConvertsContainer.ColumnStyles.Clear();
+
+            for (int i = 0; i < single_cvs.Count(); i++)
+            {
+                tlpSingleConvertsContainer.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F / single_cvs.Count()));
+            }
+            tlpConverterContainer.SuspendLayout();
+            foreach (Devices.Options.ConverterEQPInitialOption item in DevicesManager.DevicesConnectionsOpts.PLCEQS)
+            {
+                UI_UserControls.UscCasstteConverter mainUI = new UI_UserControls.UscCasstteConverter();
+                item.mainUI = mainUI;
+                if (item.ConverterType == Enums.CONVERTER_TYPE.IN_SYS)
+                {
+                    tlpSingleConvertsContainer.Controls.Add(mainUI);
+                }
+                else
+                    tlpConverterContainer.Controls.Add(mainUI);
+                mainUI.Dock = DockStyle.Fill;
+
+                foreach (clsConverterPort.clsPortProperty port in item.Ports.Values)
+                {
+                    ToolStripMenuItem agvs_modbus_emu_selBtn = new ToolStripMenuItem()
+                    {
+                        Text = $"{item.Eq_Name}-{port.PortID}",
+                        Tag = port //ConverterEQPInitialOption
+                    };
+                    agvs_modbus_emu_selBtn.Click += Agvs_modbus_emu_selBtn_Click;
+                    AGVS_modbus_sim_ToolStripMenuItem.DropDownItems.Add(agvs_modbus_emu_selBtn);
+                }
+
+
+
+            }
+            tlpConverterContainer.ResumeLayout();
         }
 
         private void CreateCVSimulatorItemButtons()
@@ -540,6 +552,43 @@ namespace GPMCasstteConvertCIM.Forms
         {
             labCurrentEncodingName.Text = $"{Utility.SysConfigs.SECS.ASCIIEncoding}({Utility.SysConfigs.SECS.SECESAEncoding.EncodingName})";
 
+        }
+
+        private void btnEditRegionName_Click(object sender, EventArgs e)
+        {
+            if (StaUsersManager.CurrentUser.Group == USER_GROUP.VISITOR)
+                return;
+
+            txbRegionNameEditInput.Visible = btnRegionNameEditedConfirm.Visible = btnCancelRegionNameEdit.Visible = true;
+            labRegionName.Visible = false;
+            txbRegionNameEditInput.Text = labRegionName.Text;
+        }
+
+        private void btnRegionNameEditedConfirm_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+                txbRegionNameEditInput.Visible = btnRegionNameEditedConfirm.Visible = btnCancelRegionNameEdit.Visible = false;
+                labRegionName.Visible = true;
+                Utility.SysConfigs.RegionName = labRegionName.Text = txbRegionNameEditInput.Text;
+                Utility.SaveConfigs();
+
+                Utility.SystemLogger.Info($"User-{StaUsersManager.CurrentUser.Name} Change Region Name to [{Utility.SysConfigs.RegionName}]");
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        private void btnCancelRegionNameEdit_Click(object sender, EventArgs e)
+        {
+
+            txbRegionNameEditInput.Visible = btnRegionNameEditedConfirm.Visible = btnCancelRegionNameEdit.Visible = false;
+            labRegionName.Visible = true;
         }
     }
 }
