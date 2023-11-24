@@ -73,7 +73,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         {
 
         }
-        internal clsCasstteConverter(int index, string name, UscCasstteConverter mainGUI, CONVERTER_TYPE converterType, Dictionary<int, clsPortProperty> portProperties)
+        internal clsCasstteConverter(ConverterEQPInitialOption eqOptions)
         {
 
             this.Name = name;
