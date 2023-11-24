@@ -271,6 +271,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         {
             bool[] inputs = new bool[32];
             bool connected = modbus_server.modbus_client_checker.Connected;
+            var logger = EQParent._IOLogger;
             while (true)
             {
                 await Task.Delay(100);
@@ -290,7 +291,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 {
                     modbus_server.modbus_client_checker.Disconnect();
                     connected = false;
-                    Utility.SystemLogger.Error($"[{PortName}_Modbus Inputs Check:Port={modbus_server.Port}] Server Read Fail...Close Connection", ex);
+                    logger.Trace($"[{PortName}_Modbus Inputs Check:Port={modbus_server.Port}] Server Read Fail...Close Connection:{ex.Message}", PortName);
                     return;
                 }
                 for (int i = 0; i < _inputs.Length; i++)
@@ -298,7 +299,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     var plc_address = EQModbusLinkBitAddress.FirstOrDefault(add => add.Link_Modbus_Register_Number == i + 1);
                     if (inputs[i] != _inputs[i])
                     {
-                        Utility.SystemLogger.Info($"[{PortName}_Modbus Inputs Check:Port={modbus_server.Port}]-Input[{i}]_({plc_address?.EProperty}) change to [{_inputs[i]}]");
+                        logger.Trace($"[{PortName}_Modbus Inputs Check:Port={modbus_server.Port}]-Input[{i}]_({plc_address?.EProperty}) change to [{_inputs[i]}]", PortName);
                     }
                 }
                 inputs = _inputs;

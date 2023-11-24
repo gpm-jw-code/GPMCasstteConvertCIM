@@ -45,6 +45,7 @@ namespace GPMCasstteConvertCIM.Utilities
 
         internal static LOG_TIME_UNIT logTimeUnit = LOG_TIME_UNIT.ByHour;
         internal string saveFolder { get; set; } = "";
+        public string FileNameHeaderDisplay { get; internal set; } = "";
 
         private string subFolderName;
 
@@ -75,32 +76,32 @@ namespace GPMCasstteConvertCIM.Utilities
         }
 
 
-        public void Log(string msg, LOG_LEVEL log_level = LOG_LEVEL.INFO, Exception ex = null)
+        public void Log(string msg, LOG_LEVEL log_level = LOG_LEVEL.INFO, Exception ex = null, string subFolder = "")
         {
             switch (log_level)
             {
                 case LOG_LEVEL.INFO:
-                    Info(msg);
+                    Info(msg, subFolder: subFolder);
                     break;
                 case LOG_LEVEL.DEBUG:
-                    Debug(msg);
+                    Debug(msg, subFolder: subFolder);
                     break;
                 case LOG_LEVEL.ERROR:
-                    Error(msg, ex);
+                    Error(msg, ex, subFolder: subFolder);
                     break;
                 case LOG_LEVEL.WARNING:
-                    Warning(msg);
+                    Warning(msg, subFolder: subFolder);
                     break;
                 default:
                     break;
             }
         }
 
-        public void SecsTransferLog(string msg)
+        public void SecsTransferLog(string msg, string subFolder = "")
         {
-            StoreLogItemToQueue(DateTime.Now, LOG_LEVEL.SECS_MSG_TRANSFER, msg);
+            StoreLogItemToQueue(DateTime.Now, LOG_LEVEL.SECS_MSG_TRANSFER, msg, subFolder);
         }
-        public void Info(string msg, bool show_in_richbox = true)
+        public void Info(string msg, bool show_in_richbox = true, string subFolder = "")
         {
             DateTime time = DateTime.Now;
             if (_richTextBox != null)
@@ -115,9 +116,9 @@ namespace GPMCasstteConvertCIM.Utilities
                 }
             }
 
-            StoreLogItemToQueue(time, LOG_LEVEL.INFO, msg);
+            StoreLogItemToQueue(time, LOG_LEVEL.INFO, msg, subFolder);
         }
-        public void Info(string msg, Color foreCOlor, bool show_in_richbox = true)
+        public void Info(string msg, Color foreCOlor, bool show_in_richbox = true, string subFolder = "")
         {
             DateTime time = DateTime.Now;
             if (_richTextBox != null)
@@ -129,9 +130,9 @@ namespace GPMCasstteConvertCIM.Utilities
                         _richTextBox.AppendText($"{time} [INFO] {msg}\n");
                     });
                 }
-            StoreLogItemToQueue(time, LOG_LEVEL.INFO, msg);
+            StoreLogItemToQueue(time, LOG_LEVEL.INFO, msg, subFolder);
         }
-        public void Warning(string msg, bool show_in_richbox = true)
+        public void Warning(string msg, bool show_in_richbox = true, string subFolder = "")
         {
             DateTime time = DateTime.Now;
             if (_richTextBox != null)
@@ -141,9 +142,9 @@ namespace GPMCasstteConvertCIM.Utilities
                         _richTextBox.SelectionColor = Color.Gold;
                         _richTextBox.AppendText($"{time} [WARN] {msg}\n");
                     });
-            StoreLogItemToQueue(time, LOG_LEVEL.WARNING, msg);
+            StoreLogItemToQueue(time, LOG_LEVEL.WARNING, msg, subFolder);
         }
-        public void Error(string message, bool show_in_richbox = true)
+        public void Error(string message, bool show_in_richbox = true, string subFolder = "")
         {
             Error(message, new Exception(message), show_in_richbox);
         }
@@ -151,7 +152,7 @@ namespace GPMCasstteConvertCIM.Utilities
         {
             Error(ex.Message, ex, show_in_richbox);
         }
-        public void Error(string msg, Exception? ex, bool show_in_richbox = true)
+        public void Error(string msg, Exception? ex, bool show_in_richbox = true, string subFolder = "")
         {
             DateTime time = DateTime.Now;
             if (_richTextBox != null)
@@ -165,26 +166,29 @@ namespace GPMCasstteConvertCIM.Utilities
                             _richTextBox.AppendText($"{ex}\n");
                         });
                 }
-            StoreLogItemToQueue(time, LOG_LEVEL.ERROR, $"{msg}-{ex?.Message}-{ex?.StackTrace}");
+            StoreLogItemToQueue(time, LOG_LEVEL.ERROR, $"{msg}-{ex?.Message}-{ex?.StackTrace}", subFolder);
         }
         public class clsLogItem
         {
+            internal string sub_folder_name { get; set; } = "";
+
             public DateTime time { get; set; }
             public LOG_LEVEL level { get; set; }
             public string msg { get; set; }
         }
-        public void Debug(string msg)
+        public void Debug(string msg, string subFolder = "")
         {
             var time = DateTime.Now;
-            if (_richTextBox.Created)
+
+            if (_richTextBox != null && _richTextBox.Created)
             {
                 _richTextBox?.Invoke((MethodInvoker)delegate
-            {
-                _richTextBox.SelectionColor = Color.Yellow;
-                _richTextBox.AppendText($"{time} {msg}\n");
-            });
+                {
+                    _richTextBox.SelectionColor = Color.Yellow;
+                    _richTextBox.AppendText($"{time} {msg}\n");
+                });
             }
-            StoreLogItemToQueue(time, LOG_LEVEL.DEBUG, msg);
+            StoreLogItemToQueue(time, LOG_LEVEL.DEBUG, msg, subFolder);
         }
         private ConcurrentQueue<clsLogItem> LogItemsQueue = new ConcurrentQueue<clsLogItem>();
 
@@ -211,10 +215,10 @@ namespace GPMCasstteConvertCIM.Utilities
                          }
                          string folder = Path.Combine(saveFolder, DateTime.Now.ToString("yyyy-MM-dd"));
                          folder = Path.Combine(folder, subFolderName);
+                         folder = Path.Combine(folder, logItem.sub_folder_name);
                          if (!Directory.Exists(folder))
                              Directory.CreateDirectory(folder);
-
-                         string log_file = Path.Combine(folder, $"{DateTime.Now.ToString(FileTimeFormat)}.log");
+                         string log_file = Path.Combine(folder, $"{FileNameHeaderDisplay}{DateTime.Now.ToString(FileTimeFormat)}.log");
                          using (StreamWriter sw = new StreamWriter(log_file, true))
                          {
                              sw.WriteLine($"{logItem.time.ToString("yyyy/MM/dd HH:mm:ss.ffff")} [{logItem.level}] {logItem.msg}");
@@ -227,13 +231,14 @@ namespace GPMCasstteConvertCIM.Utilities
              });
         }
 
-        protected void StoreLogItemToQueue(DateTime time, LOG_LEVEL log_level, string logStr)
+        protected void StoreLogItemToQueue(DateTime time, LOG_LEVEL log_level, string logStr, string subFolder = "")
         {
             LogItemsQueue.Enqueue(new clsLogItem
             {
                 time = time,
                 level = log_level,
-                msg = logStr
+                msg = logStr,
+                sub_folder_name = subFolder
             });
 
         }

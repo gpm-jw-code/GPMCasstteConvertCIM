@@ -41,6 +41,8 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
             PLCMemorySyncTask();
             DataSyncTask();
             RegistMemoryAddressValuesChangedEvent();
+            _IOLogger = new clsIOLOgger(null, Utility.SysConfigs.Log.SyslogFolder, $"IO/{name}");
+
         }
 
         protected override void Item_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -57,17 +59,17 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
                 if (add.EScope == EQ_SCOPE.PORT1 | add.EScope == EQ_SCOPE.PORT2)
                 {
                     var stationName = station == null ? "" : station.PortDatas[add.EScope == EQ_SCOPE.PORT1 ? 0 : 1].PortName;
-                    Utility.SystemLogger.Info($"{Name}-{stationName}-->[{owner_str}]{add.DataName}({add.Address}) Changed to [{add.Value}]");
+                    _IOLogger.Log($"{Name}-{stationName}-->[{owner_str}]{add.DataName}({add.Address}) Changed to [{add.Value}]", stationName);
                 }
                 else
                 {
-                    Utility.SystemLogger.Info($"{Name}-->[{owner_str}]{add.DataName}({add.Address}) Changed to [{add.Value}]");
+                    _IOLogger.Log($"{Name}-->[{owner_str}]{add.DataName}({add.Address}) Changed to [{add.Value}]", Name);
                 }
             }
             catch (Exception ex)
             {
-                Utility.SystemLogger.Warning(ex.Message);
-                Utility.SystemLogger.Info($"{Name}-->[{owner_str}]{add.DataName}({add.Address}) Changed to [{add.Value}]");
+                _IOLogger.Log(ex.Message);
+                _IOLogger.Log($"{Name}-->[{owner_str}]{add.DataName}({add.Address}) Changed to [{add.Value}]", Name);
             }
         }
 

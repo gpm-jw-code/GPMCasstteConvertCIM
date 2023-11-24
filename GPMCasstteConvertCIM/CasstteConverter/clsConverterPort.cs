@@ -1,4 +1,5 @@
-﻿using GPMCasstteConvertCIM.Alarm;
+﻿using AGVSystemCommonNet6.Log;
+using GPMCasstteConvertCIM.Alarm;
 using GPMCasstteConvertCIM.CasstteConverter.Data;
 using GPMCasstteConvertCIM.Devices;
 using GPMCasstteConvertCIM.Forms;
@@ -39,7 +40,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             AGVSignals = new clsHS_Status_Signals();
             AGVSignals.OnValidSignalActive += AGVSignals_OnValidSignalActive;
             SECSState.OnMCSOnlineRemote += SECSState_OnMCSOnlineRemote;
-
         }
         public enum EQ_PORT_LD_STATE
         {

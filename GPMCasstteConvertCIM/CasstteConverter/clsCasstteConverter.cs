@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.HighPerformance.Buffers;
+﻿using AGVSystemCommonNet6.Log;
+using CommunityToolkit.HighPerformance.Buffers;
 using GPMCasstteConvertCIM.Alarm;
 using GPMCasstteConvertCIM.CasstteConverter.Data;
 using GPMCasstteConvertCIM.Devices;
@@ -41,6 +42,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             }
         }
 
+
         protected virtual string BitMapFileName_EQ { get; set; } = "src\\PLC_Bit_Map_EQ.csv";
         protected virtual string WordMapFileName_EQ { get; set; } = "src\\PLC_Word_Map_EQ.csv";
         protected virtual string BitMapFileName_CIM { get; set; } = "src\\PLC_Bit_Map_CIM.csv";
@@ -50,36 +52,32 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         public virtual List<clsConverterPort> PortDatas { get; set; } = new List<clsConverterPort>();
         internal bool IsPLCDataUpdated = false;
         internal bool IsPLCMemoryDataReadDone = false;
+        internal clsIOLOgger _IOLogger;
+        public class clsIOLOgger : LoggerBase
+        {
+            internal clsIOLOgger(RichTextBox? richTextBox, string saveFolder, string subFolderName) : base(richTextBox, saveFolder, subFolderName)
+            {
+                base.FileNameHeaderDisplay = "IO_";
+            }
 
+            public new void Log(string msg, string subFolder = "")
+            {
+                base.Info(msg, subFolder: subFolder);
+            }
+            public new void Trace(string msg, string subFolder = "")
+            {
+                base.Log(msg, LOG_LEVEL.DEBUG, subFolder: subFolder);
+            }
+        }
         public clsCasstteConverter()
         {
 
         }
-        internal clsCasstteConverter(string name, UscCasstteConverter mainGUI, Dictionary<int, clsPortProperty> portProperties)
-        {
-            this.Name = name;
-            EQPData = new Data.clsEQPData();
-
-            for (int i = 0; i < portProperties.Count; i++)
-            {
-                var portProp = portProperties[i];
-                PortDatas.Add(new clsConverterPort(portProp, this));
-            }
-
-            this.plcInterface = PLC_CONN_INTERFACE.MC;
-            LoadPLCMapData();
-            this.mainGUI = mainGUI;
-            this.mainGUI.casstteConverter = this;
-            PortModbusServersActive();
-            EQPInterfaceClockMonitor();
-            CIMInterfaceClockUpdate();
-            PLCMemorySyncTask();
-            DataSyncTask();
-        }
-
         internal clsCasstteConverter(int index, string name, UscCasstteConverter mainGUI, CONVERTER_TYPE converterType, Dictionary<int, clsPortProperty> portProperties)
         {
+
             this.Name = name;
+            _IOLogger = new clsIOLOgger(null, Utility.SysConfigs.Log.SyslogFolder, $"IO_Log/{name}");
             EQPData = new clsEQPData();
 
             for (int i = 0; i < portProperties.Count; i++)
@@ -127,17 +125,17 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     var portID = add.EScope == EQ_SCOPE.PORT1 ? 0 : 1;
                     var port = PortDatas.FirstOrDefault(p => p.Properties.PortNo == portID);
                     var portName = port == null ? "" : port.PortName;
-                    Utility.SystemLogger.Info($"{Name}-{portName} -->[{owner_str}]{add.DataName}({add.Address}) Changed to [{add.Value}]");
+                    _IOLogger.Log($"{Name}-{portName} -->[{owner_str}]{add.DataName}({add.Address}) Changed to [{add.Value}]", portName);
                 }
                 else
                 {
-                    Utility.SystemLogger.Info($"{Name} -->[{owner_str}]{add.DataName}({add.Address}) Changed to [{add.Value}]");
+                    _IOLogger.Log($"{Name} -->[{owner_str}]{add.DataName}({add.Address}) Changed to [{add.Value}]", Name);
                 }
             }
             catch (Exception ex)
             {
-                Utility.SystemLogger.Warning(ex.Message);
-                Utility.SystemLogger.Info($"{Name} -->[{owner_str}]{add.DataName}({add.Address}) Changed to [{add.Value}]");
+                _IOLogger.Log(ex.Message);
+                _IOLogger.Log($"{Name} -->[{owner_str}]{add.DataName}({add.Address}) Changed to [{add.Value}]", Name);
             }
         }
 
