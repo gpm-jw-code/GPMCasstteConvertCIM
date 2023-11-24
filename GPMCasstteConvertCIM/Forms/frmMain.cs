@@ -67,7 +67,7 @@ namespace GPMCasstteConvertCIM.Forms
                 await Task.Delay(2000);
                 Invoke(new Action(() =>
                 {
-                    Text = $"GPM AGVS CIM-V{Assembly.GetExecutingAssembly().GetName().Version.ToString()}";
+
                     DBhelper.Initialize();
                     Utility.LoadConfigs();
                     Secs4Net.EncodingSetting.ASCIIEncoding = Utility.SysConfigs.SECS.SECESAEncoding; //³]©w½s½X
@@ -106,7 +106,12 @@ namespace GPMCasstteConvertCIM.Forms
                     {
                         UI_UserControls.UscCasstteConverter mainUI = new UI_UserControls.UscCasstteConverter();
                         item.mainUI = mainUI;
-                        tlpConverterContainer.Controls.Add(mainUI);
+                        if (item.ConverterType == Enums.CONVERTER_TYPE.IN_SYS)
+                        {
+                            tlpSingleConvertsContainer.Controls.Add(mainUI);
+                        }
+                        else
+                            tlpConverterContainer.Controls.Add(mainUI);
                         mainUI.Dock = DockStyle.Fill;
 
                         foreach (clsConverterPort.clsPortProperty port in item.Ports.Values)
@@ -121,6 +126,7 @@ namespace GPMCasstteConvertCIM.Forms
                         }
 
 
+
                     }
                     tlpConverterContainer.ResumeLayout();
 
@@ -130,7 +136,6 @@ namespace GPMCasstteConvertCIM.Forms
                         item.mainUI = new frmModbusTCPServer();
                         item.logRichTextBox = rtbModbusTcpServerLog;
                     }
-
                     clsConverterPort.OnWaitInReqRaiseButStatusError += ClsConverterPort_OnWaitInReqRaiseButStatusError;
                     DevicesManager.DeviceConnectionStateOnChanged += CIMDevices_DeviceConnectionStateOnChanged;
                     DevicesManager.EqStatusUI = usceqStatus1;
@@ -166,9 +171,33 @@ namespace GPMCasstteConvertCIM.Forms
                         Thread initTheard = new Thread(KGSAGVSHelperInitWorker);
                         initTheard.Start();
                     }
+
+                    CreateCVSimulatorItemButtons();
+                    Text = $"GPM AGVS CIM-V{Assembly.GetExecutingAssembly().GetName().Version.ToString()} {(Environment.Is64BitProcess ? "" : "(x86)")}-{Utility.SysConfigs.Project}";
+                    labRegionName.Text = Utility.SysConfigs.RegionName;
                     pnlLoading.SendToBack();
                 }));
             });
+        }
+
+        private void CreateCVSimulatorItemButtons()
+        {
+            CVSimulatorsToolStripMenuItem.DropDownItems.Clear();
+            int shortCutKeyNum = 3;
+            foreach (clsCasstteConverter _cv in DevicesManager.casstteConverters)
+            {
+                Keys shortCutKey = Enum.GetValues(typeof(Keys)).Cast<Keys>().FirstOrDefault(ke => ke.ToString() == $"F{shortCutKeyNum}");
+                ToolStripMenuItem cv_emu_selBtn = new ToolStripMenuItem()
+                {
+                    Text = $"{_cv.Name}",
+                    Tag = _cv,
+                    ShortcutKeys = shortCutKey
+                };
+                cv_emu_selBtn.Click += (sender, e) => { _cv.OpenSimulatorUI(); };
+                CVSimulatorsToolStripMenuItem.DropDownItems.Add(cv_emu_selBtn);
+                shortCutKeyNum += 1;
+
+            }
         }
 
         private void ClsConverterPort_OnWaitInReqRaiseButStatusError(object? sender, clsConverterPort port)

@@ -37,6 +37,7 @@
             tabPage1 = new TabPage();
             splitContainer2 = new SplitContainer();
             tlpConverterContainer = new TableLayoutPanel();
+            tlpSingleConvertsContainer = new TableLayoutPanel();
             panel2 = new Panel();
             pnlSyslogRtbContainer = new Panel();
             btnClearInfoLog = new Button();
@@ -79,12 +80,13 @@
             GPMRDMenuStrip = new MenuStrip();
             toolStripComboBox_Emulators = new ToolStripMenuItem();
             mCS模擬器ToolStripMenuItem = new ToolStripMenuItem();
-            轉換架模擬器ToolStripMenuItem = new ToolStripMenuItem();
+            CVSimulatorsToolStripMenuItem = new ToolStripMenuItem();
             toolStripMenuItem_OpenConvert_1_Simulator = new ToolStripMenuItem();
+            toolStripMenuItem2 = new ToolStripMenuItem();
             toolStripMenuItem_OpenConvert_2_Simulator = new ToolStripMenuItem();
             AGVS_modbus_sim_ToolStripMenuItem = new ToolStripMenuItem();
             aGVSEmuToolStripMenuItem = new ToolStripMenuItem();
-            toolStripMenuItem1 = new ToolStripMenuItem();
+            labRegionName = new ToolStripMenuItem();
             pnlSideLeft = new Panel();
             ckbHotRunMode = new CheckBox();
             btnOpenLoginFOrm = new Button();
@@ -109,6 +111,7 @@
             splitContainer2.Panel1.SuspendLayout();
             splitContainer2.Panel2.SuspendLayout();
             splitContainer2.SuspendLayout();
+            tlpConverterContainer.SuspendLayout();
             panel2.SuspendLayout();
             pnlSyslogRtbContainer.SuspendLayout();
             tabPage3.SuspendLayout();
@@ -150,7 +153,7 @@
             tabControl1.Location = new Point(0, 0);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(1252, 563);
+            tabControl1.Size = new Size(1252, 545);
             tabControl1.SizeMode = TabSizeMode.Fixed;
             tabControl1.TabIndex = 1;
             // 
@@ -160,7 +163,7 @@
             tabPage4.Location = new Point(4, 34);
             tabPage4.Name = "tabPage4";
             tabPage4.Padding = new Padding(3);
-            tabPage4.Size = new Size(1244, 525);
+            tabPage4.Size = new Size(1244, 507);
             tabPage4.TabIndex = 3;
             tabPage4.Text = "Home(007)";
             tabPage4.UseVisualStyleBackColor = true;
@@ -171,7 +174,7 @@
             usceqStatus1.Dock = DockStyle.Fill;
             usceqStatus1.Location = new Point(3, 3);
             usceqStatus1.Name = "usceqStatus1";
-            usceqStatus1.Size = new Size(1238, 519);
+            usceqStatus1.Size = new Size(1238, 501);
             usceqStatus1.TabIndex = 1;
             // 
             // tabPage1
@@ -212,6 +215,7 @@
             tlpConverterContainer.CellBorderStyle = TableLayoutPanelCellBorderStyle.Single;
             tlpConverterContainer.ColumnCount = 1;
             tlpConverterContainer.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tlpConverterContainer.Controls.Add(tlpSingleConvertsContainer, 0, 0);
             tlpConverterContainer.Dock = DockStyle.Fill;
             tlpConverterContainer.Location = new Point(0, 0);
             tlpConverterContainer.Name = "tlpConverterContainer";
@@ -220,6 +224,23 @@
             tlpConverterContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tlpConverterContainer.Size = new Size(911, 519);
             tlpConverterContainer.TabIndex = 11;
+            // 
+            // tlpSingleConvertsContainer
+            // 
+            tlpSingleConvertsContainer.AutoScroll = true;
+            tlpSingleConvertsContainer.BackColor = Color.WhiteSmoke;
+            tlpSingleConvertsContainer.CellBorderStyle = TableLayoutPanelCellBorderStyle.Single;
+            tlpSingleConvertsContainer.ColumnCount = 2;
+            tlpSingleConvertsContainer.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tlpSingleConvertsContainer.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tlpSingleConvertsContainer.Dock = DockStyle.Fill;
+            tlpSingleConvertsContainer.GrowStyle = TableLayoutPanelGrowStyle.AddColumns;
+            tlpSingleConvertsContainer.Location = new Point(4, 4);
+            tlpSingleConvertsContainer.Name = "tlpSingleConvertsContainer";
+            tlpSingleConvertsContainer.RowCount = 1;
+            tlpSingleConvertsContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tlpSingleConvertsContainer.Size = new Size(903, 252);
+            tlpSingleConvertsContainer.TabIndex = 12;
             // 
             // panel2
             // 
@@ -685,22 +706,23 @@
             // 
             GPMRDMenuStrip.BackColor = Color.FromArgb(53, 53, 53);
             GPMRDMenuStrip.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            GPMRDMenuStrip.Items.AddRange(new ToolStripItem[] { toolStripComboBox_Emulators, toolStripMenuItem1 });
+            GPMRDMenuStrip.Items.AddRange(new ToolStripItem[] { labRegionName, toolStripComboBox_Emulators });
             GPMRDMenuStrip.Location = new Point(0, 0);
             GPMRDMenuStrip.Name = "GPMRDMenuStrip";
             GPMRDMenuStrip.Padding = new Padding(6, 2, 0, 6);
             GPMRDMenuStrip.RenderMode = ToolStripRenderMode.System;
-            GPMRDMenuStrip.Size = new Size(1407, 32);
+            GPMRDMenuStrip.Size = new Size(1407, 50);
             GPMRDMenuStrip.TabIndex = 3;
             GPMRDMenuStrip.Text = "menuStrip1";
             // 
             // toolStripComboBox_Emulators
             // 
-            toolStripComboBox_Emulators.DropDownItems.AddRange(new ToolStripItem[] { mCS模擬器ToolStripMenuItem, 轉換架模擬器ToolStripMenuItem, AGVS_modbus_sim_ToolStripMenuItem, aGVSEmuToolStripMenuItem });
+            toolStripComboBox_Emulators.BackColor = Color.Red;
+            toolStripComboBox_Emulators.DropDownItems.AddRange(new ToolStripItem[] { mCS模擬器ToolStripMenuItem, CVSimulatorsToolStripMenuItem, AGVS_modbus_sim_ToolStripMenuItem, aGVSEmuToolStripMenuItem });
             toolStripComboBox_Emulators.ForeColor = Color.White;
             toolStripComboBox_Emulators.Name = "toolStripComboBox_Emulators";
             toolStripComboBox_Emulators.ShowShortcutKeys = false;
-            toolStripComboBox_Emulators.Size = new Size(69, 24);
+            toolStripComboBox_Emulators.Size = new Size(69, 42);
             toolStripComboBox_Emulators.Text = "模擬器";
             // 
             // mCS模擬器ToolStripMenuItem
@@ -711,12 +733,12 @@
             mCS模擬器ToolStripMenuItem.Text = "MCS 模擬器";
             mCS模擬器ToolStripMenuItem.Click += btnOpenMCSSimulatorForm_Click;
             // 
-            // 轉換架模擬器ToolStripMenuItem
+            // CVSimulatorsToolStripMenuItem
             // 
-            轉換架模擬器ToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { toolStripMenuItem_OpenConvert_1_Simulator, toolStripMenuItem_OpenConvert_2_Simulator });
-            轉換架模擬器ToolStripMenuItem.Name = "轉換架模擬器ToolStripMenuItem";
-            轉換架模擬器ToolStripMenuItem.Size = new Size(239, 24);
-            轉換架模擬器ToolStripMenuItem.Text = "轉換架模擬器";
+            CVSimulatorsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { toolStripMenuItem_OpenConvert_1_Simulator, toolStripMenuItem2, toolStripMenuItem_OpenConvert_2_Simulator });
+            CVSimulatorsToolStripMenuItem.Name = "CVSimulatorsToolStripMenuItem";
+            CVSimulatorsToolStripMenuItem.Size = new Size(239, 24);
+            CVSimulatorsToolStripMenuItem.Text = "轉換架模擬器";
             // 
             // toolStripMenuItem_OpenConvert_1_Simulator
             // 
@@ -726,12 +748,19 @@
             toolStripMenuItem_OpenConvert_1_Simulator.Text = "轉換架 [1]";
             toolStripMenuItem_OpenConvert_1_Simulator.Click += toolStripMenuItem_OpenConvert_1_Simulator_Click;
             // 
+            // toolStripMenuItem2
+            // 
+            toolStripMenuItem2.Name = "toolStripMenuItem2";
+            toolStripMenuItem2.ShortcutKeys = Keys.F4;
+            toolStripMenuItem2.Size = new Size(175, 24);
+            toolStripMenuItem2.Text = "轉換架 [2]";
+            // 
             // toolStripMenuItem_OpenConvert_2_Simulator
             // 
             toolStripMenuItem_OpenConvert_2_Simulator.Name = "toolStripMenuItem_OpenConvert_2_Simulator";
-            toolStripMenuItem_OpenConvert_2_Simulator.ShortcutKeys = Keys.F4;
+            toolStripMenuItem_OpenConvert_2_Simulator.ShortcutKeys = Keys.F5;
             toolStripMenuItem_OpenConvert_2_Simulator.Size = new Size(175, 24);
-            toolStripMenuItem_OpenConvert_2_Simulator.Text = "轉換架 [2]";
+            toolStripMenuItem_OpenConvert_2_Simulator.Text = "轉換架 [3]";
             toolStripMenuItem_OpenConvert_2_Simulator.Click += toolStripMenuItem_OpenConvert_2_Simulator_Click;
             // 
             // AGVS_modbus_sim_ToolStripMenuItem
@@ -748,11 +777,14 @@
             aGVSEmuToolStripMenuItem.Text = "AGVS 派車模擬器";
             aGVSEmuToolStripMenuItem.Click += aGVS派車模擬器ToolStripMenuItem_Click;
             // 
-            // toolStripMenuItem1
+            // labRegionName
             // 
-            toolStripMenuItem1.Name = "toolStripMenuItem1";
-            toolStripMenuItem1.Size = new Size(37, 24);
-            toolStripMenuItem1.Text = "　";
+            labRegionName.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            labRegionName.Font = new Font("Microsoft JhengHei UI", 22F, FontStyle.Bold, GraphicsUnit.Point);
+            labRegionName.ForeColor = Color.FromArgb(255, 128, 0);
+            labRegionName.Name = "labRegionName";
+            labRegionName.Size = new Size(120, 42);
+            labRegionName.Text = "UMTC";
             // 
             // pnlSideLeft
             // 
@@ -765,9 +797,9 @@
             pnlSideLeft.Controls.Add(label1);
             pnlSideLeft.Dock = DockStyle.Left;
             pnlSideLeft.ForeColor = Color.White;
-            pnlSideLeft.Location = new Point(0, 32);
+            pnlSideLeft.Location = new Point(0, 50);
             pnlSideLeft.Name = "pnlSideLeft";
-            pnlSideLeft.Size = new Size(155, 669);
+            pnlSideLeft.Size = new Size(155, 651);
             pnlSideLeft.TabIndex = 5;
             // 
             // ckbHotRunMode
@@ -775,7 +807,7 @@
             ckbHotRunMode.AutoSize = true;
             ckbHotRunMode.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Bold, GraphicsUnit.Point);
             ckbHotRunMode.ForeColor = Color.SandyBrown;
-            ckbHotRunMode.Location = new Point(5, 164);
+            ckbHotRunMode.Location = new Point(5, 163);
             ckbHotRunMode.Name = "ckbHotRunMode";
             ckbHotRunMode.Size = new Size(119, 28);
             ckbHotRunMode.TabIndex = 9;
@@ -788,7 +820,7 @@
             // 
             btnOpenLoginFOrm.Font = new Font("Microsoft JhengHei UI", 13F, FontStyle.Regular, GraphicsUnit.Point);
             btnOpenLoginFOrm.ForeColor = Color.Black;
-            btnOpenLoginFOrm.Location = new Point(5, 3);
+            btnOpenLoginFOrm.Location = new Point(5, 2);
             btnOpenLoginFOrm.Name = "btnOpenLoginFOrm";
             btnOpenLoginFOrm.Size = new Size(143, 70);
             btnOpenLoginFOrm.TabIndex = 8;
@@ -800,7 +832,7 @@
             // 
             label6.Font = new Font("Microsoft JhengHei UI", 15F, FontStyle.Bold, GraphicsUnit.Point);
             label6.ForeColor = SystemColors.ActiveCaption;
-            label6.Location = new Point(3, 83);
+            label6.Location = new Point(3, 82);
             label6.Name = "label6";
             label6.Size = new Size(145, 78);
             label6.TabIndex = 7;
@@ -812,7 +844,7 @@
             uscConnectionStates1.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             uscConnectionStates1.AutoSize = true;
             uscConnectionStates1.BackColor = Color.Transparent;
-            uscConnectionStates1.Location = new Point(11, 568);
+            uscConnectionStates1.Location = new Point(11, 550);
             uscConnectionStates1.MaximumSize = new Size(134, 96);
             uscConnectionStates1.MinimumSize = new Size(134, 96);
             uscConnectionStates1.Name = "uscConnectionStates1";
@@ -827,7 +859,7 @@
             label1.BorderStyle = BorderStyle.FixedSingle;
             label1.Font = new Font("Microsoft JhengHei UI", 13F, FontStyle.Regular, GraphicsUnit.Point);
             label1.ForeColor = Color.WhiteSmoke;
-            label1.Location = new Point(-9, 514);
+            label1.Location = new Point(-9, 496);
             label1.Name = "label1";
             label1.Size = new Size(164, 51);
             label1.TabIndex = 6;
@@ -852,14 +884,14 @@
             toolStripStatusLabel1.LinkColor = Color.FromArgb(53, 53, 53);
             toolStripStatusLabel1.Margin = new Padding(0);
             toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            toolStripStatusLabel1.Size = new Size(1229, 22);
+            toolStripStatusLabel1.Size = new Size(1226, 22);
             toolStripStatusLabel1.Spring = true;
             toolStripStatusLabel1.Text = "GPM AGV SYSTEM CIM";
             // 
             // labCurrentEncodingName
             // 
             labCurrentEncodingName.BackColor = Color.FromArgb(255, 128, 0);
-            labCurrentEncodingName.Font = new Font("Maiandra GD", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            labCurrentEncodingName.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point);
             labCurrentEncodingName.ForeColor = Color.Snow;
             labCurrentEncodingName.LinkColor = Color.FromArgb(53, 53, 53);
             labCurrentEncodingName.Margin = new Padding(0);
@@ -871,12 +903,12 @@
             // labSysTime
             // 
             labSysTime.BackColor = Color.Black;
-            labSysTime.Font = new Font("Maiandra GD", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            labSysTime.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point);
             labSysTime.ForeColor = Color.White;
             labSysTime.LinkColor = Color.FromArgb(53, 53, 53);
             labSysTime.Margin = new Padding(0);
             labSysTime.Name = "labSysTime";
-            labSysTime.Size = new Size(117, 22);
+            labSysTime.Size = new Size(120, 22);
             labSysTime.Text = "1991/10/20 10:00:00";
             labSysTime.Click += labSysTime_Click;
             // 
@@ -892,7 +924,7 @@
             uscAlarmShow1.BackColor = Color.FromArgb(0, 57, 155);
             uscAlarmShow1.Dock = DockStyle.Top;
             uscAlarmShow1.ForeColor = Color.White;
-            uscAlarmShow1.Location = new Point(155, 32);
+            uscAlarmShow1.Location = new Point(155, 50);
             uscAlarmShow1.Name = "uscAlarmShow1";
             uscAlarmShow1.Size = new Size(1252, 74);
             uscAlarmShow1.TabIndex = 10;
@@ -901,7 +933,7 @@
             // 
             splitContainer1.BackColor = Color.FromArgb(53, 53, 53);
             splitContainer1.Dock = DockStyle.Fill;
-            splitContainer1.Location = new Point(155, 106);
+            splitContainer1.Location = new Point(155, 124);
             splitContainer1.Name = "splitContainer1";
             splitContainer1.Orientation = Orientation.Horizontal;
             // 
@@ -913,8 +945,8 @@
             // splitContainer1.Panel2
             // 
             splitContainer1.Panel2.Controls.Add(tableLayoutPanel2);
-            splitContainer1.Size = new Size(1252, 595);
-            splitContainer1.SplitterDistance = 563;
+            splitContainer1.Size = new Size(1252, 577);
+            splitContainer1.SplitterDistance = 545;
             splitContainer1.TabIndex = 12;
             // 
             // ckbRemoteModeIndi
@@ -1007,6 +1039,7 @@
             splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainer2).EndInit();
             splitContainer2.ResumeLayout(false);
+            tlpConverterContainer.ResumeLayout(false);
             panel2.ResumeLayout(false);
             pnlSyslogRtbContainer.ResumeLayout(false);
             tabPage3.ResumeLayout(false);
@@ -1051,7 +1084,7 @@
         private MenuStrip GPMRDMenuStrip;
         private ToolStripMenuItem toolStripComboBox_Emulators;
         private ToolStripMenuItem mCS模擬器ToolStripMenuItem;
-        private ToolStripMenuItem 轉換架模擬器ToolStripMenuItem;
+        private ToolStripMenuItem CVSimulatorsToolStripMenuItem;
         private ToolStripMenuItem toolStripMenuItem_OpenConvert_1_Simulator;
         private ToolStripMenuItem toolStripMenuItem_OpenConvert_2_Simulator;
         private Panel pnlSideLeft;
@@ -1102,7 +1135,7 @@
         private UI_UserControls.UscAlarmTable uscAlarmTable1;
         private ToolStripStatusLabel toolStripStatusLabel1;
         private SplitContainer splitContainer1;
-        private ToolStripMenuItem toolStripMenuItem1;
+        private ToolStripMenuItem labRegionName;
         private CheckBox ckbRemoteModeIndi;
         private CheckBox cknOnlineModeIndi;
         private TabPage tabPage4;
@@ -1120,5 +1153,7 @@
         private UI_UserControls.UscAGVsInfo uscagVsInfo1;
         private Panel pnlLoading;
         private Label label7;
+        private TableLayoutPanel tlpSingleConvertsContainer;
+        private ToolStripMenuItem toolStripMenuItem2;
     }
 }

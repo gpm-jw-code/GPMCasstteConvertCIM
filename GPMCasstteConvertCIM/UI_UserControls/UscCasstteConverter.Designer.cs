@@ -234,7 +234,7 @@
             btnDown.FlatStyle = FlatStyle.Flat;
             btnDown.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
             btnDown.ForeColor = Color.White;
-            btnDown.Location = new Point(1, 354);
+            btnDown.Location = new Point(1, 329);
             btnDown.Name = "btnDown";
             btnDown.Size = new Size(103, 28);
             btnDown.TabIndex = 29;
@@ -249,7 +249,7 @@
             btnIDLE.FlatStyle = FlatStyle.Flat;
             btnIDLE.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
             btnIDLE.ForeColor = Color.White;
-            btnIDLE.Location = new Point(1, 325);
+            btnIDLE.Location = new Point(1, 300);
             btnIDLE.Name = "btnIDLE";
             btnIDLE.Size = new Size(103, 28);
             btnIDLE.TabIndex = 28;
@@ -264,7 +264,7 @@
             btnRun.FlatStyle = FlatStyle.Flat;
             btnRun.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
             btnRun.ForeColor = Color.White;
-            btnRun.Location = new Point(1, 296);
+            btnRun.Location = new Point(1, 271);
             btnRun.Name = "btnRun";
             btnRun.Size = new Size(103, 28);
             btnRun.TabIndex = 27;
@@ -278,11 +278,11 @@
             uscConverterPortStatus1.BackColor = Color.FromArgb(51, 51, 51);
             uscConverterPortStatus1.BorderStyle = BorderStyle.FixedSingle;
             uscConverterPortStatus1.CstCVPort = null;
-            uscConverterPortStatus1.Font = new Font("微軟正黑體", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            uscConverterPortStatus1.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             uscConverterPortStatus1.ForeColor = Color.DarkOrange;
-            uscConverterPortStatus1.Location = new Point(3, 37);
+            uscConverterPortStatus1.Location = new Point(8, 39);
             uscConverterPortStatus1.Name = "uscConverterPortStatus1";
-            uscConverterPortStatus1.Size = new Size(479, 378);
+            uscConverterPortStatus1.Size = new Size(479, 353);
             uscConverterPortStatus1.TabIndex = 27;
             // 
             // uscConverterPortStatus2
@@ -292,11 +292,11 @@
             uscConverterPortStatus2.BackColor = Color.FromArgb(51, 51, 51);
             uscConverterPortStatus2.BorderStyle = BorderStyle.FixedSingle;
             uscConverterPortStatus2.CstCVPort = null;
-            uscConverterPortStatus2.Font = new Font("微軟正黑體", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            uscConverterPortStatus2.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             uscConverterPortStatus2.ForeColor = Color.DarkOrange;
-            uscConverterPortStatus2.Location = new Point(488, 37);
+            uscConverterPortStatus2.Location = new Point(497, 39);
             uscConverterPortStatus2.Name = "uscConverterPortStatus2";
-            uscConverterPortStatus2.Size = new Size(479, 378);
+            uscConverterPortStatus2.Size = new Size(479, 353);
             uscConverterPortStatus2.TabIndex = 28;
             // 
             // btnSoftwareEMO
@@ -342,7 +342,7 @@
             panel1.Location = new Point(993, 34);
             panel1.Margin = new Padding(0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(107, 388);
+            panel1.Size = new Size(107, 363);
             panel1.TabIndex = 32;
             // 
             // label1
@@ -352,7 +352,7 @@
             label1.BackColor = Color.Transparent;
             label1.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             label1.ForeColor = Color.Silver;
-            label1.Location = new Point(0, 236);
+            label1.Location = new Point(0, 211);
             label1.Margin = new Padding(0);
             label1.Name = "label1";
             label1.Padding = new Padding(0, 6, 0, 0);
@@ -368,7 +368,7 @@
             labInterfaceClock.BorderStyle = BorderStyle.Fixed3D;
             labInterfaceClock.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
             labInterfaceClock.ForeColor = Color.White;
-            labInterfaceClock.Location = new Point(1, 257);
+            labInterfaceClock.Location = new Point(1, 232);
             labInterfaceClock.Name = "labInterfaceClock";
             labInterfaceClock.Size = new Size(103, 29);
             labInterfaceClock.TabIndex = 32;
@@ -388,7 +388,7 @@
             Controls.Add(uscConverterPortStatus1);
             ForeColor = Color.DarkKhaki;
             Name = "UscCasstteConverter";
-            Size = new Size(1100, 422);
+            Size = new Size(1100, 397);
             Load += UscCasstteConverter_Load;
             pnlBanner.ResumeLayout(false);
             pnlEqNameEdit.ResumeLayout(false);

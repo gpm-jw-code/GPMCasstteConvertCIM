@@ -23,6 +23,7 @@ namespace GPMCasstteConvertCIM.Utilities.SysConfigs
 
         [JsonConverter(typeof(StringEnumConverter))]
         public PROJECT Project { get; set; }
+        public string RegionName { get; set; } = "UMTC";
 
         public List<clsAGVInfo> AGVList { get; set; } = new List<clsAGVInfo>();
         public string MapFilePath { get; set; } = @"C:\CST\ini\Map_UMTC_3F_AOI.json";
