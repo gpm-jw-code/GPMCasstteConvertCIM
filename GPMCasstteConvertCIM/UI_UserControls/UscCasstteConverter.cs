@@ -1,5 +1,7 @@
 ﻿using GPMCasstteConvertCIM.CasstteConverter;
+using GPMCasstteConvertCIM.Devices;
 using GPMCasstteConvertCIM.Forms;
+using GPMCasstteConvertCIM.Utilities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -31,8 +33,8 @@ namespace GPMCasstteConvertCIM.UI_UserControls
                 uscConverterPortStatus1.CstCVPort = _casstteConverter.PortDatas[0];
                 if (_casstteConverter.PortDatas.Count == 2)
                     uscConverterPortStatus2.CstCVPort = _casstteConverter.PortDatas[1];
-                    uscConverterPortStatus2.Visible = _casstteConverter.converterType != Enums.CONVERTER_TYPE.IN_SYS;
-                labNameDisplay.Text = value.Name;
+                uscConverterPortStatus2.Visible = _casstteConverter.converterType != Enums.CONVERTER_TYPE.IN_SYS;
+                labNameDisplay.Text = value.Name == "" ? "設備-Unknown" : value.Name;
 
             }
         }
@@ -48,9 +50,30 @@ namespace GPMCasstteConvertCIM.UI_UserControls
 
         private void UscCasstteConverter_Load(object sender, EventArgs e)
         {
-
+            StaUsersManager.OnRD_Login += StaUsersManager_OnRD_Login;
+            StaUsersManager.OnLogout += StaUsersManager_OnLogout;
         }
 
+        private void StaUsersManager_OnLogout(object? sender, EventArgs e)
+        {
+            SwitchToViewMode();
+        }
+
+        private void StaUsersManager_OnRD_Login(object? sender, EventArgs e)
+        {
+            SwitchToEditMode();
+        }
+        private void SwitchToEditMode()
+        {
+            txbEQNameEditInput.Text = labNameDisplay.Text;
+            pnlEqNameEdit.Visible = true;
+            labNameDisplay.Visible = false;
+        }
+        private void SwitchToViewMode()
+        {
+            labNameDisplay.Visible = true;
+            pnlEqNameEdit.Visible = false;
+        }
         private void timer1_Tick(object sender, EventArgs e)
         {
             if (casstteConverter == null)
@@ -143,6 +166,26 @@ namespace GPMCasstteConvertCIM.UI_UserControls
         private void labOpenModbusServerFom_Click(object sender, EventArgs e)
         {
             casstteConverter.modbusServerGUI?.Show();
+        }
+
+        private void btnModifyEqNameConfirm_Click(object sender, EventArgs e)
+        {
+            var dialogResult = MessageBox.Show($"確定要將設備名稱由[{labNameDisplay.Text}] 修改為 [{txbEQNameEditInput.Text}]?", "", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+            if (dialogResult == DialogResult.Cancel)
+                return;
+            var newName = txbEQNameEditInput.Text;
+            labNameDisplay.Text = newName;
+            casstteConverter.Name = newName;
+
+            bool success = DevicesManager.TryModifyEQName(casstteConverter, newName, out string errMsg);
+            if (success)
+            {
+                MessageBox.Show($"修改成功!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show($"修改失敗-{errMsg}", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

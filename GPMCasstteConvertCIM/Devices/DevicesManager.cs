@@ -120,13 +120,13 @@ namespace GPMCasstteConvertCIM.Devices
             }
             else
             {
-                foreach (Options.ConverterEQPInitialOption item in DevicesConnectionsOpts.PLCEQS)
+                foreach (Options.ConverterEQPInitialOption option in DevicesConnectionsOpts.PLCEQS)
                 {
                     try
                     {
-                        var EQ = new clsCasstteConverter(item.DeviceId, item.Name, (UscCasstteConverter)item.mainUI, item.ConverterType, item.Ports);
+                        var EQ = new clsCasstteConverter(option);
                         EQ.ConnectionStateChanged += CasstteConverter_ConnectionStateChanged;
-                        EQ.ActiveAsync(item.ToMCIFOptions());
+                        EQ.ActiveAsync(option.ToMCIFOptions());
                         casstteConverters.Add(EQ);
                         Task.Factory.StartNew(() =>
                         {
@@ -230,6 +230,30 @@ namespace GPMCasstteConvertCIM.Devices
         internal static clsConverterPort GetPortByPortID(string port_id)
         {
             return GetAllPorts().FirstOrDefault(port => port.Properties.PortID == port_id);
+        }
+        internal static bool TryModifyEQName(clsCasstteConverter casstteConverter, string newName, out string error_message)
+        {
+            error_message = "";
+            try
+            {
+                var eq_options = DevicesConnectionsOpts.PLCEQS.FirstOrDefault(opt => opt == casstteConverter.Options);
+                if (eq_options != null)
+                {
+                    eq_options.Name = newName;
+                    SaveDeviceConnectionOpts();
+                    return true;
+                }
+                else
+                {
+                    error_message = "找不到符合的設備參數";
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                error_message = ex.Message;
+                return false;
+            }
         }
         internal class ConnectionStateChangeArgs : EventArgs
         {

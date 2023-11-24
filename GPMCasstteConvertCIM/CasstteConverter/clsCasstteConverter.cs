@@ -3,6 +3,7 @@ using CommunityToolkit.HighPerformance.Buffers;
 using GPMCasstteConvertCIM.Alarm;
 using GPMCasstteConvertCIM.CasstteConverter.Data;
 using GPMCasstteConvertCIM.Devices;
+using GPMCasstteConvertCIM.Devices.Options;
 using GPMCasstteConvertCIM.Forms;
 using GPMCasstteConvertCIM.UI_UserControls;
 using GPMCasstteConvertCIM.Utilities;
@@ -76,19 +77,20 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         internal clsCasstteConverter(ConverterEQPInitialOption eqOptions)
         {
 
-            this.Name = name;
-            _IOLogger = new clsIOLOgger(null, Utility.SysConfigs.Log.SyslogFolder, $"IO_Log/{name}");
+            this.Options = eqOptions;
+            this.Name = eqOptions.Name;
+            _IOLogger = new clsIOLOgger(null, Utility.SysConfigs.Log.SyslogFolder, $"IO_Log/{Name}");
             EQPData = new clsEQPData();
 
-            for (int i = 0; i < portProperties.Count; i++)
+            for (int i = 0; i < eqOptions.Ports.Count; i++)
             {
-                var portProp = portProperties[i];
+                var portProp = eqOptions.Ports[i];
                 PortDatas.Add(new clsConverterPort(portProp, this));
             }
-            this.converterType = converterType;
-            this.index = index;
+            this.converterType = eqOptions.ConverterType;
+            this.index = eqOptions.DeviceId;
             LoadPLCMapData();
-            this.mainGUI = mainGUI;
+            this.mainGUI = (UscCasstteConverter)eqOptions.mainUI;
             this.mainGUI.casstteConverter = this;
             PortModbusServersActive();
             EQPInterfaceClockMonitor();
@@ -237,6 +239,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         internal bool Connected { get; private set; }
         internal bool PLCInterfaceClockDown { get; private set; }
         public int MXLogic_Station_Number = 1;
+
+        public ConverterEQPInitialOption Options { get; }
         public string Name { get; set; } = "";
         internal Data.clsEQPData EQPData { get; set; }
         internal Data.clsAGVSData AGVSData { get; private set; } = new Data.clsAGVSData();
