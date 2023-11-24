@@ -31,17 +31,8 @@ namespace GPMCasstteConvertCIM.UI_UserControls
                 uscConverterPortStatus1.CstCVPort = _casstteConverter.PortDatas[0];
                 if (_casstteConverter.PortDatas.Count == 2)
                     uscConverterPortStatus2.CstCVPort = _casstteConverter.PortDatas[1];
-
-                if (_casstteConverter.converterType == Enums.CONVERTER_TYPE.IN_SYS)
-                {
-                    uscConverterPortStatus2.Visible = false;
-                    labNameDisplay.Text = "單一轉換架";
-                }
-                else
-                {
-                    labNameDisplay.Text = "平對平組";
-                }
-
+                    uscConverterPortStatus2.Visible = _casstteConverter.converterType != Enums.CONVERTER_TYPE.IN_SYS;
+                labNameDisplay.Text = value.Name;
 
             }
         }

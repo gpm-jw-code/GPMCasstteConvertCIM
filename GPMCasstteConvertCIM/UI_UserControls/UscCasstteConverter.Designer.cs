@@ -178,6 +178,7 @@
             uscConverterPortStatus1.BackColor = Color.FromArgb(51, 51, 51);
             uscConverterPortStatus1.BorderStyle = BorderStyle.FixedSingle;
             uscConverterPortStatus1.CstCVPort = null;
+            uscConverterPortStatus1.Font = new Font("微軟正黑體", 9F, FontStyle.Regular, GraphicsUnit.Point);
             uscConverterPortStatus1.ForeColor = Color.DarkOrange;
             uscConverterPortStatus1.Location = new Point(3, 29);
             uscConverterPortStatus1.Name = "uscConverterPortStatus1";
@@ -191,6 +192,7 @@
             uscConverterPortStatus2.BackColor = Color.FromArgb(51, 51, 51);
             uscConverterPortStatus2.BorderStyle = BorderStyle.FixedSingle;
             uscConverterPortStatus2.CstCVPort = null;
+            uscConverterPortStatus2.Font = new Font("微軟正黑體", 9F, FontStyle.Regular, GraphicsUnit.Point);
             uscConverterPortStatus2.ForeColor = Color.DarkOrange;
             uscConverterPortStatus2.Location = new Point(461, 29);
             uscConverterPortStatus2.Name = "uscConverterPortStatus2";
