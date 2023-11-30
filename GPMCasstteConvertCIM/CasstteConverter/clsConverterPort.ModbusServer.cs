@@ -105,8 +105,13 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             {
                 if (_AGV_VALID != value)
                 {
+                    if (!value)
+                    {
+                        RequestEQPortChangeToOUTPUT();
+                    }
                     _AGV_VALID = value;
                     LogAGVHandshakeSignalChange("AGV_VALID", value);
+
                 }
             }
         }

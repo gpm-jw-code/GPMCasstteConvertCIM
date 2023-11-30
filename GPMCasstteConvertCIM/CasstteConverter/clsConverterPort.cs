@@ -730,27 +730,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                                 Utility.SystemLogger.Info($"PLC  Carrier Wait  Out HS ex! {ex.Message},{ex.StackTrace}");
 
                             }
-                            if (!SECSState.IsRemote && EPortType != PortUnitType.Output && EQParent.converterType == CONVERTER_TYPE.IN_SYS && PortExist)
-                            {
-
-                                Utility.SystemLogger.Info($"After Carrier waitout HS done and Now is Local Mode, GPM_CIM Start Request PLC Port Type Change to OUTPUT");
-                                bool plc_accpet = false;
-                                int cnt = 0;
-                                while (!plc_accpet)
-                                {
-                                    await Task.Delay(100);
-                                    plc_accpet = await ModeChangeRequestHandshake(Utility.IsHotRunMode ? PortUnitType.Input : PortUnitType.Output, "GPM_CIM");
-                                    Utility.SystemLogger.Info($"PLC Reject OUTPUT MODE Request. Retry-{cnt}");
-                                    await Task.Delay(1000);
-                                    cnt++;
-                                    if (cnt >= 11)
-                                    {
-                                        Utility.SystemLogger.Info($"Retry times reach 11 ... .Port {PortName} Can't  change to OUTPUT MODE.");
-                                        break;
-                                    }
-                                }
-
-                            }
                         });
 
 
@@ -759,7 +738,55 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 }
             }
         }
+        public class clsPortChangeToOutState
+        {
+            public bool IsMCSRemote { get; }
+            public PortUnitType CurrentPortType { get; }
+            public CONVERTER_TYPE EQ_TYPE { get; }
+            public bool PortHasCargo { get; }
+            public clsPortChangeToOutState(bool IsMCSOnline, PortUnitType CurrentPortType, CONVERTER_TYPE EQ_TYPE, bool PortHasCargo)
+            {
+                this.IsMCSRemote = IsMCSOnline;
+                this.CurrentPortType = CurrentPortType;
+                this.EQ_TYPE = EQ_TYPE;
+                this.PortHasCargo = PortHasCargo;
+            }
+            public bool ChangeToOutputAllowed => !(IsMCSRemote || CurrentPortType == PortUnitType.Output || EQ_TYPE == CONVERTER_TYPE.SYS_2_SYS || !PortHasCargo);
+        }
+        /// <summary>
+        /// 要求設備將PORT切換為OUTPUT
+        /// </summary>
+        /// <returns></returns>
+        private async Task RequestEQPortChangeToOUTPUT()
+        {
+            _ = Task.Run(async () =>
+            {
+                clsPortChangeToOutState PortChgOutPoutCase = new clsPortChangeToOutState(SECSState.IsRemote, EPortType, EQParent.converterType, PortExist);
+                if (!PortChgOutPoutCase.ChangeToOutputAllowed)
+                {
+                    Utility.SystemLogger.Info($"After AGV/EQ Handshake done, [PLC Port Type Change to OUTPUT] Process Cancel. State:\r\n{PortChgOutPoutCase.ToJson()}");
+                    return;
+                }
 
+                Utility.SystemLogger.Info($"After Carrier waitout HS done and Now is Local Mode, GPM_CIM Start Request PLC Port Type Change to OUTPUT, State:\r\n{PortChgOutPoutCase.ToJson()}");
+                bool plc_accpet = false;
+                int cnt = 0;
+                while (!plc_accpet)
+                {
+                    await Task.Delay(100);
+                    plc_accpet = await ModeChangeRequestHandshake(Utility.IsHotRunMode ? PortUnitType.Input : PortUnitType.Output, "GPM_CIM");
+                    Utility.SystemLogger.Info($"PLC Reject OUTPUT MODE Request. Retry-{cnt}");
+                    await Task.Delay(1000);
+                    cnt++;
+                    if (cnt >= 11)
+                    {
+                        Utility.SystemLogger.Info($"Retry times reach 11 ... .Port {PortName} Can't  change to OUTPUT MODE.");
+                        break;
+                    }
+                }
+            });
+
+        }
 
         private bool _CarrierRemovedCompletedReport;
         private bool _CarrierRemovedReportedFlag = false;
