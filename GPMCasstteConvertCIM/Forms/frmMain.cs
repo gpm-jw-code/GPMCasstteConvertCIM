@@ -124,11 +124,13 @@ namespace GPMCasstteConvertCIM.Forms
                     AgvsDBAPIService.Start();
                     WebsocketMiddleware.ServerBuild();
                     uscAlarmTable1.BindData(AlarmManager.AlarmsList.ToList());
+
                     AlarmManager.onAlarmAdded += (sender, alarm) =>
                     {
                         Invoke(new Action(() =>
                         {
                             DBhelper.InsertAlarm(alarm);
+                            CopyAlarmDBFileToLogFolderToday(DBhelper.DBFileName);
                             uscAlarmTable1.BindData(AlarmManager.AlarmsList.ToList());
                             uscAlarmTable1.alarmListBinding.ResetBindings();
                         }));
@@ -150,6 +152,25 @@ namespace GPMCasstteConvertCIM.Forms
                     pnlLoading.SendToBack();
                 }));
             });
+        }
+
+        private void CopyAlarmDBFileToLogFolderToday(string dBFilePath)
+        {
+            try
+            {
+                string fileName = Path.GetFileName(dBFilePath);
+                string destineFolder = Utility.SystemLogger.currentLogFolder;
+                string destineFilePath = Path.Combine(destineFolder, fileName);
+                File.Copy(dBFilePath, destineFilePath, true);
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        private void AlarmManager_onAlarmUpdated(object? sender, EventArgs e)
+        {
+
         }
 
         private void CVUIRender()
