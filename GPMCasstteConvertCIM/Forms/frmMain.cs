@@ -155,19 +155,24 @@ namespace GPMCasstteConvertCIM.Forms
         private void CVUIRender()
         {
             var single_cvs = DevicesManager.DevicesConnectionsOpts.PLCEQS.Where(p => p.ConverterType == Enums.CONVERTER_TYPE.IN_SYS);
-            tlpSingleConvertsContainer.ColumnCount = single_cvs.Count();
-            tlpSingleConvertsContainer.ColumnStyles.Clear();
+            bool isTwoSingleEQ = single_cvs.Count() == DevicesManager.DevicesConnectionsOpts.PLCEQS.Length;
+            tlpSingleConvertsContainer.Visible = !isTwoSingleEQ;
 
-            for (int i = 0; i < single_cvs.Count(); i++)
+            if (!isTwoSingleEQ)
             {
-                tlpSingleConvertsContainer.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F / single_cvs.Count()));
+                tlpSingleConvertsContainer.ColumnCount = single_cvs.Count();
+                tlpSingleConvertsContainer.ColumnStyles.Clear();
+                for (int i = 0; i < single_cvs.Count(); i++)
+                {
+                    tlpSingleConvertsContainer.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F / single_cvs.Count()));
+                }
             }
             tlpConverterContainer.SuspendLayout();
             foreach (Devices.Options.ConverterEQPInitialOption item in DevicesManager.DevicesConnectionsOpts.PLCEQS)
             {
                 UI_UserControls.UscCasstteConverter mainUI = new UI_UserControls.UscCasstteConverter();
                 item.mainUI = mainUI;
-                if (item.ConverterType == Enums.CONVERTER_TYPE.IN_SYS)
+                if (!isTwoSingleEQ && item.ConverterType == Enums.CONVERTER_TYPE.IN_SYS)
                 {
                     tlpSingleConvertsContainer.Controls.Add(mainUI);
                 }

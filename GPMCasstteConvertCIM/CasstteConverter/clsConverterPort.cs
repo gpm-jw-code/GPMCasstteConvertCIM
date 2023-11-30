@@ -15,6 +15,7 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.DirectoryServices.ActiveDirectory;
+using System.Text.Json.Serialization;
 using System.Windows.Forms.Design;
 using static GPMCasstteConvertCIM.CasstteConverter.Data.clsAGVSData;
 using static GPMCasstteConvertCIM.CasstteConverter.Data.clsMemoryAddress;
@@ -741,7 +742,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         public class clsPortChangeToOutState
         {
             public bool IsMCSRemote { get; }
+
+            [Newtonsoft.Json.JsonConverter(typeof(StringEnumConverter))]
             public PortUnitType CurrentPortType { get; }
+            [Newtonsoft.Json.JsonConverter(typeof(StringEnumConverter))]
             public CONVERTER_TYPE EQ_TYPE { get; }
             public bool PortHasCargo { get; }
             public clsPortChangeToOutState(bool IsMCSOnline, PortUnitType CurrentPortType, CONVERTER_TYPE EQ_TYPE, bool PortHasCargo)
