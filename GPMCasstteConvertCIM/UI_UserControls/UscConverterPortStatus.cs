@@ -68,7 +68,7 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             labU_REQBit.RenderBGColorByState(CstCVPort.U_REQ, active_color);
             labEQReadyBit.RenderBGColorByState(CstCVPort.EQ_READY, active_color);
             labBusyBit.RenderBGColorByState(CstCVPort.EQ_BUSY, active_color);
-
+            labAGVReadyToTransfer.Visible = CstCVPort.CMD_Reserve_Low || CstCVPort.CMD_Reserve_Low;
             labUpPosition.RenderBGColorByState(CstCVPort.LD_UP_POS, active_color);
             labDownPosition.RenderBGColorByState(CstCVPort.LD_DOWN_POS, active_color);
 
