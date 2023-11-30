@@ -107,7 +107,19 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 {
                     if (!value)
                     {
-                        RequestEQPortChangeToOUTPUT();
+                        Task.Run(async () =>
+                        {
+                            PORT_Change_Out_CancelTokenSource = await RequestEQPortChangeToOUTPUT();
+                        });
+
+                    }
+                    else
+                    {
+                        if (PORT_Change_Out_CancelTokenSource != null && !PORT_Change_Out_CancelTokenSource.IsCancellationRequested)
+                        {
+                            PORT_Change_Out_CancelTokenSource.Cancel();
+                            Utility.SystemLogger.Warning($"{PortName}->Port Changed to OUTPUT Process Cancel Request raised: AGV_VALID ON => 開始交握");
+                        }
                     }
                     _AGV_VALID = value;
                     LogAGVHandshakeSignalChange("AGV_VALID", value);

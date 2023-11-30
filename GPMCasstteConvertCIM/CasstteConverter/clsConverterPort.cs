@@ -753,27 +753,43 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             }
             public bool ChangeToOutputAllowed => !(IsMCSRemote || CurrentPortType == PortUnitType.Output || EQ_TYPE == CONVERTER_TYPE.SYS_2_SYS || !PortHasCargo);
         }
+        private CancellationTokenSource PORT_Change_Out_CancelTokenSource = null;
         /// <summary>
         /// 要求設備將PORT切換為OUTPUT
         /// </summary>
         /// <returns></returns>
-        private async Task RequestEQPortChangeToOUTPUT()
+        private async Task<CancellationTokenSource> RequestEQPortChangeToOUTPUT()
         {
+
+
+            clsPortChangeToOutState PortChgOutPoutCase = new clsPortChangeToOutState(SECSState.IsRemote, EPortType, EQParent.converterType, PortExist);
+            if (!PortChgOutPoutCase.ChangeToOutputAllowed)
+            {
+                Utility.SystemLogger.Warning($"After AGV/EQ Handshake done, [PLC Port Type Change to OUTPUT] Process Cancel. State:\r\n{PortChgOutPoutCase.ToJson()}");
+                return null;
+            }
+
+            if (!Properties.AutoChangeToOUTPUTWhenAGVLoadedInOFFLineMode)
+            {
+                Utility.SystemLogger.Warning($"{PortName} Auto change to OUTPUT mode feature disabled");
+                return null;
+            }
+            CancellationTokenSource portChangCancelCts = new CancellationTokenSource();
+
             _ = Task.Run(async () =>
             {
-                clsPortChangeToOutState PortChgOutPoutCase = new clsPortChangeToOutState(SECSState.IsRemote, EPortType, EQParent.converterType, PortExist);
-                if (!PortChgOutPoutCase.ChangeToOutputAllowed)
-                {
-                    Utility.SystemLogger.Info($"After AGV/EQ Handshake done, [PLC Port Type Change to OUTPUT] Process Cancel. State:\r\n{PortChgOutPoutCase.ToJson()}");
-                    return;
-                }
-
                 Utility.SystemLogger.Info($"After Carrier waitout HS done and Now is Local Mode, GPM_CIM Start Request PLC Port Type Change to OUTPUT, State:\r\n{PortChgOutPoutCase.ToJson()}");
                 bool plc_accpet = false;
                 int cnt = 0;
                 while (!plc_accpet)
                 {
                     await Task.Delay(100);
+                    if (portChangCancelCts.IsCancellationRequested)
+                    {
+                        portChangCancelCts = null;
+                        Utility.SystemLogger.Warning($"PORT OUTPUT MODE Request CANCELED");
+                        return;
+                    }
                     plc_accpet = await ModeChangeRequestHandshake(Utility.IsHotRunMode ? PortUnitType.Input : PortUnitType.Output, "GPM_CIM");
                     Utility.SystemLogger.Info($"PLC Reject OUTPUT MODE Request. Retry-{cnt}");
                     await Task.Delay(1000);
@@ -785,7 +801,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     }
                 }
             });
-
+            return portChangCancelCts;
         }
 
         private bool _CarrierRemovedCompletedReport;
