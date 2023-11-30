@@ -99,7 +99,7 @@ namespace GPMCasstteConvertCIM.UI_UserControls
         {
 
             labAGVReadyToTransfer.Text = "";
-            labAGVReadyToTransfer.Visible = CstCVPort.CMD_Reserve_Low || CstCVPort.CMD_Reserve_Up;
+            labAGVReadyToTransfer.Visible = CstCVPort.CMD_Reserve_Low || CstCVPort.CMD_Reserve_Up || CstCVPort.AGV_VALID;
 
             bool IsWaitingToHS = (CstCVPort.CMD_Reserve_Up || CstCVPort.CMD_Reserve_Low) && !CstCVPort.AGV_VALID;
             if (IsWaitingToHS)
