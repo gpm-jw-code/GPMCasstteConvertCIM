@@ -44,6 +44,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
             public bool AutoChangeToOUTPUTWhenAGVLoadedInOFFLineMode {  get; set; } = true;
 
+            public bool RemoveCarrierMCSReportOnlyInOUTPUTMODE { get; set; } = false;
         }
 
     }

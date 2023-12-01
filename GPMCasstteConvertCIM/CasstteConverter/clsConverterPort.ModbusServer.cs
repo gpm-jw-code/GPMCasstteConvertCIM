@@ -88,152 +88,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             }
         }
 
-        private bool _AGV_VALID = false;
-        private bool _AGV_READY = false;
-        private bool _AGV_TR_REQ = false;
-        private bool _AGV_BUSY = false;
-        private bool _AGV_COMPT = false;
-        private bool _To_EQ_Up = false;
-        private bool _To_EQ_Low = false;
-        private bool _CMD_Reserve_Up = false;
-        private bool _CMD_Reserve_Low = false;
-
-        public bool AGV_VALID
-        {
-            get => _AGV_VALID;
-            set
-            {
-                if (_AGV_VALID != value)
-                {
-                    if (!value)
-                    {
-                        Task.Run(async () =>
-                        {
-                            PORT_Change_Out_CancelTokenSource = await RequestEQPortChangeToOUTPUT();
-                        });
-
-                    }
-                    else
-                    {
-                        if (PORT_Change_Out_CancelTokenSource != null && !PORT_Change_Out_CancelTokenSource.IsCancellationRequested)
-                        {
-                            PORT_Change_Out_CancelTokenSource.Cancel();
-                            Utility.SystemLogger.Warning($"{PortName}->Port Changed to OUTPUT Process Cancel Request raised: AGV_VALID ON => 開始交握");
-                        }
-                    }
-                    _AGV_VALID = value;
-                    LogAGVHandshakeSignalChange("AGV_VALID", value);
-
-                }
-            }
-        }
-
-        public bool AGV_READY
-        {
-            get => _AGV_READY;
-            set
-            {
-                if (_AGV_READY != value)
-                {
-                    _AGV_READY = value;
-                    LogAGVHandshakeSignalChange("AGV_READY", value);
-                }
-            }
-        }
-        public bool AGV_TR_REQ
-        {
-            get => _AGV_TR_REQ;
-            set
-            {
-                if (_AGV_TR_REQ != value)
-                {
-                    _AGV_TR_REQ = value;
-                    LogAGVHandshakeSignalChange("AGV_TR_REQ", value);
-                }
-            }
-        }
-        public bool AGV_BUSY
-        {
-            get => _AGV_BUSY;
-            set
-            {
-                if (_AGV_BUSY != value)
-                {
-                    _AGV_BUSY = value;
-                    LogAGVHandshakeSignalChange("AGV_BUSY", value);
-                }
-            }
-        }
-        public bool AGV_COMPT
-        {
-            get => _AGV_COMPT;
-            set
-            {
-                if (_AGV_COMPT != value)
-                {
-                    _AGV_COMPT = value;
-                    LogAGVHandshakeSignalChange("AGV_COMPT", value);
-                }
-            }
-        }
-
-        public bool To_EQ_UP
-        {
-            get => _To_EQ_Up;
-            set
-            {
-                if (_To_EQ_Up != value)
-                {
-                    _To_EQ_Up = value;
-                    LogAGVHandshakeSignalChange("To_EQ_UP", value);
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("To_EQ_UP"));
-                }
-            }
-        }
-
-        public bool To_EQ_Low
-        {
-            get => _To_EQ_Low;
-            set
-            {
-                if (_To_EQ_Low != value)
-                {
-                    _To_EQ_Low = value;
-                    LogAGVHandshakeSignalChange("To_EQ_Low", value);
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("To_EQ_Low"));
-                }
-            }
-        }
-
-        public bool CMD_Reserve_Up
-        {
-            get => _CMD_Reserve_Up;
-            set
-            {
-                if (_CMD_Reserve_Up != value)
-                {
-                    _CMD_Reserve_Up = value;
-                    LogAGVHandshakeSignalChange("CMD_Reserve_Up", value);
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("CMD_Reserve_Up"));
-                }
-            }
-        }
-
-        public bool CMD_Reserve_Low
-        {
-            get => _CMD_Reserve_Low;
-            set
-            {
-                if (_CMD_Reserve_Low != value)
-                {
-                    _CMD_Reserve_Low = value;
-                    LogAGVHandshakeSignalChange("CMD_Reserve_Low", value);
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("CMD_Reserve_Low"));
-
-                }
-            }
-        }
-
         private void LogAGVHandshakeSignalChange(string name, bool state)
         {
             //Utility.SystemLogger.Info($"|{PortName}| --> AGV Handshake Signal-|{name}| Changed to {(state ? "1" : "0")}");
@@ -269,11 +123,14 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             {
                 while (true)
                 {
-                    await Task.Delay(100);
+                    await Task.Delay(50);
                     SyncEQHoldingRegistersWorker();
+                    await Task.Delay(50);
                     SyncAGVSHoldingRegistersWorker();
-                    SyncAGVSInputsWorker();
+                    await Task.Delay(50);
                     SyncAGVSCoilsDataWorker();
+                    await Task.Delay(100);
+                    SyncAGVSInputsWorker();
 
                 }
             });
@@ -334,7 +191,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 }
                 catch (Exception ex)
                 {
-                    Utility.SystemLogger.Error($"SyncAGVSHoldingRegistersWorker Error Occur {item.Address}_Holding Regist[{item.Link_Modbus_Register_Number}]", ex);
+                    Utility.SystemLogger.Error($"[{PortName}] SyncAGVSHoldingRegistersWorker Error Occur {item.Address}_Holding Regist[{item.Link_Modbus_Register_Number}]", ex);
                 }
             }
         }
@@ -350,7 +207,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 }
                 catch (Exception ex)
                 {
-                    Utility.SystemLogger.Error($"SyncEQHoldingRegistersWorker Error Occur {item.Address}_Holding Regist[{item.Link_Modbus_Register_Number}]", ex);
+                    Utility.SystemLogger.Error($"[{PortName}] SyncEQHoldingRegistersWorker Error Occur {item.Address}_Holding Regist[{item.Link_Modbus_Register_Number}]", ex);
                 }
             }
         }
@@ -363,16 +220,25 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 {
                     var mRindex = item.Link_Modbus_Register_Number;
                     bool bolState = EQParent.EQPMemOptions.memoryTable.ReadOneBit(item.Address);
+
+                    if (item.EProperty == Enums.PROPERTY.EQ_BUSY && AGV_READY_WAITING_EQ_BUSYON_INTER_LOCKING)
+                    {
+                        bolState = EQ_BUSY_CIM_CONTROL;
+                        if (!EQ_BUSY_CIM_CONTROL && !AGV_READY)
+                        {
+                            AGV_READY_WAITING_EQ_BUSYON_INTER_LOCKING = false;
+                        }
+                    }
+
                     modbus_server.discreteInputs.localArray[mRindex] = bolState;
                     if (modbus_server.discreteInputs.localArray[mRindex] != bolState)
                     {
-                        Utility.SystemLogger.Warning($"SyncAGVSInputsWorker- {item.Address} sync to Inputs[{mRindex}] fail.");
-
+                        Utility.SystemLogger.Warning($"[{PortName}] SyncAGVSInputsWorker- {item.Address} sync to Inputs[{mRindex}] fail.");
                     }
                 }
                 catch (Exception ex)
                 {
-                    Utility.SystemLogger.Error($"SyncAGVSInputsWorker Error Occur {item.Address}", ex);
+                    Utility.SystemLogger.Error($"[{PortName}] SyncAGVSInputsWorker Error Occur {item.Address}", ex);
                 }
             }
         }
@@ -393,7 +259,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 }
                 catch (Exception ex)
                 {
-                    Utility.SystemLogger.Error($"SyncAGVSCoilsDataWorker Error Occur {item.Address}_localCoilsAry[{register_num}]", ex);
+                    Utility.SystemLogger.Error($"[{PortName}] SyncAGVSCoilsDataWorker Error Occur {item.Address}_localCoilsAry[{register_num}]", ex);
                 }
             }
         }

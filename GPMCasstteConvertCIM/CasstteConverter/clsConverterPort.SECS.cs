@@ -24,6 +24,11 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         internal async Task<bool> SecsEventReport(CEID ceid, string carrier_id)
         {
+            if (!SECSState.IsOnline)
+            {
+                Utility.SystemLogger.Info($"MCS Offline, {ceid} Not Reported.");
+                return false;
+            }
 
             speficCarrierID = carrier_id + "";
             return await SecsEventReport(ceid);
@@ -144,7 +149,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             {
                 if (WaitTransferTaskDownloadCts.IsCancellationRequested)
                 {
-                    NoTransferNotifyInovke(Properties.PortID, WIPINFO_BCR_ID,"Wait S2F41/49 Timeout");
+                    NoTransferNotifyInovke(Properties.PortID, WIPINFO_BCR_ID, "Wait S2F41/49 Timeout");
                     Utility.SystemLogger.Warning($"{Properties.PortID} _ Carrier- {WIPINFO_BCR_ID} No body known where to go . No AGV To Transfer....");
                     NoTransferNotifyFlag = false; //reset flag
                     return false;

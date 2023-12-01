@@ -221,10 +221,17 @@ namespace GPMCasstteConvertCIM.Utilities
                              Directory.CreateDirectory(folder);
                          currentLogFolder = folder;
                          string log_file = Path.Combine(folder, $"{FileNameHeaderDisplay}{DateTime.Now.ToString(FileTimeFormat)}.log");
+                         string writeLine = $"{logItem.time.ToString("yyyy/MM/dd HH:mm:ss.ffff")} [{logItem.level}] {logItem.msg}";
                          using (StreamWriter sw = new StreamWriter(log_file, true))
                          {
-                             sw.WriteLine($"{logItem.time.ToString("yyyy/MM/dd HH:mm:ss.ffff")} [{logItem.level}] {logItem.msg}");
+                             sw.WriteLine(writeLine);
                          }
+                         if(logItem.level!= LOG_LEVEL.INFO) {
+                             string Warn_Error_log_file = Path.Combine(folder, $"{FileNameHeaderDisplay}{DateTime.Now.ToString(FileTimeFormat)}_{logItem.level}.log");
+                             using StreamWriter writer = new StreamWriter(Warn_Error_log_file,true);
+                             writer.WriteLine(writeLine);
+                         }
+
                      }
                      catch (Exception ex)
                      {

@@ -50,45 +50,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         }
 
         public EQ_PORT_LD_STATE PortStateSimulation { get; set; } = EQ_PORT_LD_STATE.Busy;
-        private async void SECSState_OnMCSOnlineRemote(object? sender, EventArgs e)
-        {
-
-            if (!IsCarrierWaitInQueuing)
-            {
-                Utility.SystemLogger.Info($"SECS Online Remote_No Carrier Wait In ");
-                return;
-            }
-
-            //檢查在席
-            if (!PortExist)
-            {
-                Utility.SystemLogger.Info($"Carrier Wait In But Carrier Not Exist");
-                return;
-            }
-            //檢查ID
-            if (WIPINFO_BCR_ID == "" | IsBCR_READ_ERROR())
-            {
-                if (IsBCR_READ_ERROR())
-                    Utility.SystemLogger.Info($"Carrier Wait In and Carrier Exist But Carrier ID Is Empty");
-                else
-                    Utility.SystemLogger.Info($"Carrier Wait In and Carrier Exist But Carrier ID Read Fail");
-                return;
-            }
-
-            //檢查LOAD/UNLOAD REQUEST 訊號
-            if (!await WaitLoadUnloadRequestON())
-            {
-                Utility.SystemLogger.Info($"Carrier Wait In But UNLOAD REQUEST  OFF");
-                return;
-            }
-
-            Utility.SystemLogger.Info($"Carrier Wait In Report When ONLINE REMOTE. ");
-            bool ret = await SecsEventReport(CEID.CarrierWaitIn);
-            Utility.SystemLogger.Info($"Carrier Wait In Report When ONLINE REMOTE => {(ret ? "SUCCESS" : "FAIL")} ");
-            IsCarrierWaitInQueuing = false;
-
-        }
-
         public clsCasstteConverter EQParent { get; internal set; }
 
         public clsPortProperty Properties = new clsPortProperty();
@@ -158,35 +119,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         internal List<clsMemoryAddress> CIMModbusLinkWordAddress => EQParent.LinkWordMap.FindAll(ad => ad.EOwner == OWNER.CIM && ad.Link_Modbus_Register_Number != -1);
         private CIMComponent.MemoryTable VirtualMemoryTable => EQParent.CIMMemOptions.memoryTable;
 
-
-        public async void ModbusServerActive()
-        {
-            await Task.Delay(1);
-            if (Properties.ModbusServer_Enable)
-            {
-                try
-                {
-                    if (BuildModbusTCPServer(new frmModbusTCPServer()))
-                    {
-                        Utility.SystemLogger.Info($"ModbusTcp Server-0.0.0.0:{modbus_server.Port} is serving.", false);
-                        SyncModbusDataWorker();
-                    }
-                    else
-                    {
-                        Utility.SystemLogger.Warning($"ModbusTcp Server-0.0.0.0:{modbus_server.Port} build FAIL");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Utility.SystemLogger.Error(ex);
-                }
-            }
-        }
-
-        private void AGVSignals_OnValidSignalActive(object? sender, EventArgs e)
-        {
-            OnValidSignalActive?.Invoke(this, this);
-        }
 
         internal bool IsLoadHSRunning
         {
@@ -310,9 +242,74 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             }
 
         }
-        public bool L_REQ { get; set; } = false;
-        public bool U_REQ { get; set; } = false;
-        public bool EQ_READY { get; set; } = false;
+        private bool _L_REQ = false;
+        public bool L_REQ
+        {
+            get => _L_REQ;
+            set
+            {
+                if (_L_REQ != value)
+                {
+                    if (!value & !AGV_COMPT & AGV_VALID)
+                    {
+                        Utility.SystemLogger.Warning($"{PortName}->L_REQ OFF 但AGV_COMPT尚未ON!");
+                    }
+                    _L_REQ = value;
+
+                }
+            }
+        }
+        private bool _U_REQ = false;
+        public bool U_REQ
+        {
+            get => _U_REQ;
+            set
+            {
+                if (_U_REQ != value)
+                {
+                    if (!value & !AGV_COMPT & AGV_VALID)
+                    {
+                        Utility.SystemLogger.Warning($"{PortName}->U_REQ OFF 但AGV_COMPT尚未ON!");
+                    }
+                    _U_REQ = value;
+                }
+            }
+        }
+        private bool _EQ_READY = false;
+        public bool EQ_READY
+        {
+            get => _EQ_READY;
+            set
+            {
+                if (_EQ_READY != value)
+                {
+                    if (!value)
+                    {
+                        if (!AGV_COMPT & AGV_VALID)
+                        {
+                            Utility.SystemLogger.Warning($"{PortName}->L_REQ OFF 但AGV_COMPT尚未ON!");
+                        }
+                        Utility.SystemLogger.Info($"{PortName}->EQ_READY OFF => 交握結束");
+                        Task.Run(async () =>
+                        {
+                            PORT_Change_Out_CancelTokenSource = await RequestEQPortChangeToOUTPUT();
+                        });
+
+                    }
+                    else
+                    {
+                        Utility.SystemLogger.Info($"{PortName}->EQ_READY ON => EQ允許AGV侵入");
+
+                        if (PORT_Change_Out_CancelTokenSource != null && !PORT_Change_Out_CancelTokenSource.IsCancellationRequested)
+                        {
+                            PORT_Change_Out_CancelTokenSource.Cancel();
+                            Utility.SystemLogger.Warning($"{PortName}->Port Changed to OUTPUT Process Cancel Request raised");
+                        }
+                    }
+                    _EQ_READY = value;
+                }
+            }
+        }
         public bool UP_READY { get; set; } = false;
         public bool LOW_READY { get; set; } = false;
         public bool Manual_Load_Complete { get; set; } = false;
@@ -404,6 +401,177 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             }
         }
 
+
+        #region AGV交握訊號
+
+        private bool _AGV_VALID = false;
+        private bool _AGV_READY = false;
+        private bool _AGV_TR_REQ = false;
+        private bool _AGV_BUSY = false;
+        private bool _AGV_COMPT = false;
+        private bool _To_EQ_Up = false;
+        private bool _To_EQ_Low = false;
+        private bool _CMD_Reserve_Up = false;
+        private bool _CMD_Reserve_Low = false;
+
+        public bool AGV_VALID
+        {
+            get => _AGV_VALID;
+            set
+            {
+                if (_AGV_VALID != value)
+                {
+
+                    _AGV_VALID = value;
+                    LogAGVHandshakeSignalChange("AGV_VALID", value);
+                    if (value)
+                    {
+                        Utility.SystemLogger.Info($"{PortName}->AGV_VALID ON => AGV與設備交握 嘗試侵入設備");
+                    }
+                }
+            }
+        }
+
+        public bool AGV_READY
+        {
+            get => _AGV_READY;
+            set
+            {
+                if (_AGV_READY != value)
+                {
+                    _AGV_READY = value;
+                    LogAGVHandshakeSignalChange("AGV_READY", value);
+                }
+            }
+        }
+        public bool AGV_TR_REQ
+        {
+            get => _AGV_TR_REQ;
+            set
+            {
+                if (_AGV_TR_REQ != value)
+                {
+                    _AGV_TR_REQ = value;
+                    LogAGVHandshakeSignalChange("AGV_TR_REQ", value);
+                }
+            }
+        }
+        public bool AGV_BUSY
+        {
+            get => _AGV_BUSY;
+            set
+            {
+                if (_AGV_BUSY != value)
+                {
+                    _AGV_BUSY = value;
+                    LogAGVHandshakeSignalChange("AGV_BUSY", value);
+                }
+            }
+        }
+        public bool AGV_COMPT
+        {
+            get => _AGV_COMPT;
+            set
+            {
+                if (_AGV_COMPT != value)
+                {
+                    _AGV_COMPT = value;
+                    LogAGVHandshakeSignalChange("AGV_COMPT", value);
+                }
+            }
+        }
+
+        public bool To_EQ_UP
+        {
+            get => _To_EQ_Up;
+            set
+            {
+                if (_To_EQ_Up != value)
+                {
+                    _To_EQ_Up = value;
+                    LogAGVHandshakeSignalChange("To_EQ_UP", value);
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("To_EQ_UP"));
+                }
+            }
+        }
+
+        public bool To_EQ_Low
+        {
+            get => _To_EQ_Low;
+            set
+            {
+                if (_To_EQ_Low != value)
+                {
+                    _To_EQ_Low = value;
+                    LogAGVHandshakeSignalChange("To_EQ_Low", value);
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("To_EQ_Low"));
+                }
+            }
+        }
+
+        public bool CMD_Reserve_Up
+        {
+            get => _CMD_Reserve_Up;
+            set
+            {
+                if (_CMD_Reserve_Up != value)
+                {
+                    _CMD_Reserve_Up = value;
+                    LogAGVHandshakeSignalChange("CMD_Reserve_Up", value);
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("CMD_Reserve_Up"));
+                }
+            }
+        }
+
+        public bool CMD_Reserve_Low
+        {
+            get => _CMD_Reserve_Low;
+            set
+            {
+                if (_CMD_Reserve_Low != value)
+                {
+                    _CMD_Reserve_Low = value;
+                    LogAGVHandshakeSignalChange("CMD_Reserve_Low", value);
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("CMD_Reserve_Low"));
+
+                }
+            }
+        }
+
+        #endregion
+
+
+
+
+        public async void ModbusServerActive()
+        {
+            await Task.Delay(1);
+            if (Properties.ModbusServer_Enable)
+            {
+                try
+                {
+                    if (BuildModbusTCPServer(new frmModbusTCPServer()))
+                    {
+                        Utility.SystemLogger.Info($"ModbusTcp Server-0.0.0.0:{modbus_server.Port} is serving.", false);
+                        SyncModbusDataWorker();
+                    }
+                    else
+                    {
+                        Utility.SystemLogger.Warning($"ModbusTcp Server-0.0.0.0:{modbus_server.Port} build FAIL");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Utility.SystemLogger.Error(ex);
+                }
+            }
+        }
+
+        private void AGVSignals_OnValidSignalActive(object? sender, EventArgs e)
+        {
+            OnValidSignalActive?.Invoke(this, this);
+        }
+
         private void SetDUID(IEnumerable<clsConverterPort> portsHasSameID, out string thisPortDUID)
         {
             CSTIDOnPort = thisPortDUID = CreateDUID();
@@ -475,6 +643,45 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         }
 
+        private async void SECSState_OnMCSOnlineRemote(object? sender, EventArgs e)
+        {
+
+            if (!IsCarrierWaitInQueuing)
+            {
+                Utility.SystemLogger.Info($"SECS Online Remote_No Carrier Wait In ");
+                return;
+            }
+
+            //檢查在席
+            if (!PortExist)
+            {
+                Utility.SystemLogger.Info($"Carrier Wait In But Carrier Not Exist");
+                return;
+            }
+            //檢查ID
+            if (WIPINFO_BCR_ID == "" | IsBCR_READ_ERROR())
+            {
+                if (IsBCR_READ_ERROR())
+                    Utility.SystemLogger.Info($"Carrier Wait In and Carrier Exist But Carrier ID Is Empty");
+                else
+                    Utility.SystemLogger.Info($"Carrier Wait In and Carrier Exist But Carrier ID Read Fail");
+                return;
+            }
+
+            //檢查LOAD/UNLOAD REQUEST 訊號
+            if (!await WaitLoadUnloadRequestON())
+            {
+                Utility.SystemLogger.Info($"Carrier Wait In But UNLOAD REQUEST  OFF");
+                return;
+            }
+
+            Utility.SystemLogger.Info($"Carrier Wait In Report When ONLINE REMOTE. ");
+            bool ret = await SecsEventReport(CEID.CarrierWaitIn);
+            Utility.SystemLogger.Info($"Carrier Wait In Report When ONLINE REMOTE => {(ret ? "SUCCESS" : "FAIL")} ");
+            IsCarrierWaitInQueuing = false;
+
+        }
+
         internal async Task RemoveCarrier(string cst_id, bool checkPortType = true)
         {
             UpdateModbusBCRReport("", isClearBCR: true);
@@ -482,18 +689,19 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             Properties.CarrierInstallTime = DateTime.MinValue;
             DevicesManager.SaveDeviceConnectionOpts();
             Utility.SystemLogger.Info($"{PortName}-Remove Carrier_{cst_id}");
-            if (!checkPortType | EPortType == PortUnitType.Output)
-            {
-                if (!checkPortType)
-                    Utility.SystemLogger.Info($"Carrier removed Report to MCS without check PORTYPE");
+            //要上報MCS的條件 
+            //1. 在設定檔中有設定需要判斷OUTPUT 且當下為OUTPUT
+            //2. 在設定檔中有設定不需要判斷OUTPUT 
 
-                Utility.SystemLogger.Info($"Port Type Now = {EPortType}, Carrier removed Report to MCS");
-                bool remove_reported = await SecsEventReport(CEID.CarrierRemovedCompletedReport, cst_id + "");
-                Utility.SystemLogger.Info($"Port Type Now = {EPortType}, Carrier removed Report to MCS Result = {(remove_reported ? "Success" : "Fail")}");
-            }
-            else//20231101 MCS說AGV取走時為進系統的時候不用報Remove
+            if (checkPortType == false | (!Properties.RemoveCarrierMCSReportOnlyInOUTPUTMODE || (Properties.RemoveCarrierMCSReportOnlyInOUTPUTMODE & EPortType == PortUnitType.Output)))
             {
-                Utility.SystemLogger.Warning($"BCR ID Clear but Port Type ={previousPortType}, Carrier removed not REPORT to MCS");
+                Utility.SystemLogger.Info($"[{PortName}] Carrier removed Report to MCS Start");
+                bool remove_reported = await SecsEventReport(CEID.CarrierRemovedCompletedReport, cst_id + "");
+                Utility.SystemLogger.Info($"[{PortName}] Carrier removed Report to MCS Result = {(remove_reported ? "Success" : "Fail")}");
+            }
+            else
+            {
+                Utility.SystemLogger.Warning($"[{PortName}] BCR ID Clear but Port Type ={previousPortType}, Carrier removed not REPORT to MCS");
             }
         }
         internal async Task InstallCarrier(string cst_id)
@@ -558,7 +766,28 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             return id;
         }
 
-        public bool EQ_BUSY { get; internal set; }
+        private bool _EQ_BUSY = false;
+        public bool EQ_BUSY
+        {
+            get => _EQ_BUSY;
+            set
+            {
+                if (_EQ_BUSY != value)
+                {
+                    _EQ_BUSY = value;
+                    if (!_EQ_BUSY) //ON=>OFF
+                    {
+                        EQHandshakeInterLockMonitor();
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Port是否在交握中
+        /// </summary>
+        public bool IsEQHandshaking => (LoadRequest || UnloadRequest) && (L_REQ || U_REQ);
+        public bool IsAGVHandshaking => AGV_VALID && AGV_TR_REQ;
         public bool DoorOpened { get; internal set; }
         public bool TB_DOWN_POS { get; internal set; }
 
@@ -769,7 +998,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             clsPortChangeToOutState PortChgOutPoutCase = new clsPortChangeToOutState(SECSState.IsRemote, EPortType, EQParent.converterType, PortExist);
             if (!PortChgOutPoutCase.ChangeToOutputAllowed)
             {
-                Utility.SystemLogger.Warning($"[{PortName}] After AGV/EQ Handshake done, [PLC Port Type Change to OUTPUT] Process Cancel. State:\r\n{PortChgOutPoutCase.ToJson()}");
+                Utility.SystemLogger.Info($"[{PortName}] NOT NEED TO Change PORT TYPE to OUTPUT. \r\n-PortChgOutPoutCase:\r\n{PortChgOutPoutCase.ToJson()}");
                 return null;
             }
 
@@ -903,7 +1132,78 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             if (EPortType == PortUnitType.Output | (EPortType == PortUnitType.Input_Output && MCSReservePortType == PortUnitType.Output))
                 await SecsEventReport(CEID.PortTypeOutputReport);
         }
+        private bool _EQ_BUSY_CIM_CONTROL = false;
+        internal bool EQ_BUSY_CIM_CONTROL
+        {
+            get => _EQ_BUSY_CIM_CONTROL;
+            set
+            {
+                if (_EQ_BUSY_CIM_CONTROL != value)
+                {
+                    _EQ_BUSY_CIM_CONTROL = value;
+                    Utility.SystemLogger.Warning($"[{PortName}] EQ_BUSY_CIM_CONTROL => [{(value ? "ON" : "OFF")}]");
+                }
+            }
+        }
+        private bool _AGV_READY_WAITING_EQ_BUSYON_INTER_LOCKING = false;
+        internal bool AGV_READY_WAITING_EQ_BUSYON_INTER_LOCKING
+        {
+            get => _AGV_READY_WAITING_EQ_BUSYON_INTER_LOCKING;
+            set
+            {
+                if (_AGV_READY_WAITING_EQ_BUSYON_INTER_LOCKING != value)
+                {
+                    _AGV_READY_WAITING_EQ_BUSYON_INTER_LOCKING = value;
+                    Utility.SystemLogger.Warning($"[{PortName}] AGV_READY_WAITING_EQ_BUSYON_INTER_LOCKING => [{(value ? "ON" : "OFF")}]");
+                }
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        private void EQHandshakeInterLockMonitor()
+        {
+            if (!IsEQHandshaking || !IsAGVHandshaking)
+                return;
 
+            //監視EQ_BUSY OFF之後，AGV_READY 是否持續ON著等待EQ_BUSY ON
+            Task.Factory.StartNew(async () =>
+            {
+                CancellationTokenSource WaitAGV_READY_OFF = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+                while (true)
+                {
+                    await Task.Delay(10);
+                    if (!AGV_READY || !IsEQHandshaking || !IsAGVHandshaking)
+                    {
+                        return;
+                    }
 
+                    if (WaitAGV_READY_OFF.IsCancellationRequested)
+                    {
+                        EQ_BUSY_CIM_CONTROL = true;
+                        AGV_READY_WAITING_EQ_BUSYON_INTER_LOCKING = true;
+                        Utility.SystemLogger.Warning($"[{PortName}] 因AGV持續等待 EQ_BUSY ON , 但EQ_BUSY已經ON=>OFF，CIM介入");
+                        WaitingAGV_READY_OFF_Worker();
+                        return;
+                    }
+                }
+            });
+
+        }
+
+        private async void WaitingAGV_READY_OFF_Worker()
+        {
+            await Task.Factory.StartNew(async () =>
+            {
+                Utility.SystemLogger.Warning($"[{PortName}] CIM Handshaking with AGV Start. Waiting AGV_READY OFF..");
+                while (AGV_READY)
+                {
+                    await Task.Delay(10);
+                }
+                Utility.SystemLogger.Warning($"[{PortName}] AGV_READY OFF,OFF EQ_BUSY_CIM_CONTROL Bit");
+                EQ_BUSY_CIM_CONTROL = false;
+
+            });
+        }
     }
 }
