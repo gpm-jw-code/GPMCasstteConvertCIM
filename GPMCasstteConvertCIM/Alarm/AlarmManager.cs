@@ -15,6 +15,7 @@ namespace GPMCasstteConvertCIM.Alarm
         public static ConcurrentQueue<clsAlarmDto> AlarmsList { get; set; } = new ConcurrentQueue<clsAlarmDto>();
 
         public static event EventHandler<clsAlarmDto> onAlarmAdded;
+        public static event EventHandler onAlarmDBChanged;
 
         internal static void LoadNewestAlarmsFromDatabase(int count = 30)
         {
@@ -75,6 +76,7 @@ namespace GPMCasstteConvertCIM.Alarm
                     TryUpdate(newAalrm);
 
                 onAlarmAdded?.Invoke("", newAalrm);
+                onAlarmDBChanged("", EventArgs.Empty);
             }
             else
                 AddUndefinedAlarm(alarm_code, ALARM_LEVEL.ALARM, EQPName);
@@ -90,7 +92,6 @@ namespace GPMCasstteConvertCIM.Alarm
             {
                 alarmExist.Time = alarmDto.Time;
             }
-
         }
 
 

@@ -69,6 +69,8 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             labEQReadyBit.RenderBGColorByState(CstCVPort.EQ_READY, active_color);
             labBusyBit.RenderBGColorByState(CstCVPort.EQ_BUSY, active_color);
 
+            ChangeAGVActionText();
+
             labUpPosition.RenderBGColorByState(CstCVPort.LD_UP_POS, active_color);
             labDownPosition.RenderBGColorByState(CstCVPort.LD_DOWN_POS, active_color);
 
@@ -91,6 +93,26 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             labWaitIn.RenderBGColorByState(CstCVPort.CarrierWaitINSystemRequest, Color.Red);
             labWaitOut.RenderBGColorByState(CstCVPort.CarrierWaitOUTSystemRequest, Color.Red);
 
+        }
+
+        private void ChangeAGVActionText()
+        {
+
+            labAGVReadyToTransfer.Text = "";
+            labAGVReadyToTransfer.Visible = CstCVPort.CMD_Reserve_Low || CstCVPort.CMD_Reserve_Up || CstCVPort.AGV_VALID;
+
+            bool IsWaitingToHS = (CstCVPort.CMD_Reserve_Up || CstCVPort.CMD_Reserve_Low) && !CstCVPort.AGV_VALID;
+            if (IsWaitingToHS)
+            {
+                labAGVReadyToTransfer.Text = "AGV準備取放";
+                return;
+            }
+
+            if (CstCVPort.AGV_VALID)
+            {
+                labAGVReadyToTransfer.Text = "AGV交握中..";
+                return;
+            }
         }
 
         private void label2_Click(object sender, EventArgs e)

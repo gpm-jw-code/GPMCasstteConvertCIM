@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-	<AssemblyVersion>11.16.64</AssemblyVersion>
+	<AssemblyVersion>11.30.8</AssemblyVersion>
     <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
     <FileVersion>11.1.1</FileVersion>
     <ApplicationIcon>cimico.ico</ApplicationIcon>
@@ -118,9 +118,17 @@
     </None>
   </ItemGroup>
 	<Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-		<!--<Exec Command="powershell.exe -ExecutionPolicy Bypass -File &quot;AutoVersionModify.ps1&quot;" />-->
+		<Exec Command="powershell.exe -ExecutionPolicy Bypass -File &quot;AutoVersionModify.ps1&quot;" />
 	</Target>
 </Project>
+
+
+
+
+
+
+
+
 
 
 

@@ -8,7 +8,7 @@ namespace GPMCasstteConvertCIM
     public class DBhelper
     {
         private static SQLiteConnection db;
-
+        public static string DBFileName { get; private set; } = "";
         public static void Initialize(string dbName = "GPM_AGVS_CIM_Alarms")
         {
             try
@@ -16,6 +16,7 @@ namespace GPMCasstteConvertCIM
                 var databasePath = Path.Combine(Environment.CurrentDirectory, $"{dbName}.db");
                 db = new SQLiteConnection(databasePath);
                 db.CreateTable<clsAlarmDto>();
+                DBFileName= databasePath;
             }
             catch (System.Exception ex)
             {

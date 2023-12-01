@@ -275,11 +275,11 @@
             // 
             uscConverterPortStatus1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             uscConverterPortStatus1.AutoScroll = true;
-            uscConverterPortStatus1.BackColor = Color.FromArgb(51, 51, 51);
-            uscConverterPortStatus1.BorderStyle = BorderStyle.FixedSingle;
+            uscConverterPortStatus1.BackColor = Color.DarkSlateGray;
+            uscConverterPortStatus1.BorderStyle = BorderStyle.Fixed3D;
             uscConverterPortStatus1.CstCVPort = null;
             uscConverterPortStatus1.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            uscConverterPortStatus1.ForeColor = Color.DarkOrange;
+            uscConverterPortStatus1.ForeColor = Color.White;
             uscConverterPortStatus1.Location = new Point(8, 39);
             uscConverterPortStatus1.Name = "uscConverterPortStatus1";
             uscConverterPortStatus1.Size = new Size(479, 353);
@@ -289,11 +289,11 @@
             // 
             uscConverterPortStatus2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             uscConverterPortStatus2.AutoScroll = true;
-            uscConverterPortStatus2.BackColor = Color.FromArgb(51, 51, 51);
-            uscConverterPortStatus2.BorderStyle = BorderStyle.FixedSingle;
+            uscConverterPortStatus2.BackColor = Color.DarkSlateGray;
+            uscConverterPortStatus2.BorderStyle = BorderStyle.Fixed3D;
             uscConverterPortStatus2.CstCVPort = null;
             uscConverterPortStatus2.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            uscConverterPortStatus2.ForeColor = Color.DarkOrange;
+            uscConverterPortStatus2.ForeColor = Color.White;
             uscConverterPortStatus2.Location = new Point(497, 39);
             uscConverterPortStatus2.Name = "uscConverterPortStatus2";
             uscConverterPortStatus2.Size = new Size(479, 353);
@@ -381,7 +381,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             AutoScroll = true;
             AutoSize = true;
-            BackColor = SystemColors.WindowText;
+            BackColor = Color.FromArgb(64, 64, 64);
             Controls.Add(panel1);
             Controls.Add(pnlBanner);
             Controls.Add(uscConverterPortStatus2);

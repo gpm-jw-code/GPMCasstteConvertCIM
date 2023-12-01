@@ -143,7 +143,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             {
                 if (cst.IsCancellationRequested)
                 {
-                    Utility.SystemLogger.Info($"Carrier Remove Completed HS Fail-> EQ Timeout");
+                    Utility.SystemLogger.Info($"[{PortName}] Carrier Remove Completed HS Fail-> EQ Timeout");
                     AlarmManager.AddWarning(ALARM_CODES.CarrierRemovedCompolete_HS_EQ_Timeout, PortName);
                     break;
                 }
@@ -152,7 +152,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             CIMMemoryTable.WriteOneBit(carrier_removed_com_reply_address, false);
             Utility.SystemLogger.Info($"[{PortName}] Carrier Remove Completed HS Finish");
 
-            Utility.SystemLogger.Info($"{PortName}-Carrier Remove Completed HS Completed!");
+            Utility.SystemLogger.Info($"[{PortName}] -Carrier Remove Completed HS Completed!");
 
         }
 
@@ -167,13 +167,13 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             {
                 CIMMemoryTable.WriteOneBit(carrier_wait_out_reply_address, true);
 
-                Utility.SystemLogger.Info($"Carrier Wait Out HS Start_ {carrier_wait_out_reply_address} ON");
+                Utility.SystemLogger.Info($"[{PortName}] Carrier Wait Out HS Start_ {carrier_wait_out_reply_address} ON");
                 CancellationTokenSource cst = new CancellationTokenSource(TimeSpan.FromMilliseconds(EQ_T_timeout));
                 while (CarrierWaitOUTSystemRequest)
                 {
                     if (cst.IsCancellationRequested)
                     {
-                        Utility.SystemLogger.Info($"Carrier Wait Out HS => EQ Timeout");
+                        Utility.SystemLogger.Info($"[{PortName}] Carrier Wait Out HS => EQ Timeout");
                         AlarmManager.AddWarning(ALARM_CODES.CarrierWaitOut_HS_EQ_Timeout, Properties.PortID);
                         break;
                     }
@@ -181,7 +181,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 }
                 CIMMemoryTable.WriteOneBit(carrier_wait_out_reply_address, false);
 
-                Utility.SystemLogger.Info($"Carrier Wait Out HS Done");
+                Utility.SystemLogger.Info($"[{PortName}] Carrier Wait Out HS Done");
 
                 return true;
             }
@@ -241,7 +241,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             }
             else if (_portType == PortUnitType.Output)
             {
-                Utility.SystemLogger.Info($"Carrier Wait In HS Failed");
+                Utility.SystemLogger.Info($"[{PortName}] Carrier Wait In HS Failed");
             }
 
             return (!timeout, timeout ? ALARM_CODES.CarrierWaitIn_HS_EQ_Timeout : ALARM_CODES.None);
