@@ -123,11 +123,14 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             {
                 while (true)
                 {
-                    await Task.Delay(100);
+                    await Task.Delay(50);
                     SyncEQHoldingRegistersWorker();
+                    await Task.Delay(50);
                     SyncAGVSHoldingRegistersWorker();
-                    SyncAGVSInputsWorker();
+                    await Task.Delay(50);
                     SyncAGVSCoilsDataWorker();
+                    await Task.Delay(100);
+                    SyncAGVSInputsWorker();
 
                 }
             });
@@ -188,7 +191,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 }
                 catch (Exception ex)
                 {
-                    Utility.SystemLogger.Error($"SyncAGVSHoldingRegistersWorker Error Occur {item.Address}_Holding Regist[{item.Link_Modbus_Register_Number}]", ex);
+                    Utility.SystemLogger.Error($"[{PortName}] SyncAGVSHoldingRegistersWorker Error Occur {item.Address}_Holding Regist[{item.Link_Modbus_Register_Number}]", ex);
                 }
             }
         }
@@ -204,7 +207,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 }
                 catch (Exception ex)
                 {
-                    Utility.SystemLogger.Error($"SyncEQHoldingRegistersWorker Error Occur {item.Address}_Holding Regist[{item.Link_Modbus_Register_Number}]", ex);
+                    Utility.SystemLogger.Error($"[{PortName}] SyncEQHoldingRegistersWorker Error Occur {item.Address}_Holding Regist[{item.Link_Modbus_Register_Number}]", ex);
                 }
             }
         }
@@ -217,16 +220,25 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 {
                     var mRindex = item.Link_Modbus_Register_Number;
                     bool bolState = EQParent.EQPMemOptions.memoryTable.ReadOneBit(item.Address);
+
+                    if (item.EProperty == Enums.PROPERTY.EQ_BUSY && AGV_READY_WAITING_EQ_BUSYON_INTER_LOCKING)
+                    {
+                        bolState = EQ_BUSY_CIM_CONTROL;
+                        if (!EQ_BUSY_CIM_CONTROL && !AGV_READY)
+                        {
+                            AGV_READY_WAITING_EQ_BUSYON_INTER_LOCKING = false;
+                        }
+                    }
+
                     modbus_server.discreteInputs.localArray[mRindex] = bolState;
                     if (modbus_server.discreteInputs.localArray[mRindex] != bolState)
                     {
-                        Utility.SystemLogger.Warning($"SyncAGVSInputsWorker- {item.Address} sync to Inputs[{mRindex}] fail.");
-
+                        Utility.SystemLogger.Warning($"[{PortName}] SyncAGVSInputsWorker- {item.Address} sync to Inputs[{mRindex}] fail.");
                     }
                 }
                 catch (Exception ex)
                 {
-                    Utility.SystemLogger.Error($"SyncAGVSInputsWorker Error Occur {item.Address}", ex);
+                    Utility.SystemLogger.Error($"[{PortName}] SyncAGVSInputsWorker Error Occur {item.Address}", ex);
                 }
             }
         }
@@ -247,7 +259,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 }
                 catch (Exception ex)
                 {
-                    Utility.SystemLogger.Error($"SyncAGVSCoilsDataWorker Error Occur {item.Address}_localCoilsAry[{register_num}]", ex);
+                    Utility.SystemLogger.Error($"[{PortName}] SyncAGVSCoilsDataWorker Error Occur {item.Address}_localCoilsAry[{register_num}]", ex);
                 }
             }
         }
