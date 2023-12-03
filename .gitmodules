@@ -1,5 +1,5 @@
 [submodule "AGVSystemCommonNet6/AGVSystemCommonNet6"]
-	path = AGVSystemCommonNet6/AGVSystemCommonNet6
+	path = AGVSystemCommonNet6
 	url = https://github.com/gpmagvs/AGVSystemCommonNet6.git
 [submodule "RosBridgeClient"]
 	path = RosBridgeClient

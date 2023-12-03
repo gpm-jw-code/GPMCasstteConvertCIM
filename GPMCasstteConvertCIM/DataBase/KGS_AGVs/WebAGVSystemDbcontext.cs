@@ -11,8 +11,7 @@ public partial class WebAGVSystemDbcontext : DbContext
         : base(options)
     {
     }
-        public virtual DbSet<AGVInfo> AGVInfos { get; set; }
-        public virtual DbSet<AGVInfo> AGVInfos { get; set; }
+    public virtual DbSet<AGVInfo> AGVInfos { get; set; }
 
     public virtual DbSet<AGVRemoteSetting> AGVRemoteSettings { get; set; }
 
