@@ -42,6 +42,9 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             public DateTime CarrierInstallTime { get; set; } = DateTime.MinValue;
             public bool CarrierWaitInNeedWaitingS2F41OrS2F49 { get; set; } = false;
 
+            public bool AutoChangeToOUTPUTWhenAGVLoadedInOFFLineMode {  get; set; } = true;
+
+            public bool RemoveCarrierMCSReportOnlyInOUTPUTMODE { get; set; } = false;
         }
 
     }

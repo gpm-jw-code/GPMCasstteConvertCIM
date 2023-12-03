@@ -1,11 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-	<AssemblyVersion>11.16.64</AssemblyVersion>
+	<AssemblyVersion>11.30.17</AssemblyVersion>
     <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
     <FileVersion>11.1.1</FileVersion>
     <ApplicationIcon>cimico.ico</ApplicationIcon>
@@ -44,6 +44,7 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.FileProviders.Physical" Version="7.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="NModbus4.Core" Version="1.0.2" />
     <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
     <PackageReference Include="System.IO.Ports" Version="7.0.0" />
@@ -121,6 +122,16 @@
 		<!--<Exec Command="powershell.exe -ExecutionPolicy Bypass -File &quot;AutoVersionModify.ps1&quot;" />-->
 	</Target>
 </Project>
+
+
+
+
+
+
+
+
+
+
 
 
 

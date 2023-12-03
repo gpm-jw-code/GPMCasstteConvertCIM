@@ -152,7 +152,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         protected async void EQPInterfaceClockMonitor()
         {
-            await Task.Delay(4000);
             _ = Task.Factory.StartNew(async () =>
             {
                 int lastInterfaceClock = -1;
@@ -409,7 +408,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 {
                     try
                     {
-                        Thread.Sleep(10);
+                        await Task.Delay(50);
                         if (_connectionState != Common.CONNECTION_STATE.CONNECTED)
                         {
                             continue;
@@ -465,17 +464,20 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                         }
                         catch (SocketException ex)
                         {
+                            Utility.SystemLogger.Error(ex);
                             _connectionState = Common.CONNECTION_STATE.DISCONNECTED;
                             RetryConnectAsync();
                         }
                         catch (Exception ex)
                         {
+                            Utility.SystemLogger.Error(ex);
                             continue;
                         }
 
                     }
                     catch (Exception ex)
                     {
+                        Utility.SystemLogger.Error(ex);
                     }
 
                 }

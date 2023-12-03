@@ -46,6 +46,7 @@ namespace GPMCasstteConvertCIM.Utilities
         internal static LOG_TIME_UNIT logTimeUnit = LOG_TIME_UNIT.ByHour;
         internal string saveFolder { get; set; } = "";
         public string FileNameHeaderDisplay { get; internal set; } = "";
+        public string currentLogFolder { get; private set; }
 
         private string subFolderName;
 
@@ -218,11 +219,19 @@ namespace GPMCasstteConvertCIM.Utilities
                          folder = Path.Combine(folder, logItem.sub_folder_name);
                          if (!Directory.Exists(folder))
                              Directory.CreateDirectory(folder);
+                         currentLogFolder = folder;
                          string log_file = Path.Combine(folder, $"{FileNameHeaderDisplay}{DateTime.Now.ToString(FileTimeFormat)}.log");
+                         string writeLine = $"{logItem.time.ToString("yyyy/MM/dd HH:mm:ss.ffff")} [{logItem.level}] {logItem.msg}";
                          using (StreamWriter sw = new StreamWriter(log_file, true))
                          {
-                             sw.WriteLine($"{logItem.time.ToString("yyyy/MM/dd HH:mm:ss.ffff")} [{logItem.level}] {logItem.msg}");
+                             sw.WriteLine(writeLine);
                          }
+                         if(logItem.level!= LOG_LEVEL.INFO) {
+                             string Warn_Error_log_file = Path.Combine(folder, $"{FileNameHeaderDisplay}{DateTime.Now.ToString(FileTimeFormat)}_{logItem.level}.log");
+                             using StreamWriter writer = new StreamWriter(Warn_Error_log_file,true);
+                             writer.WriteLine(writeLine);
+                         }
+
                      }
                      catch (Exception ex)
                      {
