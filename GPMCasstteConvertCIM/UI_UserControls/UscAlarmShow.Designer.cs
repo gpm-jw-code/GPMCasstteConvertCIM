@@ -249,7 +249,7 @@
             btnAlarmReset.TabIndex = 6;
             btnAlarmReset.Text = "異常復歸";
             btnAlarmReset.UseVisualStyleBackColor = false;
-            btnAlarmReset.Visible = false;
+            btnAlarmReset.Visible = true;
             btnAlarmReset.Click += btnAlarmReset_Click;
             // 
             // labAlarmCount
