@@ -21,7 +21,6 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 using static GPMCasstteConvertCIM.Utilities.StaUsersManager;
 using static Secs4Net.Item;
-using GPMCasstteConvertCIM.AlarmDevice;
 namespace GPMCasstteConvertCIM.Forms
 {
     public partial class frmMain : Form
@@ -616,12 +615,6 @@ namespace GPMCasstteConvertCIM.Forms
 
             txbRegionNameEditInput.Visible = btnRegionNameEditedConfirm.Visible = btnCancelRegionNameEdit.Visible = false;
             labRegionName.Visible = true;
-        }
-
-        private void btnMusicStop_Click(object sender, EventArgs e)
-        {
-            clsAgvsAlarmDevice clsAgvsAlarmDevice = new clsAgvsAlarmDevice();
-            clsAgvsAlarmDevice.MusicStop();
         }
     }
 }
