@@ -21,6 +21,10 @@ namespace GPMCasstteConvertCIM.Utilities.SysConfigs
         public int TUNFlowNumberUsed { get; set; } = 1;
         public int DUFlowNumberUsed { get; set; } = 1;
 
+        public bool CIMHandshakingWithAGVWhenAGV_READY_EQ_BUSY_Waiting_interlock { get; set; } = true;
+
+        public bool AGVPingMonitor { get; set; } = true;
+
         [JsonConverter(typeof(StringEnumConverter))]
         public PROJECT Project { get; set; }
         public string RegionName { get; set; } = "UMTC";

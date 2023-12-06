@@ -86,6 +86,7 @@ namespace GPMCasstteConvertCIM.Alarm
         Cannot_InstallCompleteReport_When_CST_Not_Exist,
         PortTypeChangedReport_HS_EQ_Timeout,
         PLC_IF_READ_FAIL,
-        PLC_IF_WRITE_FAIL
+        PLC_IF_WRITE_FAIL,
+        AGV_PING_FAIL
     }
 }

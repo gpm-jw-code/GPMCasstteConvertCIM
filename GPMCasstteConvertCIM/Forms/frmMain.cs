@@ -122,6 +122,8 @@ namespace GPMCasstteConvertCIM.Forms
                     systemAPI.Start();
                     EqDIOAPIService.Start();
                     AgvsDBAPIService.Start();
+                    if (Utility.SysConfigs.AGVPingMonitor)
+                        AGVMonitor.Start();
                     WebsocketMiddleware.ServerBuild();
                     uscAlarmTable1.BindData(AlarmManager.AlarmsList.ToList());
 

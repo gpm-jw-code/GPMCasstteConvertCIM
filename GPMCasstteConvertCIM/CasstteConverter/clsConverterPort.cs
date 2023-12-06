@@ -775,7 +775,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 if (_EQ_BUSY != value)
                 {
                     _EQ_BUSY = value;
-                    if (!_EQ_BUSY) //ON=>OFF
+                    if (!_EQ_BUSY && Utility.SysConfigs.CIMHandshakingWithAGVWhenAGV_READY_EQ_BUSY_Waiting_interlock) //ON=>OFF
                     {
                         EQHandshakeInterLockMonitor();
                     }

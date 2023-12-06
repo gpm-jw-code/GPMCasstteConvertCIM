@@ -165,7 +165,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 {
                     modbus_server.modbus_client_checker.Disconnect();
                     connected = false;
-                    logger.Trace($"[{PortName}_Modbus Inputs Check:Port={modbus_server.Port}] Server Read Fail...Close Connection:{ex.Message}", PortName);
+                    logger?.Trace($"[{PortName}_Modbus Inputs Check:Port={modbus_server.Port}] Server Read Fail...Close Connection:{ex.Message}", PortName);
                     return;
                 }
                 for (int i = 0; i < _inputs.Length; i++)
@@ -173,7 +173,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     var plc_address = EQModbusLinkBitAddress.FirstOrDefault(add => add.Link_Modbus_Register_Number == i + 1);
                     if (inputs[i] != _inputs[i])
                     {
-                        logger.Trace($"[{PortName}_Modbus Inputs Check:Port={modbus_server.Port}]-Input[{i}]_({plc_address?.EProperty}) change to [{_inputs[i]}]", PortName);
+                        logger?.Trace($"[{PortName}_Modbus Inputs Check:Port={modbus_server.Port}]-Input[{i}]_({plc_address?.EProperty}) change to [{_inputs[i]}]", PortName);
                     }
                 }
                 inputs = _inputs;

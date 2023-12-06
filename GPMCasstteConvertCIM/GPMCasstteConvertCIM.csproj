@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-	<AssemblyVersion>11.30.17</AssemblyVersion>
+	<AssemblyVersion>12.06.2</AssemblyVersion>
     <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
     <FileVersion>11.1.1</FileVersion>
     <ApplicationIcon>cimico.ico</ApplicationIcon>
