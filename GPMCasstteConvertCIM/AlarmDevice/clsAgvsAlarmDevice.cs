@@ -19,6 +19,7 @@ namespace GPMCasstteConvertCIM.AlarmDevice
         bool[] outputs = new bool[8];
         string IPaddress => clsModbusDeviceConfigscls.IP_Address;
         int Port => clsModbusDeviceConfigscls.port;
+        bool IsDioCon;
 
         internal void Initialize()
         {
@@ -39,6 +40,36 @@ namespace GPMCasstteConvertCIM.AlarmDevice
         internal void GetstopMusic() 
         {
             modbusMaster.ReadInputsAsync(0,8);
+        }
+        internal async void Conn()
+        {
+            do
+            {
+                using (TcpClient client = new TcpClient())
+                {
+                    try
+                    {
+                        client.Connect(IPaddress, Port);
+
+                        if (client.Connected)
+                        {
+                            IsDioCon = true;
+                        }
+                        else
+                        {
+                            IsDioCon = false;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                        IsDioCon = false;
+                        break;
+                    }
+                    return;
+                }
+            }
+            while(true);
         }
     }
 }
