@@ -69,15 +69,32 @@ namespace GPMCasstteConvertCIM.Forms
             }
         }
 
+        byte[] last_server_sendout_bytes = new byte[10];
         private void _ModbusTCPServer_OnTCPDataSend(object? sender, byte[] e)
         {
-            WriteLog(string.Format("{0} Server-->Client (FC{1}){2}", DateTime.Now, e[7], string.Join(" ", e.Select(b => b.ToString("X2")))), Color.LightBlue);
+            var send_out = new byte[10];
+            Array.Copy(e, 2, send_out, 0, 10);
+            if (!last_server_sendout_bytes.SequenceEqual(send_out))
+            {
+                WriteLog(string.Format("{0} Server-->Client (FC{1}){2}", DateTime.Now, e[7], string.Join(" ", e.Select(b => b.ToString("X2")))), Color.LightBlue);
+            }
+            last_server_sendout_bytes = send_out;
         }
         private DateTime lastCoilsWriteTime = DateTime.MinValue;
+
+
+        byte[] last_client_req_bytes = new byte[10];
         private void _ModbusTCPServer_OnMessageReceieved(object? sender, NetworkConnectionParameter e)
         {
-            lastCoilsWriteTime = DateTime.Now;
-            WriteLog(string.Format("{0} Server<--Client (FC{1}){2}", DateTime.Now, e.bytes[7], string.Join(" ", e.bytes.Select(b => b.ToString("X2")))), Color.Orange);
+            //e.bytes= [10 4F 00 00 00 06 01 02 00 00 00 20]
+            var modubs_req_bytes = new byte[10];
+            Array.Copy(e.bytes, 2, modubs_req_bytes, 0, 10);
+            if (!last_client_req_bytes.SequenceEqual(modubs_req_bytes))
+            {
+                lastCoilsWriteTime = DateTime.Now;
+                WriteLog(string.Format("{0} Server<--Client (FC{1}){2}", DateTime.Now, e.bytes[7], string.Join(" ", e.bytes.Select(b => b.ToString("X2")))), Color.Orange);
+            }
+            last_client_req_bytes = modubs_req_bytes;
         }
         private delegate void WriteLogDelagate(string msg, Color foreColor);
         private void WriteLog(string msg, Color foreColor)
@@ -90,11 +107,15 @@ namespace GPMCasstteConvertCIM.Forms
             }
             if (InvokeRequired)
             {
+                if (checkBox1.Checked)
+                    return;
                 WriteLogDelagate del = new WriteLogDelagate(WriteLog);
                 Invoke(del, msg, foreColor);
             }
             else
             {
+                if (checkBox1.Checked)
+                    return;
                 if (richTextBox1.Text.Length > 16384)
                 {
                     richTextBox1.ResetText();
@@ -224,6 +245,11 @@ namespace GPMCasstteConvertCIM.Forms
         private void toolStripStatusLabel1_Click(object sender, EventArgs e)
         {
             developDropDownBtn.Visible = !developDropDownBtn.Visible;
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            checkBox1.Text = checkBox1.Checked ? "繼續" : "暫停";
         }
     }
 }

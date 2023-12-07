@@ -44,13 +44,13 @@
             btnDown = new Button();
             btnIDLE = new Button();
             btnRun = new Button();
-            uscConverterPortStatus1 = new UscConverterPortStatus();
             uscConverterPortStatus2 = new UscConverterPortStatus();
             btnSoftwareEMO = new Button();
             btnAlarmReset = new Button();
             panel1 = new Panel();
             label1 = new Label();
             labInterfaceClock = new Label();
+            uscConverterPortStatus1 = new UscConverterPortStatus();
             pnlBanner.SuspendLayout();
             pnlEqNameEdit.SuspendLayout();
             panel1.SuspendLayout();
@@ -83,7 +83,7 @@
             labNameDisplay.Location = new Point(0, 0);
             labNameDisplay.Margin = new Padding(0);
             labNameDisplay.Name = "labNameDisplay";
-            labNameDisplay.Size = new Size(1096, 30);
+            labNameDisplay.Size = new Size(1138, 30);
             labNameDisplay.TabIndex = 26;
             labNameDisplay.Text = "轉換架 # 1";
             labNameDisplay.TextAlign = ContentAlignment.MiddleLeft;
@@ -100,7 +100,7 @@
             pnlBanner.Location = new Point(0, 0);
             pnlBanner.Margin = new Padding(0);
             pnlBanner.Name = "pnlBanner";
-            pnlBanner.Size = new Size(1100, 34);
+            pnlBanner.Size = new Size(1142, 34);
             pnlBanner.TabIndex = 29;
             // 
             // pnlEqNameEdit
@@ -201,7 +201,7 @@
             labPLCConnectState.Dock = DockStyle.Right;
             labPLCConnectState.Font = new Font("Microsoft JhengHei UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
             labPLCConnectState.ForeColor = Color.Snow;
-            labPLCConnectState.Location = new Point(815, 0);
+            labPLCConnectState.Location = new Point(857, 0);
             labPLCConnectState.Margin = new Padding(0);
             labPLCConnectState.Name = "labPLCConnectState";
             labPLCConnectState.Padding = new Padding(0, 4, 0, 0);
@@ -217,7 +217,7 @@
             labPLCMCAddress.Dock = DockStyle.Right;
             labPLCMCAddress.Font = new Font("Microsoft JhengHei UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
             labPLCMCAddress.ForeColor = Color.Wheat;
-            labPLCMCAddress.Location = new Point(936, 0);
+            labPLCMCAddress.Location = new Point(978, 0);
             labPLCMCAddress.Margin = new Padding(0);
             labPLCMCAddress.Name = "labPLCMCAddress";
             labPLCMCAddress.Padding = new Padding(0, 6, 0, 0);
@@ -234,7 +234,7 @@
             btnDown.FlatStyle = FlatStyle.Flat;
             btnDown.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
             btnDown.ForeColor = Color.White;
-            btnDown.Location = new Point(1, 329);
+            btnDown.Location = new Point(1, 322);
             btnDown.Name = "btnDown";
             btnDown.Size = new Size(103, 28);
             btnDown.TabIndex = 29;
@@ -249,7 +249,7 @@
             btnIDLE.FlatStyle = FlatStyle.Flat;
             btnIDLE.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
             btnIDLE.ForeColor = Color.White;
-            btnIDLE.Location = new Point(1, 300);
+            btnIDLE.Location = new Point(1, 293);
             btnIDLE.Name = "btnIDLE";
             btnIDLE.Size = new Size(103, 28);
             btnIDLE.TabIndex = 28;
@@ -264,26 +264,12 @@
             btnRun.FlatStyle = FlatStyle.Flat;
             btnRun.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
             btnRun.ForeColor = Color.White;
-            btnRun.Location = new Point(1, 271);
+            btnRun.Location = new Point(1, 264);
             btnRun.Name = "btnRun";
             btnRun.Size = new Size(103, 28);
             btnRun.TabIndex = 27;
             btnRun.Text = "RUN";
             btnRun.UseVisualStyleBackColor = false;
-            // 
-            // uscConverterPortStatus1
-            // 
-            uscConverterPortStatus1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
-            uscConverterPortStatus1.AutoScroll = true;
-            uscConverterPortStatus1.BackColor = Color.DarkSlateGray;
-            uscConverterPortStatus1.BorderStyle = BorderStyle.Fixed3D;
-            uscConverterPortStatus1.CstCVPort = null;
-            uscConverterPortStatus1.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            uscConverterPortStatus1.ForeColor = Color.White;
-            uscConverterPortStatus1.Location = new Point(8, 39);
-            uscConverterPortStatus1.Name = "uscConverterPortStatus1";
-            uscConverterPortStatus1.Size = new Size(479, 353);
-            uscConverterPortStatus1.TabIndex = 27;
             // 
             // uscConverterPortStatus2
             // 
@@ -296,7 +282,7 @@
             uscConverterPortStatus2.ForeColor = Color.White;
             uscConverterPortStatus2.Location = new Point(497, 39);
             uscConverterPortStatus2.Name = "uscConverterPortStatus2";
-            uscConverterPortStatus2.Size = new Size(479, 353);
+            uscConverterPortStatus2.Size = new Size(479, 346);
             uscConverterPortStatus2.TabIndex = 28;
             // 
             // btnSoftwareEMO
@@ -339,10 +325,10 @@
             panel1.Controls.Add(btnIDLE);
             panel1.Controls.Add(btnRun);
             panel1.Dock = DockStyle.Right;
-            panel1.Location = new Point(993, 34);
+            panel1.Location = new Point(1035, 34);
             panel1.Margin = new Padding(0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(107, 363);
+            panel1.Size = new Size(107, 356);
             panel1.TabIndex = 32;
             // 
             // label1
@@ -352,7 +338,7 @@
             label1.BackColor = Color.Transparent;
             label1.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             label1.ForeColor = Color.Silver;
-            label1.Location = new Point(0, 211);
+            label1.Location = new Point(0, 204);
             label1.Margin = new Padding(0);
             label1.Name = "label1";
             label1.Padding = new Padding(0, 6, 0, 0);
@@ -368,12 +354,26 @@
             labInterfaceClock.BorderStyle = BorderStyle.Fixed3D;
             labInterfaceClock.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
             labInterfaceClock.ForeColor = Color.White;
-            labInterfaceClock.Location = new Point(1, 232);
+            labInterfaceClock.Location = new Point(1, 225);
             labInterfaceClock.Name = "labInterfaceClock";
             labInterfaceClock.Size = new Size(103, 29);
             labInterfaceClock.TabIndex = 32;
             labInterfaceClock.Text = "-1";
             labInterfaceClock.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // uscConverterPortStatus1
+            // 
+            uscConverterPortStatus1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
+            uscConverterPortStatus1.AutoScroll = true;
+            uscConverterPortStatus1.BackColor = Color.DarkSlateGray;
+            uscConverterPortStatus1.BorderStyle = BorderStyle.Fixed3D;
+            uscConverterPortStatus1.CstCVPort = null;
+            uscConverterPortStatus1.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            uscConverterPortStatus1.ForeColor = Color.White;
+            uscConverterPortStatus1.Location = new Point(8, 39);
+            uscConverterPortStatus1.Name = "uscConverterPortStatus1";
+            uscConverterPortStatus1.Size = new Size(479, 346);
+            uscConverterPortStatus1.TabIndex = 27;
             // 
             // UscCasstteConverter
             // 
@@ -388,7 +388,7 @@
             Controls.Add(uscConverterPortStatus1);
             ForeColor = Color.DarkKhaki;
             Name = "UscCasstteConverter";
-            Size = new Size(1100, 397);
+            Size = new Size(1142, 390);
             Load += UscCasstteConverter_Load;
             pnlBanner.ResumeLayout(false);
             pnlEqNameEdit.ResumeLayout(false);
@@ -408,7 +408,6 @@
         private Button btnRun;
         private Label labPLCConnectState;
         private Label labPLCMCAddress;
-        private UscConverterPortStatus uscConverterPortStatus1;
         private UscConverterPortStatus uscConverterPortStatus2;
         private Button btnSoftwareEMO;
         private Button btnAlarmReset;
@@ -421,5 +420,6 @@
         private Button button5;
         private Button button6;
         private Label label1;
+        private UscConverterPortStatus uscConverterPortStatus1;
     }
 }

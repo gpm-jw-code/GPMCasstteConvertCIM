@@ -222,6 +222,7 @@
             tlpConverterContainer.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tlpConverterContainer.Controls.Add(tlpSingleConvertsContainer, 0, 0);
             tlpConverterContainer.Dock = DockStyle.Fill;
+            tlpConverterContainer.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             tlpConverterContainer.Location = new Point(0, 0);
             tlpConverterContainer.Name = "tlpConverterContainer";
             tlpConverterContainer.RowCount = 2;
@@ -239,6 +240,7 @@
             tlpSingleConvertsContainer.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tlpSingleConvertsContainer.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tlpSingleConvertsContainer.Dock = DockStyle.Fill;
+            tlpSingleConvertsContainer.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             tlpSingleConvertsContainer.GrowStyle = TableLayoutPanelGrowStyle.AddColumns;
             tlpSingleConvertsContainer.Location = new Point(4, 4);
             tlpSingleConvertsContainer.Name = "tlpSingleConvertsContainer";

@@ -48,6 +48,8 @@
             closeServerToolStripMenuItem = new ToolStripMenuItem();
             statusStrip1 = new StatusStrip();
             toolStripStatusLabel1 = new ToolStripStatusLabel();
+            toolStripStatusLabel3 = new ToolStripStatusLabel();
+            labLastClientRequestTime = new ToolStripStatusLabel();
             splitContainer1 = new SplitContainer();
             tableLayoutPanel1 = new TableLayoutPanel();
             label6 = new Label();
@@ -70,9 +72,8 @@
             dataGridViewCheckBoxColumn1 = new DataGridViewCheckBoxColumn();
             dataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
             groupBox1 = new GroupBox();
+            checkBox1 = new CheckBox();
             richTextBox1 = new RichTextBox();
-            labLastClientRequestTime = new ToolStripStatusLabel();
-            toolStripStatusLabel3 = new ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)registerBindingSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)digitalIORegisterBindingSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)coilRegisterBindingSource).BeginInit();
@@ -190,6 +191,18 @@
             toolStripStatusLabel1.Size = new Size(82, 17);
             toolStripStatusLabel1.Text = "127.0.0.1:503";
             toolStripStatusLabel1.Click += toolStripStatusLabel1_Click;
+            // 
+            // toolStripStatusLabel3
+            // 
+            toolStripStatusLabel3.Name = "toolStripStatusLabel3";
+            toolStripStatusLabel3.Size = new Size(1047, 17);
+            toolStripStatusLabel3.Spring = true;
+            // 
+            // labLastClientRequestTime
+            // 
+            labLastClientRequestTime.Name = "labLastClientRequestTime";
+            labLastClientRequestTime.Size = new Size(124, 17);
+            labLastClientRequestTime.Text = "1991/10/20 19:00:00";
             // 
             // splitContainer1
             // 
@@ -445,6 +458,7 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(checkBox1);
             groupBox1.Controls.Add(richTextBox1);
             groupBox1.Dock = DockStyle.Fill;
             groupBox1.Location = new Point(0, 0);
@@ -453,6 +467,24 @@
             groupBox1.TabIndex = 17;
             groupBox1.TabStop = false;
             groupBox1.Text = "Log";
+            // 
+            // checkBox1
+            // 
+            checkBox1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            checkBox1.Appearance = Appearance.Button;
+            checkBox1.AutoSize = true;
+            checkBox1.BackColor = Color.Crimson;
+            checkBox1.FlatAppearance.CheckedBackColor = Color.Green;
+            checkBox1.FlatStyle = FlatStyle.Flat;
+            checkBox1.Font = new Font("微軟正黑體", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            checkBox1.ForeColor = Color.White;
+            checkBox1.Location = new Point(1203, 25);
+            checkBox1.Name = "checkBox1";
+            checkBox1.Size = new Size(41, 26);
+            checkBox1.TabIndex = 1;
+            checkBox1.Text = "暫停";
+            checkBox1.UseVisualStyleBackColor = false;
+            checkBox1.CheckedChanged += checkBox1_CheckedChanged;
             // 
             // richTextBox1
             // 
@@ -464,18 +496,6 @@
             richTextBox1.Size = new Size(1262, 206);
             richTextBox1.TabIndex = 0;
             richTextBox1.Text = "";
-            // 
-            // labLastClientRequestTime
-            // 
-            labLastClientRequestTime.Name = "labLastClientRequestTime";
-            labLastClientRequestTime.Size = new Size(124, 17);
-            labLastClientRequestTime.Text = "1991/10/20 19:00:00";
-            // 
-            // toolStripStatusLabel3
-            // 
-            toolStripStatusLabel3.Name = "toolStripStatusLabel3";
-            toolStripStatusLabel3.Size = new Size(1047, 17);
-            toolStripStatusLabel3.Spring = true;
             // 
             // frmModbusTCPServer
             // 
@@ -509,6 +529,7 @@
             ((System.ComponentModel.ISupportInitialize)dgvHoldingRegisterTable).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvDOTable).EndInit();
             groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -554,5 +575,6 @@
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private ToolStripStatusLabel toolStripStatusLabel3;
         private ToolStripStatusLabel labLastClientRequestTime;
+        private CheckBox checkBox1;
     }
 }

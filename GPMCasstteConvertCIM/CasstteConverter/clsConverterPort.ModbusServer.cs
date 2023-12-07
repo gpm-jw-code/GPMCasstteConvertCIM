@@ -141,14 +141,17 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             });
         }
 
+
+        private bool[] last_cim_write_outputs= new bool[32];
+        private bool[] last_agvs_write_inputs = new bool[32];
+
         protected async void CheckDiscardInputWriteResultBackgroundWorker()
         {
-            bool[] inputs = new bool[32];
             bool connected = modbus_server.modbus_client_checker.Connected;
             var logger = EQParent._IOLogger;
             while (true)
             {
-                await Task.Delay(100);
+                await Task.Delay(50);
 
                 if (!connected)
                 {
@@ -156,27 +159,62 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     continue;
                 }
 
-                bool[] _inputs = new bool[32];
+                bool[] cim_write_outputs = new bool[32];
                 try
                 {
-                    _inputs = modbus_server.modbus_client_checker.ReadDiscreteInputs(0, 32);
+                    cim_write_outputs = modbus_server.modbus_client_checker.ReadDiscreteInputs(0, 32);
                 }
                 catch (Exception ex)
                 {
                     modbus_server.modbus_client_checker.Disconnect();
                     connected = false;
                     logger?.Trace($"[{PortName}_Modbus Inputs Check:Port={modbus_server.Port}] Server Read Fail...Close Connection:{ex.Message}", PortName);
-                    return;
+                    continue;
                 }
-                for (int i = 0; i < _inputs.Length; i++)
+
+                if(last_cim_write_outputs!=null && !cim_write_outputs.SequenceEqual(last_cim_write_outputs))
                 {
-                    var plc_address = EQModbusLinkBitAddress.FirstOrDefault(add => add.Link_Modbus_Register_Number == i + 1);
-                    if (inputs[i] != _inputs[i])
+
+                    for (int i = 0; i < cim_write_outputs.Length; i++)
                     {
-                        logger?.Trace($"[{PortName}_Modbus Inputs Check:Port={modbus_server.Port}]-Input[{i}]_({plc_address?.EProperty}) change to [{_inputs[i]}]", PortName);
+                        var plc_address = EQModbusLinkBitAddress.FirstOrDefault(add => add.Link_Modbus_Register_Number == i + 1);
+                        if (last_cim_write_outputs[i] != cim_write_outputs[i])
+                        {
+                            int state = cim_write_outputs[i] ? 1 : 0;
+                            logger?.Trace($"[{PortName}_Modbus Inputs Check:Port={modbus_server.Port}]-Input[{i}]_EQ/CIM Bit Trigger-{plc_address?.Address}-({plc_address?.EProperty}) change to [{state}]", PortName);
+                        }
                     }
                 }
-                inputs = _inputs;
+                last_cim_write_outputs = cim_write_outputs;
+
+                //AGVS Write input
+                bool[] agvs_write_inputs = new bool[32];
+                try
+                {
+                    agvs_write_inputs = modbus_server.modbus_client_checker.ReadCoils(0, 32);
+                }
+                catch (Exception ex)
+                {
+                    modbus_server.modbus_client_checker.Disconnect();
+                    connected = false;
+                    logger?.Trace($"[{PortName}_Modbus Inputs Check:Port={modbus_server.Port}] Server Read Fail...Close Connection:{ex.Message}", PortName);
+                    continue;
+                }
+
+                if (last_agvs_write_inputs != null && !agvs_write_inputs.SequenceEqual(last_agvs_write_inputs))
+                {
+
+                    for (int i = 0; i < agvs_write_inputs.Length; i++)
+                    {
+                        var plc_address = CIMModbusLinkBitAddress.FirstOrDefault(add => add.Link_Modbus_Register_Number == i);
+                        if (last_agvs_write_inputs[i] != agvs_write_inputs[i])
+                        {
+                            int state = agvs_write_inputs[i] ? 1 : 0;
+                            logger?.Trace($"[{PortName}_Modbus Inputs Check:Port={modbus_server.Port}]-Input[{i}]_AGVS Bit Trigger-{plc_address?.Address}-({plc_address?.EProperty}) change to [{state}]", PortName);
+                        }
+                    }
+                }
+                last_agvs_write_inputs = agvs_write_inputs;
             }
         }
 

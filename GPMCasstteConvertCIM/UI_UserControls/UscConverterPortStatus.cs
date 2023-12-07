@@ -42,7 +42,7 @@ namespace GPMCasstteConvertCIM.UI_UserControls
 
         private void StaUsersManager_OnRD_Login(object? sender, EventArgs e)
         {
-            labPortTypeChgReq.Visible = labPortEventRepShow.Visible = true;
+            labPortTypeChgReq.Visible = true;
         }
 
         public UscConverterPortStatus()
@@ -64,10 +64,19 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             labLoadRequestBit.RenderBGColorByState(CstCVPort.LoadRequest, active_color);
             labUnloadRequestBit.RenderBGColorByState(CstCVPort.UnloadRequest, active_color);
             labPortExistBit.RenderBGColorByState(CstCVPort.PortExist, active_color);
-            labL_REQBit.RenderBGColorByState(CstCVPort.L_REQ, active_color);
-            labU_REQBit.RenderBGColorByState(CstCVPort.U_REQ, active_color);
-            labEQReadyBit.RenderBGColorByState(CstCVPort.EQ_READY, active_color);
-            labBusyBit.RenderBGColorByState(CstCVPort.EQ_BUSY, active_color);
+
+
+            var hs_signal_actived_color = Color.Orange;
+            lab_AGV_Valid.RenderBGColorByState(CstCVPort.AGV_VALID, hs_signal_actived_color);
+            lab_AGV_TR.RenderBGColorByState(CstCVPort.AGV_TR_REQ, hs_signal_actived_color);
+            lab_AGV_Busy.RenderBGColorByState(CstCVPort.AGV_BUSY, hs_signal_actived_color);
+            lab_AGV_Ready.RenderBGColorByState(CstCVPort.AGV_READY, hs_signal_actived_color);
+            lab_AGV_Compt.RenderBGColorByState(CstCVPort.AGV_BUSY, hs_signal_actived_color);
+
+            labL_REQBit.RenderBGColorByState(CstCVPort.L_REQ, hs_signal_actived_color);
+            labU_REQBit.RenderBGColorByState(CstCVPort.U_REQ, hs_signal_actived_color);
+            labEQReadyBit.RenderBGColorByState(CstCVPort.EQ_READY, hs_signal_actived_color);
+            labBusyBit.RenderBGColorByState(CstCVPort.EQ_BUSY, hs_signal_actived_color);
 
             ChangeAGVActionText();
 
@@ -94,6 +103,25 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             labWaitOut.RenderBGColorByState(CstCVPort.CarrierWaitOUTSystemRequest, Color.Red);
 
             labCIMHandshakingWithAGV.Visible = CstCVPort.AGV_READY_WAITING_EQ_BUSYON_INTER_LOCKING;
+
+            ChangeAGVAGVLDULDStatusText();
+        }
+
+        private void ChangeAGVAGVLDULDStatusText()
+        {
+            bool has_lduld_req = CstCVPort.LoadRequest | CstCVPort.UnloadRequest;
+            if (!has_lduld_req)
+            {
+                labLDULDStatus.Visible = false;
+                return;
+            }
+            else
+            {
+                labLDULDStatus.Visible = true;
+                bool IsStatusError = (CstCVPort.LoadRequest && CstCVPort.UnloadRequest);
+                labLDULDStatus.Text = IsStatusError ? "移載狀態錯誤" : CstCVPort.LoadRequest ? "載具可移入" : "載具移出請求";
+                labLDULDStatus.ForeColor = IsStatusError ? Color.Red : Color.Gray;
+            }
         }
 
         private void ChangeAGVActionText()

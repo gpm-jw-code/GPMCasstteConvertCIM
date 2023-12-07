@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using RosSharp.RosBridgeClient.MessageTypes.Std;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -105,44 +106,29 @@ namespace GPMCasstteConvertCIM.Utilities
         public void Info(string msg, bool show_in_richbox = true, string subFolder = "")
         {
             DateTime time = DateTime.Now;
-            if (_richTextBox != null)
+            if (show_in_richbox)
             {
-                if (show_in_richbox && _richTextBox.Created)
-                {
-                    _richTextBox?.Invoke((MethodInvoker)delegate
-                    {
-                        _richTextBox.SelectionColor = Color.White;
-                        _richTextBox.AppendText($"{time} [INFO] {msg}\n");
-                    });
-                }
+                ShowLogInRichTextBox(time, LOG_LEVEL.INFO, msg, Color.White);
             }
-
             StoreLogItemToQueue(time, LOG_LEVEL.INFO, msg, subFolder);
         }
         public void Info(string msg, Color foreCOlor, bool show_in_richbox = true, string subFolder = "")
         {
             DateTime time = DateTime.Now;
-            if (_richTextBox != null)
-                if (show_in_richbox && _richTextBox.Created)
-                {
-                    _richTextBox?.Invoke((MethodInvoker)delegate
-                    {
-                        _richTextBox.SelectionColor = foreCOlor;
-                        _richTextBox.AppendText($"{time} [INFO] {msg}\n");
-                    });
-                }
+
+            if (show_in_richbox)
+            {
+                ShowLogInRichTextBox(time, LOG_LEVEL.INFO, msg, foreCOlor);
+            }
             StoreLogItemToQueue(time, LOG_LEVEL.INFO, msg, subFolder);
         }
         public void Warning(string msg, bool show_in_richbox = true, string subFolder = "")
         {
             DateTime time = DateTime.Now;
-            if (_richTextBox != null)
-                if (show_in_richbox && _richTextBox.Created)
-                    _richTextBox?.Invoke((MethodInvoker)delegate
-                    {
-                        _richTextBox.SelectionColor = Color.Gold;
-                        _richTextBox.AppendText($"{time} [WARN] {msg}\n");
-                    });
+            if (show_in_richbox)
+            {
+                ShowLogInRichTextBox(time, LOG_LEVEL.WARNING, msg, Color.Gold);
+            }
             StoreLogItemToQueue(time, LOG_LEVEL.WARNING, msg, subFolder);
         }
         public void Error(string message, bool show_in_richbox = true, string subFolder = "")
@@ -156,18 +142,32 @@ namespace GPMCasstteConvertCIM.Utilities
         public void Error(string msg, Exception? ex, bool show_in_richbox = true, string subFolder = "")
         {
             DateTime time = DateTime.Now;
+            if (show_in_richbox)
+            {
+                ShowLogInRichTextBox(time, LOG_LEVEL.ERROR, msg, Color.FromArgb(255, 92, 97));
+            }
+            StoreLogItemToQueue(time, LOG_LEVEL.ERROR, $"{msg}-{ex?.Message}-{ex?.StackTrace}", subFolder);
+        }
+        public void Debug(string msg, string subFolder = "")
+        {
+            var time = DateTime.Now;
+            ShowLogInRichTextBox(time, LOG_LEVEL.DEBUG, msg, Color.Yellow);
+            StoreLogItemToQueue(time, LOG_LEVEL.DEBUG, msg, subFolder);
+        }
+        private void ShowLogInRichTextBox(DateTime time, LOG_LEVEL classify, string message, Color foreColor, Exception ex = null)
+        {
             if (_richTextBox != null)
-                if (show_in_richbox && _richTextBox.Created)
+                if (_richTextBox.Created)
                 {
                     _richTextBox?.Invoke((MethodInvoker)delegate
-                        {
-                            _richTextBox.SelectionColor = Color.FromArgb(255, 92, 97);
-                            _richTextBox.AppendText($"{time} [ERROR] {msg}\n");
-                            _richTextBox.SelectionColor = Color.Gray;
+                    {
+                        _richTextBox.SelectionColor = foreColor;
+                        _richTextBox.AppendText($"{time.ToString("yyyy/MM/dd HH:mm:ss.ffffff")} [{classify}] {message}\n");
+                        _richTextBox.SelectionColor = Color.Gray;
+                        if (ex != null)
                             _richTextBox.AppendText($"{ex}\n");
-                        });
+                    });
                 }
-            StoreLogItemToQueue(time, LOG_LEVEL.ERROR, $"{msg}-{ex?.Message}-{ex?.StackTrace}", subFolder);
         }
         public class clsLogItem
         {
@@ -177,20 +177,7 @@ namespace GPMCasstteConvertCIM.Utilities
             public LOG_LEVEL level { get; set; }
             public string msg { get; set; }
         }
-        public void Debug(string msg, string subFolder = "")
-        {
-            var time = DateTime.Now;
 
-            if (_richTextBox != null && _richTextBox.Created)
-            {
-                _richTextBox?.Invoke((MethodInvoker)delegate
-                {
-                    _richTextBox.SelectionColor = Color.Yellow;
-                    _richTextBox.AppendText($"{time} {msg}\n");
-                });
-            }
-            StoreLogItemToQueue(time, LOG_LEVEL.DEBUG, msg, subFolder);
-        }
         private ConcurrentQueue<clsLogItem> LogItemsQueue = new ConcurrentQueue<clsLogItem>();
 
         private async Task WriteLogWorker()
@@ -221,14 +208,15 @@ namespace GPMCasstteConvertCIM.Utilities
                              Directory.CreateDirectory(folder);
                          currentLogFolder = folder;
                          string log_file = Path.Combine(folder, $"{FileNameHeaderDisplay}{DateTime.Now.ToString(FileTimeFormat)}.log");
-                         string writeLine = $"{logItem.time.ToString("yyyy/MM/dd HH:mm:ss.ffff")} [{logItem.level}] {logItem.msg}";
+                         string writeLine = $"{logItem.time.ToString("yyyy/MM/dd HH:mm:ss.ffffff")} [{logItem.level}] {logItem.msg}";
                          using (StreamWriter sw = new StreamWriter(log_file, true))
                          {
                              sw.WriteLine(writeLine);
                          }
-                         if(logItem.level!= LOG_LEVEL.INFO) {
+                         if (logItem.level != LOG_LEVEL.INFO)
+                         {
                              string Warn_Error_log_file = Path.Combine(folder, $"{FileNameHeaderDisplay}{DateTime.Now.ToString(FileTimeFormat)}_{logItem.level}.log");
-                             using StreamWriter writer = new StreamWriter(Warn_Error_log_file,true);
+                             using StreamWriter writer = new StreamWriter(Warn_Error_log_file, true);
                              writer.WriteLine(writeLine);
                          }
 
