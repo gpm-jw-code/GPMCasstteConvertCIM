@@ -1180,9 +1180,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
                     if (WaitAGV_READY_OFF.IsCancellationRequested)
                     {
-                        EQ_BUSY_CIM_CONTROL = true;
-                        AGV_READY_WAITING_EQ_BUSYON_INTER_LOCKING = true;
-                        Utility.SystemLogger.Warning($"[{PortName}] 因AGV持續等待 EQ_BUSY ON , 但EQ_BUSY已經ON=>OFF，CIM介入");
+
                         WaitingAGV_READY_OFF_Worker();
                         return;
                     }
@@ -1193,16 +1191,32 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         private async void WaitingAGV_READY_OFF_Worker()
         {
+            Utility.SystemLogger.Warning($"[{PortName}] 因AGV持續等待 EQ_BUSY ON , 但EQ_BUSY已經ON=>OFF，CIM介入");
+            AlarmManager.AddWarning(ALARM_CODES.AGV_READY_EQ_BUSY_INTERLOCK_CIM_SOLUTION, PortName, true);
+            AGV_READY_WAITING_EQ_BUSYON_INTER_LOCKING = true;
             await Task.Factory.StartNew(async () =>
             {
+                EQ_BUSY_CIM_CONTROL = false;
+
                 Utility.SystemLogger.Warning($"[{PortName}] CIM Handshaking with AGV Start. Waiting AGV_READY OFF..");
                 while (AGV_READY)
                 {
-                    await Task.Delay(10);
+                    await Task.Delay(1000);
+                    EQ_BUSY_CIM_CONTROL = true;
+                    await Task.Delay(1000);
+                    EQ_BUSY_CIM_CONTROL = false;
+                    await Task.Delay(3000);
                 }
-                Utility.SystemLogger.Warning($"[{PortName}] AGV_READY OFF,OFF EQ_BUSY_CIM_CONTROL Bit");
-                EQ_BUSY_CIM_CONTROL = false;
-
+                EQ_BUSY_CIM_CONTROL = AGV_READY_WAITING_EQ_BUSYON_INTER_LOCKING = false;
+                if (!IsEQHandshaking | !PortStatusDown | !IsAGVHandshaking)
+                {
+                    Utility.SystemLogger.Warning($"[{PortName}] Waiting AGV_READY Process end. Because EQ/AGV Handshake is interupted");
+                    AlarmManager.AddAlarm(ALARM_CODES.AGV_EQ_Handshake_Fail_AFTER_EQ_BUSY_OFF, PortName, true);
+                }
+                else
+                {
+                    Utility.SystemLogger.Warning($"[{PortName}] AGV_READY OFF After EQ_BUSY_CIM_CONTROL bit ON, CIM/AGV Handshake done.");
+                }
             });
         }
     }

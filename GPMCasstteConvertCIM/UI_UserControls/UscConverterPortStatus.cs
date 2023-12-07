@@ -93,6 +93,7 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             labWaitIn.RenderBGColorByState(CstCVPort.CarrierWaitINSystemRequest, Color.Red);
             labWaitOut.RenderBGColorByState(CstCVPort.CarrierWaitOUTSystemRequest, Color.Red);
 
+            labCIMHandshakingWithAGV.Visible = CstCVPort.AGV_READY_WAITING_EQ_BUSYON_INTER_LOCKING;
         }
 
         private void ChangeAGVActionText()

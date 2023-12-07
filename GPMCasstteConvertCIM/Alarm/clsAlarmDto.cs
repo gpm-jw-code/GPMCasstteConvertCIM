@@ -87,6 +87,8 @@ namespace GPMCasstteConvertCIM.Alarm
         PortTypeChangedReport_HS_EQ_Timeout,
         PLC_IF_READ_FAIL,
         PLC_IF_WRITE_FAIL,
-        AGV_PING_FAIL
+        AGV_PING_FAIL,
+        AGV_READY_EQ_BUSY_INTERLOCK_CIM_SOLUTION,
+        AGV_EQ_Handshake_Fail_AFTER_EQ_BUSY_OFF
     }
 }

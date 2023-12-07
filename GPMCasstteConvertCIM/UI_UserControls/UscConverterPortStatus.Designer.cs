@@ -61,6 +61,7 @@
             txbOnPortID = new TextBox();
             label6 = new Label();
             labAGVReadyToTransfer = new Label();
+            labCIMHandshakingWithAGV = new Label();
             flowLayoutPanel1.SuspendLayout();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
@@ -498,9 +499,9 @@
             label6.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
             label6.Location = new Point(7, 248);
             label6.Name = "label6";
-            label6.Size = new Size(79, 15);
+            label6.Size = new Size(76, 15);
             label6.TabIndex = 43;
-            label6.Text = "ON PORT ID";
+            label6.Text = "RPT MCS ID";
             // 
             // labAGVReadyToTransfer
             // 
@@ -515,12 +516,28 @@
             labAGVReadyToTransfer.Text = "AGV 準備取放";
             labAGVReadyToTransfer.Visible = false;
             // 
+            // labCIMHandshakingWithAGV
+            // 
+            labCIMHandshakingWithAGV.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            labCIMHandshakingWithAGV.AutoSize = true;
+            labCIMHandshakingWithAGV.BackColor = Color.MidnightBlue;
+            labCIMHandshakingWithAGV.FlatStyle = FlatStyle.System;
+            labCIMHandshakingWithAGV.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            labCIMHandshakingWithAGV.ForeColor = Color.White;
+            labCIMHandshakingWithAGV.Location = new Point(7, 286);
+            labCIMHandshakingWithAGV.Name = "labCIMHandshakingWithAGV";
+            labCIMHandshakingWithAGV.Size = new Size(67, 20);
+            labCIMHandshakingWithAGV.TabIndex = 46;
+            labCIMHandshakingWithAGV.Text = "CIM HS";
+            labCIMHandshakingWithAGV.Visible = false;
+            // 
             // UscConverterPortStatus
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoScroll = true;
             BackColor = Color.Gray;
+            Controls.Add(labCIMHandshakingWithAGV);
             Controls.Add(labAGVReadyToTransfer);
             Controls.Add(txbOnPortID);
             Controls.Add(label6);
@@ -582,5 +599,6 @@
         private Label labWaitIn;
         private Label labWaitOut;
         private TextBox txbPortID;
+        private Label labCIMHandshakingWithAGV;
     }
 }

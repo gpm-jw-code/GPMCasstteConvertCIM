@@ -589,7 +589,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     }
                     catch (Exception ex)
                     {
-                        //Utility.SystemLogger.Error(ex.Message, ex);
+                        if (Utility.SysConfigs.Project != Utilities.SysConfigs.clsSystemConfigs.PROJECT.U007)
+                            Utility.SystemLogger.Error(ex.Message, ex);
                     }
                     EQPORT.AGVSignals.To_EQ_Up = (bool)LinkBitMap.First(f => f.EOwner == clsMemoryAddress.OWNER.CIM && f.EScope == port && f.EProperty == PROPERTY.To_EQ_Up).Value;
                     EQPORT.AGVSignals.To_EQ_Low = (bool)LinkBitMap.First(f => f.EOwner == clsMemoryAddress.OWNER.CIM && f.EScope == port && f.EProperty == PROPERTY.To_EQ_Low).Value;
@@ -608,7 +609,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     }
                     catch (Exception ex)
                     {
-                        // Utility.SystemLogger.Error(ex.Message, ex);
+                        if (Utility.SysConfigs.Project != Utilities.SysConfigs.clsSystemConfigs.PROJECT.U007)
+                            Utility.SystemLogger.Error(ex.Message, ex);
                     }
 
                     EQPORT.LoadRequest = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Load_Request).Value;
@@ -656,7 +658,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     }
                     catch (Exception ex)
                     {
-                        // Utility.SystemLogger.Error(ex.Message, ex);
+                        if (Utility.SysConfigs.Project != Utilities.SysConfigs.clsSystemConfigs.PROJECT.U007)
+                            Utility.SystemLogger.Error(ex.Message, ex);
                     }
                 }
                 IsPLCDataUpdated = IsPLCMemoryDataReadDone == true;
