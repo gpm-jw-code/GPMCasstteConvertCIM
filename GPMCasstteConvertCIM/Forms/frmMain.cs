@@ -21,13 +21,14 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 using static GPMCasstteConvertCIM.Utilities.StaUsersManager;
 using static Secs4Net.Item;
+using GPMCasstteConvertCIM.AlarmDevice;
 namespace GPMCasstteConvertCIM.Forms
 {
     public partial class frmMain : Form
     {
         CasstteConverter.clsCasstteConverter casstteConverter_1;
         CasstteConverter.clsCasstteConverter casstteConverter_2;
-
+        private static clsAgvsAlarmDevice clsAgvsAlarmDevice = new clsAgvsAlarmDevice();
 
         public frmMain()
         {
@@ -429,6 +430,8 @@ namespace GPMCasstteConvertCIM.Forms
             labSysTime.Text = DateTime.Now.ToString();
             ckbRemoteModeIndi.Checked = SECSState.IsRemote;
             cknOnlineModeIndi.Checked = SECSState.IsOnline;
+            if (SECSState.IsRemote || SECSState.IsOnline == false)
+            { clsAgvsAlarmDevice.offline(); }
         }
 
         private void aGVS¨£®Æº“¿¿æπToolStripMenuItem_Click(object sender, EventArgs e)

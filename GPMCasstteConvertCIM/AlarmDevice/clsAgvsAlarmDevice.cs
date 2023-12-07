@@ -34,7 +34,7 @@ namespace GPMCasstteConvertCIM.AlarmDevice
         private void AdamConnect()
         {
             var tcp_client = new TcpClient(IPaddress, Port);
-            modbusMaster =ModbusIpMaster.CreateIp(tcp_client);
+            modbusMaster = ModbusIpMaster.CreateIp(tcp_client);
         }
 
         public async void MusicStop()
@@ -54,8 +54,8 @@ namespace GPMCasstteConvertCIM.AlarmDevice
         }
         public async void offline()
         {
-                AdamConnect();
-                await modbusMaster.WriteSingleCoilAsync(16, true);
+            AdamConnect();
+            await modbusMaster.WriteSingleCoilAsync(16, true);
             Disconnect();
         }
         public async void Return_Online()
@@ -80,8 +80,8 @@ namespace GPMCasstteConvertCIM.AlarmDevice
         }
         internal async void Conn()
         {
-            
-            while (true) 
+
+            while (true)
             {
                 using (TcpClient client = new TcpClient())
                 {
@@ -107,7 +107,7 @@ namespace GPMCasstteConvertCIM.AlarmDevice
                     Console.WriteLine(IsDioCon);
                 }
             }
-            
+
         }
         private void Disconnect()
         {
