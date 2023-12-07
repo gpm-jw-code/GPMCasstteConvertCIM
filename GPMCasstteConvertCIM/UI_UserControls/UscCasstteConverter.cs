@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static GPMCasstteConvertCIM.Utilities.Common;
+using GPMCasstteConvertCIM.AlarmDevice;
 
 namespace GPMCasstteConvertCIM.UI_UserControls
 {
@@ -164,6 +165,8 @@ namespace GPMCasstteConvertCIM.UI_UserControls
         private void btnAlarmReset_Click(object sender, EventArgs e)
         {
             casstteConverter.AlarmResetFlag = true;
+            clsAgvsAlarmDevice clsAgvsAlarmDevice = new clsAgvsAlarmDevice();
+            clsAgvsAlarmDevice.MusicStop();
         }
 
         private void labOpenModbusServerFom_Click(object sender, EventArgs e)
