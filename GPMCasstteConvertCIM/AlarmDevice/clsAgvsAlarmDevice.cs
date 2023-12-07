@@ -14,7 +14,7 @@ using GPMCasstteConvertCIM;
 
 namespace GPMCasstteConvertCIM.AlarmDevice
 {
-    internal class clsAgvsAlarmDevice
+    public class clsAgvsAlarmDevice
     {
         clsModbusDeviceConfigs clsModbusDeviceConfigscls = new clsModbusDeviceConfigs();
         ModbusIpMaster modbusMaster;
@@ -37,33 +37,37 @@ namespace GPMCasstteConvertCIM.AlarmDevice
             modbusMaster =ModbusIpMaster.CreateIp(tcp_client);
         }
 
-        internal async void MusicStop()
+        public async void MusicStop()
         {
             AdamConnect();
             await modbusMaster.WriteMultipleCoilsAsync(16, new bool[] { false, false, false, false, false, false, false });
+            Disconnect();
         }
-        internal async void PlayAGV_AlarmMusic()
+        public async void PlayAGV_AlarmMusic()
         {
             AdamConnect();
             //0 1 1 0 0 0 0 0  
             await modbusMaster.WriteMultipleCoilsAsync(18, new bool[] { true });//寫入特定io點位
+            Disconnect();
             //modbusMaster.WriteSingleCoil(17, true);//寫入特定io點位
             //var di_inputs = modbusMaster.ReadInputs(0, 8);
         }
-        internal async void offline()
+        public async void offline()
         {
-            AdamConnect();
-            await modbusMaster.WriteMultipleCoilsAsync(16, new bool[] { true });
+                AdamConnect();
+                await modbusMaster.WriteSingleCoilAsync(16, true);
+            Disconnect();
         }
-        internal async void Return_Online()
+        public async void Return_Online()
         {
             AdamConnect();
             await Task.Delay(10);
             await modbusMaster.WriteMultipleCoilsAsync(17, new bool[] { true });
             await Task.Delay(1000);
             await modbusMaster.WriteMultipleCoilsAsync(17, new bool[] { false });
+            Disconnect();
         }
-        internal void GetstopMusic()
+        public void GetstopMusic()
         {
             AdamConnect();
             modbusMaster.ReadCoilsAsync(0, 8);
@@ -72,6 +76,7 @@ namespace GPMCasstteConvertCIM.AlarmDevice
             {
                 Console.WriteLine($"DI {0 + i}: {inputStatus[i]}");
             }
+            Disconnect();
         }
         internal async void Conn()
         {
@@ -103,6 +108,10 @@ namespace GPMCasstteConvertCIM.AlarmDevice
                 }
             }
             
+        }
+        private void Disconnect()
+        {
+            modbusMaster.Dispose();
         }
     }
 }
