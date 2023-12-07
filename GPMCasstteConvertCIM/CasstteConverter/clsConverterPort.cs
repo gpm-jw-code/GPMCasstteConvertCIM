@@ -310,6 +310,26 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 }
             }
         }
+
+
+        private bool _EQ_BUSY = false;
+        public bool EQ_BUSY
+        {
+            get => _EQ_BUSY;
+            set
+            {
+                if (_EQ_BUSY != value)
+                {
+                    _EQ_BUSY = value;
+                    if (!_EQ_BUSY && Utility.SysConfigs.CIMHandshakingWithAGVWhenAGV_READY_EQ_BUSY_Waiting_interlock) //ON=>OFF
+                    {
+                        EQHandshakeInterLockMonitor();
+                    }
+                }
+            }
+        }
+
+
         public bool UP_READY { get; set; } = false;
         public bool LOW_READY { get; set; } = false;
         public bool Manual_Load_Complete { get; set; } = false;
@@ -766,23 +786,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             return id;
         }
 
-        private bool _EQ_BUSY = false;
-        public bool EQ_BUSY
-        {
-            get => _EQ_BUSY;
-            set
-            {
-                if (_EQ_BUSY != value)
-                {
-                    _EQ_BUSY = value;
-                    if (!_EQ_BUSY && Utility.SysConfigs.CIMHandshakingWithAGVWhenAGV_READY_EQ_BUSY_Waiting_interlock) //ON=>OFF
-                    {
-                        EQHandshakeInterLockMonitor();
-                    }
-                }
-            }
-        }
-
         /// <summary>
         /// Port是否在交握中
         /// </summary>
@@ -1180,7 +1183,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
                     if (WaitAGV_READY_OFF.IsCancellationRequested)
                     {
-
                         WaitingAGV_READY_OFF_Worker();
                         return;
                     }
@@ -1192,6 +1194,15 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         private async void WaitingAGV_READY_OFF_Worker()
         {
             Utility.SystemLogger.Warning($"[{PortName}] 因AGV持續等待 EQ_BUSY ON , 但EQ_BUSY已經ON=>OFF，CIM介入");
+
+
+            bool LD_Pose_Correct = (L_REQ && LD_UP_POS) || (U_REQ && LD_DOWN_POS);
+            if (!LD_Pose_Correct)
+            {
+                Utility.SystemLogger.Warning($"[{PortName}] CIM嘗試介入交握，但設備撈爪位置不正確(Req:{(L_REQ ? "入料" : "出料")}, Loader Pose:{(!LD_UP_POS && !LD_DOWN_POS ? "未知" : LD_UP_POS ? "上位" : "下位")})。");
+                return;
+            }
+
             AlarmManager.AddWarning(ALARM_CODES.AGV_READY_EQ_BUSY_INTERLOCK_CIM_SOLUTION, PortName, true);
             AGV_READY_WAITING_EQ_BUSYON_INTER_LOCKING = true;
             await Task.Factory.StartNew(async () =>
