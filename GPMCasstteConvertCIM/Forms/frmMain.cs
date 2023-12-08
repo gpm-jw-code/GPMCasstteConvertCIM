@@ -621,5 +621,10 @@ namespace GPMCasstteConvertCIM.Forms
             txbRegionNameEditInput.Visible = btnRegionNameEditedConfirm.Visible = btnCancelRegionNameEdit.Visible = false;
             labRegionName.Visible = true;
         }
+
+        private void Äµ³ø¾¹DIOToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

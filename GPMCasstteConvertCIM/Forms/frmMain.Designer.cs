@@ -108,6 +108,8 @@
             cknOnlineModeIndi = new CheckBox();
             pnlLoading = new Panel();
             label7 = new Label();
+            警報器IO狀態ToolStripMenuItem = new ToolStripMenuItem();
+            警報器DIOToolStripMenuItem = new ToolStripMenuItem();
             tabControl1.SuspendLayout();
             tabPage4.SuspendLayout();
             tabPage1.SuspendLayout();
@@ -155,9 +157,10 @@
             tabControl1.HotTrack = true;
             tabControl1.ItemSize = new Size(96, 30);
             tabControl1.Location = new Point(0, 0);
+            tabControl1.Margin = new Padding(4, 4, 4, 4);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(1252, 711);
+            tabControl1.Size = new Size(1610, 907);
             tabControl1.SizeMode = TabSizeMode.Fixed;
             tabControl1.TabIndex = 1;
             // 
@@ -165,9 +168,10 @@
             // 
             tabPage4.Controls.Add(usceqStatus1);
             tabPage4.Location = new Point(4, 34);
+            tabPage4.Margin = new Padding(4, 4, 4, 4);
             tabPage4.Name = "tabPage4";
-            tabPage4.Padding = new Padding(3);
-            tabPage4.Size = new Size(1244, 673);
+            tabPage4.Padding = new Padding(4, 4, 4, 4);
+            tabPage4.Size = new Size(1602, 869);
             tabPage4.TabIndex = 3;
             tabPage4.Text = "Home(007)";
             tabPage4.UseVisualStyleBackColor = true;
@@ -176,9 +180,10 @@
             // 
             usceqStatus1.BackColor = SystemColors.ButtonShadow;
             usceqStatus1.Dock = DockStyle.Fill;
-            usceqStatus1.Location = new Point(3, 3);
+            usceqStatus1.Location = new Point(4, 4);
+            usceqStatus1.Margin = new Padding(5, 5, 5, 5);
             usceqStatus1.Name = "usceqStatus1";
-            usceqStatus1.Size = new Size(1238, 667);
+            usceqStatus1.Size = new Size(1594, 861);
             usceqStatus1.TabIndex = 1;
             // 
             // tabPage1
@@ -187,9 +192,10 @@
             tabPage1.BackColor = Color.White;
             tabPage1.Controls.Add(splitContainer2);
             tabPage1.Location = new Point(4, 34);
+            tabPage1.Margin = new Padding(4, 4, 4, 4);
             tabPage1.Name = "tabPage1";
-            tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(1244, 673);
+            tabPage1.Padding = new Padding(4, 4, 4, 4);
+            tabPage1.Size = new Size(1602, 863);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "HOME";
             // 
@@ -197,7 +203,8 @@
             // 
             splitContainer2.BackColor = Color.FromArgb(0, 57, 155);
             splitContainer2.Dock = DockStyle.Fill;
-            splitContainer2.Location = new Point(3, 3);
+            splitContainer2.Location = new Point(4, 4);
+            splitContainer2.Margin = new Padding(4, 4, 4, 4);
             splitContainer2.Name = "splitContainer2";
             // 
             // splitContainer2.Panel1
@@ -209,8 +216,9 @@
             // 
             splitContainer2.Panel2.BackColor = Color.White;
             splitContainer2.Panel2.Controls.Add(panel2);
-            splitContainer2.Size = new Size(1238, 667);
-            splitContainer2.SplitterDistance = 911;
+            splitContainer2.Size = new Size(1594, 855);
+            splitContainer2.SplitterDistance = 1172;
+            splitContainer2.SplitterWidth = 5;
             splitContainer2.TabIndex = 13;
             // 
             // tlpConverterContainer
@@ -224,11 +232,12 @@
             tlpConverterContainer.Dock = DockStyle.Fill;
             tlpConverterContainer.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             tlpConverterContainer.Location = new Point(0, 0);
+            tlpConverterContainer.Margin = new Padding(4, 4, 4, 4);
             tlpConverterContainer.Name = "tlpConverterContainer";
             tlpConverterContainer.RowCount = 2;
             tlpConverterContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tlpConverterContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tlpConverterContainer.Size = new Size(911, 667);
+            tlpConverterContainer.Size = new Size(1172, 855);
             tlpConverterContainer.TabIndex = 11;
             // 
             // tlpSingleConvertsContainer
@@ -242,11 +251,12 @@
             tlpSingleConvertsContainer.Dock = DockStyle.Fill;
             tlpSingleConvertsContainer.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             tlpSingleConvertsContainer.GrowStyle = TableLayoutPanelGrowStyle.AddColumns;
-            tlpSingleConvertsContainer.Location = new Point(4, 4);
+            tlpSingleConvertsContainer.Location = new Point(5, 5);
+            tlpSingleConvertsContainer.Margin = new Padding(4, 4, 4, 4);
             tlpSingleConvertsContainer.Name = "tlpSingleConvertsContainer";
             tlpSingleConvertsContainer.RowCount = 1;
             tlpSingleConvertsContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tlpSingleConvertsContainer.Size = new Size(903, 326);
+            tlpSingleConvertsContainer.Size = new Size(1162, 418);
             tlpSingleConvertsContainer.TabIndex = 12;
             // 
             // panel2
@@ -255,8 +265,9 @@
             panel2.Controls.Add(pnlSyslogRtbContainer);
             panel2.Dock = DockStyle.Fill;
             panel2.Location = new Point(0, 0);
+            panel2.Margin = new Padding(4, 4, 4, 4);
             panel2.Name = "panel2";
-            panel2.Size = new Size(323, 667);
+            panel2.Size = new Size(417, 855);
             panel2.TabIndex = 12;
             // 
             // pnlSyslogRtbContainer
@@ -268,18 +279,20 @@
             pnlSyslogRtbContainer.Dock = DockStyle.Fill;
             pnlSyslogRtbContainer.ForeColor = Color.White;
             pnlSyslogRtbContainer.Location = new Point(0, 0);
+            pnlSyslogRtbContainer.Margin = new Padding(4, 4, 4, 4);
             pnlSyslogRtbContainer.Name = "pnlSyslogRtbContainer";
             pnlSyslogRtbContainer.Padding = new Padding(1);
-            pnlSyslogRtbContainer.Size = new Size(323, 667);
+            pnlSyslogRtbContainer.Size = new Size(417, 855);
             pnlSyslogRtbContainer.TabIndex = 6;
             // 
             // btnClearInfoLog
             // 
             btnClearInfoLog.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             btnClearInfoLog.FlatStyle = FlatStyle.Flat;
-            btnClearInfoLog.Location = new Point(224, 6);
+            btnClearInfoLog.Location = new Point(290, 8);
+            btnClearInfoLog.Margin = new Padding(4, 4, 4, 4);
             btnClearInfoLog.Name = "btnClearInfoLog";
-            btnClearInfoLog.Size = new Size(75, 23);
+            btnClearInfoLog.Size = new Size(96, 29);
             btnClearInfoLog.TabIndex = 1;
             btnClearInfoLog.Text = "清除";
             btnClearInfoLog.UseVisualStyleBackColor = true;
@@ -292,8 +305,9 @@
             rtbSystemLogShow.Dock = DockStyle.Fill;
             rtbSystemLogShow.ForeColor = Color.White;
             rtbSystemLogShow.Location = new Point(1, 1);
+            rtbSystemLogShow.Margin = new Padding(4, 4, 4, 4);
             rtbSystemLogShow.Name = "rtbSystemLogShow";
-            rtbSystemLogShow.Size = new Size(319, 663);
+            rtbSystemLogShow.Size = new Size(413, 851);
             rtbSystemLogShow.TabIndex = 0;
             rtbSystemLogShow.Text = "";
             // 
@@ -301,9 +315,10 @@
             // 
             tabPage3.Controls.Add(uscAlarmTable1);
             tabPage3.Location = new Point(4, 34);
+            tabPage3.Margin = new Padding(4, 4, 4, 4);
             tabPage3.Name = "tabPage3";
-            tabPage3.Padding = new Padding(3);
-            tabPage3.Size = new Size(1244, 673);
+            tabPage3.Padding = new Padding(4, 4, 4, 4);
+            tabPage3.Size = new Size(1602, 863);
             tabPage3.TabIndex = 2;
             tabPage3.Text = "系統警報";
             tabPage3.UseVisualStyleBackColor = true;
@@ -312,18 +327,20 @@
             // 
             uscAlarmTable1.BackColor = Color.White;
             uscAlarmTable1.Dock = DockStyle.Fill;
-            uscAlarmTable1.Location = new Point(3, 3);
+            uscAlarmTable1.Location = new Point(4, 4);
+            uscAlarmTable1.Margin = new Padding(5, 5, 5, 5);
             uscAlarmTable1.Name = "uscAlarmTable1";
-            uscAlarmTable1.Size = new Size(1238, 667);
+            uscAlarmTable1.Size = new Size(1594, 855);
             uscAlarmTable1.TabIndex = 0;
             // 
             // tabPage2
             // 
             tabPage2.Controls.Add(tableLayoutPanel1);
             tabPage2.Location = new Point(4, 34);
+            tabPage2.Margin = new Padding(4, 4, 4, 4);
             tabPage2.Name = "tabPage2";
-            tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(1244, 673);
+            tabPage2.Padding = new Padding(4, 4, 4, 4);
+            tabPage2.Size = new Size(1602, 863);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "LOG";
             tabPage2.UseVisualStyleBackColor = true;
@@ -342,12 +359,13 @@
             tableLayoutPanel1.Controls.Add(checkBox5, 2, 0);
             tableLayoutPanel1.Controls.Add(rtbModbusTcpServerLog, 2, 1);
             tableLayoutPanel1.Dock = DockStyle.Fill;
-            tableLayoutPanel1.Location = new Point(3, 3);
+            tableLayoutPanel1.Location = new Point(4, 4);
+            tableLayoutPanel1.Margin = new Padding(4, 4, 4, 4);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 2;
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 41F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 52F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.Size = new Size(1238, 667);
+            tableLayoutPanel1.Size = new Size(1594, 855);
             tableLayoutPanel1.TabIndex = 2;
             // 
             // checkBox2
@@ -361,10 +379,10 @@
             checkBox2.FlatStyle = FlatStyle.Flat;
             checkBox2.Font = new Font("Microsoft JhengHei UI", 15F, FontStyle.Regular, GraphicsUnit.Point);
             checkBox2.ForeColor = Color.White;
-            checkBox2.Location = new Point(412, 0);
+            checkBox2.Location = new Point(531, 0);
             checkBox2.Margin = new Padding(0);
             checkBox2.Name = "checkBox2";
-            checkBox2.Size = new Size(412, 41);
+            checkBox2.Size = new Size(531, 52);
             checkBox2.TabIndex = 6;
             checkBox2.Text = "CIM<->AGVS";
             checkBox2.TextAlign = ContentAlignment.MiddleCenter;
@@ -375,10 +393,10 @@
             rtbSecsHostLog.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             rtbSecsHostLog.BackColor = SystemColors.InfoText;
             rtbSecsHostLog.ForeColor = Color.White;
-            rtbSecsHostLog.Location = new Point(0, 41);
+            rtbSecsHostLog.Location = new Point(0, 52);
             rtbSecsHostLog.Margin = new Padding(0);
             rtbSecsHostLog.Name = "rtbSecsHostLog";
-            rtbSecsHostLog.Size = new Size(412, 626);
+            rtbSecsHostLog.Size = new Size(531, 803);
             rtbSecsHostLog.TabIndex = 1;
             rtbSecsHostLog.Text = "";
             // 
@@ -387,10 +405,10 @@
             rtbSecsClientLog.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             rtbSecsClientLog.BackColor = SystemColors.InfoText;
             rtbSecsClientLog.ForeColor = Color.White;
-            rtbSecsClientLog.Location = new Point(412, 41);
+            rtbSecsClientLog.Location = new Point(531, 52);
             rtbSecsClientLog.Margin = new Padding(0);
             rtbSecsClientLog.Name = "rtbSecsClientLog";
-            rtbSecsClientLog.Size = new Size(412, 626);
+            rtbSecsClientLog.Size = new Size(531, 803);
             rtbSecsClientLog.TabIndex = 2;
             rtbSecsClientLog.Text = "";
             // 
@@ -408,7 +426,7 @@
             checkBox1.Location = new Point(0, 0);
             checkBox1.Margin = new Padding(0);
             checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(412, 41);
+            checkBox1.Size = new Size(531, 52);
             checkBox1.TabIndex = 5;
             checkBox1.Text = "CIM<->MCS";
             checkBox1.TextAlign = ContentAlignment.MiddleCenter;
@@ -425,10 +443,10 @@
             checkBox5.FlatStyle = FlatStyle.Flat;
             checkBox5.Font = new Font("Microsoft JhengHei UI", 15F, FontStyle.Regular, GraphicsUnit.Point);
             checkBox5.ForeColor = Color.White;
-            checkBox5.Location = new Point(824, 0);
+            checkBox5.Location = new Point(1062, 0);
             checkBox5.Margin = new Padding(0);
             checkBox5.Name = "checkBox5";
-            checkBox5.Size = new Size(414, 41);
+            checkBox5.Size = new Size(532, 52);
             checkBox5.TabIndex = 9;
             checkBox5.TextAlign = ContentAlignment.MiddleCenter;
             checkBox5.UseVisualStyleBackColor = false;
@@ -438,10 +456,10 @@
             rtbModbusTcpServerLog.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             rtbModbusTcpServerLog.BackColor = SystemColors.InfoText;
             rtbModbusTcpServerLog.ForeColor = Color.White;
-            rtbModbusTcpServerLog.Location = new Point(824, 41);
+            rtbModbusTcpServerLog.Location = new Point(1062, 52);
             rtbModbusTcpServerLog.Margin = new Padding(0);
             rtbModbusTcpServerLog.Name = "rtbModbusTcpServerLog";
-            rtbModbusTcpServerLog.Size = new Size(414, 626);
+            rtbModbusTcpServerLog.Size = new Size(532, 803);
             rtbModbusTcpServerLog.TabIndex = 7;
             rtbModbusTcpServerLog.Text = "";
             // 
@@ -449,9 +467,10 @@
             // 
             tabAGVSInfos.Controls.Add(uscagVsInfo1);
             tabAGVSInfos.Location = new Point(4, 34);
+            tabAGVSInfos.Margin = new Padding(4, 4, 4, 4);
             tabAGVSInfos.Name = "tabAGVSInfos";
-            tabAGVSInfos.Padding = new Padding(3);
-            tabAGVSInfos.Size = new Size(1244, 673);
+            tabAGVSInfos.Padding = new Padding(4, 4, 4, 4);
+            tabAGVSInfos.Size = new Size(1602, 863);
             tabAGVSInfos.TabIndex = 4;
             tabAGVSInfos.Text = "AGVs";
             tabAGVSInfos.UseVisualStyleBackColor = true;
@@ -460,9 +479,10 @@
             // 
             uscagVsInfo1.BorderStyle = BorderStyle.FixedSingle;
             uscagVsInfo1.Dock = DockStyle.Fill;
-            uscagVsInfo1.Location = new Point(3, 3);
+            uscagVsInfo1.Location = new Point(4, 4);
+            uscagVsInfo1.Margin = new Padding(5, 5, 5, 5);
             uscagVsInfo1.Name = "uscagVsInfo1";
-            uscagVsInfo1.Size = new Size(1238, 667);
+            uscagVsInfo1.Size = new Size(1594, 855);
             uscagVsInfo1.TabIndex = 0;
             // 
             // tableLayoutPanel2
@@ -480,14 +500,15 @@
             tableLayoutPanel2.Controls.Add(label4, 0, 2);
             tableLayoutPanel2.Controls.Add(label3, 1, 0);
             tableLayoutPanel2.Controls.Add(label5, 1, 2);
-            tableLayoutPanel2.Location = new Point(46, 26);
+            tableLayoutPanel2.Location = new Point(59, 33);
+            tableLayoutPanel2.Margin = new Padding(4, 4, 4, 4);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
             tableLayoutPanel2.RowCount = 4;
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 17F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 22F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 17F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 22F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel2.Size = new Size(711, 230);
+            tableLayoutPanel2.Size = new Size(914, 292);
             tableLayoutPanel2.TabIndex = 10;
             tableLayoutPanel2.Visible = false;
             // 
@@ -504,7 +525,8 @@
             dgvMsgFromMCS.DataSource = primaryMessageWrapperBindingSource4;
             dgvMsgFromMCS.Dock = DockStyle.Fill;
             dgvMsgFromMCS.GridColor = Color.DarkCyan;
-            dgvMsgFromMCS.Location = new Point(4, 22);
+            dgvMsgFromMCS.Location = new Point(5, 28);
+            dgvMsgFromMCS.Margin = new Padding(4, 4, 4, 4);
             dgvMsgFromMCS.Name = "dgvMsgFromMCS";
             dgvMsgFromMCS.ReadOnly = true;
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
@@ -516,14 +538,16 @@
             dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
             dgvMsgFromMCS.RowHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvMsgFromMCS.RowHeadersVisible = false;
+            dgvMsgFromMCS.RowHeadersWidth = 51;
             dgvMsgFromMCS.RowTemplate.Height = 25;
-            dgvMsgFromMCS.Size = new Size(348, 89);
+            dgvMsgFromMCS.Size = new Size(447, 113);
             dgvMsgFromMCS.TabIndex = 6;
             // 
             // primaryMessageSMLDataGridViewTextBoxColumn2
             // 
             primaryMessageSMLDataGridViewTextBoxColumn2.DataPropertyName = "PrimaryMessageSML";
             primaryMessageSMLDataGridViewTextBoxColumn2.HeaderText = "PrimaryMessageSML";
+            primaryMessageSMLDataGridViewTextBoxColumn2.MinimumWidth = 6;
             primaryMessageSMLDataGridViewTextBoxColumn2.Name = "primaryMessageSMLDataGridViewTextBoxColumn2";
             primaryMessageSMLDataGridViewTextBoxColumn2.ReadOnly = true;
             // 
@@ -531,6 +555,7 @@
             // 
             secondaryMessageSMLDataGridViewTextBoxColumn3.DataPropertyName = "SecondaryMessageSML";
             secondaryMessageSMLDataGridViewTextBoxColumn3.HeaderText = "SecondaryMessageSML";
+            secondaryMessageSMLDataGridViewTextBoxColumn3.MinimumWidth = 6;
             secondaryMessageSMLDataGridViewTextBoxColumn3.Name = "secondaryMessageSMLDataGridViewTextBoxColumn3";
             secondaryMessageSMLDataGridViewTextBoxColumn3.ReadOnly = true;
             // 
@@ -551,18 +576,21 @@
             dgvMsgFromAGVS.DataSource = primaryMessageWrapperBindingSource1;
             dgvMsgFromAGVS.Dock = DockStyle.Fill;
             dgvMsgFromAGVS.GridColor = Color.DarkCyan;
-            dgvMsgFromAGVS.Location = new Point(4, 136);
+            dgvMsgFromAGVS.Location = new Point(5, 173);
+            dgvMsgFromAGVS.Margin = new Padding(4, 4, 4, 4);
             dgvMsgFromAGVS.Name = "dgvMsgFromAGVS";
             dgvMsgFromAGVS.ReadOnly = true;
             dgvMsgFromAGVS.RowHeadersVisible = false;
+            dgvMsgFromAGVS.RowHeadersWidth = 51;
             dgvMsgFromAGVS.RowTemplate.Height = 25;
-            dgvMsgFromAGVS.Size = new Size(348, 90);
+            dgvMsgFromAGVS.Size = new Size(447, 114);
             dgvMsgFromAGVS.TabIndex = 8;
             // 
             // primaryMessageSMLDataGridViewTextBoxColumn
             // 
             primaryMessageSMLDataGridViewTextBoxColumn.DataPropertyName = "PrimaryMessageSML";
             primaryMessageSMLDataGridViewTextBoxColumn.HeaderText = "PrimaryMessageSML";
+            primaryMessageSMLDataGridViewTextBoxColumn.MinimumWidth = 6;
             primaryMessageSMLDataGridViewTextBoxColumn.Name = "primaryMessageSMLDataGridViewTextBoxColumn";
             primaryMessageSMLDataGridViewTextBoxColumn.ReadOnly = true;
             // 
@@ -570,6 +598,7 @@
             // 
             secondaryMessageSMLDataGridViewTextBoxColumn.DataPropertyName = "SecondaryMessageSML";
             secondaryMessageSMLDataGridViewTextBoxColumn.HeaderText = "SecondaryMessageSML";
+            secondaryMessageSMLDataGridViewTextBoxColumn.MinimumWidth = 6;
             secondaryMessageSMLDataGridViewTextBoxColumn.Name = "secondaryMessageSMLDataGridViewTextBoxColumn";
             secondaryMessageSMLDataGridViewTextBoxColumn.ReadOnly = true;
             // 
@@ -589,18 +618,21 @@
             dgvActiveMsgToMCS.DataSource = primaryMessageWrapperBindingSource3;
             dgvActiveMsgToMCS.Dock = DockStyle.Fill;
             dgvActiveMsgToMCS.GridColor = Color.DarkCyan;
-            dgvActiveMsgToMCS.Location = new Point(359, 22);
+            dgvActiveMsgToMCS.Location = new Point(461, 28);
+            dgvActiveMsgToMCS.Margin = new Padding(4, 4, 4, 4);
             dgvActiveMsgToMCS.Name = "dgvActiveMsgToMCS";
             dgvActiveMsgToMCS.ReadOnly = true;
             dgvActiveMsgToMCS.RowHeadersVisible = false;
+            dgvActiveMsgToMCS.RowHeadersWidth = 51;
             dgvActiveMsgToMCS.RowTemplate.Height = 25;
-            dgvActiveMsgToMCS.Size = new Size(348, 89);
+            dgvActiveMsgToMCS.Size = new Size(448, 113);
             dgvActiveMsgToMCS.TabIndex = 7;
             // 
             // primaryMessageSMLDataGridViewTextBoxColumn1
             // 
             primaryMessageSMLDataGridViewTextBoxColumn1.DataPropertyName = "PrimaryMessageSML";
             primaryMessageSMLDataGridViewTextBoxColumn1.HeaderText = "PrimaryMessageSML";
+            primaryMessageSMLDataGridViewTextBoxColumn1.MinimumWidth = 6;
             primaryMessageSMLDataGridViewTextBoxColumn1.Name = "primaryMessageSMLDataGridViewTextBoxColumn1";
             primaryMessageSMLDataGridViewTextBoxColumn1.ReadOnly = true;
             // 
@@ -608,6 +640,7 @@
             // 
             secondaryMessageSMLDataGridViewTextBoxColumn2.DataPropertyName = "SecondaryMessageSML";
             secondaryMessageSMLDataGridViewTextBoxColumn2.HeaderText = "SecondaryMessageSML";
+            secondaryMessageSMLDataGridViewTextBoxColumn2.MinimumWidth = 6;
             secondaryMessageSMLDataGridViewTextBoxColumn2.Name = "secondaryMessageSMLDataGridViewTextBoxColumn2";
             secondaryMessageSMLDataGridViewTextBoxColumn2.ReadOnly = true;
             // 
@@ -627,18 +660,21 @@
             dgvActiveMsgToAGVS.DataSource = primaryMessageWrapperBindingSource2;
             dgvActiveMsgToAGVS.Dock = DockStyle.Fill;
             dgvActiveMsgToAGVS.GridColor = Color.DarkCyan;
-            dgvActiveMsgToAGVS.Location = new Point(359, 136);
+            dgvActiveMsgToAGVS.Location = new Point(461, 173);
+            dgvActiveMsgToAGVS.Margin = new Padding(4, 4, 4, 4);
             dgvActiveMsgToAGVS.Name = "dgvActiveMsgToAGVS";
             dgvActiveMsgToAGVS.ReadOnly = true;
             dgvActiveMsgToAGVS.RowHeadersVisible = false;
+            dgvActiveMsgToAGVS.RowHeadersWidth = 51;
             dgvActiveMsgToAGVS.RowTemplate.Height = 25;
-            dgvActiveMsgToAGVS.Size = new Size(348, 90);
+            dgvActiveMsgToAGVS.Size = new Size(448, 114);
             dgvActiveMsgToAGVS.TabIndex = 9;
             // 
             // dataGridViewTextBoxColumn6
             // 
             dataGridViewTextBoxColumn6.DataPropertyName = "PrimaryMessageSML";
             dataGridViewTextBoxColumn6.HeaderText = "PrimaryMessageSML";
+            dataGridViewTextBoxColumn6.MinimumWidth = 6;
             dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
             dataGridViewTextBoxColumn6.ReadOnly = true;
             // 
@@ -646,6 +682,7 @@
             // 
             secondaryMessageSMLDataGridViewTextBoxColumn1.DataPropertyName = "SecondaryMessageSML";
             secondaryMessageSMLDataGridViewTextBoxColumn1.HeaderText = "SecondaryMessageSML";
+            secondaryMessageSMLDataGridViewTextBoxColumn1.MinimumWidth = 6;
             secondaryMessageSMLDataGridViewTextBoxColumn1.Name = "secondaryMessageSMLDataGridViewTextBoxColumn1";
             secondaryMessageSMLDataGridViewTextBoxColumn1.ReadOnly = true;
             // 
@@ -663,7 +700,7 @@
             label2.Location = new Point(1, 1);
             label2.Margin = new Padding(0);
             label2.Name = "label2";
-            label2.Size = new Size(354, 17);
+            label2.Size = new Size(455, 22);
             label2.TabIndex = 10;
             label2.Text = "From MCS";
             // 
@@ -674,10 +711,10 @@
             label4.BorderStyle = BorderStyle.FixedSingle;
             label4.Dock = DockStyle.Fill;
             label4.ForeColor = Color.White;
-            label4.Location = new Point(1, 115);
+            label4.Location = new Point(1, 146);
             label4.Margin = new Padding(0);
             label4.Name = "label4";
-            label4.Size = new Size(354, 17);
+            label4.Size = new Size(455, 22);
             label4.TabIndex = 12;
             label4.Text = "From AGVS";
             // 
@@ -688,10 +725,10 @@
             label3.BorderStyle = BorderStyle.FixedSingle;
             label3.Dock = DockStyle.Fill;
             label3.ForeColor = Color.White;
-            label3.Location = new Point(356, 1);
+            label3.Location = new Point(457, 1);
             label3.Margin = new Padding(0);
             label3.Name = "label3";
-            label3.Size = new Size(354, 17);
+            label3.Size = new Size(456, 22);
             label3.TabIndex = 11;
             label3.Text = "To MCS";
             // 
@@ -702,10 +739,10 @@
             label5.BorderStyle = BorderStyle.FixedSingle;
             label5.Dock = DockStyle.Fill;
             label5.ForeColor = Color.White;
-            label5.Location = new Point(356, 115);
+            label5.Location = new Point(457, 146);
             label5.Margin = new Padding(0);
             label5.Name = "label5";
-            label5.Size = new Size(354, 17);
+            label5.Size = new Size(456, 22);
             label5.TabIndex = 13;
             label5.Text = "To AGVS";
             // 
@@ -714,12 +751,13 @@
             GPMRDMenuStrip.AutoSize = false;
             GPMRDMenuStrip.BackColor = Color.FromArgb(53, 53, 53);
             GPMRDMenuStrip.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            GPMRDMenuStrip.Items.AddRange(new ToolStripItem[] { labRegionName, txbRegionNameEditInput, btnRegionNameEditedConfirm, btnCancelRegionNameEdit, toolStripComboBox_Emulators });
+            GPMRDMenuStrip.ImageScalingSize = new Size(20, 20);
+            GPMRDMenuStrip.Items.AddRange(new ToolStripItem[] { labRegionName, txbRegionNameEditInput, btnRegionNameEditedConfirm, btnCancelRegionNameEdit, toolStripComboBox_Emulators, 警報器IO狀態ToolStripMenuItem });
             GPMRDMenuStrip.Location = new Point(0, 0);
             GPMRDMenuStrip.Name = "GPMRDMenuStrip";
-            GPMRDMenuStrip.Padding = new Padding(6, 2, 0, 6);
+            GPMRDMenuStrip.Padding = new Padding(8, 3, 0, 8);
             GPMRDMenuStrip.RenderMode = ToolStripRenderMode.System;
-            GPMRDMenuStrip.Size = new Size(1407, 53);
+            GPMRDMenuStrip.Size = new Size(1809, 67);
             GPMRDMenuStrip.TabIndex = 3;
             GPMRDMenuStrip.Text = "menuStrip1";
             // 
@@ -729,13 +767,13 @@
             labRegionName.Font = new Font("Microsoft JhengHei UI", 22F, FontStyle.Bold, GraphicsUnit.Point);
             labRegionName.ForeColor = Color.FromArgb(255, 128, 0);
             labRegionName.Name = "labRegionName";
-            labRegionName.Size = new Size(120, 45);
+            labRegionName.Size = new Size(146, 56);
             labRegionName.Text = "UMTC";
             // 
             // 編輯ToolStripMenuItem
             // 
             編輯ToolStripMenuItem.Name = "編輯ToolStripMenuItem";
-            編輯ToolStripMenuItem.Size = new Size(154, 42);
+            編輯ToolStripMenuItem.Size = new Size(188, 52);
             編輯ToolStripMenuItem.Text = "編輯";
             編輯ToolStripMenuItem.Click += btnEditRegionName_Click;
             // 
@@ -744,7 +782,7 @@
             txbRegionNameEditInput.Font = new Font("Microsoft JhengHei UI", 15F, FontStyle.Regular, GraphicsUnit.Point);
             txbRegionNameEditInput.ForeColor = Color.FromArgb(255, 128, 0);
             txbRegionNameEditInput.Name = "txbRegionNameEditInput";
-            txbRegionNameEditInput.Size = new Size(222, 45);
+            txbRegionNameEditInput.Size = new Size(284, 56);
             txbRegionNameEditInput.Text = "UMTC";
             txbRegionNameEditInput.Visible = false;
             // 
@@ -755,7 +793,7 @@
             btnRegionNameEditedConfirm.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Bold | FontStyle.Underline, GraphicsUnit.Point);
             btnRegionNameEditedConfirm.ForeColor = Color.White;
             btnRegionNameEditedConfirm.Name = "btnRegionNameEditedConfirm";
-            btnRegionNameEditedConfirm.Size = new Size(53, 45);
+            btnRegionNameEditedConfirm.Size = new Size(66, 56);
             btnRegionNameEditedConfirm.Text = "確認";
             btnRegionNameEditedConfirm.Visible = false;
             btnRegionNameEditedConfirm.Click += btnRegionNameEditedConfirm_Click;
@@ -767,7 +805,7 @@
             btnCancelRegionNameEdit.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Bold | FontStyle.Underline, GraphicsUnit.Point);
             btnCancelRegionNameEdit.ForeColor = Color.White;
             btnCancelRegionNameEdit.Name = "btnCancelRegionNameEdit";
-            btnCancelRegionNameEdit.Size = new Size(85, 45);
+            btnCancelRegionNameEdit.Size = new Size(106, 56);
             btnCancelRegionNameEdit.Text = "取消編輯";
             btnCancelRegionNameEdit.Visible = false;
             btnCancelRegionNameEdit.Click += btnCancelRegionNameEdit_Click;
@@ -779,14 +817,14 @@
             toolStripComboBox_Emulators.ForeColor = Color.White;
             toolStripComboBox_Emulators.Name = "toolStripComboBox_Emulators";
             toolStripComboBox_Emulators.ShowShortcutKeys = false;
-            toolStripComboBox_Emulators.Size = new Size(69, 45);
+            toolStripComboBox_Emulators.Size = new Size(86, 56);
             toolStripComboBox_Emulators.Text = "模擬器";
             // 
             // mCS模擬器ToolStripMenuItem
             // 
             mCS模擬器ToolStripMenuItem.Name = "mCS模擬器ToolStripMenuItem";
             mCS模擬器ToolStripMenuItem.ShortcutKeys = Keys.F1;
-            mCS模擬器ToolStripMenuItem.Size = new Size(239, 24);
+            mCS模擬器ToolStripMenuItem.Size = new Size(300, 30);
             mCS模擬器ToolStripMenuItem.Text = "MCS 模擬器";
             mCS模擬器ToolStripMenuItem.Click += btnOpenMCSSimulatorForm_Click;
             // 
@@ -794,14 +832,14 @@
             // 
             CVSimulatorsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { toolStripMenuItem_OpenConvert_1_Simulator, toolStripMenuItem2, toolStripMenuItem_OpenConvert_2_Simulator });
             CVSimulatorsToolStripMenuItem.Name = "CVSimulatorsToolStripMenuItem";
-            CVSimulatorsToolStripMenuItem.Size = new Size(239, 24);
+            CVSimulatorsToolStripMenuItem.Size = new Size(300, 30);
             CVSimulatorsToolStripMenuItem.Text = "轉換架模擬器";
             // 
             // toolStripMenuItem_OpenConvert_1_Simulator
             // 
             toolStripMenuItem_OpenConvert_1_Simulator.Name = "toolStripMenuItem_OpenConvert_1_Simulator";
             toolStripMenuItem_OpenConvert_1_Simulator.ShortcutKeys = Keys.F3;
-            toolStripMenuItem_OpenConvert_1_Simulator.Size = new Size(175, 24);
+            toolStripMenuItem_OpenConvert_1_Simulator.Size = new Size(222, 30);
             toolStripMenuItem_OpenConvert_1_Simulator.Text = "轉換架 [1]";
             toolStripMenuItem_OpenConvert_1_Simulator.Click += toolStripMenuItem_OpenConvert_1_Simulator_Click;
             // 
@@ -809,28 +847,28 @@
             // 
             toolStripMenuItem2.Name = "toolStripMenuItem2";
             toolStripMenuItem2.ShortcutKeys = Keys.F4;
-            toolStripMenuItem2.Size = new Size(175, 24);
+            toolStripMenuItem2.Size = new Size(222, 30);
             toolStripMenuItem2.Text = "轉換架 [2]";
             // 
             // toolStripMenuItem_OpenConvert_2_Simulator
             // 
             toolStripMenuItem_OpenConvert_2_Simulator.Name = "toolStripMenuItem_OpenConvert_2_Simulator";
             toolStripMenuItem_OpenConvert_2_Simulator.ShortcutKeys = Keys.F5;
-            toolStripMenuItem_OpenConvert_2_Simulator.Size = new Size(175, 24);
+            toolStripMenuItem_OpenConvert_2_Simulator.Size = new Size(222, 30);
             toolStripMenuItem_OpenConvert_2_Simulator.Text = "轉換架 [3]";
             toolStripMenuItem_OpenConvert_2_Simulator.Click += toolStripMenuItem_OpenConvert_2_Simulator_Click;
             // 
             // AGVS_modbus_sim_ToolStripMenuItem
             // 
             AGVS_modbus_sim_ToolStripMenuItem.Name = "AGVS_modbus_sim_ToolStripMenuItem";
-            AGVS_modbus_sim_ToolStripMenuItem.Size = new Size(239, 24);
+            AGVS_modbus_sim_ToolStripMenuItem.Size = new Size(300, 30);
             AGVS_modbus_sim_ToolStripMenuItem.Text = "AGVS Modbus 模擬器";
             AGVS_modbus_sim_ToolStripMenuItem.Click += Agvs_modbus_emu_selBtn_Click;
             // 
             // aGVSEmuToolStripMenuItem
             // 
             aGVSEmuToolStripMenuItem.Name = "aGVSEmuToolStripMenuItem";
-            aGVSEmuToolStripMenuItem.Size = new Size(239, 24);
+            aGVSEmuToolStripMenuItem.Size = new Size(300, 30);
             aGVSEmuToolStripMenuItem.Text = "AGVS 派車模擬器";
             aGVSEmuToolStripMenuItem.Click += aGVS派車模擬器ToolStripMenuItem_Click;
             // 
@@ -845,9 +883,10 @@
             pnlSideLeft.Controls.Add(label1);
             pnlSideLeft.Dock = DockStyle.Left;
             pnlSideLeft.ForeColor = Color.White;
-            pnlSideLeft.Location = new Point(0, 53);
+            pnlSideLeft.Location = new Point(0, 67);
+            pnlSideLeft.Margin = new Padding(4, 4, 4, 4);
             pnlSideLeft.Name = "pnlSideLeft";
-            pnlSideLeft.Size = new Size(155, 828);
+            pnlSideLeft.Size = new Size(199, 1055);
             pnlSideLeft.TabIndex = 5;
             // 
             // ckbHotRunMode
@@ -855,9 +894,10 @@
             ckbHotRunMode.AutoSize = true;
             ckbHotRunMode.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Bold, GraphicsUnit.Point);
             ckbHotRunMode.ForeColor = Color.SandyBrown;
-            ckbHotRunMode.Location = new Point(5, 163);
+            ckbHotRunMode.Location = new Point(6, 206);
+            ckbHotRunMode.Margin = new Padding(4, 4, 4, 4);
             ckbHotRunMode.Name = "ckbHotRunMode";
-            ckbHotRunMode.Size = new Size(119, 28);
+            ckbHotRunMode.Size = new Size(148, 34);
             ckbHotRunMode.TabIndex = 9;
             ckbHotRunMode.Text = "HOT RUN";
             ckbHotRunMode.UseVisualStyleBackColor = true;
@@ -868,9 +908,10 @@
             // 
             btnOpenLoginFOrm.Font = new Font("Microsoft JhengHei UI", 13F, FontStyle.Regular, GraphicsUnit.Point);
             btnOpenLoginFOrm.ForeColor = Color.Black;
-            btnOpenLoginFOrm.Location = new Point(5, 2);
+            btnOpenLoginFOrm.Location = new Point(6, 3);
+            btnOpenLoginFOrm.Margin = new Padding(4, 4, 4, 4);
             btnOpenLoginFOrm.Name = "btnOpenLoginFOrm";
-            btnOpenLoginFOrm.Size = new Size(143, 70);
+            btnOpenLoginFOrm.Size = new Size(184, 89);
             btnOpenLoginFOrm.TabIndex = 8;
             btnOpenLoginFOrm.Text = "Login";
             btnOpenLoginFOrm.UseVisualStyleBackColor = true;
@@ -880,9 +921,10 @@
             // 
             label6.Font = new Font("Microsoft JhengHei UI", 15F, FontStyle.Bold, GraphicsUnit.Point);
             label6.ForeColor = SystemColors.ActiveCaption;
-            label6.Location = new Point(3, 82);
+            label6.Location = new Point(4, 104);
+            label6.Margin = new Padding(4, 0, 4, 0);
             label6.Name = "label6";
-            label6.Size = new Size(145, 78);
+            label6.Size = new Size(186, 99);
             label6.TabIndex = 7;
             label6.Text = "VISITOR";
             label6.TextAlign = ContentAlignment.TopCenter;
@@ -892,12 +934,13 @@
             uscConnectionStates1.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             uscConnectionStates1.AutoSize = true;
             uscConnectionStates1.BackColor = Color.Transparent;
-            uscConnectionStates1.Location = new Point(11, 727);
-            uscConnectionStates1.MaximumSize = new Size(134, 96);
-            uscConnectionStates1.MinimumSize = new Size(134, 96);
+            uscConnectionStates1.Location = new Point(14, 928);
+            uscConnectionStates1.Margin = new Padding(5, 5, 5, 5);
+            uscConnectionStates1.MaximumSize = new Size(172, 122);
+            uscConnectionStates1.MinimumSize = new Size(172, 122);
             uscConnectionStates1.Name = "uscConnectionStates1";
             uscConnectionStates1.Padding = new Padding(1);
-            uscConnectionStates1.Size = new Size(134, 96);
+            uscConnectionStates1.Size = new Size(172, 122);
             uscConnectionStates1.TabIndex = 5;
             // 
             // label1
@@ -907,9 +950,10 @@
             label1.BorderStyle = BorderStyle.FixedSingle;
             label1.Font = new Font("Microsoft JhengHei UI", 13F, FontStyle.Regular, GraphicsUnit.Point);
             label1.ForeColor = Color.WhiteSmoke;
-            label1.Location = new Point(-9, 673);
+            label1.Location = new Point(-12, 859);
+            label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
-            label1.Size = new Size(164, 51);
+            label1.Size = new Size(210, 64);
             label1.TabIndex = 6;
             label1.Text = "SECS/GEM \r\n通訊狀態";
             label1.TextAlign = ContentAlignment.MiddleCenter;
@@ -917,10 +961,12 @@
             // statusStrip1
             // 
             statusStrip1.BackColor = Color.FromArgb(0, 57, 155);
+            statusStrip1.ImageScalingSize = new Size(20, 20);
             statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel1, labCurrentEncodingName, labSysTime });
-            statusStrip1.Location = new Point(0, 881);
+            statusStrip1.Location = new Point(0, 1122);
             statusStrip1.Name = "statusStrip1";
-            statusStrip1.Size = new Size(1407, 22);
+            statusStrip1.Padding = new Padding(1, 0, 18, 0);
+            statusStrip1.Size = new Size(1809, 22);
             statusStrip1.TabIndex = 8;
             statusStrip1.Text = "statusStrip1";
             // 
@@ -932,7 +978,7 @@
             toolStripStatusLabel1.LinkColor = Color.FromArgb(53, 53, 53);
             toolStripStatusLabel1.Margin = new Padding(0);
             toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            toolStripStatusLabel1.Size = new Size(1226, 22);
+            toolStripStatusLabel1.Size = new Size(1596, 22);
             toolStripStatusLabel1.Spring = true;
             toolStripStatusLabel1.Text = "GPM AGV SYSTEM CIM";
             // 
@@ -944,7 +990,7 @@
             labCurrentEncodingName.LinkColor = Color.FromArgb(53, 53, 53);
             labCurrentEncodingName.Margin = new Padding(0);
             labCurrentEncodingName.Name = "labCurrentEncodingName";
-            labCurrentEncodingName.Size = new Size(46, 22);
+            labCurrentEncodingName.Size = new Size(54, 22);
             labCurrentEncodingName.Text = "Default";
             labCurrentEncodingName.Click += labCurrentEncodingName_Click;
             // 
@@ -956,7 +1002,7 @@
             labSysTime.LinkColor = Color.FromArgb(53, 53, 53);
             labSysTime.Margin = new Padding(0);
             labSysTime.Name = "labSysTime";
-            labSysTime.Size = new Size(120, 22);
+            labSysTime.Size = new Size(140, 22);
             labSysTime.Text = "1991/10/20 10:00:00";
             labSysTime.Click += labSysTime_Click;
             // 
@@ -972,16 +1018,18 @@
             uscAlarmShow1.BackColor = Color.FromArgb(0, 57, 155);
             uscAlarmShow1.Dock = DockStyle.Top;
             uscAlarmShow1.ForeColor = Color.White;
-            uscAlarmShow1.Location = new Point(155, 53);
+            uscAlarmShow1.Location = new Point(199, 67);
+            uscAlarmShow1.Margin = new Padding(5, 5, 5, 5);
             uscAlarmShow1.Name = "uscAlarmShow1";
-            uscAlarmShow1.Size = new Size(1252, 74);
+            uscAlarmShow1.Size = new Size(1610, 93);
             uscAlarmShow1.TabIndex = 10;
             // 
             // splitContainer1
             // 
             splitContainer1.BackColor = Color.FromArgb(53, 53, 53);
             splitContainer1.Dock = DockStyle.Fill;
-            splitContainer1.Location = new Point(155, 127);
+            splitContainer1.Location = new Point(199, 160);
+            splitContainer1.Margin = new Padding(4, 4, 4, 4);
             splitContainer1.Name = "splitContainer1";
             splitContainer1.Orientation = Orientation.Horizontal;
             // 
@@ -993,8 +1041,9 @@
             // splitContainer1.Panel2
             // 
             splitContainer1.Panel2.Controls.Add(tableLayoutPanel2);
-            splitContainer1.Size = new Size(1252, 754);
-            splitContainer1.SplitterDistance = 711;
+            splitContainer1.Size = new Size(1610, 962);
+            splitContainer1.SplitterDistance = 907;
+            splitContainer1.SplitterWidth = 5;
             splitContainer1.TabIndex = 12;
             // 
             // ckbRemoteModeIndi
@@ -1006,9 +1055,10 @@
             ckbRemoteModeIndi.FlatAppearance.CheckedBackColor = Color.SeaGreen;
             ckbRemoteModeIndi.FlatStyle = FlatStyle.Flat;
             ckbRemoteModeIndi.ForeColor = Color.White;
-            ckbRemoteModeIndi.Location = new Point(1327, 2);
+            ckbRemoteModeIndi.Location = new Point(1706, 3);
+            ckbRemoteModeIndi.Margin = new Padding(4, 4, 4, 4);
             ckbRemoteModeIndi.Name = "ckbRemoteModeIndi";
-            ckbRemoteModeIndi.Size = new Size(77, 25);
+            ckbRemoteModeIndi.Size = new Size(99, 32);
             ckbRemoteModeIndi.TabIndex = 14;
             ckbRemoteModeIndi.Text = "LOCAL";
             ckbRemoteModeIndi.TextAlign = ContentAlignment.MiddleCenter;
@@ -1025,9 +1075,10 @@
             cknOnlineModeIndi.FlatAppearance.CheckedBackColor = Color.SeaGreen;
             cknOnlineModeIndi.FlatStyle = FlatStyle.Flat;
             cknOnlineModeIndi.ForeColor = Color.White;
-            cknOnlineModeIndi.Location = new Point(1246, 2);
+            cknOnlineModeIndi.Location = new Point(1602, 3);
+            cknOnlineModeIndi.Margin = new Padding(4, 4, 4, 4);
             cknOnlineModeIndi.Name = "cknOnlineModeIndi";
-            cknOnlineModeIndi.Size = new Size(77, 25);
+            cknOnlineModeIndi.Size = new Size(99, 32);
             cknOnlineModeIndi.TabIndex = 15;
             cknOnlineModeIndi.Text = "OFFLINE";
             cknOnlineModeIndi.TextAlign = ContentAlignment.MiddleCenter;
@@ -1041,8 +1092,9 @@
             pnlLoading.Controls.Add(label7);
             pnlLoading.Dock = DockStyle.Fill;
             pnlLoading.Location = new Point(0, 0);
+            pnlLoading.Margin = new Padding(4, 4, 4, 4);
             pnlLoading.Name = "pnlLoading";
-            pnlLoading.Size = new Size(1407, 903);
+            pnlLoading.Size = new Size(1809, 1144);
             pnlLoading.TabIndex = 16;
             // 
             // label7
@@ -1051,19 +1103,34 @@
             label7.Font = new Font("Microsoft JhengHei UI", 44F, FontStyle.Regular, GraphicsUnit.Point);
             label7.ForeColor = Color.White;
             label7.Location = new Point(0, 0);
+            label7.Margin = new Padding(4, 0, 4, 0);
             label7.Name = "label7";
-            label7.Size = new Size(1407, 903);
+            label7.Size = new Size(1809, 1144);
             label7.TabIndex = 0;
             label7.Text = "Loading...";
             label7.TextAlign = ContentAlignment.MiddleCenter;
             // 
+            // 警報器IO狀態ToolStripMenuItem
+            // 
+            警報器IO狀態ToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { 警報器DIOToolStripMenuItem });
+            警報器IO狀態ToolStripMenuItem.Name = "警報器IO狀態ToolStripMenuItem";
+            警報器IO狀態ToolStripMenuItem.Size = new Size(148, 56);
+            警報器IO狀態ToolStripMenuItem.Text = "警報器IO狀態";
+            // 
+            // 警報器DIOToolStripMenuItem
+            // 
+            警報器DIOToolStripMenuItem.Name = "警報器DIOToolStripMenuItem";
+            警報器DIOToolStripMenuItem.Size = new Size(224, 30);
+            警報器DIOToolStripMenuItem.Text = "警報器DIO";
+            警報器DIOToolStripMenuItem.Click += 警報器DIOToolStripMenuItem_Click;
+            // 
             // frmMain
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(9F, 19F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoScroll = true;
             BackColor = Color.FromArgb(51, 51, 51);
-            ClientSize = new Size(1407, 903);
+            ClientSize = new Size(1809, 1144);
             Controls.Add(cknOnlineModeIndi);
             Controls.Add(ckbRemoteModeIndi);
             Controls.Add(splitContainer1);
@@ -1074,6 +1141,7 @@
             Controls.Add(pnlLoading);
             Icon = (Icon)resources.GetObject("$this.Icon");
             MainMenuStrip = GPMRDMenuStrip;
+            Margin = new Padding(4, 4, 4, 4);
             Name = "frmMain";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "GPM AGVS CIM_V23.5.23.1";
@@ -1207,5 +1275,7 @@
         private ToolStripMenuItem labRegionName;
         private ToolStripMenuItem 編輯ToolStripMenuItem;
         private ToolStripTextBox txbRegionNameEditInput;
+        private ToolStripMenuItem 警報器IO狀態ToolStripMenuItem;
+        private ToolStripMenuItem 警報器DIOToolStripMenuItem;
     }
 }
