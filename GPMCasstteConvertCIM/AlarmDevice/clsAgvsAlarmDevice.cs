@@ -10,23 +10,24 @@ using System.Net.Sockets;
 using System.Net;
 using GPMCasstteConvertCIM.Utilities.SysConfigs;
 using GPMCasstteConvertCIM;
+using GPMCasstteConvertCIM.Utilities;
 
 
 namespace GPMCasstteConvertCIM.AlarmDevice
 {
     public class clsAgvsAlarmDevice
     {
-        clsModbusDeviceConfigs clsModbusDeviceConfigscls = new clsModbusDeviceConfigs();
+        
         ModbusIpMaster modbusMaster;
-        string IPaddress => clsModbusDeviceConfigscls.IP_Address;
-        int Port => clsModbusDeviceConfigscls.port;
-        ushort DI_SrartAddress => clsModbusDeviceConfigscls.DI_SrartAddress;
-        ushort DI_EndAddress => clsModbusDeviceConfigscls.DI_EndAddress;
-        ushort DO_SrartAddress => clsModbusDeviceConfigscls.DO_SrartAddress;
-        ushort DO_EndAddress => clsModbusDeviceConfigscls.DO_EndAddress;
+        string IPaddress => Utility.ModbusDeviceConfigs.IP_Address;
+        int Port => Utility.ModbusDeviceConfigs.port;
+        ushort DI_SrartAddress => Utility.ModbusDeviceConfigs.DI_SrartAddress;
+        ushort DI_EndAddress => Utility.ModbusDeviceConfigs.DI_EndAddress;
+        ushort DO_SrartAddress => Utility.ModbusDeviceConfigs.DO_SrartAddress;
+        ushort DO_EndAddress => Utility.ModbusDeviceConfigs.DO_EndAddress;
         bool[] outputs = new bool[7];
         bool[] intputs = new bool[8];
-        bool Enable => clsModbusDeviceConfigscls.Enable;
+        bool Enable => Utility.ModbusDeviceConfigs.Enable;
 
         private ModbusIpMaster AdamConnect()
         {
@@ -113,9 +114,9 @@ namespace GPMCasstteConvertCIM.AlarmDevice
                             MusicStop();
                         }
                     }
-                    catch (Exception)
+                    catch
                     {
-                        Console.WriteLine("disconnect");
+                        Utility.SystemLogger.Info("SE MP3 Alarm DIO is disconnect");
                         disconncount += 1;
                         continue;
                     }

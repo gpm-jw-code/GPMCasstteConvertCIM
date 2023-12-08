@@ -50,6 +50,7 @@ namespace GPMCasstteConvertCIM.Utilities
                 Directory.CreateDirectory(configsFolder);
 
             string SysCofigsFile = Path.Combine(configsFolder, "SystemConfigs.json");
+            string ModbusDeviceConfig = Path.Combine(configsFolder, "ModbusDeviceConfigs.json");
             if (File.Exists(SysCofigsFile))
             {
                 SysConfigs = JsonConvert.DeserializeObject<clsSystemConfigs>(File.ReadAllText(SysCofigsFile));
@@ -70,6 +71,8 @@ namespace GPMCasstteConvertCIM.Utilities
                     };
                 }
             }
+            if (File.Exists(ModbusDeviceConfig))
+            { ModbusDeviceConfigs = JsonConvert.DeserializeObject<clsModbusDeviceConfigs>(File.ReadAllText(ModbusDeviceConfig)); }
             SaveConfigs();
         }
 
