@@ -22,11 +22,12 @@ namespace GPMCasstteConvertCIM.GPM_SECS
             {
                 if (_IsOnline != value)
                 {
-                    clsAgvsAlarmDevice.Return_Online();
+                    
                     Utility.SystemLogger.Info($"AGVS/MCS Online Mode Changed to {(value ? "Online" : "Offline")}");
                     _IsOnline = value;
                     if (_IsRemote && _IsOnline)
                     {
+                        clsAgvsAlarmDevice.Return_Online();
                         OnMCSOnlineRemote("", EventArgs.Empty);
                     } 
                 }
@@ -39,11 +40,11 @@ namespace GPMCasstteConvertCIM.GPM_SECS
             {
                 if (_IsRemote != value)
                 {
-                    clsAgvsAlarmDevice.Return_Online();
                     Utility.SystemLogger.Info($"AGVS/MCS Operation Mode Changed to {(value ? "Remote" : "Local")}");
                     _IsRemote = value;
                     if (_IsRemote && _IsOnline)
                     {
+                        clsAgvsAlarmDevice.Return_Online();
                         OnMCSOnlineRemote("", EventArgs.Empty);
                     }
                 }
