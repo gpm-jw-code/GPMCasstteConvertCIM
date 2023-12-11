@@ -28,6 +28,7 @@ namespace GPMCasstteConvertCIM.AlarmDevice
         bool[] outputs = new bool[7];
         bool[] intputs = new bool[8];
         bool Enable => Utility.ModbusDeviceConfigs.Enable;
+        bool Conn = false;
 
         private ModbusIpMaster AdamConnect()
         {
@@ -38,7 +39,7 @@ namespace GPMCasstteConvertCIM.AlarmDevice
 
         public async void MusicStop()
         {
-            if (Enable)
+            if (Enable && Conn)
                 try
                 {
                     var modbusMaster = AdamConnect();
@@ -49,7 +50,7 @@ namespace GPMCasstteConvertCIM.AlarmDevice
         }
         public async void PlayAGV_AlarmMusic()
         {
-            if (Enable)
+            if (Enable && Conn)
                 try
                 {
                     var modbusMaster = AdamConnect();
@@ -63,7 +64,7 @@ namespace GPMCasstteConvertCIM.AlarmDevice
         }
         public async void offline()
         {
-            if (Enable)
+            if (Enable && Conn)
                 try
                 {
                     var modbusMaster = AdamConnect();
@@ -74,7 +75,7 @@ namespace GPMCasstteConvertCIM.AlarmDevice
         }
         public async void Return_Online()
         {
-            if (Enable)
+            if (Enable && Conn)
                 try
                 {
                     var modbusMaster = AdamConnect();
@@ -113,11 +114,13 @@ namespace GPMCasstteConvertCIM.AlarmDevice
                         {
                             MusicStop();
                         }
+                        Console.Write(Conn = true);
                     }
                     catch
                     {
                         Utility.SystemLogger.Info("SE MP3 Alarm DIO is disconnect");
                         disconncount += 1;
+                        Console.Write(Conn = false);
                         continue;
                     }
                     Thread.Sleep(100);
