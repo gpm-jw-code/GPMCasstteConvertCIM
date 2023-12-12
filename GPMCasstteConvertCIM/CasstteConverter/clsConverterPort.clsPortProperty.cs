@@ -42,9 +42,20 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             public DateTime CarrierInstallTime { get; set; } = DateTime.MinValue;
             public bool CarrierWaitInNeedWaitingS2F41OrS2F49 { get; set; } = false;
 
+            /// <summary>
+            /// OFFLINE模式下，當與AGV交握結束後自動切換為OUTPUT
+            /// </summary>
             public bool AutoChangeToOUTPUTWhenAGVLoadedInOFFLineMode {  get; set; } = true;
 
+            /// <summary>
+            /// 僅在PORT為OUTPUT時向MCS上報Remove
+            /// </summary>
             public bool RemoveCarrierMCSReportOnlyInOUTPUTMODE { get; set; } = false;
+
+            /// <summary>
+            /// 不管怎樣都不向MCS上報Carrier Remove事件
+            /// </summary>
+            public bool NeverReportCarrierRemove {  get; set; } = false;
         }
 
     }

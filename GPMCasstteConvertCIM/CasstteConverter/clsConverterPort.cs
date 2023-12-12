@@ -738,7 +738,11 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             //要上報MCS的條件 
             //1. 在設定檔中有設定需要判斷OUTPUT 且當下為OUTPUT
             //2. 在設定檔中有設定不需要判斷OUTPUT 
-
+            if (Properties.NeverReportCarrierRemove)
+            {
+                Utility.SystemLogger.Warning($"[{PortName}]Carrier Remove Event not Report to MCS ,because 'NeverReportCarrierRemove' setting is actived.");
+                return;
+            }
             if (checkPortType == false | (!Properties.RemoveCarrierMCSReportOnlyInOUTPUTMODE || (Properties.RemoveCarrierMCSReportOnlyInOUTPUTMODE & EPortType == PortUnitType.Output)))
             {
                 Utility.SystemLogger.Info($"[{PortName}] Carrier removed Report to MCS Start");
