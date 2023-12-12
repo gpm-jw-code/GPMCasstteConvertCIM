@@ -34,6 +34,8 @@ namespace GPMCasstteConvertCIM.Utilities.SysConfigs
 
         public string KGSDBConnectionString { get; set; } = "Server=127.0.0.1;Database=WebAGVSystem;User Id=sa;Password=12345678;Encrypt=False";
 
+        public clsWebServerParam WebService { get; set; } = new clsWebServerParam();
+
         public enum PROJECT
         {
             U003, U007

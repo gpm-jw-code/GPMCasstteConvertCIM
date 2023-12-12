@@ -12,6 +12,7 @@ using GPMCasstteConvertCIM.Emulators.SecsEmu;
 using GPMCasstteConvertCIM.GPM_SECS;
 using GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle;
 using GPMCasstteConvertCIM.Utilities;
+using GPMCasstteConvertCIM.WebServer;
 using Secs4Net;
 using Secs4Net.Sml;
 using System.Diagnostics;
@@ -152,6 +153,8 @@ namespace GPMCasstteConvertCIM.Forms
                     Text = $"GPM AGVS CIM-V{Assembly.GetExecutingAssembly().GetName().Version.ToString()} {(Environment.Is64BitProcess ? "" : "(x86)")}-{Utility.SysConfigs.Project}";
                     labRegionName.Text = Utility.SysConfigs.RegionName;
                     pnlLoading.SendToBack();
+                    CIMWebServer.StartService(Utility.SysConfigs.WebService.HostUrl, Path.Combine(Utility.SysConfigs.Log.SyslogFolder,"WebServerLog"));
+
                 }));
             });
         }

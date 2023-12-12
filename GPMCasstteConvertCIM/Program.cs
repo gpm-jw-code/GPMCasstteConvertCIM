@@ -1,8 +1,11 @@
 ﻿using GPMCasstteConvertCIM.DataBase.KGS_AGVs;
 using GPMCasstteConvertCIM.Forms;
 using GPMCasstteConvertCIM.Utilities;
+using GPMCasstteConvertCIM.WebServer;
 using System;
 using System.Diagnostics;
+using System.Net;
+using System.Text;
 using System.Windows.Forms;
 
 namespace GPMCasstteConvertCIM
@@ -15,7 +18,6 @@ namespace GPMCasstteConvertCIM
         [STAThread]
         static void Main()
         {
-            
             CheckProgramOpenState();
             Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
             Application.ThreadException += Application_ThreadException; ;
@@ -24,7 +26,7 @@ namespace GPMCasstteConvertCIM
             StartBGAPP();
             Application.Run(new frmMain());
         }
-
+      
         private static void StartBGAPP()
         {
             var pros = Process.GetProcessesByName("GPMBGAPP");
@@ -62,5 +64,7 @@ namespace GPMCasstteConvertCIM
         }
 
     }
+    
 
+    
 }
