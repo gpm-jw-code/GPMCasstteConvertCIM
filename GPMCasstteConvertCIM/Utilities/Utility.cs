@@ -18,6 +18,7 @@ namespace GPMCasstteConvertCIM.Utilities
         public static string configsFolder = "configs";
 
         public static clsSystemConfigs SysConfigs = new clsSystemConfigs();
+        public static clsModbusDeviceConfigs ModbusDeviceConfigs = new clsModbusDeviceConfigs();
 
         internal static LoggerBase SystemLogger;
 
@@ -39,6 +40,8 @@ namespace GPMCasstteConvertCIM.Utilities
                 Directory.CreateDirectory(configsFolder);
             string SysCofigsFile = Path.Combine(configsFolder, "SystemConfigs.json");
             File.WriteAllText(SysCofigsFile, JsonConvert.SerializeObject(SysConfigs, Formatting.Indented));
+            string ModbusDeviceConfig = Path.Combine(configsFolder, "ModbusDeviceConfigs.json");
+            File.WriteAllText(ModbusDeviceConfig, JsonConvert.SerializeObject(ModbusDeviceConfigs, Formatting.Indented));
         }
         private static void LoadSysConfigs()
         {
@@ -47,6 +50,7 @@ namespace GPMCasstteConvertCIM.Utilities
                 Directory.CreateDirectory(configsFolder);
 
             string SysCofigsFile = Path.Combine(configsFolder, "SystemConfigs.json");
+            string ModbusDeviceConfig = Path.Combine(configsFolder, "ModbusDeviceConfigs.json");
             if (File.Exists(SysCofigsFile))
             {
                 SysConfigs = JsonConvert.DeserializeObject<clsSystemConfigs>(File.ReadAllText(SysCofigsFile));
@@ -67,6 +71,8 @@ namespace GPMCasstteConvertCIM.Utilities
                     };
                 }
             }
+            if (File.Exists(ModbusDeviceConfig))
+            { ModbusDeviceConfigs = JsonConvert.DeserializeObject<clsModbusDeviceConfigs>(File.ReadAllText(ModbusDeviceConfig)); }
             SaveConfigs();
         }
 

@@ -9,6 +9,7 @@ using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using GPMCasstteConvertCIM.AlarmDevice;
 
 namespace GPMCasstteConvertCIM.UI_UserControls
 {
@@ -109,6 +110,8 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             labAlarmCount.Text = "0";
             labAlarmTime.Text = labClassify.Text = labDescription.Text = labEQPName.Text = labAlarmLevel.Text = "";
             UIRenderByAlarmLevel(ALARM_LEVEL.None);
+            clsAgvsAlarmDevice clsAgvsAlarmDevice = new clsAgvsAlarmDevice();
+            clsAgvsAlarmDevice.MusicStop();
         }
     }
 }

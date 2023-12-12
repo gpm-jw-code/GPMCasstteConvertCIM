@@ -22,13 +22,14 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 using static GPMCasstteConvertCIM.Utilities.StaUsersManager;
 using static Secs4Net.Item;
+using GPMCasstteConvertCIM.AlarmDevice;
 namespace GPMCasstteConvertCIM.Forms
 {
     public partial class frmMain : Form
     {
         CasstteConverter.clsCasstteConverter casstteConverter_1;
         CasstteConverter.clsCasstteConverter casstteConverter_2;
-
+        private static clsAgvsAlarmDevice clsAgvsAlarmDevice = new clsAgvsAlarmDevice();
 
         public frmMain()
         {
@@ -436,6 +437,8 @@ namespace GPMCasstteConvertCIM.Forms
             labWebServerUrl.BackColor = CIMWebServer.Servering ? Color.White : Color.Red;
             ckbRemoteModeIndi.Checked = SECSState.IsRemote;
             cknOnlineModeIndi.Checked = SECSState.IsOnline;
+            if (SECSState.IsRemote || SECSState.IsOnline == false)
+            { clsAgvsAlarmDevice.offline(); }
         }
 
         private void aGVS派車模擬器ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -624,6 +627,11 @@ namespace GPMCasstteConvertCIM.Forms
 
             txbRegionNameEditInput.Visible = btnRegionNameEditedConfirm.Visible = btnCancelRegionNameEdit.Visible = false;
             labRegionName.Visible = true;
+        }
+
+        private void 警報器DIOToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

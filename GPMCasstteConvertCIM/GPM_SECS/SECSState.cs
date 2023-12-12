@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GPMCasstteConvertCIM.AlarmDevice;
 
 namespace GPMCasstteConvertCIM.GPM_SECS
 {
@@ -13,6 +14,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS
     {
         internal static bool _IsOnline;
         internal static bool _IsRemote;
+        private static clsAgvsAlarmDevice clsAgvsAlarmDevice = new clsAgvsAlarmDevice();
         internal static bool IsOnline
         {
             get => _IsOnline;
@@ -20,12 +22,14 @@ namespace GPMCasstteConvertCIM.GPM_SECS
             {
                 if (_IsOnline != value)
                 {
+                    
                     Utility.SystemLogger.Info($"AGVS/MCS Online Mode Changed to {(value ? "Online" : "Offline")}");
                     _IsOnline = value;
                     if (_IsRemote && _IsOnline)
                     {
+                        clsAgvsAlarmDevice.Return_Online();
                         OnMCSOnlineRemote("", EventArgs.Empty);
-                    }
+                    } 
                 }
             }
         }
@@ -40,6 +44,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS
                     _IsRemote = value;
                     if (_IsRemote && _IsOnline)
                     {
+                        clsAgvsAlarmDevice.Return_Online();
                         OnMCSOnlineRemote("", EventArgs.Empty);
                     }
                 }
