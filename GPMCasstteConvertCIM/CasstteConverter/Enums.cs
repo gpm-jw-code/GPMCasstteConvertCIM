@@ -145,5 +145,11 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         }
 
+        public enum IO_MODE
+        {
+            FromIOModule,
+            FromCIMSimulation,
+            Unknown
+        }
     }
 }

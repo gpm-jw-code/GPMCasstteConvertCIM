@@ -105,6 +105,7 @@ namespace GPMCasstteConvertCIM.UI_UserControls
                 else
                 {
                     var actived_color = e.ColumnIndex > StatusbitdataStartIndex + 5 ? Color.FromArgb(51, 211, 255) : Color.FromArgb(31, 255, 116);
+                    actived_color = data.IsIOSimulating? Color.FromArgb(31, 152, 230) : actived_color;
                     var color = state_to_change ? actived_color : Color.WhiteSmoke;
                     if (oriColor == color)
                         return;
@@ -209,6 +210,15 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             }
         }
 
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex != -1 && e.ColumnIndex == StatusbitdataStartIndex + 12)
+            {
+                var station = (dataGridView1.Rows[e.RowIndex].DataBoundItem as clsConverterPort);
+                frmPortStatusIOSimulation form = new frmPortStatusIOSimulation();
+                form.ShowDialog(station);
+            }
+        }
         private void eqCombobox1_OnEQSelectChanged(object sender, string eq_name)
         {
 

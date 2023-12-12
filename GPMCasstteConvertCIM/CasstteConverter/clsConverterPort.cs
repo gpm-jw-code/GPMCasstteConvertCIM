@@ -53,6 +53,16 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         public clsCasstteConverter EQParent { get; internal set; }
 
         public clsPortProperty Properties = new clsPortProperty();
+        private IO_MODE _IOSignalMode;
+        public IO_MODE IOSignalMode
+        {
+            get => _IOSignalMode;
+            set
+            {
+                _IOSignalMode = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsIOSimulating"));
+            }
+        }
         public event EventHandler<clsConverterPort> ModeChangeOnRequest;
         public event EventHandler<clsConverterPort> CarrierWaitInOnRequest;
         public event EventHandler<clsConverterPort> CarrierWaitOutOnReport;
@@ -73,6 +83,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         public string ModbusIP => Properties.ModbusServer_IP;
         public int ModbusPort => Properties.ModbusServer_PORT;
         public string ModbusHost => $"{ModbusIP}:{ModbusPort}";
+
+        public bool IsIOSimulating => IOSignalMode == IO_MODE.FromCIMSimulation;
 
         internal PortUnitType EPortType => Enum.GetValues(typeof(PortUnitType)).Cast<PortUnitType>().First(etype => (int)etype == _PortType);
 
@@ -121,6 +133,14 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         private CIMComponent.MemoryTable VirtualMemoryTable => EQParent.CIMMemOptions.memoryTable;
 
 
+        internal clsMemoryAddress load_request_address => EQModbusLinkBitAddress.FirstOrDefault(a => a.EProperty == Enums.PROPERTY.Load_Request);
+        internal clsMemoryAddress unload_request_address => EQModbusLinkBitAddress.FirstOrDefault(a => a.EProperty == Enums.PROPERTY.Unload_Request);
+        internal clsMemoryAddress port_status_down_address => EQModbusLinkBitAddress.FirstOrDefault(a => a.EProperty == Enums.PROPERTY.Port_Status_Down);
+        internal clsMemoryAddress ld_up_pose_address => EQModbusLinkBitAddress.FirstOrDefault(a => a.EProperty == Enums.PROPERTY.LD_UP_POS);
+        internal clsMemoryAddress ld_down_pose_address => EQModbusLinkBitAddress.FirstOrDefault(a => a.EProperty == Enums.PROPERTY.LD_DOWN_POS);
+        internal clsMemoryAddress port_exist_address => EQModbusLinkBitAddress.FirstOrDefault(a => a.EProperty == Enums.PROPERTY.Port_Exist);
+
+
         internal bool IsLoadHSRunning
         {
             get
@@ -147,7 +167,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         private bool _LD_DOWN_POS = false;
         public bool LoadRequest
         {
-            get => _LoadRequest;
+            get => (bool)(IsIOSimulating ? load_request_address.ControlValue : _LoadRequest);
             set
             {
                 if (_LoadRequest != value)
@@ -160,7 +180,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         }
         public bool UnloadRequest
         {
-            get => _UnloadRequest;
+            get => (bool)(IsIOSimulating ? unload_request_address.ControlValue : _UnloadRequest);
             set
             {
                 if (_UnloadRequest != value)
@@ -174,7 +194,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         private bool _PortExist = false;
         public bool PortExist
         {
-            get => _PortExist;
+            get => (bool)(IsIOSimulating ? port_exist_address.ControlValue : _PortExist);
             set
             {
                 if (_PortExist != value)
@@ -188,7 +208,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         public bool PortStatusDown
         {
-            get => _PortStatusDown;
+            get => (bool)(IsIOSimulating ? port_status_down_address.ControlValue : _PortStatusDown);
             set
             {
                 if (_PortStatusDown != value)
@@ -202,7 +222,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         public bool LD_UP_POS
         {
-            get => _LD_UP_POS;
+            get => (bool)(IsIOSimulating ? ld_up_pose_address.ControlValue : _LD_UP_POS);
             set
             {
                 if (_LD_UP_POS != value)
@@ -216,7 +236,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         public bool LD_DOWN_POS
         {
-            get => _LD_DOWN_POS;
+            get => (bool)(IsIOSimulating ? ld_down_pose_address.ControlValue : _LD_DOWN_POS);
             set
             {
                 if (_LD_DOWN_POS != value)
@@ -587,7 +607,12 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 }
             }
         }
-
+        internal void RaiseStatusIOChangeInvoke()
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("LoadRequest"));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("UnloadRequest"));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("PortStatusDown"));
+        }
         private void AGVSignals_OnValidSignalActive(object? sender, EventArgs e)
         {
             OnValidSignalActive?.Invoke(this, this);
@@ -1231,5 +1256,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 }
             });
         }
+
+
     }
 }

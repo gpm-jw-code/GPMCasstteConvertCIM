@@ -27,10 +27,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter.Data
             this.DataType = DataType;
             if (DataType == DATA_TYPE.BIT)
             {
-                Value = false;
+                ControlValue = Value = false;
             }
             else
-                Value = 0;
+                ControlValue = Value = 0;
         }
         public DATA_TYPE DataType { get; private set; }
         public OWNER EOwner => Owner == "AGVS" ? OWNER.CIM : OWNER.EQP;
@@ -54,6 +54,9 @@ namespace GPMCasstteConvertCIM.CasstteConverter.Data
                 }
             }
         }
+
+        public object ControlValue { get; set; } = 0;
+
         protected virtual void OnPropertyChanged(string propertyName)
         {
             Task.Factory.StartNew(() =>

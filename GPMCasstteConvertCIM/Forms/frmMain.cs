@@ -153,7 +153,9 @@ namespace GPMCasstteConvertCIM.Forms
                     Text = $"GPM AGVS CIM-V{Assembly.GetExecutingAssembly().GetName().Version.ToString()} {(Environment.Is64BitProcess ? "" : "(x86)")}-{Utility.SysConfigs.Project}";
                     labRegionName.Text = Utility.SysConfigs.RegionName;
                     pnlLoading.SendToBack();
-                    CIMWebServer.StartService(Utility.SysConfigs.WebService.HostUrl, Path.Combine(Utility.SysConfigs.Log.SyslogFolder,"WebServerLog"));
+
+                    MyServlet.OnEqIOModeChangeRequest += DevicesManager.EqIOModeChangeHandle;
+                    CIMWebServer.StartService(Utility.SysConfigs.WebService.HostUrl, Path.Combine(Utility.SysConfigs.Log.SyslogFolder, "WebServerLog"));
 
                 }));
             });
@@ -430,6 +432,8 @@ namespace GPMCasstteConvertCIM.Forms
         private void SysTimer_Tick(object sender, EventArgs e)
         {
             labSysTime.Text = DateTime.Now.ToString();
+            labWebServerUrl.Text = CIMWebServer._url;
+            labWebServerUrl.BackColor = CIMWebServer.Servering ? Color.White : Color.Red;
             ckbRemoteModeIndi.Checked = SECSState.IsRemote;
             cknOnlineModeIndi.Checked = SECSState.IsOnline;
         }

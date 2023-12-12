@@ -1,8 +1,10 @@
-﻿using System;
+﻿using GPMCasstteConvertCIM.Alarm;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Runtime.CompilerServices;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,25 +14,38 @@ namespace GPMCasstteConvertCIM.WebServer
     {
         static HttpListener httpListenner;
         static string? _logFolder;
-        internal static void StartService(string url = "http://localhost:9900",string logFolder=null)
+        internal static string _url = "";
+        internal static bool Servering = false;
+        internal static void StartService(string url = "http://localhost:9900", string logFolder = null)
         {
-            _logFolder = logFolder;
-            httpListenner = new HttpListener();
-            httpListenner.AuthenticationSchemes = AuthenticationSchemes.Anonymous;
-            httpListenner.Prefixes.Add($"{url}/");
-            httpListenner.Start();
-
-            new Thread(new ThreadStart(delegate
+            try
             {
-                try
+                _url = url;
+                _logFolder = logFolder;
+                httpListenner = new HttpListener();
+                httpListenner.AuthenticationSchemes = AuthenticationSchemes.Anonymous;
+                httpListenner.Prefixes.Add($"{url}/");
+                httpListenner.Start();
+
+                new Thread(new ThreadStart(delegate
                 {
-                    loop(httpListenner);
-                }
-                catch (Exception)
-                {
-                    httpListenner.Stop();
-                }
-            })).Start();
+                    try
+                    {
+                        loop(httpListenner);
+                    }
+                    catch (Exception)
+                    {
+                        httpListenner.Stop();
+                    }
+                })).Start();
+                Servering = true;
+            }
+            catch (Exception ex)
+            {
+                Servering = false;
+                AlarmManager.AddAlarm(ALARM_CODES.WebServer_Build_Fail, "SYSTEM", true);
+            }
+
         }
         private static void loop(HttpListener httpListenner)
         {

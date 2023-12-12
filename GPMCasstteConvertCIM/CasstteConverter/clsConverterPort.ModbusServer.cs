@@ -1,5 +1,6 @@
 ﻿using GPMCasstteConvertCIM.Alarm;
 using GPMCasstteConvertCIM.CasstteConverter.Data;
+using GPMCasstteConvertCIM.Devices;
 using GPMCasstteConvertCIM.Forms;
 using GPMCasstteConvertCIM.GPM_Modbus;
 using GPMCasstteConvertCIM.GPM_SECS;
@@ -142,7 +143,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         }
 
 
-        private bool[] last_cim_write_outputs= new bool[32];
+        private bool[] last_cim_write_outputs = new bool[32];
         private bool[] last_agvs_write_inputs = new bool[32];
 
         protected async void CheckDiscardInputWriteResultBackgroundWorker()
@@ -172,7 +173,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     continue;
                 }
 
-                if(last_cim_write_outputs!=null && !cim_write_outputs.SequenceEqual(last_cim_write_outputs))
+                if (last_cim_write_outputs != null && !cim_write_outputs.SequenceEqual(last_cim_write_outputs))
                 {
 
                     for (int i = 0; i < cim_write_outputs.Length; i++)
@@ -257,7 +258,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 try
                 {
                     var mRindex = item.Link_Modbus_Register_Number;
-                    bool bolState = EQParent.EQPMemOptions.memoryTable.ReadOneBit(item.Address);
+                    bool bolState = IsIOSimulating ? (bool)item.ControlValue : EQParent.EQPMemOptions.memoryTable.ReadOneBit(item.Address);
 
                     if (item.EProperty == Enums.PROPERTY.EQ_BUSY && AGV_READY_WAITING_EQ_BUSYON_INTER_LOCKING)
                     {

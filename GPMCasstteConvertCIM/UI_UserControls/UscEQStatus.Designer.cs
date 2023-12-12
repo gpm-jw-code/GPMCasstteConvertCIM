@@ -50,6 +50,7 @@
             CMD_Reserve_Low = new DataGridViewCheckBoxColumn();
             btnColumn = new DataGridViewButtonColumn();
             Column1 = new DataGridViewButtonColumn();
+            IsIOSimulating = new DataGridViewCheckBoxColumn();
             clsConverterPortBindingSource = new BindingSource(components);
             pnlHeader = new Panel();
             labConnectionState = new Label();
@@ -82,7 +83,7 @@
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
             dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             dataGridView1.ColumnHeadersHeight = 60;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { EqName, PortName, StatusMemStartAddress, dataGridViewCheckBoxColumn1, unloadRequestDataGridViewCheckBoxColumn, portExistDataGridViewCheckBoxColumn, lDUPPOSDataGridViewCheckBoxColumn, lDDOWNPOSDataGridViewCheckBoxColumn, portStatusDownDataGridViewCheckBoxColumn, To_EQ_UP, To_EQ_Low, CMD_Reserve_Up, CMD_Reserve_Low, btnColumn, Column1 });
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { EqName, PortName, StatusMemStartAddress, dataGridViewCheckBoxColumn1, unloadRequestDataGridViewCheckBoxColumn, portExistDataGridViewCheckBoxColumn, lDUPPOSDataGridViewCheckBoxColumn, lDDOWNPOSDataGridViewCheckBoxColumn, portStatusDownDataGridViewCheckBoxColumn, To_EQ_UP, To_EQ_Low, CMD_Reserve_Up, CMD_Reserve_Low, btnColumn, Column1, IsIOSimulating });
             dataGridView1.DataSource = clsConverterPortBindingSource;
             dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle4.BackColor = Color.Transparent;
@@ -112,6 +113,7 @@
             dataGridView1.ShowRowErrors = false;
             dataGridView1.Size = new Size(1052, 559);
             dataGridView1.TabIndex = 0;
+            dataGridView1.CellClick += dataGridView1_CellClick;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick;
             dataGridView1.SizeChanged += dataGridView1_SizeChanged;
@@ -230,6 +232,13 @@
             Column1.Text = "Modbus";
             Column1.UseColumnTextForButtonValue = true;
             // 
+            // IsIOSimulating
+            // 
+            IsIOSimulating.DataPropertyName = "IsIOSimulating";
+            IsIOSimulating.HeaderText = "IO模擬";
+            IsIOSimulating.Name = "IsIOSimulating";
+            IsIOSimulating.ReadOnly = true;
+            // 
             // clsConverterPortBindingSource
             // 
             clsConverterPortBindingSource.DataSource = typeof(CasstteConverter.clsConverterPort);
@@ -343,6 +352,7 @@
         private Button btnOpenMasterMemTb;
         private EQCombobox eqCombobox1;
         private Label label1;
+        private Label labConnectionState;
         private DataGridViewTextBoxColumn EqName;
         private DataGridViewTextBoxColumn PortName;
         private DataGridViewTextBoxColumn StatusMemStartAddress;
@@ -358,6 +368,6 @@
         private DataGridViewCheckBoxColumn CMD_Reserve_Low;
         private DataGridViewButtonColumn btnColumn;
         private DataGridViewButtonColumn Column1;
-        private Label labConnectionState;
+        private DataGridViewCheckBoxColumn IsIOSimulating;
     }
 }

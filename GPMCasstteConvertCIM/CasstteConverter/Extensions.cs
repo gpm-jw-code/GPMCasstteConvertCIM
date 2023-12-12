@@ -3,6 +3,7 @@ using GPMCasstteConvertCIM.CasstteConverter.Data;
 using System.Net;
 using System.Reflection;
 using System.Text;
+using static GPMCasstteConvertCIM.CasstteConverter.Enums;
 
 namespace GPMCasstteConvertCIM.CasstteConverter
 {
@@ -153,5 +154,19 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             Array.Copy(ret, 0, outputs, 0, ret.Length);
             return outputs;
         }
+
+
+        public static IO_MODE ToIOMODE(this string mode_int_str)
+        {
+            if (mode_int_str == null)
+                return IO_MODE.Unknown;
+            if (mode_int_str == "0")
+                return IO_MODE.FromIOModule;
+            else if (mode_int_str == "1")
+                return IO_MODE.FromCIMSimulation;
+            else
+                return IO_MODE.Unknown;
+        }
+
     }
 }

@@ -89,6 +89,7 @@ namespace GPMCasstteConvertCIM.Alarm
         PLC_IF_WRITE_FAIL,
         AGV_PING_FAIL,
         AGV_READY_EQ_BUSY_INTERLOCK_CIM_SOLUTION,
-        AGV_EQ_Handshake_Fail_AFTER_EQ_BUSY_OFF
+        AGV_EQ_Handshake_Fail_AFTER_EQ_BUSY_OFF,
+        WebServer_Build_Fail
     }
 }

@@ -5,6 +5,7 @@ using GPMCasstteConvertCIM.GPM_SECS;
 using GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle;
 using GPMCasstteConvertCIM.UI_UserControls;
 using GPMCasstteConvertCIM.Utilities;
+using GPMCasstteConvertCIM.WebServer;
 using Newtonsoft.Json;
 using Secs4Net;
 using System;
@@ -254,6 +255,17 @@ namespace GPMCasstteConvertCIM.Devices
                 error_message = ex.Message;
                 return false;
             }
+        }
+        internal static clsResponse EqIOModeChangeHandle(string eqName, Enums.IO_MODE mode)
+        {
+            var port = GetAllPorts().FirstOrDefault(port => port.PortName == eqName);
+
+            if (port == null)
+                return new clsResponse(5, $"{eqName} is not exist");
+
+            port.IOSignalMode = mode;
+
+            return new clsResponse(0);
         }
         internal class ConnectionStateChangeArgs : EventArgs
         {

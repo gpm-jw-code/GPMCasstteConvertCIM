@@ -99,6 +99,7 @@
             label1 = new Label();
             statusStrip1 = new StatusStrip();
             toolStripStatusLabel1 = new ToolStripStatusLabel();
+            labWebServerUrl = new ToolStripStatusLabel();
             labCurrentEncodingName = new ToolStripStatusLabel();
             labSysTime = new ToolStripStatusLabel();
             SysTimer = new System.Windows.Forms.Timer(components);
@@ -917,7 +918,7 @@
             // statusStrip1
             // 
             statusStrip1.BackColor = Color.FromArgb(0, 57, 155);
-            statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel1, labCurrentEncodingName, labSysTime });
+            statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel1, labWebServerUrl, labCurrentEncodingName, labSysTime });
             statusStrip1.Location = new Point(0, 881);
             statusStrip1.Name = "statusStrip1";
             statusStrip1.Size = new Size(1407, 22);
@@ -932,9 +933,20 @@
             toolStripStatusLabel1.LinkColor = Color.FromArgb(53, 53, 53);
             toolStripStatusLabel1.Margin = new Padding(0);
             toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            toolStripStatusLabel1.Size = new Size(1226, 22);
+            toolStripStatusLabel1.Size = new Size(1112, 22);
             toolStripStatusLabel1.Spring = true;
             toolStripStatusLabel1.Text = "GPM AGV SYSTEM CIM";
+            // 
+            // labWebServerUrl
+            // 
+            labWebServerUrl.BackColor = Color.White;
+            labWebServerUrl.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            labWebServerUrl.ForeColor = Color.FromArgb(64, 64, 64);
+            labWebServerUrl.LinkColor = Color.FromArgb(53, 53, 53);
+            labWebServerUrl.Margin = new Padding(0);
+            labWebServerUrl.Name = "labWebServerUrl";
+            labWebServerUrl.Size = new Size(83, 22);
+            labWebServerUrl.Text = "http://0.0.0.0:0";
             // 
             // labCurrentEncodingName
             // 
@@ -1207,5 +1219,6 @@
         private ToolStripMenuItem labRegionName;
         private ToolStripMenuItem 編輯ToolStripMenuItem;
         private ToolStripTextBox txbRegionNameEditInput;
+        private ToolStripStatusLabel labWebServerUrl;
     }
 }

@@ -8,6 +8,6 @@ namespace GPMCasstteConvertCIM.Utilities.SysConfigs
 {
     public class clsWebServerParam
     {
-        public string HostUrl { get; set; } = "http://localhost:5432";
+        public string HostUrl { get; set; } = "http://localhost:5400";
     }
 }
