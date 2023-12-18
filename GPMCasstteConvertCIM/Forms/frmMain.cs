@@ -160,6 +160,13 @@ namespace GPMCasstteConvertCIM.Forms
 
                 }));
             });
+            Task.Run(async () =>
+            {
+                Invoke(new Action(() =>
+                {
+                    clsAgvsAlarmDevice.GetstopMusic();  
+                }));
+            });
         }
 
         private void CopyAlarmDBFileToLogFolderToday(string dBFilePath)

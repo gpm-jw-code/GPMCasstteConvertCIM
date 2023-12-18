@@ -118,7 +118,7 @@ namespace GPMCasstteConvertCIM.AlarmDevice
                     }
                     catch
                     {
-                        Utility.SystemLogger.Info("SE MP3 Alarm DIO is disconnect");
+                        Utility.SystemLogger.Info($"SE MP3 Alarm DIO is disconnect");
                         disconncount += 1;
                         Console.Write(Conn = false);
                         continue;
