@@ -53,7 +53,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         public clsCasstteConverter EQParent { get; internal set; }
 
         public clsPortProperty Properties = new clsPortProperty();
-        private IO_MODE _IOSignalMode;
+        private IO_MODE _IOSignalMode = IO_MODE.FromIOModule;
         public IO_MODE IOSignalMode
         {
             get => _IOSignalMode;
@@ -403,8 +403,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         }
         public string CSTID_From_TransferCompletedReport = "";
         public string CSTIDOnPort = "";
-
         private string TUNID = "";
+        private bool BCRRetryTriggeringFlag = false;
         public string WIPINFO_BCR_ID
         {
             get => _WIPINFO_BCR_ID;
@@ -435,6 +435,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     }
                     else
                     {
+                        BCRRetryTriggeringFlag = PortExist;
                         Utility.SystemLogger.Info($"Port {PortName} BCR ID Clear-ON PORT={CSTIDOnPort}");
                         RemoveCarrier(CSTIDOnPort + "");
                     }
@@ -751,7 +752,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             }
             else
             {
-                Utility.SystemLogger.Warning($"[{PortName}] BCR ID Clear but Port Type ={previousPortType}, Carrier removed not REPORT to MCS");
+                Utility.SystemLogger.Warning($"[{PortName}] BCR ID Clear but Port Type ={EPortType}, Carrier removed not REPORT to MCS");
             }
         }
         internal async Task InstallCarrier(string cst_id)
@@ -1140,6 +1141,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             {
                 if (_PortType != value)
                 {
+                    _PortType = value;
+                    Utility.SystemLogger.Info($"{PortName} Port Type Change to {EPortType}");
                     Task.Factory.StartNew(async () =>
                     {
                         try
@@ -1153,7 +1156,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                         }
                     });
                 }
-                _PortType = value;
+
 
             }
         }

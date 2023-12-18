@@ -144,7 +144,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         /// <returns></returns>
         private async Task<bool> WaitTransferTaskDownloaded()
         {
-            WaitTransferTaskDownloadCts = new CancellationTokenSource(TimeSpan.FromSeconds(Debugger.IsAttached ? 5 : 240));
+            WaitTransferTaskDownloadCts = new CancellationTokenSource(TimeSpan.FromSeconds(Debugger.IsAttached ? 5 : Properties.WaitS2F49CmdTimeoutSec));
             while (!CurrentCSTHasTransferTaskFlag)
             {
                 if (WaitTransferTaskDownloadCts.IsCancellationRequested)
