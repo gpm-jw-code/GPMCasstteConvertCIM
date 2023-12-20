@@ -157,16 +157,16 @@ namespace GPMCasstteConvertCIM.Forms
 
                     MyServlet.OnEqIOModeChangeRequest += DevicesManager.EqIOModeChangeHandle;
                     CIMWebServer.StartService(Utility.SysConfigs.WebService.HostUrl, Path.Combine(Utility.SysConfigs.Log.SyslogFolder, "WebServerLog"));
-
+                    Task.Run(async () =>
+                    {
+                        Invoke(new Action(() =>
+                        {
+                            clsAgvsAlarmDevice.GetstopMusic();
+                        }));
+                    });
                 }));
             });
-            Task.Run(async () =>
-            {
-                Invoke(new Action(() =>
-                {
-                    clsAgvsAlarmDevice.GetstopMusic();  
-                }));
-            });
+            
         }
 
         private void CopyAlarmDBFileToLogFolderToday(string dBFilePath)
