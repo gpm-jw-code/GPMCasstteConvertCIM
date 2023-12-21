@@ -285,13 +285,23 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         }
 
         private bool NoTransferNotifyFlag = false;
-        private bool CurrentCSTHasTransferTaskFlag = false;
+        private bool AGVsReplyMCSTransferTaskReqFlag = false;
+        private bool AGVsAcceptMCSTransferTaskReq = false;
 
 
-        internal void CstTransferInvoke()
+        internal void CstTransferAcceptInvoke()
         {
-            CurrentCSTHasTransferTaskFlag = true;
+            AGVsAcceptMCSTransferTaskReq = true;
+            AGVsReplyMCSTransferTaskReqFlag = true;
+            Utility.SystemLogger.Info($"{PortName}({Properties.PortID}) AGVS Accept Transfer Task");
         }
+        internal void CstTransferRejectInvoke()
+        {
+            AGVsAcceptMCSTransferTaskReq = false;
+            AGVsReplyMCSTransferTaskReqFlag = true;
+            Utility.SystemLogger.Info($"{PortName}({Properties.PortID}) AGVS Reject Transfer Task");
+        }
+
 
         internal void NoTransferNotifyInovke(string carrier_id, string cstid, string reason)
         {

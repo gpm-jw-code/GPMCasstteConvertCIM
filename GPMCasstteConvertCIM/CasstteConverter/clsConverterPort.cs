@@ -866,12 +866,11 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
                                     if (mcs_accpet && Properties.CarrierWaitInNeedWaitingS2F41OrS2F49)
                                     {
-                                        Utility.SystemLogger.Info($"Wait S2F41 or S2F49 Message reachded..");
+                                        Utility.SystemLogger.Info($"Wait S2F41 or S2F49 Message reachded and Accepted by AGVs");
                                         wait_in_accept = await WaitTransferTaskDownloaded();
                                         if (wait_in_accept)
-                                            Utility.SystemLogger.Info($"[{PortName}] {(CurrentCSTHasTransferTaskFlag ? "S2F49_Transfer" : "S2F41_No_Transfer")} Message reachded!");
+                                            Utility.SystemLogger.Info($"[{PortName}] {(AGVsReplyMCSTransferTaskReqFlag ? "S2F49_Transfer" : "S2F41_No_Transfer")} Message reachded!");
                                         Utility.SystemLogger.Info($"[{PortName}] MCS {(wait_in_accept ? "Accept" : "Reject")} Carrier Wait IN Request..");
-                                        wait_in_accept = CurrentCSTHasTransferTaskFlag;
                                     }
                                     else
                                     {
@@ -892,7 +891,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                                 wait_in_accept = true;
 
                             (bool confirm, ALARM_CODES alarm_code) result = await CarrierWaitInReply(wait_in_accept, 30000);
-                            CurrentCSTHasTransferTaskFlag = false; //reset flag
+                            AGVsReplyMCSTransferTaskReqFlag = false; //reset flag
                             if (!wait_in_accept)
                             {
                                 await SecsEventReport(CEID.CarrierWaitOut);

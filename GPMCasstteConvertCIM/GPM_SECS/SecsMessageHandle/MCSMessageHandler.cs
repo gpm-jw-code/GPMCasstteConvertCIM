@@ -28,14 +28,6 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                     PortTypeChangeHandler(parameterGroups, _primaryMessageWrapper);
                     return;
                 }
-                if (cmd == RCMD.TRANSFER)
-                {
-                    (bool confirm, ALARM_CODES alarmcode) handleResult = await TransferHandler(parameterGroups, _primaryMessageWrapper);
-                    //if (!handleResult.confirm)
-                    //{
-                    //    return;
-                    //}
-                }
                 if (cmd == RCMD.NOTRANSFERNOTIFY)
                 {
                     NoTransferHandler(_primaryMessageWrapper);
@@ -47,21 +39,6 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
 
         }
 
-        private static async Task<(bool confirm, ALARM_CODES alarmcode)> TransferHandler(Item parameterGroups, PrimaryMessageWrapper primaryMessageWrapper)
-        {
-            Item transfer_info = parameterGroups.Items[1];
-            string carrier_id = transfer_info.Items[1].Items[0].Items[1].GetString();
-            clsConverterPort? port_match_carrier_id = DevicesManager.GetAllPorts().FirstOrDefault(port => port.WIPINFO_BCR_ID == carrier_id);
-
-            if (port_match_carrier_id != null)
-            {
-                port_match_carrier_id.CstTransferInvoke();
-                bool success = await port_match_carrier_id.WaitLoadUnloadRequestON();
-                if (!success)
-                    return (false, ALARM_CODES.WAIT_Load_Unload_Request_Bit_ON_When_MCS_Transfering);
-            }
-            return (true, ALARM_CODES.None);
-        }
 
         private static void NoTransferHandler(PrimaryMessageWrapper _primaryMessageWrapper)
         {
@@ -219,6 +196,29 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                     Utility.SystemLogger.SecsTransferLog($"Start Transfer To AGVS[{Name}]");
                     replyMessage = await AGVS.SendMsg(primaryMsgFromMcs, msg_name: "CIM->AGVS");
 
+                    if (replyMessage.S == 2 && replyMessage.F == 50) //S2F49 搬運任務的回覆
+                    {
+                        bool AGVS_Accept_TransferTask = replyMessage.SecsItem[0].FirstValue<byte>() == 0x00;
+                        if (primaryMsgFromMcs.TryParseTransferInfo(out string carrier_id, out string source, out string destine))
+                        {
+                            Utility.SystemLogger.Info($"AGVs {(AGVS_Accept_TransferTask ? "Accept" : "Reject")} Transfer Task (Carrier id={carrier_id},Source={source},Destine={destine})");
+                            var port_wait_in = DevicesManager.GetAllPorts().FirstOrDefault(port => port.Properties.PortID == source);
+                            if (port_wait_in != null)
+                            {
+                                if (AGVS_Accept_TransferTask)
+                                    port_wait_in.CstTransferAcceptInvoke();
+                                else
+                                    port_wait_in.CstTransferRejectInvoke();
+                            }
+                        }
+                        else
+                        {
+                            Utility.SystemLogger.Warning($"Parse S2F49-{primaryMsgFromMcs.ToSml()} Fail");
+
+                        }
+                        //(bool confirm, ALARM_CODES alarmcode) handleResult = await TransferHandler(parameterGroups, _primaryMessageWrapper);
+                    }
+
                 }
 
 
@@ -299,7 +299,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                     SecsMessage? AGVSReplyMessage = await AGVS.SendMsg(new SecsMessage(1, 3)
                     {
                         SecsItem = L(toAGVSItems)
-                    },msg_name:"CIM->AGVS");
+                    }, msg_name: "CIM->AGVS");
                     bool IsAGVSReplySuccess = !AGVSReplyMessage.IsS9F7();
                     if (!IsAGVSReplySuccess)
                     {

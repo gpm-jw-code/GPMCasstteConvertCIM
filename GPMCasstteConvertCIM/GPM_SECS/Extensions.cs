@@ -92,7 +92,24 @@ namespace GPMCasstteConvertCIM.GPM_SECS
                 return false;
             }
         }
+        public static bool TryParseTransferInfo(this SecsMessage priMsg, out string carrier_id, out string from, out string to)
+        {
+            carrier_id = from = to = null;
+            try
+            {
+                string cmdStr = priMsg.SecsItem[2].GetString();
+                Item ParameterGroups = priMsg.SecsItem[3];
+                carrier_id = ParameterGroups[1][1][0][1].GetString();
+                from = ParameterGroups[1][1][1][1].GetString();
+                to = ParameterGroups[1][1][2][1].GetString();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
 
+        }
         public static bool TryGetRCMDAction(this SecsMessage priMsg, byte F, out RCMD cmd, out Item ParameterGroups)
         {
             ParameterGroups = null;

@@ -145,7 +145,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         private async Task<bool> WaitTransferTaskDownloaded()
         {
             WaitTransferTaskDownloadCts = new CancellationTokenSource(TimeSpan.FromSeconds(Debugger.IsAttached ? 5 : Properties.WaitS2F49CmdTimeoutSec));
-            while (!CurrentCSTHasTransferTaskFlag)
+            while (!AGVsReplyMCSTransferTaskReqFlag)
             {
                 if (WaitTransferTaskDownloadCts.IsCancellationRequested)
                 {
@@ -167,7 +167,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             }
             WaitTransferTaskDownloadCts.Cancel();
             Utility.SystemLogger.Warning($"{Properties.PortID} _ Carrier- {WIPINFO_BCR_ID} AGV Will Transfer this carrier later.");
-            return true;
+            return AGVsAcceptMCSTransferTaskReq;
         }
 
 
