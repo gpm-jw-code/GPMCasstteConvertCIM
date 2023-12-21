@@ -24,9 +24,10 @@ namespace GPMCasstteConvertCIM
             Application.SetCompatibleTextRenderingDefault(false);
             ApplicationConfiguration.Initialize();
             StartBGAPP();
+            EnvironmentVariables.AddUserVariable("GPM_CIM_Path", Environment.CurrentDirectory);
             Application.Run(new frmMain());
         }
-      
+
         private static void StartBGAPP()
         {
             var pros = Process.GetProcessesByName("GPMBGAPP");
@@ -64,7 +65,7 @@ namespace GPMCasstteConvertCIM
         }
 
     }
-    
 
-    
+
+
 }
