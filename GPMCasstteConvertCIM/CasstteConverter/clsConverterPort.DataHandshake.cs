@@ -243,7 +243,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             {
                 Utility.SystemLogger.Info($"[{PortName}] Carrier Wait In HS Failed");
             }
-
+            wait_in_timer.Stop();
             return (!timeout, timeout ? ALARM_CODES.CarrierWaitIn_HS_EQ_Timeout : ALARM_CODES.None);
 
         }

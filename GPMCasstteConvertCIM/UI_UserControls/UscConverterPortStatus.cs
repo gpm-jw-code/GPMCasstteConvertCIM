@@ -105,6 +105,8 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             labCIMHandshakingWithAGV.Visible = CstCVPort.AGV_READY_WAITING_EQ_BUSYON_INTER_LOCKING;
 
             ChangeAGVAGVLDULDStatusText();
+
+            labWaitIn.Text = !CstCVPort.wait_in_timer.IsRunning || !CstCVPort.CarrierWaitINSystemRequest ? "Wait In" : $"Wait In({Math.Round(CstCVPort.wait_in_timer.ElapsedMilliseconds / 1000.0, 2)})";
         }
 
         private void ChangeAGVAGVLDULDStatusText()

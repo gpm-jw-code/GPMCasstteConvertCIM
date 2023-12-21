@@ -67,6 +67,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
             }
         }
+        internal Stopwatch wait_in_timer = new Stopwatch();
         public event EventHandler<clsConverterPort> ModeChangeOnRequest;
         public event EventHandler<clsConverterPort> CarrierWaitInOnRequest;
         public event EventHandler<clsConverterPort> CarrierWaitOutOnReport;
@@ -842,6 +843,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     _CarrierWaitINSystemRequest = value;
                     if (_CarrierWaitINSystemRequest)
                     {
+                        wait_in_timer.Restart();
                         CarrierInstallTime = DateTime.Now;
                         Task.Factory.StartNew(async () =>
                         {
@@ -862,9 +864,9 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                                         return;
                                     }
 
-                                    bool mcs_accpet = Debugger.IsAttached ? true : await SecsEventReport(CEID.CarrierWaitIn, WIPINFO_BCR_ID);
+                                    bool mcs_accpet_wait_in = Debugger.IsAttached ? true : await SecsEventReport(CEID.CarrierWaitIn, WIPINFO_BCR_ID);
 
-                                    if (mcs_accpet && Properties.CarrierWaitInNeedWaitingS2F41OrS2F49)
+                                    if (mcs_accpet_wait_in && Properties.CarrierWaitInNeedWaitingS2F41OrS2F49)
                                     {
                                         Utility.SystemLogger.Info($"Wait S2F41 or S2F49 Message reachded and Accepted by AGVs");
                                         wait_in_accept = await WaitTransferTaskDownloaded();
@@ -874,7 +876,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                                     }
                                     else
                                     {
-                                        wait_in_accept = mcs_accpet;
+                                        wait_in_accept = mcs_accpet_wait_in;
                                     }
                                 }
                                 else
