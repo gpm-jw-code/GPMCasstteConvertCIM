@@ -6,6 +6,7 @@ using GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle;
 using GPMCasstteConvertCIM.UI_UserControls;
 using GPMCasstteConvertCIM.Utilities;
 using GPMCasstteConvertCIM.WebServer;
+using GPMCasstteConvertCIM.WebServer.Models;
 using Newtonsoft.Json;
 using Secs4Net;
 using System;
@@ -256,6 +257,13 @@ namespace GPMCasstteConvertCIM.Devices
                 return false;
             }
         }
+        internal static void SetPortsIOSignalSource(Enums.IO_MODE iO_MODE)
+        {
+            foreach (var port in GetAllPorts())
+            {
+                port.IOSignalMode = iO_MODE;
+            }
+        }
         internal static clsResponse EqIOModeChangeHandle(string eqName, Enums.IO_MODE mode)
         {
             var port = GetAllPorts().FirstOrDefault(port => port.PortName == eqName);
@@ -264,6 +272,27 @@ namespace GPMCasstteConvertCIM.Devices
                 return new clsResponse(5, $"{eqName} is not exist");
 
             port.IOSignalMode = mode;
+
+            return new clsResponse(0);
+        }
+        internal static clsResponse PortLDULDStatusChangeHandle(List<clsEQLDULDSimulationControl> control)
+        {
+            if (!Utility.IsHotRunMode)
+                return new clsResponse(41, "Only Support in Hot Run Mode");
+
+            foreach (var item in control)
+            {
+                var port = GetAllPorts().FirstOrDefault(p => p.Properties.TagNumberInAGVS == item.TagNumber);
+                if (port != null)
+                {
+                    port.IOSignalMode = Enums.IO_MODE.FromCIMSimulation;
+                    port.LDULD_Status_Simulation = item.Status;
+                }
+                else
+                {
+                    return new clsResponse(444, $"No Port's tag number equal {item.TagNumber}");
+                }
+            }
 
             return new clsResponse(0);
         }

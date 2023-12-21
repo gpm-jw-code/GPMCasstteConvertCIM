@@ -58,7 +58,7 @@ namespace GPMCasstteConvertCIM.WebServer
                 servlet.onCreate();
                 if (request.HttpMethod == "POST")
                 {
-                    //servlet.onPost(request, response);
+                    servlet.onPost(request, response);
                 }
                 else if (request.HttpMethod == "GET")
                 {

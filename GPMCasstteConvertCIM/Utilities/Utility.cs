@@ -1,4 +1,5 @@
-﻿using GPMCasstteConvertCIM.Devices;
+﻿using GPMCasstteConvertCIM.CasstteConverter;
+using GPMCasstteConvertCIM.Devices;
 using GPMCasstteConvertCIM.Emulators;
 using GPMCasstteConvertCIM.Forms;
 using GPMCasstteConvertCIM.Utilities.SysConfigs;
@@ -28,7 +29,19 @@ namespace GPMCasstteConvertCIM.Utilities
 
         internal static frmVirtualAGVS VirtualAGVS = new frmVirtualAGVS();
 
-        internal static bool IsHotRunMode = false;
+        internal static bool _IsHotRunMode = false;
+        internal static bool IsHotRunMode
+        {
+            get => _IsHotRunMode;
+            set
+            {
+                if(_IsHotRunMode!=value)
+                {
+                    _IsHotRunMode = value;
+                    DevicesManager.SetPortsIOSignalSource(IsHotRunMode ? Enums.IO_MODE.FromCIMSimulation : Enums.IO_MODE.FromIOModule);
+                }
+            }
+        }
 
         internal static void LoadConfigs()
         {

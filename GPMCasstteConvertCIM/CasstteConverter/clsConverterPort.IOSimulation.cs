@@ -10,7 +10,21 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 {
     public partial class clsConverterPort
     {
-        public LDULD_STATUS LDULD_Status_Simulation = LDULD_STATUS.DOWN;
+        private LDULD_STATUS _LDULD_Status_Simulation = LDULD_STATUS.DOWN;
+        public LDULD_STATUS LDULD_Status_Simulation
+        {
+            get => _LDULD_Status_Simulation;
+            set
+            {
+                if (value == LDULD_STATUS.LOADABLE)
+                    LoadableSimulate();
+                if (value == LDULD_STATUS.UNLOADABLE)
+                    UnloadableSimulate();
+                if (value == LDULD_STATUS.DOWN)
+                    StatusDownSimulate();
+                _LDULD_Status_Simulation = value;
+            }
+        }
         public enum LDULD_STATUS
         {
             UNLOADABLE,
@@ -22,7 +36,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         /// </summary>
         public void LoadableSimulate()
         {
-            LDULD_Status_Simulation = LDULD_STATUS.LOADABLE;
             load_request_address.ControlValue = true;
             unload_request_address.ControlValue = false;
             port_status_down_address.ControlValue = true;
@@ -37,7 +50,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         /// </summary>
         public void UnloadableSimulate()
         {
-            LDULD_Status_Simulation = LDULD_STATUS.UNLOADABLE;
             load_request_address.ControlValue = false;
             unload_request_address.ControlValue = true;
             port_status_down_address.ControlValue = true;
@@ -53,7 +65,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         /// </summary>
         public void StatusDownSimulate()
         {
-            LDULD_Status_Simulation = LDULD_STATUS.DOWN;
             load_request_address.ControlValue = false;
             unload_request_address.ControlValue = false;
             port_status_down_address.ControlValue = false;

@@ -2,7 +2,9 @@
 using CommunityToolkit.HighPerformance.Helpers;
 using GPMCasstteConvertCIM.CasstteConverter;
 using GPMCasstteConvertCIM.Devices;
+using GPMCasstteConvertCIM.WebServer.Models;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +31,15 @@ namespace GPMCasstteConvertCIM.WebServer
         private string? logFolder;
         public delegate clsResponse EqIOModeChangeDelegate(string eqName, IO_MODE mode);
         public static EqIOModeChangeDelegate OnEqIOModeChangeRequest;
+
+        public delegate clsResponse HotRunModeChangeDelegate(clsHotRunControl control);
+        public static HotRunModeChangeDelegate OnHotRunModeChangeRequest;
+
+        public delegate clsResponse PortLDULDStatusChangeDelegate(List<clsEQLDULDSimulationControl> control);
+        public static PortLDULDStatusChangeDelegate OnPortLDULDStatusChangeRequest;
+
+
+
         public MyServlet(string? logFolder)
         {
             this.logFolder = logFolder;
@@ -44,7 +55,15 @@ namespace GPMCasstteConvertCIM.WebServer
         {
             Log("GET:" + request.Url);
             var _response = GetRequestRoute(request);
+            if (_response == null)
+            {
+                return;
+            }
+            Log("GET:" + request.Url + $" [Response]:{_response.ToJson()}");
             byte[] buffer = Encoding.UTF8.GetBytes(_response.ToJson());
+            response.Headers.Add("Access-Control-Allow-Origin", "*");
+            response.Headers.Add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+            response.Headers.Add("Access-Control-Allow-Headers", "Content-Type, Accept");
             System.IO.Stream output = response.OutputStream;
             output.Write(buffer, 0, buffer.Length);
             output.Close();
@@ -52,24 +71,70 @@ namespace GPMCasstteConvertCIM.WebServer
 
         public override void onPost(HttpListenerRequest request, HttpListenerResponse response)
         {
-            Log("POST:" + request.Url);
-            byte[] res = Encoding.UTF8.GetBytes("OK");
+            string lowerstring = request.RawUrl.ToLower();
+            var jsonStr = GetBodyJson(request);
+            Log("POST:" + request.Url + $"body:{jsonStr}");
+            clsResponse result = new clsResponse(500, "Server Error");
+            if (lowerstring.Contains("/api/sethotrun"))
+            {
+                clsHotRunControl? control = JsonConvert.DeserializeObject<clsHotRunControl>(jsonStr);
+                if (OnHotRunModeChangeRequest != null)
+                {
+                    result = OnHotRunModeChangeRequest(control);
+                }
+
+            }
+            if (lowerstring.Contains("/api/set_ports_lduld_status"))
+            {
+                List<clsEQLDULDSimulationControl>? controls = JsonConvert.DeserializeObject<List<clsEQLDULDSimulationControl>>(jsonStr);
+                if (OnPortLDULDStatusChangeRequest != null)
+                    result = OnPortLDULDStatusChangeRequest(controls);
+            }
+            var responseStr = JsonConvert.SerializeObject(result);
+            byte[] res = Encoding.UTF8.GetBytes(responseStr);
+
+            response.Headers.Add("Access-Control-Allow-Origin", "*");
+            response.Headers.Add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+            response.Headers.Add("Access-Control-Allow-Headers", "Content-Type, Accept");
             response.OutputStream.Write(res, 0, res.Length);
         }
+
+        private static string GetBodyJson(HttpListenerRequest request)
+        {
+            string json = "";
+            using (Stream body = request.InputStream) // 获取请求体
+            {
+                using (StreamReader reader = new StreamReader(body))
+                {
+                    json = reader.ReadToEnd(); // 读取JSON内容
+                }
+            }
+            return json;
+        }
+
         private object GetRequestRoute(HttpListenerRequest request)
         {
             try
             {
                 string lowerstring = request.RawUrl.ToLower();
                 if (lowerstring is "/favicon.ico")
-                    return new clsResponse(0);
+                    return null;
+                if (lowerstring.Contains("/api/hotrunning"))
+                {
+                    return Utilities.Utility.IsHotRunMode;
+                }
                 if (lowerstring.Contains("/api/port_name_list"))
                 {
                     return DevicesManager.GetAllPorts().Select(p => p.PortName).ToList();
                 }
                 if (lowerstring.Contains("/api/ports_io_mode"))
                 {
-                    return DevicesManager.GetAllPorts().ToDictionary(p => p.PortName, p => p.IOSignalMode);
+                    return DevicesManager.GetAllPorts().ToDictionary(p => p.PortName, p => new clsEQLDULDSimulationControl
+                    {
+                        IOMode = p.IOSignalMode,
+                        PortName = p.PortName,
+                        Status = p.LDULD_Status_Simulation
+                    });
                 }
                 if (lowerstring.Contains("/api/eq_io_mode"))
                 {
@@ -93,6 +158,7 @@ namespace GPMCasstteConvertCIM.WebServer
                             return new clsResponse(0);
                     }
                 }
+
 
                 return new clsResponse(0);
             }

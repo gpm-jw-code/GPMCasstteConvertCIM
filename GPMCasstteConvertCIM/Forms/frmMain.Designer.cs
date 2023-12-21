@@ -110,6 +110,7 @@
             cknOnlineModeIndi = new CheckBox();
             pnlLoading = new Panel();
             label7 = new Label();
+            labHotRun = new Label();
             tabControl1.SuspendLayout();
             tabPage4.SuspendLayout();
             tabPage1.SuspendLayout();
@@ -863,6 +864,7 @@
             // 
             pnlSideLeft.BackColor = Color.FromArgb(51, 51, 51);
             pnlSideLeft.BorderStyle = BorderStyle.FixedSingle;
+            pnlSideLeft.Controls.Add(labHotRun);
             pnlSideLeft.Controls.Add(ckbHotRunMode);
             pnlSideLeft.Controls.Add(btnOpenLoginFOrm);
             pnlSideLeft.Controls.Add(label6);
@@ -1096,6 +1098,20 @@
             label7.Text = "Loading...";
             label7.TextAlign = ContentAlignment.MiddleCenter;
             // 
+            // labHotRun
+            // 
+            labHotRun.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            labHotRun.BackColor = Color.FromArgb(255, 128, 0);
+            labHotRun.BorderStyle = BorderStyle.FixedSingle;
+            labHotRun.Font = new Font("Microsoft JhengHei UI", 13F, FontStyle.Bold, GraphicsUnit.Point);
+            labHotRun.ForeColor = Color.WhiteSmoke;
+            labHotRun.Location = new Point(-9, 548);
+            labHotRun.Name = "labHotRun";
+            labHotRun.Size = new Size(164, 51);
+            labHotRun.TabIndex = 10;
+            labHotRun.Text = "HOT RUN";
+            labHotRun.TextAlign = ContentAlignment.MiddleCenter;
+            // 
             // frmMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -1248,5 +1264,6 @@
         private ToolStripTextBox txbRegionNameEditInput;
         private ToolStripStatusLabel labWebServerUrl;
         private ToolStripMenuItem 警報器IO狀態ToolStripMenuItem;
+        private Label labHotRun;
     }
 }

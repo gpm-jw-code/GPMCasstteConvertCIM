@@ -23,6 +23,7 @@ using System.Xml.Linq;
 using static GPMCasstteConvertCIM.Utilities.StaUsersManager;
 using static Secs4Net.Item;
 using GPMCasstteConvertCIM.AlarmDevice;
+using GPMCasstteConvertCIM.WebServer.Models;
 namespace GPMCasstteConvertCIM.Forms
 {
     public partial class frmMain : Form
@@ -156,10 +157,21 @@ namespace GPMCasstteConvertCIM.Forms
                     pnlLoading.SendToBack();
 
                     MyServlet.OnEqIOModeChangeRequest += DevicesManager.EqIOModeChangeHandle;
+                    MyServlet.OnPortLDULDStatusChangeRequest+= DevicesManager.PortLDULDStatusChangeHandle;
+                    MyServlet.OnHotRunModeChangeRequest += HotRunRemoteControlHandle;
                     CIMWebServer.StartService(Utility.SysConfigs.WebService.HostUrl, Path.Combine(Utility.SysConfigs.Log.SyslogFolder, "WebServerLog"));
 
                 }));
             });
+        }
+
+        private clsResponse HotRunRemoteControlHandle(clsHotRunControl control)
+        {
+            ckbHotRunMode.CheckedChanged -= ckbHotRunMode_CheckedChanged;
+            ckbHotRunMode.Checked = Utility.IsHotRunMode = control.enableHotRun;
+            ckbHotRunMode.CheckedChanged += ckbHotRunMode_CheckedChanged;
+            Utility.SystemLogger.Info($"Hot run mode set as {control.enableHotRun} via api.");
+            return new clsResponse(0);
         }
 
         private void CopyAlarmDBFileToLogFolderToday(string dBFilePath)
@@ -439,6 +451,7 @@ namespace GPMCasstteConvertCIM.Forms
             cknOnlineModeIndi.Checked = SECSState.IsOnline;
             if (SECSState.IsRemote || SECSState.IsOnline == false)
             { clsAgvsAlarmDevice.offline(); }
+            labHotRun.Visible = Utility.IsHotRunMode;
         }
 
         private void aGVS¨£®Æº“¿¿æπToolStripMenuItem_Click(object sender, EventArgs e)

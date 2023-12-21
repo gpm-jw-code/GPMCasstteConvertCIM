@@ -39,20 +39,20 @@ namespace GPMCasstteConvertCIM.Forms
 
         private void btnLoadable_Click(object sender, EventArgs e)
         {
-            port.LoadableSimulate();
+            port.LDULD_Status_Simulation = LDULD_STATUS.LOADABLE;
             ChnageIndicator(LDULD_STATUS.LOADABLE);
         }
 
         private void btnUnloadable_Click(object sender, EventArgs e)
         {
-            port.UnloadableSimulate();
+            port.LDULD_Status_Simulation = LDULD_STATUS.UNLOADABLE;
             ChnageIndicator(LDULD_STATUS.UNLOADABLE);
 
         }
 
         private void btnDownStatus_Click(object sender, EventArgs e)
         {
-            port.StatusDownSimulate();
+            port.LDULD_Status_Simulation = LDULD_STATUS.DOWN;
             ChnageIndicator( LDULD_STATUS.DOWN);
         }
 

@@ -61,6 +61,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             {
                 _IOSignalMode = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsIOSimulating"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("UnloadRequest"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("LoadRequest"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("PortStatusDown"));
+
             }
         }
         public event EventHandler<clsConverterPort> ModeChangeOnRequest;
