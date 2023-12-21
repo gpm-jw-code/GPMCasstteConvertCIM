@@ -91,8 +91,10 @@
             toolStripMenuItem_OpenConvert_2_Simulator = new ToolStripMenuItem();
             AGVS_modbus_sim_ToolStripMenuItem = new ToolStripMenuItem();
             aGVSEmuToolStripMenuItem = new ToolStripMenuItem();
+            toolStripMenuItem_AGVs_DB = new ToolStripMenuItem();
             警報器IO狀態ToolStripMenuItem = new ToolStripMenuItem();
             pnlSideLeft = new Panel();
+            labHotRun = new Label();
             ckbHotRunMode = new CheckBox();
             btnOpenLoginFOrm = new Button();
             label6 = new Label();
@@ -110,7 +112,6 @@
             cknOnlineModeIndi = new CheckBox();
             pnlLoading = new Panel();
             label7 = new Label();
-            labHotRun = new Label();
             tabControl1.SuspendLayout();
             tabPage4.SuspendLayout();
             tabPage1.SuspendLayout();
@@ -733,7 +734,7 @@
             GPMRDMenuStrip.BackColor = Color.FromArgb(53, 53, 53);
             GPMRDMenuStrip.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
             GPMRDMenuStrip.ImageScalingSize = new Size(20, 20);
-            GPMRDMenuStrip.Items.AddRange(new ToolStripItem[] { labRegionName, txbRegionNameEditInput, btnRegionNameEditedConfirm, btnCancelRegionNameEdit, toolStripComboBox_Emulators, 警報器IO狀態ToolStripMenuItem });
+            GPMRDMenuStrip.Items.AddRange(new ToolStripItem[] { labRegionName, txbRegionNameEditInput, btnRegionNameEditedConfirm, btnCancelRegionNameEdit, toolStripComboBox_Emulators, toolStripMenuItem_AGVs_DB, 警報器IO狀態ToolStripMenuItem });
             GPMRDMenuStrip.Location = new Point(0, 0);
             GPMRDMenuStrip.Name = "GPMRDMenuStrip";
             GPMRDMenuStrip.Padding = new Padding(6, 2, 0, 6);
@@ -853,6 +854,17 @@
             aGVSEmuToolStripMenuItem.Text = "AGVS 派車模擬器";
             aGVSEmuToolStripMenuItem.Click += aGVS派車模擬器ToolStripMenuItem_Click;
             // 
+            // toolStripMenuItem_AGVs_DB
+            // 
+            toolStripMenuItem_AGVs_DB.BackColor = Color.Red;
+            toolStripMenuItem_AGVs_DB.ForeColor = Color.White;
+            toolStripMenuItem_AGVs_DB.Name = "toolStripMenuItem_AGVs_DB";
+            toolStripMenuItem_AGVs_DB.ShowShortcutKeys = false;
+            toolStripMenuItem_AGVs_DB.Size = new Size(133, 45);
+            toolStripMenuItem_AGVs_DB.Text = "派車系統資料庫";
+            toolStripMenuItem_AGVs_DB.Visible = false;
+            toolStripMenuItem_AGVs_DB.Click += ToolStripMenuItem_AGVs_DB_Click;
+            // 
             // 警報器IO狀態ToolStripMenuItem
             // 
             警報器IO狀態ToolStripMenuItem.Name = "警報器IO狀態ToolStripMenuItem";
@@ -876,6 +888,20 @@
             pnlSideLeft.Name = "pnlSideLeft";
             pnlSideLeft.Size = new Size(155, 763);
             pnlSideLeft.TabIndex = 5;
+            // 
+            // labHotRun
+            // 
+            labHotRun.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            labHotRun.BackColor = Color.FromArgb(255, 128, 0);
+            labHotRun.BorderStyle = BorderStyle.FixedSingle;
+            labHotRun.Font = new Font("Microsoft JhengHei UI", 13F, FontStyle.Bold, GraphicsUnit.Point);
+            labHotRun.ForeColor = Color.WhiteSmoke;
+            labHotRun.Location = new Point(-9, 548);
+            labHotRun.Name = "labHotRun";
+            labHotRun.Size = new Size(164, 51);
+            labHotRun.TabIndex = 10;
+            labHotRun.Text = "HOT RUN";
+            labHotRun.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // ckbHotRunMode
             // 
@@ -1098,20 +1124,6 @@
             label7.Text = "Loading...";
             label7.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // labHotRun
-            // 
-            labHotRun.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            labHotRun.BackColor = Color.FromArgb(255, 128, 0);
-            labHotRun.BorderStyle = BorderStyle.FixedSingle;
-            labHotRun.Font = new Font("Microsoft JhengHei UI", 13F, FontStyle.Bold, GraphicsUnit.Point);
-            labHotRun.ForeColor = Color.WhiteSmoke;
-            labHotRun.Location = new Point(-9, 548);
-            labHotRun.Name = "labHotRun";
-            labHotRun.Size = new Size(164, 51);
-            labHotRun.TabIndex = 10;
-            labHotRun.Text = "HOT RUN";
-            labHotRun.TextAlign = ContentAlignment.MiddleCenter;
-            // 
             // frmMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -1265,5 +1277,6 @@
         private ToolStripStatusLabel labWebServerUrl;
         private ToolStripMenuItem 警報器IO狀態ToolStripMenuItem;
         private Label labHotRun;
+        private ToolStripMenuItem toolStripMenuItem_AGVs_DB;
     }
 }

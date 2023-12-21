@@ -61,7 +61,7 @@ namespace GPMCasstteConvertCIM.Forms
             var exception = (e.ExceptionObject as Exception).InnerException;
             Utility.SystemLogger.Error(exception.Message, exception, false);
         }
-
+        private frmAGVsDatabaseBroswer AGVsDatabaseForm;
         private void Form1_Load(object sender, EventArgs e)
         {
             pnlLoading.BringToFront();
@@ -157,7 +157,7 @@ namespace GPMCasstteConvertCIM.Forms
                     pnlLoading.SendToBack();
 
                     MyServlet.OnEqIOModeChangeRequest += DevicesManager.EqIOModeChangeHandle;
-                    MyServlet.OnPortLDULDStatusChangeRequest+= DevicesManager.PortLDULDStatusChangeHandle;
+                    MyServlet.OnPortLDULDStatusChangeRequest += DevicesManager.PortLDULDStatusChangeHandle;
                     MyServlet.OnHotRunModeChangeRequest += HotRunRemoteControlHandle;
                     CIMWebServer.StartService(Utility.SysConfigs.WebService.HostUrl, Path.Combine(Utility.SysConfigs.Log.SyslogFolder, "WebServerLog"));
 
@@ -470,7 +470,7 @@ namespace GPMCasstteConvertCIM.Forms
                     StaUsersManager.Logout();
                     btnOpenLoginFOrm.Text = "Login";
                     label6.Text = "VISITOR";
-                    ckbHotRunMode.Visible = toolStripComboBox_Emulators.Visible = false;
+                    ckbHotRunMode.Visible = toolStripComboBox_Emulators.Visible = toolStripMenuItem_AGVs_DB.Visible = false;
                 }
                 return;
             }
@@ -485,7 +485,7 @@ namespace GPMCasstteConvertCIM.Forms
                 SuspendLayout();
                 if (StaUsersManager.CurrentUser.Group == StaUsersManager.USER_GROUP.GPM_ENG | StaUsersManager.CurrentUser.Group == StaUsersManager.USER_GROUP.GPM_RD)
                 {
-                    ckbHotRunMode.Visible = uscAlarmShow1.showAlarmResetBtn = toolStripComboBox_Emulators.Visible = true;
+                    ckbHotRunMode.Visible = uscAlarmShow1.showAlarmResetBtn = toolStripComboBox_Emulators.Visible = toolStripMenuItem_AGVs_DB.Visible = true;
                 }
                 else
                     ckbHotRunMode.Visible = uscAlarmShow1.showAlarmResetBtn = toolStripComboBox_Emulators.Visible = false;
@@ -647,5 +647,11 @@ namespace GPMCasstteConvertCIM.Forms
 
         }
 
+        private void ToolStripMenuItem_AGVs_DB_Click(object sender, EventArgs e)
+        {
+            if (AGVsDatabaseForm == null)
+                AGVsDatabaseForm = new frmAGVsDatabaseBroswer();
+            AGVsDatabaseForm.Show();
+        }
     }
 }

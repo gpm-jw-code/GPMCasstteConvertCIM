@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace GPMCasstteConvertCIM.DataBase.KGS_AGVs
 {
-    public class AGVSDBHelper
+    public class AGVSDBHelper : IDisposable
     {
 
         public static string DBConnection = "Server=127.0.0.1;Database=WebAGVSystem;User Id=sa;Password=12345678;Encrypt=False";
@@ -24,6 +24,8 @@ namespace GPMCasstteConvertCIM.DataBase.KGS_AGVs
         public static event EventHandler<string> OnError;
 
         private static LoggerBase logger;
+        private bool disposedValue;
+
         public class clsNewTaskObj : clsAGVInfo
         {
             public ExecutingTask OrderInfo { get; set; } = new ExecutingTask();
@@ -227,6 +229,62 @@ namespace GPMCasstteConvertCIM.DataBase.KGS_AGVs
             };
         }
 
+        internal List<TaskDto> QueryTask(DateTime from, DateTime to, string userName = "")
+        {
+            using (var dbConn = DBConn)
+            {
+                var tasks = dbConn.Tasks
+                    .Where(tk => tk.Receive_Time >= from & tk.Receive_Time <= to & (userName == "" ? true : tk.AssignUserName.ToLower().Contains(userName)))
+                    //.Where(tk => tk.Receive_Time >= from & tk.Receive_Time <= to)
+                    .OrderByDescending(t => t.Receive_Time);
+                return tasks.ToList();
+            }
+        }
 
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    // TODO: 處置受控狀態 (受控物件)
+                }
+                DBConn.Database.CloseConnection();
+                DBConn.Dispose();
+                // TODO: 釋出非受控資源 (非受控物件) 並覆寫完成項
+                // TODO: 將大型欄位設為 Null
+                disposedValue = true;
+            }
+        }
+
+        // // TODO: 僅有當 'Dispose(bool disposing)' 具有會釋出非受控資源的程式碼時，才覆寫完成項
+        // ~AGVSDBHelper()
+        // {
+        //     // 請勿變更此程式碼。請將清除程式碼放入 'Dispose(bool disposing)' 方法
+        //     Dispose(disposing: false);
+        // }
+
+        public void Dispose()
+        {
+            // 請勿變更此程式碼。請將清除程式碼放入 'Dispose(bool disposing)' 方法
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
+
+        internal bool DeleteTask(TaskDto task)
+        {
+            try
+            {
+
+                using var dbConn = DBConn;
+                dbConn.Tasks.Remove(task);
+                int delete_num = dbConn.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
     }
 }
