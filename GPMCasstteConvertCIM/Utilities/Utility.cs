@@ -1,4 +1,5 @@
-﻿using GPMCasstteConvertCIM.CasstteConverter;
+﻿using AGVSystemCommonNet6.HttpTools;
+using GPMCasstteConvertCIM.CasstteConverter;
 using GPMCasstteConvertCIM.Devices;
 using GPMCasstteConvertCIM.Emulators;
 using GPMCasstteConvertCIM.Forms;
@@ -35,14 +36,32 @@ namespace GPMCasstteConvertCIM.Utilities
             get => _IsHotRunMode;
             set
             {
-                if(_IsHotRunMode!=value)
+                if (_IsHotRunMode != value)
                 {
                     _IsHotRunMode = value;
                     DevicesManager.SetPortsIOSignalSource(IsHotRunMode ? Enums.IO_MODE.FromCIMSimulation : Enums.IO_MODE.FromIOModule);
+                    AGVLDULDNoEntryModeControl(value);
                 }
             }
         }
 
+        private static async void AGVLDULDNoEntryModeControl(bool enableHotRun)
+        {
+            foreach (var _agv in Utility.SysConfigs.AGVList)
+            {
+                try
+                {
+
+                    HttpHelper http = new HttpHelper($"http://{_agv.AGVIP}:7025");
+                    int retCode = await http.GetAsync<int>($"/api/VMS/LDULDWithoutEntryControl?actived={enableHotRun}");
+                    Utility.SystemLogger.Info($"變更 AGV-{_agv.AGVID}({_agv.AGVIP}) 空取空放模式={enableHotRun},Result Code = {retCode}");
+                }
+                catch (Exception ex)
+                {
+                    Utility.SystemLogger.Error($"變更 AGV-{_agv.AGVID}({_agv.AGVIP}) 空取空放模式={enableHotRun} 失敗, Error = {ex.Message}");
+                }
+            }
+        }
         internal static void LoadConfigs()
         {
             LoadSysConfigs();

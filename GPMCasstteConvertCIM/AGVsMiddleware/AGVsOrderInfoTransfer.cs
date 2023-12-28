@@ -111,15 +111,23 @@ namespace GPMCasstteConvertCIM.AGVsMiddleware
             try
             {
                 HttpHelper http = new HttpHelper($"http://{agvIP}:7025", 1);
-                logger.Info($"Try Post order_info to {agvIP}:7025-\r\n{order_info.ToJson()}");
+
+                bool isEmpty = order_info.DestineName == "";
+
+                if (!isEmpty)
+                    logger.Info($"Try Post order_info to {agvIP}:7025-\r\n{order_info.ToJson()}");
 
                 bool result = await http.PostAsync<bool, clsOrderInfo>("/api/TaskDispatch/OrderInfo", order_info);
                 if (!result)
                 {
-                    logger.Error($"Post order_info to {agvIP}:7025 Fail");
+                    if (!isEmpty)
+                        logger.Error($"Post order_info to {agvIP}:7025 Fail");
                 }
                 else
-                    logger.Info($"Post order_info to {agvIP}:7025 ({order_info.ToJson()}) SUCCESSFUL!");
+                {
+                    if (!isEmpty)
+                        logger.Info($"Post order_info to {agvIP}:7025 ({order_info.ToJson()}) SUCCESSFUL!");
+                }
                 return result;
             }
             catch (Exception ex)
@@ -141,6 +149,8 @@ namespace GPMCasstteConvertCIM.AGVsMiddleware
                         ActionName = AGVSystemCommonNet6.AGVDispatch.Messages.ACTION_TYPE.NoAction
                     };
                 }
+                logger.Info($"From_Station = {orderInfo.FromStationId}; To_Station = {orderInfo.ToStationId}");
+
                 bool fromMapPointExist = _Map.Points.TryGetValue((int)orderInfo.FromStationId, out MapPoint fromMapPoint);
                 bool toMapPointExist = _Map.Points.TryGetValue((int)orderInfo.ToStationId, out MapPoint toMapPoint);
                 var _orderInfo = new clsOrderInfo

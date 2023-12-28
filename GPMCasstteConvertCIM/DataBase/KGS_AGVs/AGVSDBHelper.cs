@@ -73,7 +73,9 @@ namespace GPMCasstteConvertCIM.DataBase.KGS_AGVs
                         {
                             lastTasksNum = context.ExecutingTasks.Count();
                             ExecutingTaskList.Clear();
-                            foreach (var task in context.ExecutingTasks.AsNoTracking())
+                            var tasks = context.ExecutingTasks.ToList();
+                            //logger.Info($"{tasks.ToJson()}");
+                            foreach (var task in tasks)
                             {
                                 ExecutingTaskList.Add(task);
                                 var agv_id = task.ExeVehicleID;
@@ -119,6 +121,7 @@ namespace GPMCasstteConvertCIM.DataBase.KGS_AGVs
                     catch (Exception ex)
                     {
                         OnError?.Invoke("", ex.Message);
+                        logger.Error(ex.Message, ex);
                         continue;
                     }
 

@@ -70,6 +70,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="cimico_x86.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="configs\AGVS_DB_Param.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
