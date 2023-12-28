@@ -24,6 +24,7 @@ using static GPMCasstteConvertCIM.Utilities.StaUsersManager;
 using static Secs4Net.Item;
 using GPMCasstteConvertCIM.AlarmDevice;
 using GPMCasstteConvertCIM.WebServer.Models;
+using AGVSystemCommonNet6.HttpTools;
 namespace GPMCasstteConvertCIM.Forms
 {
     public partial class frmMain : Form
@@ -35,6 +36,10 @@ namespace GPMCasstteConvertCIM.Forms
         public frmMain()
         {
             InitializeComponent();
+            if (!Environment.Is64BitProcess)
+            {
+                this.Icon = new Icon( Path.Combine(Environment.CurrentDirectory, "cimico_x86.ico"));
+            }
             Application.ThreadException += Application_ThreadException; ;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             toolStripComboBox_Emulators.Visible = false;
@@ -46,7 +51,6 @@ namespace GPMCasstteConvertCIM.Forms
         {
             try
             {
-
                 var exception = e.Exception;
                 Utility.SystemLogger.Error(exception.Message, exception, false);
             }
@@ -173,6 +177,8 @@ namespace GPMCasstteConvertCIM.Forms
             Utility.SystemLogger.Info($"Hot run mode set as {control.enableHotRun} via api.");
             return new clsResponse(0);
         }
+
+
 
         private void CopyAlarmDBFileToLogFolderToday(string dBFilePath)
         {
