@@ -164,9 +164,16 @@ namespace GPMCasstteConvertCIM.Forms
                     MyServlet.OnPortLDULDStatusChangeRequest += DevicesManager.PortLDULDStatusChangeHandle;
                     MyServlet.OnHotRunModeChangeRequest += HotRunRemoteControlHandle;
                     CIMWebServer.StartService(Utility.SysConfigs.WebService.HostUrl, Path.Combine(Utility.SysConfigs.Log.SyslogFolder, "WebServerLog"));
-
+                    Task.Run(async () =>
+                    {
+                        Invoke(new Action(() =>
+                        {
+                            clsAgvsAlarmDevice.GetstopMusic();
+                        }));
+                    });
                 }));
             });
+            
         }
 
         private clsResponse HotRunRemoteControlHandle(clsHotRunControl control)
