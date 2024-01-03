@@ -313,6 +313,7 @@ namespace GPMCasstteConvertCIM.GPM_Modbus
         /// </summary>
         internal void Connect(string ipAddress, int port)
         {
+            IPAddress = ipAddress;
             Port = port;
             if (!UDPFlag)
             { 

@@ -82,6 +82,9 @@
     <None Update="configs\DevicesConnections.json">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
+    <None Update="configs\ModbusDeviceConfigs.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="configs\SystemConfigs.json">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>

@@ -1,0 +1,9 @@
+{
+  "Enable": false,
+  "IP_Address": "192.168.1.100",
+  "port": 502,
+  "DI_SrartAddress": 0,
+  "DI_EndAddress": 7,
+  "DO_SrartAddress": 16,
+  "DO_EndAddress": 22
+}
