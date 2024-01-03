@@ -313,8 +313,9 @@ namespace GPMCasstteConvertCIM.GPM_Modbus
         /// </summary>
         internal void Connect(string ipAddress, int port)
         {
+            Port = port;
             if (!UDPFlag)
-            {
+            { 
                 if (debug) StoreLogData.Instance.Store("Open TCP-Socket, IP-Address: " + ipAddress + ", Port: " + port, System.DateTime.Now);
                 tcpClient = new TcpClient();
                 var result = tcpClient.BeginConnect(ipAddress, port, null, null);
