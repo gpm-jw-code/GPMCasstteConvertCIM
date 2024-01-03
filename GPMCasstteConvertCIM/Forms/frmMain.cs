@@ -38,7 +38,7 @@ namespace GPMCasstteConvertCIM.Forms
             InitializeComponent();
             if (!Environment.Is64BitProcess)
             {
-                this.Icon = new Icon( Path.Combine(Environment.CurrentDirectory, "cimico_x86.ico"));
+                this.Icon = new Icon(Path.Combine(Environment.CurrentDirectory, "cimico_x86.ico"));
             }
             Application.ThreadException += Application_ThreadException; ;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
@@ -166,14 +166,11 @@ namespace GPMCasstteConvertCIM.Forms
                     CIMWebServer.StartService(Utility.SysConfigs.WebService.HostUrl, Path.Combine(Utility.SysConfigs.Log.SyslogFolder, "WebServerLog"));
                     Task.Run(async () =>
                     {
-                        Invoke(new Action(() =>
-                        {
-                            clsAgvsAlarmDevice.GetstopMusic();
-                        }));
+                        clsAgvsAlarmDevice.GetstopMusic();
                     });
                 }));
             });
-            
+
         }
 
         private clsResponse HotRunRemoteControlHandle(clsHotRunControl control)
