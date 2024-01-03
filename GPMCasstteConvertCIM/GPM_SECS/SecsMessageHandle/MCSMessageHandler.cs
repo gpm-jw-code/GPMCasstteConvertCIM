@@ -205,7 +205,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                             var port_wait_in = DevicesManager.GetAllPorts().FirstOrDefault(port => port.Properties.PortID == source);
                             if (port_wait_in != null)
                             {
-                                if (AGVS_Accept_TransferTask)
+                                if (AGVS_Accept_TransferTask || ! port_wait_in.Properties.CarrierWaitOutWhenAGVSRefuseMCSMission)
                                     port_wait_in.CstTransferAcceptInvoke();
                                 else
                                     port_wait_in.CstTransferRejectInvoke();

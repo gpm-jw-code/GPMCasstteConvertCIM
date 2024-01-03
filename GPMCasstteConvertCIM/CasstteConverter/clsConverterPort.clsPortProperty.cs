@@ -65,6 +65,14 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             /// 等待接收S2F49 Timeout 時間(秒)(配合 CarrierWaitInNeedWaitingS2F41OrS2F49設定需開啟)
             /// </summary>
             public int WaitS2F49CmdTimeoutSec { get; set; } = 60;
+
+            /// <summary>
+            /// 當MCS下任務被AGVS拒絕後須讓轉換架退料
+            /// </summary>
+            public bool CarrierWaitOutWhenAGVSRefuseMCSMission { get; set; } = false;
+
+
+
         }
 
     }
