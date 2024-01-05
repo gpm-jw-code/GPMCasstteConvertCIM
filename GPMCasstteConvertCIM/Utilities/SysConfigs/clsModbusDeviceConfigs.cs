@@ -20,6 +20,8 @@ namespace GPMCasstteConvertCIM.Utilities.SysConfigs
         public ushort DO_SrartAddress { get; set; } =16 ;
         public ushort DO_EndAddress { get; set; } = 22;
         public bool Enable = false;
+        public string STK_IP_Address { get; set; } = "192.168.0.100";
+        public int STK_port { get; set; } = 502;
     }
 }
 

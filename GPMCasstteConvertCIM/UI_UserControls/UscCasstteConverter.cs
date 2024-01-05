@@ -166,7 +166,7 @@ namespace GPMCasstteConvertCIM.UI_UserControls
         {
             casstteConverter.AlarmResetFlag = true;
             clsAgvsAlarmDevice clsAgvsAlarmDevice = new clsAgvsAlarmDevice();
-            clsAgvsAlarmDevice.MusicStop();
+            clsAgvsAlarmDevice.AlarmReset();
         }
 
         private void labOpenModbusServerFom_Click(object sender, EventArgs e)

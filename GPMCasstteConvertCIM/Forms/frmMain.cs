@@ -166,7 +166,7 @@ namespace GPMCasstteConvertCIM.Forms
                     CIMWebServer.StartService(Utility.SysConfigs.WebService.HostUrl, Path.Combine(Utility.SysConfigs.Log.SyslogFolder, "WebServerLog"));
                     Task.Run(async () =>
                     {
-                        clsAgvsAlarmDevice.GetstopMusic();
+                        clsAgvsAlarmDevice.GetAlarmReset();
                     });
                 }));
             });
@@ -460,7 +460,7 @@ namespace GPMCasstteConvertCIM.Forms
             ckbRemoteModeIndi.Checked = SECSState.IsRemote;
             cknOnlineModeIndi.Checked = SECSState.IsOnline;
             if (SECSState.IsRemote || SECSState.IsOnline == false)
-            { clsAgvsAlarmDevice.offline(); }
+            { clsAgvsAlarmDevice.AGVSLocal(); }
             labHotRun.Visible = Utility.IsHotRunMode;
         }
 
