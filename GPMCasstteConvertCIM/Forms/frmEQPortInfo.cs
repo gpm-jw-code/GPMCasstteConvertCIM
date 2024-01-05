@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -21,6 +22,13 @@ namespace GPMCasstteConvertCIM.Forms
         {
             InitializeComponent();
             dataBinding.DataSource = portData;
+            numagvhsPORT.Value = portData.Properties.AGVHandshakeModbus_PORT;
+
+            ckbActiveHSModbusSlave.CheckedChanged -= CkbActiveHSModbusSlave_CheckedChanged;
+
+            ckbActiveHSModbusSlave.Checked = portData.Properties.AGVHandshakeModbusGatewayActive;
+
+            ckbActiveHSModbusSlave.CheckedChanged += CkbActiveHSModbusSlave_CheckedChanged;
         }
 
         private void btnModifyModbusHost_Click(object sender, EventArgs e)
@@ -78,6 +86,61 @@ namespace GPMCasstteConvertCIM.Forms
                     MessageBox.Show($"修改失敗...{msg}", "Modbus TCP Setting FAIL", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+        }
+
+        private void FrmEQPortInfo_Load(object sender, EventArgs e)
+        {
+
+        }
+        private bool testBol = false;
+        private void CheckBox3_CheckedChanged(object sender, EventArgs e)
+        {
+            testBol = !testBol;
+            DevicesManager.cclink_master.EQPMemOptions.memoryTable.WriteOneBit(portEntity.PortEQBitAddress[Enums.PROPERTY.EQ_READY], testBol);
+            DevicesManager.cclink_master.EQPMemOptions.memoryTable.WriteOneBit(portEntity.PortEQBitAddress[Enums.PROPERTY.U_REQ], testBol);
+
+        }
+
+        private void CkbActiveHSModbusSlave_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ckbActiveHSModbusSlave.Checked)
+            {
+                bool success = portEntity.ActiveAGVHSModbusGateway(out string errorMsg);
+                if (success)
+                {
+                    MessageBox.Show($"AGV 交握 MODBUS SERVER 啟用成功!(:{portEntity.Properties.AGVHandshakeModbus_PORT})", "啟用成功", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show($"AGV 交握 MODBUS SERVER 啟用失敗..(:{portEntity.Properties.AGVHandshakeModbus_PORT})\n{errorMsg}", "啟用失敗", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else
+                portEntity.DisableAGVHSModbusGateway();
+        }
+
+        private void CheckBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            numagvhsPORT.Enabled = checkBox2.Checked;
+        }
+
+        private void NumagvhsPORT_ValueChanged(object sender, EventArgs e)
+        {
+            portEntity.Properties.AGVHandshakeModbus_PORT = (int)numagvhsPORT.Value;
+            DevicesManager.SaveDeviceConnectionOpts();
+
+            if (portEntity.Properties.AGVHandshakeModbusGatewayActive)
+            {
+                portEntity.DisableAGVHSModbusGateway();
+                
+                if(!portEntity.ActiveAGVHSModbusGateway(out var errmsg))
+                {
+                    MessageBox.Show($"AGV 交握 MODBUS SERVER 啟用失敗..(:{portEntity.Properties.AGVHandshakeModbus_PORT})\n{errmsg}", "啟用失敗", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                }
+
+            }
+
         }
     }
 }

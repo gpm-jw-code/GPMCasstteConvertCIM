@@ -1,4 +1,5 @@
 ﻿using GPMCasstteConvertCIM.CasstteConverter;
+using GPMCasstteConvertCIM.Devices;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -28,12 +29,14 @@ namespace GPMCasstteConvertCIM.Forms
         }
         public new void ShowDialog(clsConverterPort port)
         {
+
             this.port = port;
             this.Text = $"Port Status Simulator-{port.PortName}";
             comboBox1.SelectedIndexChanged -= comboBox1_SelectedIndexChanged;
             comboBox1.SelectedIndex = port.IsIOSimulating ? 0 : 1;
             comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             ChnageIndicator(port.LDULD_Status_Simulation);
+            ckbEQ_READY.Visible = ckbEQ_BUSY.Visible = ckbEQ_L_REQ.Visible = ckbEQ_U_REQ.Visible = DevicesManager.cclink_master.simulation_mode;
             base.ShowDialog();
         }
 
@@ -53,7 +56,7 @@ namespace GPMCasstteConvertCIM.Forms
         private void btnDownStatus_Click(object sender, EventArgs e)
         {
             port.LDULD_Status_Simulation = LDULD_STATUS.DOWN;
-            ChnageIndicator( LDULD_STATUS.DOWN);
+            ChnageIndicator(LDULD_STATUS.DOWN);
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -66,6 +69,37 @@ namespace GPMCasstteConvertCIM.Forms
         private void ChnageIndicator(LDULD_STATUS status)
         {
             tlpIndicatorContainer.Controls.Add(labIndicator, 0, status == LDULD_STATUS.LOADABLE ? 0 : status == LDULD_STATUS.UNLOADABLE ? 1 : 2);
+        }
+
+        private void CkbEQ_L_REQ_CheckedChanged(object sender, EventArgs e)
+        {
+            DevicesManager.cclink_master.EQPMemOptions.memoryTable.WriteOneBit(port.PortEQBitAddress[Enums.PROPERTY.L_REQ], ckbEQ_L_REQ.Checked);
+
+        }
+
+        private void CkbEQ_U_REQ_CheckedChanged(object sender, EventArgs e)
+        {
+            DevicesManager.cclink_master.EQPMemOptions.memoryTable.WriteOneBit(port.PortEQBitAddress[Enums.PROPERTY.U_REQ], ckbEQ_U_REQ.Checked);
+
+        }
+
+        private void CkbEQ_READY_CheckedChanged(object sender, EventArgs e)
+        {
+            DevicesManager.cclink_master.EQPMemOptions.memoryTable.WriteOneBit(port.PortEQBitAddress[Enums.PROPERTY.EQ_READY], ckbEQ_READY.Checked);
+        }
+
+        private void CkbEQ_BUSY_CheckedChanged(object sender, EventArgs e)
+        {
+            DevicesManager.cclink_master.EQPMemOptions.memoryTable.WriteOneBit(port.PortEQBitAddress[Enums.PROPERTY.EQ_BUSY], ckbEQ_BUSY.Checked);
+        }
+
+        private void Timer1_Tick(object sender, EventArgs e)
+        {
+            ckb_agv_valid.Checked = port.agv_hs_status.AGV_VALID;
+            ckb_agv_tr_req.Checked = port.agv_hs_status.AGV_TR_REQ;
+            ckb_agv_busy.Checked = port.agv_hs_status.AGV_BUSY;
+            ckb_agv_ready.Checked = port.agv_hs_status.AGV_READY;
+            ckb_agv_compt.Checked = port.agv_hs_status.AGV_COMPT;
         }
     }
 }

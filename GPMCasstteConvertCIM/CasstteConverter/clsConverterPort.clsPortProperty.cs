@@ -18,9 +18,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
             public string ModbusServer_IP { get; set; } = "127.0.0.1";
             public int ModbusServer_PORT { get; set; } = 1502;
+            public int AGVHandshakeModbus_PORT { get; set; } = 4502;
 
             public bool ModbusServer_Enable = true;
-
+            public bool AGVHandshakeModbusGatewayActive = false;
             internal PortUnitType PortType { get; set; }
 
             public bool CarrierWaitInOutReport_Enable { get; set; } = true;

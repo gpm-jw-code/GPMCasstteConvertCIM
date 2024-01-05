@@ -5,6 +5,7 @@ using GPMCasstteConvertCIM.Forms;
 using GPMCasstteConvertCIM.GPM_Modbus;
 using GPMCasstteConvertCIM.GPM_SECS;
 using GPMCasstteConvertCIM.Utilities;
+using Modbus.Device;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,11 +13,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static GPMCasstteConvertCIM.CasstteConverter.Data.clsMemoryAddress;
+using static GPMCasstteConvertCIM.CasstteConverter.Enums;
 
 namespace GPMCasstteConvertCIM.CasstteConverter
 {
     public partial class clsConverterPort
     {
+        public clsStatusIOModbusGateway agv_handshake_modbus_master = new clsStatusIOModbusGateway();
         public ModbusTCPServer modbus_server { get; set; }
 
         /// <summary>
@@ -41,6 +44,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         }
 
         public event EventHandler<Tuple<string, string, string>> OnMCSNoTransferNotify;
+
 
         public bool BuildModbusTCPServer(string ip, int port, out string error_msg)
         {
@@ -87,6 +91,25 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             {
                 throw ex;
             }
+        }
+        internal bool ActiveAGVHSModbusGateway(out string error_msg)
+        {
+            error_msg = string.Empty;
+            Properties.AGVHandshakeModbusGatewayActive = true;
+            DevicesManager.SaveDeviceConnectionOpts();
+
+            agv_handshake_modbus_master.OnAGVOutputsChanged += Agv_handshake_modbus_master_OnAGVOutputsChanged;
+            return agv_handshake_modbus_master.StartGateway(Properties.AGVHandshakeModbus_PORT, out error_msg);
+
+        }
+
+
+        internal void DisableAGVHSModbusGateway()
+        {
+            Properties.AGVHandshakeModbusGatewayActive = false;
+            DevicesManager.SaveDeviceConnectionOpts();
+            agv_handshake_modbus_master.OnAGVOutputsChanged -= Agv_handshake_modbus_master_OnAGVOutputsChanged;
+            agv_handshake_modbus_master.Close();
         }
 
         private void LogAGVHandshakeSignalChange(string name, bool state)
@@ -301,6 +324,31 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     Utility.SystemLogger.Error($"[{PortName}] SyncAGVSCoilsDataWorker Error Occur {item.Address}_localCoilsAry[{register_num}]", ex);
                 }
             }
+        }
+        private void Agv_handshake_modbus_master_OnAGVOutputsChanged(object? sender, bool[] agv_inputs)
+        {
+            //要寫到PLC 
+            agv_hs_status.AGV_VALID = agv_inputs[0];
+            agv_hs_status.AGV_TR_REQ = agv_inputs[1];
+            agv_hs_status.AGV_BUSY = agv_inputs[2];
+            agv_hs_status.AGV_READY = agv_inputs[3];
+            agv_hs_status.AGV_COMPT = agv_inputs[4];
+
+            Utility.SystemLogger.Warning($"[{PortName}] AGV Handshake Signal Changed-{agv_hs_status.ToJson()}.");
+
+            WriteAGVHandshakeStatusToPLC(agv_hs_status);
+        }
+
+        protected virtual void WriteAGVHandshakeStatusToPLC(clsAGVHandshakeState agv_hs_status)
+        {
+
+            CIMMemoryTable.WriteOneBit(PortCIMBitAddress[PROPERTY.VALID], agv_hs_status.AGV_VALID);
+            CIMMemoryTable.WriteOneBit(PortCIMBitAddress[PROPERTY.TR_REQ], agv_hs_status.AGV_TR_REQ);
+            CIMMemoryTable.WriteOneBit(PortCIMBitAddress[PROPERTY.BUSY], agv_hs_status.AGV_BUSY);
+            CIMMemoryTable.WriteOneBit(PortCIMBitAddress[PROPERTY.AGV_READY], agv_hs_status.AGV_READY);
+            CIMMemoryTable.WriteOneBit(PortCIMBitAddress[PROPERTY.COMPT], agv_hs_status.AGV_COMPT);
+
+
         }
 
     }

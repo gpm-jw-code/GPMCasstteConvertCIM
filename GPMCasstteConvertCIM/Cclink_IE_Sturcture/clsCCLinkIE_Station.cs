@@ -158,6 +158,23 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
         {
         }
 
+        protected override void WriteAGVHandshakeStatusToPLC(clsAGVHandshakeState agv_hs_status)
+        {
+            try
+            {
+                DevicesManager.cclink_master.CIMMemOptions.memoryTable.WriteOneBit(PortCIMBitAddress[PROPERTY.VALID], agv_hs_status.AGV_VALID);
+                DevicesManager.cclink_master.CIMMemOptions.memoryTable.WriteOneBit(PortCIMBitAddress[PROPERTY.TR_REQ], agv_hs_status.AGV_TR_REQ);
+                DevicesManager.cclink_master.CIMMemOptions.memoryTable.WriteOneBit(PortCIMBitAddress[PROPERTY.BUSY], agv_hs_status.AGV_BUSY);
+                DevicesManager.cclink_master.CIMMemOptions.memoryTable.WriteOneBit(PortCIMBitAddress[PROPERTY.AGV_READY], agv_hs_status.AGV_READY);
+                DevicesManager.cclink_master.CIMMemOptions.memoryTable.WriteOneBit(PortCIMBitAddress[PROPERTY.COMPT], agv_hs_status.AGV_COMPT);
+            }
+            catch (Exception ex)
+            {
+                Utility.SystemLogger.Error(ex.Message, ex);
+            }
+
+
+        }
         protected override void SyncAGVSCoilsDataWorker()
         {
             string portNoName = $"PORT{Properties.PortNo + 1}";

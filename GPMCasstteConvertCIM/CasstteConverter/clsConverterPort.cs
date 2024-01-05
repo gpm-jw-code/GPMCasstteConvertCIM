@@ -593,6 +593,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         public async void ModbusServerActive()
         {
             await Task.Delay(1);
+
+            if (Properties.AGVHandshakeModbusGatewayActive)
+                ActiveAGVHSModbusGateway(out var errmrMsg);
+
             if (Properties.ModbusServer_Enable)
             {
                 try
@@ -613,6 +617,18 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 }
             }
         }
+
+
+        public class clsAGVHandshakeState
+        {
+            public bool AGV_VALID { get; set; }
+            public bool AGV_TR_REQ { get; set; }
+            public bool AGV_BUSY { get; set; }
+            public bool AGV_READY { get; set; }
+            public bool AGV_COMPT { get; set; }
+        }
+        internal clsAGVHandshakeState agv_hs_status = new clsAGVHandshakeState();
+       
         internal void RaiseStatusIOChangeInvoke()
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("LoadRequest"));

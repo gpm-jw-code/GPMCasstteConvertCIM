@@ -586,6 +586,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                         EQPORT.AGVSignals.BUSY = (bool)LinkBitMap.FirstOrDefault(f => f.EOwner == clsMemoryAddress.OWNER.CIM && f.EScope == port && f.EProperty == PROPERTY.BUSY)?.Value;
                         EQPORT.AGVSignals.COMPT = (bool)LinkBitMap.FirstOrDefault(f => f.EOwner == clsMemoryAddress.OWNER.CIM && f.EScope == port && f.EProperty == PROPERTY.COMPT)?.Value;
                         EQPORT.AGVSignals.AGV_READY = (bool)LinkBitMap.FirstOrDefault(f => f.EOwner == clsMemoryAddress.OWNER.CIM && f.EScope == port && f.EProperty == PROPERTY.AGV_READY)?.Value;
+
                     }
                     catch (Exception ex)
                     {
@@ -606,6 +607,9 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                         EQPORT.U_REQ = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.U_REQ).Value;
                         EQPORT.EQ_READY = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.EQ_READY).Value;
                         EQPORT.EQ_BUSY = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.EQ_BUSY).Value;
+
+                        EQPORT.agv_handshake_modbus_master?.StoreEQOutpus(new bool[] { EQPORT.L_REQ, EQPORT.U_REQ, EQPORT.EQ_READY, EQPORT.EQ_BUSY });
+
                     }
                     catch (Exception ex)
                     {

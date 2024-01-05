@@ -2,6 +2,7 @@
 using GPMCasstteConvertCIM.Devices;
 using GPMCasstteConvertCIM.Forms;
 using GPMCasstteConvertCIM.Utilities;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -56,12 +57,12 @@ namespace GPMCasstteConvertCIM.UI_UserControls
 
         private void StaUsersManager_OnRD_Login(object? sender, EventArgs e)
         {
-            ckbSimulationMode.Visible = true;
+            ChangeToAdminMode();
         }
 
         private void StaUsersManager_OnLogout(object? sender, EventArgs e)
         {
-            ckbSimulationMode.Visible = false;
+            ChangeToVisitorMode();
         }
         private int StatusbitdataStartIndex = 3;
         private void DataGridView1_CellFormatting(object? sender, DataGridViewCellFormattingEventArgs e)
@@ -105,7 +106,7 @@ namespace GPMCasstteConvertCIM.UI_UserControls
                 else
                 {
                     var actived_color = e.ColumnIndex > StatusbitdataStartIndex + 5 ? Color.FromArgb(51, 211, 255) : Color.FromArgb(31, 255, 116);
-                    actived_color = data.IsIOSimulating? Color.FromArgb(31, 152, 230) : actived_color;
+                    actived_color = data.IsIOSimulating ? Color.FromArgb(31, 152, 230) : actived_color;
                     var color = state_to_change ? actived_color : Color.WhiteSmoke;
                     if (oriColor == color)
                         return;
@@ -145,6 +146,8 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             var data = row.DataBoundItem as clsConverterPort;
             bool _state_change_to = false;
             Enums.PROPERTY property = Enums.PROPERTY.Load_Request;
+
+
             if (e.ColumnIndex == StatusbitdataStartIndex)
             {
                 property = Enums.PROPERTY.Load_Request;
@@ -197,12 +200,14 @@ namespace GPMCasstteConvertCIM.UI_UserControls
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex != -1 && e.ColumnIndex == StatusbitdataStartIndex + 10)
+            var columnName = dataGridView1.Columns[e.ColumnIndex].Name;
+
+            if (e.RowIndex != -1 && columnName == colSettings.Name)
             {
                 frmEQPortInfo frm = new frmEQPortInfo(dataGridView1.Rows[e.RowIndex].DataBoundItem as clsConverterPort);
                 frm.Show();
             }
-            if (e.RowIndex != -1 && e.ColumnIndex == StatusbitdataStartIndex + 11)
+            if (e.RowIndex != -1 && columnName == colModbus.Name)
             {
                 var station = (dataGridView1.Rows[e.RowIndex].DataBoundItem as clsConverterPort);
                 station.modbus_server.UI.Text = station.PortName;
@@ -212,7 +217,8 @@ namespace GPMCasstteConvertCIM.UI_UserControls
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex != -1 && e.ColumnIndex == StatusbitdataStartIndex + 12)
+            var columnName = dataGridView1.Columns[e.ColumnIndex].Name;
+            if (e.RowIndex != -1 && columnName == colIOSim.Name)
             {
                 var station = (dataGridView1.Rows[e.RowIndex].DataBoundItem as clsConverterPort);
                 frmPortStatusIOSimulation form = new frmPortStatusIOSimulation();
@@ -251,7 +257,19 @@ namespace GPMCasstteConvertCIM.UI_UserControls
 
         }
 
+        internal void ChangeToVisitorMode()
+        {
+            dataGridView1.SuspendLayout();
+            ckbSimulationMode.Visible = colModbus.Visible = colSettings.Visible = colIOSim.Visible = false;
+            dataGridView1.ResumeLayout();
+        }
 
+        internal void ChangeToAdminMode()
+        {
+            dataGridView1.SuspendLayout();
+            ckbSimulationMode.Visible = colModbus.Visible = colSettings.Visible = colIOSim.Visible = true;
+            dataGridView1.ResumeLayout();
+        }
         ///
         //uscAlarmTable1.BindData(AlarmManager.AlarmsList);
         //    AlarmManager.onAlarmAdded += (sender, arg) => { uscAlarmTable1.alarmListBinding.ResetBindings(); };

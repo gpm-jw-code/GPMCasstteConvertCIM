@@ -28,18 +28,29 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             btnLoadable = new Button();
             btnUnloadable = new Button();
             btnDownStatus = new Button();
             comboBox1 = new ComboBox();
             label1 = new Label();
             tlpSingleConvertsContainer = new TableLayoutPanel();
-            tlpIndicatorContainer = new TableLayoutPanel();
             tableLayoutPanel2 = new TableLayoutPanel();
+            tlpIndicatorContainer = new TableLayoutPanel();
             labIndicator = new Label();
+            ckbEQ_L_REQ = new CheckBox();
+            ckbEQ_U_REQ = new CheckBox();
+            ckbEQ_READY = new CheckBox();
+            ckbEQ_BUSY = new CheckBox();
+            ckb_agv_ready = new CheckBox();
+            ckb_agv_busy = new CheckBox();
+            ckb_agv_tr_req = new CheckBox();
+            ckb_agv_valid = new CheckBox();
+            ckb_agv_compt = new CheckBox();
+            timer1 = new System.Windows.Forms.Timer(components);
             tlpSingleConvertsContainer.SuspendLayout();
-            tlpIndicatorContainer.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
+            tlpIndicatorContainer.SuspendLayout();
             SuspendLayout();
             // 
             // btnLoadable
@@ -116,7 +127,6 @@
             tlpSingleConvertsContainer.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 88.76712F));
             tlpSingleConvertsContainer.Controls.Add(tableLayoutPanel2, 1, 0);
             tlpSingleConvertsContainer.Controls.Add(tlpIndicatorContainer, 0, 0);
-            tlpSingleConvertsContainer.Dock = DockStyle.Bottom;
             tlpSingleConvertsContainer.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             tlpSingleConvertsContainer.GrowStyle = TableLayoutPanelGrowStyle.AddColumns;
             tlpSingleConvertsContainer.Location = new Point(0, 43);
@@ -125,27 +135,6 @@
             tlpSingleConvertsContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             tlpSingleConvertsContainer.Size = new Size(367, 133);
             tlpSingleConvertsContainer.TabIndex = 13;
-            // 
-            // tlpIndicatorContainer
-            // 
-            tlpIndicatorContainer.AutoScroll = true;
-            tlpIndicatorContainer.BackColor = Color.Transparent;
-            tlpIndicatorContainer.CellBorderStyle = TableLayoutPanelCellBorderStyle.Single;
-            tlpIndicatorContainer.ColumnCount = 1;
-            tlpIndicatorContainer.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            tlpIndicatorContainer.Controls.Add(labIndicator, 0, 0);
-            tlpIndicatorContainer.Dock = DockStyle.Fill;
-            tlpIndicatorContainer.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            tlpIndicatorContainer.GrowStyle = TableLayoutPanelGrowStyle.AddColumns;
-            tlpIndicatorContainer.Location = new Point(1, 1);
-            tlpIndicatorContainer.Margin = new Padding(0);
-            tlpIndicatorContainer.Name = "tlpIndicatorContainer";
-            tlpIndicatorContainer.RowCount = 3;
-            tlpIndicatorContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 33.3333321F));
-            tlpIndicatorContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 33.3333321F));
-            tlpIndicatorContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 33.3333321F));
-            tlpIndicatorContainer.Size = new Size(40, 131);
-            tlpIndicatorContainer.TabIndex = 14;
             // 
             // tableLayoutPanel2
             // 
@@ -170,6 +159,27 @@
             tableLayoutPanel2.Size = new Size(324, 131);
             tableLayoutPanel2.TabIndex = 15;
             // 
+            // tlpIndicatorContainer
+            // 
+            tlpIndicatorContainer.AutoScroll = true;
+            tlpIndicatorContainer.BackColor = Color.Transparent;
+            tlpIndicatorContainer.CellBorderStyle = TableLayoutPanelCellBorderStyle.Single;
+            tlpIndicatorContainer.ColumnCount = 1;
+            tlpIndicatorContainer.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tlpIndicatorContainer.Controls.Add(labIndicator, 0, 0);
+            tlpIndicatorContainer.Dock = DockStyle.Fill;
+            tlpIndicatorContainer.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            tlpIndicatorContainer.GrowStyle = TableLayoutPanelGrowStyle.AddColumns;
+            tlpIndicatorContainer.Location = new Point(1, 1);
+            tlpIndicatorContainer.Margin = new Padding(0);
+            tlpIndicatorContainer.Name = "tlpIndicatorContainer";
+            tlpIndicatorContainer.RowCount = 3;
+            tlpIndicatorContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 33.3333321F));
+            tlpIndicatorContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 33.3333321F));
+            tlpIndicatorContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 33.3333321F));
+            tlpIndicatorContainer.Size = new Size(40, 131);
+            tlpIndicatorContainer.TabIndex = 14;
+            // 
             // labIndicator
             // 
             labIndicator.AutoSize = true;
@@ -181,11 +191,124 @@
             labIndicator.TabIndex = 7;
             labIndicator.Text = "→";
             // 
+            // ckbEQ_L_REQ
+            // 
+            ckbEQ_L_REQ.AutoSize = true;
+            ckbEQ_L_REQ.Location = new Point(136, 195);
+            ckbEQ_L_REQ.Name = "ckbEQ_L_REQ";
+            ckbEQ_L_REQ.Size = new Size(62, 19);
+            ckbEQ_L_REQ.TabIndex = 14;
+            ckbEQ_L_REQ.Text = "L_REQ";
+            ckbEQ_L_REQ.UseVisualStyleBackColor = true;
+            ckbEQ_L_REQ.CheckedChanged += CkbEQ_L_REQ_CheckedChanged;
+            // 
+            // ckbEQ_U_REQ
+            // 
+            ckbEQ_U_REQ.AutoSize = true;
+            ckbEQ_U_REQ.Location = new Point(136, 220);
+            ckbEQ_U_REQ.Name = "ckbEQ_U_REQ";
+            ckbEQ_U_REQ.Size = new Size(65, 19);
+            ckbEQ_U_REQ.TabIndex = 15;
+            ckbEQ_U_REQ.Text = "U_REQ";
+            ckbEQ_U_REQ.UseVisualStyleBackColor = true;
+            ckbEQ_U_REQ.CheckedChanged += CkbEQ_U_REQ_CheckedChanged;
+            // 
+            // ckbEQ_READY
+            // 
+            ckbEQ_READY.AutoSize = true;
+            ckbEQ_READY.Location = new Point(136, 245);
+            ckbEQ_READY.Name = "ckbEQ_READY";
+            ckbEQ_READY.Size = new Size(65, 19);
+            ckbEQ_READY.TabIndex = 16;
+            ckbEQ_READY.Text = "READY";
+            ckbEQ_READY.UseVisualStyleBackColor = true;
+            ckbEQ_READY.CheckedChanged += CkbEQ_READY_CheckedChanged;
+            // 
+            // ckbEQ_BUSY
+            // 
+            ckbEQ_BUSY.AutoSize = true;
+            ckbEQ_BUSY.Location = new Point(136, 270);
+            ckbEQ_BUSY.Name = "ckbEQ_BUSY";
+            ckbEQ_BUSY.Size = new Size(56, 19);
+            ckbEQ_BUSY.TabIndex = 17;
+            ckbEQ_BUSY.Text = "BUSY";
+            ckbEQ_BUSY.UseVisualStyleBackColor = true;
+            ckbEQ_BUSY.CheckedChanged += CkbEQ_BUSY_CheckedChanged;
+            // 
+            // ckb_agv_ready
+            // 
+            ckb_agv_ready.AutoSize = true;
+            ckb_agv_ready.Enabled = false;
+            ckb_agv_ready.Location = new Point(12, 270);
+            ckb_agv_ready.Name = "ckb_agv_ready";
+            ckb_agv_ready.Size = new Size(65, 19);
+            ckb_agv_ready.TabIndex = 21;
+            ckb_agv_ready.Text = "READY";
+            ckb_agv_ready.UseVisualStyleBackColor = true;
+            // 
+            // ckb_agv_busy
+            // 
+            ckb_agv_busy.AutoSize = true;
+            ckb_agv_busy.Enabled = false;
+            ckb_agv_busy.Location = new Point(12, 245);
+            ckb_agv_busy.Name = "ckb_agv_busy";
+            ckb_agv_busy.Size = new Size(56, 19);
+            ckb_agv_busy.TabIndex = 20;
+            ckb_agv_busy.Text = "BUSY";
+            ckb_agv_busy.UseVisualStyleBackColor = true;
+            // 
+            // ckb_agv_tr_req
+            // 
+            ckb_agv_tr_req.AutoSize = true;
+            ckb_agv_tr_req.Enabled = false;
+            ckb_agv_tr_req.Location = new Point(12, 220);
+            ckb_agv_tr_req.Name = "ckb_agv_tr_req";
+            ckb_agv_tr_req.Size = new Size(71, 19);
+            ckb_agv_tr_req.TabIndex = 19;
+            ckb_agv_tr_req.Text = "TR_REQ";
+            ckb_agv_tr_req.UseVisualStyleBackColor = true;
+            // 
+            // ckb_agv_valid
+            // 
+            ckb_agv_valid.AutoSize = true;
+            ckb_agv_valid.Enabled = false;
+            ckb_agv_valid.Location = new Point(12, 195);
+            ckb_agv_valid.Name = "ckb_agv_valid";
+            ckb_agv_valid.Size = new Size(90, 19);
+            ckb_agv_valid.TabIndex = 18;
+            ckb_agv_valid.Text = "AGV_VALID";
+            ckb_agv_valid.UseVisualStyleBackColor = true;
+            // 
+            // ckb_agv_compt
+            // 
+            ckb_agv_compt.AutoSize = true;
+            ckb_agv_compt.Enabled = false;
+            ckb_agv_compt.Location = new Point(12, 295);
+            ckb_agv_compt.Name = "ckb_agv_compt";
+            ckb_agv_compt.Size = new Size(70, 19);
+            ckb_agv_compt.TabIndex = 22;
+            ckb_agv_compt.Text = "COMPT";
+            ckb_agv_compt.UseVisualStyleBackColor = true;
+            // 
+            // timer1
+            // 
+            timer1.Enabled = true;
+            timer1.Tick += Timer1_Tick;
+            // 
             // frmPortStatusIOSimulation
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(367, 176);
+            ClientSize = new Size(374, 330);
+            Controls.Add(ckb_agv_compt);
+            Controls.Add(ckb_agv_ready);
+            Controls.Add(ckb_agv_busy);
+            Controls.Add(ckb_agv_tr_req);
+            Controls.Add(ckb_agv_valid);
+            Controls.Add(ckbEQ_BUSY);
+            Controls.Add(ckbEQ_READY);
+            Controls.Add(ckbEQ_U_REQ);
+            Controls.Add(ckbEQ_L_REQ);
             Controls.Add(tlpSingleConvertsContainer);
             Controls.Add(label1);
             Controls.Add(comboBox1);
@@ -195,9 +318,9 @@
             TopMost = true;
             Load += frmPortStatusIOSimulation_Load;
             tlpSingleConvertsContainer.ResumeLayout(false);
+            tableLayoutPanel2.ResumeLayout(false);
             tlpIndicatorContainer.ResumeLayout(false);
             tlpIndicatorContainer.PerformLayout();
-            tableLayoutPanel2.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -213,5 +336,15 @@
         private TableLayoutPanel tableLayoutPanel2;
         private TableLayoutPanel tlpIndicatorContainer;
         private Label labIndicator;
+        private CheckBox ckbEQ_L_REQ;
+        private CheckBox ckbEQ_U_REQ;
+        private CheckBox ckbEQ_READY;
+        private CheckBox ckbEQ_BUSY;
+        private CheckBox ckb_agv_ready;
+        private CheckBox ckb_agv_busy;
+        private CheckBox ckb_agv_tr_req;
+        private CheckBox ckb_agv_valid;
+        private CheckBox ckb_agv_compt;
+        private System.Windows.Forms.Timer timer1;
     }
 }

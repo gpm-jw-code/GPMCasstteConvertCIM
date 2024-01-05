@@ -151,7 +151,7 @@ namespace GPMCasstteConvertCIM.Devices
         }
         public static void SaveDeviceConnectionOpts()
         {
-            string deviceConnectionCofigsFile = Path.Combine(Utility.configsFolder, "DevicesConnections.json");
+            string deviceConnectionCofigsFile = Path.Combine(Utility.configsFolder, DeviceConnectionConfigName);
             File.WriteAllText(deviceConnectionCofigsFile, JsonConvert.SerializeObject(DevicesConnectionsOpts, Formatting.Indented));
         }
         private static void CasstteConverter_ConnectionStateChanged(object? sender, Common.CONNECTION_STATE connectionState)
