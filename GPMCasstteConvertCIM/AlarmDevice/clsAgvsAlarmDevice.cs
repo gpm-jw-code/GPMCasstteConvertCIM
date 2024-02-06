@@ -96,6 +96,7 @@ namespace GPMCasstteConvertCIM.AlarmDevice
             if (Enable)
                 while (true)
                 {
+                    Thread.Sleep(100);
                     try
                     {
                         if (disconncount >= 5)
@@ -123,7 +124,6 @@ namespace GPMCasstteConvertCIM.AlarmDevice
                         Console.Write(Conn = false);
                         continue;
                     }
-                    Thread.Sleep(100);
                 }
 
         }

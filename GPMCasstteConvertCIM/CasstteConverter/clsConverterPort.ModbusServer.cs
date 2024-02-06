@@ -158,24 +158,25 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
                 }
             });
-
-            Task.Factory.StartNew(() =>
-            {
+            Thread _thread = new Thread(() => {
                 CheckDiscardInputWriteResultBackgroundWorker();
-            });
+            } );
+            _thread.IsBackground = true;
+            _thread.Start();
         }
 
 
         private bool[] last_cim_write_outputs = new bool[32];
         private bool[] last_agvs_write_inputs = new bool[32];
 
-        protected async void CheckDiscardInputWriteResultBackgroundWorker()
+        protected void CheckDiscardInputWriteResultBackgroundWorker()
         {
             bool connected = modbus_server.modbus_client_checker.Connected;
             var logger = EQParent._IOLogger;
+            logger?.Trace($"[{PortName}_Modbus Inner Checker Start Run", PortName);
             while (true)
             {
-                await Task.Delay(50);
+                Thread.Sleep(100);
 
                 if (!connected)
                 {
@@ -193,6 +194,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     modbus_server.modbus_client_checker.Disconnect();
                     connected = false;
                     logger?.Trace($"[{PortName}_Modbus Inputs Check:Port={modbus_server.Port}] Server Read Fail...Close Connection:{ex.Message}", PortName);
+                    Thread.Sleep(1000);
                     continue;
                 }
 
@@ -222,6 +224,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     modbus_server.modbus_client_checker.Disconnect();
                     connected = false;
                     logger?.Trace($"[{PortName}_Modbus Inputs Check:Port={modbus_server.Port}] Server Read Fail...Close Connection:{ex.Message}", PortName);
+                    Thread.Sleep(1000);
                     continue;
                 }
 
