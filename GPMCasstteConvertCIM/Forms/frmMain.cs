@@ -1,3 +1,4 @@
+//#define logTest
 using GPMCasstteConvertCIM.AGVsMiddleware;
 using GPMCasstteConvertCIM.Alarm;
 using GPMCasstteConvertCIM.API.TcpSupport;
@@ -168,6 +169,23 @@ namespace GPMCasstteConvertCIM.Forms
                     {
                         clsAgvsAlarmDevice.GetstopMusic();
                     });
+
+#if logTest
+                    for (int i = 0; i < 20; i++)
+                    {
+                        var _threadID = i + "";
+                        Thread th = new Thread((_object) =>
+                        {
+                            while (true)
+                            {
+                                Thread.Sleep(1);
+                                Utility.SystemLogger.Info($"Thread-{_object},Log Test-{DateTime.Now.Ticks}", false);
+                            }
+                        });
+                        th.IsBackground = true;
+                        th.Start(_threadID);
+                    }
+#endif
                 }));
             });
 
