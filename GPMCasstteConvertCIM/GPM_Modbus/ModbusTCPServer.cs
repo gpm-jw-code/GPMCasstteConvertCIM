@@ -130,8 +130,7 @@ namespace GPMCasstteConvertCIM.GPM_Modbus
         }
         private void ModbusTCPServer_NumberOfConnectedClientsChanged(int number)
         {
-                clientNumber = number;
-            });
+            clientNumber = number;
         }
 
         internal void Close()
