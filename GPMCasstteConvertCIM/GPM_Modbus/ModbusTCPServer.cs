@@ -124,13 +124,14 @@ namespace GPMCasstteConvertCIM.GPM_Modbus
                 if (_clients != value)
                 {
                     _clients = value;
-                    Utility.SystemLogger.Info($"Modbus Tcp Server-{Port}| Client connections = {value}");
+                    Utility.SystemLogger.Info($"Modbus Tcp Server-{Port}| Client connections = {value}", show_in_richbox: false);
                 }
             }
         }
         private void ModbusTCPServer_NumberOfConnectedClientsChanged(int number)
         {
-            clientNumber = number;
+                clientNumber = number;
+            });
         }
 
         internal void Close()
