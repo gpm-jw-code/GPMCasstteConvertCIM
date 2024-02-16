@@ -25,6 +25,9 @@ using static Secs4Net.Item;
 using GPMCasstteConvertCIM.AlarmDevice;
 using GPMCasstteConvertCIM.WebServer.Models;
 using AGVSystemCommonNet6.HttpTools;
+using Modbus.Device;
+using System.Security.AccessControl;
+
 namespace GPMCasstteConvertCIM.Forms
 {
     public partial class frmMain : Form
@@ -65,7 +68,12 @@ namespace GPMCasstteConvertCIM.Forms
             var exception = (e.ExceptionObject as Exception).InnerException;
             Utility.SystemLogger.Error(exception.Message, exception, false);
         }
+        /// <summary>
+        /// 新增AlarmDeive彈出式分頁
+        /// </summary>
+
         private frmAGVsDatabaseBroswer AGVsDatabaseForm;
+        private frmAlarmDevice AlarmDeviceForm;
         private void Form1_Load(object sender, EventArgs e)
         {
             pnlLoading.BringToFront();
@@ -168,6 +176,7 @@ namespace GPMCasstteConvertCIM.Forms
                     {
                         clsAgvsAlarmDevice.GetstopMusic();
                     });
+                    Task.Factory.StartNew(() => ADAM_Connect(), TaskCreationOptions.LongRunning);
                 }));
             });
 
@@ -451,6 +460,73 @@ namespace GPMCasstteConvertCIM.Forms
 
             Environment.Exit(0);
         }
+        //ModbusIpMaster Adam6250_modbusMaster = null;
+        //0125修改
+        private void ADAM_Connect()
+        {
+            try
+            {
+                clsAgvsAlarmDevice.Adam6250Connect();
+                //Adam6250_checkBox.BackColor = Color.Green;
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Adam_6250:connect fail");
+                throw;
+            }
+            try
+            {
+                clsAgvsAlarmDevice.Adam6256Connect();
+                //Adam6256_checkBox.BackColor = Color.Green;
+
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Adam_6256:connect fail");
+                throw;
+            }
+        }
+        private void Adam6250_Connect(object sender, EventArgs e)
+        {
+            try
+            {
+                clsAgvsAlarmDevice.Adam6250Connect();
+                //Adam6250_checkBox.BackColor = Color.Green;
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Adam_6250:connect fail");
+                throw;
+            }
+        }
+        private void Adam_6250_DOon(object sender, EventArgs e)
+        {
+            clsAgvsAlarmDevice.ADAM6250_DOon();
+            //ushort startAddress = 0;
+            //ushort[] data = Adam6250_modbusMaster.ReadHoldingRegisters(1, startAddress, 5);
+            //Adam6250_modbusMaster.WriteMultipleCoils(16, new bool[] { false, true, false, false, false, false, false });
+        }
+        private void Adam_6256_DOon(object sender, EventArgs e)
+        {
+            clsAgvsAlarmDevice.ADAM6256_DOon();
+            //ushort startAddress = 0;
+            //ushort[] data = Adam6250_modbusMaster.ReadHoldingRegisters(1, startAddress, 5);
+            //Adam6250_modbusMaster.WriteMultipleCoils(16, new bool[] { false, true, false, false, false, false, false });
+        }
+        private void Adam_6250_DOoff(object sender, EventArgs e)
+        {
+            clsAgvsAlarmDevice.ADAM6250_DOoff();
+            //ushort startAddress = 0;
+            //ushort[] data = Adam6250_modbusMaster.ReadHoldingRegisters(1, startAddress, 5);
+            //Adam6250_modbusMaster.WriteMultipleCoils(16, new bool[] { false, true, false, false, false, false, false });
+        }
+        private void Adam_6256_DOoff(object sender, EventArgs e)
+        {
+            clsAgvsAlarmDevice.ADAM6256_DOoff();
+            //ushort startAddress = 0;
+            //ushort[] data = Adam6250_modbusMaster.ReadHoldingRegisters(1, startAddress, 5);
+            //Adam6250_modbusMaster.WriteMultipleCoils(16, new bool[] { false, true, false, false, false, false, false });
+        }
 
         private void SysTimer_Tick(object sender, EventArgs e)
         {
@@ -652,9 +728,12 @@ namespace GPMCasstteConvertCIM.Forms
             labRegionName.Visible = true;
         }
 
-        private void 警報器DIOToolStripMenuItem_Click(object sender, EventArgs e)
+        private void AlarmDeviceToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            //if (AlarmDeviceForm == null)
+            AlarmDeviceForm = new frmAlarmDevice();
+            AlarmDeviceForm.Show();
+            //frmAlarmDevice.Show();
         }
 
         private void ToolStripMenuItem_AGVs_DB_Click(object sender, EventArgs e)
@@ -662,6 +741,12 @@ namespace GPMCasstteConvertCIM.Forms
             if (AGVsDatabaseForm == null)
                 AGVsDatabaseForm = new frmAGVsDatabaseBroswer();
             AGVsDatabaseForm.Show();
+        }
+        private void ToolStripMenuItem_AlarmDevice_Click(object sender, EventArgs e)
+        {
+            //if (AGVsDatabaseForm == null)
+            //    AGVsDatabaseForm = new frmAGVsDatabaseBroswer();
+            //AGVsDatabaseForm.Show();
         }
     }
 }

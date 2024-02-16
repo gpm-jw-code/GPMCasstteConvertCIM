@@ -723,7 +723,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             string temp_bitMapFile = $"bitmap_temp_{DateTime.Now.Ticks}.csv";
             string temp_wordMapFile = $"wordmap_temp_{DateTime.Now.Ticks}.csv";
             if (File.Exists(bitFile))
-            {
+            { 
                 File.Copy(bitFile, temp_bitMapFile);
                 string[] context = File.ReadAllLines(temp_bitMapFile);
                 File.Delete(temp_bitMapFile);

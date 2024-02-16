@@ -38,7 +38,7 @@ namespace GPMCasstteConvertCIM.Forms
         {
             if (checkBox1.Checked)
             {
-                //修改
+                //修改/
             }
             else
             {

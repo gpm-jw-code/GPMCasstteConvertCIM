@@ -12,6 +12,7 @@ namespace GPMCasstteConvertCIM.Utilities.SysConfigs
 {
     public class clsModbusDeviceConfigs
     {
+        
         public string IP_Address { get; set; } = "192.168.1.100";
         public int port { get; set; } = 502;
         public ushort DI_SrartAddress { get; set; } = 0;

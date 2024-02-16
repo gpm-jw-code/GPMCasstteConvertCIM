@@ -19,7 +19,7 @@ namespace GPMCasstteConvertCIM.UI_UserControls
         {
             InitializeComponent();
         }
-
+        
         internal void SECS_TO_AGVS_ConnectionChange(Common.CONNECTION_STATE state)
         {
             labSECS_AGVS.ConnectionStateChange(state);

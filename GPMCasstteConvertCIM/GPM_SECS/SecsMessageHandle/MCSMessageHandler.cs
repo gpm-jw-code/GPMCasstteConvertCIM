@@ -7,11 +7,14 @@ using Secs4Net.Sml;
 using static Secs4Net.Item;
 using GPMCasstteConvertCIM.GPM_SECS;
 using Microsoft.VisualBasic.Logging;
+using GPMCasstteConvertCIM.Forms;
+using GPMCasstteConvertCIM.AlarmDevice;
 
 namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
 {
     public class MCSMessageHandler
     {
+       
         private static SECSBase AGVS => DevicesManager.secs_client_for_agvs;
         internal static async void PrimaryMessageOnReceivedAsync(object? sender, PrimaryMessageWrapper _primaryMessageWrapper)
         {
@@ -148,6 +151,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
 
         private static async void TransmitMsgToAGVS(PrimaryMessageWrapper _primaryMessageWrapper)
         {
+            frmAlarmDevice frmAlarmDevice = new frmAlarmDevice();  
             try
             {
                 var primaryMsgFromMcs = _primaryMessageWrapper.PrimaryMessage;
@@ -209,6 +213,10 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                                     port_wait_in.CstTransferAcceptInvoke();
                                 else
                                     port_wait_in.CstTransferRejectInvoke();
+                                ///拒絕任務後 警報器做動
+                                frmAlarmDevice.refuse_missoin();
+
+
                             }
                         }
                         else
