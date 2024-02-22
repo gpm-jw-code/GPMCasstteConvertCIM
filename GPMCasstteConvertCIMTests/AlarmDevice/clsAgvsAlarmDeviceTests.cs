@@ -15,11 +15,11 @@ namespace GPMCasstteConvertCIM.AlarmDevice.Tests
         public void offlineTest()
         {
             clsAgvsAlarmDevice agv_buzzer = new clsAgvsAlarmDevice();
-            agv_buzzer.offline();
+            agv_buzzer.AGVSLocal();
             Thread.Sleep(1000);
             agv_buzzer.Return_Online();
             Thread.Sleep(1000);
-            agv_buzzer.GetstopMusic();
+            agv_buzzer.GetAlarmReset();
             Thread.Sleep(1000);
         }
     }

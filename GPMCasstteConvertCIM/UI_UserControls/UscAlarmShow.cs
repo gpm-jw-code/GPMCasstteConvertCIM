@@ -111,7 +111,7 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             labAlarmTime.Text = labClassify.Text = labDescription.Text = labEQPName.Text = labAlarmLevel.Text = "";
             UIRenderByAlarmLevel(ALARM_LEVEL.None);
             clsAgvsAlarmDevice clsAgvsAlarmDevice = new clsAgvsAlarmDevice();
-            clsAgvsAlarmDevice.MusicStop();
+            clsAgvsAlarmDevice.AlarmReset();
         }
     }
 }
