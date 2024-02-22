@@ -44,6 +44,10 @@ namespace GPMCasstteConvertCIM.Utilities
             }
         }
 
+        internal FormWindowState UIWindowState = FormWindowState.Normal;
+
+        private ConcurrentQueue<clsLogItem> LogItemsQueue = new ConcurrentQueue<clsLogItem>();
+
         internal static LOG_TIME_UNIT logTimeUnit = LOG_TIME_UNIT.ByHour;
         internal string saveFolder { get; set; } = "";
         public string FileNameHeaderDisplay { get; internal set; } = "";
@@ -64,17 +68,15 @@ namespace GPMCasstteConvertCIM.Utilities
 
         private void _richTextBox_TextChanged(object? sender, EventArgs e)
         {
-            if (_richTextBox != null)
-                if (_richTextBox.Created)
-                {
-                    _richTextBox?.Invoke((MethodInvoker)delegate
-                {
-                    if (_richTextBox.Text.Length > 16384)
-                        _richTextBox.Clear();
-                    _richTextBox.ScrollToCaret();
+            if (_richTextBox == null || !_richTextBox.Created)
+                return;
+            _richTextBox?.Invoke((MethodInvoker)delegate
+            {
+                if (_richTextBox.Text.Length > 16384)
+                    _richTextBox.Clear();
+                _richTextBox.ScrollToCaret();
 
-                });
-                }
+            });
         }
 
 
@@ -156,18 +158,17 @@ namespace GPMCasstteConvertCIM.Utilities
         }
         private void ShowLogInRichTextBox(DateTime time, LOG_LEVEL classify, string message, Color foreColor, Exception ex = null)
         {
-            if (_richTextBox != null)
-                if (_richTextBox.Created)
-                {
-                    _richTextBox?.Invoke((MethodInvoker)delegate
-                    {
-                        _richTextBox.SelectionColor = foreColor;
-                        _richTextBox.AppendText($"{time.ToString("yyyy/MM/dd HH:mm:ss.ffffff")} [{classify}] {message}\n");
-                        _richTextBox.SelectionColor = Color.Gray;
-                        if (ex != null)
-                            _richTextBox.AppendText($"{ex}\n");
-                    });
-                }
+            if (_richTextBox == null || !_richTextBox.Created || UIWindowState == FormWindowState.Minimized)
+                return;
+
+            _richTextBox?.Invoke(new MethodInvoker(() =>
+            {
+                _richTextBox.SelectionColor = foreColor;
+                _richTextBox.AppendText($"{time.ToString("yyyy/MM/dd HH:mm:ss.ffffff")} [{classify}] {message}\n");
+                _richTextBox.SelectionColor = Color.Gray;
+                if (ex != null)
+                    _richTextBox.AppendText($"{ex}\n");
+            }));
         }
         public class clsLogItem : IDisposable
         {
@@ -197,8 +198,6 @@ namespace GPMCasstteConvertCIM.Utilities
             }
         }
 
-        private ConcurrentQueue<clsLogItem> LogItemsQueue = new ConcurrentQueue<clsLogItem>();
-
         private async Task WriteLogWorker()
         {
             Thread _logTHread = new Thread(async () =>
@@ -206,20 +205,17 @@ namespace GPMCasstteConvertCIM.Utilities
                 while (true)
                 {
                     Thread.Sleep(50);
-                    if (LogItemsQueue.Count == 0)
-                        continue;
-
-                    if (!LogItemsQueue.TryDequeue(out clsLogItem? logItem))
-                        continue;
-
                     try
                     {
-                        if (saveFolder == "")
+                        if (LogItemsQueue.Count == 0)
+                            continue;
+
+                        if (!LogItemsQueue.TryDequeue(out clsLogItem? logItem))
+                            continue;
+
+                        if (saveFolder == "" || logItem.msg == "")
                         {
-                            return;
-                        }
-                        if (logItem.msg == "")
-                        {
+                            logItem?.Dispose();
                             continue;
                         }
                         string folder = Path.Combine(saveFolder, DateTime.Now.ToString("yyyy-MM-dd"));
@@ -258,6 +254,8 @@ namespace GPMCasstteConvertCIM.Utilities
 
         protected void StoreLogItemToQueue(DateTime time, LOG_LEVEL log_level, string logStr, string subFolder = "")
         {
+            if (LogItemsQueue.Count > 50)
+                LogItemsQueue.Clear();
             LogItemsQueue.Enqueue(new clsLogItem
             {
                 time = time,

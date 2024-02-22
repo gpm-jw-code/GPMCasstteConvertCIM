@@ -91,6 +91,8 @@
             toolStripMenuItem_OpenConvert_2_Simulator = new ToolStripMenuItem();
             AGVS_modbus_sim_ToolStripMenuItem = new ToolStripMenuItem();
             aGVSEmuToolStripMenuItem = new ToolStripMenuItem();
+            dEBUGToolStripMenuItem = new ToolStripMenuItem();
+            webServerExceptionToolStripMenuItem = new ToolStripMenuItem();
             toolStripMenuItem_AGVs_DB = new ToolStripMenuItem();
             警報器IO狀態ToolStripMenuItem = new ToolStripMenuItem();
             pnlSideLeft = new Panel();
@@ -112,8 +114,6 @@
             cknOnlineModeIndi = new CheckBox();
             pnlLoading = new Panel();
             label7 = new Label();
-            dEBUGToolStripMenuItem = new ToolStripMenuItem();
-            webServerExceptionToolStripMenuItem = new ToolStripMenuItem();
             tabControl1.SuspendLayout();
             tabPage4.SuspendLayout();
             tabPage1.SuspendLayout();
@@ -856,6 +856,20 @@
             aGVSEmuToolStripMenuItem.Text = "AGVS 派車模擬器";
             aGVSEmuToolStripMenuItem.Click += aGVS派車模擬器ToolStripMenuItem_Click;
             // 
+            // dEBUGToolStripMenuItem
+            // 
+            dEBUGToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { webServerExceptionToolStripMenuItem });
+            dEBUGToolStripMenuItem.Name = "dEBUGToolStripMenuItem";
+            dEBUGToolStripMenuItem.Size = new Size(239, 24);
+            dEBUGToolStripMenuItem.Text = "DEBUG";
+            // 
+            // webServerExceptionToolStripMenuItem
+            // 
+            webServerExceptionToolStripMenuItem.Name = "webServerExceptionToolStripMenuItem";
+            webServerExceptionToolStripMenuItem.Size = new Size(246, 24);
+            webServerExceptionToolStripMenuItem.Text = "Web Server Exception ";
+            webServerExceptionToolStripMenuItem.Click += WebServerExceptionToolStripMenuItem_Click;
+            // 
             // toolStripMenuItem_AGVs_DB
             // 
             toolStripMenuItem_AGVs_DB.BackColor = Color.Red;
@@ -985,13 +999,14 @@
             // 
             toolStripStatusLabel1.BackColor = Color.Transparent;
             toolStripStatusLabel1.Font = new Font("Yu Gothic UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            toolStripStatusLabel1.ForeColor = Color.WhiteSmoke;
+            toolStripStatusLabel1.ForeColor = SystemColors.ActiveCaption;
             toolStripStatusLabel1.LinkColor = Color.FromArgb(53, 53, 53);
             toolStripStatusLabel1.Margin = new Padding(0);
             toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            toolStripStatusLabel1.Size = new Size(1143, 22);
+            toolStripStatusLabel1.Size = new Size(1112, 22);
             toolStripStatusLabel1.Spring = true;
             toolStripStatusLabel1.Text = "GPM AGV SYSTEM CIM";
+            toolStripStatusLabel1.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // labWebServerUrl
             // 
@@ -1126,20 +1141,6 @@
             label7.Text = "Loading...";
             label7.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // dEBUGToolStripMenuItem
-            // 
-            dEBUGToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { webServerExceptionToolStripMenuItem });
-            dEBUGToolStripMenuItem.Name = "dEBUGToolStripMenuItem";
-            dEBUGToolStripMenuItem.Size = new Size(239, 24);
-            dEBUGToolStripMenuItem.Text = "DEBUG";
-            // 
-            // webServerExceptionToolStripMenuItem
-            // 
-            webServerExceptionToolStripMenuItem.Name = "webServerExceptionToolStripMenuItem";
-            webServerExceptionToolStripMenuItem.Size = new Size(246, 24);
-            webServerExceptionToolStripMenuItem.Text = "Web Server Exception ";
-            webServerExceptionToolStripMenuItem.Click += WebServerExceptionToolStripMenuItem_Click;
-            // 
             // frmMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -1163,6 +1164,7 @@
             WindowState = FormWindowState.Maximized;
             FormClosing += Form1_FormClosing;
             Load += Form1_Load;
+            SizeChanged += FrmMain_SizeChanged;
             tabControl1.ResumeLayout(false);
             tabPage4.ResumeLayout(false);
             tabPage1.ResumeLayout(false);

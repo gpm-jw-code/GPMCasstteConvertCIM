@@ -70,14 +70,16 @@ namespace GPMCasstteConvertCIM.Forms
         private void Form1_Load(object sender, EventArgs e)
         {
             pnlLoading.BringToFront();
+
+            DBhelper.Initialize();
+            Utility.LoadConfigs();
+            Text = $"GPM AGVS CIM-V{Assembly.GetExecutingAssembly().GetName().Version.ToString()} {(Environment.Is64BitProcess ? "" : "(x86)")}-{Utility.SysConfigs.Project}";
+
             Task.Run(async () =>
             {
-                await Task.Delay(2000);
+                await Task.Delay(500);
                 Invoke(new Action(() =>
                 {
-
-                    DBhelper.Initialize();
-                    Utility.LoadConfigs();
                     Secs4Net.EncodingSetting.ASCIIEncoding = Utility.SysConfigs.SECS.SECESAEncoding; //³]©w½s½X
                     if (Utility.SysConfigs.Project == Utilities.SysConfigs.clsSystemConfigs.PROJECT.U007)
                     {
@@ -157,7 +159,6 @@ namespace GPMCasstteConvertCIM.Forms
                         initTheard.Start();
                     }
                     CreateCVSimulatorItemButtons();
-                    Text = $"GPM AGVS CIM-V{Assembly.GetExecutingAssembly().GetName().Version.ToString()} {(Environment.Is64BitProcess ? "" : "(x86)")}-{Utility.SysConfigs.Project}";
                     labRegionName.Text = Utility.SysConfigs.RegionName;
                     pnlLoading.SendToBack();
 
@@ -179,7 +180,7 @@ namespace GPMCasstteConvertCIM.Forms
                             while (true)
                             {
                                 Thread.Sleep(1);
-                                Utility.SystemLogger.Info($"Thread-{_object},Log Test-{DateTime.Now.Ticks}", false);
+                                Utility.SystemLogger.Info($"Thread-{_object},Log Test-{DateTime.Now.Ticks}", true);
                             }
                         });
                         th.IsBackground = true;
@@ -685,6 +686,19 @@ namespace GPMCasstteConvertCIM.Forms
         private void WebServerExceptionToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CIMWebServer._simulateExceptionHappend = true;
+        }
+
+        private void FrmMain_SizeChanged(object sender, EventArgs e)
+        {
+            try
+            {
+
+                var _WindowState = this.WindowState;
+                Utility.SystemLogger.UIWindowState = _WindowState;
+            }
+            catch (Exception)
+            {
+            }
         }
     }
 }

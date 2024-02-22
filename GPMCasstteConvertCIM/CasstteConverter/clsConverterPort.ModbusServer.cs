@@ -158,9 +158,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
                 }
             });
-            Thread _thread = new Thread(() => {
+            Thread _thread = new Thread(() =>
+            {
                 CheckDiscardInputWriteResultBackgroundWorker();
-            } );
+            });
             _thread.IsBackground = true;
             _thread.Start();
         }
@@ -177,71 +178,57 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             while (true)
             {
                 Thread.Sleep(100);
-
-                if (!connected)
-                {
-                    connected = modbus_server.modbus_client_checker.Connect();
-                    continue;
-                }
-
-                bool[] cim_write_outputs = new bool[32];
                 try
                 {
+
+                    if (!connected)
+                    {
+                        connected = modbus_server.modbus_client_checker.Connect();
+                        continue;
+                    }
+
+                    bool[] cim_write_outputs = new bool[32];
                     cim_write_outputs = modbus_server.modbus_client_checker.ReadDiscreteInputs(0, 32);
-                }
-                catch (Exception ex)
-                {
-                    modbus_server.modbus_client_checker.Disconnect();
-                    connected = false;
-                    logger?.Trace($"[{PortName}_Modbus Inputs Check:Port={modbus_server.Port}] Server Read Fail...Close Connection:{ex.Message}", PortName);
-                    Thread.Sleep(1000);
-                    continue;
-                }
 
-                if (last_cim_write_outputs != null && !cim_write_outputs.SequenceEqual(last_cim_write_outputs))
-                {
-
-                    for (int i = 0; i < cim_write_outputs.Length; i++)
+                    if (last_cim_write_outputs != null && !cim_write_outputs.SequenceEqual(last_cim_write_outputs))
                     {
-                        var plc_address = EQModbusLinkBitAddress.FirstOrDefault(add => add.Link_Modbus_Register_Number == i + 1);
-                        if (last_cim_write_outputs[i] != cim_write_outputs[i])
+
+                        for (int i = 0; i < cim_write_outputs.Length; i++)
                         {
-                            int state = cim_write_outputs[i] ? 1 : 0;
-                            logger?.Trace($"[{PortName}_Modbus Inputs Check:Port={modbus_server.Port}]-Input[{i}]_EQ/CIM Bit Trigger-{plc_address?.Address}-({plc_address?.EProperty}) change to [{state}]", PortName);
+                            var plc_address = EQModbusLinkBitAddress.FirstOrDefault(add => add.Link_Modbus_Register_Number == i + 1);
+                            if (last_cim_write_outputs[i] != cim_write_outputs[i])
+                            {
+                                int state = cim_write_outputs[i] ? 1 : 0;
+                                logger?.Trace($"[{PortName}_Modbus Inputs Check:Port={modbus_server.Port}]-Input[{i}]_EQ/CIM Bit Trigger-{plc_address?.Address}-({plc_address?.EProperty}) change to [{state}]", PortName);
+                            }
                         }
                     }
-                }
-                last_cim_write_outputs = cim_write_outputs;
+                    last_cim_write_outputs = cim_write_outputs;
 
-                //AGVS Write input
-                bool[] agvs_write_inputs = new bool[32];
-                try
-                {
+                    //AGVS Write input
+                    bool[] agvs_write_inputs = new bool[32];
                     agvs_write_inputs = modbus_server.modbus_client_checker.ReadCoils(0, 32);
+                    if (last_agvs_write_inputs != null && !agvs_write_inputs.SequenceEqual(last_agvs_write_inputs))
+                    {
+
+                        for (int i = 0; i < agvs_write_inputs.Length; i++)
+                        {
+                            var plc_address = CIMModbusLinkBitAddress.FirstOrDefault(add => add.Link_Modbus_Register_Number == i);
+                            if (last_agvs_write_inputs[i] != agvs_write_inputs[i])
+                            {
+                                int state = agvs_write_inputs[i] ? 1 : 0;
+                                logger?.Trace($"[{PortName}_Modbus Inputs Check:Port={modbus_server.Port}]-Input[{i}]_AGVS Bit Trigger-{plc_address?.Address}-({plc_address?.EProperty}) change to [{state}]", PortName);
+                            }
+                        }
+                    }
+                    last_agvs_write_inputs = agvs_write_inputs;
                 }
                 catch (Exception ex)
                 {
-                    modbus_server.modbus_client_checker.Disconnect();
-                    connected = false;
-                    logger?.Trace($"[{PortName}_Modbus Inputs Check:Port={modbus_server.Port}] Server Read Fail...Close Connection:{ex.Message}", PortName);
-                    Thread.Sleep(1000);
-                    continue;
+                    Utility.SystemLogger?.Error($"[{PortName}][CheckDiscardInputWriteResultBackgroundWorker]-{modbus_server.Port} 監視Modbus Server 發生錯誤({ex.Message}) ,結束", false);
+                    break;
                 }
 
-                if (last_agvs_write_inputs != null && !agvs_write_inputs.SequenceEqual(last_agvs_write_inputs))
-                {
-
-                    for (int i = 0; i < agvs_write_inputs.Length; i++)
-                    {
-                        var plc_address = CIMModbusLinkBitAddress.FirstOrDefault(add => add.Link_Modbus_Register_Number == i);
-                        if (last_agvs_write_inputs[i] != agvs_write_inputs[i])
-                        {
-                            int state = agvs_write_inputs[i] ? 1 : 0;
-                            logger?.Trace($"[{PortName}_Modbus Inputs Check:Port={modbus_server.Port}]-Input[{i}]_AGVS Bit Trigger-{plc_address?.Address}-({plc_address?.EProperty}) change to [{state}]", PortName);
-                        }
-                    }
-                }
-                last_agvs_write_inputs = agvs_write_inputs;
             }
         }
 
