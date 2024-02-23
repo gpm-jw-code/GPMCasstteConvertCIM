@@ -112,6 +112,8 @@
             cknOnlineModeIndi = new CheckBox();
             pnlLoading = new Panel();
             label7 = new Label();
+            dEBUGToolStripMenuItem = new ToolStripMenuItem();
+            webServerExceptionToolStripMenuItem = new ToolStripMenuItem();
             tabControl1.SuspendLayout();
             tabPage4.SuspendLayout();
             tabPage1.SuspendLayout();
@@ -795,7 +797,7 @@
             // toolStripComboBox_Emulators
             // 
             toolStripComboBox_Emulators.BackColor = Color.Red;
-            toolStripComboBox_Emulators.DropDownItems.AddRange(new ToolStripItem[] { mCS模擬器ToolStripMenuItem, CVSimulatorsToolStripMenuItem, AGVS_modbus_sim_ToolStripMenuItem, aGVSEmuToolStripMenuItem });
+            toolStripComboBox_Emulators.DropDownItems.AddRange(new ToolStripItem[] { mCS模擬器ToolStripMenuItem, CVSimulatorsToolStripMenuItem, AGVS_modbus_sim_ToolStripMenuItem, aGVSEmuToolStripMenuItem, dEBUGToolStripMenuItem });
             toolStripComboBox_Emulators.ForeColor = Color.White;
             toolStripComboBox_Emulators.Name = "toolStripComboBox_Emulators";
             toolStripComboBox_Emulators.ShowShortcutKeys = false;
@@ -1124,6 +1126,20 @@
             label7.Text = "Loading...";
             label7.TextAlign = ContentAlignment.MiddleCenter;
             // 
+            // dEBUGToolStripMenuItem
+            // 
+            dEBUGToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { webServerExceptionToolStripMenuItem });
+            dEBUGToolStripMenuItem.Name = "dEBUGToolStripMenuItem";
+            dEBUGToolStripMenuItem.Size = new Size(239, 24);
+            dEBUGToolStripMenuItem.Text = "DEBUG";
+            // 
+            // webServerExceptionToolStripMenuItem
+            // 
+            webServerExceptionToolStripMenuItem.Name = "webServerExceptionToolStripMenuItem";
+            webServerExceptionToolStripMenuItem.Size = new Size(246, 24);
+            webServerExceptionToolStripMenuItem.Text = "Web Server Exception ";
+            webServerExceptionToolStripMenuItem.Click += WebServerExceptionToolStripMenuItem_Click;
+            // 
             // frmMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -1278,5 +1294,7 @@
         private ToolStripMenuItem 警報器IO狀態ToolStripMenuItem;
         private Label labHotRun;
         private ToolStripMenuItem toolStripMenuItem_AGVs_DB;
+        private ToolStripMenuItem dEBUGToolStripMenuItem;
+        private ToolStripMenuItem webServerExceptionToolStripMenuItem;
     }
 }

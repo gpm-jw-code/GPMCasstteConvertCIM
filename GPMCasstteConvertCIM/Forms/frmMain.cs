@@ -663,5 +663,10 @@ namespace GPMCasstteConvertCIM.Forms
                 AGVsDatabaseForm = new frmAGVsDatabaseBroswer();
             AGVsDatabaseForm.Show();
         }
+
+        private void WebServerExceptionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CIMWebServer._simulateExceptionHappend = true;
+        }
     }
 }
