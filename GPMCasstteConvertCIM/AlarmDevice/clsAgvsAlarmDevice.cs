@@ -15,24 +15,174 @@ using GPMCasstteConvertCIM.DataBase.KGS_AGVs.Models;
 using GPMCasstteConvertCIM.Forms;
 using Microsoft.Win32;
 using System.Security.AccessControl;
+using System.Collections;
+using Modbus.Message;
+using static GPMCasstteConvertCIM.GPM_Modbus.ModbusServerBase;
+using System.Net.Http;
+using System.Reflection.Metadata.Ecma335;
 
 namespace GPMCasstteConvertCIM.AlarmDevice
 {
-    public class AlarmDevice
+    public class AlarmDeviceFunction
     {
-        public  Dictionary<string, IOdeviceinfo> Dict_AlarmModule = new Dictionary<string, IOdeviceinfo>();
-        public static string AlarmDeviceConfig = "config\\ModbusDeviceConfig.json";
-        public  void LoadAlarmDeviceConfig()
+        public Dictionary<string, IOdevice> Dict_AlarmModule = new Dictionary<string, IOdevice>();
+        public string AlarmDeviceConfig = @"D:\程式\repos\欣興電\CIM_FOR_MEC\GPMCasstteConvertCIM\GPMCasstteConvertCIM\configs\ModbusDeviceConfigs.json";
+        public void LoadAlarmDeviceConfig()
         {
+            //string AlarmDeviceConfig = @"D:\程式\repos\欣興電\CIM_FOR_MEC\GPMCasstteConvertCIM\GPMCasstteConvertCIM\configs\ModbusDeviceConfigs.json";
             if (!File.Exists(AlarmDeviceConfig))
             {
                 return;
             }
             using (StreamReader SR = new StreamReader(AlarmDeviceConfig))
             {
-                Dict_AlarmModule = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, IOdeviceinfo>>(SR.ReadToEnd());
+                Dictionary<string, IOdeviceinfo> Dict_par = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, IOdeviceinfo>>(SR.ReadToEnd());
+
+                foreach (var item in Dict_par)
+                {
+                    if (!Dict_AlarmModule.Keys.Contains(item.Key))
+                    {
+                        IOdevice device = new IOdevice();
+                        device.info = item.Value;
+                        Dict_AlarmModule.Add(item.Key, device);
+                    }
+                }
+
+                //Dict_AlarmModule = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, IOdeviceinfo>>(SR.ReadToEnd());
             }
         }
+        public ModbusIpMaster Connect(string ip, int port)
+        {
+            //AlarmDevice Adam6250config = new AlarmDevice();
+            var Tcp_client = new TcpClient(ip, port);
+            ModbusIpMaster AlarmDevice_modbusMaster = ModbusIpMaster.CreateIp(Tcp_client);
+            return AlarmDevice_modbusMaster;
+        }
+        public bool Adam6250ConnectState  ;
+        public bool Adam6256ConnectState  ; 
+        public void alladamconnect()
+        {
+
+                try
+                {
+                    foreach (var item in Dict_AlarmModule)
+                    {
+                        var ip = item.Value.info.IP_Address;
+                        int port = item.Value.info.port;
+                        var Tcp_client = new TcpClient(ip, port);
+                    //ModbusIpMaster AlarmDevice_modbusMaster = ModbusIpMaster.CreateIp(Tcp_client);
+                    //AlarmDevice_modbusMaster.re
+                    try
+                    {
+                        item.Value.master = ModbusIpMaster.CreateIp(Tcp_client);
+                    }
+                    catch (Exception)
+                    {
+
+                        throw;
+                    }
+                        //Adam6250ConnectState = true;
+                        //Adam6256ConnectState = true;
+                    }
+                     Adam6250ConnectState = (Dict_AlarmModule["ADAM6250"].master !=null) ? true : false;
+                     Adam6256ConnectState = (Dict_AlarmModule["ADAM6256"].master != null) ? true : false;
+                }
+                catch (Exception)
+                {
+                    ////連線失敗
+                    Adam6250ConnectState = false;
+                    Adam6256ConnectState = false;
+                }
+            
+            
+            //Dict_AlarmModule["ADAM6250"].master.WriteMultipleCoils(16, new bool[] { true, true, true, true, true, true, false });
+        }
+        public bool[] ReadAdam6250()
+        {
+            while (true)
+            {
+                try
+                {
+                    ushort startAddressDI6250 = 0;
+                    ushort numberOfPointsDI6250 = 7;
+                    ushort startAddressDO6250 = 15;
+                    ushort numberOfPointsDO6250 = 21;
+                    bool[] registersDI = Dict_AlarmModule["ADAM6250"].master.ReadInputs(1, startAddressDI6250, numberOfPointsDI6250);
+                    bool[] registersDO = Dict_AlarmModule["ADAM6250"].master.ReadInputs(1, startAddressDO6250, numberOfPointsDO6250);
+                    bool[] registers6250 = registersDI.Concat(registersDO).ToArray();
+                    return registers6250 ;
+                }
+                catch (Exception)
+                {
+
+                    Thread.Sleep(2000);
+                }
+            }
+        }
+        public bool[] ReadAdam6256()
+        {
+            while (true)
+            {
+                try
+                {
+                    ushort startAddress = 16;
+                    ushort numberOfPoints = 32;
+                    bool[] registers = Dict_AlarmModule["ADAM6256"].master.ReadInputs(1, startAddress, numberOfPoints);
+                    return registers;
+                }
+                catch (Exception)
+                {
+                    Thread.Sleep(2000);
+                }
+            }
+        }
+        public void ADAM6250_DOon()///對所有6250進行輸出
+        {
+            ushort startAddress = 0;
+            ushort[] data = Dict_AlarmModule["ADAM6250"].master.ReadHoldingRegisters(1, startAddress, 5);
+            Dict_AlarmModule["ADAM6250"].master.WriteMultipleCoils(16, new bool[] { false, false, false, false, false, false, false });
+        }
+        public void rejectTask()
+        {
+           // ushort startAddress = 0;
+            Dict_AlarmModule["ADAM6256"].master.WriteMultipleCoils(16, new bool[] { true, false, true, false, true, false, true });
+
+        }
+
+        public void AllAdamon()
+        {
+            //var ADAM6250modbusMaster = Adam6250Connect();
+            ushort startAddress = 0;
+            foreach (var item in Dict_AlarmModule)
+            {
+                item.Value.master.WriteMultipleCoils(16, new bool[] { true, true, true, true, true, true, true });
+                //ModbusIpMaster AlarmDevice_modbusMaster = ModbusIpMaster.CreateIp(Tcp_client);
+                //AlarmDevice_modbusMaster.re
+                //item.Value.master = ModbusIpMaster.CreateIp(Tcp_client);
+
+            }
+            
+          //  Adam6250_modbusMaster.WriteMultipleCoils(16, new bool[] { false, false, false, false, false, false, false });
+        }
+        public void AllAdamOFF()
+        {
+            //var ADAM6250modbusMaster = Adam6250Connect();
+            ushort startAddress = 0;
+            foreach (var item in Dict_AlarmModule)
+            {
+                item.Value.master.WriteMultipleCoils(16, new bool[] { false, false, false, false, false, false, false });
+            }         
+        }
+        public void disconnect()////斷線adama操作
+        {
+            foreach (var item in Dict_AlarmModule)
+            {
+                item.Value.master.Dispose();
+            }
+        }
+
+
+
     }
     public class IOdeviceinfo
     {
@@ -43,6 +193,13 @@ namespace GPMCasstteConvertCIM.AlarmDevice
         public int DO_SrartAddress { get; set; }
         public int DO_EndAddress { get; set; }
     }
+
+    public class IOdevice
+    {
+        public IOdeviceinfo info;
+        public ModbusIpMaster master;
+    }
+
 
 
 
@@ -60,114 +217,16 @@ namespace GPMCasstteConvertCIM.AlarmDevice
 
     }
     /// <summary>
-    /// 使用ductionary 方法
-    /// </summary>
-    public class AdamFunction
-    {
-        AlarmDevice AlarmConfig = new AlarmDevice();
-        ModbusIpMaster AlarmDeviceModbusMaster = null;
-       
-        public ModbusIpMaster Connect(string ip , int port)
-        {
-            //AlarmDevice Adam6250config = new AlarmDevice();
-            var Tcp_client = new TcpClient(ip, port);
-            ModbusIpMaster AlarmDevice_modbusMaster = ModbusIpMaster.CreateIp(Tcp_client);
-            return AlarmDevice_modbusMaster;
-        }
-        public bool[] Read_Adam6250_Status(ModbusIpMaster AlarmDeviceModbusMaster)
-        {
-            while (true)
-            {
-                try
-                {
-                    ushort startAddressDI6250 = 0;
-                    ushort numberOfPointsDI6250 = 7;
-                    ushort startAddressDO6250 = 17;
-                    ushort numberOfPointsDO6250 = 23;
-                    bool[] registersDI = AlarmDeviceModbusMaster.ReadInputs(1, startAddressDI6250, numberOfPointsDI6250);
-                    bool[] registersDO = AlarmDeviceModbusMaster.ReadInputs(1, startAddressDO6250, numberOfPointsDO6250);
-                    bool[] registers6250 = registersDI.Concat(registersDO).ToArray();
-                    //MessageBox.Show($"{registers6250.ToString}");
-                    return registers6250;
-                }
-                catch (Exception)
-                {
-
-                    Thread.Sleep(2000);
-                }
-            }
-        }
-
-    }
-
-    /// <summary>
     /// 暫時用class
     /// </summary>
     public class AdamIOFunction
     {
-        ModbusConnectParameters Adamparam = new ModbusConnectParameters();
+        AlarmDeviceFunction Adamparam = new AlarmDeviceFunction();
 
-        ModbusIpMaster AlarmDevice_modbusMaster = null;
-        public ModbusIpMaster Connect()
-        {
-            //AlarmDevice Adam6250config = new AlarmDevice();
-            var Tcp_client = new TcpClient(Adamparam.IP, Adamparam.port);
-            ModbusIpMaster AlarmDevice_modbusMaster = ModbusIpMaster.CreateIp(Tcp_client);
-            return AlarmDevice_modbusMaster;
-        }
-        //public void 
-        public void ADAM6256_DOon()
-        {
-            ushort startAddress = 0;
-            //ushort[] data = ADAM6250modbusMaster.ReadHoldingRegisters(1, startAddress, 5);
-            AlarmDevice_modbusMaster.WriteMultipleCoils(16, new bool[] { true, true, true, true, true, true, true });
-        }
-        public bool[] Read_Adam6250_Status()
-        {
-            while (true)
-            {
-                try
-                {
-                    ushort startAddressDI6250 = 0;
-                    ushort numberOfPointsDI6250 = 7;
-                    ushort startAddressDO6250 = 17;
-                    ushort numberOfPointsDO6250 = 23;
-                    bool[] registersDI = AlarmDevice_modbusMaster.ReadInputs(1, startAddressDI6250, numberOfPointsDI6250);
-                    bool[] registersDO = AlarmDevice_modbusMaster.ReadInputs(1, startAddressDO6250, numberOfPointsDO6250);
-                    bool[] registers6250 = registersDI.Concat(registersDO).ToArray();
-                    //MessageBox.Show($"{registers6250.ToString}");
-                    return registers6250;
-                }
-                catch (Exception)
-                {
-
-                    Thread.Sleep(2000);
-                }
-            }
-        }
-        public bool[] Read_Adam6256_Status()
-        {
-            while (true)
-            {
-                try
-                {
-                    ushort startAddress = 16;
-                    ushort numberOfPoints = 32;
-                    bool[] registers = AlarmDevice_modbusMaster.ReadInputs(1, startAddress, numberOfPoints);
-                    return registers;
-                    //MessageBox.Show($"{registers6250.ToString}");
-                    //return registers6250;
-                }
-                catch (Exception)
-                {
-                    Thread.Sleep(2000);
-                }
-            }
-        }
     }
     public class clsAgvsAlarmDevice
-    {        
-         
+    {
+
         ModbusIpMaster modbusMaster;
 
         ModbusIpMaster Adam6250_modbusMaster = null;
@@ -177,15 +236,11 @@ namespace GPMCasstteConvertCIM.AlarmDevice
         /// </summary>
         public ModbusConnectParameters Adam6250 = new ModbusConnectParameters();
         public ModbusConnectParameters Adam6256 = new ModbusConnectParameters();
-        
-        string Adam_6250 = "ADAM6250";
-        string Adam_6250_IP = "192.168.1.68";
-        int Adam_6250_port = 502;
-        bool Adam_6250_type = false;
-        int Adam_6250_DI_SrartAddress = 0;
-        int Adam_6250_DI_EndAddress = 7;
-        int Adam_6250_DO_SrartAddress = 16;
-        int Adam_6250_DO_EndAddress = 22;
+        AlarmDeviceFunction adampara = new AlarmDeviceFunction();
+        // string static ADAM6250DIO { get; set; } = Path.Combine(Environment.CurrentDirectory, "AlarmDevice\\ADAM_6250.csv");
+        // string static ADAM6256DO { get; set; } = Path.Combine(Environment.CurrentDirectory, "AlarmDevice\\ADAM_6256.csv");
+        //StreamReader  adam6250file = new StreamReader(File.OpenRead(ADAM6250DIO), Encoding.Default);
+        //StreamReader adam6256file = new StreamReader(File.OpenRead(ADAM6256DO), Encoding.Default);
 
         string Adam_6256 = "ADAM6256";
         string Adam_6256_IP = "192.168.1.99";
@@ -196,43 +251,29 @@ namespace GPMCasstteConvertCIM.AlarmDevice
         int Adam_6256_DO_SrartAddress = 16;
         int Adam_6256_DO_EndAddress = 22;
         /// 
-        
-        string IPaddress => Utility.ModbusDeviceConfigs.IP_Address;
-        int Port => Utility.ModbusDeviceConfigs.port;
-        ushort DI_SrartAddress => Utility.ModbusDeviceConfigs.DI_SrartAddress;
-        ushort DI_EndAddress => Utility.ModbusDeviceConfigs.DI_EndAddress;
-        ushort DO_SrartAddress => Utility.ModbusDeviceConfigs.DO_SrartAddress;
-        ushort DO_EndAddress => Utility.ModbusDeviceConfigs.DO_EndAddress;
+
         bool[] outputs = new bool[7];
         bool[] intputs = new bool[8];
         bool Enable => Utility.ModbusDeviceConfigs.Enable;
         bool Conn = false;
 
-        bool[] Adamlist;
-
         public static string ConfigDirectory = "Config";
 
         string ModbusDeviceConfig = System.IO.Path.Combine(ConfigDirectory, "ModbusDeviceConfig.json");
-        //protected virtual string ADAM6250DIO { get; set; } = Path.Combine(Environment.CurrentDirectory, "AlarmDevice\\ADAM_6250.csv");
-        //public async void readConfig()
+
+
+
+        //public void Connecttest()
         //{
-        //    try
-        //    {
-        //        if (File.Exists(ModbusDeviceConfig))
-        //            using (StreamReader SR = new StreamReader(ModbusDeviceConfig))
-        //            {
-        //                var ModbusDeviceConfig = SR.ReadToEnd();
-        //                Dict_AdamIO = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, IOdeviceinfo>>(SR.ReadToEnd());
-        //            }
-        //    }
-        //    catch { }
+        //    //clsAgvsAlarmDevice modbusMaster6250 = new clsAgvsAlarmDevice();
+        //    var Adam6250tcp_client = new TcpClient(adampara.Dict_AlarmModule["6250"].IP_Address, adampara.Dict_AlarmModule["6250"].port);
+        //    Adam6250_modbusMaster = ModbusIpMaster.CreateIp(Adam6250tcp_client);
+        //    return;
         //}
-
-
         public void Adam6250Connect()
         {
             //clsAgvsAlarmDevice modbusMaster6250 = new clsAgvsAlarmDevice();
-            var Adam6250tcp_client = new TcpClient(Adam_6250_IP, Adam_6250_port);
+            var Adam6250tcp_client = new TcpClient(Adam6250.IP, Adam6250.port);
             Adam6250_modbusMaster = ModbusIpMaster.CreateIp(Adam6250tcp_client);
             return;
         }
@@ -240,7 +281,8 @@ namespace GPMCasstteConvertCIM.AlarmDevice
         {
             //clsAgvsAlarmDevice modbusMaster6250 = new clsAgvsAlarmDevice();
             var Adam6256tcp_client = new TcpClient(Adam_6256_IP, Adam_6256_port);
-            Adam6256_modbusMaster = ModbusIpMaster.CreateIp(Adam6256tcp_client);
+            /*Adam6256_modbusMaster =*/
+            ModbusIpMaster.CreateIp(Adam6256tcp_client);
             return;
         }
         public void ADAM6250_DOon()
@@ -271,6 +313,20 @@ namespace GPMCasstteConvertCIM.AlarmDevice
             // var ADAM6256modbusMaster = Adam6256Connect();
             ushort startAddress = 0;
             Adam6256_modbusMaster.WriteMultipleCoils(16, new bool[] { false, false, false, false, false, false, false });
+        }
+        public void readAdam(StreamReader adam6250file, StreamReader adam6256file)
+        {
+
+            while (!adam6250file.EndOfStream)
+            {
+                string[] adam6250data = adam6250file.ReadLine().Split(',');
+                return;
+            }
+            while (!adam6256file.EndOfStream)
+            {
+                string[] adam6256data = adam6256file.ReadLine().Split(',');
+
+            }
         }
         public bool[] ReadAdam6250()
         {
@@ -315,25 +371,6 @@ namespace GPMCasstteConvertCIM.AlarmDevice
                 }
             }
         }
-        public bool[] readADAM6250()
-        {
-            ushort startAddressDI6250 = 0;
-            ushort numberOfPointsDI6250 = 7;
-            ushort startAddressDO6250 = 17;
-            ushort numberOfPointsDO6250 = 23;
-            bool[] registersDI = Adam6250_modbusMaster.ReadInputs(1, startAddressDI6250, numberOfPointsDI6250);
-            bool[] registersDO = Adam6250_modbusMaster.ReadInputs(1, startAddressDO6250, numberOfPointsDO6250);
-            bool[] registers6250 = registersDI.Concat(registersDO).ToArray();
-            //MessageBox.Show($"{registers6250.ToString}");
-            return registers6250;
-        }
-        public bool[] readADAM6256()
-        {
-            ushort startAddress = 16;
-            ushort numberOfPoints = 32;
-            bool[] registers = Adam6256_modbusMaster.ReadInputs(1, startAddress, numberOfPoints);
-            return registers;
-        }
         public void Alarm_RejectMission()
         {
             ushort startAddress = 0;
@@ -369,20 +406,15 @@ namespace GPMCasstteConvertCIM.AlarmDevice
             }
 
         }
-        private ModbusIpMaster AdamConnect()
-        {
-            var tcp_client = new TcpClient(IPaddress, Port);
-            ModbusIpMaster modbusMaster = ModbusIpMaster.CreateIp(tcp_client);
-            return modbusMaster;
-        }
+
 
         public async void MusicStop()
         {
             if (Enable && Conn)
                 try
                 {
-                    var modbusMaster = AdamConnect();
-                    await modbusMaster.WriteMultipleCoilsAsync(DO_SrartAddress, new bool[] { false, false, false, false, false, false, false });
+                    //var modbusMaster = AdamConnect();
+                    //  await modbusMaster.WriteMultipleCoilsAsync(DO_SrartAddress, new bool[] { false, false, false, false, false, false, false });
                     Disconnect(modbusMaster);
                 }
                 catch (Exception) { }
@@ -392,7 +424,7 @@ namespace GPMCasstteConvertCIM.AlarmDevice
             if (Enable && Conn)
                 try
                 {
-                    var modbusMaster = AdamConnect();
+                    // var modbusMaster = AdamConnect();
                     //0 1 1 0 0 0 0 0  
                     await modbusMaster.WriteMultipleCoilsAsync(18, new bool[] { true });//寫入特定io點位
                     Disconnect(modbusMaster);
@@ -406,7 +438,7 @@ namespace GPMCasstteConvertCIM.AlarmDevice
             if (Enable && Conn)
                 try
                 {
-                    var modbusMaster = AdamConnect();
+                    // var modbusMaster = AdamConnect();
                     await modbusMaster.WriteSingleCoilAsync(16, true);
                     Disconnect(modbusMaster);
                 }
@@ -417,7 +449,7 @@ namespace GPMCasstteConvertCIM.AlarmDevice
             if (Enable && Conn)
                 try
                 {
-                    var modbusMaster = AdamConnect();
+                    //var modbusMaster = AdamConnect();
                     await Task.Delay(10);
                     await modbusMaster.WriteMultipleCoilsAsync(17, new bool[] { true });
                     await Task.Delay(1000);
@@ -441,9 +473,9 @@ namespace GPMCasstteConvertCIM.AlarmDevice
                         {
                             MusicStop();
                         }
-                        var modbusMaster = AdamConnect();
-                        await modbusMaster.ReadCoilsAsync(DI_SrartAddress, DI_EndAddress);
-                        intputs = modbusMaster.ReadInputs(DI_SrartAddress, DI_EndAddress);
+                        // var modbusMaster = AdamConnect();
+                        //await modbusMaster.ReadCoilsAsync(DI_SrartAddress, DI_EndAddress);
+                        // intputs = modbusMaster.ReadInputs(DI_SrartAddress, DI_EndAddress);
                         for (int i = 0; i < intputs.Length; i++)
                         {
                             Console.WriteLine($"DI {0 + i}: {intputs[i]}");

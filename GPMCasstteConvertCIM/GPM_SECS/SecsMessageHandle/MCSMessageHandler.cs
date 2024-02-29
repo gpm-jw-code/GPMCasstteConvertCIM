@@ -151,7 +151,8 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
 
         private static async void TransmitMsgToAGVS(PrimaryMessageWrapper _primaryMessageWrapper)
         {
-            frmAlarmDevice frmAlarmDevice = new frmAlarmDevice();  
+            frmAlarmDevice frmAlarmDevice = new frmAlarmDevice();
+            AlarmDeviceFunction alarmDeviceFunction = new AlarmDeviceFunction();
             try
             {
                 var primaryMsgFromMcs = _primaryMessageWrapper.PrimaryMessage;
@@ -215,6 +216,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                                     port_wait_in.CstTransferRejectInvoke();
                                 ///拒絕任務後 警報器做動
                                 frmAlarmDevice.refuse_missoin();
+                                alarmDeviceFunction.rejectTask();
 
 
                             }

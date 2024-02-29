@@ -35,7 +35,6 @@ namespace GPMCasstteConvertCIM.Forms
         CasstteConverter.clsCasstteConverter casstteConverter_1;
         CasstteConverter.clsCasstteConverter casstteConverter_2;
         private static clsAgvsAlarmDevice clsAgvsAlarmDevice = new clsAgvsAlarmDevice();
-
         public frmMain()
         {
             InitializeComponent();
@@ -177,6 +176,7 @@ namespace GPMCasstteConvertCIM.Forms
                         clsAgvsAlarmDevice.GetstopMusic();
                     });
                     Task.Factory.StartNew(() => ADAM_Connect(), TaskCreationOptions.LongRunning);
+
                 }));
             });
 
@@ -464,69 +464,11 @@ namespace GPMCasstteConvertCIM.Forms
         //0125­×§ï
         private void ADAM_Connect()
         {
-            try
-            {
-                clsAgvsAlarmDevice.Adam6250Connect();
-                //Adam6250_checkBox.BackColor = Color.Green;
-            }
-            catch (Exception)
-            {
-                Console.WriteLine("Adam_6250:connect fail");
-                throw;
-            }
-            try
-            {
-                clsAgvsAlarmDevice.Adam6256Connect();
-                //Adam6256_checkBox.BackColor = Color.Green;
+        }
 
-            }
-            catch (Exception)
-            {
-                Console.WriteLine("Adam_6256:connect fail");
-                throw;
-            }
-        }
-        private void Adam6250_Connect(object sender, EventArgs e)
-        {
-            try
-            {
-                clsAgvsAlarmDevice.Adam6250Connect();
-                //Adam6250_checkBox.BackColor = Color.Green;
-            }
-            catch (Exception)
-            {
-                Console.WriteLine("Adam_6250:connect fail");
-                throw;
-            }
-        }
-        private void Adam_6250_DOon(object sender, EventArgs e)
-        {
-            clsAgvsAlarmDevice.ADAM6250_DOon();
-            //ushort startAddress = 0;
-            //ushort[] data = Adam6250_modbusMaster.ReadHoldingRegisters(1, startAddress, 5);
-            //Adam6250_modbusMaster.WriteMultipleCoils(16, new bool[] { false, true, false, false, false, false, false });
-        }
-        private void Adam_6256_DOon(object sender, EventArgs e)
-        {
-            clsAgvsAlarmDevice.ADAM6256_DOon();
-            //ushort startAddress = 0;
-            //ushort[] data = Adam6250_modbusMaster.ReadHoldingRegisters(1, startAddress, 5);
-            //Adam6250_modbusMaster.WriteMultipleCoils(16, new bool[] { false, true, false, false, false, false, false });
-        }
-        private void Adam_6250_DOoff(object sender, EventArgs e)
-        {
-            clsAgvsAlarmDevice.ADAM6250_DOoff();
-            //ushort startAddress = 0;
-            //ushort[] data = Adam6250_modbusMaster.ReadHoldingRegisters(1, startAddress, 5);
-            //Adam6250_modbusMaster.WriteMultipleCoils(16, new bool[] { false, true, false, false, false, false, false });
-        }
-        private void Adam_6256_DOoff(object sender, EventArgs e)
-        {
-            clsAgvsAlarmDevice.ADAM6256_DOoff();
-            //ushort startAddress = 0;
-            //ushort[] data = Adam6250_modbusMaster.ReadHoldingRegisters(1, startAddress, 5);
-            //Adam6250_modbusMaster.WriteMultipleCoils(16, new bool[] { false, true, false, false, false, false, false });
-        }
+
+
+
 
         private void SysTimer_Tick(object sender, EventArgs e)
         {
@@ -538,7 +480,13 @@ namespace GPMCasstteConvertCIM.Forms
             if (SECSState.IsRemote || SECSState.IsOnline == false)
             { clsAgvsAlarmDevice.offline(); }
             labHotRun.Visible = Utility.IsHotRunMode;
+            //frmAlarmDevice.AdamAlarmDevice.Connect();
         }
+        private void DisconnectTest(object sender, EventArgs e)
+        {
+            frmAlarmDevice.AdamAlarmDevice.disconnect();
+        }
+
 
         private void aGVS¬£¨®¼ÒÀÀ¾¹ToolStripMenuItem_Click(object sender, EventArgs e)
         {

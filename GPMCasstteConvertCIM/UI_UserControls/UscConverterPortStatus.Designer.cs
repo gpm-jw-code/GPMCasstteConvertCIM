@@ -482,7 +482,7 @@
             txbWIP_BCR_ID.Location = new Point(99, 267);
             txbWIP_BCR_ID.Name = "txbWIP_BCR_ID";
             txbWIP_BCR_ID.ReadOnly = true;
-            txbWIP_BCR_ID.Size = new Size(178, 23);
+            txbWIP_BCR_ID.Size = new Size(178, 27);
             txbWIP_BCR_ID.TabIndex = 26;
             txbWIP_BCR_ID.TextAlign = HorizontalAlignment.Center;
             // 
@@ -493,7 +493,7 @@
             label1.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
             label1.Location = new Point(6, 270);
             label1.Name = "label1";
-            label1.Size = new Size(83, 15);
+            label1.Size = new Size(105, 19);
             label1.TabIndex = 25;
             label1.Text = "BCR READ ID";
             // 
@@ -589,7 +589,7 @@
             txbPortID.Location = new Point(0, 18);
             txbPortID.Name = "txbPortID";
             txbPortID.ReadOnly = true;
-            txbPortID.Size = new Size(167, 24);
+            txbPortID.Size = new Size(167, 29);
             txbPortID.TabIndex = 27;
             txbPortID.Text = "3F_AGVC02_PORT_2_1";
             txbPortID.TextAlign = HorizontalAlignment.Center;
@@ -616,7 +616,7 @@
             labServiceStatusText.ForeColor = Color.Red;
             labServiceStatusText.Location = new Point(359, 293);
             labServiceStatusText.Name = "labServiceStatusText";
-            labServiceStatusText.Size = new Size(144, 24);
+            labServiceStatusText.Size = new Size(181, 30);
             labServiceStatusText.TabIndex = 40;
             labServiceStatusText.Text = "Out Of Service";
             // 
@@ -626,7 +626,7 @@
             label3.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
             label3.Location = new Point(184, 84);
             label3.Name = "label3";
-            label3.Size = new Size(52, 15);
+            label3.Size = new Size(65, 19);
             label3.TabIndex = 41;
             label3.Text = "IO LINK";
             label3.Click += label3_Click;
@@ -658,7 +658,7 @@
             txbOnPortID.Location = new Point(99, 296);
             txbOnPortID.Name = "txbOnPortID";
             txbOnPortID.ReadOnly = true;
-            txbOnPortID.Size = new Size(178, 23);
+            txbOnPortID.Size = new Size(178, 27);
             txbOnPortID.TabIndex = 44;
             txbOnPortID.TextAlign = HorizontalAlignment.Center;
             // 
@@ -669,7 +669,7 @@
             label6.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
             label6.Location = new Point(6, 299);
             label6.Name = "label6";
-            label6.Size = new Size(76, 15);
+            label6.Size = new Size(96, 19);
             label6.TabIndex = 43;
             label6.Text = "RPT MCS ID";
             // 
@@ -681,7 +681,7 @@
             labAGVReadyToTransfer.ForeColor = Color.White;
             labAGVReadyToTransfer.Location = new Point(380, 34);
             labAGVReadyToTransfer.Name = "labAGVReadyToTransfer";
-            labAGVReadyToTransfer.Size = new Size(126, 23);
+            labAGVReadyToTransfer.Size = new Size(154, 28);
             labAGVReadyToTransfer.TabIndex = 45;
             labAGVReadyToTransfer.Text = "AGV 準備取放";
             labAGVReadyToTransfer.Visible = false;
@@ -701,7 +701,7 @@
             // 
             // UscConverterPortStatus
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(9F, 19F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoScroll = true;
             BackColor = Color.Gray;

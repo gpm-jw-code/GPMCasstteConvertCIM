@@ -94,6 +94,7 @@
             toolStripMenuItem_AGVs_DB = new ToolStripMenuItem();
             toolStripMenuItem_AlarmDevice = new ToolStripMenuItem();
             pnlSideLeft = new Panel();
+            button1 = new Button();
             labHotRun = new Label();
             ckbHotRunMode = new CheckBox();
             btnOpenLoginFOrm = new Button();
@@ -510,7 +511,7 @@
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 22F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel2.Size = new Size(914, 267);
+            tableLayoutPanel2.Size = new Size(914, 265);
             tableLayoutPanel2.TabIndex = 10;
             tableLayoutPanel2.Visible = false;
             // 
@@ -542,7 +543,7 @@
             dgvMsgFromMCS.RowHeadersVisible = false;
             dgvMsgFromMCS.RowHeadersWidth = 51;
             dgvMsgFromMCS.RowTemplate.Height = 25;
-            dgvMsgFromMCS.Size = new Size(447, 101);
+            dgvMsgFromMCS.Size = new Size(447, 100);
             dgvMsgFromMCS.TabIndex = 6;
             // 
             // primaryMessageSMLDataGridViewTextBoxColumn2
@@ -578,14 +579,14 @@
             dgvMsgFromAGVS.DataSource = primaryMessageWrapperBindingSource1;
             dgvMsgFromAGVS.Dock = DockStyle.Fill;
             dgvMsgFromAGVS.GridColor = Color.DarkCyan;
-            dgvMsgFromAGVS.Location = new Point(5, 161);
+            dgvMsgFromAGVS.Location = new Point(5, 160);
             dgvMsgFromAGVS.Margin = new Padding(4);
             dgvMsgFromAGVS.Name = "dgvMsgFromAGVS";
             dgvMsgFromAGVS.ReadOnly = true;
             dgvMsgFromAGVS.RowHeadersVisible = false;
             dgvMsgFromAGVS.RowHeadersWidth = 51;
             dgvMsgFromAGVS.RowTemplate.Height = 25;
-            dgvMsgFromAGVS.Size = new Size(447, 101);
+            dgvMsgFromAGVS.Size = new Size(447, 100);
             dgvMsgFromAGVS.TabIndex = 8;
             // 
             // primaryMessageSMLDataGridViewTextBoxColumn
@@ -627,7 +628,7 @@
             dgvActiveMsgToMCS.RowHeadersVisible = false;
             dgvActiveMsgToMCS.RowHeadersWidth = 51;
             dgvActiveMsgToMCS.RowTemplate.Height = 25;
-            dgvActiveMsgToMCS.Size = new Size(448, 101);
+            dgvActiveMsgToMCS.Size = new Size(448, 100);
             dgvActiveMsgToMCS.TabIndex = 7;
             // 
             // primaryMessageSMLDataGridViewTextBoxColumn1
@@ -662,14 +663,14 @@
             dgvActiveMsgToAGVS.DataSource = primaryMessageWrapperBindingSource2;
             dgvActiveMsgToAGVS.Dock = DockStyle.Fill;
             dgvActiveMsgToAGVS.GridColor = Color.DarkCyan;
-            dgvActiveMsgToAGVS.Location = new Point(461, 161);
+            dgvActiveMsgToAGVS.Location = new Point(461, 160);
             dgvActiveMsgToAGVS.Margin = new Padding(4);
             dgvActiveMsgToAGVS.Name = "dgvActiveMsgToAGVS";
             dgvActiveMsgToAGVS.ReadOnly = true;
             dgvActiveMsgToAGVS.RowHeadersVisible = false;
             dgvActiveMsgToAGVS.RowHeadersWidth = 51;
             dgvActiveMsgToAGVS.RowTemplate.Height = 25;
-            dgvActiveMsgToAGVS.Size = new Size(448, 101);
+            dgvActiveMsgToAGVS.Size = new Size(448, 100);
             dgvActiveMsgToAGVS.TabIndex = 9;
             // 
             // dataGridViewTextBoxColumn6
@@ -713,7 +714,7 @@
             label4.BorderStyle = BorderStyle.FixedSingle;
             label4.Dock = DockStyle.Fill;
             label4.ForeColor = Color.White;
-            label4.Location = new Point(1, 134);
+            label4.Location = new Point(1, 133);
             label4.Margin = new Padding(0);
             label4.Name = "label4";
             label4.Size = new Size(455, 22);
@@ -741,7 +742,7 @@
             label5.BorderStyle = BorderStyle.FixedSingle;
             label5.Dock = DockStyle.Fill;
             label5.ForeColor = Color.White;
-            label5.Location = new Point(457, 134);
+            label5.Location = new Point(457, 133);
             label5.Margin = new Padding(0);
             label5.Name = "label5";
             label5.Size = new Size(456, 22);
@@ -897,6 +898,7 @@
             // 
             pnlSideLeft.BackColor = Color.FromArgb(51, 51, 51);
             pnlSideLeft.BorderStyle = BorderStyle.FixedSingle;
+            pnlSideLeft.Controls.Add(button1);
             pnlSideLeft.Controls.Add(labHotRun);
             pnlSideLeft.Controls.Add(ckbHotRunMode);
             pnlSideLeft.Controls.Add(btnOpenLoginFOrm);
@@ -910,6 +912,17 @@
             pnlSideLeft.Name = "pnlSideLeft";
             pnlSideLeft.Size = new Size(199, 972);
             pnlSideLeft.TabIndex = 5;
+            // 
+            // button1
+            // 
+            button1.BackColor = Color.FromArgb(57, 57, 57);
+            button1.Location = new Point(14, 468);
+            button1.Name = "button1";
+            button1.Size = new Size(140, 29);
+            button1.TabIndex = 11;
+            button1.Text = "Disconnect test";
+            button1.UseVisualStyleBackColor = false;
+            button1.Click += DisconnectTest;
             // 
             // labHotRun
             // 
@@ -1021,6 +1034,7 @@
             // 
             // labWebServerUrl
             // 
+            labWebServerUrl.ActiveLinkColor = Color.Red;
             labWebServerUrl.BackColor = Color.White;
             labWebServerUrl.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point);
             labWebServerUrl.ForeColor = Color.FromArgb(64, 64, 64);
@@ -1314,5 +1328,6 @@
         private Label labHotRun;
         private ToolStripMenuItem toolStripMenuItem_AGVs_DB;
         private CheckBox checkBox3;
+        private Button button1;
     }
 }
