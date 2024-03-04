@@ -58,43 +58,49 @@ namespace GPMCasstteConvertCIM.AlarmDevice
             ModbusIpMaster AlarmDevice_modbusMaster = ModbusIpMaster.CreateIp(Tcp_client);
             return AlarmDevice_modbusMaster;
         }
-        public bool Adam6250ConnectState  ;
-        public bool Adam6256ConnectState  ; 
+        public bool Adam6250ConnectState;
+        public bool Adam6256ConnectState;
         public void alladamconnect()
         {
 
-                try
+            try
+            {
+                foreach (var item in Dict_AlarmModule)
                 {
-                    foreach (var item in Dict_AlarmModule)
-                    {
-                        var ip = item.Value.info.IP_Address;
-                        int port = item.Value.info.port;
-                        var Tcp_client = new TcpClient(ip, port);
-                    //ModbusIpMaster AlarmDevice_modbusMaster = ModbusIpMaster.CreateIp(Tcp_client);
-                    //AlarmDevice_modbusMaster.re
-                    try
-                    {
-                        item.Value.master = ModbusIpMaster.CreateIp(Tcp_client);
-                    }
-                    catch (Exception)
-                    {
+                    //var ip = item.Value.info.IP_Address;
+                    //int port = item.Value.info.port;
+                    //var Tcp_client = new TcpClient(ip, port);
+                    ////ModbusIpMaster AlarmDevice_modbusMaster = ModbusIpMaster.CreateIp(Tcp_client);
+                    ////AlarmDevice_modbusMaster.re
+                    //item.Value.master = ModbusIpMaster.CreateIp(Tcp_client);
+                    ////try
+                    ////{
+                    ////}
+                    ////catch (Exception)
+                    ////{
 
-                        throw;
-                    }
-                        //Adam6250ConnectState = true;
-                        //Adam6256ConnectState = true;
-                    }
-                     Adam6250ConnectState = (Dict_AlarmModule["ADAM6250"].master !=null) ? true : false;
-                     Adam6256ConnectState = (Dict_AlarmModule["ADAM6256"].master != null) ? true : false;
+                    ////    throw;
+                    ////}
+                    ////    //Adam6250ConnectState = true;
+                    ////    //Adam6256ConnectState = true;
+                    ////}
+
+                    //Adam6250ConnectState = true;
+                    //Adam6256ConnectState = true;
+                    ////Adam6250ConnectState = (Dict_AlarmModule["ADAM6250"].master != null) ? true : false;
+                    ////Adam6256ConnectState = (Dict_AlarmModule["ADAM6256"].master != null) ? true : false;
+                    ///
+                    item.Value.Connect();
                 }
-                catch (Exception)
-                {
-                    ////連線失敗
-                    Adam6250ConnectState = false;
-                    Adam6256ConnectState = false;
-                }
-            
-            
+            }
+            catch (Exception exp)
+            {
+                ////連線失敗
+                //Adam6250ConnectState = false;
+                //Adam6256ConnectState = false;
+            }
+
+
             //Dict_AlarmModule["ADAM6250"].master.WriteMultipleCoils(16, new bool[] { true, true, true, true, true, true, false });
         }
         public bool[] ReadAdam6250()
@@ -110,7 +116,7 @@ namespace GPMCasstteConvertCIM.AlarmDevice
                     bool[] registersDI = Dict_AlarmModule["ADAM6250"].master.ReadInputs(1, startAddressDI6250, numberOfPointsDI6250);
                     bool[] registersDO = Dict_AlarmModule["ADAM6250"].master.ReadInputs(1, startAddressDO6250, numberOfPointsDO6250);
                     bool[] registers6250 = registersDI.Concat(registersDO).ToArray();
-                    return registers6250 ;
+                    return registers6250;
                 }
                 catch (Exception)
                 {
@@ -144,7 +150,7 @@ namespace GPMCasstteConvertCIM.AlarmDevice
         }
         public void rejectTask()
         {
-           // ushort startAddress = 0;
+            // ushort startAddress = 0;
             Dict_AlarmModule["ADAM6256"].master.WriteMultipleCoils(16, new bool[] { true, false, true, false, true, false, true });
 
         }
@@ -161,8 +167,8 @@ namespace GPMCasstteConvertCIM.AlarmDevice
                 //item.Value.master = ModbusIpMaster.CreateIp(Tcp_client);
 
             }
-            
-          //  Adam6250_modbusMaster.WriteMultipleCoils(16, new bool[] { false, false, false, false, false, false, false });
+
+            //  Adam6250_modbusMaster.WriteMultipleCoils(16, new bool[] { false, false, false, false, false, false, false });
         }
         public void AllAdamOFF()
         {
@@ -171,7 +177,7 @@ namespace GPMCasstteConvertCIM.AlarmDevice
             foreach (var item in Dict_AlarmModule)
             {
                 item.Value.master.WriteMultipleCoils(16, new bool[] { false, false, false, false, false, false, false });
-            }         
+            }
         }
         public void disconnect()////斷線adama操作
         {
@@ -186,18 +192,40 @@ namespace GPMCasstteConvertCIM.AlarmDevice
     }
     public class IOdeviceinfo
     {
-        public string IP_Address { get; set; }
-        public int port { get; set; }
-        public int DI_SrartAddress { get; set; }
-        public int DI_EndAddress { get; set; }
-        public int DO_SrartAddress { get; set; }
-        public int DO_EndAddress { get; set; }
+        public string IP_Address { get; set; } = "127.0.0.1";
+        public int port { get; set; } = 502;
+        public int DI_SrartAddress { get; set; } = 0;
+        public int DI_EndAddress { get; set; } = 7;
+        public int DO_SrartAddress { get; set; } = 16;
+        public int DO_EndAddress { get; set; } = 22;
     }
 
     public class IOdevice
     {
         public IOdeviceinfo info;
         public ModbusIpMaster master;
+
+        private bool _ConnectStatus = false;
+        public bool ConnectStatus
+        {
+            get => _ConnectStatus;
+        }
+
+        public IOdevice() { }
+
+        public void Connect()
+        {
+            var Tcp_client = new TcpClient(info.IP_Address, info.port);
+            try
+            {
+                this.master = ModbusIpMaster.CreateIp(Tcp_client);
+                _ConnectStatus = true;
+            }
+            catch (Exception exp)
+            {
+                _ConnectStatus = false;
+            }
+        }
     }
 
 

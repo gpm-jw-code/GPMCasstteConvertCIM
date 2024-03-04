@@ -179,7 +179,7 @@ namespace GPMCasstteConvertCIM.Forms
 
                 }));
             });
-
+            AlarmDeviceForm = new frmAlarmDevice();
         }
 
         private clsResponse HotRunRemoteControlHandle(clsHotRunControl control)
@@ -679,7 +679,7 @@ namespace GPMCasstteConvertCIM.Forms
         private void AlarmDeviceToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //if (AlarmDeviceForm == null)
-            AlarmDeviceForm = new frmAlarmDevice();
+            //AlarmDeviceForm = new frmAlarmDevice();
             AlarmDeviceForm.Show();
             //frmAlarmDevice.Show();
         }
