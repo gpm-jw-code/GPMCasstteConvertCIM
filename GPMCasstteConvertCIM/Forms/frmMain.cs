@@ -336,6 +336,18 @@ namespace GPMCasstteConvertCIM.Forms
             };
             emu.Show();
         }
+        private void OpenAllModbusSimulators()
+        {
+            List<clsConverterPort> ports = DevicesManager.GetAllPorts();
+            foreach (var port in ports)
+            {
+                frmAGVS_Modbus_Emulator emu = new frmAGVS_Modbus_Emulator(port)
+                {
+                    Text = $"AGV•Ê¥§º“¿¿-{port.Properties.ModbusServer_IP}:{port.Properties.ModbusServer_PORT}({port.PortNameWithEQName})"
+                };
+                emu.Show();
+            }
+        }
 
         private void Secs_client_MsgRecvBufferOnAdded(object? sender, EventArgs e)
         {
@@ -699,6 +711,11 @@ namespace GPMCasstteConvertCIM.Forms
             catch (Exception)
             {
             }
+        }
+
+        private void openAllModbusEmuToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenAllModbusSimulators();
         }
     }
 }

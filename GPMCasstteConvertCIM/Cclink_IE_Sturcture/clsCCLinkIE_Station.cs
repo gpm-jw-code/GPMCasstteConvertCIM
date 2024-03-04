@@ -184,7 +184,8 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
                 try
                 {
                     int register_num = item.Link_Modbus_Register_Number;
-                    var localCoilsAry = modbus_server.coils.localArray;
+                    var localCoilsAry = modbus_server.modbusSlave.DataStore.CoilDiscretes;
+                    //var localCoilsAry = modbus_server.coils.localArray;
                     bool state = localCoilsAry[register_num + 1];
                     AGVHandshakeIO(item, state);
                     DevicesManager.cclink_master.CIMMemOptions.memoryTable.WriteOneBit(item.Address, state);
@@ -198,19 +199,18 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
 
         public override void SyncModbusDataWorker()
         {
-            Task.Factory.StartNew(async () =>
+            Task.Run(async () =>
             {
                 while (true)
                 {
-                    await Task.Delay(10);
                     try
                     {
-
                         if (DevicesManager.cclink_master.EQPMemOptions == null)
                             continue;
                         SyncAGVSInputsWorker();
                         SyncEQHoldingRegistersWorker();
                         SyncAGVSCoilsDataWorker();
+                        await Task.Delay(10);
                     }
                     catch (Exception ex)
                     {
@@ -218,12 +218,10 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
                     }
                 }
             });
-
-            Thread _thread = new Thread(() => {
+            Task.Run(() =>
+            {
                 CheckDiscardInputWriteResultBackgroundWorker();
             });
-            _thread.IsBackground = true;
-            _thread.Start();
         }
 
         protected override void SyncEQHoldingRegistersWorker()
@@ -234,7 +232,10 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
                 if (item.Link_Modbus_Register_Number != -1)
                 {
                     int value = DevicesManager.cclink_master.EQPMemOptions.memoryTable.ReadBinary(item.Address);
-                    modbus_server.holdingRegisters.localArray[item.Link_Modbus_Register_Number] = (short)value;
+
+                    modbus_server.modbusSlave.DataStore.HoldingRegisters[item.Link_Modbus_Register_Number] = (ushort)value;
+
+                    //modbus_server.holdingRegisters.localArray[item.Link_Modbus_Register_Number] = (short)value;
                 }
             }
         }
@@ -253,7 +254,7 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
                         if (item.EProperty == Enums.PROPERTY.Load_Request || item.EProperty == Enums.PROPERTY.Unload_Request)
                             bolState = true;
                     }
-                    modbus_server.discreteInputs.localArray[item.Link_Modbus_Register_Number] = bolState;
+                    modbus_server.modbusSlave.DataStore.InputDiscretes[item.Link_Modbus_Register_Number] = bolState;
                 }
             }
         }

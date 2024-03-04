@@ -590,7 +590,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
 
 
-        public async void ModbusServerActive()
+        public async Task ModbusServerActive()
         {
             await Task.Delay(1);
 
@@ -601,7 +601,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             {
                 try
                 {
-                    if (BuildModbusTCPServer(new frmModbusTCPServer()))
+                    if (await BuildModbusTCPServer(new frmModbusTCPServer()))
                     {
                         Utility.SystemLogger.Info($"ModbusTcp Server-0.0.0.0:{modbus_server.Port} is serving.", false);
                         SyncModbusDataWorker();
