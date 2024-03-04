@@ -91,6 +91,8 @@
             toolStripMenuItem_OpenConvert_2_Simulator = new ToolStripMenuItem();
             AGVS_modbus_sim_ToolStripMenuItem = new ToolStripMenuItem();
             aGVSEmuToolStripMenuItem = new ToolStripMenuItem();
+            dEBUGToolStripMenuItem = new ToolStripMenuItem();
+            webServerExceptionToolStripMenuItem = new ToolStripMenuItem();
             toolStripMenuItem_AGVs_DB = new ToolStripMenuItem();
             警報器IO狀態ToolStripMenuItem = new ToolStripMenuItem();
             pnlSideLeft = new Panel();
@@ -795,7 +797,7 @@
             // toolStripComboBox_Emulators
             // 
             toolStripComboBox_Emulators.BackColor = Color.Red;
-            toolStripComboBox_Emulators.DropDownItems.AddRange(new ToolStripItem[] { mCS模擬器ToolStripMenuItem, CVSimulatorsToolStripMenuItem, AGVS_modbus_sim_ToolStripMenuItem, aGVSEmuToolStripMenuItem });
+            toolStripComboBox_Emulators.DropDownItems.AddRange(new ToolStripItem[] { mCS模擬器ToolStripMenuItem, CVSimulatorsToolStripMenuItem, AGVS_modbus_sim_ToolStripMenuItem, aGVSEmuToolStripMenuItem, dEBUGToolStripMenuItem });
             toolStripComboBox_Emulators.ForeColor = Color.White;
             toolStripComboBox_Emulators.Name = "toolStripComboBox_Emulators";
             toolStripComboBox_Emulators.ShowShortcutKeys = false;
@@ -853,6 +855,20 @@
             aGVSEmuToolStripMenuItem.Size = new Size(239, 24);
             aGVSEmuToolStripMenuItem.Text = "AGVS 派車模擬器";
             aGVSEmuToolStripMenuItem.Click += aGVS派車模擬器ToolStripMenuItem_Click;
+            // 
+            // dEBUGToolStripMenuItem
+            // 
+            dEBUGToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { webServerExceptionToolStripMenuItem });
+            dEBUGToolStripMenuItem.Name = "dEBUGToolStripMenuItem";
+            dEBUGToolStripMenuItem.Size = new Size(239, 24);
+            dEBUGToolStripMenuItem.Text = "DEBUG";
+            // 
+            // webServerExceptionToolStripMenuItem
+            // 
+            webServerExceptionToolStripMenuItem.Name = "webServerExceptionToolStripMenuItem";
+            webServerExceptionToolStripMenuItem.Size = new Size(246, 24);
+            webServerExceptionToolStripMenuItem.Text = "Web Server Exception ";
+            webServerExceptionToolStripMenuItem.Click += WebServerExceptionToolStripMenuItem_Click;
             // 
             // toolStripMenuItem_AGVs_DB
             // 
@@ -983,13 +999,14 @@
             // 
             toolStripStatusLabel1.BackColor = Color.Transparent;
             toolStripStatusLabel1.Font = new Font("Yu Gothic UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            toolStripStatusLabel1.ForeColor = Color.WhiteSmoke;
+            toolStripStatusLabel1.ForeColor = SystemColors.ActiveCaption;
             toolStripStatusLabel1.LinkColor = Color.FromArgb(53, 53, 53);
             toolStripStatusLabel1.Margin = new Padding(0);
             toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            toolStripStatusLabel1.Size = new Size(1143, 22);
+            toolStripStatusLabel1.Size = new Size(1112, 22);
             toolStripStatusLabel1.Spring = true;
             toolStripStatusLabel1.Text = "GPM AGV SYSTEM CIM";
+            toolStripStatusLabel1.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // labWebServerUrl
             // 
@@ -1147,6 +1164,7 @@
             WindowState = FormWindowState.Maximized;
             FormClosing += Form1_FormClosing;
             Load += Form1_Load;
+            SizeChanged += FrmMain_SizeChanged;
             tabControl1.ResumeLayout(false);
             tabPage4.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
@@ -1278,5 +1296,7 @@
         private ToolStripMenuItem 警報器IO狀態ToolStripMenuItem;
         private Label labHotRun;
         private ToolStripMenuItem toolStripMenuItem_AGVs_DB;
+        private ToolStripMenuItem dEBUGToolStripMenuItem;
+        private ToolStripMenuItem webServerExceptionToolStripMenuItem;
     }
 }

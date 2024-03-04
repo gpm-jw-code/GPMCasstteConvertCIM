@@ -43,8 +43,7 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
             EQPData = new clsEQPData();
             this.plcInterface = PLC_CONN_INTERFACE.MX;
             LoadPLCMapData();
-
-
+            this._IOLogger = new clsIOLOgger(null, Utility.SysConfigs.Log.SyslogFolder, $"IO/{cclink_master.Name}");
             for (int i = 0; i < portProperties.Count; i++)
             {
                 var portProp = portProperties[i];
@@ -156,6 +155,7 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
         }
         public clsStationPort(clsPortProperty property, clsCasstteConverter converterParent) : base(property, converterParent)
         {
+
         }
 
         protected override void WriteAGVHandshakeStatusToPLC(clsAGVHandshakeState agv_hs_status)
@@ -219,10 +219,11 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
                 }
             });
 
-            Task.Factory.StartNew(() =>
-            {
+            Thread _thread = new Thread(() => {
                 CheckDiscardInputWriteResultBackgroundWorker();
             });
+            _thread.IsBackground = true;
+            _thread.Start();
         }
 
         protected override void SyncEQHoldingRegistersWorker()
@@ -249,7 +250,7 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
 
                     if (Utility.SysConfigs.EQLoadUnload_RequestSimulation && this.Properties.LoadUnlloadStateSimulation)
                     {
-                        if (item.EProperty == Enums.PROPERTY.Load_Request | item.EProperty == Enums.PROPERTY.Unload_Request)
+                        if (item.EProperty == Enums.PROPERTY.Load_Request || item.EProperty == Enums.PROPERTY.Unload_Request)
                             bolState = true;
                     }
                     modbus_server.discreteInputs.localArray[item.Link_Modbus_Register_Number] = bolState;

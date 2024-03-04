@@ -44,6 +44,10 @@ namespace GPMCasstteConvertCIM.Utilities
             }
         }
 
+        internal FormWindowState UIWindowState = FormWindowState.Normal;
+
+        private ConcurrentQueue<clsLogItem> LogItemsQueue = new ConcurrentQueue<clsLogItem>();
+
         internal static LOG_TIME_UNIT logTimeUnit = LOG_TIME_UNIT.ByHour;
         internal string saveFolder { get; set; } = "";
         public string FileNameHeaderDisplay { get; internal set; } = "";
@@ -64,17 +68,15 @@ namespace GPMCasstteConvertCIM.Utilities
 
         private void _richTextBox_TextChanged(object? sender, EventArgs e)
         {
-            if (_richTextBox != null)
-                if (_richTextBox.Created)
-                {
-                    _richTextBox?.Invoke((MethodInvoker)delegate
-                {
-                    if (_richTextBox.Text.Length > 16384)
-                        _richTextBox.Clear();
-                    _richTextBox.ScrollToCaret();
+            if (_richTextBox == null || !_richTextBox.Created)
+                return;
+            _richTextBox?.Invoke((MethodInvoker)delegate
+            {
+                if (_richTextBox.Text.Length > 16384)
+                    _richTextBox.Clear();
+                _richTextBox.ScrollToCaret();
 
-                });
-                }
+            });
         }
 
 
@@ -156,80 +158,104 @@ namespace GPMCasstteConvertCIM.Utilities
         }
         private void ShowLogInRichTextBox(DateTime time, LOG_LEVEL classify, string message, Color foreColor, Exception ex = null)
         {
-            if (_richTextBox != null)
-                if (_richTextBox.Created)
-                {
-                    _richTextBox?.Invoke((MethodInvoker)delegate
-                    {
-                        _richTextBox.SelectionColor = foreColor;
-                        _richTextBox.AppendText($"{time.ToString("yyyy/MM/dd HH:mm:ss.ffffff")} [{classify}] {message}\n");
-                        _richTextBox.SelectionColor = Color.Gray;
-                        if (ex != null)
-                            _richTextBox.AppendText($"{ex}\n");
-                    });
-                }
+            if (_richTextBox == null || !_richTextBox.Created || UIWindowState == FormWindowState.Minimized)
+                return;
+
+            _richTextBox?.Invoke(new MethodInvoker(() =>
+            {
+                _richTextBox.SelectionColor = foreColor;
+                _richTextBox.AppendText($"{time.ToString("yyyy/MM/dd HH:mm:ss.ffffff")} [{classify}] {message}\n");
+                _richTextBox.SelectionColor = Color.Gray;
+                if (ex != null)
+                    _richTextBox.AppendText($"{ex}\n");
+            }));
         }
-        public class clsLogItem
+        public class clsLogItem : IDisposable
         {
+            private bool disposedValue;
+
             internal string sub_folder_name { get; set; } = "";
 
             public DateTime time { get; set; }
             public LOG_LEVEL level { get; set; }
             public string msg { get; set; }
-        }
 
-        private ConcurrentQueue<clsLogItem> LogItemsQueue = new ConcurrentQueue<clsLogItem>();
+            protected virtual void Dispose(bool disposing)
+            {
+                if (!disposedValue)
+                {
+                    if (disposing)
+                    {
+                    }
+                    msg = null;
+                    disposedValue = true;
+                }
+            }
+            public void Dispose()
+            {
+                Dispose(disposing: true);
+                GC.SuppressFinalize(this);
+            }
+        }
 
         private async Task WriteLogWorker()
         {
-            _ = Task.Run(async () =>
-             {
-                 while (true)
-                 {
-                     await Task.Delay(1);
+            Thread _logTHread = new Thread(async () =>
+            {
+                while (true)
+                {
+                    Thread.Sleep(50);
+                    try
+                    {
+                        if (LogItemsQueue.Count == 0)
+                            continue;
 
-                     if (!LogItemsQueue.TryDequeue(out clsLogItem logItem))
-                         continue;
+                        if (!LogItemsQueue.TryDequeue(out clsLogItem? logItem))
+                            continue;
 
-                     try
-                     {
-                         if (saveFolder == "")
-                         {
-                             return;
-                         }
-                         if (logItem.msg == "")
-                         {
-                             continue;
-                         }
-                         string folder = Path.Combine(saveFolder, DateTime.Now.ToString("yyyy-MM-dd"));
-                         folder = Path.Combine(folder, subFolderName);
-                         folder = Path.Combine(folder, logItem.sub_folder_name);
-                         if (!Directory.Exists(folder))
-                             Directory.CreateDirectory(folder);
-                         currentLogFolder = folder;
-                         string log_file = Path.Combine(folder, $"{FileNameHeaderDisplay}{DateTime.Now.ToString(FileTimeFormat)}.log");
-                         string writeLine = $"{logItem.time.ToString("yyyy/MM/dd HH:mm:ss.ffffff")} [{logItem.level}] {logItem.msg}";
-                         using (StreamWriter sw = new StreamWriter(log_file, true))
-                         {
-                             sw.WriteLine(writeLine);
-                         }
-                         if (logItem.level != LOG_LEVEL.INFO)
-                         {
-                             string Warn_Error_log_file = Path.Combine(folder, $"{FileNameHeaderDisplay}{DateTime.Now.ToString(FileTimeFormat)}_{logItem.level}.log");
-                             using StreamWriter writer = new StreamWriter(Warn_Error_log_file, true);
-                             writer.WriteLine(writeLine);
-                         }
+                        if (saveFolder == "" || logItem.msg == "")
+                        {
+                            logItem?.Dispose();
+                            continue;
+                        }
+                        string folder = Path.Combine(saveFolder, DateTime.Now.ToString("yyyy-MM-dd"));
+                        folder = Path.Combine(folder, subFolderName);
+                        folder = Path.Combine(folder, logItem.sub_folder_name);
+                        if (!Directory.Exists(folder))
+                            Directory.CreateDirectory(folder);
+                        currentLogFolder = folder;
+                        string log_file = Path.Combine(folder, $"{FileNameHeaderDisplay}{DateTime.Now.ToString(FileTimeFormat)}.log");
+                        string? writeLine = $"{logItem.time.ToString("yyyy/MM/dd HH:mm:ss.ffffff")} [{logItem.level}] {logItem.msg}";
 
-                     }
-                     catch (Exception ex)
-                     {
-                     }
-                 }
-             });
+                        using (StreamWriter sw = new StreamWriter(log_file, true))
+                        {
+                            await sw.WriteLineAsync(writeLine);
+                        }
+                        if (logItem.level != LOG_LEVEL.INFO)
+                        {
+                            string Warn_Error_log_file = Path.Combine(folder, $"{FileNameHeaderDisplay}{DateTime.Now.ToString(FileTimeFormat)}_{logItem.level}.log");
+                            using StreamWriter writer = new StreamWriter(Warn_Error_log_file, true);
+                            await writer.WriteLineAsync(writeLine);
+                        }
+                        logItem?.Dispose();
+                        writeLine = null;
+
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                }
+
+            });
+            _logTHread.IsBackground = true;
+            _logTHread.Start();
         }
 
         protected void StoreLogItemToQueue(DateTime time, LOG_LEVEL log_level, string logStr, string subFolder = "")
         {
+            if (LogItemsQueue.Count > 50)
+                LogItemsQueue.Clear();
             LogItemsQueue.Enqueue(new clsLogItem
             {
                 time = time,
