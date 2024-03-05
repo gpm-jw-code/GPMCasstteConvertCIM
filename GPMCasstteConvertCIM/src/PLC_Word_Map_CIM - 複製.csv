@@ -1,0 +1,202 @@
+﻿Memory (Hex),Owner,Data Name,Data Format,Explanation,Device,Code_Property,Modbus_Register,,,,,,,,5000
+W0000,AGVS,Interface Clock ,Binary,6.1 Alive Check,AGVS,Interface_Clock,55,,,,,,,,5000
+W0001,AGVS,,,,,,56,,,,,,,,5000
+W0002,AGVS,Port1 - Port Mode Status Request,Binary,7.6 Port Mode Change Request,PORT1,Port_Type_Status,57,,,,,,,,5000
+W0003,AGVS,Port2 - Port Mode Status Request,Binary,7.6 Port Mode Change Request,PORT2,Port_Type_Status,58,,,,,,,,5000
+W0004,AGVS,,,,,,59,,,,,,,,5000
+W0005,AGVS,,,,,,60,,,,,,,,5000
+W0006,AGVS,AGVS Message Download Index,Binary,6.4.1 AGVS Message Display,AGVS,AGVS_MSG_DOWNLOAD_INDEX,61,,,,,,,,5000
+W0007,AGVS,Trigger Equipment,Binary,6.4.1 AGVS Message Display,AGVS,,62,,,,,,,,5000
+W0008,AGVS,Buzzer Flag,Binary,6.4.1 AGVS Message Display,AGVS,,63,,,,,,,,5000
+W0009,AGVS,AGVS Message # 1,ASCII,6.4.1 AGVS Message Display,AGVS,AGVS_MSG_1,64,,,,,,,,5000
+W000A,AGVS,AGVS Message # 2,ASCII,6.4.1 AGVS Message Display,AGVS,,65,,,,,,,,5000
+W000B,AGVS,AGVS Message # 3,ASCII,6.4.1 AGVS Message Display,AGVS,,66,,,,,,,,5000
+W000C,AGVS,AGVS Message # 4,ASCII,6.4.1 AGVS Message Display,AGVS,,67,,,,,,,,5000
+W000D,AGVS,AGVS Message # 5,ASCII,6.4.1 AGVS Message Display,AGVS,,68,,,,,,,,5000
+W000E,AGVS,AGVS Message # 6,ASCII,6.4.1 AGVS Message Display,AGVS,,69,,,,,,,,5000
+W000F,AGVS,AGVS Message # 7,ASCII,6.4.1 AGVS Message Display,AGVS,,70,,,,,,,,5000
+W0010,AGVS,AGVS Message # 8,ASCII,6.4.1 AGVS Message Display,AGVS,,71,,,,,,,,5000
+W0011,AGVS,AGVS Message # 9,ASCII,6.4.1 AGVS Message Display,AGVS,,72,,,,,,,,5000
+W0012,AGVS,AGVS Message # 10,ASCII,6.4.1 AGVS Message Display,AGVS,,73,,,,,,,,5000
+W0013,AGVS,AGVS Message # 11,ASCII,6.4.1 AGVS Message Display,AGVS,,74,,,,,,,,5000
+W0014,AGVS,AGVS Message # 12,ASCII,6.4.1 AGVS Message Display,AGVS,,75,,,,,,,,5000
+W0015,AGVS,AGVS Message # 13,ASCII,6.4.1 AGVS Message Display,AGVS,,76,,,,,,,,5000
+W0016,AGVS,AGVS Message # 14,ASCII,6.4.1 AGVS Message Display,AGVS,,77,,,,,,,,5000
+W0017,AGVS,AGVS Message # 15,ASCII,6.4.1 AGVS Message Display,AGVS,,78,,,,,,,,5000
+W0018,AGVS,AGVS Message # 16,ASCII,6.4.1 AGVS Message Display,AGVS,,79,,,,,,,,5000
+W0019,AGVS,AGVS Message # 17,ASCII,6.4.1 AGVS Message Display,AGVS,AGVS_MSG_17,80,,,,,,,,5000
+W001A,AGVS,AGVS Message # 18,ASCII,6.4.1 AGVS Message Display,AGVS,,81,,,,,,,,5000
+W001B,AGVS,AGVS Message # 19,ASCII,6.4.1 AGVS Message Display,AGVS,,82,,,,,,,,5000
+W001C,AGVS,AGVS Message # 20,ASCII,6.4.1 AGVS Message Display,AGVS,,83,,,,,,,,5000
+W001D,AGVS,AGVS Message # 21,ASCII,6.4.1 AGVS Message Display,AGVS,,84,,,,,,,,5000
+W001E,AGVS,AGVS Message # 22,ASCII,6.4.1 AGVS Message Display,AGVS,,85,,,,,,,,5000
+W001F,AGVS,AGVS Message # 23,ASCII,6.4.1 AGVS Message Display,AGVS,,86,,,,,,,,5000
+W0020,AGVS,AGVS Message # 24,ASCII,6.4.1 AGVS Message Display,AGVS,,87,,,,,,,,5000
+W0021,AGVS,AGVS Message # 25,ASCII,6.4.1 AGVS Message Display,AGVS,,88,,,,,,,,5000
+W0022,AGVS,AGVS Message # 26,ASCII,6.4.1 AGVS Message Display,AGVS,,89,,,,,,,,5000
+W0023,AGVS,AGVS Message # 27,ASCII,6.4.1 AGVS Message Display,AGVS,,90,,,,,,,,5000
+W0024,AGVS,AGVS Message # 28,ASCII,6.4.1 AGVS Message Display,AGVS,,91,,,,,,,,5000
+W0025,AGVS,AGVS Message # 29,ASCII,6.4.1 AGVS Message Display,AGVS,,92,,,,,,,,5000
+W0026,AGVS,AGVS Message # 30,ASCII,6.4.1 AGVS Message Display,AGVS,,93,,,,,,,,5000
+W0027,AGVS,AGVS Message # 31,ASCII,6.4.1 AGVS Message Display,AGVS,,94,,,,,,,,5000
+W0028,AGVS,AGVS Message # 32,ASCII,6.4.1 AGVS Message Display,AGVS,,95,,,,,,,,5000
+W0029,AGVS,AGVS Message # 33,ASCII,6.4.1 AGVS Message Display,AGVS,,96,,,,,,,,5000
+W002A,AGVS,AGVS Message # 34,ASCII,6.4.1 AGVS Message Display,AGVS,,97,,,,,,,,5000
+W002B,AGVS,AGVS Message # 35,ASCII,6.4.1 AGVS Message Display,AGVS,,98,,,,,,,,5000
+W002C,AGVS,AGVS Message # 36,ASCII,6.4.1 AGVS Message Display,AGVS,,99,,,,,,,,5000
+W002D,AGVS,AGVS Message # 37,ASCII,6.4.1 AGVS Message Display,AGVS,,100,,,,,,,,5000
+W002E,AGVS,AGVS Message # 38,ASCII,6.4.1 AGVS Message Display,AGVS,,101,,,,,,,,5000
+W002F,AGVS,AGVS Message # 39,ASCII,6.4.1 AGVS Message Display,AGVS,,102,,,,,,,,5000
+W0030,AGVS,AGVS Message # 40,ASCII,6.4.1 AGVS Message Display,AGVS,,103,,,,,,,,5000
+W0031,AGVS,AGVS Message # 41,ASCII,6.4.1 AGVS Message Display,AGVS,,104,,,,,,,,5000
+W0032,AGVS,AGVS Message # 42,ASCII,6.4.1 AGVS Message Display,AGVS,,105,,,,,,,,5000
+W0033,AGVS,AGVS Message # 43,ASCII,6.4.1 AGVS Message Display,AGVS,,106,,,,,,,,5000
+W0034,AGVS,AGVS Message # 44,ASCII,6.4.1 AGVS Message Display,AGVS,,107,,,,,,,,5000
+W0035,AGVS,AGVS Message # 45,ASCII,6.4.1 AGVS Message Display,AGVS,,108,,,,,,,,5000
+W0036,AGVS,AGVS Message # 46,ASCII,6.4.1 AGVS Message Display,AGVS,,109,,,,,,,,5000
+W0037,AGVS,AGVS Message # 47,ASCII,6.4.1 AGVS Message Display,AGVS,,110,,,,,,,,5000
+W0038,AGVS,AGVS Message # 48,ASCII,6.4.1 AGVS Message Display,AGVS,,111,,,,,,,,5000
+W0039,AGVS,AGVS Message # 49,ASCII,6.4.1 AGVS Message Display,AGVS,,112,,,,,,,,5000
+W003A,AGVS,AGVS Message # 50,ASCII,6.4.1 AGVS Message Display,AGVS,,113,,,,,,,,5000
+W003B,AGVS,AGVS Message # 51,ASCII,6.4.1 AGVS Message Display,AGVS,,114,,,,,,,,5000
+W003C,AGVS,AGVS Message # 52,ASCII,6.4.1 AGVS Message Display,AGVS,,115,,,,,,,,5000
+W003D,AGVS,AGVS Message # 53,ASCII,6.4.1 AGVS Message Display,AGVS,,116,,,,,,,,5000
+W003E,AGVS,AGVS Message # 54,ASCII,6.4.1 AGVS Message Display,AGVS,,117,,,,,,,,5000
+W003F,AGVS,AGVS Message # 55,ASCII,6.4.1 AGVS Message Display,AGVS,,118,,,,,,,,5000
+W0040,AGVS,AGVS Message # 56,ASCII,6.4.1 AGVS Message Display,AGVS,,119,,,,,,,,5000
+W0041,AGVS,AGVS Message # 57,ASCII,6.4.1 AGVS Message Display,AGVS,,120,,,,,,,,5000
+W0042,AGVS,AGVS Message # 58,ASCII,6.4.1 AGVS Message Display,AGVS,,121,,,,,,,,5000
+W0043,AGVS,AGVS Message # 59,ASCII,6.4.1 AGVS Message Display,AGVS,,122,,,,,,,,5000
+W0044,AGVS,AGVS Message # 60,ASCII,6.4.1 AGVS Message Display,AGVS,,123,,,,,,,,5000
+W0045,AGVS,AGVS Message # 61,ASCII,6.4.1 AGVS Message Display,AGVS,,124,,,,,,,,5000
+W0046,AGVS,AGVS Message # 62,ASCII,6.4.1 AGVS Message Display,AGVS,,125,,,,,,,,5000
+W0047,AGVS,AGVS Message # 63,ASCII,6.4.1 AGVS Message Display,AGVS,,126,,,,,,,,5000
+W0048,AGVS,AGVS Message # 64,ASCII,6.4.1 AGVS Message Display,AGVS,,127,,,,,,,,5000
+W0049,AGVS,AGVS Message # 65,ASCII,6.4.1 AGVS Message Display,AGVS,,128,,,,,,,,5000
+W004A,AGVS,AGVS Message # 66,ASCII,6.4.1 AGVS Message Display,AGVS,,129,,,,,,,,5000
+W004B,AGVS,AGVS Message # 67,ASCII,6.4.1 AGVS Message Display,AGVS,,130,,,,,,,,5000
+W004C,AGVS,AGVS Message # 68,ASCII,6.4.1 AGVS Message Display,AGVS,,131,,,,,,,,5000
+W004D,AGVS,AGVS Message # 69,ASCII,6.4.1 AGVS Message Display,AGVS,,132,,,,,,,,5000
+W004E,AGVS,AGVS Message # 70,ASCII,6.4.1 AGVS Message Display,AGVS,,133,,,,,,,,5000
+W004F,AGVS,AGVS Message # 71,ASCII,6.4.1 AGVS Message Display,AGVS,,134,,,,,,,,5000
+W0050,AGVS,AGVS Message # 72,ASCII,6.4.1 AGVS Message Display,AGVS,,135,,,,,,,,5000
+W0051,AGVS,AGVS Message # 73,ASCII,6.4.1 AGVS Message Display,AGVS,,136,,,,,,,,5000
+W0052,AGVS,AGVS Message # 74,ASCII,6.4.1 AGVS Message Display,AGVS,,137,,,,,,,,5000
+W0053,AGVS,AGVS Message # 75,ASCII,6.4.1 AGVS Message Display,AGVS,,138,,,,,,,,5000
+W0054,AGVS,AGVS Message # 76,ASCII,6.4.1 AGVS Message Display,AGVS,,139,,,,,,,,5000
+W0055,AGVS,AGVS Message # 77,ASCII,6.4.1 AGVS Message Display,AGVS,,140,,,,,,,,5000
+W0056,AGVS,AGVS Message # 78,ASCII,6.4.1 AGVS Message Display,AGVS,,141,,,,,,,,5000
+W0057,AGVS,AGVS Message # 79,ASCII,6.4.1 AGVS Message Display,AGVS,,142,,,,,,,,5000
+W0058,AGVS,AGVS Message # 80,ASCII,6.4.1 AGVS Message Display,AGVS,,143,,,,,,,,5000
+W0059,AGVS,,,,AGVS,,144,,,,,,,,5000
+W005A,AGVS,MCS Message Download Index,Binary,6.4.2 MCS Message Display,AGVS,,145,,,,,,,,5000
+W005B,AGVS,MCS Message # 1,ASCII,6.4.2 MCS Message Display,AGVS,,146,,,,,,,,5000
+W005C,AGVS,MCS Message # 2,ASCII,6.4.2 MCS Message Display,AGVS,,147,,,,,,,,5000
+W005D,AGVS,MCS Message # 3,ASCII,6.4.2 MCS Message Display,AGVS,,148,,,,,,,,5000
+W005E,AGVS,MCS Message # 4,ASCII,6.4.2 MCS Message Display,AGVS,,149,,,,,,,,5000
+W005F,AGVS,MCS Message # 5,ASCII,6.4.2 MCS Message Display,AGVS,,150,,,,,,,,5000
+W0060,AGVS,MCS Message # 6,ASCII,6.4.2 MCS Message Display,AGVS,,151,,,,,,,,5000
+W0061,AGVS,MCS Message # 7,ASCII,6.4.2 MCS Message Display,AGVS,,152,,,,,,,,5000
+W0062,AGVS,MCS Message # 8,ASCII,6.4.2 MCS Message Display,AGVS,,153,,,,,,,,5000
+W0063,AGVS,MCS Message # 9,ASCII,6.4.2 MCS Message Display,AGVS,,154,,,,,,,,5000
+W0064,AGVS,MCS Message # 10,ASCII,6.4.2 MCS Message Display,AGVS,,155,,,,,,,,5000
+W0065,AGVS,MCS Message # 11,ASCII,6.4.2 MCS Message Display,AGVS,,156,,,,,,,,5000
+W0066,AGVS,MCS Message # 12,ASCII,6.4.2 MCS Message Display,AGVS,,157,,,,,,,,5000
+W0067,AGVS,MCS Message # 13,ASCII,6.4.2 MCS Message Display,AGVS,,158,,,,,,,,5000
+W0068,AGVS,MCS Message # 14,ASCII,6.4.2 MCS Message Display,AGVS,,159,,,,,,,,5000
+W0069,AGVS,MCS Message # 15,ASCII,6.4.2 MCS Message Display,AGVS,,160,,,,,,,,5000
+W006A,AGVS,MCS Message # 16,ASCII,6.4.2 MCS Message Display,AGVS,,161,,,,,,,,
+W006B,AGVS,MCS Message # 17,ASCII,6.4.2 MCS Message Display,AGVS,,162,,,,,,,,
+W006C,AGVS,MCS Message # 18,ASCII,6.4.2 MCS Message Display,AGVS,,163,,,,,,,,
+W006D,AGVS,MCS Message # 19,ASCII,6.4.2 MCS Message Display,AGVS,,164,,,,,,,,
+W006E,AGVS,MCS Message # 20,ASCII,6.4.2 MCS Message Display,AGVS,,165,,,,,,,,
+W006F,AGVS,MCS Message # 21,ASCII,6.4.2 MCS Message Display,AGVS,,166,,,,,,,,
+W0070,AGVS,MCS Message # 22,ASCII,6.4.2 MCS Message Display,AGVS,,167,,,,,,,,
+W0071,AGVS,MCS Message # 23,ASCII,6.4.2 MCS Message Display,AGVS,,168,,,,,,,,
+W0072,AGVS,MCS Message # 24,ASCII,6.4.2 MCS Message Display,AGVS,,169,,,,,,,,
+W0073,AGVS,MCS Message # 25,ASCII,6.4.2 MCS Message Display,AGVS,,170,,,,,,,,
+W0074,AGVS,MCS Message # 26,ASCII,6.4.2 MCS Message Display,AGVS,,171,,,,,,,,
+W0075,AGVS,MCS Message # 27,ASCII,6.4.2 MCS Message Display,AGVS,,172,,,,,,,,
+W0076,AGVS,MCS Message # 28,ASCII,6.4.2 MCS Message Display,AGVS,,173,,,,,,,,
+W0077,AGVS,MCS Message # 29,ASCII,6.4.2 MCS Message Display,AGVS,,174,,,,,,,,
+W0078,AGVS,MCS Message # 30,ASCII,6.4.2 MCS Message Display,AGVS,,175,,,,,,,,
+W0079,AGVS,MCS Message # 31,ASCII,6.4.2 MCS Message Display,AGVS,,176,,,,,,,,
+W007A,AGVS,MCS Message # 32,ASCII,6.4.2 MCS Message Display,AGVS,,177,,,,,,,,
+W007B,AGVS,MCS Message # 33,ASCII,6.4.2 MCS Message Display,AGVS,,178,,,,,,,,
+W007C,AGVS,MCS Message # 34,ASCII,6.4.2 MCS Message Display,AGVS,,179,,,,,,,,
+W007D,AGVS,MCS Message # 35,ASCII,6.4.2 MCS Message Display,AGVS,,180,,,,,,,,
+W007E,AGVS,MCS Message # 36,ASCII,6.4.2 MCS Message Display,AGVS,,181,,,,,,,,
+W007F,AGVS,MCS Message # 37,ASCII,6.4.2 MCS Message Display,AGVS,,182,,,,,,,,
+W0080,AGVS,MCS Message # 38,ASCII,6.4.2 MCS Message Display,AGVS,,183,,,,,,,,
+W0081,AGVS,MCS Message # 39,ASCII,6.4.2 MCS Message Display,AGVS,,184,,,,,,,,
+W0082,AGVS,MCS Message # 40,ASCII,6.4.2 MCS Message Display,AGVS,,185,,,,,,,,
+W0083,AGVS,MCS Message # 41,ASCII,6.4.2 MCS Message Display,AGVS,,186,,,,,,,,
+W0084,AGVS,MCS Message # 42,ASCII,6.4.2 MCS Message Display,AGVS,,187,,,,,,,,
+W0085,AGVS,MCS Message # 43,ASCII,6.4.2 MCS Message Display,AGVS,,188,,,,,,,,
+W0086,AGVS,MCS Message # 44,ASCII,6.4.2 MCS Message Display,AGVS,,189,,,,,,,,
+W0087,AGVS,MCS Message # 45,ASCII,6.4.2 MCS Message Display,AGVS,,190,,,,,,,,
+W0088,AGVS,MCS Message # 46,ASCII,6.4.2 MCS Message Display,AGVS,,191,,,,,,,,
+W0089,AGVS,MCS Message # 47,ASCII,6.4.2 MCS Message Display,AGVS,,192,,,,,,,,
+W008A,AGVS,MCS Message # 48,ASCII,6.4.2 MCS Message Display,AGVS,,193,,,,,,,,
+W008B,AGVS,MCS Message # 49,ASCII,6.4.2 MCS Message Display,AGVS,,194,,,,,,,,
+W008C,AGVS,MCS Message # 50,ASCII,6.4.2 MCS Message Display,AGVS,,195,,,,,,,,
+W008D,AGVS,MCS Message # 51,ASCII,6.4.2 MCS Message Display,AGVS,,196,,,,,,,,
+W008E,AGVS,MCS Message # 52,ASCII,6.4.2 MCS Message Display,AGVS,,197,,,,,,,,
+W008F,AGVS,MCS Message # 53,ASCII,6.4.2 MCS Message Display,AGVS,,198,,,,,,,,
+W0090,AGVS,MCS Message # 54,ASCII,6.4.2 MCS Message Display,AGVS,,199,,,,,,,,
+W0091,AGVS,MCS Message # 55,ASCII,6.4.2 MCS Message Display,AGVS,,200,,,,,,,,
+W0092,AGVS,MCS Message # 56,ASCII,6.4.2 MCS Message Display,AGVS,,201,,,,,,,,
+W0093,AGVS,MCS Message # 57,ASCII,6.4.2 MCS Message Display,AGVS,,202,,,,,,,,
+W0094,AGVS,MCS Message # 58,ASCII,6.4.2 MCS Message Display,AGVS,,203,,,,,,,,
+W0095,AGVS,MCS Message # 59,ASCII,6.4.2 MCS Message Display,AGVS,,204,,,,,,,,
+W0096,AGVS,MCS Message # 60,ASCII,6.4.2 MCS Message Display,AGVS,,205,,,,,,,,
+W0097,AGVS,MCS Message # 61,ASCII,6.4.2 MCS Message Display,AGVS,,206,,,,,,,,
+W0098,AGVS,MCS Message # 62,ASCII,6.4.2 MCS Message Display,AGVS,,207,,,,,,,,
+W0099,AGVS,MCS Message # 63,ASCII,6.4.2 MCS Message Display,AGVS,,208,,,,,,,,
+W009A,AGVS,MCS Message # 64,ASCII,6.4.2 MCS Message Display,AGVS,,209,,,,,,,,
+W009B,AGVS,MCS Message # 65,ASCII,6.4.2 MCS Message Display,AGVS,,210,,,,,,,,
+W009C,AGVS,MCS Message # 66,ASCII,6.4.2 MCS Message Display,AGVS,,211,,,,,,,,
+W009D,AGVS,MCS Message # 67,ASCII,6.4.2 MCS Message Display,AGVS,,212,,,,,,,,
+W009E,AGVS,MCS Message # 68,ASCII,6.4.2 MCS Message Display,AGVS,,213,,,,,,,,
+W009F,AGVS,MCS Message # 69,ASCII,6.4.2 MCS Message Display,AGVS,,214,,,,,,,,
+W00A0,AGVS,MCS Message # 70,ASCII,6.4.2 MCS Message Display,AGVS,,215,,,,,,,,
+W00A1,AGVS,MCS Message # 71,ASCII,6.4.2 MCS Message Display,AGVS,,216,,,,,,,,
+W00A2,AGVS,MCS Message # 72,ASCII,6.4.2 MCS Message Display,AGVS,,217,,,,,,,,
+W00A3,AGVS,MCS Message # 73,ASCII,6.4.2 MCS Message Display,AGVS,,218,,,,,,,,
+W00A4,AGVS,MCS Message # 74,ASCII,6.4.2 MCS Message Display,AGVS,,219,,,,,,,,
+W00A5,AGVS,MCS Message # 75,ASCII,6.4.2 MCS Message Display,AGVS,,220,,,,,,,,
+W00A6,AGVS,MCS Message # 76,ASCII,6.4.2 MCS Message Display,AGVS,,221,,,,,,,,
+W00A7,AGVS,MCS Message # 77,ASCII,6.4.2 MCS Message Display,AGVS,,222,,,,,,,,
+W00A8,AGVS,MCS Message # 78,ASCII,6.4.2 MCS Message Display,AGVS,,223,,,,,,,,
+W00A9,AGVS,MCS Message # 79,ASCII,6.4.2 MCS Message Display,AGVS,,224,,,,,,,,
+W00AA,AGVS,MCS Message # 80,ASCII,6.4.2 MCS Message Display,AGVS,,225,,,,,,,,
+W00AB,AGVS,MCS Message # 81,ASCII,6.4.2 MCS Message Display,AGVS,,226,,,,,,,,
+W00AC,AGVS,MCS Message # 82,ASCII,6.4.2 MCS Message Display,AGVS,,227,,,,,,,,
+W00AD,AGVS,MCS Message # 83,ASCII,6.4.2 MCS Message Display,AGVS,,228,,,,,,,,
+W00AE,AGVS,MCS Message # 84,ASCII,6.4.2 MCS Message Display,AGVS,,229,,,,,,,,
+W00AF,AGVS,MCS Message # 85,ASCII,6.4.2 MCS Message Display,AGVS,,230,,,,,,,,
+W00B0,AGVS,MCS Message # 86,ASCII,6.4.2 MCS Message Display,AGVS,,231,,,,,,,,
+W00B1,AGVS,MCS Message # 87,ASCII,6.4.2 MCS Message Display,AGVS,,232,,,,,,,,
+W00B2,AGVS,MCS Message # 88,ASCII,6.4.2 MCS Message Display,AGVS,,233,,,,,,,,
+W00B3,AGVS,MCS Message # 89,ASCII,6.4.2 MCS Message Display,AGVS,,234,,,,,,,,
+W00B4,AGVS,MCS Message # 90,ASCII,6.4.2 MCS Message Display,AGVS,,235,,,,,,,,
+W00B5,AGVS,MCS Message # 91,ASCII,6.4.2 MCS Message Display,AGVS,,236,,,,,,,,
+W00B6,AGVS,MCS Message # 92,ASCII,6.4.2 MCS Message Display,AGVS,,237,,,,,,,,
+W00B7,AGVS,MCS Message # 93,ASCII,6.4.2 MCS Message Display,AGVS,,238,,,,,,,,
+W00B8,AGVS,MCS Message # 94,ASCII,6.4.2 MCS Message Display,AGVS,,239,,,,,,,,
+W00B9,AGVS,MCS Message # 95,ASCII,6.4.2 MCS Message Display,AGVS,,240,,,,,,,,
+W00BA,AGVS,MCS Message # 96,ASCII,6.4.2 MCS Message Display,AGVS,,241,,,,,,,,
+W00BB,AGVS,MCS Message # 97,ASCII,6.4.2 MCS Message Display,AGVS,,242,,,,,,,,
+W00BC,AGVS,MCS Message # 98,ASCII,6.4.2 MCS Message Display,AGVS,,243,,,,,,,,
+W00BD,AGVS,MCS Message # 99,ASCII,6.4.2 MCS Message Display,AGVS,,244,,,,,,,,
+W00BE,AGVS,MCS Message # 100,ASCII,6.4.2 MCS Message Display,AGVS,,245,,,,,,,,
+W00BF,AGVS,,,,AGVS,,,,,,,,,,
+W00C0,AGVS,,,,AGVS,,,,,,,,,,
+W00C1,AGVS,,,,AGVS,,,,,,,,,,
+W00C2,AGVS,,,,AGVS,,,,,,,,,,
+W00C3,AGVS,,,,AGVS,,,,,,,,,,
+W00C4,AGVS,,,,AGVS,,,,,,,,,,
+W00C5,AGVS,,,,AGVS,,,,,,,,,,
+W00C6,AGVS,,,,AGVS,,,,,,,,,,
+W00C7,AGVS,,,,AGVS,,,,,,,,,,
+W00C8,AGVS,,,,AGVS,,,,,,,,,,
