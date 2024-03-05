@@ -195,7 +195,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         public async Task<(bool confirm, ALARM_CODES alarm_code)> CarrierWaitInReply(bool wait_in_accept, int EQ_T_timeout = 5000)
         {
-            Utility.SystemLogger.Info($"Carrier Wait In HS Start");
+            Utility.SystemLogger.Info($"[{PortName}]-Carrier Wait In HS Start");
             bool timeout = false;
             PROPERTY wait_in_ = wait_in_accept ? PROPERTY.Carrier_WaitIn_System_Accept : PROPERTY.Carrier_WaitIn_System_Refuse;
             string? carrier_wait_in_result_flag_address = PortCIMBitAddress[wait_in_];
@@ -244,6 +244,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 Utility.SystemLogger.Info($"[{PortName}] Carrier Wait In HS Failed");
             }
             wait_in_timer.Stop();
+
+            Utility.SystemLogger.Info($"[{PortName}]-Carrier Wait In HS FINISH!");
             return (!timeout, timeout ? ALARM_CODES.CarrierWaitIn_HS_EQ_Timeout : ALARM_CODES.None);
 
         }

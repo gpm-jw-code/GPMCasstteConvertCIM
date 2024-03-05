@@ -122,7 +122,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             var owner_str = add.EOwner == clsMemoryAddress.OWNER.CIM ? "CIM/AGVS" : "EQ";
             try
             {
-                if (add.EScope == EQ_SCOPE.PORT1 | add.EScope == EQ_SCOPE.PORT2)
+                if (add.EScope == EQ_SCOPE.PORT1 || add.EScope == EQ_SCOPE.PORT2)
                 {
                     var portID = add.EScope == EQ_SCOPE.PORT1 ? 0 : 1;
                     var port = PortDatas.FirstOrDefault(p => p.Properties.PortNo == portID);

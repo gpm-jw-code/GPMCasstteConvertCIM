@@ -418,6 +418,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 if (_WIPINFO_BCR_ID != value)
                 {
                     _WIPINFO_BCR_ID = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("WIPINFO_BCR_ID"));
+
                     if (value != "")
                     {
                         string thisPortDUID = string.Empty;

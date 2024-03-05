@@ -48,6 +48,7 @@
             To_EQ_Low = new DataGridViewCheckBoxColumn();
             CMD_Reserve_Up = new DataGridViewCheckBoxColumn();
             CMD_Reserve_Low = new DataGridViewCheckBoxColumn();
+            WIPINFO_BCR_ID = new DataGridViewTextBoxColumn();
             colModbus = new DataGridViewButtonColumn();
             colIOSim = new DataGridViewCheckBoxColumn();
             colSettings = new DataGridViewButtonColumn();
@@ -83,7 +84,7 @@
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
             dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             dataGridView1.ColumnHeadersHeight = 60;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { EqName, PortName, StatusMemStartAddress, dataGridViewCheckBoxColumn1, unloadRequestDataGridViewCheckBoxColumn, portExistDataGridViewCheckBoxColumn, lDUPPOSDataGridViewCheckBoxColumn, lDDOWNPOSDataGridViewCheckBoxColumn, portStatusDownDataGridViewCheckBoxColumn, To_EQ_UP, To_EQ_Low, CMD_Reserve_Up, CMD_Reserve_Low, colModbus, colIOSim, colSettings });
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { EqName, PortName, StatusMemStartAddress, dataGridViewCheckBoxColumn1, unloadRequestDataGridViewCheckBoxColumn, portExistDataGridViewCheckBoxColumn, lDUPPOSDataGridViewCheckBoxColumn, lDDOWNPOSDataGridViewCheckBoxColumn, portStatusDownDataGridViewCheckBoxColumn, To_EQ_UP, To_EQ_Low, CMD_Reserve_Up, CMD_Reserve_Low, WIPINFO_BCR_ID, colModbus, colIOSim, colSettings });
             dataGridView1.DataSource = clsConverterPortBindingSource;
             dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle4.BackColor = Color.Transparent;
@@ -211,6 +212,13 @@
             CMD_Reserve_Low.HeaderText = "CMD Reserve Low";
             CMD_Reserve_Low.Name = "CMD_Reserve_Low";
             CMD_Reserve_Low.ReadOnly = true;
+            // 
+            // WIPINFO_BCR_ID
+            // 
+            WIPINFO_BCR_ID.DataPropertyName = "WIPINFO_BCR_ID";
+            WIPINFO_BCR_ID.HeaderText = "BCR_ID";
+            WIPINFO_BCR_ID.Name = "WIPINFO_BCR_ID";
+            WIPINFO_BCR_ID.ReadOnly = true;
             // 
             // colModbus
             // 
@@ -369,6 +377,7 @@
         private DataGridViewCheckBoxColumn To_EQ_Low;
         private DataGridViewCheckBoxColumn CMD_Reserve_Up;
         private DataGridViewCheckBoxColumn CMD_Reserve_Low;
+        private DataGridViewTextBoxColumn WIPINFO_BCR_ID;
         private DataGridViewButtonColumn colModbus;
         private DataGridViewCheckBoxColumn colIOSim;
         private DataGridViewButtonColumn colSettings;

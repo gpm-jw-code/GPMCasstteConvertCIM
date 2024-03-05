@@ -56,7 +56,7 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
 
             try
             {
-                if (add.EScope == EQ_SCOPE.PORT1 | add.EScope == EQ_SCOPE.PORT2)
+                if (add.EScope == EQ_SCOPE.PORT1 || add.EScope == EQ_SCOPE.PORT2)
                 {
                     var stationName = station == null ? "" : station.PortDatas[add.EScope == EQ_SCOPE.PORT1 ? 0 : 1].PortName;
                     _IOLogger.Log($"{Name}-{stationName}-->[{owner_str}]{add.DataName}({add.Address}) Changed to [{add.Value}]", stationName);

@@ -108,7 +108,7 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
         protected override void PLCMemoryDatatToEQDataDTO()
         {
             //PORTS
-            if (Eq_Name == EQ_NAMES.TS_1 | Eq_Name == EQ_NAMES.TS_2_1 | Eq_Name == EQ_NAMES.TS_2_2 | Eq_Name == EQ_NAMES.TS_3)
+            if (Eq_Name == EQ_NAMES.TS_1 || Eq_Name == EQ_NAMES.TS_2_1 || Eq_Name == EQ_NAMES.TS_2_2 || Eq_Name == EQ_NAMES.TS_3)
             {
                 base.LinkBitMap = this.LinkBitMap;
                 base.LinkWordMap = this.LinkWordMap;
