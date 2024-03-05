@@ -803,7 +803,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         {
             try
             {
-
                 Utility.SystemLogger.Info($"{PortName} Update BCR ID to CIM Memory Table");
                 clsMemoryAddress? agvs_msg_1_address = EQParent.LinkWordMap.FirstOrDefault(v => Properties.PortNo == 0 ? v.EProperty == PROPERTY.AGVS_MSG_1 : v.EProperty == PROPERTY.AGVS_MSG_17);
                 clsMemoryAddress? agvs_msg_download_inedx_address = EQParent.LinkWordMap.FirstOrDefault(v => v.EProperty == PROPERTY.AGVS_MSG_DOWNLOAD_INDEX);
@@ -821,7 +820,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             }
             catch (Exception ex)
             {
-                throw ex;
+                Utility.SystemLogger.Error(ex);
+                AlarmManager.AddAlarm(ALARM_CODES.BCRID_SYNC_TO_AGVS_WORD_REGION_FAIL, PortName);
             }
         }
 
