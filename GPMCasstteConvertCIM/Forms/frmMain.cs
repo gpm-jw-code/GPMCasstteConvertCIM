@@ -74,7 +74,7 @@ namespace GPMCasstteConvertCIM.Forms
             DBhelper.Initialize();
             Utility.LoadConfigs();
             Text = $"GPM AGVS CIM-V{Assembly.GetExecutingAssembly().GetName().Version.ToString()} {(Environment.Is64BitProcess ? "" : "(x86)")}-{Utility.SysConfigs.Project}";
-
+            Äµ³ø¾¹IOª¬ºAToolStripMenuItem.Visible = Utility.ModbusDeviceConfigs.Enable;
             Task.Run(async () =>
             {
                 await Task.Delay(500);
