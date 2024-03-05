@@ -199,10 +199,10 @@ WW00C4,AGVS,,,,AGVS,,,TS_1,,,,,WW,196,WWC4
 WW00C5,AGVS,,,,AGVS,,,TS_1,,,,,WW,197,WWC5
 WW00C6,AGVS,,,,AGVS,,,TS_1,,,,,WW,198,WWC6
 WW00C7,AGVS,,,,AGVS,,,TS_1,,,,,WW,199,WWC7
-WW00C8,AGVS,Interface Clock ,Binary,6.1 Alive Check,AGVS,,55,TS_2_1,,,,,WW,200,WWC8
+WW00C8,AGVS,Interface Clock ,Binary,6.1 Alive Check,AGVS,Interface_Clock,55,TS_2_1,,,,,WW,200,WWC8
 WW00C9,AGVS,,,,,,56,TS_2_1,,,,,WW,201,WWC9
-WW00CA,AGVS,Port1 - Port Mode Status Request,Binary,7.6 Port Mode Change Request,PORT1,,57,TS_2_1,,,,,WW,202,WWCA
-WW00CB,AGVS,Port2 - Port Mode Status Request,Binary,7.6 Port Mode Change Request,PORT2,,58,TS_2_1,,,,,WW,203,WWCB
+WW00CA,AGVS,Port1 - Port Mode Status Request,Binary,7.6 Port Mode Change Request,PORT1,Port_Type_Status,57,TS_2_1,,,,,WW,202,WWCA
+WW00CB,AGVS,Port2 - Port Mode Status Request,Binary,7.6 Port Mode Change Request,PORT2,Port_Type_Status,58,TS_2_1,,,,,WW,203,WWCB
 WW00CC,AGVS,,,,,,59,TS_2_1,,,,,WW,204,WWCC
 WW00CD,AGVS,,,,,,60,TS_2_1,,,,,WW,205,WWCD
 WW00CE,AGVS,AGVS Message Download Index,Binary,6.4.1 AGVS Message Display,AGVS,,61,TS_2_1,,,,,WW,206,WWCE
@@ -399,10 +399,10 @@ WW018C,AGVS,,,,AGVS,,,TS_2_1,,,,,WW,396,WW18C
 WW018D,AGVS,,,,AGVS,,,TS_2_1,,,,,WW,397,WW18D
 WW018E,AGVS,,,,AGVS,,,TS_2_1,,,,,WW,398,WW18E
 WW018F,AGVS,,,,AGVS,,,TS_2_1,,,,,WW,399,WW18F
-WW0190,AGVS,Interface Clock ,Binary,6.1 Alive Check,AGVS,,55,TS_2_2,,,,,WW,400,WW190
+WW0190,AGVS,Interface Clock ,Binary,6.1 Alive Check,AGVS,Interface_Clock,55,TS_2_2,,,,,WW,400,WW190
 WW0191,AGVS,,,,,,56,TS_2_2,,,,,WW,401,WW191
-WW0192,AGVS,Port1 - Port Mode Status Request,Binary,7.6 Port Mode Change Request,PORT1,,57,TS_2_2,,,,,WW,402,WW192
-WW0193,AGVS,Port2 - Port Mode Status Request,Binary,7.6 Port Mode Change Request,PORT2,,58,TS_2_2,,,,,WW,403,WW193
+WW0192,AGVS,Port1 - Port Mode Status Request,Binary,7.6 Port Mode Change Request,PORT1,Port_Type_Status,57,TS_2_2,,,,,WW,402,WW192
+WW0193,AGVS,Port2 - Port Mode Status Request,Binary,7.6 Port Mode Change Request,PORT2,Port_Type_Status,58,TS_2_2,,,,,WW,403,WW193
 WW0194,AGVS,,,,,,59,TS_2_2,,,,,WW,404,WW194
 WW0195,AGVS,,,,,,60,TS_2_2,,,,,WW,405,WW195
 WW0196,AGVS,AGVS Message Download Index,Binary,6.4.1 AGVS Message Display,AGVS,,61,TS_2_2,,,,,WW,406,WW196
@@ -599,10 +599,10 @@ WW0254,AGVS,,,,AGVS,,,TS_2_2,,,,,WW,596,WW254
 WW0255,AGVS,,,,AGVS,,,TS_2_2,,,,,WW,597,WW255
 WW0256,AGVS,,,,AGVS,,,TS_2_2,,,,,WW,598,WW256
 WW0257,AGVS,,,,AGVS,,,TS_2_2,,,,,WW,599,WW257
-WW0258,AGVS,Interface Clock ,Binary,6.1 Alive Check,AGVS,,55,TS_3,,,,,WW,600,WW258
+WW0258,AGVS,Interface Clock ,Binary,6.1 Alive Check,AGVS,Interface_Clock,55,TS_3,,,,,WW,600,WW258
 WW0259,AGVS,,,,,,56,TS_3,,,,,WW,601,WW259
-WW025A,AGVS,Port1 - Port Mode Status Request,Binary,7.6 Port Mode Change Request,PORT1,,57,TS_3,,,,,WW,602,WW25A
-WW025B,AGVS,Port2 - Port Mode Status Request,Binary,7.6 Port Mode Change Request,PORT2,,58,TS_3,,,,,WW,603,WW25B
+WW025A,AGVS,Port1 - Port Mode Status Request,Binary,7.6 Port Mode Change Request,PORT1,Port_Type_Status,57,TS_3,,,,,WW,602,WW25A
+WW025B,AGVS,Port2 - Port Mode Status Request,Binary,7.6 Port Mode Change Request,PORT2,Port_Type_Status,58,TS_3,,,,,WW,603,WW25B
 WW025C,AGVS,,,,,,59,TS_3,,,,,WW,604,WW25C
 WW025D,AGVS,,,,,,60,TS_3,,,,,WW,605,WW25D
 WW025E,AGVS,AGVS Message Download Index,Binary,6.4.1 AGVS Message Display,AGVS,,61,TS_3,,,,,WW,606,WW25E

@@ -74,13 +74,17 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
                 {
                     await Task.Delay(TimeSpan.FromSeconds(4));
 
-                    var interfaceClockAddress = cclink_master.LinkWordMap.FirstOrDefault(w => w.EOwner == clsMemoryAddress.OWNER.CIM && w.EProperty == PROPERTY.Interface_Clock);
+                    var interfaceClockAddress = LinkWordMap.FirstOrDefault(w => w.EOwner == clsMemoryAddress.OWNER.CIM && w.EProperty == PROPERTY.Interface_Clock);
                     if (interfaceClockAddress != null)
                     {
                         int clock = (int)interfaceClockAddress.Value;
                         int newClock = clock + 1;
                         newClock = newClock == 256 ? 0 : newClock;
                         cclink_master.CIMMemOptions.memoryTable.WriteBinary(interfaceClockAddress.Address, newClock);
+                    }
+                    else
+                    {
+
                     }
 
                 }
