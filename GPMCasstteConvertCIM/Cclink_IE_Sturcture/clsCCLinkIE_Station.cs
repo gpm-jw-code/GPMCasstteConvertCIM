@@ -262,6 +262,15 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
                 }
             }
         }
+
+        protected override void ReportBCRToAGVS(clsMemoryAddress? agvs_msg_1_address, clsMemoryAddress? agvs_msg_download_inedx_address, int[] bcr_id_ints)
+        {
+            DevicesManager.cclink_master.CIMMemOptions.memoryTable.WriteWord(agvs_msg_1_address.Address, ref bcr_id_ints);
+            int[] vals = new int[1];
+            DevicesManager.cclink_master.CIMMemOptions.memoryTable.ReadWord(agvs_msg_download_inedx_address.Address, 1, ref vals);
+            vals[0] = vals[0] == int.MaxValue ? 0 : vals[0] + 1;
+            DevicesManager.cclink_master.CIMMemOptions.memoryTable.WriteWord(agvs_msg_download_inedx_address.Address, ref vals);
+        }
     }
 
 }
