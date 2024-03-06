@@ -244,8 +244,6 @@ namespace GPMCasstteConvertCIM.Utilities
 
         protected void StoreLogItemToQueue(DateTime time, LOG_LEVEL log_level, string logStr, string subFolder = "")
         {
-            if (LogItemsQueue.Count > 50)
-                LogItemsQueue.Clear();
             LogItemsQueue.Enqueue(new clsLogItem
             {
                 time = time,
