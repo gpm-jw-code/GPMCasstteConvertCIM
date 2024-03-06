@@ -200,47 +200,46 @@ namespace GPMCasstteConvertCIM.Utilities
 
         private async Task WriteLogWorker()
         {
-            await Task.Run(async () =>
+            await Task.Delay(50); // 替换 Thread.Sleep 为 Task.Delay
+
+            while (true)
             {
-                while (true)
+                await Task.Delay(50); // 替换 Thread.Sleep 为 Task.Delay
+                try
                 {
-                    await Task.Delay(50); // 替换 Thread.Sleep 为 Task.Delay
-                    try
+                    if (LogItemsQueue.Count == 0)
+                        continue;
+
+                    if (!LogItemsQueue.TryDequeue(out clsLogItem? logItem) || logItem == null)
+                        continue;
+
+                    if (string.IsNullOrWhiteSpace(saveFolder) || string.IsNullOrWhiteSpace(logItem.msg))
                     {
-                        if (LogItemsQueue.Count == 0)
-                            continue;
-
-                        if (!LogItemsQueue.TryDequeue(out clsLogItem? logItem) || logItem == null)
-                            continue;
-
-                        if (string.IsNullOrWhiteSpace(saveFolder) || string.IsNullOrWhiteSpace(logItem.msg))
-                        {
-                            logItem.Dispose();
-                            continue;
-                        }
-
-                        string folder = Path.Combine(saveFolder, DateTime.Now.ToString("yyyy-MM-dd"), subFolderName, logItem.sub_folder_name);
-                        if (!Directory.Exists(folder))
-                            Directory.CreateDirectory(folder);
-                        currentLogFolder = folder;
-                        string log_file = Path.Combine(folder, $"{FileNameHeaderDisplay}{DateTime.Now.ToString(FileTimeFormat)}.log");
-                        string writeLine = $"{logItem.time:yyyy/MM/dd HH:mm:ss.ffffff} [{logItem.level}] {logItem.msg}";
-
-                        await File.AppendAllTextAsync(log_file, writeLine + Environment.NewLine);
-
-                        if (logItem.level != LOG_LEVEL.INFO)
-                        {
-                            string Warn_Error_log_file = Path.Combine(folder, $"{FileNameHeaderDisplay}{DateTime.Now.ToString(FileTimeFormat)}_{logItem.level}.log");
-                            await File.AppendAllTextAsync(Warn_Error_log_file, writeLine + Environment.NewLine);
-                        }
                         logItem.Dispose();
+                        continue;
                     }
-                    catch (Exception ex)
+
+                    string folder = Path.Combine(saveFolder, DateTime.Now.ToString("yyyy-MM-dd"), subFolderName, logItem.sub_folder_name);
+                    if (!Directory.Exists(folder))
+                        Directory.CreateDirectory(folder);
+                    currentLogFolder = folder;
+                    string log_file = Path.Combine(folder, $"{FileNameHeaderDisplay}{DateTime.Now.ToString(FileTimeFormat)}.log");
+                    string writeLine = $"{logItem.time:yyyy/MM/dd HH:mm:ss.ffffff} [{logItem.level}] {logItem.msg}";
+
+                    await File.AppendAllTextAsync(log_file, writeLine + Environment.NewLine);
+
+                    if (logItem.level != LOG_LEVEL.INFO)
                     {
-                        Console.WriteLine($"Logging error: {ex.Message}");
+                        string Warn_Error_log_file = Path.Combine(folder, $"{FileNameHeaderDisplay}{DateTime.Now.ToString(FileTimeFormat)}_{logItem.level}.log");
+                        await File.AppendAllTextAsync(Warn_Error_log_file, writeLine + Environment.NewLine);
                     }
+                    logItem.Dispose();
                 }
-            });
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Logging error: {ex.Message}");
+                }
+            }
         }
 
         protected void StoreLogItemToQueue(DateTime time, LOG_LEVEL log_level, string logStr, string subFolder = "")
