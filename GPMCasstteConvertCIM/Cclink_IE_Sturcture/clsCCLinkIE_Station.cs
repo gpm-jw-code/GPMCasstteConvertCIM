@@ -222,10 +222,10 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
                     }
                 }
             });
-            Task.Run(() =>
-            {
-                CheckDiscardInputWriteResultBackgroundWorker();
-            });
+            //Task.Run(() =>
+            //{
+            //    CheckDiscardInputWriteResultBackgroundWorker();
+            //});
         }
 
         protected override void SyncEQHoldingRegistersWorker()
