@@ -63,7 +63,12 @@ namespace GPMCasstteConvertCIM.Utilities
             _richTextBox = richTextBox;
             if (richTextBox != null)
                 _richTextBox.TextChanged += _richTextBox_TextChanged;
-            WriteLogWorker();
+
+
+            Task.Run(() =>
+            {
+                WriteLogWorker();
+            });
         }
 
         private void _richTextBox_TextChanged(object? sender, EventArgs e)
@@ -204,7 +209,7 @@ namespace GPMCasstteConvertCIM.Utilities
 
             while (true)
             {
-                await Task.Delay(50); // 替换 Thread.Sleep 为 Task.Delay
+                await Task.Delay(1); // 替换 Thread.Sleep 为 Task.Delay
                 try
                 {
                     if (LogItemsQueue.Count == 0)
