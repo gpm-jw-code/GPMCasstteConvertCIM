@@ -143,6 +143,16 @@ namespace GPMCasstteConvertCIM.Forms
                             uscAlarmTable1.alarmListBinding.ResetBindings();
                         }));
                     };
+                    AlarmManager.onUnHandleExceptionOccur += (sender, alarm) =>
+                    {
+                        UnHandleExpLabelAnimation();
+                    };
+
+                    AlarmManager.onUnHandleExceptionAllClear += (sender, alarm) =>
+                    {
+                        UnHandleExpLabelAnimationStop();
+                    };
+
                     SetCurrentEncodingName();
 
                     if (!Utility.SysConfigs.PostOrderInfoToAGV)
@@ -185,6 +195,41 @@ namespace GPMCasstteConvertCIM.Forms
 #endif
                 }));
             });
+
+        }
+
+        private void UnHandleExpLabelAnimationStop()
+        {
+            if (UnHandleExpLabelAnumationTimer == null)
+                return;
+            UnHandleExpLabelAnumationTimer.Enabled = false;
+            labUnHandleExceptions.Visible = false;
+        }
+
+        System.Windows.Forms.Timer UnHandleExpLabelAnumationTimer;
+        private void UnHandleExpLabelAnimation()
+        {
+            labUnHandleExceptions.Visible = true;
+            if (UnHandleExpLabelAnumationTimer == null)
+            {
+                Color bgColor1 = Color.White;
+                Color bgColor2 = Color.Red;
+
+                Color foreColor1 = Color.Red;
+                Color foreColor2 = Color.White;
+
+                UnHandleExpLabelAnumationTimer = new System.Windows.Forms.Timer()
+                {
+                    Interval = 1000,
+                };
+                UnHandleExpLabelAnumationTimer.Tick += (sender, e) =>
+                {
+                    labUnHandleExceptions.BackColor = labUnHandleExceptions.BackColor == bgColor1 ? bgColor2 : bgColor1;
+                    labUnHandleExceptions.ForeColor = labUnHandleExceptions.ForeColor == foreColor1 ? foreColor2 : foreColor1;
+                };
+            }
+
+            UnHandleExpLabelAnumationTimer.Enabled = true;
 
         }
 
@@ -720,6 +765,16 @@ namespace GPMCasstteConvertCIM.Forms
             {
                 throw new Exception("¨Ò¥~®·®»´ú¸Õ");
             });
+        }
+
+        private void labUnHandleExceptions_Click(object sender, EventArgs e)
+        {
+            frmUnHandleExceptionViewer exceptionViewer = new frmUnHandleExceptionViewer()
+            {
+                WindowState = FormWindowState.Maximized,
+                StartPosition = FormStartPosition.CenterScreen
+            };
+            exceptionViewer.Show();
         }
     }
 }

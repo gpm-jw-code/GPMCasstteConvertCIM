@@ -98,5 +98,27 @@ namespace GPMCasstteConvertCIM
                 throw;
             }
         }
+
+        internal static async Task<List<clsExceptionDto>> GetExceptionsAsync()
+        {
+            return await Task.Run(() => db.Table<clsExceptionDto>().ToList());
+        }
+
+        internal static async Task ChangeExecptionCheckStateAsync(DateTime key, bool checkState)
+        {
+            var table = db.Table<clsExceptionDto>();
+            var exception = table.FirstOrDefault(ex => ex.Time == key);
+            if (exception != null)
+            {
+                exception.IsChecked = checkState;
+                db.Update(exception);
+            }
+
+        }
+
+        internal static void ClearExceptionsRecords()
+        {
+            db.DeleteAll<clsExceptionDto>();
+        }
     }
 }

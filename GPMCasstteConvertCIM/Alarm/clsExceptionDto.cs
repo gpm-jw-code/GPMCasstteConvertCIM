@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SQLite;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace GPMCasstteConvertCIM.Alarm
 {
     public class clsExceptionDto
     {
-        [Key]
+        [PrimaryKey]
         public DateTime Time { get; set; }
         public string ErrorMessage { get; set; } = "";
 

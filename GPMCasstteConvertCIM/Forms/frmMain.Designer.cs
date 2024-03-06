@@ -105,6 +105,7 @@
             label1 = new Label();
             statusStrip1 = new StatusStrip();
             toolStripStatusLabel1 = new ToolStripStatusLabel();
+            labUnHandleExceptions = new ToolStripStatusLabel();
             labWebServerUrl = new ToolStripStatusLabel();
             labCurrentEncodingName = new ToolStripStatusLabel();
             labSysTime = new ToolStripStatusLabel();
@@ -996,7 +997,7 @@
             // 
             statusStrip1.BackColor = Color.FromArgb(0, 57, 155);
             statusStrip1.ImageScalingSize = new Size(20, 20);
-            statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel1, labWebServerUrl, labCurrentEncodingName, labSysTime });
+            statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel1, labUnHandleExceptions, labWebServerUrl, labCurrentEncodingName, labSysTime });
             statusStrip1.Location = new Point(0, 816);
             statusStrip1.Name = "statusStrip1";
             statusStrip1.Size = new Size(1407, 22);
@@ -1011,11 +1012,23 @@
             toolStripStatusLabel1.LinkColor = Color.FromArgb(53, 53, 53);
             toolStripStatusLabel1.Margin = new Padding(0);
             toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            toolStripStatusLabel1.Size = new Size(1112, 22);
+            toolStripStatusLabel1.Size = new Size(1039, 22);
             toolStripStatusLabel1.Spring = true;
             toolStripStatusLabel1.Text = "GPM AGV SYSTEM CIM";
             toolStripStatusLabel1.TextAlign = ContentAlignment.MiddleLeft;
             toolStripStatusLabel1.Click += toolStripStatusLabel1_Click;
+            // 
+            // labUnHandleExceptions
+            // 
+            labUnHandleExceptions.BackColor = Color.Red;
+            labUnHandleExceptions.BorderStyle = Border3DStyle.Etched;
+            labUnHandleExceptions.ForeColor = Color.White;
+            labUnHandleExceptions.Margin = new Padding(0, 0, 6, 0);
+            labUnHandleExceptions.Name = "labUnHandleExceptions";
+            labUnHandleExceptions.Size = new Size(67, 22);
+            labUnHandleExceptions.Text = "未捕捉例外";
+            labUnHandleExceptions.Visible = false;
+            labUnHandleExceptions.Click += labUnHandleExceptions_Click;
             // 
             // labWebServerUrl
             // 
@@ -1309,5 +1322,6 @@
         private ToolStripMenuItem dEBUGToolStripMenuItem;
         private ToolStripMenuItem webServerExceptionToolStripMenuItem;
         private ToolStripMenuItem openAllModbusEmuToolStripMenuItem;
+        private ToolStripStatusLabel labUnHandleExceptions;
     }
 }

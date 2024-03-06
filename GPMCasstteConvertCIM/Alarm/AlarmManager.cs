@@ -16,6 +16,8 @@ namespace GPMCasstteConvertCIM.Alarm
 
         public static event EventHandler<clsAlarmDto> onAlarmAdded;
         public static event EventHandler onAlarmDBChanged;
+        public static event EventHandler onUnHandleExceptionOccur;
+        public static event EventHandler onUnHandleExceptionAllClear;
 
         internal static void LoadNewestAlarmsFromDatabase(int count = 30)
         {
@@ -136,6 +138,13 @@ namespace GPMCasstteConvertCIM.Alarm
         internal static void AddExceptionRecored(clsExceptionDto exceptionDto)
         {
             DBhelper.AddExceptionRecord(exceptionDto);
+            onUnHandleExceptionOccur?.Invoke(null, null);
+        }
+
+        internal static void ClearAlldExceptionRecored()
+        {
+            DBhelper.ClearExceptionsRecords();
+            onUnHandleExceptionAllClear?.Invoke(null, null);
         }
     }
 }
