@@ -16,7 +16,8 @@ namespace GPMCasstteConvertCIM
                 var databasePath = Path.Combine(Environment.CurrentDirectory, $"{dbName}.db");
                 db = new SQLiteConnection(databasePath);
                 db.CreateTable<clsAlarmDto>();
-                DBFileName= databasePath;
+                db.CreateTable<clsExceptionDto>();
+                DBFileName = databasePath;
             }
             catch (System.Exception ex)
             {
@@ -85,5 +86,17 @@ namespace GPMCasstteConvertCIM
             }
         }
 
+        internal static void AddExceptionRecord(clsExceptionDto exceptionDto)
+        {
+            try
+            {
+                db.Insert(exceptionDto);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

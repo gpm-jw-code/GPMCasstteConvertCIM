@@ -1,4 +1,5 @@
-﻿using GPMCasstteConvertCIM.DataBase.KGS_AGVs;
+﻿using GPMCasstteConvertCIM.Alarm;
+using GPMCasstteConvertCIM.DataBase.KGS_AGVs;
 using GPMCasstteConvertCIM.Forms;
 using GPMCasstteConvertCIM.Utilities;
 using GPMCasstteConvertCIM.WebServer;
@@ -19,14 +20,19 @@ namespace GPMCasstteConvertCIM
         static void Main()
         {
             CheckProgramOpenState();
-            Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
-            Application.ThreadException += Application_ThreadException; ;
-            Application.SetCompatibleTextRenderingDefault(false);
+
             ApplicationConfiguration.Initialize();
             StartBGAPP();
             EnvironmentVariables.AddUserVariable("GPM_CIM_Path", Environment.CurrentDirectory);
+
+
+            // 設定應用程序域的未捕捉異常處理
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+            // 設定應用程序線程的未捕捉異常處理
+            Application.ThreadException += Application_ThreadException;
             Application.Run(new frmMain());
         }
+
 
         private static void StartBGAPP()
         {
@@ -61,9 +67,30 @@ namespace GPMCasstteConvertCIM
 
         private static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
         {
-            Utility.SystemLogger.Error(e.Exception.Message, e.Exception, false);
+            LogUnHandleException(e.Exception);
+
         }
 
+        private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            var exception = (Exception)e.ExceptionObject;
+            LogUnHandleException(exception);
+        }
+
+        private static void LogUnHandleException(Exception exception)
+        {
+            exception.GetClassNameAndLine(out string clsName, out int lineNumber);
+            AlarmManager.AddExceptionRecored(new clsExceptionDto
+            {
+                Time = DateTime.Now,
+                ClassName = clsName,
+                LineNumber = lineNumber,
+                ErrorMessage = exception.Message,
+                IsChecked = false,
+            });
+            Utility.SystemLogger.Error(exception.Message, exception, true);
+
+        }
     }
 
 

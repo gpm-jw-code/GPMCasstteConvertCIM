@@ -173,7 +173,7 @@
             tabPage4.Controls.Add(usceqStatus1);
             tabPage4.Location = new Point(4, 34);
             tabPage4.Name = "tabPage4";
-            tabPage4.Padding = new Padding(3, 3, 3, 3);
+            tabPage4.Padding = new Padding(3);
             tabPage4.Size = new Size(1244, 605);
             tabPage4.TabIndex = 3;
             tabPage4.Text = "Home(007)";
@@ -184,7 +184,7 @@
             usceqStatus1.BackColor = SystemColors.ButtonShadow;
             usceqStatus1.Dock = DockStyle.Fill;
             usceqStatus1.Location = new Point(3, 3);
-            usceqStatus1.Margin = new Padding(4, 4, 4, 4);
+            usceqStatus1.Margin = new Padding(4);
             usceqStatus1.Name = "usceqStatus1";
             usceqStatus1.Size = new Size(1238, 599);
             usceqStatus1.TabIndex = 1;
@@ -196,8 +196,8 @@
             tabPage1.Controls.Add(splitContainer2);
             tabPage1.Location = new Point(4, 34);
             tabPage1.Name = "tabPage1";
-            tabPage1.Padding = new Padding(3, 3, 3, 3);
-            tabPage1.Size = new Size(1244, 615);
+            tabPage1.Padding = new Padding(3);
+            tabPage1.Size = new Size(1244, 605);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "HOME";
             // 
@@ -217,7 +217,7 @@
             // 
             splitContainer2.Panel2.BackColor = Color.White;
             splitContainer2.Panel2.Controls.Add(panel2);
-            splitContainer2.Size = new Size(1238, 609);
+            splitContainer2.Size = new Size(1238, 599);
             splitContainer2.SplitterDistance = 911;
             splitContainer2.TabIndex = 13;
             // 
@@ -236,7 +236,7 @@
             tlpConverterContainer.RowCount = 2;
             tlpConverterContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tlpConverterContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tlpConverterContainer.Size = new Size(911, 609);
+            tlpConverterContainer.Size = new Size(911, 599);
             tlpConverterContainer.TabIndex = 11;
             // 
             // tlpSingleConvertsContainer
@@ -254,7 +254,7 @@
             tlpSingleConvertsContainer.Name = "tlpSingleConvertsContainer";
             tlpSingleConvertsContainer.RowCount = 1;
             tlpSingleConvertsContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tlpSingleConvertsContainer.Size = new Size(903, 297);
+            tlpSingleConvertsContainer.Size = new Size(903, 292);
             tlpSingleConvertsContainer.TabIndex = 12;
             // 
             // panel2
@@ -264,7 +264,7 @@
             panel2.Dock = DockStyle.Fill;
             panel2.Location = new Point(0, 0);
             panel2.Name = "panel2";
-            panel2.Size = new Size(323, 609);
+            panel2.Size = new Size(323, 599);
             panel2.TabIndex = 12;
             // 
             // pnlSyslogRtbContainer
@@ -278,7 +278,7 @@
             pnlSyslogRtbContainer.Location = new Point(0, 0);
             pnlSyslogRtbContainer.Name = "pnlSyslogRtbContainer";
             pnlSyslogRtbContainer.Padding = new Padding(1);
-            pnlSyslogRtbContainer.Size = new Size(323, 609);
+            pnlSyslogRtbContainer.Size = new Size(323, 599);
             pnlSyslogRtbContainer.TabIndex = 6;
             // 
             // btnClearInfoLog
@@ -301,7 +301,7 @@
             rtbSystemLogShow.ForeColor = Color.White;
             rtbSystemLogShow.Location = new Point(1, 1);
             rtbSystemLogShow.Name = "rtbSystemLogShow";
-            rtbSystemLogShow.Size = new Size(319, 605);
+            rtbSystemLogShow.Size = new Size(319, 595);
             rtbSystemLogShow.TabIndex = 0;
             rtbSystemLogShow.Text = "";
             // 
@@ -310,8 +310,8 @@
             tabPage3.Controls.Add(uscAlarmTable1);
             tabPage3.Location = new Point(4, 34);
             tabPage3.Name = "tabPage3";
-            tabPage3.Padding = new Padding(3, 3, 3, 3);
-            tabPage3.Size = new Size(1244, 615);
+            tabPage3.Padding = new Padding(3);
+            tabPage3.Size = new Size(1244, 605);
             tabPage3.TabIndex = 2;
             tabPage3.Text = "系統警報";
             tabPage3.UseVisualStyleBackColor = true;
@@ -321,9 +321,9 @@
             uscAlarmTable1.BackColor = Color.White;
             uscAlarmTable1.Dock = DockStyle.Fill;
             uscAlarmTable1.Location = new Point(3, 3);
-            uscAlarmTable1.Margin = new Padding(4, 4, 4, 4);
+            uscAlarmTable1.Margin = new Padding(4);
             uscAlarmTable1.Name = "uscAlarmTable1";
-            uscAlarmTable1.Size = new Size(1238, 609);
+            uscAlarmTable1.Size = new Size(1238, 599);
             uscAlarmTable1.TabIndex = 0;
             // 
             // tabPage2
@@ -331,8 +331,8 @@
             tabPage2.Controls.Add(tableLayoutPanel1);
             tabPage2.Location = new Point(4, 34);
             tabPage2.Name = "tabPage2";
-            tabPage2.Padding = new Padding(3, 3, 3, 3);
-            tabPage2.Size = new Size(1244, 615);
+            tabPage2.Padding = new Padding(3);
+            tabPage2.Size = new Size(1244, 605);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "LOG";
             tabPage2.UseVisualStyleBackColor = true;
@@ -356,7 +356,7 @@
             tableLayoutPanel1.RowCount = 2;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 41F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.Size = new Size(1238, 609);
+            tableLayoutPanel1.Size = new Size(1238, 599);
             tableLayoutPanel1.TabIndex = 2;
             // 
             // checkBox2
@@ -387,7 +387,7 @@
             rtbSecsHostLog.Location = new Point(0, 41);
             rtbSecsHostLog.Margin = new Padding(0);
             rtbSecsHostLog.Name = "rtbSecsHostLog";
-            rtbSecsHostLog.Size = new Size(412, 568);
+            rtbSecsHostLog.Size = new Size(412, 558);
             rtbSecsHostLog.TabIndex = 1;
             rtbSecsHostLog.Text = "";
             // 
@@ -399,7 +399,7 @@
             rtbSecsClientLog.Location = new Point(412, 41);
             rtbSecsClientLog.Margin = new Padding(0);
             rtbSecsClientLog.Name = "rtbSecsClientLog";
-            rtbSecsClientLog.Size = new Size(412, 568);
+            rtbSecsClientLog.Size = new Size(412, 558);
             rtbSecsClientLog.TabIndex = 2;
             rtbSecsClientLog.Text = "";
             // 
@@ -450,7 +450,7 @@
             rtbModbusTcpServerLog.Location = new Point(824, 41);
             rtbModbusTcpServerLog.Margin = new Padding(0);
             rtbModbusTcpServerLog.Name = "rtbModbusTcpServerLog";
-            rtbModbusTcpServerLog.Size = new Size(414, 568);
+            rtbModbusTcpServerLog.Size = new Size(414, 558);
             rtbModbusTcpServerLog.TabIndex = 7;
             rtbModbusTcpServerLog.Text = "";
             // 
@@ -459,8 +459,8 @@
             tabAGVSInfos.Controls.Add(uscagVsInfo1);
             tabAGVSInfos.Location = new Point(4, 34);
             tabAGVSInfos.Name = "tabAGVSInfos";
-            tabAGVSInfos.Padding = new Padding(3, 3, 3, 3);
-            tabAGVSInfos.Size = new Size(1244, 615);
+            tabAGVSInfos.Padding = new Padding(3);
+            tabAGVSInfos.Size = new Size(1244, 605);
             tabAGVSInfos.TabIndex = 4;
             tabAGVSInfos.Text = "AGVs";
             tabAGVSInfos.UseVisualStyleBackColor = true;
@@ -470,9 +470,9 @@
             uscagVsInfo1.BorderStyle = BorderStyle.FixedSingle;
             uscagVsInfo1.Dock = DockStyle.Fill;
             uscagVsInfo1.Location = new Point(3, 3);
-            uscagVsInfo1.Margin = new Padding(4, 4, 4, 4);
+            uscagVsInfo1.Margin = new Padding(4);
             uscagVsInfo1.Name = "uscagVsInfo1";
-            uscagVsInfo1.Size = new Size(1238, 609);
+            uscagVsInfo1.Size = new Size(1238, 599);
             uscagVsInfo1.TabIndex = 0;
             // 
             // tableLayoutPanel2
@@ -970,7 +970,7 @@
             uscConnectionStates1.AutoSize = true;
             uscConnectionStates1.BackColor = Color.Transparent;
             uscConnectionStates1.Location = new Point(11, 663);
-            uscConnectionStates1.Margin = new Padding(4, 4, 4, 4);
+            uscConnectionStates1.Margin = new Padding(4);
             uscConnectionStates1.MaximumSize = new Size(134, 96);
             uscConnectionStates1.MinimumSize = new Size(134, 96);
             uscConnectionStates1.Name = "uscConnectionStates1";
@@ -1011,10 +1011,11 @@
             toolStripStatusLabel1.LinkColor = Color.FromArgb(53, 53, 53);
             toolStripStatusLabel1.Margin = new Padding(0);
             toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            toolStripStatusLabel1.Size = new Size(1143, 22);
+            toolStripStatusLabel1.Size = new Size(1112, 22);
             toolStripStatusLabel1.Spring = true;
             toolStripStatusLabel1.Text = "GPM AGV SYSTEM CIM";
             toolStripStatusLabel1.TextAlign = ContentAlignment.MiddleLeft;
+            toolStripStatusLabel1.Click += toolStripStatusLabel1_Click;
             // 
             // labWebServerUrl
             // 
@@ -1064,7 +1065,7 @@
             uscAlarmShow1.Dock = DockStyle.Top;
             uscAlarmShow1.ForeColor = Color.Black;
             uscAlarmShow1.Location = new Point(155, 53);
-            uscAlarmShow1.Margin = new Padding(4, 4, 4, 4);
+            uscAlarmShow1.Margin = new Padding(4);
             uscAlarmShow1.Name = "uscAlarmShow1";
             uscAlarmShow1.Padding = new Padding(0, 0, 0, 5);
             uscAlarmShow1.Size = new Size(1252, 79);

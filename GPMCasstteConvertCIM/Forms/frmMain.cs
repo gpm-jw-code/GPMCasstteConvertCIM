@@ -41,11 +41,7 @@ namespace GPMCasstteConvertCIM.Forms
             {
                 this.Icon = new Icon(Path.Combine(Environment.CurrentDirectory, "cimico_x86.ico"));
             }
-            Application.ThreadException += Application_ThreadException; ;
-            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             toolStripComboBox_Emulators.Visible = false;
-
-
         }
 
         private void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
@@ -716,6 +712,14 @@ namespace GPMCasstteConvertCIM.Forms
         private void openAllModbusEmuToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenAllModbusSimulators();
+        }
+
+        private async void toolStripStatusLabel1_Click(object sender, EventArgs e)
+        {
+            await Task.Run(() =>
+            {
+                throw new Exception("¨Ò¥~®·®»´ú¸Õ");
+            });
         }
     }
 }

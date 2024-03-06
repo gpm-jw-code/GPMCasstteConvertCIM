@@ -132,5 +132,10 @@ namespace GPMCasstteConvertCIM.Alarm
                 AlarmsList.TakeWhile(a => a == alarm);
             }
         }
+
+        internal static void AddExceptionRecored(clsExceptionDto exceptionDto)
+        {
+            DBhelper.AddExceptionRecord(exceptionDto);
+        }
     }
 }
