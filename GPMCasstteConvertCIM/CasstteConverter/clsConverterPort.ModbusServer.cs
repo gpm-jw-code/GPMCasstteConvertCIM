@@ -150,12 +150,12 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
                 }
             });
-            Thread _thread = new Thread(() =>
-            {
-                CheckDiscardInputWriteResultBackgroundWorker();
-            });
-            _thread.IsBackground = true;
-            _thread.Start();
+            //Thread _thread = new Thread(() =>
+            //{
+            //    CheckDiscardInputWriteResultBackgroundWorker();
+            //});
+            //_thread.IsBackground = true;
+            //_thread.Start();
         }
 
 
