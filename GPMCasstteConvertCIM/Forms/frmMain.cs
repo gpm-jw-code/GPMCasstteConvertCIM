@@ -175,11 +175,19 @@ namespace GPMCasstteConvertCIM.Forms
                     {
                         clsAgvsAlarmDevice.GetstopMusic();
                     });
-                    Task.Factory.StartNew(() => ADAM_Connect(), TaskCreationOptions.LongRunning);
+                    ////Task.Factory.StartNew(() => ADAM_Connect(), TaskCreationOptions.LongRunning);
+
+                    ///警示區測試
+                    ///AlarmDeviceForm = new frmAlarmDevice();
+                    Task.Run(async () =>
+                    {
+                        AlarmDeviceForm.AdamConnect();
+                    });
+                    //AlarmDeviceForm = new frmAlarmDevice();
 
                 }));
             });
-            AlarmDeviceForm = new frmAlarmDevice();
+
         }
 
         private clsResponse HotRunRemoteControlHandle(clsHotRunControl control)
@@ -679,8 +687,17 @@ namespace GPMCasstteConvertCIM.Forms
         private void AlarmDeviceToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //if (AlarmDeviceForm == null)
-            //AlarmDeviceForm = new frmAlarmDevice();
-            AlarmDeviceForm.Show();
+            AlarmDeviceForm = new frmAlarmDevice();
+            try
+            {
+                AlarmDeviceForm.Show();
+            }
+            catch (Exception exp)
+            {
+
+                throw;
+            }
+
             //frmAlarmDevice.Show();
         }
 

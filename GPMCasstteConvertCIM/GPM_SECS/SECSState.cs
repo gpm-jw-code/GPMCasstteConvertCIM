@@ -15,6 +15,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS
         internal static bool _IsOnline;
         internal static bool _IsRemote;
         private static clsAgvsAlarmDevice clsAgvsAlarmDevice = new clsAgvsAlarmDevice();
+        public  static AlarmDeviceFunction AdamAlarmDevice = new AlarmDeviceFunction();
         internal static bool IsOnline
         {
             get => _IsOnline;
@@ -27,7 +28,8 @@ namespace GPMCasstteConvertCIM.GPM_SECS
                     _IsOnline = value;
                     if (_IsRemote && _IsOnline)
                     {
-                        clsAgvsAlarmDevice.Return_Online();
+                        clsAgvsAlarmDevice.Return_Online();//offline轉online
+                        AdamAlarmDevice.RuturnOnlineRemote(); ;//offline轉online
                         OnMCSOnlineRemote("", EventArgs.Empty);
                     } 
                 }
@@ -44,7 +46,8 @@ namespace GPMCasstteConvertCIM.GPM_SECS
                     _IsRemote = value;
                     if (_IsRemote && _IsOnline)
                     {
-                        clsAgvsAlarmDevice.Return_Online();
+                        clsAgvsAlarmDevice.Return_Online(); ///local轉remote
+                        AdamAlarmDevice.RuturnOnlineRemote();///local轉remote
                         OnMCSOnlineRemote("", EventArgs.Empty);
                     }
                 }

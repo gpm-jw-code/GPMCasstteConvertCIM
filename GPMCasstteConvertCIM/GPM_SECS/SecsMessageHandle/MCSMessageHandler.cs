@@ -14,7 +14,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
 {
     public class MCSMessageHandler
     {
-       
+
         private static SECSBase AGVS => DevicesManager.secs_client_for_agvs;
         internal static async void PrimaryMessageOnReceivedAsync(object? sender, PrimaryMessageWrapper _primaryMessageWrapper)
         {
@@ -210,7 +210,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                             var port_wait_in = DevicesManager.GetAllPorts().FirstOrDefault(port => port.Properties.PortID == source);
                             if (port_wait_in != null)
                             {
-                                if (AGVS_Accept_TransferTask || ! port_wait_in.Properties.CarrierWaitOutWhenAGVSRefuseMCSMission)
+                                if (AGVS_Accept_TransferTask || !port_wait_in.Properties.CarrierWaitOutWhenAGVSRefuseMCSMission)
                                     port_wait_in.CstTransferAcceptInvoke();
                                 else
                                     port_wait_in.CstTransferRejectInvoke();
@@ -272,198 +272,198 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
         /// <param name="primaryMsgFromMcs"></param>
         /// <returns></returns>
         public static async Task<SecsMessage> S1F3RequestHandle(SecsMessage primaryMsgFromMcs)
-        {
-            try
             {
-                List<(ushort vid, Item secs_item)> svid_data_store = new List<(ushort vid, Item secs_item)>();
-                List<Item> svid_items = primaryMsgFromMcs.SecsItem.Items.ToList();
-
-                List<Item> itemsToCIM = svid_items.FindAll(item => item.FirstValue<ushort>() is 2005 or 2007 or 2009);
-                if (itemsToCIM.Count > 0)
+                try
                 {
-                    foreach (var item in itemsToCIM)
+                    List<(ushort vid, Item secs_item)> svid_data_store = new List<(ushort vid, Item secs_item)>();
+                    List<Item> svid_items = primaryMsgFromMcs.SecsItem.Items.ToList();
+
+                    List<Item> itemsToCIM = svid_items.FindAll(item => item.FirstValue<ushort>() is 2005 or 2007 or 2009);
+                    if (itemsToCIM.Count > 0)
                     {
-                        var sid = item.FirstValue<ushort>();
-                        if (sid is 2005)    //CurrentPortStates
+                        foreach (var item in itemsToCIM)
                         {
-                            svid_data_store.Add((2005, L(CreateCurrentPortStatesItem())));
+                            var sid = item.FirstValue<ushort>();
+                            if (sid is 2005)    //CurrentPortStates
+                            {
+                                svid_data_store.Add((2005, L(CreateCurrentPortStatesItem())));
+                            }
+                            else if (sid is 2007) //CurrEqPortStatus
+                            {
+                                svid_data_store.Add((2007, L(CreateCurrEqPortStatusItem())));
+                            }
+                            else if (sid is 2009) //PortTypes
+                            {
+                                svid_data_store.Add((2009, L(CreatePortInfosItem())));
+                            }
                         }
-                        else if (sid is 2007) //CurrEqPortStatus
+                        Utility.SystemLogger?.Info($"CIM Create VIDS ({svid_data_store.ToJson()}) Data Content Done");
+                    }
+                    List<Item> itemsToAGVS = svid_items.FindAll(item => item.FirstValue<ushort>() is not 2005 and not 2007 and not 2009);
+                    if (itemsToAGVS.Count != 0)
+                    {
+                        List<Item> toAGVSItems = new List<Item>();
+                        foreach (var item in itemsToAGVS)
+                            toAGVSItems.Add(U2(item.FirstValue<ushort>()));
+
+                        SecsMessage? AGVSReplyMessage = await AGVS.SendMsg(new SecsMessage(1, 3)
                         {
-                            svid_data_store.Add((2007, L(CreateCurrEqPortStatusItem())));
+                            SecsItem = L(toAGVSItems)
+                        }, msg_name: "CIM->AGVS");
+                        bool IsAGVSReplySuccess = !AGVSReplyMessage.IsS9F7();
+                        if (!IsAGVSReplySuccess)
+                        {
+                            AlarmManager.AddAlarm(ALARM_CODES.AGVS_NO_REPLY_FOR_S1F3, "MCSMSGHANDLER");
                         }
-                        else if (sid is 2009) //PortTypes
+                        for (int i = 0; i < itemsToAGVS.Count; i++)
                         {
-                            svid_data_store.Add((2009, L(CreatePortInfosItem())));
+                            try
+                            {
+                                svid_data_store.Add((itemsToAGVS[i].FirstValue<ushort>(), IsAGVSReplySuccess ? AGVSReplyMessage.SecsItem.Items[i] : L()));
+                            }
+                            catch (Exception ex)
+                            {
+                                Utility.SystemLogger?.Info($"Convert secs data from mcs FAIL.{itemsToAGVS[i].ToJson()}\r\n{ex.Message}");
+                            }
                         }
                     }
-                    Utility.SystemLogger?.Info($"CIM Create VIDS ({svid_data_store.ToJson()}) Data Content Done");
+                    //Combined
+                    List<Item> datas = new List<Item>();
+
+
+                    foreach (Item? item in svid_items)
+                    {
+                        ushort svid = item.FirstValue<ushort>();
+                        (ushort vid, Item secs_item) item_store = svid_data_store.FirstOrDefault(v => v.vid == svid);
+
+                        if (item_store.secs_item != null)
+                        {
+                            if (item_store.vid == 2004)
+                            {
+                                List<Item>? ori = item_store.secs_item.Items.ToList();
+                                Utility.SystemLogger.Info($"SV2004 Expand. Add Port Carrier Info,{ori.Count} ");
+                                Item[]? portInfos = CreateEnhancedCarrierInfo();
+                                ori.AddRange(portInfos);
+                                Item newItem = L(ori);
+                                datas.Add(newItem);
+                                Utility.SystemLogger.Info($"SV2004 Expand Done,{ori.Count} ");
+
+                            }
+                            else
+                            {
+                                datas.Add(item_store.secs_item);
+                            }
+                        }
+                    }
+
+                    var replyMessage = new SecsMessage(1, 4, false)
+                    {
+                        Name = "Selected Equipment Status Reply",
+                        SecsItem = L(datas)
+                    };
+
+                    Utility.SystemLogger?.Info($"S1F3 Reply Message Create Done:\r\n{replyMessage.ToSml()}");
+
+                    return replyMessage;
                 }
-                List<Item> itemsToAGVS = svid_items.FindAll(item => item.FirstValue<ushort>() is not 2005 and not 2007 and not 2009);
-                if (itemsToAGVS.Count != 0)
+                catch (Exception ex)
                 {
-                    List<Item> toAGVSItems = new List<Item>();
-                    foreach (var item in itemsToAGVS)
-                        toAGVSItems.Add(U2(item.FirstValue<ushort>()));
-
-                    SecsMessage? AGVSReplyMessage = await AGVS.SendMsg(new SecsMessage(1, 3)
-                    {
-                        SecsItem = L(toAGVSItems)
-                    }, msg_name: "CIM->AGVS");
-                    bool IsAGVSReplySuccess = !AGVSReplyMessage.IsS9F7();
-                    if (!IsAGVSReplySuccess)
-                    {
-                        AlarmManager.AddAlarm(ALARM_CODES.AGVS_NO_REPLY_FOR_S1F3, "MCSMSGHANDLER");
-                    }
-                    for (int i = 0; i < itemsToAGVS.Count; i++)
-                    {
-                        try
-                        {
-                            svid_data_store.Add((itemsToAGVS[i].FirstValue<ushort>(), IsAGVSReplySuccess ? AGVSReplyMessage.SecsItem.Items[i] : L()));
-                        }
-                        catch (Exception ex)
-                        {
-                            Utility.SystemLogger?.Info($"Convert secs data from mcs FAIL.{itemsToAGVS[i].ToJson()}\r\n{ex.Message}");
-                        }
-                    }
-                }
-                //Combined
-                List<Item> datas = new List<Item>();
-
-
-                foreach (Item? item in svid_items)
-                {
-                    ushort svid = item.FirstValue<ushort>();
-                    (ushort vid, Item secs_item) item_store = svid_data_store.FirstOrDefault(v => v.vid == svid);
-
-                    if (item_store.secs_item != null)
-                    {
-                        if (item_store.vid == 2004)
-                        {
-                            List<Item>? ori = item_store.secs_item.Items.ToList();
-                            Utility.SystemLogger.Info($"SV2004 Expand. Add Port Carrier Info,{ori.Count} ");
-                            Item[]? portInfos = CreateEnhancedCarrierInfo();
-                            ori.AddRange(portInfos);
-                            Item newItem = L(ori);
-                            datas.Add(newItem);
-                            Utility.SystemLogger.Info($"SV2004 Expand Done,{ori.Count} ");
-
-                        }
-                        else
-                        {
-                            datas.Add(item_store.secs_item);
-                        }
-                    }
+                    Utility.SystemLogger.Error("S1F3RequestHandle", ex);
+                    _AddAlarm(ALARM_CODES.CIM_HANDLE_S1F3_OCCUR_ERROR);
+                    return new SecsMessage(1, 4, false) { };
                 }
 
-                var replyMessage = new SecsMessage(1, 4, false)
+            }
+            public static void AddPortDataToVID2004(ref SecsMessage message)
+            {
+            }
+            private static Item[] CreateCurrEqPortStatusItem()
+            {
+
+                //<L[4]
+                //<PortID>
+                //<PortTransferState>
+                //<EqReqSatus>
+                //<EqPresenceStatus> >
+                List<clsConverterPort> ports = DevicesManager.GetAllPorts().FindAll(p => p.Properties.SecsReport);
+                ports = ports.OrderBy(p => p.Properties.PortID).ToList();
+                Item GetCurrEqPortStatus(clsConverterPort port)
                 {
-                    Name = "Selected Equipment Status Reply",
-                    SecsItem = L(datas)
-                };
+                    return L(
+                                A(port.Properties.PortID),
+                                U2((ushort)(port.Properties.InSerivce ? 1 : 0)),
+                                U2((ushort)(!port.LoadRequest && !port.UnloadRequest ? 0 : port.LoadRequest ? 1 : 2)),
+                                U2(0)
 
-                Utility.SystemLogger?.Info($"S1F3 Reply Message Create Done:\r\n{replyMessage.ToSml()}");
+                            );
+                }
+                return ports.Select(port => GetCurrEqPortStatus(port)).ToArray();
 
-                return replyMessage;
             }
-            catch (Exception ex)
+
+            private static Item[] CreateEnhancedCarrierInfo()
             {
-                Utility.SystemLogger.Error("S1F3RequestHandle", ex);
-                _AddAlarm(ALARM_CODES.CIM_HANDLE_S1F3_OCCUR_ERROR);
-                return new SecsMessage(1, 4, false) { };
+                List<clsConverterPort> ports = DevicesManager.GetAllPorts().FindAll(p => p.Properties.SecsReport);
+                ports = ports.OrderBy(p => p.Properties.PortID).ToList();
+                Item CarrierInfo(clsConverterPort port)
+                {
+                    return L(
+                                A(port.PortExist ? port.CSTIDOnPort : ""),
+                                A(port.Properties.PortID),
+                                A(""),
+                                A(port.Properties.CarrierInstallTime.ToString("yyyyMMddHHmmssff")),
+                                U2((ushort)(port.PortType == 0 ? 0 : 4))
+                            );
+                }
+                return ports.Select(port => CarrierInfo(port)).ToArray();
+
             }
 
-        }
-        public static void AddPortDataToVID2004(ref SecsMessage message)
-        {
-        }
-        private static Item[] CreateCurrEqPortStatusItem()
-        {
-
-            //<L[4]
-            //<PortID>
-            //<PortTransferState>
-            //<EqReqSatus>
-            //<EqPresenceStatus> >
-            List<clsConverterPort> ports = DevicesManager.GetAllPorts().FindAll(p => p.Properties.SecsReport);
-            ports = ports.OrderBy(p => p.Properties.PortID).ToList();
-            Item GetCurrEqPortStatus(clsConverterPort port)
+            private static Item[] CreateCurrentPortStatesItem()
             {
-                return L(
-                            A(port.Properties.PortID),
-                            U2((ushort)(port.Properties.InSerivce ? 1 : 0)),
-                            U2((ushort)(!port.LoadRequest && !port.UnloadRequest ? 0 : port.LoadRequest ? 1 : 2)),
-                            U2(0)
+                //< L[2]
+                //  A <PortID>
+                //  U2<PortTransferState> 0=out of service; 1= in service
+                List<clsConverterPort> ports = DevicesManager.GetAllPorts().FindAll(port => port.Properties.SecsReport);
+                ports = ports.OrderBy(p => p.Properties.PortID).ToList();
 
-                        );
+                Item GetPortType(clsConverterPort port)
+                {
+                    return L(
+                                A(port.Properties.PortID),
+                                U2((ushort)(port.Properties.InSerivce ? 1 : 0))
+                            );
+                }
+
+                return ports.Select(port => GetPortType(port)).ToArray();
             }
-            return ports.Select(port => GetCurrEqPortStatus(port)).ToArray();
 
-        }
-
-        private static Item[] CreateEnhancedCarrierInfo()
-        {
-            List<clsConverterPort> ports = DevicesManager.GetAllPorts().FindAll(p => p.Properties.SecsReport);
-            ports = ports.OrderBy(p => p.Properties.PortID).ToList();
-            Item CarrierInfo(clsConverterPort port)
+            private static Item[] CreatePortInfosItem()
             {
-                return L(
-                            A(port.PortExist ? port.CSTIDOnPort : ""),
-                            A(port.Properties.PortID),
-                            A(""),
-                            A(port.Properties.CarrierInstallTime.ToString("yyyyMMddHHmmssff")),
-                            U2((ushort)(port.PortType == 0 ? 0 : 4))
-                        );
+                //< L[2]
+                //  A <PortID>
+                //  U2<PortUnitType> 0=Input ; 1=Output
+                List<clsConverterPort> ports = DevicesManager.GetAllPorts().FindAll(p => p.Properties.SecsReport); ;
+                ports = ports.OrderBy(p => p.Properties.PortID).ToList();
+                Item GetPortTypeInfo(clsConverterPort port)
+                {
+                    return L(
+                                A(port.Properties.PortID),
+                                U2((ushort)(port.EPortType == PortUnitType.Input_Output ? port.MCSReservePortType : port.EPortType))
+                            );
+                }
+
+                return ports.Select(port => GetPortTypeInfo(port)).ToArray();
             }
-            return ports.Select(port => CarrierInfo(port)).ToArray();
 
-        }
-
-        private static Item[] CreateCurrentPortStatesItem()
-        {
-            //< L[2]
-            //  A <PortID>
-            //  U2<PortTransferState> 0=out of service; 1= in service
-            List<clsConverterPort> ports = DevicesManager.GetAllPorts().FindAll(port => port.Properties.SecsReport);
-            ports = ports.OrderBy(p => p.Properties.PortID).ToList();
-
-            Item GetPortType(clsConverterPort port)
+            private static void _AddAlarm(ALARM_CODES alarm_code)
             {
-                return L(
-                            A(port.Properties.PortID),
-                            U2((ushort)(port.Properties.InSerivce ? 1 : 0))
-                        );
+                AlarmManager.AddAlarm(alarm_code, "MCSMessage Transfer");
             }
 
-            return ports.Select(port => GetPortType(port)).ToArray();
-        }
-
-        private static Item[] CreatePortInfosItem()
-        {
-            //< L[2]
-            //  A <PortID>
-            //  U2<PortUnitType> 0=Input ; 1=Output
-            List<clsConverterPort> ports = DevicesManager.GetAllPorts().FindAll(p => p.Properties.SecsReport); ;
-            ports = ports.OrderBy(p => p.Properties.PortID).ToList();
-            Item GetPortTypeInfo(clsConverterPort port)
+            private static void _Log(string msg)
             {
-                return L(
-                            A(port.Properties.PortID),
-                            U2((ushort)(port.EPortType == PortUnitType.Input_Output ? port.MCSReservePortType : port.EPortType))
-                        );
+                Utility.SystemLogger.Info(msg);
             }
-
-            return ports.Select(port => GetPortTypeInfo(port)).ToArray();
-        }
-
-        private static void _AddAlarm(ALARM_CODES alarm_code)
-        {
-            AlarmManager.AddAlarm(alarm_code, "MCSMessage Transfer");
-        }
-
-        private static void _Log(string msg)
-        {
-            Utility.SystemLogger.Info(msg);
         }
     }
-}

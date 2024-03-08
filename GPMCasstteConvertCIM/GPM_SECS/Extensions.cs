@@ -192,10 +192,10 @@ namespace GPMCasstteConvertCIM.GPM_SECS
             }
         }
 
-        public static bool IsAGVSTransferCompletedReport(this SecsMessage msg, out string port_id, out string carrier_id)
+        public static bool IsAGVSTransferCompletedReport(this SecsMessage msg, out string port_id, out string carrier_id,out int result_code)
         {
             port_id = carrier_id = string.Empty;
-
+            result_code = -1;
             if (msg.S != 6 && msg.F != 11)
                 return false;
             try
@@ -209,6 +209,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS
                     var paramsItems = msg.SecsItem.Items[2][0][1];
                     carrier_id = paramsItems.Items[1].GetString();
                     port_id = paramsItems.Items[2].GetString();
+                    result_code = paramsItems.Items[3].FirstValue<ushort>();
                 }
 
                 return isCEID107;

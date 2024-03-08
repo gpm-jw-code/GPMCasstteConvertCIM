@@ -20,6 +20,8 @@ using Modbus.Message;
 using static GPMCasstteConvertCIM.GPM_Modbus.ModbusServerBase;
 using System.Net.Http;
 using System.Reflection.Metadata.Ecma335;
+using System.Diagnostics.Metrics;
+using Modbus.Extensions.Enron;
 
 namespace GPMCasstteConvertCIM.AlarmDevice
 {
@@ -62,11 +64,11 @@ namespace GPMCasstteConvertCIM.AlarmDevice
         public bool Adam6256ConnectState;
         public void alladamconnect()
         {
-
             try
             {
                 foreach (var item in Dict_AlarmModule)
                 {
+                    item.Value.Connect();
                     //var ip = item.Value.info.IP_Address;
                     //int port = item.Value.info.port;
                     //var Tcp_client = new TcpClient(ip, port);
@@ -78,19 +80,16 @@ namespace GPMCasstteConvertCIM.AlarmDevice
                     ////}
                     ////catch (Exception)
                     ////{
-
                     ////    throw;
                     ////}
                     ////    //Adam6250ConnectState = true;
                     ////    //Adam6256ConnectState = true;
                     ////}
-
                     //Adam6250ConnectState = true;
                     //Adam6256ConnectState = true;
                     ////Adam6250ConnectState = (Dict_AlarmModule["ADAM6250"].master != null) ? true : false;
                     ////Adam6256ConnectState = (Dict_AlarmModule["ADAM6256"].master != null) ? true : false;
-                    ///
-                    item.Value.Connect();
+
                 }
             }
             catch (Exception exp)
@@ -186,7 +185,54 @@ namespace GPMCasstteConvertCIM.AlarmDevice
                 item.Value.master.Dispose();
             }
         }
+        public void AGVSTransferFailedReport()
+        {
+            bool TransferCompeleted = false;
+            foreach (var item in Dict_AlarmModule)
+            {
+                item.Value.master.WriteMultipleCoils(16, new bool[] { true, true, true, true, false, false, false });
+            }
+        }
+        public async void RuturnOnlineRemote()
+        {
+            bool TransferCompeleted = false;
+            try
+            {
+                Dict_AlarmModule["ADAM6256"].master.WriteMultipleCoils(16, new bool[] { true, true, true, true, true, true, true });
+                Thread.Sleep(5000);
+                //await Task.Delay(5000);
+                Dict_AlarmModule["ADAM6256"].master.WriteMultipleCoils(16, new bool[] { false, false, false, false, false, false, false });
+            }
+            catch (Exception exp)
+            {
 
+                throw;
+            }
+
+
+            //for (int i = 0; i <= 1; i++)
+            //{
+            //    if (i == 0)
+            //    { Dict_AlarmModule["ADAM6256"].master.WriteMultipleCoils(16, new bool[] { true, true, true, true, true, true, true }); }
+            //    if (i == 1)
+            //    { Dict_AlarmModule["ADAM6256"].master.WriteMultipleCoils(16, new bool[] { false, false, false, false, false, false, false }); }
+            //    Thread.Sleep(5000);
+            //}
+
+            //try
+            //{
+            //    Dict_AlarmModule["ADAM6256"].master.WriteMultipleCoils(16, new bool[] { true, true, true, true, true, true, true });
+            //    Task.Delay(5000);
+            //    Dict_AlarmModule["ADAM6256"].master.WriteMultipleCoils(16, new bool[] { false, false, false, false, false, false, false });
+
+            //}
+            //catch (Exception)
+            //{
+
+            //    throw;
+            //}
+
+        }
 
 
     }

@@ -511,7 +511,7 @@
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 22F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel2.Size = new Size(914, 265);
+            tableLayoutPanel2.Size = new Size(914, 262);
             tableLayoutPanel2.TabIndex = 10;
             tableLayoutPanel2.Visible = false;
             // 
@@ -543,7 +543,7 @@
             dgvMsgFromMCS.RowHeadersVisible = false;
             dgvMsgFromMCS.RowHeadersWidth = 51;
             dgvMsgFromMCS.RowTemplate.Height = 25;
-            dgvMsgFromMCS.Size = new Size(447, 100);
+            dgvMsgFromMCS.Size = new Size(447, 98);
             dgvMsgFromMCS.TabIndex = 6;
             // 
             // primaryMessageSMLDataGridViewTextBoxColumn2
@@ -579,14 +579,14 @@
             dgvMsgFromAGVS.DataSource = primaryMessageWrapperBindingSource1;
             dgvMsgFromAGVS.Dock = DockStyle.Fill;
             dgvMsgFromAGVS.GridColor = Color.DarkCyan;
-            dgvMsgFromAGVS.Location = new Point(5, 160);
+            dgvMsgFromAGVS.Location = new Point(5, 158);
             dgvMsgFromAGVS.Margin = new Padding(4);
             dgvMsgFromAGVS.Name = "dgvMsgFromAGVS";
             dgvMsgFromAGVS.ReadOnly = true;
             dgvMsgFromAGVS.RowHeadersVisible = false;
             dgvMsgFromAGVS.RowHeadersWidth = 51;
             dgvMsgFromAGVS.RowTemplate.Height = 25;
-            dgvMsgFromAGVS.Size = new Size(447, 100);
+            dgvMsgFromAGVS.Size = new Size(447, 99);
             dgvMsgFromAGVS.TabIndex = 8;
             // 
             // primaryMessageSMLDataGridViewTextBoxColumn
@@ -628,7 +628,7 @@
             dgvActiveMsgToMCS.RowHeadersVisible = false;
             dgvActiveMsgToMCS.RowHeadersWidth = 51;
             dgvActiveMsgToMCS.RowTemplate.Height = 25;
-            dgvActiveMsgToMCS.Size = new Size(448, 100);
+            dgvActiveMsgToMCS.Size = new Size(448, 98);
             dgvActiveMsgToMCS.TabIndex = 7;
             // 
             // primaryMessageSMLDataGridViewTextBoxColumn1
@@ -663,14 +663,14 @@
             dgvActiveMsgToAGVS.DataSource = primaryMessageWrapperBindingSource2;
             dgvActiveMsgToAGVS.Dock = DockStyle.Fill;
             dgvActiveMsgToAGVS.GridColor = Color.DarkCyan;
-            dgvActiveMsgToAGVS.Location = new Point(461, 160);
+            dgvActiveMsgToAGVS.Location = new Point(461, 158);
             dgvActiveMsgToAGVS.Margin = new Padding(4);
             dgvActiveMsgToAGVS.Name = "dgvActiveMsgToAGVS";
             dgvActiveMsgToAGVS.ReadOnly = true;
             dgvActiveMsgToAGVS.RowHeadersVisible = false;
             dgvActiveMsgToAGVS.RowHeadersWidth = 51;
             dgvActiveMsgToAGVS.RowTemplate.Height = 25;
-            dgvActiveMsgToAGVS.Size = new Size(448, 100);
+            dgvActiveMsgToAGVS.Size = new Size(448, 99);
             dgvActiveMsgToAGVS.TabIndex = 9;
             // 
             // dataGridViewTextBoxColumn6
@@ -714,7 +714,7 @@
             label4.BorderStyle = BorderStyle.FixedSingle;
             label4.Dock = DockStyle.Fill;
             label4.ForeColor = Color.White;
-            label4.Location = new Point(1, 133);
+            label4.Location = new Point(1, 131);
             label4.Margin = new Padding(0);
             label4.Name = "label4";
             label4.Size = new Size(455, 22);
@@ -742,7 +742,7 @@
             label5.BorderStyle = BorderStyle.FixedSingle;
             label5.Dock = DockStyle.Fill;
             label5.ForeColor = Color.White;
-            label5.Location = new Point(457, 133);
+            label5.Location = new Point(457, 131);
             label5.Margin = new Padding(0);
             label5.Name = "label5";
             label5.Size = new Size(456, 22);
@@ -842,7 +842,7 @@
             // 
             toolStripMenuItem_OpenConvert_1_Simulator.Name = "toolStripMenuItem_OpenConvert_1_Simulator";
             toolStripMenuItem_OpenConvert_1_Simulator.ShortcutKeys = Keys.F3;
-            toolStripMenuItem_OpenConvert_1_Simulator.Size = new Size(222, 30);
+            toolStripMenuItem_OpenConvert_1_Simulator.Size = new Size(224, 30);
             toolStripMenuItem_OpenConvert_1_Simulator.Text = "轉換架 [1]";
             toolStripMenuItem_OpenConvert_1_Simulator.Click += toolStripMenuItem_OpenConvert_1_Simulator_Click;
             // 
@@ -850,14 +850,14 @@
             // 
             toolStripMenuItem2.Name = "toolStripMenuItem2";
             toolStripMenuItem2.ShortcutKeys = Keys.F4;
-            toolStripMenuItem2.Size = new Size(222, 30);
+            toolStripMenuItem2.Size = new Size(224, 30);
             toolStripMenuItem2.Text = "轉換架 [2]";
             // 
             // toolStripMenuItem_OpenConvert_2_Simulator
             // 
             toolStripMenuItem_OpenConvert_2_Simulator.Name = "toolStripMenuItem_OpenConvert_2_Simulator";
             toolStripMenuItem_OpenConvert_2_Simulator.ShortcutKeys = Keys.F5;
-            toolStripMenuItem_OpenConvert_2_Simulator.Size = new Size(222, 30);
+            toolStripMenuItem_OpenConvert_2_Simulator.Size = new Size(224, 30);
             toolStripMenuItem_OpenConvert_2_Simulator.Text = "轉換架 [3]";
             toolStripMenuItem_OpenConvert_2_Simulator.Click += toolStripMenuItem_OpenConvert_2_Simulator_Click;
             // 

@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using GPMCasstteConvertCIM.CasstteConverter;
+using GPMCasstteConvertCIM.Forms;
 
 namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
 {
@@ -22,6 +23,8 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
         internal static event EventHandler OnAGVSOffline;
         private static SECSBase MCS => DevicesManager.secs_host_for_mcs;
         private static SECSBase AGVS => DevicesManager.secs_client_for_agvs;
+
+        
         /// <summary>
         /// 處理AGVS PrimaryMessage >>轉送給MCS 
         /// </summary>
@@ -29,6 +32,8 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
         /// <param name="e"></param>
         internal async static void PrimaryMessageOnReceivedAsync(object? sender, PrimaryMessageWrapper _primaryMessageWrapper)
         {
+            frmAlarmDevice frmAlarmDevice = new frmAlarmDevice();
+
             byte ack6 = 0;
 
             Utility.SystemLogger.SecsTransferLog($"Primary Mesaage Recieved From AGVS");
@@ -42,16 +47,24 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
             _primaryMessageWrapper.PrimaryMessage.Name = "AGVS_To_CIM";
             clsConverterPort port = null;
             bool IsTransferCompleteToTSReport = false;
-            if (_primaryMessage_FromAGVS.IsAGVSTransferCompletedReport(out string port_id, out string carrier_id_from_agvs_transferComplete))
+
+            if (_primaryMessage_FromAGVS.IsAGVSTransferCompletedReport(out string port_id, out string carrier_id_from_agvs_transferComplete, out int result_code))
             {
-                port = DevicesManager.GetPortByPortID(port_id);
+                port = DevicesManager.GetPortByPortID(port_id);///判斷port是否為SE轉換架
                 IsTransferCompleteToTSReport = (port != null);
             }
 
-            if (IsTransferCompleteToTSReport && !port.IsCarrierInstallReported)
+            if (IsTransferCompleteToTSReport)
             {
-                //ERROR-LOAD
-                port.IsCarrierInstallReported = true;
+                if (!port.IsCarrierInstallReported)//如果IsCarrierInstallReported為false則改為true
+                    port.IsCarrierInstallReported = true;
+
+                if(result_code!=0)///result code不為0代表任務異常
+                {
+                    //警報器報警
+                    frmAlarmDevice.TranferFail();
+                }
+                
             }
 
             var S = _primaryMessage_FromAGVS.S;
@@ -107,9 +120,8 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
 
             try
             {
-                if (_primaryMessage_FromAGVS.S == 6 && _primaryMessage_FromAGVS.F == 12)
+                if (_primaryMessage_FromAGVS.S == 6 && _primaryMessage_FromAGVS.F == 11)
                     ack6 = _primaryMessage_FromAGVS.SecsItem.FirstValue<byte>();
-
                 if (_primaryMessage_FromAGVS.IsAGVSOnlineReport(out bool isRemote))
                 {
                     SECSState.IsOnline = true;
@@ -139,7 +151,19 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                 Utility.SystemLogger.SecsTransferLog($"Transfer Exception (AGVS -> MCS) ! [{ex}]");
                 AlarmManager.AddWarning(ALARM_CODES.ONLINE_MODE_MONITORING_ERROR, "AGVSMHANDLER", false);
             }
+            /// <summary>
+            /// 當任務異常
+            /// 擷取S6F11訊息(ResultCode = 1)  
+            /// </summary>
+            //// <param name="_primaryMessageWrapper"></param>
+            if (S == 5 && F == 1)
+            {
+                //ack6 =_primaryMessage_FromAGVS.SecsItem.FirstValue<byte>();
 
+
+
+            }
         }
     }
 }
+
