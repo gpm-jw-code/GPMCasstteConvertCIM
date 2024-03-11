@@ -973,7 +973,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                                 {
                                     await Task.Delay(3000);
                                     var isCSTIDMismatch = WIPINFO_BCR_ID != CSTID_From_TransferCompletedReport;
-                                    bool IsBCRReadFail = IsBCR_READ_ERROR() | WIPINFO_BCR_ID == "";
+                                    bool IsBCRReadFail = IsBCR_READ_ERROR() || WIPINFO_BCR_ID == "";
 
                                     if (IsBCRReadFail)//讀取失敗=>報TUN
                                     {
@@ -1198,9 +1198,9 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         internal async Task PortTypeReport()
         {
-            if (EPortType == PortUnitType.Input | (EPortType == PortUnitType.Input_Output && MCSReservePortType == PortUnitType.Input))
+            if (EPortType == PortUnitType.Input || (EPortType == PortUnitType.Input_Output && MCSReservePortType == PortUnitType.Input))
                 await SecsEventReport(CEID.PortTypeInputReport);
-            if (EPortType == PortUnitType.Output | (EPortType == PortUnitType.Input_Output && MCSReservePortType == PortUnitType.Output))
+            if (EPortType == PortUnitType.Output || (EPortType == PortUnitType.Input_Output && MCSReservePortType == PortUnitType.Output))
                 await SecsEventReport(CEID.PortTypeOutputReport);
         }
         private bool _EQ_BUSY_CIM_CONTROL = false;
