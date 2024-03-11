@@ -71,7 +71,7 @@ namespace GPMCasstteConvertCIM.AlarmDevice
                     item.Value.Connect();
                     //var ip = item.Value.info.IP_Address;
                     //int port = item.Value.info.port;
-                    //var Tcp_client = new TcpClient(ip, port);
+                    //var Tcp_client = new TcpClient(ip, port); 
                     ////ModbusIpMaster AlarmDevice_modbusMaster = ModbusIpMaster.CreateIp(Tcp_client);
                     ////AlarmDevice_modbusMaster.re
                     //item.Value.master = ModbusIpMaster.CreateIp(Tcp_client);
@@ -101,6 +101,23 @@ namespace GPMCasstteConvertCIM.AlarmDevice
 
 
             //Dict_AlarmModule["ADAM6250"].master.WriteMultipleCoils(16, new bool[] { true, true, true, true, true, true, false });
+        }
+        private void ALLADAM_connect()
+        {
+            while (true)
+            {
+                try
+                {
+                    alladamconnect();
+                }
+                catch (Exception exp)
+                {
+                }
+                Thread.Sleep(500);
+            }
+
+
+            //AdamAlarmDevice.ADAM6250_DOon();
         }
         public bool[] ReadAdam6250()
         {
