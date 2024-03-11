@@ -48,9 +48,10 @@
             To_EQ_Low = new DataGridViewCheckBoxColumn();
             CMD_Reserve_Up = new DataGridViewCheckBoxColumn();
             CMD_Reserve_Low = new DataGridViewCheckBoxColumn();
-            btnColumn = new DataGridViewButtonColumn();
-            Column1 = new DataGridViewButtonColumn();
-            IsIOSimulating = new DataGridViewCheckBoxColumn();
+            WIPINFO_BCR_ID = new DataGridViewTextBoxColumn();
+            colModbus = new DataGridViewButtonColumn();
+            colIOSim = new DataGridViewCheckBoxColumn();
+            colSettings = new DataGridViewButtonColumn();
             clsConverterPortBindingSource = new BindingSource(components);
             pnlHeader = new Panel();
             labConnectionState = new Label();
@@ -83,7 +84,7 @@
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
             dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             dataGridView1.ColumnHeadersHeight = 60;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { EqName, PortName, StatusMemStartAddress, dataGridViewCheckBoxColumn1, unloadRequestDataGridViewCheckBoxColumn, portExistDataGridViewCheckBoxColumn, lDUPPOSDataGridViewCheckBoxColumn, lDDOWNPOSDataGridViewCheckBoxColumn, portStatusDownDataGridViewCheckBoxColumn, To_EQ_UP, To_EQ_Low, CMD_Reserve_Up, CMD_Reserve_Low, btnColumn, Column1, IsIOSimulating });
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { EqName, PortName, StatusMemStartAddress, dataGridViewCheckBoxColumn1, unloadRequestDataGridViewCheckBoxColumn, portExistDataGridViewCheckBoxColumn, lDUPPOSDataGridViewCheckBoxColumn, lDDOWNPOSDataGridViewCheckBoxColumn, portStatusDownDataGridViewCheckBoxColumn, To_EQ_UP, To_EQ_Low, CMD_Reserve_Up, CMD_Reserve_Low, WIPINFO_BCR_ID, colModbus, colIOSim, colSettings });
             dataGridView1.DataSource = clsConverterPortBindingSource;
             dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle4.BackColor = Color.Transparent;
@@ -111,7 +112,7 @@
             dataGridView1.ShowCellToolTips = false;
             dataGridView1.ShowEditingIcon = false;
             dataGridView1.ShowRowErrors = false;
-            dataGridView1.Size = new Size(1052, 559);
+            dataGridView1.Size = new Size(1355, 559);
             dataGridView1.TabIndex = 0;
             dataGridView1.CellClick += dataGridView1_CellClick;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
@@ -212,32 +213,42 @@
             CMD_Reserve_Low.Name = "CMD_Reserve_Low";
             CMD_Reserve_Low.ReadOnly = true;
             // 
-            // btnColumn
+            // WIPINFO_BCR_ID
+            // 
+            WIPINFO_BCR_ID.DataPropertyName = "WIPINFO_BCR_ID";
+            WIPINFO_BCR_ID.HeaderText = "BCR_ID";
+            WIPINFO_BCR_ID.Name = "WIPINFO_BCR_ID";
+            WIPINFO_BCR_ID.ReadOnly = true;
+            // 
+            // colModbus
+            // 
+            colModbus.HeaderText = "Modbus";
+            colModbus.Name = "colModbus";
+            colModbus.ReadOnly = true;
+            colModbus.Text = "Modbus";
+            colModbus.UseColumnTextForButtonValue = true;
+            colModbus.Visible = false;
+            // 
+            // colIOSim
+            // 
+            colIOSim.DataPropertyName = "IsIOSimulating";
+            colIOSim.HeaderText = "IO模擬";
+            colIOSim.Name = "colIOSim";
+            colIOSim.ReadOnly = true;
+            colIOSim.Visible = false;
+            // 
+            // colSettings
             // 
             dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle3.BackColor = Color.Silver;
             dataGridViewCellStyle3.Font = new Font("微軟正黑體", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
-            btnColumn.DefaultCellStyle = dataGridViewCellStyle3;
-            btnColumn.HeaderText = "詳情";
-            btnColumn.Name = "btnColumn";
-            btnColumn.ReadOnly = true;
-            btnColumn.Text = "詳情";
-            btnColumn.UseColumnTextForButtonValue = true;
-            // 
-            // Column1
-            // 
-            Column1.HeaderText = "Modbus";
-            Column1.Name = "Column1";
-            Column1.ReadOnly = true;
-            Column1.Text = "Modbus";
-            Column1.UseColumnTextForButtonValue = true;
-            // 
-            // IsIOSimulating
-            // 
-            IsIOSimulating.DataPropertyName = "IsIOSimulating";
-            IsIOSimulating.HeaderText = "IO模擬";
-            IsIOSimulating.Name = "IsIOSimulating";
-            IsIOSimulating.ReadOnly = true;
+            colSettings.DefaultCellStyle = dataGridViewCellStyle3;
+            colSettings.HeaderText = "設置";
+            colSettings.Name = "colSettings";
+            colSettings.ReadOnly = true;
+            colSettings.Text = "設置";
+            colSettings.UseColumnTextForButtonValue = true;
+            colSettings.Visible = false;
             // 
             // clsConverterPortBindingSource
             // 
@@ -255,7 +266,7 @@
             pnlHeader.ForeColor = Color.White;
             pnlHeader.Location = new Point(0, 0);
             pnlHeader.Name = "pnlHeader";
-            pnlHeader.Size = new Size(1052, 27);
+            pnlHeader.Size = new Size(1355, 27);
             pnlHeader.TabIndex = 1;
             // 
             // labConnectionState
@@ -265,7 +276,7 @@
             labConnectionState.Location = new Point(421, 0);
             labConnectionState.Name = "labConnectionState";
             labConnectionState.Padding = new Padding(0, 5, 0, 0);
-            labConnectionState.Size = new Size(506, 27);
+            labConnectionState.Size = new Size(809, 27);
             labConnectionState.TabIndex = 4;
             labConnectionState.Text = "斷線";
             labConnectionState.TextAlign = ContentAlignment.MiddleCenter;
@@ -306,7 +317,7 @@
             btnOpenMasterMemTb.FlatStyle = FlatStyle.Flat;
             btnOpenMasterMemTb.Font = new Font("微軟正黑體", 10F, FontStyle.Bold, GraphicsUnit.Point);
             btnOpenMasterMemTb.ForeColor = Color.Black;
-            btnOpenMasterMemTb.Location = new Point(927, 0);
+            btnOpenMasterMemTb.Location = new Point(1230, 0);
             btnOpenMasterMemTb.Name = "btnOpenMasterMemTb";
             btnOpenMasterMemTb.Size = new Size(125, 27);
             btnOpenMasterMemTb.TabIndex = 1;
@@ -334,7 +345,7 @@
             Controls.Add(dataGridView1);
             Controls.Add(pnlHeader);
             Name = "UscEQStatus";
-            Size = new Size(1052, 586);
+            Size = new Size(1355, 586);
             Load += UscEQStatus_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ((System.ComponentModel.ISupportInitialize)clsConverterPortBindingSource).EndInit();
@@ -366,8 +377,9 @@
         private DataGridViewCheckBoxColumn To_EQ_Low;
         private DataGridViewCheckBoxColumn CMD_Reserve_Up;
         private DataGridViewCheckBoxColumn CMD_Reserve_Low;
-        private DataGridViewButtonColumn btnColumn;
-        private DataGridViewButtonColumn Column1;
-        private DataGridViewCheckBoxColumn IsIOSimulating;
+        private DataGridViewTextBoxColumn WIPINFO_BCR_ID;
+        private DataGridViewButtonColumn colModbus;
+        private DataGridViewCheckBoxColumn colIOSim;
+        private DataGridViewButtonColumn colSettings;
     }
 }

@@ -170,7 +170,7 @@ namespace GPMCasstteConvertCIM.WebServer
         private void Log(string msg)
         {
             Console.WriteLine(msg);
-            logger.Log(new LogItem(msg));
+            logger.LogAsync(new LogItem(msg));
         }
     }
 

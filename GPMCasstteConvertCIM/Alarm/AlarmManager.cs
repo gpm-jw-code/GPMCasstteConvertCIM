@@ -16,6 +16,8 @@ namespace GPMCasstteConvertCIM.Alarm
 
         public static event EventHandler<clsAlarmDto> onAlarmAdded;
         public static event EventHandler onAlarmDBChanged;
+        public static event EventHandler onUnHandleExceptionOccur;
+        public static event EventHandler onUnHandleExceptionAllClear;
 
         internal static void LoadNewestAlarmsFromDatabase(int count = 30)
         {
@@ -55,32 +57,41 @@ namespace GPMCasstteConvertCIM.Alarm
         }
         public static void AddAlarm(ALARM_CODES alarm_code, string EQPName, bool add_new_one_when_exist_same_code = true)
         {
-            //AlarmList.Add(alarm);
-            if (AlarmCodes.TryGetValue(alarm_code, out clsAlarmDto alarmDeffined))
+            try
             {
-                if (AlarmsList.Count >= 50)
-                    AlarmsList.TryDequeue(out var oldest);
-                var newAalrm = new clsAlarmDto()
+                //AlarmList.Add(alarm);
+                if (AlarmCodes.TryGetValue(alarm_code, out clsAlarmDto alarmDeffined))
                 {
-                    Classify = alarmDeffined.Classify,
-                    Description = alarmDeffined.Description,
-                    Code = alarmDeffined.Code,
-                };
-                newAalrm.Time = DateTime.Now;
-                newAalrm.Level = ALARM_LEVEL.ALARM;
-                newAalrm.EQPName = EQPName;
+                    if (AlarmsList.Count >= 50)
+                        AlarmsList.TryDequeue(out var oldest);
+                    var newAalrm = new clsAlarmDto()
+                    {
+                        Classify = alarmDeffined.Classify,
+                        Description = alarmDeffined.Description,
+                        Code = alarmDeffined.Code,
+                    };
+                    newAalrm.Time = DateTime.Now;
+                    newAalrm.Level = ALARM_LEVEL.ALARM;
+                    newAalrm.EQPName = EQPName;
 
-                if (add_new_one_when_exist_same_code)
-                    AlarmsList.Enqueue(newAalrm);
+                    if (add_new_one_when_exist_same_code)
+                        AlarmsList.Enqueue(newAalrm);
+                    else
+                        TryUpdate(newAalrm);
+
+                    onAlarmAdded?.Invoke("", newAalrm);
+                    if (onAlarmDBChanged != null)
+                        onAlarmDBChanged("", EventArgs.Empty);
+                }
                 else
-                    TryUpdate(newAalrm);
-
-                onAlarmAdded?.Invoke("", newAalrm);
-                onAlarmDBChanged("", EventArgs.Empty);
+                    AddUndefinedAlarm(alarm_code, ALARM_LEVEL.ALARM, EQPName);
+                Utility.SystemLogger.Error($"Alarm : {EQPName} - {alarm_code}", null, true);
             }
-            else
-                AddUndefinedAlarm(alarm_code, ALARM_LEVEL.ALARM, EQPName);
-            Utility.SystemLogger.Error($"Alarm : {EQPName} - {alarm_code}", null, true);
+            catch (Exception ex)
+            {
+                Utility.SystemLogger.Error($"[AlarmManager] Add Alarm : {EQPName} - {alarm_code} FAIL:{ex.Message}", ex, true);
+            }
+
 
         }
         private static void TryUpdate(clsAlarmDto alarmDto)
@@ -122,6 +133,18 @@ namespace GPMCasstteConvertCIM.Alarm
             {
                 AlarmsList.TakeWhile(a => a == alarm);
             }
+        }
+
+        internal static void AddExceptionRecored(clsExceptionDto exceptionDto)
+        {
+            DBhelper.AddExceptionRecord(exceptionDto);
+            onUnHandleExceptionOccur?.Invoke(null, null);
+        }
+
+        internal static void ClearAlldExceptionRecored()
+        {
+            DBhelper.ClearExceptionsRecords();
+            onUnHandleExceptionAllClear?.Invoke(null, null);
         }
     }
 }

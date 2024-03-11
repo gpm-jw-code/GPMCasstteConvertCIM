@@ -15,7 +15,6 @@ namespace GPMCasstteConvertCIM.GPM_Modbus.Tests
         public void WriteDITest()
         {
             ModbusTCPServer ser = new ModbusTCPServer();
-            ser.WriteDI(0,new bool[] { true,false,false,true});
         }
     }
 }

@@ -707,10 +707,10 @@ X02C0,EQP,EQP Status Run,Boolean,,EQ,EQP_RUN,,TS_3,,,,,,,X,704,X2C0
 X02C1,EQP,EQP Status Idle,Boolean,,EQ,EQP_IDLE,,TS_3,,,,,,,X,705,X2C1
 X02C2,EQP,EQP Status Down,Boolean,,EQ,EQP_DOWN,,TS_3,,,,,,,X,706,X2C2
 X02C3,EQP,,Boolean,,PORT1,,,TS_3,,,,,,,X,707,X2C3
-X02C4,EQP,,Boolean,,PORT1,,,TS_3,,,,,,,X,708,X2C4
-X02C5,EQP,,Boolean,,PORT1,,,TS_3,,,,,,,X,709,X2C5
-X02C6,EQP,,Boolean,,PORT1,,,TS_3,,,,,,,X,710,X2C6
-X02C7,EQP,,Boolean,,PORT1,,,TS_3,,,,,,,X,711,X2C7
+X02C4,EQP,L_REQ,Boolean,,PORT1,L_REQ,,TS_3,,,,,,,X,708,X2C4
+X02C5,EQP,U_REQ,Boolean,,PORT1,U_REQ,,TS_3,,,,,,,X,709,X2C5
+X02C6,EQP,EQ_READY,Boolean,,PORT1,EQ_READY,,TS_3,,,,,,,X,710,X2C6
+X02C7,EQP,EQ_BUSY,Boolean,,PORT1,EQ_BUSY,,TS_3,,,,,,,X,711,X2C7
 X02C8,EQP,,Boolean,,PORT1,,,TS_3,,,,,,,X,712,X2C8
 X02C9,EQP,Load_Request,Boolean,,PORT1,Load_Request,6,TS_3,,,,,,,X,713,X2C9
 X02CA,EQP,Unload_Request,Boolean,,PORT1,Unload_Request,7,TS_3,,,,,,,X,714,X2CA
@@ -743,10 +743,10 @@ X02E4,EQP,,Boolean,,,,,TS_3,,,,,,,X,740,X2E4
 X02E5,EQP,,Boolean,,,,,TS_3,,,,,,,X,741,X2E5
 X02E6,EQP,,Boolean,,,,,TS_3,,,,,,,X,742,X2E6
 X02E7,EQP,,Boolean,,,,,TS_3,,,,,,,X,743,X2E7
-X02E8,EQP,,Boolean,,,,,TS_3,,,,,,,X,744,X2E8
-X02E9,EQP,,Boolean,,,,,TS_3,,,,,,,X,745,X2E9
-X02EA,EQP,,Boolean,,,,,TS_3,,,,,,,X,746,X2EA
-X02EB,EQP,,Boolean,,,,,TS_3,,,,,,,X,747,X2EB
+X02E8,EQP,L_REQ,Boolean,,PORT2,L_REQ,,TS_3,,,,,,,X,744,X2E8
+X02E9,EQP,U_REQ,Boolean,,PORT2,U_REQ,,TS_3,,,,,,,X,745,X2E9
+X02EA,EQP,EQ_READY,Boolean,,PORT2,EQ_READY,,TS_3,,,,,,,X,746,X2EA
+X02EB,EQP,EQ_BUSY,Boolean,,PORT2,EQ_BUSY,,TS_3,,,,,,,X,747,X2EB
 X02EC,EQP,,Boolean,,,,,TS_3,,,,,,,X,748,X2EC
 X02ED,EQP,Load_Request,Boolean,,PORT2,Load_Request,6,TS_3,,,,,,,X,749,X2ED
 X02EE,EQP,Unload_Request,Boolean,,PORT2,Unload_Request,7,TS_3,,,,,,,X,750,X2EE

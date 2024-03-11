@@ -11,7 +11,7 @@ namespace GPMCasstteConvertCIM.GPM_Modbus
     internal interface IModbusHSable
     {
         ModbusTCPServer modbus_server { get; set; }
-        bool BuildModbusTCPServer(frmModbusTCPServer ui);
+        Task<bool> BuildModbusTCPServer(frmModbusTCPServer ui);
         void SyncModbusDataWorker();
     }
 }

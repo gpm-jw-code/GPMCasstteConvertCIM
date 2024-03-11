@@ -90,6 +90,8 @@ namespace GPMCasstteConvertCIM.Alarm
         AGV_PING_FAIL,
         AGV_READY_EQ_BUSY_INTERLOCK_CIM_SOLUTION,
         AGV_EQ_Handshake_Fail_AFTER_EQ_BUSY_OFF,
-        WebServer_Build_Fail
+        WebServer_Build_Fail,
+        WebServer_Exception_Happend_When_Handling_Request,
+        BCRID_SYNC_TO_AGVS_WORD_REGION_FAIL
     }
 }

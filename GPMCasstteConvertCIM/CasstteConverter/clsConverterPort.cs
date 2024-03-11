@@ -418,6 +418,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 if (_WIPINFO_BCR_ID != value)
                 {
                     _WIPINFO_BCR_ID = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("WIPINFO_BCR_ID"));
+
                     if (value != "")
                     {
                         string thisPortDUID = string.Empty;
@@ -590,14 +592,18 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
 
 
-        public async void ModbusServerActive()
+        public async Task ModbusServerActive()
         {
             await Task.Delay(1);
+
+            if (Properties.AGVHandshakeModbusGatewayActive)
+                ActiveAGVHSModbusGateway(out var errmrMsg);
+
             if (Properties.ModbusServer_Enable)
             {
                 try
                 {
-                    if (BuildModbusTCPServer(new frmModbusTCPServer()))
+                    if (await BuildModbusTCPServer(new frmModbusTCPServer()))
                     {
                         Utility.SystemLogger.Info($"ModbusTcp Server-0.0.0.0:{modbus_server.Port} is serving.", false);
                         SyncModbusDataWorker();
@@ -613,6 +619,18 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 }
             }
         }
+
+
+        public class clsAGVHandshakeState
+        {
+            public bool AGV_VALID { get; set; }
+            public bool AGV_TR_REQ { get; set; }
+            public bool AGV_BUSY { get; set; }
+            public bool AGV_READY { get; set; }
+            public bool AGV_COMPT { get; set; }
+        }
+        internal clsAGVHandshakeState agv_hs_status = new clsAGVHandshakeState();
+
         internal void RaiseStatusIOChangeInvoke()
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("LoadRequest"));
@@ -783,25 +801,37 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         public void UpdateModbusBCRReport(string cst_id_on_port, bool isClearBCR = false)
         {
-            Utility.SystemLogger.Info($"{PortName} Update BCR ID to CIM Memory Table");
-            clsMemoryAddress? agvs_msg_1_address = EQParent.LinkWordMap.FirstOrDefault(v => Properties.PortNo == 0 ? v.EProperty == PROPERTY.AGVS_MSG_1 : v.EProperty == PROPERTY.AGVS_MSG_17);
-            clsMemoryAddress? agvs_msg_download_inedx_address = EQParent.LinkWordMap.FirstOrDefault(v => v.EProperty == PROPERTY.AGVS_MSG_DOWNLOAD_INDEX);
-            if (agvs_msg_1_address != null)
-            {
-                int[] ascii_bytes = cst_id_on_port.ToASCIIWords();
-                //int[] bcr_id_ints = isClearBCR ? new int[10] : new int[10] { WIPInfo_BCR_ID_1, WIPInfo_BCR_ID_2, WIPInfo_BCR_ID_3, WIPInfo_BCR_ID_4, WIPInfo_BCR_ID_5, WIPInfo_BCR_ID_6, WIPInfo_BCR_ID_7, WIPInfo_BCR_ID_8, WIPInfo_BCR_ID_9, WIPInfo_BCR_ID_10 };
-                int[] bcr_id_ints = isClearBCR ? new int[10] : ascii_bytes;
-                EQParent.CIMMemOptions.memoryTable.WriteWord(agvs_msg_1_address.Address, ref bcr_id_ints);
-                //Update Report Index(+1)
-                int[] vals = new int[1];
-                EQParent.CIMMemOptions.memoryTable.ReadWord(agvs_msg_download_inedx_address.Address, 1, ref vals);
-                vals[0] = vals[0] == int.MaxValue ? 0 : vals[0] + 1;
-                EQParent.CIMMemOptions.memoryTable.WriteWord(agvs_msg_download_inedx_address.Address, ref vals);
-            }
-            else
+            try
             {
                 Utility.SystemLogger.Info($"{PortName} Update BCR ID to CIM Memory Table");
+                clsMemoryAddress? agvs_msg_1_address = EQParent.LinkWordMap.FirstOrDefault(v => Properties.PortNo == 0 ? v.EProperty == PROPERTY.AGVS_MSG_1 : v.EProperty == PROPERTY.AGVS_MSG_17);
+                clsMemoryAddress? agvs_msg_download_inedx_address = EQParent.LinkWordMap.FirstOrDefault(v => v.EProperty == PROPERTY.AGVS_MSG_DOWNLOAD_INDEX);
+                if (agvs_msg_1_address != null)
+                {
+                    int[] ascii_bytes = cst_id_on_port.ToASCIIWords();
+                    //int[] bcr_id_ints = isClearBCR ? new int[10] : new int[10] { WIPInfo_BCR_ID_1, WIPInfo_BCR_ID_2, WIPInfo_BCR_ID_3, WIPInfo_BCR_ID_4, WIPInfo_BCR_ID_5, WIPInfo_BCR_ID_6, WIPInfo_BCR_ID_7, WIPInfo_BCR_ID_8, WIPInfo_BCR_ID_9, WIPInfo_BCR_ID_10 };
+                    int[] bcr_id_ints = isClearBCR ? new int[10] : ascii_bytes;
+                    ReportBCRToAGVS(agvs_msg_1_address, agvs_msg_download_inedx_address, bcr_id_ints);
+                }
+                else
+                {
+                    Utility.SystemLogger.Info($"{PortName} Update BCR ID to CIM Memory Table");
+                }
             }
+            catch (Exception ex)
+            {
+                Utility.SystemLogger.Error(ex);
+                AlarmManager.AddAlarm(ALARM_CODES.BCRID_SYNC_TO_AGVS_WORD_REGION_FAIL, PortName);
+            }
+        }
+
+        protected virtual void ReportBCRToAGVS(clsMemoryAddress? agvs_msg_1_address, clsMemoryAddress? agvs_msg_download_inedx_address, int[] bcr_id_ints)
+        {
+            EQParent.CIMMemOptions.memoryTable.WriteWord(agvs_msg_1_address.Address, ref bcr_id_ints);
+            int[] vals = new int[1];
+            EQParent.CIMMemOptions.memoryTable.ReadWord(agvs_msg_download_inedx_address.Address, 1, ref vals);
+            vals[0] = vals[0] == int.MaxValue ? 0 : vals[0] + 1;
+            EQParent.CIMMemOptions.memoryTable.WriteWord(agvs_msg_download_inedx_address.Address, ref vals);
         }
 
         internal string GetWIPIDFromMem()

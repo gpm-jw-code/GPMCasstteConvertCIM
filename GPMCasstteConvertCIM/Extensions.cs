@@ -5,8 +5,10 @@ using Newtonsoft.Json;
 using Secs4Net;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using static GPMCasstteConvertCIM.Devices.DevicesManager;
@@ -76,6 +78,27 @@ namespace GPMCasstteConvertCIM
             }
         }
 
-       
+        internal static void GetClassNameAndLine(this Exception ex, out string className, out int lineNumber)
+        {
+            className = "";
+            lineNumber = -1;
+            var stackTrace = new StackTrace(ex, true);
+            var frame = stackTrace.GetFrame(0); // 獲取堆棧中的第一個幀
+
+            if (frame != null)
+            {
+                string fileName = frame.GetFileName(); // 獲取發生異常的文件名
+                lineNumber = frame.GetFileLineNumber(); // 獲取發生異常的行號
+                MethodBase method = frame.GetMethod();
+                if (method != null)
+                {
+                    Type declaringType = method.DeclaringType;
+                    if (declaringType != null)
+                    {
+                        className = declaringType.FullName; // 獲取完整的類名（包括命名空間）
+                    }
+                }
+            }
+        }
     }
 }

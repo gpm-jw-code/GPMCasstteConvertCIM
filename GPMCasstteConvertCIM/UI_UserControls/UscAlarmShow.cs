@@ -77,8 +77,8 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             Color textColor = Color.Black;
             if (level == ALARM_LEVEL.None)
             {
-                bgColor = Color.FromArgb(0, 57, 155);
-                textColor = Color.White;
+                bgColor = Color.Transparent;
+                textColor = Color.Black;
             }
             else if (level == ALARM_LEVEL.WARNING)
             {
@@ -111,7 +111,7 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             labAlarmTime.Text = labClassify.Text = labDescription.Text = labEQPName.Text = labAlarmLevel.Text = "";
             UIRenderByAlarmLevel(ALARM_LEVEL.None);
             clsAgvsAlarmDevice clsAgvsAlarmDevice = new clsAgvsAlarmDevice();
-            clsAgvsAlarmDevice.MusicStop();
+            clsAgvsAlarmDevice.AlarmReset();
         }
     }
 }

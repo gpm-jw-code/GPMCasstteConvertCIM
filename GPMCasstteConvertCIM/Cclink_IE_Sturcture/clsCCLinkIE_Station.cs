@@ -43,8 +43,7 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
             EQPData = new clsEQPData();
             this.plcInterface = PLC_CONN_INTERFACE.MX;
             LoadPLCMapData();
-
-
+            this._IOLogger = new clsIOLOgger(null, Utility.SysConfigs.Log.SyslogFolder, $"IO/{cclink_master.Name}");
             for (int i = 0; i < portProperties.Count; i++)
             {
                 var portProp = portProperties[i];
@@ -75,13 +74,17 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
                 {
                     await Task.Delay(TimeSpan.FromSeconds(4));
 
-                    var interfaceClockAddress = cclink_master.LinkWordMap.FirstOrDefault(w => w.EOwner == clsMemoryAddress.OWNER.CIM && w.EProperty == PROPERTY.Interface_Clock);
+                    var interfaceClockAddress = LinkWordMap.FirstOrDefault(w => w.EOwner == clsMemoryAddress.OWNER.CIM && w.EProperty == PROPERTY.Interface_Clock);
                     if (interfaceClockAddress != null)
                     {
                         int clock = (int)interfaceClockAddress.Value;
                         int newClock = clock + 1;
                         newClock = newClock == 256 ? 0 : newClock;
                         cclink_master.CIMMemOptions.memoryTable.WriteBinary(interfaceClockAddress.Address, newClock);
+                    }
+                    else
+                    {
+
                     }
 
                 }
@@ -109,7 +112,7 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
         protected override void PLCMemoryDatatToEQDataDTO()
         {
             //PORTS
-            if (Eq_Name == EQ_NAMES.TS_1 | Eq_Name == EQ_NAMES.TS_2_1 | Eq_Name == EQ_NAMES.TS_2_2 | Eq_Name == EQ_NAMES.TS_3)
+            if (Eq_Name == EQ_NAMES.TS_1 || Eq_Name == EQ_NAMES.TS_2_1 || Eq_Name == EQ_NAMES.TS_2_2 || Eq_Name == EQ_NAMES.TS_3)
             {
                 base.LinkBitMap = this.LinkBitMap;
                 base.LinkWordMap = this.LinkWordMap;
@@ -156,8 +159,26 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
         }
         public clsStationPort(clsPortProperty property, clsCasstteConverter converterParent) : base(property, converterParent)
         {
+
         }
 
+        protected override void WriteAGVHandshakeStatusToPLC(clsAGVHandshakeState agv_hs_status)
+        {
+            try
+            {
+                DevicesManager.cclink_master.CIMMemOptions.memoryTable.WriteOneBit(PortCIMBitAddress[PROPERTY.VALID], agv_hs_status.AGV_VALID);
+                DevicesManager.cclink_master.CIMMemOptions.memoryTable.WriteOneBit(PortCIMBitAddress[PROPERTY.TR_REQ], agv_hs_status.AGV_TR_REQ);
+                DevicesManager.cclink_master.CIMMemOptions.memoryTable.WriteOneBit(PortCIMBitAddress[PROPERTY.BUSY], agv_hs_status.AGV_BUSY);
+                DevicesManager.cclink_master.CIMMemOptions.memoryTable.WriteOneBit(PortCIMBitAddress[PROPERTY.AGV_READY], agv_hs_status.AGV_READY);
+                DevicesManager.cclink_master.CIMMemOptions.memoryTable.WriteOneBit(PortCIMBitAddress[PROPERTY.COMPT], agv_hs_status.AGV_COMPT);
+            }
+            catch (Exception ex)
+            {
+                Utility.SystemLogger.Error(ex.Message, ex);
+            }
+
+
+        }
         protected override void SyncAGVSCoilsDataWorker()
         {
             string portNoName = $"PORT{Properties.PortNo + 1}";
@@ -167,7 +188,8 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
                 try
                 {
                     int register_num = item.Link_Modbus_Register_Number;
-                    var localCoilsAry = modbus_server.coils.localArray;
+                    var localCoilsAry = modbus_server.modbusSlave.DataStore.CoilDiscretes;
+                    //var localCoilsAry = modbus_server.coils.localArray;
                     bool state = localCoilsAry[register_num + 1];
                     AGVHandshakeIO(item, state);
                     DevicesManager.cclink_master.CIMMemOptions.memoryTable.WriteOneBit(item.Address, state);
@@ -181,19 +203,18 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
 
         public override void SyncModbusDataWorker()
         {
-            Task.Factory.StartNew(async () =>
+            Task.Run(async () =>
             {
                 while (true)
                 {
-                    await Task.Delay(10);
                     try
                     {
-
                         if (DevicesManager.cclink_master.EQPMemOptions == null)
                             continue;
                         SyncAGVSInputsWorker();
                         SyncEQHoldingRegistersWorker();
                         SyncAGVSCoilsDataWorker();
+                        await Task.Delay(10);
                     }
                     catch (Exception ex)
                     {
@@ -201,11 +222,10 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
                     }
                 }
             });
-
-            Task.Factory.StartNew(() =>
-            {
-                CheckDiscardInputWriteResultBackgroundWorker();
-            });
+            //Task.Run(() =>
+            //{
+            //    CheckDiscardInputWriteResultBackgroundWorker();
+            //});
         }
 
         protected override void SyncEQHoldingRegistersWorker()
@@ -216,7 +236,10 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
                 if (item.Link_Modbus_Register_Number != -1)
                 {
                     int value = DevicesManager.cclink_master.EQPMemOptions.memoryTable.ReadBinary(item.Address);
-                    modbus_server.holdingRegisters.localArray[item.Link_Modbus_Register_Number] = (short)value;
+
+                    modbus_server.modbusSlave.DataStore.HoldingRegisters[item.Link_Modbus_Register_Number] = (ushort)value;
+
+                    //modbus_server.holdingRegisters.localArray[item.Link_Modbus_Register_Number] = (short)value;
                 }
             }
         }
@@ -232,12 +255,21 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
 
                     if (Utility.SysConfigs.EQLoadUnload_RequestSimulation && this.Properties.LoadUnlloadStateSimulation)
                     {
-                        if (item.EProperty == Enums.PROPERTY.Load_Request | item.EProperty == Enums.PROPERTY.Unload_Request)
+                        if (item.EProperty == Enums.PROPERTY.Load_Request || item.EProperty == Enums.PROPERTY.Unload_Request)
                             bolState = true;
                     }
-                    modbus_server.discreteInputs.localArray[item.Link_Modbus_Register_Number] = bolState;
+                    modbus_server.modbusSlave.DataStore.InputDiscretes[item.Link_Modbus_Register_Number] = bolState;
                 }
             }
+        }
+
+        protected override void ReportBCRToAGVS(clsMemoryAddress? agvs_msg_1_address, clsMemoryAddress? agvs_msg_download_inedx_address, int[] bcr_id_ints)
+        {
+            DevicesManager.cclink_master.CIMMemOptions.memoryTable.WriteWord(agvs_msg_1_address.Address, ref bcr_id_ints);
+            int[] vals = new int[1];
+            DevicesManager.cclink_master.CIMMemOptions.memoryTable.ReadWord(agvs_msg_download_inedx_address.Address, 1, ref vals);
+            vals[0] = vals[0] == int.MaxValue ? 0 : vals[0] + 1;
+            DevicesManager.cclink_master.CIMMemOptions.memoryTable.WriteWord(agvs_msg_download_inedx_address.Address, ref vals);
         }
     }
 
