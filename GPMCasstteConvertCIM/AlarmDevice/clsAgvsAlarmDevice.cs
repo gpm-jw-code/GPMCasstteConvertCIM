@@ -11,6 +11,7 @@ using System.Net;
 using GPMCasstteConvertCIM.Utilities.SysConfigs;
 using GPMCasstteConvertCIM;
 using GPMCasstteConvertCIM.Utilities;
+using System.Security.Permissions;
 using GPMCasstteConvertCIM.DataBase.KGS_AGVs.Models;
 using GPMCasstteConvertCIM.Forms;
 using Microsoft.Win32;
@@ -343,6 +344,9 @@ namespace GPMCasstteConvertCIM.AlarmDevice
         int Adam_6256_DO_EndAddress = 22;
         /// 
 
+
+        string STK_IPaddress => Utility.ModbusDeviceConfigs.STK_IP_Address;
+        int STK_Port => Utility.ModbusDeviceConfigs.STK_port;
         bool[] outputs = new bool[7];
         bool[] intputs = new bool[8];
         bool Enable => Utility.ModbusDeviceConfigs.Enable;
@@ -367,6 +371,21 @@ namespace GPMCasstteConvertCIM.AlarmDevice
             var Adam6250tcp_client = new TcpClient(Adam6250.IP, Adam6250.port);
             Adam6250_modbusMaster = ModbusIpMaster.CreateIp(Adam6250tcp_client);
             return;
+        }
+        private void Disconnect(ModbusIpMaster modbusMaster)
+        {
+            modbusMaster.Dispose();
+        }
+        private ModbusIpMaster STK_AdamConnect()
+        {
+            // modbus 建立連線
+            var tcp_client = new TcpClient(STK_IPaddress, STK_Port);
+            ModbusIpMaster STK_Conn = ModbusIpMaster.CreateIp(tcp_client);
+            return STK_Conn;
+        }
+        private void STK_Disconnect(ModbusIpMaster STK_Conn)
+        {
+            STK_Conn.Dispose();
         }
         public void Adam6256Connect()
         {
@@ -501,6 +520,7 @@ namespace GPMCasstteConvertCIM.AlarmDevice
 
         public async void MusicStop()
         {
+            //蜂鳴器關閉
             if (Enable && Conn)
                 try
                 {
@@ -510,8 +530,22 @@ namespace GPMCasstteConvertCIM.AlarmDevice
                 }
                 catch (Exception) { }
         }
+        public async void AlarmReset()
+        {
+            //異常清除
+            if (Enable && Conn)
+                try
+                {
+                    var modbusMaster = AdamConnect();
+                    await modbusMaster.WriteMultipleCoilsAsync(DO_SrartAddress, new bool[] { false, false, false, false, false, false, false });
+                    Disconnect(modbusMaster);
+                }
+                catch (Exception) { }
+        }
+
         public async void PlayAGV_AlarmMusic()
         {
+            //AGV異常時發警報
             if (Enable && Conn)
                 try
                 {
@@ -524,19 +558,22 @@ namespace GPMCasstteConvertCIM.AlarmDevice
                 }
                 catch (Exception) { }
         }
-        public async void offline()
+        public async void AGVSLocal()
         {
+            //AGVS Local
             if (Enable && Conn)
                 try
                 {
                     // var modbusMaster = AdamConnect();
-                    await modbusMaster.WriteSingleCoilAsync(16, true);
+                    await modbusMaster.WriteSingleCoilAsync(16, false);//將Remote燈關閉
+                    await modbusMaster.WriteSingleCoilAsync(16, true);//將Local燈開啟
                     Disconnect(modbusMaster);
                 }
                 catch (Exception) { }
         }
         public async void Return_Online()
         {
+            //AGVS重新與上層建立連線
             if (Enable && Conn)
                 try
                 {
@@ -545,6 +582,8 @@ namespace GPMCasstteConvertCIM.AlarmDevice
                     await modbusMaster.WriteMultipleCoilsAsync(17, new bool[] { true });
                     await Task.Delay(1000);
                     await modbusMaster.WriteMultipleCoilsAsync(17, new bool[] { false });
+                    await modbusMaster.WriteMultipleCoilsAsync(17, new bool[] { true }); //將Local燈關閉
+                    await modbusMaster.WriteMultipleCoilsAsync(17, new bool[] { true }); //將Remote燈開啟
                     Disconnect(modbusMaster);
                 }
                 catch (Exception)
@@ -552,17 +591,60 @@ namespace GPMCasstteConvertCIM.AlarmDevice
 
                 }
         }
-        public async void GetstopMusic()
+        public async void SE_Task_Can_Go()
         {
+            //STK可執行任務亮藍燈
+            if (Enable && Conn)
+            {
+                //while (true)
+                //{
+                //    if (SeCanDoTask)
+                //    {
+                //        try
+                //        {
+                //            var STK_Conn = STK_AdamConnect();
+                //            await STK_Conn.ReadCoilsAsync(DI_SrartAddress, DI_EndAddress);
+                //            intputs = modbusMaster.ReadInputs(DI_SrartAddress, DI_EndAddress);
+                //            for (int i = 0; i < intputs.Length; i++)
+                //            {
+                //                Console.WriteLine($"DI {0 + i}: {intputs[i]}");
+                //            }
+                //            if (intputs[0] || intputs[1])//判斷LD、ULD
+                //            {
+                //                if (!intputs[3])//判斷在席訊號
+                //                {
+                //                    var modbusMaster = AdamConnect();
+                //                    await modbusMaster.WriteMultipleCoilsAsync(19, new bool[] { true });
+                //                    Disconnect(modbusMaster);
+                //                }
+                //            }
+                //            STK_Disconnect(STK_Conn);
+                //        }
+                //        catch (Exception EX)
+                //        {
+                //            Utility.SystemLogger.Info($"STK DIO Is DISConnect");
+                //            Utility.SystemLogger.Info(EX.Message);
+                //            continue;
+                //        }
+                //    }
+                //    Thread.Sleep(100);
+                //}
+            }
+        }
+        public async void GetAlarmReset()
+        {
+            //與DIO連線判斷，並偵測按鈕觸發
+            int disconncount = 0;
             int disconncount = 0;
             if (Enable)
                 while (true)
                 {
+                    Thread.Sleep(100);
                     try
                     {
                         if (disconncount >= 5)
                         {
-                            MusicStop();
+                            AlarmReset();
                         }
                         // var modbusMaster = AdamConnect();
                         //await modbusMaster.ReadCoilsAsync(DI_SrartAddress, DI_EndAddress);
@@ -574,7 +656,7 @@ namespace GPMCasstteConvertCIM.AlarmDevice
                         Disconnect(modbusMaster);
                         if (intputs[0])
                         {
-                            MusicStop();
+                            AlarmReset();
                         }
                         Console.Write(Conn = true);
                     }
@@ -585,7 +667,6 @@ namespace GPMCasstteConvertCIM.AlarmDevice
                         Console.Write(Conn = false);
                         continue;
                     }
-                    Thread.Sleep(100);
                 }
 
         }
