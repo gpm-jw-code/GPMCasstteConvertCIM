@@ -17,6 +17,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AGVSystemCommonNet6", "AGVS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RosBridgeClient", "RosBridgeClient\RosBridgeClient.csproj", "{FEBDD62A-9247-43C1-9287-57265CDC2AD3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CIMWatchDogMonitor", "CIMWatchDogMonitor\CIMWatchDogMonitor.csproj", "{BA9C3FB4-5AD0-4488-8208-796CAC8487B1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CIMWatchDogMonitorTests", "CIMWatchDogMonitorTests\CIMWatchDogMonitorTests.csproj", "{97E8CCB9-A5D7-4E8D-B951-E5B4D1C1D35C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +85,22 @@ Global
 		{FEBDD62A-9247-43C1-9287-57265CDC2AD3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FEBDD62A-9247-43C1-9287-57265CDC2AD3}.Release|x86.ActiveCfg = Release|Any CPU
 		{FEBDD62A-9247-43C1-9287-57265CDC2AD3}.Release|x86.Build.0 = Release|Any CPU
+		{BA9C3FB4-5AD0-4488-8208-796CAC8487B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA9C3FB4-5AD0-4488-8208-796CAC8487B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA9C3FB4-5AD0-4488-8208-796CAC8487B1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BA9C3FB4-5AD0-4488-8208-796CAC8487B1}.Debug|x86.Build.0 = Debug|Any CPU
+		{BA9C3FB4-5AD0-4488-8208-796CAC8487B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA9C3FB4-5AD0-4488-8208-796CAC8487B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA9C3FB4-5AD0-4488-8208-796CAC8487B1}.Release|x86.ActiveCfg = Release|Any CPU
+		{BA9C3FB4-5AD0-4488-8208-796CAC8487B1}.Release|x86.Build.0 = Release|Any CPU
+		{97E8CCB9-A5D7-4E8D-B951-E5B4D1C1D35C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97E8CCB9-A5D7-4E8D-B951-E5B4D1C1D35C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97E8CCB9-A5D7-4E8D-B951-E5B4D1C1D35C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{97E8CCB9-A5D7-4E8D-B951-E5B4D1C1D35C}.Debug|x86.Build.0 = Debug|Any CPU
+		{97E8CCB9-A5D7-4E8D-B951-E5B4D1C1D35C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97E8CCB9-A5D7-4E8D-B951-E5B4D1C1D35C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97E8CCB9-A5D7-4E8D-B951-E5B4D1C1D35C}.Release|x86.ActiveCfg = Release|Any CPU
+		{97E8CCB9-A5D7-4E8D-B951-E5B4D1C1D35C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
