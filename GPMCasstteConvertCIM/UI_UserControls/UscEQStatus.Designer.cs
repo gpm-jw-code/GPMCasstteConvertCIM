@@ -31,9 +31,10 @@
             components = new System.ComponentModel.Container();
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             dataGridView1 = new DataGridView();
             EqName = new DataGridViewTextBoxColumn();
             PortName = new DataGridViewTextBoxColumn();
@@ -60,9 +61,12 @@
             eqCombobox1 = new EQCombobox();
             btnOpenMasterMemTb = new Button();
             label1 = new Label();
+            portTypeContextMenuStrip = new ContextMenuStrip(components);
+            changePortTypeToolStripMenuItem = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)clsConverterPortBindingSource).BeginInit();
             pnlHeader.SuspendLayout();
+            portTypeContextMenuStrip.SuspendLayout();
             SuspendLayout();
             // 
             // dataGridView1
@@ -87,14 +91,14 @@
             dataGridView1.ColumnHeadersHeight = 60;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { EqName, PortName, StatusMemStartAddress, dataGridViewCheckBoxColumn1, unloadRequestDataGridViewCheckBoxColumn, portExistDataGridViewCheckBoxColumn, lDUPPOSDataGridViewCheckBoxColumn, lDDOWNPOSDataGridViewCheckBoxColumn, portStatusDownDataGridViewCheckBoxColumn, To_EQ_UP, To_EQ_Low, CMD_Reserve_Up, CMD_Reserve_Low, WIPINFO_BCR_ID, colModbus, EPortType, colIOSim, colSettings });
             dataGridView1.DataSource = clsConverterPortBindingSource;
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = Color.Transparent;
-            dataGridViewCellStyle4.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle4.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle4.SelectionBackColor = Color.Transparent;
-            dataGridViewCellStyle4.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
-            dataGridView1.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = Color.Transparent;
+            dataGridViewCellStyle5.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle5.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle5.SelectionBackColor = Color.Transparent;
+            dataGridViewCellStyle5.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.False;
+            dataGridView1.DefaultCellStyle = dataGridViewCellStyle5;
             dataGridView1.Dock = DockStyle.Fill;
             dataGridView1.GridColor = Color.Black;
             dataGridView1.Location = new Point(0, 27);
@@ -102,13 +106,13 @@
             dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersVisible = false;
             dataGridView1.RowHeadersWidth = 51;
-            dataGridViewCellStyle5.BackColor = Color.AntiqueWhite;
-            dataGridViewCellStyle5.Font = new Font("微軟正黑體", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle5.ForeColor = Color.Black;
-            dataGridViewCellStyle5.Padding = new Padding(1);
-            dataGridViewCellStyle5.SelectionBackColor = Color.FromArgb(224, 224, 224);
-            dataGridViewCellStyle5.SelectionForeColor = Color.Gray;
-            dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle6.BackColor = Color.AntiqueWhite;
+            dataGridViewCellStyle6.Font = new Font("微軟正黑體", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle6.ForeColor = Color.Black;
+            dataGridViewCellStyle6.Padding = new Padding(1);
+            dataGridViewCellStyle6.SelectionBackColor = Color.FromArgb(224, 224, 224);
+            dataGridViewCellStyle6.SelectionForeColor = Color.Gray;
+            dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle6;
             dataGridView1.RowTemplate.Height = 25;
             dataGridView1.ShowCellErrors = false;
             dataGridView1.ShowCellToolTips = false;
@@ -119,6 +123,7 @@
             dataGridView1.CellClick += dataGridView1_CellClick;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick;
+            dataGridView1.CellMouseDown += dataGridView1_CellMouseDown;
             dataGridView1.SizeChanged += dataGridView1_SizeChanged;
             dataGridView1.Resize += dataGridView1_Resize;
             // 
@@ -249,6 +254,12 @@
             // EPortType
             // 
             EPortType.DataPropertyName = "EPortType";
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = Color.FromArgb(51, 51, 51);
+            dataGridViewCellStyle3.ForeColor = Color.White;
+            dataGridViewCellStyle3.SelectionBackColor = Color.Gray;
+            dataGridViewCellStyle3.SelectionForeColor = Color.White;
+            EPortType.DefaultCellStyle = dataGridViewCellStyle3;
             EPortType.HeaderText = "Port Type";
             EPortType.Name = "EPortType";
             EPortType.ReadOnly = true;
@@ -264,10 +275,10 @@
             // 
             // colSettings
             // 
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle3.BackColor = Color.Silver;
-            dataGridViewCellStyle3.Font = new Font("微軟正黑體", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
-            colSettings.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.BackColor = Color.Silver;
+            dataGridViewCellStyle4.Font = new Font("微軟正黑體", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
+            colSettings.DefaultCellStyle = dataGridViewCellStyle4;
             colSettings.HeaderText = "設置";
             colSettings.MinimumWidth = 6;
             colSettings.Name = "colSettings";
@@ -363,6 +374,19 @@
             label1.TabIndex = 3;
             label1.Text = "選擇設備";
             // 
+            // portTypeContextMenuStrip
+            // 
+            portTypeContextMenuStrip.Items.AddRange(new ToolStripItem[] { changePortTypeToolStripMenuItem });
+            portTypeContextMenuStrip.Name = "portTypeContextMenuStrip";
+            portTypeContextMenuStrip.Size = new Size(153, 26);
+            // 
+            // changePortTypeToolStripMenuItem
+            // 
+            changePortTypeToolStripMenuItem.Name = "changePortTypeToolStripMenuItem";
+            changePortTypeToolStripMenuItem.Size = new Size(152, 22);
+            changePortTypeToolStripMenuItem.Text = "變更Port Type";
+            changePortTypeToolStripMenuItem.Click += changePortTypeToolStripMenuItem_Click;
+            // 
             // UscEQStatus
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -377,6 +401,7 @@
             ((System.ComponentModel.ISupportInitialize)clsConverterPortBindingSource).EndInit();
             pnlHeader.ResumeLayout(false);
             pnlHeader.PerformLayout();
+            portTypeContextMenuStrip.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -390,6 +415,8 @@
         private EQCombobox eqCombobox1;
         private Label label1;
         private Label labConnectionState;
+        private ContextMenuStrip portTypeContextMenuStrip;
+        private ToolStripMenuItem changePortTypeToolStripMenuItem;
         private DataGridViewTextBoxColumn EqName;
         private DataGridViewTextBoxColumn PortName;
         private DataGridViewTextBoxColumn StatusMemStartAddress;

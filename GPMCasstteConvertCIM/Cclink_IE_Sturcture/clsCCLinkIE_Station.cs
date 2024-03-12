@@ -151,7 +151,7 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
     {
 
         public override PortUnitType EPortType => this.Properties.IsConverter ? base.EPortType : this.Properties.PortType;
-
+        protected override MemoryTable VirtualMemoryTable => Devices.DevicesManager.cclink_master.CIMMemOptions.memoryTable;
         internal List<clsMemoryAddress> LinkBitMap { get; set; }
         internal List<clsMemoryAddress> LinkWordMap { get; set; }
         public override MemoryTable CIMMemoryTable
