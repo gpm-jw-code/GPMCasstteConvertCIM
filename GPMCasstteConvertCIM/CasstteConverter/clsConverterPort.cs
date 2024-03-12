@@ -1178,6 +1178,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 {
                     _PortType = value;
                     Utility.SystemLogger.Info($"{PortName} Port Type Change to {EPortType}");
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("EPortType"));
                     Task.Factory.StartNew(async () =>
                     {
                         try
