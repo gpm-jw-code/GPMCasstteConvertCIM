@@ -4,6 +4,7 @@ using GPMCasstteConvertCIM.CasstteConverter;
 using GPMCasstteConvertCIM.CasstteConverter.Data;
 using GPMCasstteConvertCIM.Devices;
 using GPMCasstteConvertCIM.GPM_Modbus;
+using GPMCasstteConvertCIM.GPM_SECS;
 using GPMCasstteConvertCIM.Utilities;
 using System;
 using System.Collections.Generic;
@@ -148,6 +149,9 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
 
     public class clsStationPort : clsConverterPort
     {
+
+        public override PortUnitType EPortType => this.Properties.IsConverter ? base.EPortType : this.Properties.PortType;
+
         internal List<clsMemoryAddress> LinkBitMap { get; set; }
         internal List<clsMemoryAddress> LinkWordMap { get; set; }
         public override MemoryTable CIMMemoryTable

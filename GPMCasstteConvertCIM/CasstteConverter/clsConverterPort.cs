@@ -91,7 +91,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         public bool IsIOSimulating => IOSignalMode == IO_MODE.FromCIMSimulation;
 
-        internal PortUnitType EPortType => Enum.GetValues(typeof(PortUnitType)).Cast<PortUnitType>().First(etype => (int)etype == _PortType);
+        public virtual PortUnitType EPortType => Enum.GetValues(typeof(PortUnitType)).Cast<PortUnitType>().First(etype => (int)etype == _PortType);
 
         public string StatusMemStartAddress => PortEQBitAddress.Count == 0 ? "" : PortEQBitAddress.First(kp => kp.Key == PROPERTY.Load_Request).Value;
 

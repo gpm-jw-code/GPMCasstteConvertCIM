@@ -50,6 +50,7 @@
             CMD_Reserve_Low = new DataGridViewCheckBoxColumn();
             WIPINFO_BCR_ID = new DataGridViewTextBoxColumn();
             colModbus = new DataGridViewButtonColumn();
+            EPortType = new DataGridViewTextBoxColumn();
             colIOSim = new DataGridViewCheckBoxColumn();
             colSettings = new DataGridViewButtonColumn();
             clsConverterPortBindingSource = new BindingSource(components);
@@ -84,7 +85,7 @@
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
             dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             dataGridView1.ColumnHeadersHeight = 60;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { EqName, PortName, StatusMemStartAddress, dataGridViewCheckBoxColumn1, unloadRequestDataGridViewCheckBoxColumn, portExistDataGridViewCheckBoxColumn, lDUPPOSDataGridViewCheckBoxColumn, lDDOWNPOSDataGridViewCheckBoxColumn, portStatusDownDataGridViewCheckBoxColumn, To_EQ_UP, To_EQ_Low, CMD_Reserve_Up, CMD_Reserve_Low, WIPINFO_BCR_ID, colModbus, colIOSim, colSettings });
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { EqName, PortName, StatusMemStartAddress, dataGridViewCheckBoxColumn1, unloadRequestDataGridViewCheckBoxColumn, portExistDataGridViewCheckBoxColumn, lDUPPOSDataGridViewCheckBoxColumn, lDDOWNPOSDataGridViewCheckBoxColumn, portStatusDownDataGridViewCheckBoxColumn, To_EQ_UP, To_EQ_Low, CMD_Reserve_Up, CMD_Reserve_Low, WIPINFO_BCR_ID, colModbus, EPortType, colIOSim, colSettings });
             dataGridView1.DataSource = clsConverterPortBindingSource;
             dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle4.BackColor = Color.Transparent;
@@ -100,6 +101,7 @@
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersVisible = false;
+            dataGridView1.RowHeadersWidth = 51;
             dataGridViewCellStyle5.BackColor = Color.AntiqueWhite;
             dataGridViewCellStyle5.Font = new Font("微軟正黑體", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
             dataGridViewCellStyle5.ForeColor = Color.Black;
@@ -124,6 +126,7 @@
             // 
             EqName.DataPropertyName = "EqName";
             EqName.HeaderText = "設備名稱";
+            EqName.MinimumWidth = 6;
             EqName.Name = "EqName";
             EqName.ReadOnly = true;
             // 
@@ -131,6 +134,7 @@
             // 
             PortName.DataPropertyName = "PortName";
             PortName.HeaderText = "PORT名稱";
+            PortName.MinimumWidth = 6;
             PortName.Name = "PortName";
             PortName.ReadOnly = true;
             // 
@@ -139,6 +143,7 @@
             StatusMemStartAddress.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             StatusMemStartAddress.DataPropertyName = "StatusMemStartAddress";
             StatusMemStartAddress.HeaderText = "起始位址";
+            StatusMemStartAddress.MinimumWidth = 6;
             StatusMemStartAddress.Name = "StatusMemStartAddress";
             StatusMemStartAddress.ReadOnly = true;
             // 
@@ -146,6 +151,7 @@
             // 
             dataGridViewCheckBoxColumn1.DataPropertyName = "LoadRequest";
             dataGridViewCheckBoxColumn1.HeaderText = "Load Request(+0)";
+            dataGridViewCheckBoxColumn1.MinimumWidth = 6;
             dataGridViewCheckBoxColumn1.Name = "dataGridViewCheckBoxColumn1";
             dataGridViewCheckBoxColumn1.ReadOnly = true;
             // 
@@ -153,6 +159,7 @@
             // 
             unloadRequestDataGridViewCheckBoxColumn.DataPropertyName = "UnloadRequest";
             unloadRequestDataGridViewCheckBoxColumn.HeaderText = "Unload Request(+1)";
+            unloadRequestDataGridViewCheckBoxColumn.MinimumWidth = 6;
             unloadRequestDataGridViewCheckBoxColumn.Name = "unloadRequestDataGridViewCheckBoxColumn";
             unloadRequestDataGridViewCheckBoxColumn.ReadOnly = true;
             // 
@@ -160,6 +167,7 @@
             // 
             portExistDataGridViewCheckBoxColumn.DataPropertyName = "PortExist";
             portExistDataGridViewCheckBoxColumn.HeaderText = "Port Exist(+2)";
+            portExistDataGridViewCheckBoxColumn.MinimumWidth = 6;
             portExistDataGridViewCheckBoxColumn.Name = "portExistDataGridViewCheckBoxColumn";
             portExistDataGridViewCheckBoxColumn.ReadOnly = true;
             // 
@@ -167,6 +175,7 @@
             // 
             lDUPPOSDataGridViewCheckBoxColumn.DataPropertyName = "LD_UP_POS";
             lDUPPOSDataGridViewCheckBoxColumn.HeaderText = "LD UPPO (+3)";
+            lDUPPOSDataGridViewCheckBoxColumn.MinimumWidth = 6;
             lDUPPOSDataGridViewCheckBoxColumn.Name = "lDUPPOSDataGridViewCheckBoxColumn";
             lDUPPOSDataGridViewCheckBoxColumn.ReadOnly = true;
             // 
@@ -174,6 +183,7 @@
             // 
             lDDOWNPOSDataGridViewCheckBoxColumn.DataPropertyName = "LD_DOWN_POS";
             lDDOWNPOSDataGridViewCheckBoxColumn.HeaderText = "LD DOWN POS(+4)";
+            lDDOWNPOSDataGridViewCheckBoxColumn.MinimumWidth = 6;
             lDDOWNPOSDataGridViewCheckBoxColumn.Name = "lDDOWNPOSDataGridViewCheckBoxColumn";
             lDDOWNPOSDataGridViewCheckBoxColumn.ReadOnly = true;
             lDDOWNPOSDataGridViewCheckBoxColumn.ToolTipText = " ";
@@ -182,6 +192,7 @@
             // 
             portStatusDownDataGridViewCheckBoxColumn.DataPropertyName = "PortStatusDown";
             portStatusDownDataGridViewCheckBoxColumn.HeaderText = "EQP Status Down(+5)";
+            portStatusDownDataGridViewCheckBoxColumn.MinimumWidth = 6;
             portStatusDownDataGridViewCheckBoxColumn.Name = "portStatusDownDataGridViewCheckBoxColumn";
             portStatusDownDataGridViewCheckBoxColumn.ReadOnly = true;
             // 
@@ -189,6 +200,7 @@
             // 
             To_EQ_UP.DataPropertyName = "To_EQ_UP";
             To_EQ_UP.HeaderText = "To_EQ UP";
+            To_EQ_UP.MinimumWidth = 6;
             To_EQ_UP.Name = "To_EQ_UP";
             To_EQ_UP.ReadOnly = true;
             // 
@@ -196,6 +208,7 @@
             // 
             To_EQ_Low.DataPropertyName = "To_EQ_Low";
             To_EQ_Low.HeaderText = "To_EQ Low";
+            To_EQ_Low.MinimumWidth = 6;
             To_EQ_Low.Name = "To_EQ_Low";
             To_EQ_Low.ReadOnly = true;
             // 
@@ -203,6 +216,7 @@
             // 
             CMD_Reserve_Up.DataPropertyName = "CMD_Reserve_Up";
             CMD_Reserve_Up.HeaderText = "CMD Reserve Up";
+            CMD_Reserve_Up.MinimumWidth = 6;
             CMD_Reserve_Up.Name = "CMD_Reserve_Up";
             CMD_Reserve_Up.ReadOnly = true;
             // 
@@ -210,6 +224,7 @@
             // 
             CMD_Reserve_Low.DataPropertyName = "CMD_Reserve_Low";
             CMD_Reserve_Low.HeaderText = "CMD Reserve Low";
+            CMD_Reserve_Low.MinimumWidth = 6;
             CMD_Reserve_Low.Name = "CMD_Reserve_Low";
             CMD_Reserve_Low.ReadOnly = true;
             // 
@@ -217,22 +232,32 @@
             // 
             WIPINFO_BCR_ID.DataPropertyName = "WIPINFO_BCR_ID";
             WIPINFO_BCR_ID.HeaderText = "BCR_ID";
+            WIPINFO_BCR_ID.MinimumWidth = 6;
             WIPINFO_BCR_ID.Name = "WIPINFO_BCR_ID";
             WIPINFO_BCR_ID.ReadOnly = true;
             // 
             // colModbus
             // 
             colModbus.HeaderText = "Modbus";
+            colModbus.MinimumWidth = 6;
             colModbus.Name = "colModbus";
             colModbus.ReadOnly = true;
             colModbus.Text = "Modbus";
             colModbus.UseColumnTextForButtonValue = true;
             colModbus.Visible = false;
             // 
+            // EPortType
+            // 
+            EPortType.DataPropertyName = "EPortType";
+            EPortType.HeaderText = "Port Type";
+            EPortType.Name = "EPortType";
+            EPortType.ReadOnly = true;
+            // 
             // colIOSim
             // 
             colIOSim.DataPropertyName = "IsIOSimulating";
             colIOSim.HeaderText = "IO模擬";
+            colIOSim.MinimumWidth = 6;
             colIOSim.Name = "colIOSim";
             colIOSim.ReadOnly = true;
             colIOSim.Visible = false;
@@ -244,6 +269,7 @@
             dataGridViewCellStyle3.Font = new Font("微軟正黑體", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
             colSettings.DefaultCellStyle = dataGridViewCellStyle3;
             colSettings.HeaderText = "設置";
+            colSettings.MinimumWidth = 6;
             colSettings.Name = "colSettings";
             colSettings.ReadOnly = true;
             colSettings.Text = "設置";
@@ -379,6 +405,7 @@
         private DataGridViewCheckBoxColumn CMD_Reserve_Low;
         private DataGridViewTextBoxColumn WIPINFO_BCR_ID;
         private DataGridViewButtonColumn colModbus;
+        private DataGridViewTextBoxColumn EPortType;
         private DataGridViewCheckBoxColumn colIOSim;
         private DataGridViewButtonColumn colSettings;
     }
