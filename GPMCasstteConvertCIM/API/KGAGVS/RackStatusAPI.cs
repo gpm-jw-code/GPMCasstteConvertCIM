@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GPMCasstteConvertCIM.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -10,8 +11,10 @@ namespace GPMCasstteConvertCIM.API.KGAGVS
 {
     public class RackStatusAPI
     {
+        internal static LoggerBase Logger;
         public static async Task<(bool confirm, string response, string errorMsg)> AddCSTID(string EQPName, int slot, string CarrierID)
         {
+            Log($"Request to KGS AGVSYSTEM: Try Add CSTID={CarrierID} of {EQPName} ");
             (bool success, UserAuthAPI.clsCookie cookie, string response, string errorMsg) login_result = await UserAuthAPI.LoginToAGVSWebSite();
 
             if (!login_result.success)
@@ -23,6 +26,8 @@ namespace GPMCasstteConvertCIM.API.KGAGVS
         }
         public static async Task<(bool confirm, string response, string errorMsg)> DeleteCSTID(string EQPName, int slot, string CarrierID)
         {
+            Log($"Request to KGS AGVSYSTEM: Try Delete CSTID={CarrierID} of {EQPName} ");
+
             (bool success, UserAuthAPI.clsCookie cookie, string response, string errorMsg) login_result = await UserAuthAPI.LoginToAGVSWebSite();
             if (!login_result.success)
             {
@@ -67,6 +72,13 @@ namespace GPMCasstteConvertCIM.API.KGAGVS
             }
             return responseString;
         }
-
+        private static void Log(string msg)
+        {
+            Console.WriteLine(msg);
+            if (Logger != null)
+            {
+                Logger.Info(msg);
+            }
+        }
     }
 }

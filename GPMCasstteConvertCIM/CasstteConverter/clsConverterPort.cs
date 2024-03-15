@@ -782,7 +782,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             {
                 _ = Task.Run(async () =>
                 {
-                    (bool confirm, string response, string errorMsg) result = await API.KGAGVS.RackStatusAPI.DeleteCSTID("Rack_1", 1, cst_id);
+                    (bool confirm, string response, string errorMsg) result = await API.KGAGVS.RackStatusAPI.DeleteCSTID(Properties.NameInAGVS, 1, cst_id);
                     Utility.SystemLogger.Info($"Delete CST ID API請求結果={result.ToJson()}");
                 });
             }
@@ -797,7 +797,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             {
                 _ = Task.Run(async () =>
                 {
-                    (bool confirm, string response, string errorMsg) result = await API.KGAGVS.RackStatusAPI.AddCSTID("Rack_1", 1, cst_id);
+                    (bool confirm, string response, string errorMsg) result = await API.KGAGVS.RackStatusAPI.AddCSTID(Properties.NameInAGVS, 1, cst_id);
                     Utility.SystemLogger.Info($"Add CST ID API請求結果 ={result.ToJson()}");
                 });
             }

@@ -79,6 +79,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
             public bool IsConverter { get; set; } = false;
 
+            public string NameInAGVS { get; set; } = "";
+
         }
 
     }
