@@ -793,6 +793,12 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 return;
 
 
+
+            if (Properties.IsInstalled && cst_id != Properties.PreviousOnPortID)
+            {
+                await RemoveCarrier(Properties.PreviousOnPortID);
+            }
+
             if (Properties.IsConverter)
             {
                 _ = Task.Run(async () =>
@@ -801,12 +807,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     Utility.SystemLogger.Info($"Add CST ID API請求結果 ={result.ToJson()}");
                 });
             }
-
-            if (Properties.IsInstalled && cst_id != Properties.PreviousOnPortID)
-            {
-                await RemoveCarrier(Properties.PreviousOnPortID);
-            }
-
             Properties.PreviousOnPortID = cst_id;
             CSTIDOnPort = cst_id + "";
             Properties.IsInstalled = true;
