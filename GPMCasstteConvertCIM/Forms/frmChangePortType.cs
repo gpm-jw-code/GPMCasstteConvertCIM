@@ -43,14 +43,14 @@ namespace GPMCasstteConvertCIM.Forms
         private async void cmbPortTypes_SelectedIndexChanged(object sender, EventArgs e)
         {
             var selectType = (PortUnitType)cmbPortTypes.SelectedItem;
-            if (selectType == Station.EPortType)
-                return;
+            //if (selectType == Station.EPortType)
+            //    return;
 
             if (Station.Properties.IsConverter)
             {
                 cmbPortTypes.Enabled = false;
                 labConverterPortTypeChangeRequestingNotify.Visible = true;
-                bool success = await Station.ModeChangeRequestHandshake(selectType, "User From UI");
+                bool success = await Station.ModeChangeRequestHandshake(selectType, "User From UI", no_change_if_current_type_is_req: false);
                 cmbPortTypes.Enabled = true;
                 labConverterPortTypeChangeRequestingNotify.Visible = false;
                 if (!success)

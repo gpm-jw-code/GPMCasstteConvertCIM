@@ -63,6 +63,7 @@
             label1 = new Label();
             portTypeContextMenuStrip = new ContextMenuStrip(components);
             changePortTypeToolStripMenuItem = new ToolStripMenuItem();
+            debugToolStripMenuItem = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)clsConverterPortBindingSource).BeginInit();
             pnlHeader.SuspendLayout();
@@ -376,9 +377,9 @@
             // 
             // portTypeContextMenuStrip
             // 
-            portTypeContextMenuStrip.Items.AddRange(new ToolStripItem[] { changePortTypeToolStripMenuItem });
+            portTypeContextMenuStrip.Items.AddRange(new ToolStripItem[] { changePortTypeToolStripMenuItem, debugToolStripMenuItem });
             portTypeContextMenuStrip.Name = "portTypeContextMenuStrip";
-            portTypeContextMenuStrip.Size = new Size(153, 26);
+            portTypeContextMenuStrip.Size = new Size(153, 48);
             // 
             // changePortTypeToolStripMenuItem
             // 
@@ -386,6 +387,13 @@
             changePortTypeToolStripMenuItem.Size = new Size(152, 22);
             changePortTypeToolStripMenuItem.Text = "變更Port Type";
             changePortTypeToolStripMenuItem.Click += changePortTypeToolStripMenuItem_Click;
+            // 
+            // debugToolStripMenuItem
+            // 
+            debugToolStripMenuItem.Name = "debugToolStripMenuItem";
+            debugToolStripMenuItem.Size = new Size(152, 22);
+            debugToolStripMenuItem.Text = "Debug";
+            debugToolStripMenuItem.Click += debugToolStripMenuItem_Click;
             // 
             // UscEQStatus
             // 
@@ -435,5 +443,6 @@
         private DataGridViewTextBoxColumn EPortType;
         private DataGridViewCheckBoxColumn colIOSim;
         private DataGridViewButtonColumn colSettings;
+        private ToolStripMenuItem debugToolStripMenuItem;
     }
 }

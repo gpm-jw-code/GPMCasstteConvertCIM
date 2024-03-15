@@ -32,10 +32,9 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         /// </summary>
         /// <param name="portUnitType"></param>
         /// <returns></returns>
-        internal async Task<bool> ModeChangeRequestHandshake(PortUnitType portUnitType, string requester_name = "MCS")
+        internal async Task<bool> ModeChangeRequestHandshake(PortUnitType portUnitType, string requester_name = "MCS", bool no_change_if_current_type_is_req = true)
         {
-
-            if (EPortType == portUnitType)
+            if (no_change_if_current_type_is_req && EPortType == portUnitType)
             {
                 Utility.SystemLogger.Info($"[{requester_name}] Request [{Properties.PortID}] Change Port Type To {portUnitType}, But Port Already {portUnitType}");
                 return true;

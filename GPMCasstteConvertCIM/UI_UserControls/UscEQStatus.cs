@@ -281,6 +281,7 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             {
                 clsStationPort station = (clsStationPort)row.DataBoundItem;
                 portTypeContextMenuStrip.Items[0].Tag = station;
+                portTypeContextMenuStrip.Items[1].Tag = station;
                 dataGridView1.ContextMenuStrip = portTypeContextMenuStrip;
 
             }
@@ -311,6 +312,16 @@ namespace GPMCasstteConvertCIM.UI_UserControls
                 Station = station
             };
             form.ShowDialog();
+        }
+
+        int debug = 1;
+        private void debugToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            ToolStripMenuItem toolStripMenuItem = sender as ToolStripMenuItem;
+            clsStationPort station = (clsStationPort)toolStripMenuItem.Tag;
+            debug = debug + 1;
+            station.CIMMemoryTable.WriteBinary("WW0259", debug);
         }
 
         ///
