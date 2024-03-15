@@ -782,11 +782,27 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             {
                 _ = Task.Run(async () =>
                 {
-                    (bool confirm, string response, string errorMsg) result = await API.KGAGVS.RackStatusAPI.DeleteCSTID(Properties.NameInAGVS, 1, cst_id);
-                    Utility.SystemLogger.Info($"Delete CST ID API請求結果={result.ToJson()}");
+                    try
+                    {
+                        await _RackCstModifyWaitSlim.WaitAsync();
+                        (bool confirm, string response, string errorMsg) result = await API.KGAGVS.RackStatusAPI.DeleteCSTID(Properties.NameInAGVS, 1, cst_id);
+                        Utility.SystemLogger.Info($"Delete CST ID API請求結果={result.ToJson()}");
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
+                    finally
+                    {
+                        _RackCstModifyWaitSlim.Release();
+                    }
+                   
                 });
             }
         }
+
+        private SemaphoreSlim _RackCstModifyWaitSlim = new SemaphoreSlim(1,1);
+
         internal async Task InstallCarrier(string cst_id)
         {
             if (!PortExist)
@@ -799,14 +815,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 await RemoveCarrier(Properties.PreviousOnPortID);
             }
 
-            if (Properties.IsConverter)
-            {
-                _ = Task.Run(async () =>
-                {
-                    (bool confirm, string response, string errorMsg) result = await API.KGAGVS.RackStatusAPI.AddCSTID(Properties.NameInAGVS, 1, cst_id);
-                    Utility.SystemLogger.Info($"Add CST ID API請求結果 ={result.ToJson()}");
-                });
-            }
+            
             Properties.PreviousOnPortID = cst_id;
             CSTIDOnPort = cst_id + "";
             Properties.IsInstalled = true;
@@ -815,7 +824,27 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             Utility.SystemLogger.Info($"{PortName}-Install Carrier_{cst_id}");
             UpdateModbusBCRReport(cst_id);
             await SecsEventReport(CEID.CarrierInstallCompletedReport, cst_id);
-
+            if (Properties.IsConverter)
+            {
+                _ = Task.Run(async () =>
+                {
+                    await Task.Delay(1000);
+                    try
+                    {
+                        await _RackCstModifyWaitSlim.WaitAsync();
+                        (bool confirm, string response, string errorMsg) result = await API.KGAGVS.RackStatusAPI.AddCSTID(Properties.NameInAGVS, 1, cst_id);
+                        Utility.SystemLogger.Info($"Add CST ID API請求結果 ={result.ToJson()}");
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
+                    finally
+                    {
+                        _RackCstModifyWaitSlim.Release();
+                    }
+                });
+            }
         }
 
         public void UpdateModbusBCRReport(string cst_id_on_port, bool isClearBCR = false)
