@@ -69,6 +69,11 @@ namespace GPMCasstteConvertCIM.Forms
 
             DBhelper.Initialize();
             Utility.LoadConfigs();
+
+            API.KGAGVS.APIConfiguration.AGVSHostIP = Utility.SysConfigs.WebService.KGS_HOST_IP;
+            API.KGAGVS.APIConfiguration.AGVSHostPORT = Utility.SysConfigs.WebService.KGS_HOST_PORT;
+
+
             Text = $"GPM AGVS CIM-V{Assembly.GetExecutingAssembly().GetName().Version.ToString()} {(Environment.Is64BitProcess ? "" : "(x86)")}-{Utility.SysConfigs.Project}";
             Äµ³ø¾¹IOª¬ºAToolStripMenuItem.Visible = Utility.ModbusDeviceConfigs.Enable;
             Task.Run(async () =>
@@ -177,6 +182,7 @@ namespace GPMCasstteConvertCIM.Forms
                         clsAgvsAlarmDevice.GetAlarmReset();
                     });
 
+                    Utility.SystemLogger.Info($"KGS Web Service = {API.KGAGVS.APIConfiguration.AGVSHostIP}:{API.KGAGVS.APIConfiguration.AGVSHostPORT}");
 #if logTest
                     for (int i = 0; i < 20; i++)
                     {

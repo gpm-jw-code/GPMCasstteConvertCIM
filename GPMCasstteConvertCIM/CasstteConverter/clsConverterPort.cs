@@ -767,7 +767,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 Utility.SystemLogger.Warning($"[{PortName}]Carrier Remove Event not Report to MCS ,because 'NeverReportCarrierRemove' setting is actived.");
                 return;
             }
-            if (checkPortType == false | (!Properties.RemoveCarrierMCSReportOnlyInOUTPUTMODE || (Properties.RemoveCarrierMCSReportOnlyInOUTPUTMODE & EPortType == PortUnitType.Output)))
+            if (checkPortType == false || (!Properties.RemoveCarrierMCSReportOnlyInOUTPUTMODE || (Properties.RemoveCarrierMCSReportOnlyInOUTPUTMODE & EPortType == PortUnitType.Output)))
             {
                 Utility.SystemLogger.Info($"[{PortName}] Carrier removed Report to MCS Start");
                 bool remove_reported = await SecsEventReport(CEID.CarrierRemovedCompletedReport, cst_id + "");
@@ -777,11 +777,30 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             {
                 Utility.SystemLogger.Warning($"[{PortName}] BCR ID Clear but Port Type ={EPortType}, Carrier removed not REPORT to MCS");
             }
+
+            if (Properties.IsConverter)
+            {
+                _ = Task.Run(async () =>
+                {
+                    (bool confirm, string response, string errorMsg) result = await API.KGAGVS.RackStatusAPI.DeleteCSTID("Rack_1", 1, cst_id);
+                    Utility.SystemLogger.Info($"Delete CST ID API請求結果={result.ToJson()}");
+                });
+            }
         }
         internal async Task InstallCarrier(string cst_id)
         {
             if (!PortExist)
                 return;
+
+
+            if (Properties.IsConverter)
+            {
+                _ = Task.Run(async () =>
+                {
+                    (bool confirm, string response, string errorMsg) result = await API.KGAGVS.RackStatusAPI.AddCSTID("Rack_1", 1, cst_id);
+                    Utility.SystemLogger.Info($"Add CST ID API請求結果 ={result.ToJson()}");
+                });
+            }
 
             if (Properties.IsInstalled && cst_id != Properties.PreviousOnPortID)
             {
