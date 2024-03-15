@@ -77,8 +77,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             public bool CarrierWaitOutWhenAGVSRefuseMCSMission { get; set; } = false;
 
 
+
             public bool IsConverter { get; set; } = false;
 
+            public bool ModifyAGVSCargoIDWithWebAPI { get; set; } = true;
             public string NameInAGVS { get; set; } = "";
 
         }

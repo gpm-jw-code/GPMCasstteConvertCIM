@@ -778,7 +778,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 Utility.SystemLogger.Warning($"[{PortName}] BCR ID Clear but Port Type ={EPortType}, Carrier removed not REPORT to MCS");
             }
 
-            if (Properties.IsConverter)
+            if (Properties.IsConverter && Properties.ModifyAGVSCargoIDWithWebAPI)
             {
                 _ = Task.Run(async () =>
                 {
@@ -796,12 +796,12 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     {
                         _RackCstModifyWaitSlim.Release();
                     }
-                   
+
                 });
             }
         }
 
-        private SemaphoreSlim _RackCstModifyWaitSlim = new SemaphoreSlim(1,1);
+        private SemaphoreSlim _RackCstModifyWaitSlim = new SemaphoreSlim(1, 1);
 
         internal async Task InstallCarrier(string cst_id)
         {
@@ -815,7 +815,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 await RemoveCarrier(Properties.PreviousOnPortID);
             }
 
-            
+
             Properties.PreviousOnPortID = cst_id;
             CSTIDOnPort = cst_id + "";
             Properties.IsInstalled = true;
@@ -824,7 +824,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             Utility.SystemLogger.Info($"{PortName}-Install Carrier_{cst_id}");
             UpdateModbusBCRReport(cst_id);
             await SecsEventReport(CEID.CarrierInstallCompletedReport, cst_id);
-            if (Properties.IsConverter)
+            if (Properties.IsConverter && Properties.ModifyAGVSCargoIDWithWebAPI)
             {
                 _ = Task.Run(async () =>
                 {

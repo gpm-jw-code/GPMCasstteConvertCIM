@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GPMCasstteConvertCIM.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -9,6 +10,7 @@ namespace GPMCasstteConvertCIM.API.KGAGVS
 {
     public class UserAuthAPI
     {
+        internal static LoggerBase Logger;
         public static async Task<(bool success, clsCookie cookie, string response, string errorMsg)> LoginToAGVSWebSite()
         {
             try
@@ -29,6 +31,8 @@ namespace GPMCasstteConvertCIM.API.KGAGVS
 
         private static async Task<string> Login(string sid, string io)
         {
+            Log($"Try LOGIN With SID={sid},IO={io}");
+
             var baseAddress = new Uri($"http://{APIConfiguration.AGVSHostIP}:{APIConfiguration.AGVSHostPORT}");
             var cookieContainer = new CookieContainer();
             cookieContainer.Add(baseAddress, new Cookie("connect.sid", sid));
@@ -45,7 +49,7 @@ namespace GPMCasstteConvertCIM.API.KGAGVS
                 client.DefaultRequestHeaders.Add("X-Requested-With", "XMLHttpRequest");
                 client.DefaultRequestHeaders.Add("Origin", baseAddress.ToString());
 
-                var content = new StringContent("[{\"name\":\"UserName\",\"value\":\"paul\"},{\"name\":\"Password\",\"value\":\"1\"}]", System.Text.Encoding.UTF8, "application/json");
+                var content = new StringContent("[{\"name\":\"UserName\",\"value\":\"op\"},{\"name\":\"Password\",\"value\":\"op\"}]", System.Text.Encoding.UTF8, "application/json");
 
                 var response = await client.PostAsync("/user/login", content);
 
@@ -53,6 +57,8 @@ namespace GPMCasstteConvertCIM.API.KGAGVS
 
                 Console.WriteLine(responseString);
             }
+            Log($"LOGIN Response From Server={responseString}");
+
             return responseString;
         }
 
@@ -64,19 +70,32 @@ namespace GPMCasstteConvertCIM.API.KGAGVS
         }
         public static async Task<string> GetwebsiteSID(CancellationToken cancelToken)
         {
+
             try
             {
+                string website_url = $"http://{APIConfiguration.AGVSHostIP}:{APIConfiguration.AGVSHostPORT}";
+                Log($"Try Get KGS Website SID-> {website_url}");
                 var client = new HttpClient();
                 client.Timeout = TimeSpan.FromSeconds(5);
-                var response = await client.GetAsync($"http://{APIConfiguration.AGVSHostIP}:{APIConfiguration.AGVSHostPORT}/Index", cancelToken);
+                var response = await client.GetAsync(website_url, cancelToken);
                 var cookieHeader = response.Headers.GetValues("Set-Cookie");
+                string SID = cookieHeader.First().Split('=')[1].Split(';')[0];
+                Log($"Get KGS Website SID Success!-> {SID}");
                 //connect.sid=s%3AKGQ-tYUAMeZVvwaq8TL5JbCB5bO5j_9q.8kdLcGJz%2FqrKdpv3wzEL%2B4m%2BgY9aZ7OiRDuT5yqDi6w; Path=/; Expires=Tue, 18 Jul 2023 05:28:04 GMT; HttpOnly
-                return cookieHeader.First().Split('=')[1].Split(';')[0];
+                return SID;
             }
 
             catch (Exception ex)
             {
                 throw ex;
+            }
+        }
+        private static void Log(string msg)
+        {
+            Console.WriteLine(msg);
+            if (Logger != null)
+            {
+                Logger.Info(msg);
             }
         }
     }

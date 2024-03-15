@@ -182,6 +182,7 @@ namespace GPMCasstteConvertCIM.Forms
                         clsAgvsAlarmDevice.GetAlarmReset();
                     });
                     API.KGAGVS.RackStatusAPI.Logger = Utility.SystemLogger;
+                    API.KGAGVS.UserAuthAPI.Logger = Utility.SystemLogger;
                     Utility.SystemLogger.Info($"KGS Web Service = {API.KGAGVS.APIConfiguration.AGVSHostIP}:{API.KGAGVS.APIConfiguration.AGVSHostPORT}");
 #if logTest
                     for (int i = 0; i < 20; i++)
