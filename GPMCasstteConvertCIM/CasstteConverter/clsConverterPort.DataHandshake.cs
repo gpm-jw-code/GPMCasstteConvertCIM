@@ -32,10 +32,9 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         /// </summary>
         /// <param name="portUnitType"></param>
         /// <returns></returns>
-        internal async Task<bool> ModeChangeRequestHandshake(PortUnitType portUnitType, string requester_name = "MCS")
+        internal async Task<bool> ModeChangeRequestHandshake(PortUnitType portUnitType, string requester_name = "MCS", bool no_change_if_current_type_is_req = true)
         {
-
-            if (EPortType == portUnitType)
+            if (no_change_if_current_type_is_req && EPortType == portUnitType)
             {
                 Utility.SystemLogger.Info($"[{requester_name}] Request [{Properties.PortID}] Change Port Type To {portUnitType}, But Port Already {portUnitType}");
                 return true;
@@ -52,9 +51,11 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             var plc_refuse_address = EQParent.LinkBitMap.First(ad => ad.Address == eq_2_cim_port_mode_change_refuse_address_name);
 
             //write porttype data to word memory
+            Utility.SystemLogger.Info($"Trigger {port_type_data_address_name} as {(int)portUnitType}");
             VirtualMemoryTable.WriteBinary(port_type_data_address_name, (int)portUnitType);
             await Task.Delay(1000);
             //On CIM Bit
+            Utility.SystemLogger.Info($"Trigger {cim_2_eq_port_mode_change_req_address_name} as 1");
             VirtualMemoryTable.WriteOneBit(cim_2_eq_port_mode_change_req_address_name, true);
             //wait EQ Bit on
 
@@ -78,7 +79,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             VirtualMemoryTable.WriteOneBit(cim_2_eq_port_mode_change_req_address_name, false);
             cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
 
-            while ((bool)plc_accept_address.Value | (bool)plc_refuse_address.Value)
+            while ((bool)plc_accept_address.Value || (bool)plc_refuse_address.Value)
             {
                 await Task.Delay(10);
                 if (cts.IsCancellationRequested)
@@ -195,7 +196,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         public async Task<(bool confirm, ALARM_CODES alarm_code)> CarrierWaitInReply(bool wait_in_accept, int EQ_T_timeout = 5000)
         {
-            Utility.SystemLogger.Info($"Carrier Wait In HS Start");
+            Utility.SystemLogger.Info($"[{PortName}]-Carrier Wait In HS Start");
             bool timeout = false;
             PROPERTY wait_in_ = wait_in_accept ? PROPERTY.Carrier_WaitIn_System_Accept : PROPERTY.Carrier_WaitIn_System_Refuse;
             string? carrier_wait_in_result_flag_address = PortCIMBitAddress[wait_in_];
@@ -244,6 +245,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 Utility.SystemLogger.Info($"[{PortName}] Carrier Wait In HS Failed");
             }
             wait_in_timer.Stop();
+
+            Utility.SystemLogger.Info($"[{PortName}]-Carrier Wait In HS FINISH!");
             return (!timeout, timeout ? ALARM_CODES.CarrierWaitIn_HS_EQ_Timeout : ALARM_CODES.None);
 
         }

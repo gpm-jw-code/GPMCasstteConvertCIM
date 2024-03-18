@@ -91,7 +91,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         public bool IsIOSimulating => IOSignalMode == IO_MODE.FromCIMSimulation;
 
-        internal PortUnitType EPortType => Enum.GetValues(typeof(PortUnitType)).Cast<PortUnitType>().First(etype => (int)etype == _PortType);
+        public virtual PortUnitType EPortType => Enum.GetValues(typeof(PortUnitType)).Cast<PortUnitType>().First(etype => (int)etype == _PortType);
 
         public string StatusMemStartAddress => PortEQBitAddress.Count == 0 ? "" : PortEQBitAddress.First(kp => kp.Key == PROPERTY.Load_Request).Value;
 
@@ -135,7 +135,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         internal List<clsMemoryAddress> CIMModbusLinkBitAddress => EQParent.LinkBitMap.FindAll(ad => ad.EOwner == OWNER.CIM && ad.EScope.ToString() == portNoName && ad.Link_Modbus_Register_Number != -1);
         internal List<clsMemoryAddress> EQModbusLinkWordAddress => EQParent.LinkWordMap.FindAll(ad => ad.EOwner == OWNER.EQP && ad.EScope.ToString() == portNoName && ad.Link_Modbus_Register_Number != -1);
         internal List<clsMemoryAddress> CIMModbusLinkWordAddress => EQParent.LinkWordMap.FindAll(ad => ad.EOwner == OWNER.CIM && ad.Link_Modbus_Register_Number != -1);
-        private CIMComponent.MemoryTable VirtualMemoryTable => EQParent.CIMMemOptions.memoryTable;
+        protected virtual CIMComponent.MemoryTable VirtualMemoryTable => EQParent.CIMMemOptions.memoryTable;
 
 
         internal clsMemoryAddress load_request_address => EQModbusLinkBitAddress.FirstOrDefault(a => a.EProperty == Enums.PROPERTY.Load_Request);
@@ -418,6 +418,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 if (_WIPINFO_BCR_ID != value)
                 {
                     _WIPINFO_BCR_ID = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("WIPINFO_BCR_ID"));
+
                     if (value != "")
                     {
                         string thisPortDUID = string.Empty;
@@ -590,7 +592,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
 
 
-        public async void ModbusServerActive()
+        public async Task ModbusServerActive()
         {
             await Task.Delay(1);
 
@@ -601,7 +603,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             {
                 try
                 {
-                    if (BuildModbusTCPServer(new frmModbusTCPServer()))
+                    if (await BuildModbusTCPServer(new frmModbusTCPServer()))
                     {
                         Utility.SystemLogger.Info($"ModbusTcp Server-0.0.0.0:{modbus_server.Port} is serving.", false);
                         SyncModbusDataWorker();
@@ -628,7 +630,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             public bool AGV_COMPT { get; set; }
         }
         internal clsAGVHandshakeState agv_hs_status = new clsAGVHandshakeState();
-       
+
         internal void RaiseStatusIOChangeInvoke()
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("LoadRequest"));
@@ -765,7 +767,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 Utility.SystemLogger.Warning($"[{PortName}]Carrier Remove Event not Report to MCS ,because 'NeverReportCarrierRemove' setting is actived.");
                 return;
             }
-            if (checkPortType == false | (!Properties.RemoveCarrierMCSReportOnlyInOUTPUTMODE || (Properties.RemoveCarrierMCSReportOnlyInOUTPUTMODE & EPortType == PortUnitType.Output)))
+            if (checkPortType == false || (!Properties.RemoveCarrierMCSReportOnlyInOUTPUTMODE || (Properties.RemoveCarrierMCSReportOnlyInOUTPUTMODE & EPortType == PortUnitType.Output)))
             {
                 Utility.SystemLogger.Info($"[{PortName}] Carrier removed Report to MCS Start");
                 bool remove_reported = await SecsEventReport(CEID.CarrierRemovedCompletedReport, cst_id + "");
@@ -775,16 +777,44 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             {
                 Utility.SystemLogger.Warning($"[{PortName}] BCR ID Clear but Port Type ={EPortType}, Carrier removed not REPORT to MCS");
             }
+
+            if (Properties.IsConverter && Properties.ModifyAGVSCargoIDWithWebAPI)
+            {
+                _ = Task.Run(async () =>
+                {
+                    try
+                    {
+                        await _RackCstModifyWaitSlim.WaitAsync();
+                        (bool confirm, string response, string errorMsg) result = await API.KGAGVS.RackStatusAPI.DeleteCSTID(Properties.NameInAGVS, 1, cst_id);
+                        Utility.SystemLogger.Info($"Delete CST ID API請求結果={result.ToJson()}");
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
+                    finally
+                    {
+                        _RackCstModifyWaitSlim.Release();
+                    }
+
+                });
+            }
         }
+
+        private SemaphoreSlim _RackCstModifyWaitSlim = new SemaphoreSlim(1, 1);
+
         internal async Task InstallCarrier(string cst_id)
         {
             if (!PortExist)
                 return;
 
+
+
             if (Properties.IsInstalled && cst_id != Properties.PreviousOnPortID)
             {
                 await RemoveCarrier(Properties.PreviousOnPortID);
             }
+
 
             Properties.PreviousOnPortID = cst_id;
             CSTIDOnPort = cst_id + "";
@@ -794,30 +824,62 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             Utility.SystemLogger.Info($"{PortName}-Install Carrier_{cst_id}");
             UpdateModbusBCRReport(cst_id);
             await SecsEventReport(CEID.CarrierInstallCompletedReport, cst_id);
-
+            if (Properties.IsConverter && Properties.ModifyAGVSCargoIDWithWebAPI)
+            {
+                _ = Task.Run(async () =>
+                {
+                    await Task.Delay(1000);
+                    try
+                    {
+                        await _RackCstModifyWaitSlim.WaitAsync();
+                        (bool confirm, string response, string errorMsg) result = await API.KGAGVS.RackStatusAPI.AddCSTID(Properties.NameInAGVS, 1, cst_id);
+                        Utility.SystemLogger.Info($"Add CST ID API請求結果 ={result.ToJson()}");
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
+                    finally
+                    {
+                        _RackCstModifyWaitSlim.Release();
+                    }
+                });
+            }
         }
 
         public void UpdateModbusBCRReport(string cst_id_on_port, bool isClearBCR = false)
         {
-            Utility.SystemLogger.Info($"{PortName} Update BCR ID to CIM Memory Table");
-            clsMemoryAddress? agvs_msg_1_address = EQParent.LinkWordMap.FirstOrDefault(v => Properties.PortNo == 0 ? v.EProperty == PROPERTY.AGVS_MSG_1 : v.EProperty == PROPERTY.AGVS_MSG_17);
-            clsMemoryAddress? agvs_msg_download_inedx_address = EQParent.LinkWordMap.FirstOrDefault(v => v.EProperty == PROPERTY.AGVS_MSG_DOWNLOAD_INDEX);
-            if (agvs_msg_1_address != null)
-            {
-                int[] ascii_bytes = cst_id_on_port.ToASCIIWords();
-                //int[] bcr_id_ints = isClearBCR ? new int[10] : new int[10] { WIPInfo_BCR_ID_1, WIPInfo_BCR_ID_2, WIPInfo_BCR_ID_3, WIPInfo_BCR_ID_4, WIPInfo_BCR_ID_5, WIPInfo_BCR_ID_6, WIPInfo_BCR_ID_7, WIPInfo_BCR_ID_8, WIPInfo_BCR_ID_9, WIPInfo_BCR_ID_10 };
-                int[] bcr_id_ints = isClearBCR ? new int[10] : ascii_bytes;
-                EQParent.CIMMemOptions.memoryTable.WriteWord(agvs_msg_1_address.Address, ref bcr_id_ints);
-                //Update Report Index(+1)
-                int[] vals = new int[1];
-                EQParent.CIMMemOptions.memoryTable.ReadWord(agvs_msg_download_inedx_address.Address, 1, ref vals);
-                vals[0] = vals[0] == int.MaxValue ? 0 : vals[0] + 1;
-                EQParent.CIMMemOptions.memoryTable.WriteWord(agvs_msg_download_inedx_address.Address, ref vals);
-            }
-            else
+            try
             {
                 Utility.SystemLogger.Info($"{PortName} Update BCR ID to CIM Memory Table");
+                clsMemoryAddress? agvs_msg_1_address = EQParent.LinkWordMap.FirstOrDefault(v => Properties.PortNo == 0 ? v.EProperty == PROPERTY.AGVS_MSG_1 : v.EProperty == PROPERTY.AGVS_MSG_17);
+                clsMemoryAddress? agvs_msg_download_inedx_address = EQParent.LinkWordMap.FirstOrDefault(v => v.EProperty == PROPERTY.AGVS_MSG_DOWNLOAD_INDEX);
+                if (agvs_msg_1_address != null)
+                {
+                    int[] ascii_bytes = cst_id_on_port.ToASCIIWords();
+                    //int[] bcr_id_ints = isClearBCR ? new int[10] : new int[10] { WIPInfo_BCR_ID_1, WIPInfo_BCR_ID_2, WIPInfo_BCR_ID_3, WIPInfo_BCR_ID_4, WIPInfo_BCR_ID_5, WIPInfo_BCR_ID_6, WIPInfo_BCR_ID_7, WIPInfo_BCR_ID_8, WIPInfo_BCR_ID_9, WIPInfo_BCR_ID_10 };
+                    int[] bcr_id_ints = isClearBCR ? new int[10] : ascii_bytes;
+                    ReportBCRToAGVS(agvs_msg_1_address, agvs_msg_download_inedx_address, bcr_id_ints);
+                }
+                else
+                {
+                    Utility.SystemLogger.Info($"{PortName} Update BCR ID to CIM Memory Table");
+                }
             }
+            catch (Exception ex)
+            {
+                Utility.SystemLogger.Error(ex);
+                AlarmManager.AddAlarm(ALARM_CODES.BCRID_SYNC_TO_AGVS_WORD_REGION_FAIL, PortName);
+            }
+        }
+
+        protected virtual void ReportBCRToAGVS(clsMemoryAddress? agvs_msg_1_address, clsMemoryAddress? agvs_msg_download_inedx_address, int[] bcr_id_ints)
+        {
+            EQParent.CIMMemOptions.memoryTable.WriteWord(agvs_msg_1_address.Address, ref bcr_id_ints);
+            int[] vals = new int[1];
+            EQParent.CIMMemOptions.memoryTable.ReadWord(agvs_msg_download_inedx_address.Address, 1, ref vals);
+            vals[0] = vals[0] == int.MaxValue ? 0 : vals[0] + 1;
+            EQParent.CIMMemOptions.memoryTable.WriteWord(agvs_msg_download_inedx_address.Address, ref vals);
         }
 
         internal string GetWIPIDFromMem()
@@ -959,7 +1021,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                                 {
                                     await Task.Delay(3000);
                                     var isCSTIDMismatch = WIPINFO_BCR_ID != CSTID_From_TransferCompletedReport;
-                                    bool IsBCRReadFail = IsBCR_READ_ERROR() | WIPINFO_BCR_ID == "";
+                                    bool IsBCRReadFail = IsBCR_READ_ERROR() || WIPINFO_BCR_ID == "";
 
                                     if (IsBCRReadFail)//讀取失敗=>報TUN
                                     {
@@ -1164,6 +1226,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 {
                     _PortType = value;
                     Utility.SystemLogger.Info($"{PortName} Port Type Change to {EPortType}");
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("EPortType"));
                     Task.Factory.StartNew(async () =>
                     {
                         try
@@ -1184,9 +1247,9 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         internal async Task PortTypeReport()
         {
-            if (EPortType == PortUnitType.Input | (EPortType == PortUnitType.Input_Output && MCSReservePortType == PortUnitType.Input))
+            if (EPortType == PortUnitType.Input || (EPortType == PortUnitType.Input_Output && MCSReservePortType == PortUnitType.Input))
                 await SecsEventReport(CEID.PortTypeInputReport);
-            if (EPortType == PortUnitType.Output | (EPortType == PortUnitType.Input_Output && MCSReservePortType == PortUnitType.Output))
+            if (EPortType == PortUnitType.Output || (EPortType == PortUnitType.Input_Output && MCSReservePortType == PortUnitType.Output))
                 await SecsEventReport(CEID.PortTypeOutputReport);
         }
         private bool _EQ_BUSY_CIM_CONTROL = false;

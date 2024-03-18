@@ -51,12 +51,18 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
             if (add == null || add.EProperty == PROPERTY.Interface_Clock)
                 return;
 
-            clsCCLinkIE_Station? station = Stations.FirstOrDefault(st => st.LinkBitMap.Any(ad => ad.Address == add.Address));
+            bool addressExist(ref clsCCLinkIE_Station station, string address)
+            {
+                return station.LinkBitMap.Any(a => a.Address == address) ||
+                       station.LinkWordMap.Any(a => a.Address == address);
+            }
+
+            clsCCLinkIE_Station? station = Stations.FirstOrDefault(st => addressExist(ref st, add.Address));
             var owner_str = add.EOwner == clsMemoryAddress.OWNER.CIM ? "CIM/AGVS" : "EQ";
 
             try
             {
-                if (add.EScope == EQ_SCOPE.PORT1 | add.EScope == EQ_SCOPE.PORT2)
+                if (add.EScope == EQ_SCOPE.PORT1 || add.EScope == EQ_SCOPE.PORT2)
                 {
                     var stationName = station == null ? "" : station.PortDatas[add.EScope == EQ_SCOPE.PORT1 ? 0 : 1].PortName;
                     _IOLogger.Log($"{Name}-{stationName}-->[{owner_str}]{add.DataName}({add.Address}) Changed to [{add.Value}]", stationName);

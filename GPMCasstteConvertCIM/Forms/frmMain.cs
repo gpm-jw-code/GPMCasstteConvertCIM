@@ -1,3 +1,4 @@
+//#define logTest
 using GPMCasstteConvertCIM.AGVsMiddleware;
 using GPMCasstteConvertCIM.Alarm;
 using GPMCasstteConvertCIM.API.TcpSupport;
@@ -40,11 +41,7 @@ namespace GPMCasstteConvertCIM.Forms
             {
                 this.Icon = new Icon(Path.Combine(Environment.CurrentDirectory, "cimico_x86.ico"));
             }
-            Application.ThreadException += Application_ThreadException; ;
-            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             toolStripComboBox_Emulators.Visible = false;
-
-
         }
 
         private void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
@@ -69,14 +66,21 @@ namespace GPMCasstteConvertCIM.Forms
         private void Form1_Load(object sender, EventArgs e)
         {
             pnlLoading.BringToFront();
+
+            DBhelper.Initialize();
+            Utility.LoadConfigs();
+
+            API.KGAGVS.APIConfiguration.AGVSHostIP = Utility.SysConfigs.WebService.KGS_HOST_IP;
+            API.KGAGVS.APIConfiguration.AGVSHostPORT = Utility.SysConfigs.WebService.KGS_HOST_PORT;
+
+
+            Text = $"GPM AGVS CIM-V{Assembly.GetExecutingAssembly().GetName().Version.ToString()} {(Environment.Is64BitProcess ? "" : "(x86)")}-{Utility.SysConfigs.Project}";
+            警報器IO狀態ToolStripMenuItem.Visible = Utility.ModbusDeviceConfigs.Enable;
             Task.Run(async () =>
             {
-                await Task.Delay(2000);
+                await Task.Delay(500);
                 Invoke(new Action(() =>
                 {
-
-                    DBhelper.Initialize();
-                    Utility.LoadConfigs();
                     Secs4Net.EncodingSetting.ASCIIEncoding = Utility.SysConfigs.SECS.SECESAEncoding; //設定編碼
                     if (Utility.SysConfigs.Project == Utilities.SysConfigs.clsSystemConfigs.PROJECT.U007)
                     {
@@ -144,6 +148,16 @@ namespace GPMCasstteConvertCIM.Forms
                             uscAlarmTable1.alarmListBinding.ResetBindings();
                         }));
                     };
+                    AlarmManager.onUnHandleExceptionOccur += (sender, alarm) =>
+                    {
+                        UnHandleExpLabelAnimation();
+                    };
+
+                    AlarmManager.onUnHandleExceptionAllClear += (sender, alarm) =>
+                    {
+                        UnHandleExpLabelAnimationStop();
+                    };
+
                     SetCurrentEncodingName();
 
                     if (!Utility.SysConfigs.PostOrderInfoToAGV)
@@ -156,7 +170,6 @@ namespace GPMCasstteConvertCIM.Forms
                         initTheard.Start();
                     }
                     CreateCVSimulatorItemButtons();
-                    Text = $"GPM AGVS CIM-V{Assembly.GetExecutingAssembly().GetName().Version.ToString()} {(Environment.Is64BitProcess ? "" : "(x86)")}-{Utility.SysConfigs.Project}";
                     labRegionName.Text = Utility.SysConfigs.RegionName;
                     pnlLoading.SendToBack();
 
@@ -168,8 +181,62 @@ namespace GPMCasstteConvertCIM.Forms
                     {
                         clsAgvsAlarmDevice.GetAlarmReset();
                     });
+                    API.KGAGVS.RackStatusAPI.Logger = Utility.SystemLogger;
+                    API.KGAGVS.UserAuthAPI.Logger = Utility.SystemLogger;
+                    Utility.SystemLogger.Info($"KGS Web Service = {API.KGAGVS.APIConfiguration.AGVSHostIP}:{API.KGAGVS.APIConfiguration.AGVSHostPORT}");
+#if logTest
+                    for (int i = 0; i < 20; i++)
+                    {
+                        var _threadID = i + "";
+                        Thread th = new Thread((_object) =>
+                        {
+                            while (true)
+                            {
+                                Thread.Sleep(1);
+                                Utility.SystemLogger.Info($"Thread-{_object},Log Test-{DateTime.Now.Ticks}", true);
+                            }
+                        });
+                        th.IsBackground = true;
+                        th.Start(_threadID);
+                    }
+#endif
                 }));
             });
+
+        }
+
+        private void UnHandleExpLabelAnimationStop()
+        {
+            if (UnHandleExpLabelAnumationTimer == null)
+                return;
+            UnHandleExpLabelAnumationTimer.Enabled = false;
+            labUnHandleExceptions.Visible = false;
+        }
+
+        System.Windows.Forms.Timer UnHandleExpLabelAnumationTimer;
+        private void UnHandleExpLabelAnimation()
+        {
+            labUnHandleExceptions.Visible = true;
+            if (UnHandleExpLabelAnumationTimer == null)
+            {
+                Color bgColor1 = Color.White;
+                Color bgColor2 = Color.Red;
+
+                Color foreColor1 = Color.Red;
+                Color foreColor2 = Color.White;
+
+                UnHandleExpLabelAnumationTimer = new System.Windows.Forms.Timer()
+                {
+                    Interval = 1000,
+                };
+                UnHandleExpLabelAnumationTimer.Tick += (sender, e) =>
+                {
+                    labUnHandleExceptions.BackColor = labUnHandleExceptions.BackColor == bgColor1 ? bgColor2 : bgColor1;
+                    labUnHandleExceptions.ForeColor = labUnHandleExceptions.ForeColor == foreColor1 ? foreColor2 : foreColor1;
+                };
+            }
+
+            UnHandleExpLabelAnumationTimer.Enabled = true;
 
         }
 
@@ -316,6 +383,18 @@ namespace GPMCasstteConvertCIM.Forms
                 Text = $"AGV交握模擬-{port.Properties.ModbusServer_IP}:{port.Properties.ModbusServer_PORT}({port.PortNameWithEQName})"
             };
             emu.Show();
+        }
+        private void OpenAllModbusSimulators()
+        {
+            List<clsConverterPort> ports = DevicesManager.GetAllPorts();
+            foreach (var port in ports)
+            {
+                frmAGVS_Modbus_Emulator emu = new frmAGVS_Modbus_Emulator(port)
+                {
+                    Text = $"AGV交握模擬-{port.Properties.ModbusServer_IP}:{port.Properties.ModbusServer_PORT}({port.PortNameWithEQName})"
+                };
+                emu.Show();
+            }
         }
 
         private void Secs_client_MsgRecvBufferOnAdded(object? sender, EventArgs e)
@@ -667,6 +746,42 @@ namespace GPMCasstteConvertCIM.Forms
         private void WebServerExceptionToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CIMWebServer._simulateExceptionHappend = true;
+        }
+
+        private void FrmMain_SizeChanged(object sender, EventArgs e)
+        {
+            try
+            {
+
+                var _WindowState = this.WindowState;
+                Utility.SystemLogger.UIWindowState = _WindowState;
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        private void openAllModbusEmuToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenAllModbusSimulators();
+        }
+
+        private async void toolStripStatusLabel1_Click(object sender, EventArgs e)
+        {
+            await Task.Run(() =>
+            {
+                throw new Exception("例外捕捉測試");
+            });
+        }
+
+        private void labUnHandleExceptions_Click(object sender, EventArgs e)
+        {
+            frmUnHandleExceptionViewer exceptionViewer = new frmUnHandleExceptionViewer()
+            {
+                WindowState = FormWindowState.Maximized,
+                StartPosition = FormStartPosition.CenterScreen
+            };
+            exceptionViewer.Show();
         }
     }
 }

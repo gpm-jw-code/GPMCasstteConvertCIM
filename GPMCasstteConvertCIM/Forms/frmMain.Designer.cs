@@ -91,6 +91,9 @@
             toolStripMenuItem_OpenConvert_2_Simulator = new ToolStripMenuItem();
             AGVS_modbus_sim_ToolStripMenuItem = new ToolStripMenuItem();
             aGVSEmuToolStripMenuItem = new ToolStripMenuItem();
+            dEBUGToolStripMenuItem = new ToolStripMenuItem();
+            webServerExceptionToolStripMenuItem = new ToolStripMenuItem();
+            openAllModbusEmuToolStripMenuItem = new ToolStripMenuItem();
             toolStripMenuItem_AGVs_DB = new ToolStripMenuItem();
             警報器IO狀態ToolStripMenuItem = new ToolStripMenuItem();
             pnlSideLeft = new Panel();
@@ -102,6 +105,7 @@
             label1 = new Label();
             statusStrip1 = new StatusStrip();
             toolStripStatusLabel1 = new ToolStripStatusLabel();
+            labUnHandleExceptions = new ToolStripStatusLabel();
             labWebServerUrl = new ToolStripStatusLabel();
             labCurrentEncodingName = new ToolStripStatusLabel();
             labSysTime = new ToolStripStatusLabel();
@@ -112,8 +116,6 @@
             cknOnlineModeIndi = new CheckBox();
             pnlLoading = new Panel();
             label7 = new Label();
-            dEBUGToolStripMenuItem = new ToolStripMenuItem();
-            webServerExceptionToolStripMenuItem = new ToolStripMenuItem();
             tabControl1.SuspendLayout();
             tabPage4.SuspendLayout();
             tabPage1.SuspendLayout();
@@ -163,7 +165,7 @@
             tabControl1.Location = new Point(0, 0);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(1252, 649);
+            tabControl1.Size = new Size(1252, 643);
             tabControl1.SizeMode = TabSizeMode.Fixed;
             tabControl1.TabIndex = 1;
             // 
@@ -173,7 +175,7 @@
             tabPage4.Location = new Point(4, 34);
             tabPage4.Name = "tabPage4";
             tabPage4.Padding = new Padding(3);
-            tabPage4.Size = new Size(1244, 611);
+            tabPage4.Size = new Size(1244, 605);
             tabPage4.TabIndex = 3;
             tabPage4.Text = "Home(007)";
             tabPage4.UseVisualStyleBackColor = true;
@@ -185,7 +187,7 @@
             usceqStatus1.Location = new Point(3, 3);
             usceqStatus1.Margin = new Padding(4);
             usceqStatus1.Name = "usceqStatus1";
-            usceqStatus1.Size = new Size(1238, 605);
+            usceqStatus1.Size = new Size(1238, 599);
             usceqStatus1.TabIndex = 1;
             // 
             // tabPage1
@@ -196,7 +198,7 @@
             tabPage1.Location = new Point(4, 34);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(1244, 611);
+            tabPage1.Size = new Size(1244, 605);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "HOME";
             // 
@@ -216,8 +218,8 @@
             // 
             splitContainer2.Panel2.BackColor = Color.White;
             splitContainer2.Panel2.Controls.Add(panel2);
-            splitContainer2.Size = new Size(1238, 605);
-            splitContainer2.SplitterDistance = 912;
+            splitContainer2.Size = new Size(1238, 599);
+            splitContainer2.SplitterDistance = 911;
             splitContainer2.TabIndex = 13;
             // 
             // tlpConverterContainer
@@ -235,7 +237,7 @@
             tlpConverterContainer.RowCount = 2;
             tlpConverterContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tlpConverterContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tlpConverterContainer.Size = new Size(912, 605);
+            tlpConverterContainer.Size = new Size(911, 599);
             tlpConverterContainer.TabIndex = 11;
             // 
             // tlpSingleConvertsContainer
@@ -253,7 +255,7 @@
             tlpSingleConvertsContainer.Name = "tlpSingleConvertsContainer";
             tlpSingleConvertsContainer.RowCount = 1;
             tlpSingleConvertsContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tlpSingleConvertsContainer.Size = new Size(904, 295);
+            tlpSingleConvertsContainer.Size = new Size(903, 292);
             tlpSingleConvertsContainer.TabIndex = 12;
             // 
             // panel2
@@ -263,7 +265,7 @@
             panel2.Dock = DockStyle.Fill;
             panel2.Location = new Point(0, 0);
             panel2.Name = "panel2";
-            panel2.Size = new Size(322, 605);
+            panel2.Size = new Size(323, 599);
             panel2.TabIndex = 12;
             // 
             // pnlSyslogRtbContainer
@@ -277,14 +279,14 @@
             pnlSyslogRtbContainer.Location = new Point(0, 0);
             pnlSyslogRtbContainer.Name = "pnlSyslogRtbContainer";
             pnlSyslogRtbContainer.Padding = new Padding(1);
-            pnlSyslogRtbContainer.Size = new Size(322, 605);
+            pnlSyslogRtbContainer.Size = new Size(323, 599);
             pnlSyslogRtbContainer.TabIndex = 6;
             // 
             // btnClearInfoLog
             // 
             btnClearInfoLog.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             btnClearInfoLog.FlatStyle = FlatStyle.Flat;
-            btnClearInfoLog.Location = new Point(223, 6);
+            btnClearInfoLog.Location = new Point(225, 6);
             btnClearInfoLog.Name = "btnClearInfoLog";
             btnClearInfoLog.Size = new Size(75, 23);
             btnClearInfoLog.TabIndex = 1;
@@ -300,7 +302,7 @@
             rtbSystemLogShow.ForeColor = Color.White;
             rtbSystemLogShow.Location = new Point(1, 1);
             rtbSystemLogShow.Name = "rtbSystemLogShow";
-            rtbSystemLogShow.Size = new Size(318, 601);
+            rtbSystemLogShow.Size = new Size(319, 595);
             rtbSystemLogShow.TabIndex = 0;
             rtbSystemLogShow.Text = "";
             // 
@@ -310,7 +312,7 @@
             tabPage3.Location = new Point(4, 34);
             tabPage3.Name = "tabPage3";
             tabPage3.Padding = new Padding(3);
-            tabPage3.Size = new Size(1244, 611);
+            tabPage3.Size = new Size(1244, 605);
             tabPage3.TabIndex = 2;
             tabPage3.Text = "系統警報";
             tabPage3.UseVisualStyleBackColor = true;
@@ -322,7 +324,7 @@
             uscAlarmTable1.Location = new Point(3, 3);
             uscAlarmTable1.Margin = new Padding(4);
             uscAlarmTable1.Name = "uscAlarmTable1";
-            uscAlarmTable1.Size = new Size(1238, 605);
+            uscAlarmTable1.Size = new Size(1238, 599);
             uscAlarmTable1.TabIndex = 0;
             // 
             // tabPage2
@@ -331,7 +333,7 @@
             tabPage2.Location = new Point(4, 34);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(1244, 611);
+            tabPage2.Size = new Size(1244, 605);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "LOG";
             tabPage2.UseVisualStyleBackColor = true;
@@ -355,7 +357,7 @@
             tableLayoutPanel1.RowCount = 2;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 41F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.Size = new Size(1238, 605);
+            tableLayoutPanel1.Size = new Size(1238, 599);
             tableLayoutPanel1.TabIndex = 2;
             // 
             // checkBox2
@@ -386,7 +388,7 @@
             rtbSecsHostLog.Location = new Point(0, 41);
             rtbSecsHostLog.Margin = new Padding(0);
             rtbSecsHostLog.Name = "rtbSecsHostLog";
-            rtbSecsHostLog.Size = new Size(412, 564);
+            rtbSecsHostLog.Size = new Size(412, 558);
             rtbSecsHostLog.TabIndex = 1;
             rtbSecsHostLog.Text = "";
             // 
@@ -398,7 +400,7 @@
             rtbSecsClientLog.Location = new Point(412, 41);
             rtbSecsClientLog.Margin = new Padding(0);
             rtbSecsClientLog.Name = "rtbSecsClientLog";
-            rtbSecsClientLog.Size = new Size(412, 564);
+            rtbSecsClientLog.Size = new Size(412, 558);
             rtbSecsClientLog.TabIndex = 2;
             rtbSecsClientLog.Text = "";
             // 
@@ -449,7 +451,7 @@
             rtbModbusTcpServerLog.Location = new Point(824, 41);
             rtbModbusTcpServerLog.Margin = new Padding(0);
             rtbModbusTcpServerLog.Name = "rtbModbusTcpServerLog";
-            rtbModbusTcpServerLog.Size = new Size(414, 564);
+            rtbModbusTcpServerLog.Size = new Size(414, 558);
             rtbModbusTcpServerLog.TabIndex = 7;
             rtbModbusTcpServerLog.Text = "";
             // 
@@ -459,7 +461,7 @@
             tabAGVSInfos.Location = new Point(4, 34);
             tabAGVSInfos.Name = "tabAGVSInfos";
             tabAGVSInfos.Padding = new Padding(3);
-            tabAGVSInfos.Size = new Size(1244, 611);
+            tabAGVSInfos.Size = new Size(1244, 605);
             tabAGVSInfos.TabIndex = 4;
             tabAGVSInfos.Text = "AGVs";
             tabAGVSInfos.UseVisualStyleBackColor = true;
@@ -471,7 +473,7 @@
             uscagVsInfo1.Location = new Point(3, 3);
             uscagVsInfo1.Margin = new Padding(4);
             uscagVsInfo1.Name = "uscagVsInfo1";
-            uscagVsInfo1.Size = new Size(1238, 605);
+            uscagVsInfo1.Size = new Size(1238, 599);
             uscagVsInfo1.TabIndex = 0;
             // 
             // tableLayoutPanel2
@@ -856,6 +858,27 @@
             aGVSEmuToolStripMenuItem.Text = "AGVS 派車模擬器";
             aGVSEmuToolStripMenuItem.Click += aGVS派車模擬器ToolStripMenuItem_Click;
             // 
+            // dEBUGToolStripMenuItem
+            // 
+            dEBUGToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { webServerExceptionToolStripMenuItem, openAllModbusEmuToolStripMenuItem });
+            dEBUGToolStripMenuItem.Name = "dEBUGToolStripMenuItem";
+            dEBUGToolStripMenuItem.Size = new Size(239, 24);
+            dEBUGToolStripMenuItem.Text = "DEBUG";
+            // 
+            // webServerExceptionToolStripMenuItem
+            // 
+            webServerExceptionToolStripMenuItem.Name = "webServerExceptionToolStripMenuItem";
+            webServerExceptionToolStripMenuItem.Size = new Size(247, 24);
+            webServerExceptionToolStripMenuItem.Text = "Web Server Exception ";
+            webServerExceptionToolStripMenuItem.Click += WebServerExceptionToolStripMenuItem_Click;
+            // 
+            // openAllModbusEmuToolStripMenuItem
+            // 
+            openAllModbusEmuToolStripMenuItem.Name = "openAllModbusEmuToolStripMenuItem";
+            openAllModbusEmuToolStripMenuItem.Size = new Size(247, 24);
+            openAllModbusEmuToolStripMenuItem.Text = "Open All Modbus Emu";
+            openAllModbusEmuToolStripMenuItem.Click += openAllModbusEmuToolStripMenuItem_Click;
+            // 
             // toolStripMenuItem_AGVs_DB
             // 
             toolStripMenuItem_AGVs_DB.BackColor = Color.Red;
@@ -974,7 +997,7 @@
             // 
             statusStrip1.BackColor = Color.FromArgb(0, 57, 155);
             statusStrip1.ImageScalingSize = new Size(20, 20);
-            statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel1, labWebServerUrl, labCurrentEncodingName, labSysTime });
+            statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel1, labUnHandleExceptions, labWebServerUrl, labCurrentEncodingName, labSysTime });
             statusStrip1.Location = new Point(0, 816);
             statusStrip1.Name = "statusStrip1";
             statusStrip1.Size = new Size(1407, 22);
@@ -985,13 +1008,26 @@
             // 
             toolStripStatusLabel1.BackColor = Color.Transparent;
             toolStripStatusLabel1.Font = new Font("Yu Gothic UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            toolStripStatusLabel1.ForeColor = Color.WhiteSmoke;
+            toolStripStatusLabel1.ForeColor = SystemColors.ActiveCaption;
             toolStripStatusLabel1.LinkColor = Color.FromArgb(53, 53, 53);
             toolStripStatusLabel1.Margin = new Padding(0);
             toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            toolStripStatusLabel1.Size = new Size(1143, 22);
+            toolStripStatusLabel1.Size = new Size(1039, 22);
             toolStripStatusLabel1.Spring = true;
             toolStripStatusLabel1.Text = "GPM AGV SYSTEM CIM";
+            toolStripStatusLabel1.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // labUnHandleExceptions
+            // 
+            labUnHandleExceptions.BackColor = Color.Red;
+            labUnHandleExceptions.BorderStyle = Border3DStyle.Etched;
+            labUnHandleExceptions.ForeColor = Color.White;
+            labUnHandleExceptions.Margin = new Padding(0, 0, 6, 0);
+            labUnHandleExceptions.Name = "labUnHandleExceptions";
+            labUnHandleExceptions.Size = new Size(67, 22);
+            labUnHandleExceptions.Text = "未捕捉例外";
+            labUnHandleExceptions.Visible = false;
+            labUnHandleExceptions.Click += labUnHandleExceptions_Click;
             // 
             // labWebServerUrl
             // 
@@ -1037,20 +1073,21 @@
             // uscAlarmShow1
             // 
             uscAlarmShow1.AutoSize = true;
-            uscAlarmShow1.BackColor = Color.FromArgb(0, 57, 155);
+            uscAlarmShow1.BackColor = Color.Transparent;
             uscAlarmShow1.Dock = DockStyle.Top;
-            uscAlarmShow1.ForeColor = Color.White;
+            uscAlarmShow1.ForeColor = Color.Black;
             uscAlarmShow1.Location = new Point(155, 53);
             uscAlarmShow1.Margin = new Padding(4);
             uscAlarmShow1.Name = "uscAlarmShow1";
-            uscAlarmShow1.Size = new Size(1252, 74);
+            uscAlarmShow1.Padding = new Padding(0, 0, 0, 5);
+            uscAlarmShow1.Size = new Size(1252, 79);
             uscAlarmShow1.TabIndex = 10;
             // 
             // splitContainer1
             // 
             splitContainer1.BackColor = Color.FromArgb(53, 53, 53);
             splitContainer1.Dock = DockStyle.Fill;
-            splitContainer1.Location = new Point(155, 127);
+            splitContainer1.Location = new Point(155, 132);
             splitContainer1.Name = "splitContainer1";
             splitContainer1.Orientation = Orientation.Horizontal;
             // 
@@ -1062,8 +1099,8 @@
             // splitContainer1.Panel2
             // 
             splitContainer1.Panel2.Controls.Add(tableLayoutPanel2);
-            splitContainer1.Size = new Size(1252, 689);
-            splitContainer1.SplitterDistance = 649;
+            splitContainer1.Size = new Size(1252, 684);
+            splitContainer1.SplitterDistance = 643;
             splitContainer1.TabIndex = 12;
             // 
             // ckbRemoteModeIndi
@@ -1126,20 +1163,6 @@
             label7.Text = "Loading...";
             label7.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // dEBUGToolStripMenuItem
-            // 
-            dEBUGToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { webServerExceptionToolStripMenuItem });
-            dEBUGToolStripMenuItem.Name = "dEBUGToolStripMenuItem";
-            dEBUGToolStripMenuItem.Size = new Size(239, 24);
-            dEBUGToolStripMenuItem.Text = "DEBUG";
-            // 
-            // webServerExceptionToolStripMenuItem
-            // 
-            webServerExceptionToolStripMenuItem.Name = "webServerExceptionToolStripMenuItem";
-            webServerExceptionToolStripMenuItem.Size = new Size(246, 24);
-            webServerExceptionToolStripMenuItem.Text = "Web Server Exception ";
-            webServerExceptionToolStripMenuItem.Click += WebServerExceptionToolStripMenuItem_Click;
-            // 
             // frmMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -1163,6 +1186,7 @@
             WindowState = FormWindowState.Maximized;
             FormClosing += Form1_FormClosing;
             Load += Form1_Load;
+            SizeChanged += FrmMain_SizeChanged;
             tabControl1.ResumeLayout(false);
             tabPage4.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
@@ -1296,5 +1320,7 @@
         private ToolStripMenuItem toolStripMenuItem_AGVs_DB;
         private ToolStripMenuItem dEBUGToolStripMenuItem;
         private ToolStripMenuItem webServerExceptionToolStripMenuItem;
+        private ToolStripMenuItem openAllModbusEmuToolStripMenuItem;
+        private ToolStripStatusLabel labUnHandleExceptions;
     }
 }

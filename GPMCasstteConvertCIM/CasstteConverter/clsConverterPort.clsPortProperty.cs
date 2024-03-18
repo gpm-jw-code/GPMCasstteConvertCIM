@@ -9,6 +9,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
     {
         public class clsPortProperty
         {
+            public Dictionary<string, string> Description { get; set; } = new Dictionary<string, string>()
+            {
+                { "PortType","0-Input, 1-Output, 2-Input_Output" }
+            };
             /// <summary>
             /// (Zero-Based)
             /// </summary>
@@ -22,7 +26,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
             public bool ModbusServer_Enable = true;
             public bool AGVHandshakeModbusGatewayActive = false;
-            internal PortUnitType PortType { get; set; }
+            public PortUnitType PortType { get; set; } = PortUnitType.Input;
 
             public bool CarrierWaitInOutReport_Enable { get; set; } = true;
             public bool LoadUnlloadStateSimulation { get; set; } = false;
@@ -73,6 +77,11 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             public bool CarrierWaitOutWhenAGVSRefuseMCSMission { get; set; } = false;
 
 
+
+            public bool IsConverter { get; set; } = false;
+
+            public bool ModifyAGVSCargoIDWithWebAPI { get; set; } = true;
+            public string NameInAGVS { get; set; } = "";
 
         }
 

@@ -5,10 +5,10 @@ WW0002,AGVS,Port1 - Port Mode Status Request,Binary,7.6 Port Mode Change Request
 WW0003,AGVS,Port2 - Port Mode Status Request,Binary,7.6 Port Mode Change Request,PORT2,Port_Type_Status,58,TS_1,,,,,WW,3,WW3
 WW0004,AGVS,,,,,,59,TS_1,,,,,WW,4,WW4
 WW0005,AGVS,,,,,,60,TS_1,,,,,WW,5,WW5
-WW0006,AGVS,AGVS Message Download Index,Binary,6.4.1 AGVS Message Display,AGVS,,61,TS_1,,,,,WW,6,WW6
+WW0006,AGVS,AGVS Message Download Index,Binary,6.4.1 AGVS Message Display,AGVS,AGVS_MSG_DOWNLOAD_INDEX,61,TS_1,,,,,WW,6,WW6
 WW0007,AGVS,Trigger Equipment,Binary,6.4.1 AGVS Message Display,AGVS,,62,TS_1,,,,,WW,7,WW7
 WW0008,AGVS,Buzzer Flag,Binary,6.4.1 AGVS Message Display,AGVS,,63,TS_1,,,,,WW,8,WW8
-WW0009,AGVS,AGVS Message # 1,ASCII,6.4.1 AGVS Message Display,AGVS,,64,TS_1,,,,,WW,9,WW9
+WW0009,AGVS,AGVS Message # 1,ASCII,6.4.1 AGVS Message Display,AGVS,AGVS_MSG_1,64,TS_1,,,,,WW,9,WW9
 WW000A,AGVS,AGVS Message # 2,ASCII,6.4.1 AGVS Message Display,AGVS,,65,TS_1,,,,,WW,10,WWA
 WW000B,AGVS,AGVS Message # 3,ASCII,6.4.1 AGVS Message Display,AGVS,,66,TS_1,,,,,WW,11,WWB
 WW000C,AGVS,AGVS Message # 4,ASCII,6.4.1 AGVS Message Display,AGVS,,67,TS_1,,,,,WW,12,WWC
@@ -24,7 +24,7 @@ WW0015,AGVS,AGVS Message # 13,ASCII,6.4.1 AGVS Message Display,AGVS,,76,TS_1,,,,
 WW0016,AGVS,AGVS Message # 14,ASCII,6.4.1 AGVS Message Display,AGVS,,77,TS_1,,,,,WW,22,WW16
 WW0017,AGVS,AGVS Message # 15,ASCII,6.4.1 AGVS Message Display,AGVS,,78,TS_1,,,,,WW,23,WW17
 WW0018,AGVS,AGVS Message # 16,ASCII,6.4.1 AGVS Message Display,AGVS,,79,TS_1,,,,,WW,24,WW18
-WW0019,AGVS,AGVS Message # 17,ASCII,6.4.1 AGVS Message Display,AGVS,,80,TS_1,,,,,WW,25,WW19
+WW0019,AGVS,AGVS Message # 17,ASCII,6.4.1 AGVS Message Display,AGVS,AGVS_MSG_17,80,TS_1,,,,,WW,25,WW19
 WW001A,AGVS,AGVS Message # 18,ASCII,6.4.1 AGVS Message Display,AGVS,,81,TS_1,,,,,WW,26,WW1A
 WW001B,AGVS,AGVS Message # 19,ASCII,6.4.1 AGVS Message Display,AGVS,,82,TS_1,,,,,WW,27,WW1B
 WW001C,AGVS,AGVS Message # 20,ASCII,6.4.1 AGVS Message Display,AGVS,,83,TS_1,,,,,WW,28,WW1C
@@ -199,16 +199,16 @@ WW00C4,AGVS,,,,AGVS,,,TS_1,,,,,WW,196,WWC4
 WW00C5,AGVS,,,,AGVS,,,TS_1,,,,,WW,197,WWC5
 WW00C6,AGVS,,,,AGVS,,,TS_1,,,,,WW,198,WWC6
 WW00C7,AGVS,,,,AGVS,,,TS_1,,,,,WW,199,WWC7
-WW00C8,AGVS,Interface Clock ,Binary,6.1 Alive Check,AGVS,,55,TS_2_1,,,,,WW,200,WWC8
+WW00C8,AGVS,Interface Clock ,Binary,6.1 Alive Check,AGVS,Interface_Clock,55,TS_2_1,,,,,WW,200,WWC8
 WW00C9,AGVS,,,,,,56,TS_2_1,,,,,WW,201,WWC9
-WW00CA,AGVS,Port1 - Port Mode Status Request,Binary,7.6 Port Mode Change Request,PORT1,,57,TS_2_1,,,,,WW,202,WWCA
-WW00CB,AGVS,Port2 - Port Mode Status Request,Binary,7.6 Port Mode Change Request,PORT2,,58,TS_2_1,,,,,WW,203,WWCB
+WW00CA,AGVS,Port1 - Port Mode Status Request,Binary,7.6 Port Mode Change Request,PORT1,Port_Type_Status,57,TS_2_1,,,,,WW,202,WWCA
+WW00CB,AGVS,Port2 - Port Mode Status Request,Binary,7.6 Port Mode Change Request,PORT2,Port_Type_Status,58,TS_2_1,,,,,WW,203,WWCB
 WW00CC,AGVS,,,,,,59,TS_2_1,,,,,WW,204,WWCC
 WW00CD,AGVS,,,,,,60,TS_2_1,,,,,WW,205,WWCD
-WW00CE,AGVS,AGVS Message Download Index,Binary,6.4.1 AGVS Message Display,AGVS,,61,TS_2_1,,,,,WW,206,WWCE
+WW00CE,AGVS,AGVS Message Download Index,Binary,6.4.1 AGVS Message Display,AGVS,AGVS_MSG_DOWNLOAD_INDEX,61,TS_2_1,,,,,WW,206,WWCE
 WW00CF,AGVS,Trigger Equipment,Binary,6.4.1 AGVS Message Display,AGVS,,62,TS_2_1,,,,,WW,207,WWCF
 WW00D0,AGVS,Buzzer Flag,Binary,6.4.1 AGVS Message Display,AGVS,,63,TS_2_1,,,,,WW,208,WWD0
-WW00D1,AGVS,AGVS Message # 1,ASCII,6.4.1 AGVS Message Display,AGVS,,64,TS_2_1,,,,,WW,209,WWD1
+WW00D1,AGVS,AGVS Message # 1,ASCII,6.4.1 AGVS Message Display,AGVS,AGVS_MSG_1,64,TS_2_1,,,,,WW,209,WWD1
 WW00D2,AGVS,AGVS Message # 2,ASCII,6.4.1 AGVS Message Display,AGVS,,65,TS_2_1,,,,,WW,210,WWD2
 WW00D3,AGVS,AGVS Message # 3,ASCII,6.4.1 AGVS Message Display,AGVS,,66,TS_2_1,,,,,WW,211,WWD3
 WW00D4,AGVS,AGVS Message # 4,ASCII,6.4.1 AGVS Message Display,AGVS,,67,TS_2_1,,,,,WW,212,WWD4
@@ -224,7 +224,7 @@ WW00DD,AGVS,AGVS Message # 13,ASCII,6.4.1 AGVS Message Display,AGVS,,76,TS_2_1,,
 WW00DE,AGVS,AGVS Message # 14,ASCII,6.4.1 AGVS Message Display,AGVS,,77,TS_2_1,,,,,WW,222,WWDE
 WW00DF,AGVS,AGVS Message # 15,ASCII,6.4.1 AGVS Message Display,AGVS,,78,TS_2_1,,,,,WW,223,WWDF
 WW00E0,AGVS,AGVS Message # 16,ASCII,6.4.1 AGVS Message Display,AGVS,,79,TS_2_1,,,,,WW,224,WWE0
-WW00E1,AGVS,AGVS Message # 17,ASCII,6.4.1 AGVS Message Display,AGVS,,80,TS_2_1,,,,,WW,225,WWE1
+WW00E1,AGVS,AGVS Message # 17,ASCII,6.4.1 AGVS Message Display,AGVS,AGVS_MSG_17,80,TS_2_1,,,,,WW,225,WWE1
 WW00E2,AGVS,AGVS Message # 18,ASCII,6.4.1 AGVS Message Display,AGVS,,81,TS_2_1,,,,,WW,226,WWE2
 WW00E3,AGVS,AGVS Message # 19,ASCII,6.4.1 AGVS Message Display,AGVS,,82,TS_2_1,,,,,WW,227,WWE3
 WW00E4,AGVS,AGVS Message # 20,ASCII,6.4.1 AGVS Message Display,AGVS,,83,TS_2_1,,,,,WW,228,WWE4
@@ -399,16 +399,16 @@ WW018C,AGVS,,,,AGVS,,,TS_2_1,,,,,WW,396,WW18C
 WW018D,AGVS,,,,AGVS,,,TS_2_1,,,,,WW,397,WW18D
 WW018E,AGVS,,,,AGVS,,,TS_2_1,,,,,WW,398,WW18E
 WW018F,AGVS,,,,AGVS,,,TS_2_1,,,,,WW,399,WW18F
-WW0190,AGVS,Interface Clock ,Binary,6.1 Alive Check,AGVS,,55,TS_2_2,,,,,WW,400,WW190
+WW0190,AGVS,Interface Clock ,Binary,6.1 Alive Check,AGVS,Interface_Clock,55,TS_2_2,,,,,WW,400,WW190
 WW0191,AGVS,,,,,,56,TS_2_2,,,,,WW,401,WW191
-WW0192,AGVS,Port1 - Port Mode Status Request,Binary,7.6 Port Mode Change Request,PORT1,,57,TS_2_2,,,,,WW,402,WW192
-WW0193,AGVS,Port2 - Port Mode Status Request,Binary,7.6 Port Mode Change Request,PORT2,,58,TS_2_2,,,,,WW,403,WW193
+WW0192,AGVS,Port1 - Port Mode Status Request,Binary,7.6 Port Mode Change Request,PORT1,Port_Type_Status,57,TS_2_2,,,,,WW,402,WW192
+WW0193,AGVS,Port2 - Port Mode Status Request,Binary,7.6 Port Mode Change Request,PORT2,Port_Type_Status,58,TS_2_2,,,,,WW,403,WW193
 WW0194,AGVS,,,,,,59,TS_2_2,,,,,WW,404,WW194
 WW0195,AGVS,,,,,,60,TS_2_2,,,,,WW,405,WW195
-WW0196,AGVS,AGVS Message Download Index,Binary,6.4.1 AGVS Message Display,AGVS,,61,TS_2_2,,,,,WW,406,WW196
+WW0196,AGVS,AGVS Message Download Index,Binary,6.4.1 AGVS Message Display,AGVS,AGVS_MSG_DOWNLOAD_INDEX,61,TS_2_2,,,,,WW,406,WW196
 WW0197,AGVS,Trigger Equipment,Binary,6.4.1 AGVS Message Display,AGVS,,62,TS_2_2,,,,,WW,407,WW197
 WW0198,AGVS,Buzzer Flag,Binary,6.4.1 AGVS Message Display,AGVS,,63,TS_2_2,,,,,WW,408,WW198
-WW0199,AGVS,AGVS Message # 1,ASCII,6.4.1 AGVS Message Display,AGVS,,64,TS_2_2,,,,,WW,409,WW199
+WW0199,AGVS,AGVS Message # 1,ASCII,6.4.1 AGVS Message Display,AGVS,AGVS_MSG_1,64,TS_2_2,,,,,WW,409,WW199
 WW019A,AGVS,AGVS Message # 2,ASCII,6.4.1 AGVS Message Display,AGVS,,65,TS_2_2,,,,,WW,410,WW19A
 WW019B,AGVS,AGVS Message # 3,ASCII,6.4.1 AGVS Message Display,AGVS,,66,TS_2_2,,,,,WW,411,WW19B
 WW019C,AGVS,AGVS Message # 4,ASCII,6.4.1 AGVS Message Display,AGVS,,67,TS_2_2,,,,,WW,412,WW19C
@@ -424,7 +424,7 @@ WW01A5,AGVS,AGVS Message # 13,ASCII,6.4.1 AGVS Message Display,AGVS,,76,TS_2_2,,
 WW01A6,AGVS,AGVS Message # 14,ASCII,6.4.1 AGVS Message Display,AGVS,,77,TS_2_2,,,,,WW,422,WW1A6
 WW01A7,AGVS,AGVS Message # 15,ASCII,6.4.1 AGVS Message Display,AGVS,,78,TS_2_2,,,,,WW,423,WW1A7
 WW01A8,AGVS,AGVS Message # 16,ASCII,6.4.1 AGVS Message Display,AGVS,,79,TS_2_2,,,,,WW,424,WW1A8
-WW01A9,AGVS,AGVS Message # 17,ASCII,6.4.1 AGVS Message Display,AGVS,,80,TS_2_2,,,,,WW,425,WW1A9
+WW01A9,AGVS,AGVS Message # 17,ASCII,6.4.1 AGVS Message Display,AGVS,AGVS_MSG_17,80,TS_2_2,,,,,WW,425,WW1A9
 WW01AA,AGVS,AGVS Message # 18,ASCII,6.4.1 AGVS Message Display,AGVS,,81,TS_2_2,,,,,WW,426,WW1AA
 WW01AB,AGVS,AGVS Message # 19,ASCII,6.4.1 AGVS Message Display,AGVS,,82,TS_2_2,,,,,WW,427,WW1AB
 WW01AC,AGVS,AGVS Message # 20,ASCII,6.4.1 AGVS Message Display,AGVS,,83,TS_2_2,,,,,WW,428,WW1AC
@@ -599,16 +599,16 @@ WW0254,AGVS,,,,AGVS,,,TS_2_2,,,,,WW,596,WW254
 WW0255,AGVS,,,,AGVS,,,TS_2_2,,,,,WW,597,WW255
 WW0256,AGVS,,,,AGVS,,,TS_2_2,,,,,WW,598,WW256
 WW0257,AGVS,,,,AGVS,,,TS_2_2,,,,,WW,599,WW257
-WW0258,AGVS,Interface Clock ,Binary,6.1 Alive Check,AGVS,,55,TS_3,,,,,WW,600,WW258
+WW0258,AGVS,Interface Clock ,Binary,6.1 Alive Check,AGVS,Interface_Clock,55,TS_3,,,,,WW,600,WW258
 WW0259,AGVS,,,,,,56,TS_3,,,,,WW,601,WW259
-WW025A,AGVS,Port1 - Port Mode Status Request,Binary,7.6 Port Mode Change Request,PORT1,,57,TS_3,,,,,WW,602,WW25A
-WW025B,AGVS,Port2 - Port Mode Status Request,Binary,7.6 Port Mode Change Request,PORT2,,58,TS_3,,,,,WW,603,WW25B
+WW025A,AGVS,Port1 - Port Mode Status Request,Binary,7.6 Port Mode Change Request,PORT1,Port_Type_Status,57,TS_3,,,,,WW,602,WW25A
+WW025B,AGVS,Port2 - Port Mode Status Request,Binary,7.6 Port Mode Change Request,PORT2,Port_Type_Status,58,TS_3,,,,,WW,603,WW25B
 WW025C,AGVS,,,,,,59,TS_3,,,,,WW,604,WW25C
 WW025D,AGVS,,,,,,60,TS_3,,,,,WW,605,WW25D
-WW025E,AGVS,AGVS Message Download Index,Binary,6.4.1 AGVS Message Display,AGVS,,61,TS_3,,,,,WW,606,WW25E
+WW025E,AGVS,AGVS Message Download Index,Binary,6.4.1 AGVS Message Display,AGVS,AGVS_MSG_DOWNLOAD_INDEX,61,TS_3,,,,,WW,606,WW25E
 WW025F,AGVS,Trigger Equipment,Binary,6.4.1 AGVS Message Display,AGVS,,62,TS_3,,,,,WW,607,WW25F
 WW0260,AGVS,Buzzer Flag,Binary,6.4.1 AGVS Message Display,AGVS,,63,TS_3,,,,,WW,608,WW260
-WW0261,AGVS,AGVS Message # 1,ASCII,6.4.1 AGVS Message Display,AGVS,,64,TS_3,,,,,WW,609,WW261
+WW0261,AGVS,AGVS Message # 1,ASCII,6.4.1 AGVS Message Display,AGVS,AGVS_MSG_1,64,TS_3,,,,,WW,609,WW261
 WW0262,AGVS,AGVS Message # 2,ASCII,6.4.1 AGVS Message Display,AGVS,,65,TS_3,,,,,WW,610,WW262
 WW0263,AGVS,AGVS Message # 3,ASCII,6.4.1 AGVS Message Display,AGVS,,66,TS_3,,,,,WW,611,WW263
 WW0264,AGVS,AGVS Message # 4,ASCII,6.4.1 AGVS Message Display,AGVS,,67,TS_3,,,,,WW,612,WW264
@@ -624,7 +624,7 @@ WW026D,AGVS,AGVS Message # 13,ASCII,6.4.1 AGVS Message Display,AGVS,,76,TS_3,,,,
 WW026E,AGVS,AGVS Message # 14,ASCII,6.4.1 AGVS Message Display,AGVS,,77,TS_3,,,,,WW,622,WW26E
 WW026F,AGVS,AGVS Message # 15,ASCII,6.4.1 AGVS Message Display,AGVS,,78,TS_3,,,,,WW,623,WW26F
 WW0270,AGVS,AGVS Message # 16,ASCII,6.4.1 AGVS Message Display,AGVS,,79,TS_3,,,,,WW,624,WW270
-WW0271,AGVS,AGVS Message # 17,ASCII,6.4.1 AGVS Message Display,AGVS,,80,TS_3,,,,,WW,625,WW271
+WW0271,AGVS,AGVS Message # 17,ASCII,6.4.1 AGVS Message Display,AGVS,AGVS_MSG_17,80,TS_3,,,,,WW,625,WW271
 WW0272,AGVS,AGVS Message # 18,ASCII,6.4.1 AGVS Message Display,AGVS,,81,TS_3,,,,,WW,626,WW272
 WW0273,AGVS,AGVS Message # 19,ASCII,6.4.1 AGVS Message Display,AGVS,,82,TS_3,,,,,WW,627,WW273
 WW0274,AGVS,AGVS Message # 20,ASCII,6.4.1 AGVS Message Display,AGVS,,83,TS_3,,,,,WW,628,WW274

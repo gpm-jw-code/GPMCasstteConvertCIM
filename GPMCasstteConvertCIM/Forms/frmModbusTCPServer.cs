@@ -60,8 +60,6 @@ namespace GPMCasstteConvertCIM.Forms
             set
             {
                 _ModbusTCPServer = value;
-                _ModbusTCPServer.OnTCPDataReceieved += _ModbusTCPServer_OnMessageReceieved;
-                _ModbusTCPServer.OnTCPDataSend += _ModbusTCPServer_OnTCPDataSend;
                 BindingHoldingRegisterTable();
                 BindingCoilRegisterTable();
 
@@ -137,7 +135,7 @@ namespace GPMCasstteConvertCIM.Forms
                     holdingRegisterList.Add(new HoldingRegister()
                     {
                         Index = i,
-                        Value = _ModbusTCPServer.holdingRegisters.localArray[i],
+                        Value = (short)_ModbusTCPServer.modbusSlave.DataStore.HoldingRegisters[i],
                         LinkPLCAddress = plcAddress?.Address,
                         Description = plcAddress?.DataName
                     });
@@ -161,7 +159,7 @@ namespace GPMCasstteConvertCIM.Forms
                 DigitalIORegister DI = new DigitalIORegister(DigitalIORegister.IO_TYPE.INPUT)
                 {
                     Index = i,
-                    State = _ModbusTCPServer.discreteInputs.localArray[i],
+                    State = _ModbusTCPServer.modbusSlave.DataStore.InputDiscretes[i],
                     Description = plc_Address?.DataName,
                     LinkPLCAddress = plc_Address?.Address
                 };
@@ -172,7 +170,7 @@ namespace GPMCasstteConvertCIM.Forms
                 var DO = new DigitalIORegister(DigitalIORegister.IO_TYPE.OUTPUT)
                 {
                     Index = i,
-                    State = _ModbusTCPServer.coils.localArray[i],
+                    State = _ModbusTCPServer.modbusSlave.DataStore.CoilDiscretes[i],
                     Description = plc_Address?.DataName,
                     LinkPLCAddress = plc_Address?.Address
 
@@ -198,16 +196,15 @@ namespace GPMCasstteConvertCIM.Forms
             labLastClientRequestTime.Text = lastCoilsWriteTime.ToString();
             if (ModbusTCPServer != null)
             {
-                labConnectedClientNum.Text = ModbusTCPServer.ConnectedClientNum.ToString();
                 for (int i = 1; i <= 255; i++)
                 {
-                    digitalInputs[i - 1].State = _ModbusTCPServer.coils.localArray[i + 1];
-                    digitalOutputs[i - 1].State = _ModbusTCPServer.discreteInputs.localArray[i];
+                    digitalInputs[i - 1].State = _ModbusTCPServer.modbusSlave.DataStore.CoilDiscretes[i + 1];
+                    digitalOutputs[i - 1].State = _ModbusTCPServer.modbusSlave.DataStore.InputDiscretes[i];
                 }
 
                 for (int i = 1; i <= holdingRegisterList.Count; i++)
                 {
-                    holdingRegisterList[i - 1].Value = _ModbusTCPServer.holdingRegisters.localArray[i];
+                    holdingRegisterList[i - 1].Value = (short)_ModbusTCPServer.modbusSlave.DataStore.HoldingRegisters[i];
                 }
             }
 

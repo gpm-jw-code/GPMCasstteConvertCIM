@@ -1,8 +1,10 @@
 ﻿using GPMCasstteConvertCIM.CasstteConverter;
+using GPMCasstteConvertCIM.Cclink_IE_Sturcture;
 using GPMCasstteConvertCIM.Devices;
 using GPMCasstteConvertCIM.Forms;
 using GPMCasstteConvertCIM.Utilities;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using SQLitePCL;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,6 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Collections.Specialized.BitVector32;
 
 namespace GPMCasstteConvertCIM.UI_UserControls
 {
@@ -270,6 +273,57 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             ckbSimulationMode.Visible = colModbus.Visible = colSettings.Visible = colIOSim.Visible = true;
             dataGridView1.ResumeLayout();
         }
+
+        private void dataGridView1_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+
+            if (e.Button == MouseButtons.Right && IsClickPortTypeCell(e, out var row))
+            {
+                clsStationPort station = (clsStationPort)row.DataBoundItem;
+                portTypeContextMenuStrip.Items[0].Tag = station;
+                portTypeContextMenuStrip.Items[1].Tag = station;
+                dataGridView1.ContextMenuStrip = portTypeContextMenuStrip;
+
+            }
+            else
+            {
+                dataGridView1.ContextMenuStrip = null;
+            }
+
+
+            bool IsClickPortTypeCell(DataGridViewCellMouseEventArgs e, out DataGridViewRow row)
+            {
+                row = null;
+                if (e.ColumnIndex == -1 || e.RowIndex == -1)
+                    return false;
+                bool isPortTypeCell = dataGridView1.Columns[e.ColumnIndex].Name == EPortType.Name;
+                row = isPortTypeCell ? dataGridView1.Rows[e.RowIndex] : null;
+                return isPortTypeCell;
+            }
+        }
+
+        private void changePortTypeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem toolStripMenuItem = sender as ToolStripMenuItem;
+            clsStationPort station = (clsStationPort)toolStripMenuItem.Tag;
+            using frmChangePortType form = new frmChangePortType()
+            {
+                StartPosition = FormStartPosition.CenterScreen,
+                Station = station
+            };
+            form.ShowDialog();
+        }
+
+        int debug = 1;
+        private void debugToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            ToolStripMenuItem toolStripMenuItem = sender as ToolStripMenuItem;
+            clsStationPort station = (clsStationPort)toolStripMenuItem.Tag;
+            debug = debug + 1;
+            station.CIMMemoryTable.WriteBinary("WW0259", debug);
+        }
+
         ///
         //uscAlarmTable1.BindData(AlarmManager.AlarmsList);
         //    AlarmManager.onAlarmAdded += (sender, arg) => { uscAlarmTable1.alarmListBinding.ResetBindings(); };

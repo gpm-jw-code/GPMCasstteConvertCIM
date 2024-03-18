@@ -141,7 +141,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS
                 }
                 catch (Exception ex)
                 {
-                    Syslogger.Error("SECSBase SendAsync Error", ex);
+                    Syslogger.Error($"SECSBase SendAsync Error({ex.Message})", ex);
                     return SECSMessageHelper.S9F7_IllegalDataMsg();
                 }
             });

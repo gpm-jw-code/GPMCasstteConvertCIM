@@ -122,7 +122,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             var owner_str = add.EOwner == clsMemoryAddress.OWNER.CIM ? "CIM/AGVS" : "EQ";
             try
             {
-                if (add.EScope == EQ_SCOPE.PORT1 | add.EScope == EQ_SCOPE.PORT2)
+                if (add.EScope == EQ_SCOPE.PORT1 || add.EScope == EQ_SCOPE.PORT2)
                 {
                     var portID = add.EScope == EQ_SCOPE.PORT1 ? 0 : 1;
                     var port = PortDatas.FirstOrDefault(p => p.Properties.PortNo == portID);
@@ -273,34 +273,33 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             await Task.Delay(1);
             try
             {
+                bool connected = false;
                 connectionState = Common.CONNECTION_STATE.CONNECTING;
                 await Task.Delay(1000);
                 this.mcInterfaceOptions = mcInterfaceOptions;
                 int connRetCode = -1;
-
-                bool connected = await Task.Run(() =>
+                if (plcInterface == PLC_CONN_INTERFACE.MC)
                 {
-                    if (plcInterface == PLC_CONN_INTERFACE.MC)
+                    connected = await Task.Run(() =>
                     {
                         return mcInterface.Open(mcInterfaceOptions, out connRetCode, enuDataType: clsMC_TCPCnt.enuDataType.ByteArr_02);
-                    }
-                    else
+                    });
+                }
+                else
+                {
+                    try
                     {
-                        try
-                        {
-                            mxInterface = new CIMComponent.MXCompHandler();
-                            connRetCode = mxInterface.Open(MXLogic_Station_Number);
-                            return connRetCode == 0;
-                        }
-                        catch (Exception ex)
-                        {
-                            MxOpenException = ex;
-                            MxOpened = false;
-                            return false;
-                        }
+                        mxInterface = new CIMComponent.MXCompHandler();
+                        connRetCode = mxInterface.Open(MXLogic_Station_Number);
+                        connected = connRetCode == 0;
                     }
-
-                });
+                    catch (Exception ex)
+                    {
+                        MxOpenException = ex;
+                        MxOpened = false;
+                        connected = false;
+                    }
+                }
                 connectionState = connRetCode == 0 ? Common.CONNECTION_STATE.CONNECTED : Common.CONNECTION_STATE.DISCONNECTED;
 
                 if (connectionState != Common.CONNECTION_STATE.CONNECTED)
@@ -362,7 +361,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                         newClock = newClock == 256 ? 0 : newClock;
                         CIMMemOptions.memoryTable.WriteBinary(interfaceClockAddress.Address, newClock);
                     }
-
                 }
 
             });
@@ -402,86 +400,83 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         }
         protected async Task PLCMemorySyncTask()
         {
-            _ = Task.Run(async () =>
+            while (true)
             {
-                while (true)
+                try
                 {
-                    try
+                    await Task.Delay(50);
+                    if (_connectionState != Common.CONNECTION_STATE.CONNECTED)
+                    {
+                        continue;
+                    }
+                    if (simulation_mode)
                     {
                         await Task.Delay(50);
-                        if (_connectionState != Common.CONNECTION_STATE.CONNECTED)
-                        {
-                            continue;
-                        }
-                        if (simulation_mode)
-                        {
-                            await Task.Delay(50);
-                            IsPLCMemoryDataReadDone = true;
-                            continue;
-                        }
+                        IsPLCMemoryDataReadDone = true;
+                        continue;
+                    }
 
-                        try
+                    try
+                    {
+                        if (monitor)
                         {
-                            if (monitor)
+                            if (plcInterface == PLC_CONN_INTERFACE.MC)
                             {
-                                if (plcInterface == PLC_CONN_INTERFACE.MC)
+                                PLC_IF_WRITE_Ret_Code = mcInterface.WriteBit(ref CIMMemOptions.memoryTable, CIMMemOptions.bitRegionName, CIMMemOptions.bitStartAddress_no_region, CIMMemOptions.bitSize);
+                                PLC_IF_WRITE_Ret_Code = mcInterface.WriteWord(ref CIMMemOptions.memoryTable, CIMMemOptions.wordRegionName, CIMMemOptions.wordStartAddress_no_region, CIMMemOptions.wordSize);
+
+
+
+                                if (PLC_IF_WRITE_Ret_Code == 0)
                                 {
-                                    PLC_IF_WRITE_Ret_Code = mcInterface.WriteBit(ref CIMMemOptions.memoryTable, CIMMemOptions.bitRegionName, CIMMemOptions.bitStartAddress_no_region, CIMMemOptions.bitSize);
-                                    PLC_IF_WRITE_Ret_Code = mcInterface.WriteWord(ref CIMMemOptions.memoryTable, CIMMemOptions.wordRegionName, CIMMemOptions.wordStartAddress_no_region, CIMMemOptions.wordSize);
+                                    //讀回確認
+                                    PLC_IF_READ_Ret_Code = mcInterface.ReadBit(ref CIMMemOptions.memoryTable_read_back, CIMMemOptions.bitRegionName, CIMMemOptions.bitStartAddress_no_region, CIMMemOptions.bitSize);
+                                    PLC_IF_READ_Ret_Code = mcInterface.ReadWord(ref CIMMemOptions.memoryTable_read_back, CIMMemOptions.wordRegionName, CIMMemOptions.wordStartAddress_no_region, CIMMemOptions.wordSize);
 
-
-
-                                    if (PLC_IF_WRITE_Ret_Code == 0)
-                                    {
-                                        //讀回確認
-                                        PLC_IF_READ_Ret_Code = mcInterface.ReadBit(ref CIMMemOptions.memoryTable_read_back, CIMMemOptions.bitRegionName, CIMMemOptions.bitStartAddress_no_region, CIMMemOptions.bitSize);
-                                        PLC_IF_READ_Ret_Code = mcInterface.ReadWord(ref CIMMemOptions.memoryTable_read_back, CIMMemOptions.wordRegionName, CIMMemOptions.wordStartAddress_no_region, CIMMemOptions.wordSize);
-
-                                        PLC_IF_READ_Ret_Code = mcInterface.ReadBit(ref EQPMemOptions.memoryTable, EQPMemOptions.bitRegionName, EQPMemOptions.bitStartAddress_no_region, EQPMemOptions.bitSize);
-                                        PLC_IF_READ_Ret_Code = mcInterface.ReadWord(ref EQPMemOptions.memoryTable, EQPMemOptions.wordRegionName, EQPMemOptions.wordStartAddress_no_region, EQPMemOptions.wordSize);
-                                        IsPLCMemoryDataReadDone = PLC_IF_READ_Ret_Code == 0;
-                                    }
-
-                                }
-                                else
-                                {
-                                    PLC_IF_WRITE_Ret_Code = mxInterface.WriteBit(ref CIMMemOptions.memoryTable, CIMMemOptions.bitRegionName, CIMMemOptions.bitStartAddress_no_region, CIMMemOptions.bitSize);
-                                    PLC_IF_WRITE_Ret_Code = mxInterface.WriteWord(ref CIMMemOptions.memoryTable, CIMMemOptions.wordRegionName, CIMMemOptions.wordStartAddress_no_region, CIMMemOptions.wordSize);
-                                    if (PLC_IF_WRITE_Ret_Code == 0)
-                                    {
-
-                                        //讀回確認
-                                        PLC_IF_READ_Ret_Code = mxInterface.ReadBit(ref CIMMemOptions.memoryTable_read_back, CIMMemOptions.bitRegionName, CIMMemOptions.bitStartAddress_no_region, CIMMemOptions.bitSize);
-                                        PLC_IF_READ_Ret_Code = mxInterface.ReadWord(ref CIMMemOptions.memoryTable_read_back, CIMMemOptions.wordRegionName, CIMMemOptions.wordStartAddress_no_region, CIMMemOptions.wordSize);
-
-                                        PLC_IF_READ_Ret_Code = mxInterface.ReadBit(ref EQPMemOptions.memoryTable, EQPMemOptions.bitRegionName, EQPMemOptions.bitStartAddress_no_region, EQPMemOptions.bitSize);
-                                        PLC_IF_READ_Ret_Code = mxInterface.ReadWord(ref EQPMemOptions.memoryTable, EQPMemOptions.wordRegionName, EQPMemOptions.wordStartAddress_no_region, EQPMemOptions.wordSize);
-                                        IsPLCMemoryDataReadDone = PLC_IF_READ_Ret_Code == 0;
-                                    }
+                                    PLC_IF_READ_Ret_Code = mcInterface.ReadBit(ref EQPMemOptions.memoryTable, EQPMemOptions.bitRegionName, EQPMemOptions.bitStartAddress_no_region, EQPMemOptions.bitSize);
+                                    PLC_IF_READ_Ret_Code = mcInterface.ReadWord(ref EQPMemOptions.memoryTable, EQPMemOptions.wordRegionName, EQPMemOptions.wordStartAddress_no_region, EQPMemOptions.wordSize);
+                                    IsPLCMemoryDataReadDone = PLC_IF_READ_Ret_Code == 0;
                                 }
 
                             }
-                        }
-                        catch (SocketException ex)
-                        {
-                            Utility.SystemLogger.Error(ex);
-                            _connectionState = Common.CONNECTION_STATE.DISCONNECTED;
-                            RetryConnectAsync();
-                        }
-                        catch (Exception ex)
-                        {
-                            Utility.SystemLogger.Error(ex);
-                            continue;
-                        }
+                            else
+                            {
+                                PLC_IF_WRITE_Ret_Code = mxInterface.WriteBit(ref CIMMemOptions.memoryTable, CIMMemOptions.bitRegionName, CIMMemOptions.bitStartAddress_no_region, CIMMemOptions.bitSize);
+                                PLC_IF_WRITE_Ret_Code = mxInterface.WriteWord(ref CIMMemOptions.memoryTable, CIMMemOptions.wordRegionName, CIMMemOptions.wordStartAddress_no_region, CIMMemOptions.wordSize);
+                                if (PLC_IF_WRITE_Ret_Code == 0)
+                                {
 
+                                    //讀回確認
+                                    PLC_IF_READ_Ret_Code = mxInterface.ReadBit(ref CIMMemOptions.memoryTable_read_back, CIMMemOptions.bitRegionName, CIMMemOptions.bitStartAddress_no_region, CIMMemOptions.bitSize);
+                                    PLC_IF_READ_Ret_Code = mxInterface.ReadWord(ref CIMMemOptions.memoryTable_read_back, CIMMemOptions.wordRegionName, CIMMemOptions.wordStartAddress_no_region, CIMMemOptions.wordSize);
+
+                                    PLC_IF_READ_Ret_Code = mxInterface.ReadBit(ref EQPMemOptions.memoryTable, EQPMemOptions.bitRegionName, EQPMemOptions.bitStartAddress_no_region, EQPMemOptions.bitSize);
+                                    PLC_IF_READ_Ret_Code = mxInterface.ReadWord(ref EQPMemOptions.memoryTable, EQPMemOptions.wordRegionName, EQPMemOptions.wordStartAddress_no_region, EQPMemOptions.wordSize);
+                                    IsPLCMemoryDataReadDone = PLC_IF_READ_Ret_Code == 0;
+                                }
+                            }
+
+                        }
+                    }
+                    catch (SocketException ex)
+                    {
+                        Utility.SystemLogger.Error(ex);
+                        _connectionState = Common.CONNECTION_STATE.DISCONNECTED;
+                        RetryConnectAsync();
                     }
                     catch (Exception ex)
                     {
                         Utility.SystemLogger.Error(ex);
+                        continue;
                     }
 
                 }
-            });
+                catch (Exception ex)
+                {
+                    Utility.SystemLogger.Error(ex);
+                }
+
+            }
         }
         private void ResetEQPHandshakeBits()
         {

@@ -9,5 +9,8 @@ namespace GPMCasstteConvertCIM.Utilities.SysConfigs
     public class clsWebServerParam
     {
         public string HostUrl { get; set; } = "http://localhost:5400";
+
+        public string KGS_HOST_IP { get; set; } = "10.22.133.24";
+        public int KGS_HOST_PORT { get; set; } = 6600;
     }
 }

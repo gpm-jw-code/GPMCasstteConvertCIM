@@ -16,7 +16,8 @@ namespace GPMCasstteConvertCIM
                 var databasePath = Path.Combine(Environment.CurrentDirectory, $"{dbName}.db");
                 db = new SQLiteConnection(databasePath);
                 db.CreateTable<clsAlarmDto>();
-                DBFileName= databasePath;
+                db.CreateTable<clsExceptionDto>();
+                DBFileName = databasePath;
             }
             catch (System.Exception ex)
             {
@@ -85,5 +86,39 @@ namespace GPMCasstteConvertCIM
             }
         }
 
+        internal static void AddExceptionRecord(clsExceptionDto exceptionDto)
+        {
+            try
+            {
+                db.Insert(exceptionDto);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        internal static async Task<List<clsExceptionDto>> GetExceptionsAsync()
+        {
+            return await Task.Run(() => db.Table<clsExceptionDto>().ToList());
+        }
+
+        internal static async Task ChangeExecptionCheckStateAsync(DateTime key, bool checkState)
+        {
+            var table = db.Table<clsExceptionDto>();
+            var exception = table.FirstOrDefault(ex => ex.Time == key);
+            if (exception != null)
+            {
+                exception.IsChecked = checkState;
+                db.Update(exception);
+            }
+
+        }
+
+        internal static void ClearExceptionsRecords()
+        {
+            db.DeleteAll<clsExceptionDto>();
+        }
     }
 }
