@@ -38,6 +38,20 @@ namespace GPMCasstteConvertCIM.API.KGAGVS
             return (true, apiResponse, "");
         }
 
+        public static async Task<(bool confirm, string response, string errorMsg)> ModifyCSTID(string EQPName, int slot, string OldCarrierID, string CarrierID)
+        {
+            Log($"Request to KGS AGVSYSTEM: Try Modify CSTID From {OldCarrierID} To {CarrierID} of {EQPName} ");
+
+            (bool success, UserAuthAPI.clsCookie cookie, string response, string errorMsg) login_result = await UserAuthAPI.LoginToAGVSWebSite();
+            if (!login_result.success)
+            {
+                return (false, "", login_result.errorMsg);
+            }
+
+            string apiResponse = await CallRackStatusAPI(login_result.cookie, EQPName, slot, CarrierID, "Modify");
+            return (true, apiResponse, "");
+        }
+
         /// <summary>
         /// 建帳：http://10.22.133.24:6600/umtcstatus/modify?EQPName=Rack_1&Slot=1&OldCarrierID=&CarrierID=TA25E23371&Action=Add
         //  刪帳：http://10.22.133.24:6600/umtcstatus/modify?EQPName=Rack_1&Slot=1&OldCarrierID=&CarrierID=TA25E23371&Action=Delete
@@ -45,7 +59,7 @@ namespace GPMCasstteConvertCIM.API.KGAGVS
         /// <param name="cookie"></param>
         /// <returns></returns>
 
-        private static async Task<string> CallRackStatusAPI(UserAuthAPI.clsCookie cookie, string EQPName, int slot, string CarrierID, string action)
+        private static async Task<string> CallRackStatusAPI(UserAuthAPI.clsCookie cookie, string EQPName, int slot, string CarrierID, string action, string OldCarrierID = "")
         {
             var responseString = "";
             var baseAddress = new Uri($"http://{APIConfiguration.AGVSHostIP}:{APIConfiguration.AGVSHostPORT}");
@@ -64,7 +78,7 @@ namespace GPMCasstteConvertCIM.API.KGAGVS
                 client.DefaultRequestHeaders.Referrer = new Uri($"{baseAddress.ToString()}/umtcstatus");
                 client.DefaultRequestHeaders.Add("X-Requested-With", "XMLHttpRequest");
 
-                var response = await client.GetAsync($"/umtcstatus/modify?EQPName={EQPName}&Slot={slot}&OldCarrierID=&CarrierID={CarrierID}&Action={action}");
+                var response = await client.GetAsync($"/umtcstatus/modify?EQPName={EQPName}&Slot={slot}&OldCarrierID={OldCarrierID}&CarrierID={CarrierID}&Action={action}");
 
                 responseString = await response.Content.ReadAsStringAsync();
 

@@ -20,7 +20,7 @@ namespace GPMCasstteConvertCIM
         static void Main()
         {
             CheckProgramOpenState();
-
+            StartDump();
             ApplicationConfiguration.Initialize();
             StartBGAPP();
             EnvironmentVariables.AddUserVariable("GPM_CIM_Path", Environment.CurrentDirectory);
@@ -33,6 +33,23 @@ namespace GPMCasstteConvertCIM
             Application.Run(new frmMain());
         }
 
+        private static void StartDump()
+        {
+            string dumpCmdFileName = Path.Combine(Environment.CurrentDirectory, "start_dump.cmd");
+            if (File.Exists(dumpCmdFileName))
+            {
+                Directory.CreateDirectory(@"C:\Dumps");
+                Process proc = new Process()
+                {
+                    StartInfo = new ProcessStartInfo()
+                    {
+                        FileName = dumpCmdFileName,
+                        WorkingDirectory = Environment.CurrentDirectory
+                    }
+                };
+                proc.Start();
+            }
+        }
 
         private static void StartBGAPP()
         {
