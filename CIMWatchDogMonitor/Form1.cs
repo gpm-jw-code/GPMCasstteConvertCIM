@@ -4,6 +4,8 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net.Http;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -88,12 +90,33 @@ namespace CIMWatchDogMonitor
         }
         private void timer1_Tick(object sender, EventArgs e)
         {
-            dataGridView1.Invalidate();
+            HttpTest();
         }
 
         private void btnRefresh_Click(object sender, EventArgs e)
         {
             dataGridView1.Invalidate();
+        }
+
+        private async Task HttpTest()
+        {
+            try
+            {
+
+                using (HttpClient http = new HttpClient())
+                {
+                    http.BaseAddress = new Uri("http://localhost:5400");
+                    await http.GetAsync("api/hotrunning");
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            timer1.Enabled = checkBox1.Checked;
         }
     }
 }

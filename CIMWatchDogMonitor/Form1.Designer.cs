@@ -31,9 +31,6 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.btnRefresh = new System.Windows.Forms.Button();
-            this.modbusWatchDogBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.deviceNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ipDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.portDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -41,6 +38,10 @@
             this.lastDataRecieveTimeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lastInputChangedTimeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.inputsStrDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.modbusWatchDogBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.btnRefresh = new System.Windows.Forms.Button();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.modbusWatchDogBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -61,33 +62,15 @@
             this.lastInputChangedTimeDataGridViewTextBoxColumn,
             this.inputsStrDataGridViewTextBoxColumn});
             this.dataGridView1.DataSource = this.modbusWatchDogBindingSource;
-            this.dataGridView1.Location = new System.Drawing.Point(4, 41);
+            this.dataGridView1.Location = new System.Drawing.Point(3, 33);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 27;
-            this.dataGridView1.Size = new System.Drawing.Size(1180, 510);
+            this.dataGridView1.Size = new System.Drawing.Size(885, 408);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.VirtualMode = true;
-            // 
-            // timer1
-            // 
-            this.timer1.Interval = 1000;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
-            // btnRefresh
-            // 
-            this.btnRefresh.Location = new System.Drawing.Point(4, 5);
-            this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(75, 30);
-            this.btnRefresh.TabIndex = 1;
-            this.btnRefresh.Text = "Refresh";
-            this.btnRefresh.UseVisualStyleBackColor = true;
-            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
-            // 
-            // modbusWatchDogBindingSource
-            // 
-            this.modbusWatchDogBindingSource.DataSource = typeof(CIMWatchDogMonitor.ModbusWatchDogWorker.ModbusWatchDog);
             // 
             // deviceNameDataGridViewTextBoxColumn
             // 
@@ -97,7 +80,7 @@
             this.deviceNameDataGridViewTextBoxColumn.MinimumWidth = 6;
             this.deviceNameDataGridViewTextBoxColumn.Name = "deviceNameDataGridViewTextBoxColumn";
             this.deviceNameDataGridViewTextBoxColumn.ReadOnly = true;
-            this.deviceNameDataGridViewTextBoxColumn.Width = 66;
+            this.deviceNameDataGridViewTextBoxColumn.Width = 51;
             // 
             // ipDataGridViewTextBoxColumn
             // 
@@ -116,7 +99,7 @@
             this.portDataGridViewTextBoxColumn.MinimumWidth = 6;
             this.portDataGridViewTextBoxColumn.Name = "portDataGridViewTextBoxColumn";
             this.portDataGridViewTextBoxColumn.ReadOnly = true;
-            this.portDataGridViewTextBoxColumn.Width = 72;
+            this.portDataGridViewTextBoxColumn.Width = 59;
             // 
             // aliveDataGridViewCheckBoxColumn
             // 
@@ -154,14 +137,48 @@
             this.inputsStrDataGridViewTextBoxColumn.Name = "inputsStrDataGridViewTextBoxColumn";
             this.inputsStrDataGridViewTextBoxColumn.ReadOnly = true;
             // 
+            // modbusWatchDogBindingSource
+            // 
+            this.modbusWatchDogBindingSource.DataSource = typeof(CIMWatchDogMonitor.ModbusWatchDogWorker.ModbusWatchDog);
+            // 
+            // timer1
+            // 
+            this.timer1.Interval = 1000;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // btnRefresh
+            // 
+            this.btnRefresh.Location = new System.Drawing.Point(3, 4);
+            this.btnRefresh.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(56, 24);
+            this.btnRefresh.TabIndex = 1;
+            this.btnRefresh.Text = "Refresh";
+            this.btnRefresh.UseVisualStyleBackColor = true;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(817, 12);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(71, 16);
+            this.checkBox1.TabIndex = 2;
+            this.checkBox1.Text = "Http 測試";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1192, 558);
+            this.ClientSize = new System.Drawing.Size(894, 446);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.btnRefresh);
             this.Controls.Add(this.dataGridView1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "Form1";
             this.Text = "CIM Watch";
             this.WindowState = System.Windows.Forms.FormWindowState.Minimized;
@@ -169,6 +186,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.modbusWatchDogBindingSource)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -185,6 +203,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn lastDataRecieveTimeDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn lastInputChangedTimeDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn inputsStrDataGridViewTextBoxColumn;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }
 
