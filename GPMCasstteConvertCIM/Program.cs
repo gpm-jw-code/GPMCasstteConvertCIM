@@ -13,6 +13,8 @@ namespace GPMCasstteConvertCIM
 {
     internal static class Program
     {
+        private static SemaphoreSlim _writeExpLogSlim = new SemaphoreSlim(1, 1);
+
         /// <summary>
         ///  The main entry point for the application.
         /// </summary>
@@ -97,16 +99,51 @@ namespace GPMCasstteConvertCIM
         private static void LogUnHandleException(Exception exception)
         {
             exception.GetClassNameAndLine(out string clsName, out int lineNumber);
-            AlarmManager.AddExceptionRecored(new clsExceptionDto
-            {
-                Time = DateTime.Now,
-                ClassName = clsName,
-                LineNumber = lineNumber,
-                ErrorMessage = exception.Message,
-                IsChecked = false,
-            });
-            Utility.SystemLogger.Error(exception.Message, exception, true);
 
+            try
+            {
+                AlarmManager.AddExceptionRecored(new clsExceptionDto
+                {
+                    Time = DateTime.Now,
+                    ClassName = clsName,
+                    LineNumber = lineNumber,
+                    ErrorMessage = exception.Message,
+                    IsChecked = false,
+                });
+                Utility.SystemLogger.Error(exception.Message, exception, true);
+            }
+            catch (Exception ex)
+            {
+
+            }
+            finally
+            {
+                _ = _WriteExceptionLogInCurrentWorkDirectory(exception, clsName, lineNumber);
+            }
+        }
+
+
+        private static async Task _WriteExceptionLogInCurrentWorkDirectory(Exception exception, string clsName, int lineNumber)
+        {
+            await _writeExpLogSlim.WaitAsync();
+            try
+            {
+                string _localErrorRecordFolder = Path.Combine(Environment.CurrentDirectory, "Exception Log");
+                Directory.CreateDirectory(_localErrorRecordFolder);
+                string _localErrorLogFile = Path.Combine(_localErrorRecordFolder, $"{DateTime.Now.ToString("yyyy-MM-dd-HH")}.log");
+                using StreamWriter streamWriter = new StreamWriter(_localErrorLogFile, true);
+                streamWriter.WriteLine($"{DateTime.Now}-{clsName}-Line:{lineNumber}-> {exception.Message}");
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                _writeExpLogSlim.Release();
+            }
         }
     }
 

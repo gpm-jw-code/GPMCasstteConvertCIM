@@ -17,8 +17,8 @@ namespace GPMCasstteConvertCIM.WebServer
 {
     public class Servlet
     {
-        public virtual void onGet(System.Net.HttpListenerRequest request, System.Net.HttpListenerResponse response) { }
-        public virtual void onPost(System.Net.HttpListenerRequest request, System.Net.HttpListenerResponse response) { }
+        public virtual async Task onGetAsync(System.Net.HttpListenerRequest request, System.Net.HttpListenerResponse response) { }
+        public virtual async Task onPostAsync(System.Net.HttpListenerRequest request, System.Net.HttpListenerResponse response) { }
 
         public virtual void onCreate()
         {
@@ -27,7 +27,7 @@ namespace GPMCasstteConvertCIM.WebServer
     }
     public class MyServlet : Servlet
     {
-        private LogBase logger;
+        private Utilities.LoggerBase logger;
         private string? logFolder;
         public delegate clsResponse EqIOModeChangeDelegate(string eqName, IO_MODE mode);
         public static EqIOModeChangeDelegate OnEqIOModeChangeRequest;
@@ -47,11 +47,11 @@ namespace GPMCasstteConvertCIM.WebServer
 
         public override void onCreate()
         {
-            logger = new LogBase(logFolder);
+            logger = new Utilities.LoggerBase(null, logFolder, "");
             base.onCreate();
         }
 
-        public override void onGet(HttpListenerRequest request, HttpListenerResponse response)
+        public override async Task onGetAsync(HttpListenerRequest request, HttpListenerResponse response)
         {
             Log("GET:" + request.Url);
             var _response = GetRequestRoute(request);
@@ -69,7 +69,7 @@ namespace GPMCasstteConvertCIM.WebServer
             output.Close();
         }
 
-        public override void onPost(HttpListenerRequest request, HttpListenerResponse response)
+        public override async Task onPostAsync(HttpListenerRequest request, HttpListenerResponse response)
         {
             string lowerstring = request.RawUrl.ToLower();
             var jsonStr = GetBodyJson(request);
@@ -170,7 +170,7 @@ namespace GPMCasstteConvertCIM.WebServer
         private void Log(string msg)
         {
             Console.WriteLine(msg);
-            logger.LogAsync(new LogItem(msg));
+            logger.Log(msg);
         }
     }
 

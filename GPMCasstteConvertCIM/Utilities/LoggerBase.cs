@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using RosSharp.RosBridgeClient;
 using RosSharp.RosBridgeClient.MessageTypes.Std;
 using System;
 using System.Collections.Concurrent;
@@ -112,6 +113,10 @@ namespace GPMCasstteConvertCIM.Utilities
         }
         public void Info(string msg, bool show_in_richbox = true, string subFolder = "")
         {
+            if (string.IsNullOrWhiteSpace(msg))
+            {
+                throw new Exception("Log Empty message");
+            }
             DateTime time = DateTime.Now;
             if (show_in_richbox)
             {
@@ -121,6 +126,11 @@ namespace GPMCasstteConvertCIM.Utilities
         }
         public void Info(string msg, Color foreCOlor, bool show_in_richbox = true, string subFolder = "")
         {
+            if (string.IsNullOrWhiteSpace(msg))
+            {
+                throw new Exception("Log Empty message");
+
+            }
             DateTime time = DateTime.Now;
 
             if (show_in_richbox)
@@ -131,6 +141,11 @@ namespace GPMCasstteConvertCIM.Utilities
         }
         public void Warning(string msg, bool show_in_richbox = true, string subFolder = "")
         {
+            if (string.IsNullOrWhiteSpace(msg))
+            {
+                throw new Exception("Log Empty message");
+
+            }
             DateTime time = DateTime.Now;
             if (show_in_richbox)
             {
@@ -140,6 +155,11 @@ namespace GPMCasstteConvertCIM.Utilities
         }
         public void Error(string message, bool show_in_richbox = true, string subFolder = "")
         {
+            if (string.IsNullOrWhiteSpace(message))
+            {
+                throw new Exception("Log Empty message");
+
+            }
             Error(message, new Exception(message), show_in_richbox);
         }
         public void Error(Exception ex, bool show_in_richbox = true)
@@ -148,6 +168,11 @@ namespace GPMCasstteConvertCIM.Utilities
         }
         public void Error(string msg, Exception? ex, bool show_in_richbox = true, string subFolder = "")
         {
+            if (string.IsNullOrWhiteSpace(msg) && ex == null)
+            {
+                throw new Exception("Log Empty message");
+
+            }
             DateTime time = DateTime.Now;
             if (show_in_richbox)
             {
@@ -157,6 +182,11 @@ namespace GPMCasstteConvertCIM.Utilities
         }
         public void Debug(string msg, string subFolder = "")
         {
+            if (string.IsNullOrWhiteSpace(msg))
+            {
+                throw new Exception("Log Empty message");
+
+            }
             var time = DateTime.Now;
             ShowLogInRichTextBox(time, LOG_LEVEL.DEBUG, msg, Color.Yellow);
             StoreLogItemToQueue(time, LOG_LEVEL.DEBUG, msg, subFolder);
