@@ -783,5 +783,10 @@ namespace GPMCasstteConvertCIM.Forms
             };
             exceptionViewer.Show();
         }
+
+        private void toolStripStatusLabel1_Click_1(object sender, EventArgs e)
+        {
+            Utility.SystemLogger.Info("");
+        }
     }
 }

@@ -124,6 +124,9 @@
     <None Update="src\PLC_Word_Map_EQ.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="start_dump.cmd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 	<Target Name="PreBuild" BeforeTargets="PreBuildEvent">
 		<!--<Exec Command="powershell.exe -ExecutionPolicy Bypass -File &quot;AutoVersionModify.ps1&quot;" />-->

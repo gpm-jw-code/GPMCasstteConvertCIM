@@ -752,7 +752,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         }
 
-        internal async Task RemoveCarrier(string cst_id, bool checkPortType = true)
+        internal async Task RemoveCarrier(string cst_id, bool checkPortType = true, bool CallRemoveRackCarrierIDAPI = true)
         {
             UpdateModbusBCRReport("", isClearBCR: true);
             Properties.IsInstalled = false;
@@ -778,7 +778,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 Utility.SystemLogger.Warning($"[{PortName}] BCR ID Clear but Port Type ={EPortType}, Carrier removed not REPORT to MCS");
             }
 
-            if (Properties.IsConverter && Properties.ModifyAGVSCargoIDWithWebAPI)
+            if (Properties.IsConverter && Properties.ModifyAGVSCargoIDWithWebAPI && CallRemoveRackCarrierIDAPI)
             {
                 _ = Task.Run(async () =>
                 {
@@ -833,7 +833,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     {
                         await _RackCstModifyWaitSlim.WaitAsync();
                         (bool confirm, string response, string errorMsg) result = await API.KGAGVS.RackStatusAPI.AddCSTID(Properties.NameInAGVS, 1, cst_id);
-                        Utility.SystemLogger.Info($"Add CST ID API請求結果 ={result.ToJson()}");
+                        Utility.SystemLogger.Info($"Add CST ID({cst_id}) API請求結果 ={result.ToJson()}");
                     }
                     catch (Exception ex)
                     {

@@ -50,18 +50,28 @@ namespace GPMCasstteConvertCIM.WebServer
                 httpListenner.Prefixes.Add($"{url}/");
                 httpListenner.IgnoreWriteExceptions = true;
                 httpListenner.Start();
-
-                new Thread(new ThreadStart(delegate
+                Task.Run(() =>
                 {
                     try
                     {
-                        loop(httpListenner);
+                        LoopAsync(httpListenner);
                     }
                     catch (Exception)
                     {
                         httpListenner.Stop();
                     }
-                })).Start();
+                });
+                //new Thread(new ThreadStart(delegate
+                //{
+                //    try
+                //    {
+                //        loop(httpListenner);
+                //    }
+                //    catch (Exception)
+                //    {
+                //        httpListenner.Stop();
+                //    }
+                //})).Start();
                 Servering = true;
             }
             catch (Exception ex)
@@ -78,46 +88,71 @@ namespace GPMCasstteConvertCIM.WebServer
             httpListenner?.Stop();
             StartService(_url, _logFolder);
         }
-        private static void loop(HttpListener httpListenner)
+
+
+        private static async Task LoopAsync(HttpListener httpListener)
         {
-            while (true)
+            while (httpListener.IsListening)
             {
-                Thread.Sleep(1);
                 try
                 {
-                    HttpListenerContext context = httpListenner.GetContext();
+                    // Asynchronously wait for an incoming request
+                    HttpListenerContext context = await httpListener.GetContextAsync();
+
                     if (_simulateExceptionHappend)
                     {
                         _simulateExceptionHappend = false;
-                        throw new Exception("Test exception happen");
+                        throw new Exception("Test exception happened");
                     }
-                    HttpListenerRequest request = context.Request;
-                    HttpListenerResponse response = context.Response;
-                    Servlet servlet = new MyServlet(_logFolder);
-                    servlet.onCreate();
-                    if (request.HttpMethod == "POST")
-                    {
-                        servlet.onPost(request, response);
-                    }
-                    else if (request.HttpMethod == "GET")
-                    {
-                        servlet.onGet(request, response);
-                    }
-                    response.Close();
+
+                    // Process the request in a separate task without awaiting it
+                    // to immediately return to listening for incoming HTTP requests
+                    ProcessRequestAsync(context);
                 }
                 catch (Exception ex)
                 {
                     AlarmManager.AddAlarm(ALARM_CODES.WebServer_Exception_Happend_When_Handling_Request, "SYSTEM", true);
-                    break;
+                    break; // Exit the loop if an exception occurs
                 }
             }
+
+            // Stop the server and restart after a delay
             Servering = false;
-            Task.Run(async () =>
-            {
-                await Task.Delay(3000);
-                RestartServerProcess();
-            });
+            Task.Delay(3000).ContinueWith(t => RestartServerProcess());
         }
 
+        private static async Task ProcessRequestAsync(HttpListenerContext context)
+        {
+            try
+            {
+                HttpListenerRequest request = context.Request;
+                HttpListenerResponse response = context.Response;
+
+                // Instantiate your servlet for each request
+                Servlet servlet = new MyServlet(_logFolder);
+                servlet.onCreate();
+
+                // Handle POST and GET requests
+                if (request.HttpMethod == "POST")
+                {
+                    await servlet.onPostAsync(request, response);
+                }
+                else if (request.HttpMethod == "GET")
+                {
+                    await servlet.onGetAsync(request, response);
+                }
+
+                // Properly close the response
+                response.Close();
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it as necessary
+                AlarmManager.AddAlarm(ALARM_CODES.WebServer_Exception_Happend_When_Handling_Request, "SYSTEM", true);
+            }
+        }
+
+
+        
     }
 }
