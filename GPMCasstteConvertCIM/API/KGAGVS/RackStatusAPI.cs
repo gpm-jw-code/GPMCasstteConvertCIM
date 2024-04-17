@@ -53,7 +53,7 @@ namespace GPMCasstteConvertCIM.API.KGAGVS
                 return (false, "", login_result.errorMsg);
             }
 
-            string apiResponse = await CallRackStatusAPI(login_result.cookie, EQPName, slot, CarrierID, "Modify");
+            string apiResponse = await CallRackStatusAPI(login_result.cookie, EQPName, slot, CarrierID, "Modify", OldCarrierID);
             return (true, apiResponse, "");
         }
 
