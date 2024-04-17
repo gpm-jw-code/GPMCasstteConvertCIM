@@ -1,5 +1,6 @@
 ﻿using AGVSystemCommonNet6.Log;
 using GPMCasstteConvertCIM.Alarm;
+using GPMCasstteConvertCIM.API.KGAGVS;
 using GPMCasstteConvertCIM.CasstteConverter.Data;
 using GPMCasstteConvertCIM.Devices;
 using GPMCasstteConvertCIM.Forms;
@@ -785,6 +786,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     try
                     {
                         await _RackCstModifyWaitSlim.WaitAsync();
+                        cst_id = AGVSiniRead.lastCarrierID;
                         (bool confirm, string response, string errorMsg) result = await API.KGAGVS.RackStatusAPI.DeleteCSTID(Properties.NameInAGVS, 1, cst_id);
                         Utility.SystemLogger.Info($"Delete CST ID API請求結果={result.ToJson()}");
                     }
@@ -832,7 +834,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     try
                     {
                         await _RackCstModifyWaitSlim.WaitAsync();
-                        (bool confirm, string response, string errorMsg) result = await API.KGAGVS.RackStatusAPI.AddCSTID(Properties.NameInAGVS, 1, cst_id);
+                        (bool confirm, string response, string errorMsg) result = await API.KGAGVS.RackStatusAPI.ModifyCSTID(Properties.NameInAGVS, 1, AGVSiniRead.lastCarrierID, cst_id);
                         Utility.SystemLogger.Info($"Add CST ID({cst_id}) API請求結果 ={result.ToJson()}");
                     }
                     catch (Exception ex)
