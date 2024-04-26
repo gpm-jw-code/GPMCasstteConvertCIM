@@ -15,13 +15,14 @@ namespace GPMCasstteConvertCIM.API.KGAGVS
         {
             string EQ_NameInini = EQ_Name.ToUpper() + "_"+Slot.ToString();
             string iniFilePath = @"c:\CST\ini\Status.ini";
-            string NewiniFilePath = @"d:\cimfile\Status.ini";
-            if(!File.Exists(NewiniFilePath)) { File.Create(NewiniFilePath); }
-            File.Copy(iniFilePath, NewiniFilePath, true);
+            string NewiniFilePathini = @"c:\GPM_CIM\ini\Status.ini";
+            string NewiniFilePath = @"c:\GPM_CIM\ini\";
+            if (!Directory.Exists(NewiniFilePath)) { Directory.CreateDirectory(NewiniFilePath); }
+            File.Copy(iniFilePath, NewiniFilePathini, true);
             var parser = new FileIniDataParser();
-            IniData data = parser.ReadFile(NewiniFilePath);
+            IniData data = parser.ReadFile(NewiniFilePathini);
             lastCarrierID = data[EQ_NameInini]["LotID"]; //data[RACK3_1]["LotID"];
-            File.Delete(NewiniFilePath);
+            File.Delete(NewiniFilePathini);
         }
         //public async static void checkinilastwrite()
         //{
