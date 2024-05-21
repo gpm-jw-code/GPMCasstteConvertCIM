@@ -98,9 +98,17 @@ namespace GPMCasstteConvertCIM.Devices
 
             }
 
-            if (Utility.SysConfigs.Project == Utilities.SysConfigs.clsSystemConfigs.PROJECT.U007)
+            if (Utility.SysConfigs.Project == Utilities.SysConfigs.clsSystemConfigs.PROJECT.U007 ||
+                Utility.SysConfigs.Project == Utilities.SysConfigs.clsSystemConfigs.PROJECT.YM_2F_AOI)
             {
-                cclink_master = new clsCCLinkIE_Master("CCLINK_MASTER", EqStatusUI);
+
+                if (Utility.SysConfigs.Project == Utilities.SysConfigs.clsSystemConfigs.PROJECT.U007)
+                    cclink_master = new clsCCLinkIE_Master("CCLINK_MASTER", EqStatusUI);
+                else if (Utility.SysConfigs.Project == Utilities.SysConfigs.clsSystemConfigs.PROJECT.YM_2F_AOI)
+                {
+                    cclink_master = new clsCCLinkID_Master_YM2FAOI("CCLINK_MASTER", EqStatusUI);
+                }
+
                 cclink_master.ActiveAsync(new McInterfaceOptions { });
 
                 foreach (Options.ConverterEQPInitialOption item in DevicesConnectionsOpts.PLCEQS)

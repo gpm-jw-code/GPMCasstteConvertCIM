@@ -38,7 +38,7 @@ namespace GPMCasstteConvertCIM.Utilities.SysConfigs
         public clsSECSWatchDogConfig AGVSSecsWatchDog { get; set; } = new clsSECSWatchDogConfig();
         public enum PROJECT
         {
-            U003, U007
+            U003, U007, YM_2F_AOI
         }
 
 
