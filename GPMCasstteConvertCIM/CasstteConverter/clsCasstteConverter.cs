@@ -253,6 +253,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         private bool _MxOpened = true;
         private Exception MxOpenException;
         public bool MxOpened
+
         {
             get => _MxOpened;
             set
@@ -585,7 +586,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     }
                     catch (Exception ex)
                     {
-                        if (Utility.SysConfigs.Project != Utilities.SysConfigs.clsSystemConfigs.PROJECT.U007)
+                        if (Utility.SysConfigs.Project != Utilities.SysConfigs.clsSystemConfigs.PROJECT.U007 && Utility.SysConfigs.Project != Utilities.SysConfigs.clsSystemConfigs.PROJECT.YM_2F_AOI)
                             Utility.SystemLogger.Error(ex.Message, ex);
                     }
                     EQPORT.AGVSignals.To_EQ_Up = (bool)LinkBitMap.First(f => f.EOwner == clsMemoryAddress.OWNER.CIM && f.EScope == port && f.EProperty == PROPERTY.To_EQ_Up).Value;
@@ -608,7 +609,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     }
                     catch (Exception ex)
                     {
-                        if (Utility.SysConfigs.Project != Utilities.SysConfigs.clsSystemConfigs.PROJECT.U007)
+                        if (Utility.SysConfigs.Project != Utilities.SysConfigs.clsSystemConfigs.PROJECT.U007 && Utility.SysConfigs.Project != Utilities.SysConfigs.clsSystemConfigs.PROJECT.YM_2F_AOI)
                             Utility.SystemLogger.Error(ex.Message, ex);
                     }
 
@@ -657,7 +658,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     }
                     catch (Exception ex)
                     {
-                        if (Utility.SysConfigs.Project != Utilities.SysConfigs.clsSystemConfigs.PROJECT.U007)
+                        if (Utility.SysConfigs.Project != Utilities.SysConfigs.clsSystemConfigs.PROJECT.U007 && Utility.SysConfigs.Project != Utilities.SysConfigs.clsSystemConfigs.PROJECT.YM_2F_AOI)
                             Utility.SystemLogger.Error(ex.Message, ex);
                     }
                 }

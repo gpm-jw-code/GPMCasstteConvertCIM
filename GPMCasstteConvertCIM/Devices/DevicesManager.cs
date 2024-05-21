@@ -56,7 +56,23 @@ namespace GPMCasstteConvertCIM.Devices
         public static UscEQStatus EqStatusUI { get; internal set; }
         private static LoggerBase SysLog => Utility.SystemLogger;
 
-        private static string DeviceConnectionConfigName => Utility.SysConfigs.Project == Utilities.SysConfigs.clsSystemConfigs.PROJECT.U003 ? "DevicesConnections.json" : "DevicesConnections-U007.json";
+        private static string DeviceConnectionConfigName
+        {
+            get
+            {
+                switch (Utility.SysConfigs.Project)
+                {
+                    case Utilities.SysConfigs.clsSystemConfigs.PROJECT.U003:
+                        return "DevicesConnections.json";
+                    case Utilities.SysConfigs.clsSystemConfigs.PROJECT.U007:
+                        return "DevicesConnections-U007.json";
+                    case Utilities.SysConfigs.clsSystemConfigs.PROJECT.YM_2F_AOI:
+                        return "DevicesConnections-YM_2F_AOI.json";
+                    default:
+                        return "DevicesConnections.json";
+                }
+            }
+        }
 
         internal static void Connect()
         {
