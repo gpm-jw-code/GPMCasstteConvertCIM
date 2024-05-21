@@ -56,5 +56,32 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle.Tests
 
             Assert.AreEqual("3F_AGVC02_2_4,3F_AGVC02_2_5,3F_AGVC02_2_6", String.Join(",", ports.Select(p => p.Properties.PortID)));
         }
+
+        [TestMethod()]
+        [Timeout(30000)]
+        public void AGVSMsgWatchDogTest()
+        {
+            AGVSSecsDDOSWatchDog watchDog = new AGVSSecsDDOSWatchDog(3, 2322);
+            while (true)
+            {
+                bool isDDOSHappen = watchDog.Monitor(SECSMessageHelper.EventsMsg.CreateEventMsg(CEID.CarrierIDReadReport, 23, new Item[]
+                {
+                     Item.U2(223),
+                     Item.U2(223),
+                     Item.U2(223),
+                     Item.U2(223),
+                     Item.U2(223),
+                     Item.U2(223)
+                }));
+
+                if (isDDOSHappen)
+                {
+                    return;
+                }
+
+                Thread.Sleep(100);
+            };
+
+        }
     }
 }

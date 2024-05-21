@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using GPMCasstteConvertCIM.CasstteConverter;
+using GPMCasstteConvertCIM.Utilities.SysConfigs;
 
 namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
 {
@@ -20,8 +21,48 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
         internal static event EventHandler OnAGVSOnline_Local;
         internal static event EventHandler OnAGVSOnline_Remote;
         internal static event EventHandler OnAGVSOffline;
+        internal static event EventHandler<Queue<(DateTime Timestamp, int Size, SecsMessage message)>> OnAGVSDDOSAttacking;
+        internal static event EventHandler OnAGVSDDOSReconvery;
         private static SECSBase MCS => DevicesManager.secs_host_for_mcs;
         private static SECSBase AGVS => DevicesManager.secs_client_for_agvs;
+        private static AGVSSecsDDOSWatchDog SECSMsgWatchDog = new AGVSSecsDDOSWatchDog(3, 1024, 20);
+
+        private static bool _DDOSHappend = false;
+        public static bool DDOSHappend
+        {
+            get => _DDOSHappend;
+            set
+            {
+                if (_DDOSHappend != value)
+                {
+                    _DDOSHappend = value;
+                    if (_DDOSHappend)
+                    {
+                        OnAGVSDDOSAttacking?.Invoke("", SECSMsgWatchDog._trafficData);
+                    }
+                    else
+                    {
+                        DDOSRestoreInvoke();
+                    }
+                }
+            }
+        }
+        internal static void DDOSRestoreInvoke()
+        {
+            OnAGVSDDOSReconvery?.Invoke("", EventArgs.Empty);
+        }
+        internal static void DefineSecsMsgWatchDog(clsSECSWatchDogConfig configuration)
+        {
+            SECSMsgWatchDog = new AGVSSecsDDOSWatchDog(configuration.TimeWindow, configuration.MsgSizeLimit, configuration.CountLimit);
+
+        }
+
+        internal static void DefineSecsMsgWatchDog(int timewindow, long sizeLimit, int countLimit)
+        {
+            SECSMsgWatchDog = new AGVSSecsDDOSWatchDog(timewindow, sizeLimit, countLimit);
+
+        }
+
         /// <summary>
         /// 處理AGVS PrimaryMessage >>轉送給MCS 
         /// </summary>
@@ -32,6 +73,13 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
             byte ack6 = 0;
 
             Utility.SystemLogger.SecsTransferLog($"Primary Mesaage Recieved From AGVS");
+            (bool isSizeOverload, bool isCountOverload) DDOSMonitorResult = SECSMsgWatchDog.Monitor(_primaryMessageWrapper.PrimaryMessage);
+
+            DDOSHappend = DDOSMonitorResult.isSizeOverload || DDOSMonitorResult.isCountOverload;
+            if (DDOSHappend)
+            {
+                return;
+            }
 
             using SecsMessage _primaryMessage_FromAGVS = _primaryMessageWrapper.PrimaryMessage;
 
@@ -141,5 +189,6 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
             }
 
         }
+
     }
 }

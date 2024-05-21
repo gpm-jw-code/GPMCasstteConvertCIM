@@ -1017,6 +1017,7 @@
             toolStripStatusLabel1.Text = "GPM AGV SYSTEM CIM";
             toolStripStatusLabel1.TextAlign = ContentAlignment.MiddleLeft;
             toolStripStatusLabel1.Click += toolStripStatusLabel1_Click_1;
+            toolStripStatusLabel1.MouseDown += toolStripStatusLabel1_MouseDown;
             // 
             // labUnHandleExceptions
             // 

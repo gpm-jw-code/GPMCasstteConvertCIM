@@ -86,6 +86,7 @@ namespace GPMCasstteConvertCIM.Devices
             }
             try
             {
+                AGVSMessageHandler.DefineSecsMsgWatchDog(Utility.SysConfigs.AGVSSecsWatchDog);
                 ////Secs client(CIM_MCS)
                 secs_client_for_agvs = new SECSBase("AGVS");
                 secs_client_for_agvs.ConnectionChanged += SECS_H_ConnectionChangeHandle;
