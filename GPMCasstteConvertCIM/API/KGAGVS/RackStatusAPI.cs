@@ -6,12 +6,17 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace GPMCasstteConvertCIM.API.KGAGVS
 {
     public class RackStatusAPI
     {
         internal static LoggerBase Logger;
+        public string LastZone3CarrierID
+        {
+            get => AGVSiniRead.lastCarrierID; 
+        }
         public static async Task<(bool confirm, string response, string errorMsg)> AddCSTID(string EQPName, int slot, string CarrierID)
         {
             Log($"Request to KGS AGVSYSTEM: Try Add CSTID={CarrierID} of {EQPName} ");
@@ -48,7 +53,7 @@ namespace GPMCasstteConvertCIM.API.KGAGVS
                 return (false, "", login_result.errorMsg);
             }
 
-            string apiResponse = await CallRackStatusAPI(login_result.cookie, EQPName, slot, CarrierID, "Modify");
+            string apiResponse = await CallRackStatusAPI(login_result.cookie, EQPName, slot, CarrierID, "Modify", OldCarrierID);
             return (true, apiResponse, "");
         }
 
