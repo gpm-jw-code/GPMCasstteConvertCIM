@@ -7,9 +7,9 @@ X0004,EQP,DOWN_POS,Boolean,,PORT1,LD_DOWN_POS,5,TS_1,,,,,,,X,4,X4
 X0005,EQP,EQP Status Down,Boolean,,PORT1,Port_Status_Down,6,TS_1,,,,,,,X,5,X5
 X0006,EQP,EQP_Parts_Replacement,Boolean,,PORT1,EQP_Parts_Replacement,7,TS_1,,,,,,,X,6,X6
 X0007,EQP,EQP_Maintaining,Boolean,,PORT1,EQP_Maintaining,8,TS_1,,,,,,,X,7,X7
-X0008,EQP,EQP Status Run,Boolean,,PORT1,EQP_RUN,9,TS_1,,,,,,,X,8,X8
-X0009,EQP,EQP Status Idle,Boolean,,PORT1,EQP_IDLE,10,TS_1,,,,,,,X,9,X9
-X000A,EQP,EQP Status Down,Boolean,,PORT1,EQP_DOWN,11,TS_1,,,,,,,X,10,XA
+X0008,EQP,EQP Status Run,Boolean,,EQ,EQP_RUN,9,TS_1,,,,,,,X,8,X8
+X0009,EQP,EQP Status Idle,Boolean,,EQ,EQP_IDLE,10,TS_1,,,,,,,X,9,X9
+X000A,EQP,EQP Status Down,Boolean,,EQ,EQP_DOWN,11,TS_1,,,,,,,X,10,XA
 X000B,EQP,Carrier WaitIn System Request (Flag),Boolean,,PORT1,Carrier_WaitIn_System_Request,12,TS_1,,,,,,,X,11,XB
 X000C,EQP,Carrier WaitOut System Report (Flag),Boolean,,PORT1,Carrier_WaitOut_System_Report,13,TS_1,,,,,,,X,12,XC
 X000D,EQP,Carrier Removed Completed Report,Boolean,,PORT1,Carrier_Removed_Completed_Report,14,TS_1,,,,,,,X,13,XD
@@ -23,9 +23,9 @@ X0014,EQP,DOWN_POS,Boolean,,PORT1,LD_DOWN_POS,5,TS_2_1,,,,,,,X,20,X14
 X0015,EQP,EQP Status Down,Boolean,,PORT1,Port_Status_Down,6,TS_2_1,,,,,,,X,21,X15
 X0016,EQP,EQP_Parts_Replacement,Boolean,,PORT1,EQP_Parts_Replacement,7,TS_2_1,,,,,,,X,22,X16
 X0017,EQP,EQP_Maintaining,Boolean,,PORT1,EQP_Maintaining,8,TS_2_1,,,,,,,X,23,X17
-X0018,EQP,EQP Status Run,Boolean,,PORT1,EQP_RUN,9,TS_2_1,,,,,,,X,24,X18
-X0019,EQP,EQP Status Idle,Boolean,,PORT1,EQP_IDLE,10,TS_2_1,,,,,,,X,25,X19
-X001A,EQP,EQP Status Down,Boolean,,PORT1,EQP_DOWN,11,TS_2_1,,,,,,,X,26,X1A
+X0018,EQP,EQP Status Run,Boolean,,EQ,EQP_RUN,9,TS_2_1,,,,,,,X,24,X18
+X0019,EQP,EQP Status Idle,Boolean,,EQ,EQP_IDLE,10,TS_2_1,,,,,,,X,25,X19
+X001A,EQP,EQP Status Down,Boolean,,EQ,EQP_DOWN,11,TS_2_1,,,,,,,X,26,X1A
 X001B,EQP,Carrier WaitIn System Request (Flag),Boolean,,PORT1,Carrier_WaitIn_System_Request,12,TS_2_1,,,,,,,X,27,X1B
 X001C,EQP,Carrier WaitOut System Report (Flag),Boolean,,PORT1,Carrier_WaitOut_System_Report,13,TS_2_1,,,,,,,X,28,X1C
 X001D,EQP,Carrier Removed Completed Report,Boolean,,PORT1,Carrier_Removed_Completed_Report,14,TS_2_1,,,,,,,X,29,X1D
@@ -39,9 +39,9 @@ X0024,EQP,DOWN_POS,Boolean,,PORT1,LD_DOWN_POS,5,TS_2_2,,,,,,,X,36,X24
 X0025,EQP,EQP Status Down,Boolean,,PORT1,Port_Status_Down,6,TS_2_2,,,,,,,X,37,X25
 X0026,EQP,EQP_Parts_Replacement,Boolean,,PORT1,EQP_Parts_Replacement,7,TS_2_2,,,,,,,X,38,X26
 X0027,EQP,EQP_Maintaining,Boolean,,PORT1,EQP_Maintaining,8,TS_2_2,,,,,,,X,39,X27
-X0028,EQP,EQP Status Run,Boolean,,PORT1,EQP_RUN,9,TS_2_2,,,,,,,X,40,X28
-X0029,EQP,EQP Status Idle,Boolean,,PORT1,EQP_IDLE,10,TS_2_2,,,,,,,X,41,X29
-X002A,EQP,EQP Status Down,Boolean,,PORT1,EQP_DOWN,11,TS_2_2,,,,,,,X,42,X2A
+X0028,EQP,EQP Status Run,Boolean,,EQ,EQP_RUN,9,TS_2_2,,,,,,,X,40,X28
+X0029,EQP,EQP Status Idle,Boolean,,EQ,EQP_IDLE,10,TS_2_2,,,,,,,X,41,X29
+X002A,EQP,EQP Status Down,Boolean,,EQ,EQP_DOWN,11,TS_2_2,,,,,,,X,42,X2A
 X002B,EQP,Carrier WaitIn System Request (Flag),Boolean,,PORT1,Carrier_WaitIn_System_Request,12,TS_2_2,,,,,,,X,43,X2B
 X002C,EQP,Carrier WaitOut System Report (Flag),Boolean,,PORT1,Carrier_WaitOut_System_Report,13,TS_2_2,,,,,,,X,44,X2C
 X002D,EQP,Carrier Removed Completed Report,Boolean,,PORT1,Carrier_Removed_Completed_Report,14,TS_2_2,,,,,,,X,45,X2D
@@ -55,9 +55,9 @@ X0034,EQP,DOWN_POS,Boolean,,PORT1,LD_DOWN_POS,5,TS_3,,,,,,,X,52,X34
 X0035,EQP,EQP Status Down,Boolean,,PORT1,Port_Status_Down,6,TS_3,,,,,,,X,53,X35
 X0036,EQP,EQP_Parts_Replacement,Boolean,,PORT1,EQP_Parts_Replacement,7,TS_3,,,,,,,X,54,X36
 X0037,EQP,EQP_Maintaining,Boolean,,PORT1,EQP_Maintaining,8,TS_3,,,,,,,X,55,X37
-X0038,EQP,EQP Status Run,Boolean,,PORT1,EQP_RUN,9,TS_3,,,,,,,X,56,X38
-X0039,EQP,EQP Status Idle,Boolean,,PORT1,EQP_IDLE,10,TS_3,,,,,,,X,57,X39
-X003A,EQP,EQP Status Down,Boolean,,PORT1,EQP_DOWN,11,TS_3,,,,,,,X,58,X3A
+X0038,EQP,EQP Status Run,Boolean,,EQ,EQP_RUN,9,TS_3,,,,,,,X,56,X38
+X0039,EQP,EQP Status Idle,Boolean,,EQ,EQP_IDLE,10,TS_3,,,,,,,X,57,X39
+X003A,EQP,EQP Status Down,Boolean,,EQ,EQP_DOWN,11,TS_3,,,,,,,X,58,X3A
 X003B,EQP,Carrier WaitIn System Request (Flag),Boolean,,PORT1,Carrier_WaitIn_System_Request,12,TS_3,,,,,,,X,59,X3B
 X003C,EQP,Carrier WaitOut System Report (Flag),Boolean,,PORT1,Carrier_WaitOut_System_Report,13,TS_3,,,,,,,X,60,X3C
 X003D,EQP,Carrier Removed Completed Report,Boolean,,PORT1,Carrier_Removed_Completed_Report,14,TS_3,,,,,,,X,61,X3D
@@ -71,9 +71,9 @@ X0044,EQP,DOWN_POS,Boolean,,PORT1,LD_DOWN_POS,5,TS_3_2,,,,,,,X,68,X44
 X0045,EQP,EQP Status Down,Boolean,,PORT1,Port_Status_Down,6,TS_3_2,,,,,,,X,69,X45
 X0046,EQP,EQP_Parts_Replacement,Boolean,,PORT1,EQP_Parts_Replacement,7,TS_3_2,,,,,,,X,70,X46
 X0047,EQP,EQP_Maintaining,Boolean,,PORT1,EQP_Maintaining,8,TS_3_2,,,,,,,X,71,X47
-X0048,EQP,EQP Status Run,Boolean,,PORT1,EQP_RUN,9,TS_3_2,,,,,,,X,72,X48
-X0049,EQP,EQP Status Idle,Boolean,,PORT1,EQP_IDLE,10,TS_3_2,,,,,,,X,73,X49
-X004A,EQP,EQP Status Down,Boolean,,PORT1,EQP_DOWN,11,TS_3_2,,,,,,,X,74,X4A
+X0048,EQP,EQP Status Run,Boolean,,EQ,EQP_RUN,9,TS_3_2,,,,,,,X,72,X48
+X0049,EQP,EQP Status Idle,Boolean,,EQ,EQP_IDLE,10,TS_3_2,,,,,,,X,73,X49
+X004A,EQP,EQP Status Down,Boolean,,EQ,EQP_DOWN,11,TS_3_2,,,,,,,X,74,X4A
 X004B,EQP,Carrier WaitIn System Request (Flag),Boolean,,PORT1,Carrier_WaitIn_System_Request,12,TS_3_2,,,,,,,X,75,X4B
 X004C,EQP,Carrier WaitOut System Report (Flag),Boolean,,PORT1,Carrier_WaitOut_System_Report,13,TS_3_2,,,,,,,X,76,X4C
 X004D,EQP,Carrier Removed Completed Report,Boolean,,PORT1,Carrier_Removed_Completed_Report,14,TS_3_2,,,,,,,X,77,X4D
