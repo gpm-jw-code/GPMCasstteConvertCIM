@@ -171,6 +171,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         private bool _PortStatusDown = false;
         private bool _LD_UP_POS = false;
         private bool _LD_DOWN_POS = false;
+        private bool _Maintaining = false;
+        private bool _PartsReplacing = false;
         public bool LoadRequest
         {
             get => (bool)(IsIOSimulating ? load_request_address.ControlValue : _LoadRequest);
@@ -253,7 +255,32 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 }
             }
         }
+        public bool Maintaining
+        {
+            get => _Maintaining;
+            set
+            {
+                if (_Maintaining != value)
+                {
+                    _Maintaining = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Maintaining"));
 
+                }
+            }
+        }
+        public bool PartsReplacing
+        {
+            get => _PartsReplacing;
+            set
+            {
+                if (_PartsReplacing != value)
+                {
+                    _Maintaining = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("PartsReplacing"));
+
+                }
+            }
+        }
         public bool EQP_Status_Run { get; set; } = false;
         public bool EQP_Status_Idle { get; set; } = false;
         public bool EQP_Status_Down
@@ -786,7 +813,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     try
                     {
                         await _RackCstModifyWaitSlim.WaitAsync();
-                        await AGVSiniRead.ReadAGVSini(Properties.NameInAGVS,1);
+                        await AGVSiniRead.ReadAGVSini(Properties.NameInAGVS, 1);
                         cst_id = AGVSiniRead.lastCarrierID;
                         (bool confirm, string response, string errorMsg) result = await API.KGAGVS.RackStatusAPI.DeleteCSTID(Properties.NameInAGVS, 1, cst_id);
                         Utility.SystemLogger.Info($"Delete CST ID API請求結果={result.ToJson()}");
@@ -835,7 +862,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     try
                     {
                         await _RackCstModifyWaitSlim.WaitAsync();
-                        await AGVSiniRead.ReadAGVSini(Properties.NameInAGVS,1);
+                        await AGVSiniRead.ReadAGVSini(Properties.NameInAGVS, 1);
                         (bool confirm, string response, string errorMsg) result = await API.KGAGVS.RackStatusAPI.ModifyCSTID(Properties.NameInAGVS, 1, AGVSiniRead.lastCarrierID, cst_id);
                         Utility.SystemLogger.Info($"Modify CST ID Old ID({AGVSiniRead.lastCarrierID}) Change to({cst_id}) API請求結果 ={result.ToJson()}");
                     }
