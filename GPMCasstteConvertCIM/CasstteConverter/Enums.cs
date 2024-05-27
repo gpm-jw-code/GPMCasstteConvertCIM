@@ -46,6 +46,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             TS_2_1,
             TS_2_2,
             TS_3,
+            TS_3_2,
             Unkown
         }
         public enum EQ_SCOPE
@@ -75,6 +76,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             Unload_Request,
             Port_Exist,
             Port_Status_Down,
+            EQP_Parts_Replacement,
+            EQP_Maintaining,
             LD_UP_POS,
             LD_DOWN_POS,
             Door_Opened,

@@ -176,6 +176,8 @@ namespace GPMCasstteConvertCIM.Forms
                     MyServlet.OnEqIOModeChangeRequest += DevicesManager.EqIOModeChangeHandle;
                     MyServlet.OnPortLDULDStatusChangeRequest += DevicesManager.PortLDULDStatusChangeHandle;
                     MyServlet.OnHotRunModeChangeRequest += HotRunRemoteControlHandle;
+                    GPM_SECS.SecsMessageHandle.AGVSMessageHandler.OnAGVSDDOSAttacking += AGVSMessageHandler_OnAGVSDDOSAttacking;
+
                     CIMWebServer.StartService(Utility.SysConfigs.WebService.HostUrl, Path.Combine(Utility.SysConfigs.Log.SyslogFolder, "WebServerLog"));
                     Task.Run(async () =>
                     {
@@ -204,6 +206,34 @@ namespace GPMCasstteConvertCIM.Forms
             });
 
         }
+
+        private void AGVSMessageHandler_OnAGVSDDOSAttacking(object? sender, Queue<(DateTime Timestamp, int Size, SecsMessage message)> _trafficData)
+        {
+            string msgSmls = string.Join("\r\n", _trafficData.Select(item => item.message.ToSml()));
+            Utility.SystemLogger.Info($"DDOS!\n{msgSmls}");
+            AlarmManager.AddAlarm(ALARM_CODES.AGVS_DDOS, "SECS");
+            ShowDDOSNotifyDialog();
+        }
+
+        private static void ShowDDOSNotifyDialog()
+        {
+            AGVSDDOSDialog dialog = new AGVSDDOSDialog()
+            {
+                TopMost = true,
+                TopLevel = true,
+                Text = "AGVS DDOS !!!!"
+            };
+            dialog.FormClosing += AGVSMessageHandler_OnAGVSDDOSReconvery;
+            AGVSMessageHandler.OnAGVSDDOSReconvery += AGVSMessageHandler_OnAGVSDDOSReconvery;
+
+            dialog.Show();
+            void AGVSMessageHandler_OnAGVSDDOSReconvery(object? sender, EventArgs e)
+            {
+                dialog.Dispose();
+                AGVSMessageHandler.OnAGVSDDOSReconvery -= AGVSMessageHandler_OnAGVSDDOSReconvery;
+            }
+        }
+
 
         private void UnHandleExpLabelAnimationStop()
         {
@@ -786,7 +816,16 @@ namespace GPMCasstteConvertCIM.Forms
 
         private void toolStripStatusLabel1_Click_1(object sender, EventArgs e)
         {
-            Utility.SystemLogger.Info("");
+            AlarmManager.AddAlarm(ALARM_CODES.AGVS_DDOS, "SECS");
+            ShowDDOSNotifyDialog();
+        }
+
+        private void toolStripStatusLabel1_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                AGVSMessageHandler.DDOSRestoreInvoke();
+            }
         }
     }
 }
