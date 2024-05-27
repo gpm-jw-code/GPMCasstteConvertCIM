@@ -3,6 +3,7 @@ using GPMCasstteConvertCIM.Cclink_IE_Sturcture;
 using GPMCasstteConvertCIM.Devices;
 using GPMCasstteConvertCIM.Forms;
 using GPMCasstteConvertCIM.Utilities;
+using GPMCasstteConvertCIM.Utilities.SysConfigs;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using SQLitePCL;
 using System;
@@ -11,6 +12,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -42,6 +44,7 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             };
             timer.Tick += Timer_Tick;
             timer.Enabled = true;
+            MaintainingCloumn.Visible = PartsReplacingColumn.Visible = Utility.SysConfigs.Project == clsSystemConfigs.PROJECT.YM_2F_AOI;
         }
 
         private void Timer_Tick(object? sender, EventArgs e)
@@ -150,6 +153,7 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             bool _state_change_to = false;
             Enums.PROPERTY property = Enums.PROPERTY.Load_Request;
 
+            DataGridViewColumn columnClicked = dataGridView1.Columns[e.ColumnIndex];
 
             if (e.ColumnIndex == StatusbitdataStartIndex)
             {
@@ -180,6 +184,15 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             {
                 property = Enums.PROPERTY.Port_Status_Down;
                 _state_change_to = !data.PortStatusDown;
+            }
+
+            if (columnClicked == MaintainingCloumn)
+            {
+                _state_change_to = !data.Maintaining;
+            }
+            if (columnClicked == PartsReplacingColumn)
+            {
+                _state_change_to = !data.PartsReplacing;
             }
             DevicesManager.cclink_master.EQPMemOptions.memoryTable.WriteOneBit(data.PortEQBitAddress[property], _state_change_to);
         }
