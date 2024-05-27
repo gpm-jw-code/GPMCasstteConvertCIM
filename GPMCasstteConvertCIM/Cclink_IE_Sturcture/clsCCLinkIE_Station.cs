@@ -140,6 +140,15 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
                 PortDatas[i].LD_DOWN_POS = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.LD_DOWN_POS).Value;
                 PortDatas[i].PortStatusDown = port_status_down;
 
+                try
+                {
+                    PortDatas[i].Maintaining = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.EQP_Maintaining).Value;
+                    PortDatas[i].PartsReplacing = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.EQP_Parts_Replacement).Value;
+                }
+                catch (Exception)
+                {
+                }
+
             }
 
         }

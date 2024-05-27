@@ -11,6 +11,7 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
     {
         public clsCCLinkID_Master_YM2FAOI(string name, UscEQStatus ui) : base(name, ui)
         {
+            ui.ShowMaintainAndPartsReplaceSignalColumn = true;
         }
         protected override string BitMapFileName_CIM { get; set; } = "src\\Map_YM_2F_AOI\\PLC_Bit_Map_CIM.csv";
         protected override string WordMapFileName_CIM { get; set; } = "src\\Map_YM_2F_AOI\\PLC_Word_Map_CIM.csv";

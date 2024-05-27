@@ -44,9 +44,17 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             };
             timer.Tick += Timer_Tick;
             timer.Enabled = true;
-            MaintainingCloumn.Visible = PartsReplacingColumn.Visible = Utility.SysConfigs.Project == clsSystemConfigs.PROJECT.YM_2F_AOI;
         }
-
+        private bool _ShowMaintainAndPartsReplaceSignalColumn = false;
+        public bool ShowMaintainAndPartsReplaceSignalColumn
+        {
+            get => _ShowMaintainAndPartsReplaceSignalColumn;
+            set
+            {
+                _ShowMaintainAndPartsReplaceSignalColumn = value;
+                MaintainingCloumn.Visible = PartsReplacingColumn.Visible = value;
+            }
+        }
         private void Timer_Tick(object? sender, EventArgs e)
         {
             if (DevicesManager.cclink_master != null)
@@ -188,10 +196,12 @@ namespace GPMCasstteConvertCIM.UI_UserControls
 
             if (columnClicked == MaintainingCloumn)
             {
+                property = Enums.PROPERTY.EQP_Maintaining;
                 _state_change_to = !data.Maintaining;
             }
             if (columnClicked == PartsReplacingColumn)
             {
+                property = Enums.PROPERTY.EQP_Parts_Replacement;
                 _state_change_to = !data.PartsReplacing;
             }
             DevicesManager.cclink_master.EQPMemOptions.memoryTable.WriteOneBit(data.PortEQBitAddress[property], _state_change_to);
