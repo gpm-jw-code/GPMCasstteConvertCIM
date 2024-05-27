@@ -1,0 +1,369 @@
+MemoY (Hex),Owner,Data Name,Data Format,Explanation,Device,Code_Property,Modbus_Register,EQ_Name,,,,,,,MemoY Type _ 1,MemoY Address,
+Y0000,AGVS,To EQ Up,Boolean,,PORT1,To_EQ_Up,1,TS_1,,,,,,,Y,0,Y0000
+Y0001,AGVS,To EQ Low,Boolean,,PORT1,To_EQ_Low,2,TS_1,,,,,,,Y,1,Y0001
+Y0002,AGVS,CMD reserve Up,Boolean,,PORT1,CMD_reserve_Up,3,TS_1,,,,,,,Y,2,Y0002
+Y0003,AGVS,CMD reserve Low,Boolean,,PORT1,CMD_reserve_Low,4,TS_1,,,,,,,Y,3,Y0003
+Y0004,AGVS,,Boolean,,PORT1,,5,TS_1,,,,,,,Y,4,Y0004
+Y0005,AGVS,Port_Mode_Change_Request,Boolean,,PORT1,Port_Mode_Change_Request,6,TS_1,,,,,,,Y,5,Y0005
+Y0006,AGVS,Port_Mode_Changed_Report_Reply,Boolean,,PORT1,Port_Mode_Changed_Report_Reply,7,TS_1,,,,,,,Y,6,Y0006
+Y0007,AGVS,Port_Disabled_Report_Reply,Boolean,,PORT1,Port_Disabled_Report_Reply,8,TS_1,,,,,,,Y,7,Y0007
+Y0008,AGVS,Port_Enbled_Report_Reply,Boolean,,PORT1,Port_Enbled_Report_Reply,9,TS_1,,,,,,,Y,8,Y0008
+Y0009,AGVS,,Boolean,,PORT1,,10,TS_1,,,,,,,Y,9,Y0009
+Y000A,AGVS,Carrier_WaitIn_System_Reply,Boolean,,PORT1,Carrier_WaitIn_System_Reply,11,TS_1,,,,,,,Y,10,Y000A
+Y000B,AGVS,Carrier_WaitIn_System_Accept,Boolean,,PORT1,Carrier_WaitIn_System_Accept,12,TS_1,,,,,,,Y,11,Y000B
+Y000C,AGVS,Carrier_WaitIn_System_Refuse,Boolean,,PORT1,Carrier_WaitIn_System_Refuse,13,TS_1,,,,,,,Y,12,Y000C
+Y000D,AGVS,Carrier_WaitOut_System_Reply,Boolean,,PORT1,Carrier_WaitOut_System_Reply,14,TS_1,,,,,,,Y,13,Y000D
+Y000E,AGVS,Carrier_Removed_Completed_Report_Reply,Boolean,,PORT1,Carrier_Removed_Completed_Report_Reply,15,TS_1,,,,,,,Y,14,Y000E
+Y000F,AGVS,Carrier_Force_In_System_Reply,Boolean,,PORT1,Carrier_Force_In_System_Reply,16,TS_1,,,,,,,Y,15,Y000F
+Y0010,AGVS,To EQ Up,Boolean,,PORT1,To_EQ_Up,1,TS_2_1,,,,,,,Y,16,Y0010
+Y0011,AGVS,To EQ Low,Boolean,,PORT1,To_EQ_Low,2,TS_2_1,,,,,,,Y,17,Y0011
+Y0012,AGVS,CMD reserve Up,Boolean,,PORT1,CMD_reserve_Up,3,TS_2_1,,,,,,,Y,18,Y0012
+Y0013,AGVS,CMD reserve Low,Boolean,,PORT1,CMD_reserve_Low,4,TS_2_1,,,,,,,Y,19,Y0013
+Y0014,AGVS,,Boolean,,PORT1,,5,TS_2_1,,,,,,,Y,20,Y0014
+Y0015,AGVS,Port_Mode_Change_Request,Boolean,,PORT1,Port_Mode_Change_Request,6,TS_2_1,,,,,,,Y,21,Y0015
+Y0016,AGVS,Port_Mode_Changed_Report_Reply,Boolean,,PORT1,Port_Mode_Changed_Report_Reply,7,TS_2_1,,,,,,,Y,22,Y0016
+Y0017,AGVS,Port_Disabled_Report_Reply,Boolean,,PORT1,Port_Disabled_Report_Reply,8,TS_2_1,,,,,,,Y,23,Y0017
+Y0018,AGVS,Port_Enbled_Report_Reply,Boolean,,PORT1,Port_Enbled_Report_Reply,9,TS_2_1,,,,,,,Y,24,Y0018
+Y0019,AGVS,,Boolean,,PORT1,,10,TS_2_1,,,,,,,Y,25,Y0019
+Y001A,AGVS,Carrier_WaitIn_System_Reply,Boolean,,PORT1,Carrier_WaitIn_System_Reply,11,TS_2_1,,,,,,,Y,26,Y001A
+Y001B,AGVS,Carrier_WaitIn_System_Accept,Boolean,,PORT1,Carrier_WaitIn_System_Accept,12,TS_2_1,,,,,,,Y,27,Y001B
+Y001C,AGVS,Carrier_WaitIn_System_Refuse,Boolean,,PORT1,Carrier_WaitIn_System_Refuse,13,TS_2_1,,,,,,,Y,28,Y001C
+Y001D,AGVS,Carrier_WaitOut_System_Reply,Boolean,,PORT1,Carrier_WaitOut_System_Reply,14,TS_2_1,,,,,,,Y,29,Y001D
+Y001E,AGVS,Carrier_Removed_Completed_Report_Reply,Boolean,,PORT1,Carrier_Removed_Completed_Report_Reply,15,TS_2_1,,,,,,,Y,30,Y001E
+Y001F,AGVS,Carrier_Force_In_System_Reply,Boolean,,PORT1,Carrier_Force_In_System_Reply,16,TS_2_1,,,,,,,Y,31,Y001F
+Y0020,AGVS,To EQ Up,Boolean,,PORT1,To_EQ_Up,1,TS_2_2,,,,,,,Y,32,Y0020
+Y0021,AGVS,To EQ Low,Boolean,,PORT1,To_EQ_Low,2,TS_2_2,,,,,,,Y,33,Y0021
+Y0022,AGVS,CMD reserve Up,Boolean,,PORT1,CMD_reserve_Up,3,TS_2_2,,,,,,,Y,34,Y0022
+Y0023,AGVS,CMD reserve Low,Boolean,,PORT1,CMD_reserve_Low,4,TS_2_2,,,,,,,Y,35,Y0023
+Y0024,AGVS,,Boolean,,PORT1,,5,TS_2_2,,,,,,,Y,36,Y0024
+Y0025,AGVS,Port_Mode_Change_Request,Boolean,,PORT1,Port_Mode_Change_Request,6,TS_2_2,,,,,,,Y,37,Y0025
+Y0026,AGVS,Port_Mode_Changed_Report_Reply,Boolean,,PORT1,Port_Mode_Changed_Report_Reply,7,TS_2_2,,,,,,,Y,38,Y0026
+Y0027,AGVS,Port_Disabled_Report_Reply,Boolean,,PORT1,Port_Disabled_Report_Reply,8,TS_2_2,,,,,,,Y,39,Y0027
+Y0028,AGVS,Port_Enbled_Report_Reply,Boolean,,PORT1,Port_Enbled_Report_Reply,9,TS_2_2,,,,,,,Y,40,Y0028
+Y0029,AGVS,,Boolean,,PORT1,,10,TS_2_2,,,,,,,Y,41,Y0029
+Y002A,AGVS,Carrier_WaitIn_System_Reply,Boolean,,PORT1,Carrier_WaitIn_System_Reply,11,TS_2_2,,,,,,,Y,42,Y002A
+Y002B,AGVS,Carrier_WaitIn_System_Accept,Boolean,,PORT1,Carrier_WaitIn_System_Accept,12,TS_2_2,,,,,,,Y,43,Y002B
+Y002C,AGVS,Carrier_WaitIn_System_Refuse,Boolean,,PORT1,Carrier_WaitIn_System_Refuse,13,TS_2_2,,,,,,,Y,44,Y002C
+Y002D,AGVS,Carrier_WaitOut_System_Reply,Boolean,,PORT1,Carrier_WaitOut_System_Reply,14,TS_2_2,,,,,,,Y,45,Y002D
+Y002E,AGVS,Carrier_Removed_Completed_Report_Reply,Boolean,,PORT1,Carrier_Removed_Completed_Report_Reply,15,TS_2_2,,,,,,,Y,46,Y002E
+Y002F,AGVS,Carrier_Force_In_System_Reply,Boolean,,PORT1,Carrier_Force_In_System_Reply,16,TS_2_2,,,,,,,Y,47,Y002F
+Y0030,AGVS,To EQ Up,Boolean,,PORT1,To_EQ_Up,1,TS_3,,,,,,,Y,48,Y0030
+Y0031,AGVS,To EQ Low,Boolean,,PORT1,To_EQ_Low,2,TS_3,,,,,,,Y,49,Y0031
+Y0032,AGVS,CMD reserve Up,Boolean,,PORT1,CMD_reserve_Up,3,TS_3,,,,,,,Y,50,Y0032
+Y0033,AGVS,CMD reserve Low,Boolean,,PORT1,CMD_reserve_Low,4,TS_3,,,,,,,Y,51,Y0033
+Y0034,AGVS,,Boolean,,PORT1,,5,TS_3,,,,,,,Y,52,Y0034
+Y0035,AGVS,Port_Mode_Change_Request,Boolean,,PORT1,Port_Mode_Change_Request,6,TS_3,,,,,,,Y,53,Y0035
+Y0036,AGVS,Port_Mode_Changed_Report_Reply,Boolean,,PORT1,Port_Mode_Changed_Report_Reply,7,TS_3,,,,,,,Y,54,Y0036
+Y0037,AGVS,Port_Disabled_Report_Reply,Boolean,,PORT1,Port_Disabled_Report_Reply,8,TS_3,,,,,,,Y,55,Y0037
+Y0038,AGVS,Port_Enbled_Report_Reply,Boolean,,PORT1,Port_Enbled_Report_Reply,9,TS_3,,,,,,,Y,56,Y0038
+Y0039,AGVS,,Boolean,,PORT1,,10,TS_3,,,,,,,Y,57,Y0039
+Y003A,AGVS,Carrier_WaitIn_System_Reply,Boolean,,PORT1,Carrier_WaitIn_System_Reply,11,TS_3,,,,,,,Y,58,Y003A
+Y003B,AGVS,Carrier_WaitIn_System_Accept,Boolean,,PORT1,Carrier_WaitIn_System_Accept,12,TS_3,,,,,,,Y,59,Y003B
+Y003C,AGVS,Carrier_WaitIn_System_Refuse,Boolean,,PORT1,Carrier_WaitIn_System_Refuse,13,TS_3,,,,,,,Y,60,Y003C
+Y003D,AGVS,Carrier_WaitOut_System_Reply,Boolean,,PORT1,Carrier_WaitOut_System_Reply,14,TS_3,,,,,,,Y,61,Y003D
+Y003E,AGVS,Carrier_Removed_Completed_Report_Reply,Boolean,,PORT1,Carrier_Removed_Completed_Report_Reply,15,TS_3,,,,,,,Y,62,Y003E
+Y003F,AGVS,Carrier_Force_In_System_Reply,Boolean,,PORT1,Carrier_Force_In_System_Reply,16,TS_3,,,,,,,Y,63,Y003F
+Y0040,AGVS,To EQ Up,Boolean,,PORT1,To_EQ_Up,1,TS_3_2,,,,,,,Y,64,Y0040
+Y0041,AGVS,To EQ Low,Boolean,,PORT1,To_EQ_Low,2,TS_3_2,,,,,,,Y,65,Y0041
+Y0042,AGVS,CMD reserve Up,Boolean,,PORT1,CMD_reserve_Up,3,TS_3_2,,,,,,,Y,66,Y0042
+Y0043,AGVS,CMD reserve Low,Boolean,,PORT1,CMD_reserve_Low,4,TS_3_2,,,,,,,Y,67,Y0043
+Y0044,AGVS,,Boolean,,PORT1,,5,TS_3_2,,,,,,,Y,68,Y0044
+Y0045,AGVS,Port_Mode_Change_Request,Boolean,,PORT1,Port_Mode_Change_Request,6,TS_3_2,,,,,,,Y,69,Y0045
+Y0046,AGVS,Port_Mode_Changed_Report_Reply,Boolean,,PORT1,Port_Mode_Changed_Report_Reply,7,TS_3_2,,,,,,,Y,70,Y0046
+Y0047,AGVS,Port_Disabled_Report_Reply,Boolean,,PORT1,Port_Disabled_Report_Reply,8,TS_3_2,,,,,,,Y,71,Y0047
+Y0048,AGVS,Port_Enbled_Report_Reply,Boolean,,PORT1,Port_Enbled_Report_Reply,9,TS_3_2,,,,,,,Y,72,Y0048
+Y0049,AGVS,,Boolean,,PORT1,,10,TS_3_2,,,,,,,Y,73,Y0049
+Y004A,AGVS,Carrier_WaitIn_System_Reply,Boolean,,PORT1,Carrier_WaitIn_System_Reply,11,TS_3_2,,,,,,,Y,74,Y004A
+Y004B,AGVS,Carrier_WaitIn_System_Accept,Boolean,,PORT1,Carrier_WaitIn_System_Accept,12,TS_3_2,,,,,,,Y,75,Y004B
+Y004C,AGVS,Carrier_WaitIn_System_Refuse,Boolean,,PORT1,Carrier_WaitIn_System_Refuse,13,TS_3_2,,,,,,,Y,76,Y004C
+Y004D,AGVS,Carrier_WaitOut_System_Reply,Boolean,,PORT1,Carrier_WaitOut_System_Reply,14,TS_3_2,,,,,,,Y,77,Y004D
+Y004E,AGVS,Carrier_Removed_Completed_Report_Reply,Boolean,,PORT1,Carrier_Removed_Completed_Report_Reply,15,TS_3_2,,,,,,,Y,78,Y004E
+Y004F,AGVS,Carrier_Force_In_System_Reply,Boolean,,PORT1,Carrier_Force_In_System_Reply,16,TS_3_2,,,,,,,Y,79,Y004F
+Y0050,AGVS,To EQ Up,Boolean,,PORT1,To_EQ_Up,1,STK,,,,,,,Y,80,Y0050
+Y0051,AGVS,To EQ Low,Boolean,,PORT1,To_EQ_Low,2,STK,,,,,,,Y,81,Y0051
+Y0052,AGVS,CMD reserve Up,Boolean,,PORT1,CMD_reserve_Up,3,STK,,,,,,,Y,82,Y0052
+Y0053,AGVS,CMD reserve Low,Boolean,,PORT1,CMD_reserve_Low,4,STK,,,,,,,Y,83,Y0053
+Y0054,AGVS,,Boolean,,PORT1,,5,STK,,,,,,,Y,84,Y0054
+Y0055,AGVS,,Boolean,,PORT1,,6,STK,,,,,,,Y,85,Y0055
+Y0056,AGVS,,Boolean,,PORT1,,7,STK,,,,,,,Y,86,Y0056
+Y0057,AGVS,,Boolean,,PORT1,,8,STK,,,,,,,Y,87,Y0057
+Y0058,AGVS,,Boolean,,PORT1,,9,STK,,,,,,,Y,88,Y0058
+Y0059,AGVS,,Boolean,,PORT1,,10,STK,,,,,,,Y,89,Y0059
+Y005A,AGVS,,Boolean,,PORT1,,11,STK,,,,,,,Y,90,Y005A
+Y005B,AGVS,,Boolean,,PORT1,,12,STK,,,,,,,Y,91,Y005B
+Y005C,AGVS,,Boolean,,PORT1,,13,STK,,,,,,,Y,92,Y005C
+Y005D,AGVS,,Boolean,,PORT1,,14,STK,,,,,,,Y,93,Y005D
+Y005E,AGVS,,Boolean,,PORT1,,15,STK,,,,,,,Y,94,Y005E
+Y005F,AGVS,,Boolean,,PORT1,,16,STK,,,,,,,Y,95,Y005F
+Y0060,AGVS,To EQ Up,Boolean,,PORT2,To_EQ_Up,1,STK,,,,,,,Y,96,Y0060
+Y0061,AGVS,To EQ Low,Boolean,,PORT2,To_EQ_Low,2,STK,,,,,,,Y,97,Y0061
+Y0062,AGVS,CMD reserve Up,Boolean,,PORT2,CMD_reserve_Up,3,STK,,,,,,,Y,98,Y0062
+Y0063,AGVS,CMD reserve Low,Boolean,,PORT2,CMD_reserve_Low,4,STK,,,,,,,Y,99,Y0063
+Y0064,AGVS,,Boolean,,PORT2,,5,STK,,,,,,,Y,100,Y0064
+Y0065,AGVS,,Boolean,,PORT2,,6,STK,,,,,,,Y,101,Y0065
+Y0066,AGVS,,Boolean,,PORT2,,7,STK,,,,,,,Y,102,Y0066
+Y0067,AGVS,,Boolean,,PORT2,,8,STK,,,,,,,Y,103,Y0067
+Y0068,AGVS,,Boolean,,PORT2,,9,STK,,,,,,,Y,104,Y0068
+Y0069,AGVS,,Boolean,,PORT2,,10,STK,,,,,,,Y,105,Y0069
+Y006A,AGVS,,Boolean,,PORT2,,11,STK,,,,,,,Y,106,Y006A
+Y006B,AGVS,,Boolean,,PORT2,,12,STK,,,,,,,Y,107,Y006B
+Y006C,AGVS,,Boolean,,PORT2,,13,STK,,,,,,,Y,108,Y006C
+Y006D,AGVS,,Boolean,,PORT2,,14,STK,,,,,,,Y,109,Y006D
+Y006E,AGVS,,Boolean,,PORT2,,15,STK,,,,,,,Y,110,Y006E
+Y006F,AGVS,,Boolean,,PORT2,,16,STK,,,,,,,Y,111,Y006F
+Y0070,AGVS,To EQ Up,Boolean,,PORT1,To_EQ_Up,1,QV,,,,,,,Y,112,Y0070
+Y0071,AGVS,To EQ Low,Boolean,,PORT1,To_EQ_Low,2,QV,,,,,,,Y,113,Y0071
+Y0072,AGVS,CMD reserve Up,Boolean,,PORT1,CMD_reserve_Up,3,QV,,,,,,,Y,114,Y0072
+Y0073,AGVS,CMD reserve Low,Boolean,,PORT1,CMD_reserve_Low,4,QV,,,,,,,Y,115,Y0073
+Y0074,AGVS,,Boolean,,PORT1,,5,QV,,,,,,,Y,116,Y0074
+Y0075,AGVS,,Boolean,,PORT1,,6,QV,,,,,,,Y,117,Y0075
+Y0076,AGVS,,Boolean,,PORT1,,7,QV,,,,,,,Y,118,Y0076
+Y0077,AGVS,,Boolean,,PORT1,,8,QV,,,,,,,Y,119,Y0077
+Y0078,AGVS,,Boolean,,PORT1,,9,QV,,,,,,,Y,120,Y0078
+Y0079,AGVS,,Boolean,,PORT1,,10,QV,,,,,,,Y,121,Y0079
+Y007A,AGVS,,Boolean,,PORT1,,11,QV,,,,,,,Y,122,Y007A
+Y007B,AGVS,,Boolean,,PORT1,,12,QV,,,,,,,Y,123,Y007B
+Y007C,AGVS,,Boolean,,PORT1,,13,QV,,,,,,,Y,124,Y007C
+Y007D,AGVS,,Boolean,,PORT1,,14,QV,,,,,,,Y,125,Y007D
+Y007E,AGVS,,Boolean,,PORT1,,15,QV,,,,,,,Y,126,Y007E
+Y007F,AGVS,,Boolean,,PORT1,,16,QV,,,,,,,Y,127,Y007F
+Y0080,AGVS,To EQ Up,Boolean,,PORT2,To_EQ_Up,1,QV,,,,,,,Y,128,Y0080
+Y0081,AGVS,To EQ Low,Boolean,,PORT2,To_EQ_Low,2,QV,,,,,,,Y,129,Y0081
+Y0082,AGVS,CMD reserve Up,Boolean,,PORT2,CMD_reserve_Up,3,QV,,,,,,,Y,130,Y0082
+Y0083,AGVS,CMD reserve Low,Boolean,,PORT2,CMD_reserve_Low,4,QV,,,,,,,Y,131,Y0083
+Y0084,AGVS,,Boolean,,PORT2,,5,QV,,,,,,,Y,132,Y0084
+Y0085,AGVS,,Boolean,,PORT2,,6,QV,,,,,,,Y,133,Y0085
+Y0086,AGVS,,Boolean,,PORT2,,7,QV,,,,,,,Y,134,Y0086
+Y0087,AGVS,,Boolean,,PORT2,,8,QV,,,,,,,Y,135,Y0087
+Y0088,AGVS,,Boolean,,PORT2,,9,QV,,,,,,,Y,136,Y0088
+Y0089,AGVS,,Boolean,,PORT2,,10,QV,,,,,,,Y,137,Y0089
+Y008A,AGVS,,Boolean,,PORT2,,11,QV,,,,,,,Y,138,Y008A
+Y008B,AGVS,,Boolean,,PORT2,,12,QV,,,,,,,Y,139,Y008B
+Y008C,AGVS,,Boolean,,PORT2,,13,QV,,,,,,,Y,140,Y008C
+Y008D,AGVS,,Boolean,,PORT2,,14,QV,,,,,,,Y,141,Y008D
+Y008E,AGVS,,Boolean,,PORT2,,15,QV,,,,,,,Y,142,Y008E
+Y008F,AGVS,,Boolean,,PORT2,,16,QV,,,,,,,Y,143,Y008F
+Y0090,AGVS,To EQ Up,Boolean,,PORT1,To_EQ_Up,1,AOI_1,,,,,,,Y,144,Y0090
+Y0091,AGVS,To EQ Low,Boolean,,PORT1,To_EQ_Low,2,AOI_1,,,,,,,Y,145,Y0091
+Y0092,AGVS,CMD reserve Up,Boolean,,PORT1,CMD_reserve_Up,3,AOI_1,,,,,,,Y,146,Y0092
+Y0093,AGVS,CMD reserve Low,Boolean,,PORT1,CMD_reserve_Low,4,AOI_1,,,,,,,Y,147,Y0093
+Y0094,AGVS,,Boolean,,PORT1,,5,AOI_1,,,,,,,Y,148,Y0094
+Y0095,AGVS,,Boolean,,PORT1,,6,AOI_1,,,,,,,Y,149,Y0095
+Y0096,AGVS,,Boolean,,PORT1,,7,AOI_1,,,,,,,Y,150,Y0096
+Y0097,AGVS,,Boolean,,PORT1,,8,AOI_1,,,,,,,Y,151,Y0097
+Y0098,AGVS,,Boolean,,PORT1,,9,AOI_1,,,,,,,Y,152,Y0098
+Y0099,AGVS,,Boolean,,PORT1,,10,AOI_1,,,,,,,Y,153,Y0099
+Y009A,AGVS,,Boolean,,PORT1,,11,AOI_1,,,,,,,Y,154,Y009A
+Y009B,AGVS,,Boolean,,PORT1,,12,AOI_1,,,,,,,Y,155,Y009B
+Y009C,AGVS,,Boolean,,PORT1,,13,AOI_1,,,,,,,Y,156,Y009C
+Y009D,AGVS,,Boolean,,PORT1,,14,AOI_1,,,,,,,Y,157,Y009D
+Y009E,AGVS,,Boolean,,PORT1,,15,AOI_1,,,,,,,Y,158,Y009E
+Y009F,AGVS,,Boolean,,PORT1,,16,AOI_1,,,,,,,Y,159,Y009F
+Y00A0,AGVS,To EQ Up,Boolean,,PORT2,To_EQ_Up,1,AOI_1,,,,,,,Y,160,Y00A0
+Y00A1,AGVS,To EQ Low,Boolean,,PORT2,To_EQ_Low,2,AOI_1,,,,,,,Y,161,Y00A1
+Y00A2,AGVS,CMD reserve Up,Boolean,,PORT2,CMD_reserve_Up,3,AOI_1,,,,,,,Y,162,Y00A2
+Y00A3,AGVS,CMD reserve Low,Boolean,,PORT2,CMD_reserve_Low,4,AOI_1,,,,,,,Y,163,Y00A3
+Y00A4,AGVS,,Boolean,,PORT2,,5,AOI_1,,,,,,,Y,164,Y00A4
+Y00A5,AGVS,,Boolean,,PORT2,,6,AOI_1,,,,,,,Y,165,Y00A5
+Y00A6,AGVS,,Boolean,,PORT2,,7,AOI_1,,,,,,,Y,166,Y00A6
+Y00A7,AGVS,,Boolean,,PORT2,,8,AOI_1,,,,,,,Y,167,Y00A7
+Y00A8,AGVS,,Boolean,,PORT2,,9,AOI_1,,,,,,,Y,168,Y00A8
+Y00A9,AGVS,,Boolean,,PORT2,,10,AOI_1,,,,,,,Y,169,Y00A9
+Y00AA,AGVS,,Boolean,,PORT2,,11,AOI_1,,,,,,,Y,170,Y00AA
+Y00AB,AGVS,,Boolean,,PORT2,,12,AOI_1,,,,,,,Y,171,Y00AB
+Y00AC,AGVS,,Boolean,,PORT2,,13,AOI_1,,,,,,,Y,172,Y00AC
+Y00AD,AGVS,,Boolean,,PORT2,,14,AOI_1,,,,,,,Y,173,Y00AD
+Y00AE,AGVS,,Boolean,,PORT2,,15,AOI_1,,,,,,,Y,174,Y00AE
+Y00AF,AGVS,,Boolean,,PORT2,,16,AOI_1,,,,,,,Y,175,Y00AF
+Y00B0,AGVS,To EQ Up,Boolean,,PORT1,To_EQ_Up,1,AOI_2,,,,,,,Y,176,Y00B0
+Y00B1,AGVS,To EQ Low,Boolean,,PORT1,To_EQ_Low,2,AOI_2,,,,,,,Y,177,Y00B1
+Y00B2,AGVS,CMD reserve Up,Boolean,,PORT1,CMD_reserve_Up,3,AOI_2,,,,,,,Y,178,Y00B2
+Y00B3,AGVS,CMD reserve Low,Boolean,,PORT1,CMD_reserve_Low,4,AOI_2,,,,,,,Y,179,Y00B3
+Y00B4,AGVS,,Boolean,,PORT1,,5,AOI_2,,,,,,,Y,180,Y00B4
+Y00B5,AGVS,,Boolean,,PORT1,,6,AOI_2,,,,,,,Y,181,Y00B5
+Y00B6,AGVS,,Boolean,,PORT1,,7,AOI_2,,,,,,,Y,182,Y00B6
+Y00B7,AGVS,,Boolean,,PORT1,,8,AOI_2,,,,,,,Y,183,Y00B7
+Y00B8,AGVS,,Boolean,,PORT1,,9,AOI_2,,,,,,,Y,184,Y00B8
+Y00B9,AGVS,,Boolean,,PORT1,,10,AOI_2,,,,,,,Y,185,Y00B9
+Y00BA,AGVS,,Boolean,,PORT1,,11,AOI_2,,,,,,,Y,186,Y00BA
+Y00BB,AGVS,,Boolean,,PORT1,,12,AOI_2,,,,,,,Y,187,Y00BB
+Y00BC,AGVS,,Boolean,,PORT1,,13,AOI_2,,,,,,,Y,188,Y00BC
+Y00BD,AGVS,,Boolean,,PORT1,,14,AOI_2,,,,,,,Y,189,Y00BD
+Y00BE,AGVS,,Boolean,,PORT1,,15,AOI_2,,,,,,,Y,190,Y00BE
+Y00BF,AGVS,,Boolean,,PORT1,,16,AOI_2,,,,,,,Y,191,Y00BF
+Y00C0,AGVS,To EQ Up,Boolean,,PORT2,To_EQ_Up,1,AOI_2,,,,,,,Y,192,Y00C0
+Y00C1,AGVS,To EQ Low,Boolean,,PORT2,To_EQ_Low,2,AOI_2,,,,,,,Y,193,Y00C1
+Y00C2,AGVS,CMD reserve Up,Boolean,,PORT2,CMD_reserve_Up,3,AOI_2,,,,,,,Y,194,Y00C2
+Y00C3,AGVS,CMD reserve Low,Boolean,,PORT2,CMD_reserve_Low,4,AOI_2,,,,,,,Y,195,Y00C3
+Y00C4,AGVS,,Boolean,,PORT2,,5,AOI_2,,,,,,,Y,196,Y00C4
+Y00C5,AGVS,,Boolean,,PORT2,,6,AOI_2,,,,,,,Y,197,Y00C5
+Y00C6,AGVS,,Boolean,,PORT2,,7,AOI_2,,,,,,,Y,198,Y00C6
+Y00C7,AGVS,,Boolean,,PORT2,,8,AOI_2,,,,,,,Y,199,Y00C7
+Y00C8,AGVS,,Boolean,,PORT2,,9,AOI_2,,,,,,,Y,200,Y00C8
+Y00C9,AGVS,,Boolean,,PORT2,,10,AOI_2,,,,,,,Y,201,Y00C9
+Y00CA,AGVS,,Boolean,,PORT2,,11,AOI_2,,,,,,,Y,202,Y00CA
+Y00CB,AGVS,,Boolean,,PORT2,,12,AOI_2,,,,,,,Y,203,Y00CB
+Y00CC,AGVS,,Boolean,,PORT2,,13,AOI_2,,,,,,,Y,204,Y00CC
+Y00CD,AGVS,,Boolean,,PORT2,,14,AOI_2,,,,,,,Y,205,Y00CD
+Y00CE,AGVS,,Boolean,,PORT2,,15,AOI_2,,,,,,,Y,206,Y00CE
+Y00CF,AGVS,,Boolean,,PORT2,,16,AOI_2,,,,,,,Y,207,Y00CF
+Y00D0,AGVS,To EQ Up,Boolean,,PORT1,To_EQ_Up,1,AOI_3,,,,,,,Y,208,Y00D0
+Y00D1,AGVS,To EQ Low,Boolean,,PORT1,To_EQ_Low,2,AOI_3,,,,,,,Y,209,Y00D1
+Y00D2,AGVS,CMD reserve Up,Boolean,,PORT1,CMD_reserve_Up,3,AOI_3,,,,,,,Y,210,Y00D2
+Y00D3,AGVS,CMD reserve Low,Boolean,,PORT1,CMD_reserve_Low,4,AOI_3,,,,,,,Y,211,Y00D3
+Y00D4,AGVS,,Boolean,,PORT1,,5,AOI_3,,,,,,,Y,212,Y00D4
+Y00D5,AGVS,,Boolean,,PORT1,,6,AOI_3,,,,,,,Y,213,Y00D5
+Y00D6,AGVS,,Boolean,,PORT1,,7,AOI_3,,,,,,,Y,214,Y00D6
+Y00D7,AGVS,,Boolean,,PORT1,,8,AOI_3,,,,,,,Y,215,Y00D7
+Y00D8,AGVS,,Boolean,,PORT1,,9,AOI_3,,,,,,,Y,216,Y00D8
+Y00D9,AGVS,,Boolean,,PORT1,,10,AOI_3,,,,,,,Y,217,Y00D9
+Y00DA,AGVS,,Boolean,,PORT1,,11,AOI_3,,,,,,,Y,218,Y00DA
+Y00DB,AGVS,,Boolean,,PORT1,,12,AOI_3,,,,,,,Y,219,Y00DB
+Y00DC,AGVS,,Boolean,,PORT1,,13,AOI_3,,,,,,,Y,220,Y00DC
+Y00DD,AGVS,,Boolean,,PORT1,,14,AOI_3,,,,,,,Y,221,Y00DD
+Y00DE,AGVS,,Boolean,,PORT1,,15,AOI_3,,,,,,,Y,222,Y00DE
+Y00DF,AGVS,,Boolean,,PORT1,,16,AOI_3,,,,,,,Y,223,Y00DF
+Y00E0,AGVS,To EQ Up,Boolean,,PORT2,To_EQ_Up,1,AOI_3,,,,,,,Y,224,Y00E0
+Y00E1,AGVS,To EQ Low,Boolean,,PORT2,To_EQ_Low,2,AOI_3,,,,,,,Y,225,Y00E1
+Y00E2,AGVS,CMD reserve Up,Boolean,,PORT2,CMD_reserve_Up,3,AOI_3,,,,,,,Y,226,Y00E2
+Y00E3,AGVS,CMD reserve Low,Boolean,,PORT2,CMD_reserve_Low,4,AOI_3,,,,,,,Y,227,Y00E3
+Y00E4,AGVS,,Boolean,,PORT2,,5,AOI_3,,,,,,,Y,228,Y00E4
+Y00E5,AGVS,,Boolean,,PORT2,,6,AOI_3,,,,,,,Y,229,Y00E5
+Y00E6,AGVS,,Boolean,,PORT2,,7,AOI_3,,,,,,,Y,230,Y00E6
+Y00E7,AGVS,,Boolean,,PORT2,,8,AOI_3,,,,,,,Y,231,Y00E7
+Y00E8,AGVS,,Boolean,,PORT2,,9,AOI_3,,,,,,,Y,232,Y00E8
+Y00E9,AGVS,,Boolean,,PORT2,,10,AOI_3,,,,,,,Y,233,Y00E9
+Y00EA,AGVS,,Boolean,,PORT2,,11,AOI_3,,,,,,,Y,234,Y00EA
+Y00EB,AGVS,,Boolean,,PORT2,,12,AOI_3,,,,,,,Y,235,Y00EB
+Y00EC,AGVS,,Boolean,,PORT2,,13,AOI_3,,,,,,,Y,236,Y00EC
+Y00ED,AGVS,,Boolean,,PORT2,,14,AOI_3,,,,,,,Y,237,Y00ED
+Y00EE,AGVS,,Boolean,,PORT2,,15,AOI_3,,,,,,,Y,238,Y00EE
+Y00EF,AGVS,,Boolean,,PORT2,,16,AOI_3,,,,,,,Y,239,Y00EF
+Y00F0,AGVS,To EQ Up,Boolean,,PORT1,To_EQ_Up,1,AOS_1,,,,,,,Y,240,Y00F0
+Y00F1,AGVS,To EQ Low,Boolean,,PORT1,To_EQ_Low,2,AOS_1,,,,,,,Y,241,Y00F1
+Y00F2,AGVS,CMD reserve Up,Boolean,,PORT1,CMD_reserve_Up,3,AOS_1,,,,,,,Y,242,Y00F2
+Y00F3,AGVS,CMD reserve Low,Boolean,,PORT1,CMD_reserve_Low,4,AOS_1,,,,,,,Y,243,Y00F3
+Y00F4,AGVS,,Boolean,,PORT1,,5,AOS_1,,,,,,,Y,244,Y00F4
+Y00F5,AGVS,,Boolean,,PORT1,,6,AOS_1,,,,,,,Y,245,Y00F5
+Y00F6,AGVS,,Boolean,,PORT1,,7,AOS_1,,,,,,,Y,246,Y00F6
+Y00F7,AGVS,,Boolean,,PORT1,,8,AOS_1,,,,,,,Y,247,Y00F7
+Y00F8,AGVS,,Boolean,,PORT1,,9,AOS_1,,,,,,,Y,248,Y00F8
+Y00F9,AGVS,,Boolean,,PORT1,,10,AOS_1,,,,,,,Y,249,Y00F9
+Y00FA,AGVS,,Boolean,,PORT1,,11,AOS_1,,,,,,,Y,250,Y00FA
+Y00FB,AGVS,,Boolean,,PORT1,,12,AOS_1,,,,,,,Y,251,Y00FB
+Y00FC,AGVS,,Boolean,,PORT1,,13,AOS_1,,,,,,,Y,252,Y00FC
+Y00FD,AGVS,,Boolean,,PORT1,,14,AOS_1,,,,,,,Y,253,Y00FD
+Y00FE,AGVS,,Boolean,,PORT1,,15,AOS_1,,,,,,,Y,254,Y00FE
+Y00FF,AGVS,,Boolean,,PORT1,,16,AOS_1,,,,,,,Y,255,Y00FF
+Y0100,AGVS,To EQ Up,Boolean,,PORT2,To_EQ_Up,1,AOS_1,,,,,,,Y,256,Y0100
+Y0101,AGVS,To EQ Low,Boolean,,PORT2,To_EQ_Low,2,AOS_1,,,,,,,Y,257,Y0101
+Y0102,AGVS,CMD reserve Up,Boolean,,PORT2,CMD_reserve_Up,3,AOS_1,,,,,,,Y,258,Y0102
+Y0103,AGVS,CMD reserve Low,Boolean,,PORT2,CMD_reserve_Low,4,AOS_1,,,,,,,Y,259,Y0103
+Y0104,AGVS,,Boolean,,PORT2,,5,AOS_1,,,,,,,Y,260,Y0104
+Y0105,AGVS,,Boolean,,PORT2,,6,AOS_1,,,,,,,Y,261,Y0105
+Y0106,AGVS,,Boolean,,PORT2,,7,AOS_1,,,,,,,Y,262,Y0106
+Y0107,AGVS,,Boolean,,PORT2,,8,AOS_1,,,,,,,Y,263,Y0107
+Y0108,AGVS,,Boolean,,PORT2,,9,AOS_1,,,,,,,Y,264,Y0108
+Y0109,AGVS,,Boolean,,PORT2,,10,AOS_1,,,,,,,Y,265,Y0109
+Y010A,AGVS,,Boolean,,PORT2,,11,AOS_1,,,,,,,Y,266,Y010A
+Y010B,AGVS,,Boolean,,PORT2,,12,AOS_1,,,,,,,Y,267,Y010B
+Y010C,AGVS,,Boolean,,PORT2,,13,AOS_1,,,,,,,Y,268,Y010C
+Y010D,AGVS,,Boolean,,PORT2,,14,AOS_1,,,,,,,Y,269,Y010D
+Y010E,AGVS,,Boolean,,PORT2,,15,AOS_1,,,,,,,Y,270,Y010E
+Y010F,AGVS,,Boolean,,PORT2,,16,AOS_1,,,,,,,Y,271,Y010F
+Y0110,AGVS,To EQ Up,Boolean,,PORT1,To_EQ_Up,1,AOS_2,,,,,,,Y,272,Y0110
+Y0111,AGVS,To EQ Low,Boolean,,PORT1,To_EQ_Low,2,AOS_2,,,,,,,Y,273,Y0111
+Y0112,AGVS,CMD reserve Up,Boolean,,PORT1,CMD_reserve_Up,3,AOS_2,,,,,,,Y,274,Y0112
+Y0113,AGVS,CMD reserve Low,Boolean,,PORT1,CMD_reserve_Low,4,AOS_2,,,,,,,Y,275,Y0113
+Y0114,AGVS,,Boolean,,PORT1,,5,AOS_2,,,,,,,Y,276,Y0114
+Y0115,AGVS,,Boolean,,PORT1,,6,AOS_2,,,,,,,Y,277,Y0115
+Y0116,AGVS,,Boolean,,PORT1,,7,AOS_2,,,,,,,Y,278,Y0116
+Y0117,AGVS,,Boolean,,PORT1,,8,AOS_2,,,,,,,Y,279,Y0117
+Y0118,AGVS,,Boolean,,PORT1,,9,AOS_2,,,,,,,Y,280,Y0118
+Y0119,AGVS,,Boolean,,PORT1,,10,AOS_2,,,,,,,Y,281,Y0119
+Y011A,AGVS,,Boolean,,PORT1,,11,AOS_2,,,,,,,Y,282,Y011A
+Y011B,AGVS,,Boolean,,PORT1,,12,AOS_2,,,,,,,Y,283,Y011B
+Y011C,AGVS,,Boolean,,PORT1,,13,AOS_2,,,,,,,Y,284,Y011C
+Y011D,AGVS,,Boolean,,PORT1,,14,AOS_2,,,,,,,Y,285,Y011D
+Y011E,AGVS,,Boolean,,PORT1,,15,AOS_2,,,,,,,Y,286,Y011E
+Y011F,AGVS,,Boolean,,PORT1,,16,AOS_2,,,,,,,Y,287,Y011F
+Y0120,AGVS,To EQ Up,Boolean,,PORT2,To_EQ_Up,1,AOS_2,,,,,,,Y,288,Y0120
+Y0121,AGVS,To EQ Low,Boolean,,PORT2,To_EQ_Low,2,AOS_2,,,,,,,Y,289,Y0121
+Y0122,AGVS,CMD reserve Up,Boolean,,PORT2,CMD_reserve_Up,3,AOS_2,,,,,,,Y,290,Y0122
+Y0123,AGVS,CMD reserve Low,Boolean,,PORT2,CMD_reserve_Low,4,AOS_2,,,,,,,Y,291,Y0123
+Y0124,AGVS,,Boolean,,PORT2,,5,AOS_2,,,,,,,Y,292,Y0124
+Y0125,AGVS,,Boolean,,PORT2,,6,AOS_2,,,,,,,Y,293,Y0125
+Y0126,AGVS,,Boolean,,PORT2,,7,AOS_2,,,,,,,Y,294,Y0126
+Y0127,AGVS,,Boolean,,PORT2,,8,AOS_2,,,,,,,Y,295,Y0127
+Y0128,AGVS,,Boolean,,PORT2,,9,AOS_2,,,,,,,Y,296,Y0128
+Y0129,AGVS,,Boolean,,PORT2,,10,AOS_2,,,,,,,Y,297,Y0129
+Y012A,AGVS,,Boolean,,PORT2,,11,AOS_2,,,,,,,Y,298,Y012A
+Y012B,AGVS,,Boolean,,PORT2,,12,AOS_2,,,,,,,Y,299,Y012B
+Y012C,AGVS,,Boolean,,PORT2,,13,AOS_2,,,,,,,Y,300,Y012C
+Y012D,AGVS,,Boolean,,PORT2,,14,AOS_2,,,,,,,Y,301,Y012D
+Y012E,AGVS,,Boolean,,PORT2,,15,AOS_2,,,,,,,Y,302,Y012E
+Y012F,AGVS,,Boolean,,PORT2,,16,AOS_2,,,,,,,Y,303,Y012F
+Y0130,AGVS,To EQ Up,Boolean,,PORT1,To_EQ_Up,1,AOS_3,,,,,,,Y,304,Y0130
+Y0131,AGVS,To EQ Low,Boolean,,PORT1,To_EQ_Low,2,AOS_3,,,,,,,Y,305,Y0131
+Y0132,AGVS,CMD reserve Up,Boolean,,PORT1,CMD_reserve_Up,3,AOS_3,,,,,,,Y,306,Y0132
+Y0133,AGVS,CMD reserve Low,Boolean,,PORT1,CMD_reserve_Low,4,AOS_3,,,,,,,Y,307,Y0133
+Y0134,AGVS,,Boolean,,PORT1,,5,AOS_3,,,,,,,Y,308,Y0134
+Y0135,AGVS,,Boolean,,PORT1,,6,AOS_3,,,,,,,Y,309,Y0135
+Y0136,AGVS,,Boolean,,PORT1,,7,AOS_3,,,,,,,Y,310,Y0136
+Y0137,AGVS,,Boolean,,PORT1,,8,AOS_3,,,,,,,Y,311,Y0137
+Y0138,AGVS,,Boolean,,PORT1,,9,AOS_3,,,,,,,Y,312,Y0138
+Y0139,AGVS,,Boolean,,PORT1,,10,AOS_3,,,,,,,Y,313,Y0139
+Y013A,AGVS,,Boolean,,PORT1,,11,AOS_3,,,,,,,Y,314,Y013A
+Y013B,AGVS,,Boolean,,PORT1,,12,AOS_3,,,,,,,Y,315,Y013B
+Y013C,AGVS,,Boolean,,PORT1,,13,AOS_3,,,,,,,Y,316,Y013C
+Y013D,AGVS,,Boolean,,PORT1,,14,AOS_3,,,,,,,Y,317,Y013D
+Y013E,AGVS,,Boolean,,PORT1,,15,AOS_3,,,,,,,Y,318,Y013E
+Y013F,AGVS,,Boolean,,PORT1,,16,AOS_3,,,,,,,Y,319,Y013F
+Y0140,AGVS,To EQ Up,Boolean,,PORT2,To_EQ_Up,1,AOS_3,,,,,,,Y,320,Y0140
+Y0141,AGVS,To EQ Low,Boolean,,PORT2,To_EQ_Low,2,AOS_3,,,,,,,Y,321,Y0141
+Y0142,AGVS,CMD reserve Up,Boolean,,PORT2,CMD_reserve_Up,3,AOS_3,,,,,,,Y,322,Y0142
+Y0143,AGVS,CMD reserve Low,Boolean,,PORT2,CMD_reserve_Low,4,AOS_3,,,,,,,Y,323,Y0143
+Y0144,AGVS,,Boolean,,PORT2,,5,AOS_3,,,,,,,Y,324,Y0144
+Y0145,AGVS,,Boolean,,PORT2,,6,AOS_3,,,,,,,Y,325,Y0145
+Y0146,AGVS,,Boolean,,PORT2,,7,AOS_3,,,,,,,Y,326,Y0146
+Y0147,AGVS,,Boolean,,PORT2,,8,AOS_3,,,,,,,Y,327,Y0147
+Y0148,AGVS,,Boolean,,PORT2,,9,AOS_3,,,,,,,Y,328,Y0148
+Y0149,AGVS,,Boolean,,PORT2,,10,AOS_3,,,,,,,Y,329,Y0149
+Y014A,AGVS,,Boolean,,PORT2,,11,AOS_3,,,,,,,Y,330,Y014A
+Y014B,AGVS,,Boolean,,PORT2,,12,AOS_3,,,,,,,Y,331,Y014B
+Y014C,AGVS,,Boolean,,PORT2,,13,AOS_3,,,,,,,Y,332,Y014C
+Y014D,AGVS,,Boolean,,PORT2,,14,AOS_3,,,,,,,Y,333,Y014D
+Y014E,AGVS,,Boolean,,PORT2,,15,AOS_3,,,,,,,Y,334,Y014E
+Y014F,AGVS,,Boolean,,PORT2,,16,AOS_3,,,,,,,Y,335,Y014F
+Y0150,AGVS,To EQ Up,Boolean,,PORT1,To_EQ_Up,1,AOS_4,,,,,,,Y,336,Y0150
+Y0151,AGVS,To EQ Low,Boolean,,PORT1,To_EQ_Low,2,AOS_4,,,,,,,Y,337,Y0151
+Y0152,AGVS,CMD reserve Up,Boolean,,PORT1,CMD_reserve_Up,3,AOS_4,,,,,,,Y,338,Y0152
+Y0153,AGVS,CMD reserve Low,Boolean,,PORT1,CMD_reserve_Low,4,AOS_4,,,,,,,Y,339,Y0153
+Y0154,AGVS,,Boolean,,PORT1,,5,AOS_4,,,,,,,Y,340,Y0154
+Y0155,AGVS,,Boolean,,PORT1,,6,AOS_4,,,,,,,Y,341,Y0155
+Y0156,AGVS,,Boolean,,PORT1,,7,AOS_4,,,,,,,Y,342,Y0156
+Y0157,AGVS,,Boolean,,PORT1,,8,AOS_4,,,,,,,Y,343,Y0157
+Y0158,AGVS,,Boolean,,PORT1,,9,AOS_4,,,,,,,Y,344,Y0158
+Y0159,AGVS,,Boolean,,PORT1,,10,AOS_4,,,,,,,Y,345,Y0159
+Y015A,AGVS,,Boolean,,PORT1,,11,AOS_4,,,,,,,Y,346,Y015A
+Y015B,AGVS,,Boolean,,PORT1,,12,AOS_4,,,,,,,Y,347,Y015B
+Y015C,AGVS,,Boolean,,PORT1,,13,AOS_4,,,,,,,Y,348,Y015C
+Y015D,AGVS,,Boolean,,PORT1,,14,AOS_4,,,,,,,Y,349,Y015D
+Y015E,AGVS,,Boolean,,PORT1,,15,AOS_4,,,,,,,Y,350,Y015E
+Y015F,AGVS,,Boolean,,PORT1,,16,AOS_4,,,,,,,Y,351,Y015F
+Y0160,AGVS,To EQ Up,Boolean,,PORT2,To_EQ_Up,1,AOS_4,,,,,,,Y,352,Y0160
+Y0161,AGVS,To EQ Low,Boolean,,PORT2,To_EQ_Low,2,AOS_4,,,,,,,Y,353,Y0161
+Y0162,AGVS,CMD reserve Up,Boolean,,PORT2,CMD_reserve_Up,3,AOS_4,,,,,,,Y,354,Y0162
+Y0163,AGVS,CMD reserve Low,Boolean,,PORT2,CMD_reserve_Low,4,AOS_4,,,,,,,Y,355,Y0163
+Y0164,AGVS,,Boolean,,PORT2,,5,AOS_4,,,,,,,Y,356,Y0164
+Y0165,AGVS,,Boolean,,PORT2,,6,AOS_4,,,,,,,Y,357,Y0165
+Y0166,AGVS,,Boolean,,PORT2,,7,AOS_4,,,,,,,Y,358,Y0166
+Y0167,AGVS,,Boolean,,PORT2,,8,AOS_4,,,,,,,Y,359,Y0167
+Y0168,AGVS,,Boolean,,PORT2,,9,AOS_4,,,,,,,Y,360,Y0168
+Y0169,AGVS,,Boolean,,PORT2,,10,AOS_4,,,,,,,Y,361,Y0169
+Y016A,AGVS,,Boolean,,PORT2,,11,AOS_4,,,,,,,Y,362,Y016A
+Y016B,AGVS,,Boolean,,PORT2,,12,AOS_4,,,,,,,Y,363,Y016B
+Y016C,AGVS,,Boolean,,PORT2,,13,AOS_4,,,,,,,Y,364,Y016C
+Y016D,AGVS,,Boolean,,PORT2,,14,AOS_4,,,,,,,Y,365,Y016D
+Y016E,AGVS,,Boolean,,PORT2,,15,AOS_4,,,,,,,Y,366,Y016E
+Y016F,AGVS,,Boolean,,PORT2,,16,AOS_4,,,,,,,Y,367,Y016F
