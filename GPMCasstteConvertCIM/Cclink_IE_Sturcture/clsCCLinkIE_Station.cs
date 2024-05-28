@@ -113,7 +113,7 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
         protected override void PLCMemoryDatatToEQDataDTO()
         {
             //PORTS
-            if (Eq_Name == EQ_NAMES.TS_1 || Eq_Name == EQ_NAMES.TS_2_1 || Eq_Name == EQ_NAMES.TS_2_2 || Eq_Name == EQ_NAMES.TS_3)
+            if (Eq_Name == EQ_NAMES.TS_1 || Eq_Name == EQ_NAMES.TS_2_1 || Eq_Name == EQ_NAMES.TS_2_2 || Eq_Name == EQ_NAMES.TS_3 || Eq_Name == EQ_NAMES.TS_3_2)
             {
                 base.LinkBitMap = this.LinkBitMap;
                 base.LinkWordMap = this.LinkWordMap;
@@ -139,6 +139,15 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
                 PortDatas[i].LD_UP_POS = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.LD_UP_POS).Value;
                 PortDatas[i].LD_DOWN_POS = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.LD_DOWN_POS).Value;
                 PortDatas[i].PortStatusDown = port_status_down;
+
+                try
+                {
+                    PortDatas[i].Maintaining = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.EQP_Maintaining).Value;
+                    PortDatas[i].PartsReplacing = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.EQP_Parts_Replacement).Value;
+                }
+                catch (Exception)
+                {
+                }
 
             }
 

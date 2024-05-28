@@ -45,6 +45,8 @@
             lDUPPOSDataGridViewCheckBoxColumn = new DataGridViewCheckBoxColumn();
             lDDOWNPOSDataGridViewCheckBoxColumn = new DataGridViewCheckBoxColumn();
             portStatusDownDataGridViewCheckBoxColumn = new DataGridViewCheckBoxColumn();
+            MaintainingCloumn = new DataGridViewCheckBoxColumn();
+            PartsReplacingColumn = new DataGridViewCheckBoxColumn();
             To_EQ_UP = new DataGridViewCheckBoxColumn();
             To_EQ_Low = new DataGridViewCheckBoxColumn();
             CMD_Reserve_Up = new DataGridViewCheckBoxColumn();
@@ -90,7 +92,7 @@
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
             dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             dataGridView1.ColumnHeadersHeight = 60;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { EqName, PortName, StatusMemStartAddress, dataGridViewCheckBoxColumn1, unloadRequestDataGridViewCheckBoxColumn, portExistDataGridViewCheckBoxColumn, lDUPPOSDataGridViewCheckBoxColumn, lDDOWNPOSDataGridViewCheckBoxColumn, portStatusDownDataGridViewCheckBoxColumn, To_EQ_UP, To_EQ_Low, CMD_Reserve_Up, CMD_Reserve_Low, WIPINFO_BCR_ID, colModbus, EPortType, colIOSim, colSettings });
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { EqName, PortName, StatusMemStartAddress, dataGridViewCheckBoxColumn1, unloadRequestDataGridViewCheckBoxColumn, portExistDataGridViewCheckBoxColumn, lDUPPOSDataGridViewCheckBoxColumn, lDDOWNPOSDataGridViewCheckBoxColumn, portStatusDownDataGridViewCheckBoxColumn, MaintainingCloumn, PartsReplacingColumn, To_EQ_UP, To_EQ_Low, CMD_Reserve_Up, CMD_Reserve_Low, WIPINFO_BCR_ID, colModbus, EPortType, colIOSim, colSettings });
             dataGridView1.DataSource = clsConverterPortBindingSource;
             dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle5.BackColor = Color.Transparent;
@@ -201,6 +203,22 @@
             portStatusDownDataGridViewCheckBoxColumn.MinimumWidth = 6;
             portStatusDownDataGridViewCheckBoxColumn.Name = "portStatusDownDataGridViewCheckBoxColumn";
             portStatusDownDataGridViewCheckBoxColumn.ReadOnly = true;
+            // 
+            // MaintainingCloumn
+            // 
+            MaintainingCloumn.DataPropertyName = "Maintaining";
+            MaintainingCloumn.HeaderText = "維修";
+            MaintainingCloumn.Name = "MaintainingCloumn";
+            MaintainingCloumn.ReadOnly = true;
+            MaintainingCloumn.Visible = false;
+            // 
+            // PartsReplacingColumn
+            // 
+            PartsReplacingColumn.DataPropertyName = "PartsReplacing";
+            PartsReplacingColumn.HeaderText = "零件更換";
+            PartsReplacingColumn.Name = "PartsReplacingColumn";
+            PartsReplacingColumn.ReadOnly = true;
+            PartsReplacingColumn.Visible = false;
             // 
             // To_EQ_UP
             // 
@@ -425,6 +443,7 @@
         private Label labConnectionState;
         private ContextMenuStrip portTypeContextMenuStrip;
         private ToolStripMenuItem changePortTypeToolStripMenuItem;
+        private ToolStripMenuItem debugToolStripMenuItem;
         private DataGridViewTextBoxColumn EqName;
         private DataGridViewTextBoxColumn PortName;
         private DataGridViewTextBoxColumn StatusMemStartAddress;
@@ -434,6 +453,8 @@
         private DataGridViewCheckBoxColumn lDUPPOSDataGridViewCheckBoxColumn;
         private DataGridViewCheckBoxColumn lDDOWNPOSDataGridViewCheckBoxColumn;
         private DataGridViewCheckBoxColumn portStatusDownDataGridViewCheckBoxColumn;
+        private DataGridViewCheckBoxColumn MaintainingCloumn;
+        private DataGridViewCheckBoxColumn PartsReplacingColumn;
         private DataGridViewCheckBoxColumn To_EQ_UP;
         private DataGridViewCheckBoxColumn To_EQ_Low;
         private DataGridViewCheckBoxColumn CMD_Reserve_Up;
@@ -443,6 +464,5 @@
         private DataGridViewTextBoxColumn EPortType;
         private DataGridViewCheckBoxColumn colIOSim;
         private DataGridViewButtonColumn colSettings;
-        private ToolStripMenuItem debugToolStripMenuItem;
     }
 }

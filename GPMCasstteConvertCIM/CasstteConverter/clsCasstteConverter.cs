@@ -253,6 +253,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         private bool _MxOpened = true;
         private Exception MxOpenException;
         public bool MxOpened
+
         {
             get => _MxOpened;
             set
@@ -551,20 +552,28 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             try
             {
                 //EQP 
-                EQPData.EQP_RUN = (bool)LinkBitMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.EQP_RUN).Value;
-                EQPData.EQP_IDLE = (bool)LinkBitMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.EQP_IDLE).Value;
-                EQPData.EQP_DOWN = (bool)LinkBitMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.EQP_DOWN).Value;
-                EQPData.InterfaceClock = (int)LinkWordMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.Interface_Clock).Value;
-                EQPData.EQP_ON_OFFLine_Mode_Status = (int)LinkWordMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.EQP_ON_OFFLine_Mode_Status).Value;
-                EQPData.Warning_Report_Index = (int)LinkWordMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.Warning_Report_Index).Value;
-                EQPData.Warning_Code_1_16 = (int)LinkWordMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.Warning_Code_1_16).Value;
-                EQPData.Warning_Code_17_32 = (int)LinkWordMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.Warning_Code_17_32).Value;
-                EQPData.Warning_Code_33_48 = (int)LinkWordMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.Warning_Code_33_48).Value;
-                EQPData.Alarm_Report_Index = (int)LinkWordMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.Alarm_Report_Index).Value;
-                EQPData.Alarm_Code_1_16 = (int)LinkWordMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.Alarm_Code_1_16).Value;
-                EQPData.Alarm_Code_17_32 = (int)LinkWordMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.Alarm_Code_17_32).Value;
-                EQPData.Alarm_Code_33_48 = (int)LinkWordMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.Alarm_Code_33_48).Value;
+                try
+                {
 
+                    EQPData.EQP_RUN = (bool)LinkBitMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.EQP_RUN).Value;
+                    EQPData.EQP_IDLE = (bool)LinkBitMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.EQP_IDLE).Value;
+                    EQPData.EQP_DOWN = (bool)LinkBitMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.EQP_DOWN).Value;
+                    EQPData.InterfaceClock = (int)LinkWordMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.Interface_Clock).Value;
+                    EQPData.EQP_ON_OFFLine_Mode_Status = (int)LinkWordMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.EQP_ON_OFFLine_Mode_Status).Value;
+                    EQPData.Warning_Report_Index = (int)LinkWordMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.Warning_Report_Index).Value;
+                    EQPData.Warning_Code_1_16 = (int)LinkWordMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.Warning_Code_1_16).Value;
+                    EQPData.Warning_Code_17_32 = (int)LinkWordMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.Warning_Code_17_32).Value;
+                    EQPData.Warning_Code_33_48 = (int)LinkWordMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.Warning_Code_33_48).Value;
+                    EQPData.Alarm_Report_Index = (int)LinkWordMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.Alarm_Report_Index).Value;
+                    EQPData.Alarm_Code_1_16 = (int)LinkWordMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.Alarm_Code_1_16).Value;
+                    EQPData.Alarm_Code_17_32 = (int)LinkWordMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.Alarm_Code_17_32).Value;
+                    EQPData.Alarm_Code_33_48 = (int)LinkWordMap.First(f => f.EScope == EQ_SCOPE.EQ && f.EProperty == PROPERTY.Alarm_Code_33_48).Value;
+
+                }
+                catch (Exception ex)
+                {
+
+                }
                 //PORTS
                 EQ_SCOPE[] Ports = PortDatas.Count == 1 ? new EQ_SCOPE[1] { EQ_SCOPE.PORT1 } : new EQ_SCOPE[2] { EQ_SCOPE.PORT1, EQ_SCOPE.PORT2 };
                 for (int i = 0; i < Ports.Length; i++)
@@ -585,7 +594,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     }
                     catch (Exception ex)
                     {
-                        if (Utility.SysConfigs.Project != Utilities.SysConfigs.clsSystemConfigs.PROJECT.U007)
+                        if (Utility.SysConfigs.Project != Utilities.SysConfigs.clsSystemConfigs.PROJECT.U007 && Utility.SysConfigs.Project != Utilities.SysConfigs.clsSystemConfigs.PROJECT.YM_2F_AOI)
                             Utility.SystemLogger.Error(ex.Message, ex);
                     }
                     EQPORT.AGVSignals.To_EQ_Up = (bool)LinkBitMap.First(f => f.EOwner == clsMemoryAddress.OWNER.CIM && f.EScope == port && f.EProperty == PROPERTY.To_EQ_Up).Value;
@@ -608,7 +617,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     }
                     catch (Exception ex)
                     {
-                        if (Utility.SysConfigs.Project != Utilities.SysConfigs.clsSystemConfigs.PROJECT.U007)
+                        if (Utility.SysConfigs.Project != Utilities.SysConfigs.clsSystemConfigs.PROJECT.U007 && Utility.SysConfigs.Project != Utilities.SysConfigs.clsSystemConfigs.PROJECT.YM_2F_AOI)
                             Utility.SystemLogger.Error(ex.Message, ex);
                     }
 
@@ -621,19 +630,28 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
                     EQPORT.LD_UP_POS = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.LD_UP_POS).Value;
                     EQPORT.LD_DOWN_POS = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.LD_DOWN_POS).Value;
-                    EQPORT.DoorOpened = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Door_Opened).Value;
-                    EQPORT.TB_DOWN_POS = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.TB_DOWN_POS).Value;
 
                     EQPORT.CarrierWaitINSystemRequest = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Carrier_WaitIn_System_Request).Value;
                     EQPORT.CarrierWaitOUTSystemRequest = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Carrier_WaitOut_System_Report).Value;
                     EQPORT.CarrierRemovedCompletedReport = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Carrier_Removed_Completed_Report).Value;
-
                     EQPORT.Port_Mode_Change_Accept = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Port_Mode_Change_Accept).Value;
                     EQPORT.Port_Mode_Changed_Refuse = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Port_Mode_Changed_Refuse).Value;
-                    EQPORT.Port_Mode_Changed_Report = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Port_Mode_Changed_Report).Value;
-                    EQPORT.Port_Disabled_Report = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Port_Disabled_Report).Value;
-                    EQPORT.Port_Enabled_Report = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Port_Enabled_Report).Value;
 
+                    try
+                    {
+
+                        EQPORT.TB_DOWN_POS = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.TB_DOWN_POS).Value;
+                        EQPORT.Port_Mode_Changed_Report = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Port_Mode_Changed_Report).Value;
+                        EQPORT.Port_Disabled_Report = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Port_Disabled_Report).Value;
+                        EQPORT.Port_Enabled_Report = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Port_Enabled_Report).Value;
+                        EQPORT.DoorOpened = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.Door_Opened).Value;
+                    }
+                    catch (Exception ex)
+                    {
+                        if (Utility.SysConfigs.Project != Utilities.SysConfigs.clsSystemConfigs.PROJECT.U007 && Utility.SysConfigs.Project != Utilities.SysConfigs.clsSystemConfigs.PROJECT.YM_2F_AOI)
+                            Utility.SystemLogger.Error(ex.Message, ex);
+
+                    }
                     //EQP word data
 
 
@@ -646,7 +664,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                         EQPORT.WIPInfo_BCR_ID_2 = (int)LinkWordMap.First(f => !f.IsCIMUse && f.EScope == port && f.EProperty == PROPERTY.WIP_Information_BCR_2).Value;
                         EQPORT.WIPInfo_BCR_ID_3 = (int)LinkWordMap.First(f => !f.IsCIMUse && f.EScope == port && f.EProperty == PROPERTY.WIP_Information_BCR_3).Value;
                         EQPORT.WIPInfo_BCR_ID_4 = (int)LinkWordMap.First(f => !f.IsCIMUse && f.EScope == port && f.EProperty == PROPERTY.WIP_Information_BCR_4).Value;
-                        EQPORT.WIPInfo_BCR_ID_5 = (int)LinkWordMap.First(f => !f.IsCIMUse && f.EScope == port && f.EProperty == PROPERTY.WIP_Information_BCR_5).Value;
                         EQPORT.WIPInfo_BCR_ID_6 = (int)LinkWordMap.First(f => !f.IsCIMUse && f.EScope == port && f.EProperty == PROPERTY.WIP_Information_BCR_6).Value;
                         EQPORT.WIPInfo_BCR_ID_7 = (int)LinkWordMap.First(f => !f.IsCIMUse && f.EScope == port && f.EProperty == PROPERTY.WIP_Information_BCR_7).Value;
                         EQPORT.WIPInfo_BCR_ID_8 = (int)LinkWordMap.First(f => !f.IsCIMUse && f.EScope == port && f.EProperty == PROPERTY.WIP_Information_BCR_8).Value;
@@ -657,7 +674,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     }
                     catch (Exception ex)
                     {
-                        if (Utility.SysConfigs.Project != Utilities.SysConfigs.clsSystemConfigs.PROJECT.U007)
+                        if (Utility.SysConfigs.Project != Utilities.SysConfigs.clsSystemConfigs.PROJECT.U007 && Utility.SysConfigs.Project != Utilities.SysConfigs.clsSystemConfigs.PROJECT.YM_2F_AOI)
                             Utility.SystemLogger.Error(ex.Message, ex);
                     }
                 }

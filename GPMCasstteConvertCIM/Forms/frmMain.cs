@@ -82,7 +82,7 @@ namespace GPMCasstteConvertCIM.Forms
                 Invoke(new Action(() =>
                 {
                     Secs4Net.EncodingSetting.ASCIIEncoding = Utility.SysConfigs.SECS.SECESAEncoding; //設定編碼
-                    if (Utility.SysConfigs.Project == Utilities.SysConfigs.clsSystemConfigs.PROJECT.U007)
+                    if (Utility.SysConfigs.Project == Utilities.SysConfigs.clsSystemConfigs.PROJECT.U007 || Utility.SysConfigs.Project == Utilities.SysConfigs.clsSystemConfigs.PROJECT.YM_2F_AOI)
                     {
                         tabControl1.TabPages.RemoveAt(1);//把原本的HOME PAGE移除
                         splitContainer1.Panel2.Controls.Add(pnlSyslogRtbContainer);//Move container of  LOG to the Main View(Home) of Project.U007

@@ -108,10 +108,10 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="src\Map_YM_2F_AOI\PLC_Bit_Map_CIM.csv">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="src\Map_YM_2F_AOI\PLC_Bit_Map_EQ.csv">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="src\Map_YM_2F_AOI\PLC_Word_Map_CIM.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

@@ -86,7 +86,7 @@ namespace GPMCasstteConvertCIM.Utilities
             if (File.Exists(SysCofigsFile))
             {
                 SysConfigs = JsonConvert.DeserializeObject<clsSystemConfigs>(File.ReadAllText(SysCofigsFile));
-                if (SysConfigs.AGVList.Count == 0 & SysConfigs.Project == clsSystemConfigs.PROJECT.U007)
+                if (SysConfigs.AGVList.Count == 0 && (SysConfigs.Project == clsSystemConfigs.PROJECT.U007 || SysConfigs.Project == clsSystemConfigs.PROJECT.YM_2F_AOI))
                 {
                     SysConfigs.AGVList = new List<clsAGVInfo>()
                     {
