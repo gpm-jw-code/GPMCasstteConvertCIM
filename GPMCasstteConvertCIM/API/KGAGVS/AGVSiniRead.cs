@@ -21,7 +21,7 @@ namespace GPMCasstteConvertCIM.API.KGAGVS
             File.Copy(iniFilePath, NewiniFilePath, true);
             var parser = new FileIniDataParser();
             IniData data = parser.ReadFile(NewiniFilePath);
-            lastCarrierID = data[EQ_NameInini]["LotID"]; //data[RACK3_1]["LotID"];
+            lastCarrierID = data["RACK3_1"]["LotID"]; //data[RACK3_1]["LotID"];
         }
         //public async static void checkinilastwrite()
         //{
