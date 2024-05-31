@@ -814,8 +814,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     {
                         await _RackCstModifyWaitSlim.WaitAsync();
                         await AGVSiniRead.ReadAGVSini(Properties.NameInAGVS, 1);
-                        cst_id = AGVSiniRead.lastCarrierID;
-                        (bool confirm, string response, string errorMsg) result = await API.KGAGVS.RackStatusAPI.DeleteCSTID(Properties.NameInAGVS, 1, cst_id);
+                        (bool confirm, string response, string errorMsg) result = await API.KGAGVS.RackStatusAPI.DeleteCSTID(Properties.NameInAGVS, 1, Properties.NameInAGVS);
                         Utility.SystemLogger.Info($"Delete CST ID API請求結果={result.ToJson()}");
                     }
                     catch (Exception ex)
