@@ -61,7 +61,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle.Tests
         [Timeout(30000)]
         public void AGVSMsgWatchDogTest()
         {
-            AGVSSecsDDOSWatchDog watchDog = new AGVSSecsDDOSWatchDog(3, 2322);
+            AGVSSecsDDOSWatchDog watchDog = new AGVSSecsDDOSWatchDog(3, 2322,555);
             while (true)
             {
                 bool isDDOSHappen = watchDog.Monitor(SECSMessageHelper.EventsMsg.CreateEventMsg(CEID.CarrierIDReadReport, 23, new Item[]

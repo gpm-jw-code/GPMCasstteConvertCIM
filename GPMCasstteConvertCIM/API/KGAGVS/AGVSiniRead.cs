@@ -11,18 +11,19 @@ namespace GPMCasstteConvertCIM.API.KGAGVS
     internal class AGVSiniRead
     {
         public static string lastCarrierID;
-        public async static Task ReadAGVSini(string EQ_Name,int Slot)
+        public async static Task ReadAGVSini(string EQ_Name, int Slot)
         {
-            string EQ_NameInini = EQ_Name.ToUpper() + "_"+Slot.ToString();
+            string EQ_NameInini = EQ_Name.ToUpper() + "_" + Slot.ToString();
             string iniFilePath = @"c:\CST\ini\Status.ini";
-            string NewiniFilePathini = @"c:\GPM_CIM\ini\Status.ini";
-            string NewiniFilePath = @"c:\GPM_CIM\ini\";
-            if (!Directory.Exists(NewiniFilePath)) { Directory.CreateDirectory(NewiniFilePath); }
-            File.Copy(iniFilePath, NewiniFilePathini, true);
+            string NewiniFilePath = @"d:\cimfile\Status.ini";
+            string FilePath = @"d:\cimfile\";
+            if (!Directory.Exists(FilePath)) { Directory.CreateDirectory(FilePath); }
+            if (!File.Exists(NewiniFilePath))
+            { using (FileStream fs = File.Create(NewiniFilePath)) ; }
+            File.Copy(iniFilePath, NewiniFilePath, true);
             var parser = new FileIniDataParser();
-            IniData data = parser.ReadFile(NewiniFilePathini);
-            lastCarrierID = data[EQ_NameInini]["LotID"]; //data[RACK3_1]["LotID"];
-            File.Delete(NewiniFilePathini);
+            IniData data = parser.ReadFile(NewiniFilePath);
+            lastCarrierID = data["RACK3_1"]["LotID"]; //data[RACK3_1]["LotID"];
         }
         //public async static void checkinilastwrite()
         //{
