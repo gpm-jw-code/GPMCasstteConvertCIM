@@ -36,11 +36,11 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
             return true;
         }
 
-        public clsCCLinkIE_Station(EQ_NAMES Eq_Name, Dictionary<int, clsConverterPort.clsPortProperty> portProperties, clsCCLinkIE_Master cclink_master)
+        public clsCCLinkIE_Station(EQ_NAMES Eq_Name, Dictionary<int, clsConverterPort.clsPortProperty> portProperties, clsCCLinkIE_Master cclink_master, string displayName)
         {
             this.cclink_master = cclink_master;
             this.Eq_Name = Eq_Name;
-            Name = Eq_Name.ToString();
+            Name = displayName;
             EQPData = new clsEQPData();
             this.plcInterface = PLC_CONN_INTERFACE.MX;
             LoadPLCMapData();

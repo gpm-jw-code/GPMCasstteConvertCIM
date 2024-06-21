@@ -131,7 +131,7 @@ namespace GPMCasstteConvertCIM.Devices
                 {
                     try
                     {
-                        clsCCLinkIE_Station EQ = new clsCCLinkIE_Station(item.Eq_Name, item.Ports, cclink_master);
+                        clsCCLinkIE_Station EQ = new clsCCLinkIE_Station(item.Eq_Name, item.Ports, cclink_master, item.Name);
                         //clsCasstteConverter EQ = new CasstteConverter.clsCasstteConverter(item.Name, (UscCasstteConverter)item.mainUI, item.ConverterType, item.Ports);
                         EQ.ConnectionStateChanged += CasstteConverter_ConnectionStateChanged;
                         EQ.ActiveAsync(item.ToMCIFOptions());
