@@ -664,6 +664,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                         EQPORT.WIPInfo_BCR_ID_2 = (int)LinkWordMap.First(f => !f.IsCIMUse && f.EScope == port && f.EProperty == PROPERTY.WIP_Information_BCR_2).Value;
                         EQPORT.WIPInfo_BCR_ID_3 = (int)LinkWordMap.First(f => !f.IsCIMUse && f.EScope == port && f.EProperty == PROPERTY.WIP_Information_BCR_3).Value;
                         EQPORT.WIPInfo_BCR_ID_4 = (int)LinkWordMap.First(f => !f.IsCIMUse && f.EScope == port && f.EProperty == PROPERTY.WIP_Information_BCR_4).Value;
+                        EQPORT.WIPInfo_BCR_ID_5 = (int)LinkWordMap.First(f => !f.IsCIMUse && f.EScope == port && f.EProperty == PROPERTY.WIP_Information_BCR_5).Value;
                         EQPORT.WIPInfo_BCR_ID_6 = (int)LinkWordMap.First(f => !f.IsCIMUse && f.EScope == port && f.EProperty == PROPERTY.WIP_Information_BCR_6).Value;
                         EQPORT.WIPInfo_BCR_ID_7 = (int)LinkWordMap.First(f => !f.IsCIMUse && f.EScope == port && f.EProperty == PROPERTY.WIP_Information_BCR_7).Value;
                         EQPORT.WIPInfo_BCR_ID_8 = (int)LinkWordMap.First(f => !f.IsCIMUse && f.EScope == port && f.EProperty == PROPERTY.WIP_Information_BCR_8).Value;
