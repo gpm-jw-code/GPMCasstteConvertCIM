@@ -275,7 +275,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             {
                 if (_PartsReplacing != value)
                 {
-                    _Maintaining = value;
+                    _PartsReplacing = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("PartsReplacing"));
 
                 }

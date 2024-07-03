@@ -44,8 +44,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         }
 
         public event EventHandler<Tuple<string, string, string>> OnMCSNoTransferNotify;
-
-
+        private bool _EQMaintainSignalSyncEnabled => Utility.SysConfigs.EqMaintainSignalSyncEnabled;
+        private bool _EqPartsReplacementSignalSyncEnabled => Utility.SysConfigs.EqPartsReplacementSignalSyncEnabled;
         public bool BuildModbusTCPServer(string ip, int port, out string error_msg)
         {
             error_msg = string.Empty;
@@ -272,6 +272,17 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                             AGV_READY_WAITING_EQ_BUSYON_INTER_LOCKING = false;
                         }
                     }
+
+                    if (item.EProperty == PROPERTY.EQP_Maintaining && !_EQMaintainSignalSyncEnabled)
+                    {
+                        bolState = false;
+                    }
+
+                    if (item.EProperty == PROPERTY.EQP_Parts_Replacement && !_EqPartsReplacementSignalSyncEnabled)
+                    {
+                        bolState = false;
+                    }
+
                     modbus_server.modbusSlave.DataStore.InputDiscretes[mRindex] = bolState;
                     if (modbus_server.modbusSlave.DataStore.InputDiscretes[mRindex] != bolState)
                     {
@@ -284,7 +295,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 }
             }
         }
-
         protected virtual void SyncAGVSCoilsDataWorker()
         {
             string portNoName = $"PORT{Properties.PortNo + 1}";

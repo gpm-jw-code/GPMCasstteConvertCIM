@@ -36,6 +36,10 @@ namespace GPMCasstteConvertCIM.Utilities.SysConfigs
 
         public clsWebServerParam WebService { get; set; } = new clsWebServerParam();
         public clsSECSWatchDogConfig AGVSSecsWatchDog { get; set; } = new clsSECSWatchDogConfig();
+
+        public bool EqMaintainSignalSyncEnabled { get; set; } = false;
+        public bool EqPartsReplacementSignalSyncEnabled { get; set; } = false;
+
         public enum PROJECT
         {
             U003, U007, YM_2F_AOI

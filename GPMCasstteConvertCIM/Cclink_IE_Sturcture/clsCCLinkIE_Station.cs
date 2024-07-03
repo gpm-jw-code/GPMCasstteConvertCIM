@@ -6,6 +6,7 @@ using GPMCasstteConvertCIM.Devices;
 using GPMCasstteConvertCIM.GPM_Modbus;
 using GPMCasstteConvertCIM.GPM_SECS;
 using GPMCasstteConvertCIM.Utilities;
+using GPMCasstteConvertCIM.Utilities.SysConfigs;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -22,6 +23,10 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
     {
         public override List<clsConverterPort> PortDatas { get => base.PortDatas; set => base.PortDatas = value; }
         internal clsCCLinkIE_Master cclink_master;
+
+        private bool _EQMaintainSignalSyncEnabled => Utility.SysConfigs.EqMaintainSignalSyncEnabled;
+        private bool _EqPartsReplacementSignalSyncEnabled => Utility.SysConfigs.EqPartsReplacementSignalSyncEnabled;
+
         public EQ_NAMES Eq_Name { get; set; } = EQ_NAMES.Unkown;
         /// <summary>
         /// 
@@ -142,8 +147,8 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
 
                 try
                 {
-                    PortDatas[i].Maintaining = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.EQP_Maintaining).Value;
-                    PortDatas[i].PartsReplacing = (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.EQP_Parts_Replacement).Value;
+                    PortDatas[i].Maintaining = _EQMaintainSignalSyncEnabled ? (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.EQP_Maintaining).Value : false;
+                    PortDatas[i].PartsReplacing = _EqPartsReplacementSignalSyncEnabled ? (bool)LinkBitMap.First(f => f.EScope == port && f.EProperty == PROPERTY.EQP_Parts_Replacement).Value : false;
                 }
                 catch (Exception)
                 {
