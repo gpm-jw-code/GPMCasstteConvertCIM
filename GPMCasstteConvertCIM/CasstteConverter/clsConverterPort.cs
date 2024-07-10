@@ -1131,7 +1131,32 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 this.EQ_TYPE = EQ_TYPE;
                 this.PortHasCargo = PortHasCargo;
             }
-            public bool ChangeToOutputAllowed => !(IsMCSRemote || CurrentPortType == PortUnitType.Output || EQ_TYPE == CONVERTER_TYPE.SYS_2_SYS || !PortHasCargo);
+
+            public bool IsAllowChangeToOutput(out string rejectMsg)
+            {
+                rejectMsg = "Undefined";
+                if (IsMCSRemote)
+                {
+                    rejectMsg = "AGVS/MCS現在為'Remote',禁止在本地端切換為 OUTPUT";
+                    return false;
+                }
+                if (CurrentPortType == PortUnitType.Output)
+                {
+                    rejectMsg = $"當前PORT TYPE 已經是 OUTPUT";
+                    return false;
+                }
+                if (EQ_TYPE == CONVERTER_TYPE.SYS_2_SYS)
+                {
+                    rejectMsg = "轉換架類型為平對平(SYS_2_SYS),禁止在本地端切換為 OUTPUT";
+                    return false;
+                }
+                if (!PortHasCargo)
+                {
+                    rejectMsg = "當前PORT內無貨物(在席無檢出),禁止在本地端切換為 OUTPUT";
+                    return false;
+                }
+                return true;
+            }
         }
         private CancellationTokenSource PORT_Change_Out_CancelTokenSource = null;
         /// <summary>
@@ -1143,15 +1168,15 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
 
             clsPortChangeToOutState PortChgOutPoutCase = new clsPortChangeToOutState(SECSState.IsRemote, EPortType, EQParent.converterType, PortExist);
-            if (!PortChgOutPoutCase.ChangeToOutputAllowed)
+            if (!PortChgOutPoutCase.IsAllowChangeToOutput(out string rejectMessage))
             {
-                Utility.SystemLogger.Info($"[{PortName}] NOT NEED TO Change PORT TYPE to OUTPUT. \r\n-PortChgOutPoutCase:\r\n{PortChgOutPoutCase.ToJson()}");
+                Utility.SystemLogger.Info($"[{PortName}] Local Change Port Type To Output rejected. Reason => {rejectMessage}");
                 return null;
             }
 
             if (!Properties.AutoChangeToOUTPUTWhenAGVLoadedInOFFLineMode)
             {
-                Utility.SystemLogger.Warning($"[{PortName}]  Auto change to OUTPUT mode feature disabled");
+                Utility.SystemLogger.Warning($"[{PortName}] Auto change to OUTPUT mode feature disabled");
                 return null;
             }
             CancellationTokenSource portChangCancelCts = new CancellationTokenSource();
