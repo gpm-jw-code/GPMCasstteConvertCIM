@@ -39,6 +39,7 @@ namespace GPMCasstteConvertCIM.Utilities.SysConfigs
 
         public bool EqMaintainSignalSyncEnabled { get; set; } = false;
         public bool EqPartsReplacementSignalSyncEnabled { get; set; } = false;
+        public bool showddosdialog { get; set; } = true;
 
         public enum PROJECT
         {

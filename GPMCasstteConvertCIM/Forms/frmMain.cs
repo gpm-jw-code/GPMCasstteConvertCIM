@@ -217,20 +217,23 @@ namespace GPMCasstteConvertCIM.Forms
 
         private static void ShowDDOSNotifyDialog()
         {
-            AGVSDDOSDialog dialog = new AGVSDDOSDialog()
+            if (Utility.SysConfigs.showddosdialog)
             {
-                TopMost = true,
-                TopLevel = true,
-                Text = "AGVS DDOS !!!!"
-            };
-            dialog.FormClosing += AGVSMessageHandler_OnAGVSDDOSReconvery;
-            AGVSMessageHandler.OnAGVSDDOSReconvery += AGVSMessageHandler_OnAGVSDDOSReconvery;
+                AGVSDDOSDialog dialog = new AGVSDDOSDialog()
+                {
+                    TopMost = true,
+                    TopLevel = true,
+                    Text = "AGVS DDOS !!!!"
+                };
+                dialog.FormClosing += AGVSMessageHandler_OnAGVSDDOSReconvery;
+                AGVSMessageHandler.OnAGVSDDOSReconvery += AGVSMessageHandler_OnAGVSDDOSReconvery;
 
-            dialog.Show();
-            void AGVSMessageHandler_OnAGVSDDOSReconvery(object? sender, EventArgs e)
-            {
-                dialog.Dispose();
-                AGVSMessageHandler.OnAGVSDDOSReconvery -= AGVSMessageHandler_OnAGVSDDOSReconvery;
+                dialog.Show();
+                void AGVSMessageHandler_OnAGVSDDOSReconvery(object? sender, EventArgs e)
+                {
+                    dialog.Dispose();
+                    AGVSMessageHandler.OnAGVSDDOSReconvery -= AGVSMessageHandler_OnAGVSDDOSReconvery;
+                }
             }
         }
 
