@@ -10,6 +10,7 @@ using GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle;
 using GPMCasstteConvertCIM.Utilities;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using RosSharp.RosBridgeClient.MessageTypes.Std;
 using Secs4Net;
 using Secs4Net.Sml;
 using System;
@@ -1118,14 +1119,15 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         public class clsPortChangeToOutState
         {
             public bool IsMCSRemote { get; }
-
+            public bool IsAGVSRemote { get; }
             [Newtonsoft.Json.JsonConverter(typeof(StringEnumConverter))]
             public PortUnitType CurrentPortType { get; }
             [Newtonsoft.Json.JsonConverter(typeof(StringEnumConverter))]
             public CONVERTER_TYPE EQ_TYPE { get; }
             public bool PortHasCargo { get; }
-            public clsPortChangeToOutState(bool IsMCSOnline, PortUnitType CurrentPortType, CONVERTER_TYPE EQ_TYPE, bool PortHasCargo)
+            public clsPortChangeToOutState(bool IsAGVSOnline ,bool IsMCSOnline, PortUnitType CurrentPortType, CONVERTER_TYPE EQ_TYPE, bool PortHasCargo)
             {
+                this.IsAGVSRemote = IsAGVSOnline;
                 this.IsMCSRemote = IsMCSOnline;
                 this.CurrentPortType = CurrentPortType;
                 this.EQ_TYPE = EQ_TYPE;
@@ -1135,7 +1137,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             public bool IsAllowChangeToOutput(out string rejectMsg)
             {
                 rejectMsg = "Undefined";
-                if (IsMCSRemote)
+                if (IsMCSRemote && IsAGVSRemote)
                 {
                     rejectMsg = "AGVS/MCS現在為'Remote',禁止在本地端切換為 OUTPUT";
                     return false;
@@ -1167,7 +1169,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         {
 
 
-            clsPortChangeToOutState PortChgOutPoutCase = new clsPortChangeToOutState(SECSState.IsRemote, EPortType, EQParent.converterType, PortExist);
+            clsPortChangeToOutState PortChgOutPoutCase = new clsPortChangeToOutState(SECSState.IsOnline, SECSState.IsRemote, EPortType, EQParent.converterType, PortExist);
             if (!PortChgOutPoutCase.IsAllowChangeToOutput(out string rejectMessage))
             {
                 Utility.SystemLogger.Info($"[{PortName}] Local Change Port Type To Output rejected. Reason => {rejectMessage}");
