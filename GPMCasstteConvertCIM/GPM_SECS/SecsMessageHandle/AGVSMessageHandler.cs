@@ -25,7 +25,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
         internal static event EventHandler OnAGVSDDOSReconvery;
         private static SECSBase MCS => DevicesManager.secs_host_for_mcs;
         private static SECSBase AGVS => DevicesManager.secs_client_for_agvs;
-        private static AGVSSecsDDOSWatchDog SECSMsgWatchDog = new AGVSSecsDDOSWatchDog(3, 1024, 20);
+        private static AGVSSecsDDOSWatchDog SECSMsgWatchDog = new AGVSSecsDDOSWatchDog(Utility.SysConfigs.ddoschksec, Utility.SysConfigs.ddoslimit, Utility.SysConfigs.ddoscountlimit);
 
         private static bool _DDOSHappend = false;
         public static bool DDOSHappend
