@@ -89,15 +89,24 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         internal static void SplitAddress(this string address, bool isHex, out string regionName, out int addressNum, out string addressStr)
         {
-            char ss = address.First(chr => int.TryParse(chr.ToString(), out int _v));
-            var indexEndOfWordRegName = address.IndexOf(ss);
-            regionName = address.Substring(0, indexEndOfWordRegName);
-            var addressNumStr = address.Substring(regionName.Length, address.Length - regionName.Length);
-            if (!isHex)
-                addressNum = int.Parse(addressNumStr);
-            else
-                addressNum = int.Parse(addressNumStr, System.Globalization.NumberStyles.HexNumber);
-            addressStr = addressNumStr;
+            try
+            {
+                char ss = address.First(chr => int.TryParse(chr.ToString(), out int _v));
+                var indexEndOfWordRegName = address.IndexOf(ss);
+                regionName = address.Substring(0, indexEndOfWordRegName);
+                var addressNumStr = address.Substring(regionName.Length, address.Length - regionName.Length);
+                if (!isHex)
+                    addressNum = int.Parse(addressNumStr);
+                else
+                    addressNum = int.Parse(addressNumStr, System.Globalization.NumberStyles.HexNumber);
+                addressStr = addressNumStr;
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
         internal static void TrySetPropertyValue(this object aimObj, string propertyName, object value, out bool ValueChanged)
         {

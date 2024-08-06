@@ -187,6 +187,7 @@
             usceqStatus1.Location = new Point(3, 3);
             usceqStatus1.Margin = new Padding(4);
             usceqStatus1.Name = "usceqStatus1";
+            usceqStatus1.ShowMaintainAndPartsReplaceSignalColumn = false;
             usceqStatus1.Size = new Size(1238, 599);
             usceqStatus1.TabIndex = 1;
             // 
@@ -228,15 +229,18 @@
             tlpConverterContainer.BackColor = Color.WhiteSmoke;
             tlpConverterContainer.CellBorderStyle = TableLayoutPanelCellBorderStyle.Single;
             tlpConverterContainer.ColumnCount = 1;
-            tlpConverterContainer.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tlpConverterContainer.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tlpConverterContainer.Controls.Add(tlpSingleConvertsContainer, 0, 0);
             tlpConverterContainer.Dock = DockStyle.Fill;
             tlpConverterContainer.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             tlpConverterContainer.Location = new Point(0, 0);
             tlpConverterContainer.Name = "tlpConverterContainer";
-            tlpConverterContainer.RowCount = 2;
-            tlpConverterContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tlpConverterContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tlpConverterContainer.RowCount = 5;
+            tlpConverterContainer.RowStyles.Add(new RowStyle());
+            tlpConverterContainer.RowStyles.Add(new RowStyle());
+            tlpConverterContainer.RowStyles.Add(new RowStyle());
+            tlpConverterContainer.RowStyles.Add(new RowStyle());
+            tlpConverterContainer.RowStyles.Add(new RowStyle());
             tlpConverterContainer.Size = new Size(911, 599);
             tlpConverterContainer.TabIndex = 11;
             // 
@@ -250,13 +254,15 @@
             tlpSingleConvertsContainer.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tlpSingleConvertsContainer.Dock = DockStyle.Fill;
             tlpSingleConvertsContainer.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            tlpSingleConvertsContainer.GrowStyle = TableLayoutPanelGrowStyle.AddColumns;
             tlpSingleConvertsContainer.Location = new Point(4, 4);
             tlpSingleConvertsContainer.Name = "tlpSingleConvertsContainer";
-            tlpSingleConvertsContainer.RowCount = 1;
-            tlpSingleConvertsContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tlpSingleConvertsContainer.Size = new Size(903, 292);
+            tlpSingleConvertsContainer.RowCount = 3;
+            tlpSingleConvertsContainer.RowStyles.Add(new RowStyle());
+            tlpSingleConvertsContainer.RowStyles.Add(new RowStyle());
+            tlpSingleConvertsContainer.RowStyles.Add(new RowStyle());
+            tlpSingleConvertsContainer.Size = new Size(903, 192);
             tlpSingleConvertsContainer.TabIndex = 12;
+            tlpSingleConvertsContainer.Paint += tlpSingleConvertsContainer_Paint;
             // 
             // panel2
             // 
@@ -1012,7 +1018,7 @@
             toolStripStatusLabel1.LinkColor = Color.FromArgb(53, 53, 53);
             toolStripStatusLabel1.Margin = new Padding(0);
             toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            toolStripStatusLabel1.Size = new Size(1039, 22);
+            toolStripStatusLabel1.Size = new Size(1143, 22);
             toolStripStatusLabel1.Spring = true;
             toolStripStatusLabel1.Text = "GPM AGV SYSTEM CIM";
             toolStripStatusLabel1.TextAlign = ContentAlignment.MiddleLeft;

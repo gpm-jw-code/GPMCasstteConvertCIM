@@ -401,83 +401,87 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         }
         protected async Task PLCMemorySyncTask()
         {
-            while (true)
-            {
-                try
-                {
-                    await Task.Delay(50);
-                    if (_connectionState != Common.CONNECTION_STATE.CONNECTED)
-                    {
-                        continue;
-                    }
-                    if (simulation_mode)
-                    {
-                        await Task.Delay(50);
-                        IsPLCMemoryDataReadDone = true;
-                        continue;
-                    }
+            _ = Task.Run(async () =>
+             {
+                 while (true)
+                 {
+                     try
+                     {
+                         await Task.Delay(50);
+                         if (_connectionState != Common.CONNECTION_STATE.CONNECTED)
+                         {
+                             continue;
+                         }
+                         if (simulation_mode)
+                         {
+                             await Task.Delay(50);
+                             IsPLCMemoryDataReadDone = true;
+                             continue;
+                         }
 
-                    try
-                    {
-                        if (monitor)
-                        {
-                            if (plcInterface == PLC_CONN_INTERFACE.MC)
-                            {
-                                PLC_IF_WRITE_Ret_Code = mcInterface.WriteBit(ref CIMMemOptions.memoryTable, CIMMemOptions.bitRegionName, CIMMemOptions.bitStartAddress_no_region, CIMMemOptions.bitSize);
-                                PLC_IF_WRITE_Ret_Code = mcInterface.WriteWord(ref CIMMemOptions.memoryTable, CIMMemOptions.wordRegionName, CIMMemOptions.wordStartAddress_no_region, CIMMemOptions.wordSize);
+                         try
+                         {
+                             if (monitor)
+                             {
+                                 if (plcInterface == PLC_CONN_INTERFACE.MC)
+                                 {
+                                     PLC_IF_WRITE_Ret_Code = mcInterface.WriteBit(ref CIMMemOptions.memoryTable, CIMMemOptions.bitRegionName, CIMMemOptions.bitStartAddress_no_region, CIMMemOptions.bitSize);
+                                     PLC_IF_WRITE_Ret_Code = mcInterface.WriteWord(ref CIMMemOptions.memoryTable, CIMMemOptions.wordRegionName, CIMMemOptions.wordStartAddress_no_region, CIMMemOptions.wordSize);
 
 
 
-                                if (PLC_IF_WRITE_Ret_Code == 0)
-                                {
-                                    //讀回確認
-                                    PLC_IF_READ_Ret_Code = mcInterface.ReadBit(ref CIMMemOptions.memoryTable_read_back, CIMMemOptions.bitRegionName, CIMMemOptions.bitStartAddress_no_region, CIMMemOptions.bitSize);
-                                    PLC_IF_READ_Ret_Code = mcInterface.ReadWord(ref CIMMemOptions.memoryTable_read_back, CIMMemOptions.wordRegionName, CIMMemOptions.wordStartAddress_no_region, CIMMemOptions.wordSize);
+                                     if (PLC_IF_WRITE_Ret_Code == 0)
+                                     {
+                                         //讀回確認
+                                         PLC_IF_READ_Ret_Code = mcInterface.ReadBit(ref CIMMemOptions.memoryTable_read_back, CIMMemOptions.bitRegionName, CIMMemOptions.bitStartAddress_no_region, CIMMemOptions.bitSize);
+                                         PLC_IF_READ_Ret_Code = mcInterface.ReadWord(ref CIMMemOptions.memoryTable_read_back, CIMMemOptions.wordRegionName, CIMMemOptions.wordStartAddress_no_region, CIMMemOptions.wordSize);
 
-                                    PLC_IF_READ_Ret_Code = mcInterface.ReadBit(ref EQPMemOptions.memoryTable, EQPMemOptions.bitRegionName, EQPMemOptions.bitStartAddress_no_region, EQPMemOptions.bitSize);
-                                    PLC_IF_READ_Ret_Code = mcInterface.ReadWord(ref EQPMemOptions.memoryTable, EQPMemOptions.wordRegionName, EQPMemOptions.wordStartAddress_no_region, EQPMemOptions.wordSize);
-                                    IsPLCMemoryDataReadDone = PLC_IF_READ_Ret_Code == 0;
-                                }
+                                         PLC_IF_READ_Ret_Code = mcInterface.ReadBit(ref EQPMemOptions.memoryTable, EQPMemOptions.bitRegionName, EQPMemOptions.bitStartAddress_no_region, EQPMemOptions.bitSize);
+                                         PLC_IF_READ_Ret_Code = mcInterface.ReadWord(ref EQPMemOptions.memoryTable, EQPMemOptions.wordRegionName, EQPMemOptions.wordStartAddress_no_region, EQPMemOptions.wordSize);
+                                         IsPLCMemoryDataReadDone = PLC_IF_READ_Ret_Code == 0;
+                                     }
 
-                            }
-                            else
-                            {
-                                PLC_IF_WRITE_Ret_Code = mxInterface.WriteBit(ref CIMMemOptions.memoryTable, CIMMemOptions.bitRegionName, CIMMemOptions.bitStartAddress_no_region, CIMMemOptions.bitSize);
-                                PLC_IF_WRITE_Ret_Code = mxInterface.WriteWord(ref CIMMemOptions.memoryTable, CIMMemOptions.wordRegionName, CIMMemOptions.wordStartAddress_no_region, CIMMemOptions.wordSize);
-                                if (PLC_IF_WRITE_Ret_Code == 0)
-                                {
+                                 }
+                                 else
+                                 {
+                                     PLC_IF_WRITE_Ret_Code = mxInterface.WriteBit(ref CIMMemOptions.memoryTable, CIMMemOptions.bitRegionName, CIMMemOptions.bitStartAddress_no_region, CIMMemOptions.bitSize);
+                                     PLC_IF_WRITE_Ret_Code = mxInterface.WriteWord(ref CIMMemOptions.memoryTable, CIMMemOptions.wordRegionName, CIMMemOptions.wordStartAddress_no_region, CIMMemOptions.wordSize);
+                                     if (PLC_IF_WRITE_Ret_Code == 0)
+                                     {
 
-                                    //讀回確認
-                                    PLC_IF_READ_Ret_Code = mxInterface.ReadBit(ref CIMMemOptions.memoryTable_read_back, CIMMemOptions.bitRegionName, CIMMemOptions.bitStartAddress_no_region, CIMMemOptions.bitSize);
-                                    PLC_IF_READ_Ret_Code = mxInterface.ReadWord(ref CIMMemOptions.memoryTable_read_back, CIMMemOptions.wordRegionName, CIMMemOptions.wordStartAddress_no_region, CIMMemOptions.wordSize);
+                                         //讀回確認
+                                         PLC_IF_READ_Ret_Code = mxInterface.ReadBit(ref CIMMemOptions.memoryTable_read_back, CIMMemOptions.bitRegionName, CIMMemOptions.bitStartAddress_no_region, CIMMemOptions.bitSize);
+                                         PLC_IF_READ_Ret_Code = mxInterface.ReadWord(ref CIMMemOptions.memoryTable_read_back, CIMMemOptions.wordRegionName, CIMMemOptions.wordStartAddress_no_region, CIMMemOptions.wordSize);
 
-                                    PLC_IF_READ_Ret_Code = mxInterface.ReadBit(ref EQPMemOptions.memoryTable, EQPMemOptions.bitRegionName, EQPMemOptions.bitStartAddress_no_region, EQPMemOptions.bitSize);
-                                    PLC_IF_READ_Ret_Code = mxInterface.ReadWord(ref EQPMemOptions.memoryTable, EQPMemOptions.wordRegionName, EQPMemOptions.wordStartAddress_no_region, EQPMemOptions.wordSize);
-                                    IsPLCMemoryDataReadDone = PLC_IF_READ_Ret_Code == 0;
-                                }
-                            }
+                                         PLC_IF_READ_Ret_Code = mxInterface.ReadBit(ref EQPMemOptions.memoryTable, EQPMemOptions.bitRegionName, EQPMemOptions.bitStartAddress_no_region, EQPMemOptions.bitSize);
+                                         PLC_IF_READ_Ret_Code = mxInterface.ReadWord(ref EQPMemOptions.memoryTable, EQPMemOptions.wordRegionName, EQPMemOptions.wordStartAddress_no_region, EQPMemOptions.wordSize);
+                                         IsPLCMemoryDataReadDone = PLC_IF_READ_Ret_Code == 0;
+                                     }
+                                 }
 
-                        }
-                    }
-                    catch (SocketException ex)
-                    {
-                        Utility.SystemLogger.Error(ex);
-                        _connectionState = Common.CONNECTION_STATE.DISCONNECTED;
-                        RetryConnectAsync();
-                    }
-                    catch (Exception ex)
-                    {
-                        Utility.SystemLogger.Error(ex);
-                        continue;
-                    }
+                             }
+                         }
+                         catch (SocketException ex)
+                         {
+                             Utility.SystemLogger.Error(ex);
+                             _connectionState = Common.CONNECTION_STATE.DISCONNECTED;
+                             RetryConnectAsync();
+                         }
+                         catch (Exception ex)
+                         {
+                             Utility.SystemLogger.Error(ex);
+                             continue;
+                         }
 
-                }
-                catch (Exception ex)
-                {
-                    Utility.SystemLogger.Error(ex);
-                }
+                     }
+                     catch (Exception ex)
+                     {
+                         Utility.SystemLogger.Error(ex);
+                     }
 
-            }
+                 }
+
+             });
         }
         private void ResetEQPHandshakeBits()
         {
@@ -764,6 +768,15 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             string[] lineSplited = context_line.Split(',');
             try
             {
+                EQ_NAMES EQName = EQ_NAMES.TS_1;
+                try
+                {
+                    EQName = lineSplited[8] == "" ? EQ_NAMES.Unkown : Enum.GetValues(typeof(EQ_NAMES)).Cast<EQ_NAMES>().First(E => E.ToString() == lineSplited[8]);
+                }
+                catch (Exception)
+                {
+                    EQName = EQ_NAMES.Unkown;
+                }
 
                 return new clsMemoryAddress(data_type)
                 {
@@ -775,7 +788,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     Scope = lineSplited[5],
                     PropertyName = lineSplited[6],
                     Link_Modbus_Register_Number = lineSplited[7] == "" ? -1 : int.Parse(lineSplited[7]),
-                    EQ_Name = lineSplited[8] == "" ? EQ_NAMES.Unkown : Enum.GetValues(typeof(EQ_NAMES)).Cast<EQ_NAMES>().First(E => E.ToString() == lineSplited[8])
+                    EQ_Name = EQName
                 };
             }
             catch (Exception ex)

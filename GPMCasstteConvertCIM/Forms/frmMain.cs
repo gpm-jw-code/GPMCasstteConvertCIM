@@ -304,28 +304,28 @@ namespace GPMCasstteConvertCIM.Forms
         {
             var single_cvs = DevicesManager.DevicesConnectionsOpts.PLCEQS.Where(p => p.ConverterType == Enums.CONVERTER_TYPE.IN_SYS);
             bool isTwoSingleEQ = single_cvs.Count() == DevicesManager.DevicesConnectionsOpts.PLCEQS.Length;
-            tlpSingleConvertsContainer.Visible = !isTwoSingleEQ;
+            tlpSingleConvertsContainer.Visible = false;
 
-            if (!isTwoSingleEQ)
-            {
-                tlpSingleConvertsContainer.ColumnCount = single_cvs.Count();
-                tlpSingleConvertsContainer.ColumnStyles.Clear();
-                for (int i = 0; i < single_cvs.Count(); i++)
-                {
-                    tlpSingleConvertsContainer.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F / single_cvs.Count()));
-                }
-            }
+            //if (!isTwoSingleEQ)
+            //{
+            //    tlpSingleConvertsContainer.ColumnCount = single_cvs.Count();
+            //    tlpSingleConvertsContainer.ColumnStyles.Clear();
+            //    for (int i = 0; i < single_cvs.Count(); i++)
+            //    {
+            //        tlpSingleConvertsContainer.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F / single_cvs.Count()));
+            //    }
+            //}
             tlpConverterContainer.SuspendLayout();
             foreach (Devices.Options.ConverterEQPInitialOption item in DevicesManager.DevicesConnectionsOpts.PLCEQS)
             {
                 UI_UserControls.UscCasstteConverter mainUI = new UI_UserControls.UscCasstteConverter();
                 item.mainUI = mainUI;
-                if (!isTwoSingleEQ && item.ConverterType == Enums.CONVERTER_TYPE.IN_SYS)
-                {
-                    tlpSingleConvertsContainer.Controls.Add(mainUI);
-                }
-                else
-                    tlpConverterContainer.Controls.Add(mainUI);
+                //if (!isTwoSingleEQ && item.ConverterType == Enums.CONVERTER_TYPE.IN_SYS)
+                //{
+                //    tlpSingleConvertsContainer.Controls.Add(mainUI);
+                //}
+                //else
+                tlpConverterContainer.Controls.Add(mainUI);
                 mainUI.Dock = DockStyle.Fill;
 
                 foreach (clsConverterPort.clsPortProperty port in item.Ports.Values)
@@ -826,6 +826,11 @@ namespace GPMCasstteConvertCIM.Forms
             {
                 AGVSMessageHandler.DDOSRestoreInvoke();
             }
+        }
+
+        private void tlpSingleConvertsContainer_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }
