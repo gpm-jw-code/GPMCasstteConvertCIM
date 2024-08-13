@@ -38,6 +38,9 @@ namespace GPMCasstteConvertCIM.WebServer
         public delegate clsResponse PortLDULDStatusChangeDelegate(List<clsEQLDULDSimulationControl> control);
         public static PortLDULDStatusChangeDelegate OnPortLDULDStatusChangeRequest;
 
+        public delegate clsResponse PorTypeChangeDelegate(int tagID, int portType);
+        public static PorTypeChangeDelegate OnPortTypeChangeRequest;
+
 
 
         public MyServlet(string? logFolder)
@@ -89,6 +92,13 @@ namespace GPMCasstteConvertCIM.WebServer
                 List<clsEQLDULDSimulationControl>? controls = JsonConvert.DeserializeObject<List<clsEQLDULDSimulationControl>>(jsonStr);
                 if (OnPortLDULDStatusChangeRequest != null)
                     result = OnPortLDULDStatusChangeRequest(controls);
+            }
+            if (lowerstring.Contains("/api/porttype_change"))
+            {
+                int tagID = int.Parse(request.QueryString.GetValues("eqTag").First());
+                int portType = int.Parse(request.QueryString.GetValues("portType").First());
+                if (OnPortTypeChangeRequest != null)
+                    result = OnPortTypeChangeRequest(tagID, portType);
             }
             var responseStr = JsonConvert.SerializeObject(result);
             byte[] res = Encoding.UTF8.GetBytes(responseStr);

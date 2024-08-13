@@ -321,6 +321,36 @@ namespace GPMCasstteConvertCIM.Devices
 
             return new clsResponse(0);
         }
+
+        internal static clsResponse PortTypeChangeHandler(int tagID, int portType)
+        {
+
+            int matchTagCnt = GetAllPorts().Count(port => port.Properties.TagNumberInAGVS == tagID);
+            if (matchTagCnt > 1)
+            {
+                var portNames = GetAllPorts().Where(p => p.Properties.TagNumberInAGVS == tagID).Select(p => p.PortName);
+                return new clsResponse(500, $"CIM系統中有多的設備Port Tag設定都為[{tagID}],請確認CIM設備配置({string.Join(",", portNames)})");
+            }
+
+            clsConverterPort? port = GetAllPorts().FirstOrDefault(port => port.Properties.TagNumberInAGVS == tagID);
+            if (port == null)
+                return new clsResponse(404);
+            PortUnitType punitype = PortUnitType.Input;
+            if (portType == 0)
+                punitype = PortUnitType.Input;
+            else if (portType == 1)
+                punitype = PortUnitType.Output;
+            else
+            {
+                return new clsResponse(401);
+            }
+            bool result = port.ModeChangeRequestHandshake(punitype, requester_name: "AGVS", no_change_if_current_type_is_req: false)
+                               .GetAwaiter().GetResult();
+            if (result)
+                return new clsResponse(200);
+            else
+                return new clsResponse(500, $"{port.PortName} Port Type Change Fail.");
+        }
         internal class ConnectionStateChangeArgs : EventArgs
         {
             internal ConnectionStateChangeArgs(object sender, CIM_DEVICE_TYPES device_type, Common.CONNECTION_STATE connection_state)

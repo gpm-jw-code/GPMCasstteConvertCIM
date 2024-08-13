@@ -175,6 +175,7 @@ namespace GPMCasstteConvertCIM.Forms
 
                     MyServlet.OnEqIOModeChangeRequest += DevicesManager.EqIOModeChangeHandle;
                     MyServlet.OnPortLDULDStatusChangeRequest += DevicesManager.PortLDULDStatusChangeHandle;
+                    MyServlet.OnPortTypeChangeRequest += DevicesManager.PortTypeChangeHandler;
                     MyServlet.OnHotRunModeChangeRequest += HotRunRemoteControlHandle;
                     GPM_SECS.SecsMessageHandle.AGVSMessageHandler.OnAGVSDDOSAttacking += AGVSMessageHandler_OnAGVSDDOSAttacking;
 
