@@ -40,7 +40,7 @@
             labCarrierID.Dock = DockStyle.Fill;
             labCarrierID.Font = new Font("Microsoft JhengHei UI", 22F, FontStyle.Bold, GraphicsUnit.Point);
             labCarrierID.ForeColor = Color.White;
-            labCarrierID.Location = new Point(0, 140);
+            labCarrierID.Location = new Point(0, 112);
             labCarrierID.Margin = new Padding(3, 0, 3, 5);
             labCarrierID.Name = "labCarrierID";
             labCarrierID.Size = new Size(574, 80);
@@ -74,11 +74,11 @@
             // 
             // linkLabel1
             // 
-            linkLabel1.Dock = DockStyle.Top;
+            linkLabel1.Dock = DockStyle.Bottom;
             linkLabel1.Font = new Font("Microsoft JhengHei UI", 15F, FontStyle.Regular, GraphicsUnit.Point);
             linkLabel1.LinkBehavior = LinkBehavior.AlwaysUnderline;
             linkLabel1.LinkColor = Color.Black;
-            linkLabel1.Location = new Point(0, 112);
+            linkLabel1.Location = new Point(0, 192);
             linkLabel1.Name = "linkLabel1";
             linkLabel1.Size = new Size(574, 28);
             linkLabel1.TabIndex = 8;
@@ -97,8 +97,8 @@
             ClientSize = new Size(574, 306);
             Controls.Add(labCarrierID);
             Controls.Add(linkLabel1);
-            Controls.Add(btnAccept);
             Controls.Add(labNotifyText);
+            Controls.Add(btnAccept);
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
             Name = "UnknownIDNotifyDialog";
             StartPosition = FormStartPosition.CenterScreen;
