@@ -189,6 +189,9 @@ namespace GPMCasstteConvertCIM.Forms
                     EQLotIDMonitor eQLotIDMonitor = new EQLotIDMonitor();
                     eQLotIDMonitor.OnUnknownIDInstalled += EQLotIDMonitor_OnUnknownIDInstalled;
                     eQLotIDMonitor.StartMonitor();
+
+                    SECSState.EqLotIDMonitor = eQLotIDMonitor;
+
 #if logTest
                     for (int i = 0; i < 20; i++)
                     {
@@ -221,7 +224,7 @@ namespace GPMCasstteConvertCIM.Forms
                 TopLevel = true,
                 TopMost = true,
             };
-            notifyDialog.ShowDialog(e);
+            notifyDialog.ShowDialog(e, Utility.SysConfigs.MaterialManagementWebUrl);
         }
 
         private void UnHandleExpLabelAnimationStop()

@@ -29,11 +29,16 @@ namespace GPMCasstteConvertCIM.API.KGAGVS
             });
         }
 
-        private void InitIDStored()
+        internal void InitIDStored()
         {
             Dictionary<string, string> lotIDs = GetLotIDsFromIni();
-            UnknownIDStored = lotIDs.ToDictionary(k => k.Key, k => new CarrierIDState { EQName = k.Key, CarrierID = k.Value });
 
+            foreach (var item in UnknownIDStored.Values)
+            {
+                item.CarrierIDHasTUNBegin -= Item_CarrierIDHasTUNBegin;
+            }
+
+            UnknownIDStored = lotIDs.ToDictionary(k => k.Key, k => new CarrierIDState { EQName = k.Key, CarrierID = k.Value });
             foreach (var item in UnknownIDStored.Values)
             {
                 item.CarrierIDHasTUNBegin += Item_CarrierIDHasTUNBegin;
