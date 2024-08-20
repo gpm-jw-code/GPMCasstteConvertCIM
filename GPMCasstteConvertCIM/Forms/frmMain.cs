@@ -26,6 +26,7 @@ using static Secs4Net.Item;
 using GPMCasstteConvertCIM.AlarmDevice;
 using GPMCasstteConvertCIM.WebServer.Models;
 using AGVSystemCommonNet6.HttpTools;
+using GPMCasstteConvertCIM.API.KGAGVS;
 namespace GPMCasstteConvertCIM.Forms
 {
     public partial class frmMain : Form
@@ -76,6 +77,7 @@ namespace GPMCasstteConvertCIM.Forms
 
             Text = $"GPM AGVS CIM-V{Assembly.GetExecutingAssembly().GetName().Version.ToString()} {(Environment.Is64BitProcess ? "" : "(x86)")}-{Utility.SysConfigs.Project}";
             Äµ³ø¾¹IOª¬ºAToolStripMenuItem.Visible = Utility.ModbusDeviceConfigs.Enable;
+
             Task.Run(async () =>
             {
                 await Task.Delay(500);
@@ -184,6 +186,9 @@ namespace GPMCasstteConvertCIM.Forms
                     API.KGAGVS.RackStatusAPI.Logger = Utility.SystemLogger;
                     API.KGAGVS.UserAuthAPI.Logger = Utility.SystemLogger;
                     Utility.SystemLogger.Info($"KGS Web Service = {API.KGAGVS.APIConfiguration.AGVSHostIP}:{API.KGAGVS.APIConfiguration.AGVSHostPORT}");
+                    EQLotIDMonitor eQLotIDMonitor = new EQLotIDMonitor();
+                    eQLotIDMonitor.OnUnknownIDInstalled += EQLotIDMonitor_OnUnknownIDInstalled;
+                    eQLotIDMonitor.StartMonitor();
 #if logTest
                     for (int i = 0; i < 20; i++)
                     {
@@ -203,6 +208,20 @@ namespace GPMCasstteConvertCIM.Forms
                 }));
             });
 
+        }
+
+        private void EQLotIDMonitor_OnUnknownIDInstalled(object? sender, EQLotIDMonitor.CarrierIDState e)
+        {
+
+            if (!SECSState.IsRemote && !Debugger.IsAttached)
+                return;
+
+            UnknownIDNotifyDialog notifyDialog = new UnknownIDNotifyDialog()
+            {
+                TopLevel = true,
+                TopMost = true,
+            };
+            notifyDialog.ShowDialog(e);
         }
 
         private void UnHandleExpLabelAnimationStop()
