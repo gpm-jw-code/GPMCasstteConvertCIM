@@ -331,10 +331,16 @@ namespace GPMCasstteConvertCIM.Devices
                 var portNames = GetAllPorts().Where(p => p.Properties.TagNumberInAGVS == tagID).Select(p => p.PortName);
                 return new clsResponse(500, $"CIM系統中有多的設備Port Tag設定都為[{tagID}],請確認CIM設備配置({string.Join(",", portNames)})");
             }
+            int matchTag2Cnt = GetAllPorts().Count(port => port.Properties.TagNumberInAGVS_Secondary == tagID);
+            if (matchTag2Cnt > 1)
+            {
+                var portNames = GetAllPorts().Where(p => p.Properties.TagNumberInAGVS_Secondary == tagID).Select(p => p.PortName);
+                return new clsResponse(500, $"CIM系統中有多的設備Port Tag設定都為[{tagID}],請確認CIM設備配置({string.Join(",", portNames)})");
+            }
 
-            clsConverterPort? port = GetAllPorts().FirstOrDefault(port => port.Properties.TagNumberInAGVS == tagID);
+            clsConverterPort? port = GetAllPorts().FirstOrDefault(port => port.Properties.TagNumberInAGVS == tagID || port.Properties.TagNumberInAGVS_Secondary == tagID);
             if (port == null)
-                return new clsResponse(404);
+                return new clsResponse(404, $"找不到Tag設定為[{tagID}]的設備Port");
             PortUnitType punitype = PortUnitType.Input;
             if (portType == 0)
                 punitype = PortUnitType.Input;
@@ -342,7 +348,7 @@ namespace GPMCasstteConvertCIM.Devices
                 punitype = PortUnitType.Output;
             else
             {
-                return new clsResponse(401);
+                return new clsResponse(401, "Port Type 僅允許 [0]或[1] 設定");
             }
             bool result = port.ModeChangeRequestHandshake(punitype, requester_name: "AGVS", no_change_if_current_type_is_req: false)
                                .GetAwaiter().GetResult();

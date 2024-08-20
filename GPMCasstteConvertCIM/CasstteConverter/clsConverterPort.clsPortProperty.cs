@@ -40,6 +40,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             /// 在派車系統上設定的Tag編號
             /// </summary>
             public int TagNumberInAGVS { get; set; } = 1;
+            public int TagNumberInAGVS_Secondary { get; set; } = 1;
 
             public string PreviousOnPortID { get; set; } = "";
             public bool IsInstalled { get; set; } = false;
