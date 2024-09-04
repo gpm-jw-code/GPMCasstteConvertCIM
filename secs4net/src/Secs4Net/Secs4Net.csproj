@@ -6,7 +6,7 @@
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <IsTrimmable>false</IsTrimmable>
     <Platforms>AnyCPU;x86</Platforms>
-    <AssemblyVersion>2.1.219.0</AssemblyVersion>
+    <AssemblyVersion>2.1.240.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
