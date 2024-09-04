@@ -25,9 +25,7 @@ namespace GPMCasstteConvertCIM
             StartDump();
             ApplicationConfiguration.Initialize();
             StartBGAPP();
-            EnvironmentVariables.AddUserVariable("GPM_CIM_Path", Environment.CurrentDirectory);
-
-
+            EnvironmentVariables.AddUserVariable("GPM_CIM_Path", Application.ExecutablePath);
             // 設定應用程序域的未捕捉異常處理
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             // 設定應用程序線程的未捕捉異常處理
