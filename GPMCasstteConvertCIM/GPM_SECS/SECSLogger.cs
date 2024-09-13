@@ -11,6 +11,38 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 
 namespace GPMCasstteConvertCIM.GPM_SECS
 {
+    internal class MCSSecsLogger : SECSLogger
+    {
+        internal MCSSecsLogger(RichTextBox? richTextBox, string saveFolder, string subFolderName) : base(richTextBox, saveFolder, subFolderName)
+        {
+        }
+
+        public override void MessageIn(SecsMessage msg, int id)
+        {
+            var time = DateTime.Now;
+            string sml = msg.ToSml();
+            string log_str = $"[MCS -> CIM] Name:{msg.Name} id:[{id}](0x{id:X8}) {msg.ToSml()}\n";
+            _richTextBox?.Invoke((MethodInvoker)delegate
+            {
+                _richTextBox.SelectionColor = Color.SeaGreen;
+                _richTextBox.AppendText(time.ToString("yyyy/MM/dd HH:mm:ss.ffff") + " " + log_str);
+            });
+            StoreLogItemToQueue(time, LOG_LEVEL.INFO, log_str);
+        }
+
+        public override void MessageOut(SecsMessage msg, int id)
+        {
+            var time = DateTime.Now;
+            string sml = msg.ToSml();
+            string log_str = $"[CIM -> MCS] Name:{msg.Name} id:[{id}](0x{id:X8}) {msg.ToSml()}\n";
+            _richTextBox?.Invoke((MethodInvoker)delegate
+            {
+                _richTextBox.SelectionColor = Color.White;
+                _richTextBox.AppendText(time.ToString("yyyy/MM/dd HH:mm:ss.ffff") + " " + log_str);
+            });
+            StoreLogItemToQueue(time, LOG_LEVEL.INFO, log_str);
+        }
+    }
     internal class SECSLogger : LoggerBase, ISecsGemLogger
     {
 
@@ -27,13 +59,11 @@ namespace GPMCasstteConvertCIM.GPM_SECS
             });
         }
 
-        public void MessageIn(SecsMessage msg, int id)
+        public virtual void MessageIn(SecsMessage msg, int id)
         {
             var time = DateTime.Now;
             string sml = msg.ToSml();
-            var raw_bytes = Secs4Net.EncodingSetting.ASCIIEncoding.GetBytes(sml);
-            var rawStr = string.Join(" ", raw_bytes);
-            string log_str = $"<--{msg.Name} [0x{id:X8}]\nRaw Data={rawStr}\nMessage= {sml}\n";
+            string log_str = $"<--{msg.Name} [0x{id:X8}]\nMessage= {sml}\n";
             _richTextBox?.Invoke((MethodInvoker)delegate
             {
                 _richTextBox.SelectionColor = Color.SeaGreen;
@@ -42,12 +72,10 @@ namespace GPMCasstteConvertCIM.GPM_SECS
             StoreLogItemToQueue(time, LOG_LEVEL.SECS_MSG, log_str);
         }
 
-        public void MessageOut(SecsMessage msg, int id)
+        public virtual void MessageOut(SecsMessage msg, int id)
         {
             var time = DateTime.Now;
             string sml = msg.ToSml();
-            var raw_bytes = Secs4Net.EncodingSetting.ASCIIEncoding.GetBytes(sml);
-            var rawStr = string.Join(" ", raw_bytes);
             string log_str = $"{msg.Name}--> [0x{id:X8}] {msg.ToSml()}\n";
             _richTextBox?.Invoke((MethodInvoker)delegate
             {

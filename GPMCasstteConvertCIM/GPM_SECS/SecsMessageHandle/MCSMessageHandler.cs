@@ -12,11 +12,13 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
 {
     public class MCSMessageHandler
     {
+        internal static MCSSecsLogger MCSUseLogger = new MCSSecsLogger(null, Utility.SysConfigs.Log.SyslogFolder, "SECS\\MCS");
         private static SECSBase AGVS => DevicesManager.secs_client_for_agvs;
         internal static async void PrimaryMessageOnReceivedAsync(object? sender, PrimaryMessageWrapper _primaryMessageWrapper)
         {
             var secs_client = sender as SECSBase;
             using SecsMessage _primaryMessage = _primaryMessageWrapper.PrimaryMessage;
+            MCSUseLogger.MessageIn(_primaryMessage, _primaryMessageWrapper.Id);
             bool reply = false;
 
             if (_primaryMessage.S == 2 && (_primaryMessage.F == 41 | _primaryMessage.F == 49))
@@ -205,7 +207,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                             var port_wait_in = DevicesManager.GetAllPorts().FirstOrDefault(port => port.Properties.PortID == source);
                             if (port_wait_in != null)
                             {
-                                if (AGVS_Accept_TransferTask || ! port_wait_in.Properties.CarrierWaitOutWhenAGVSRefuseMCSMission)
+                                if (AGVS_Accept_TransferTask || !port_wait_in.Properties.CarrierWaitOutWhenAGVSRefuseMCSMission)
                                     port_wait_in.CstTransferAcceptInvoke();
                                 else
                                     port_wait_in.CstTransferRejectInvoke();
@@ -234,7 +236,10 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
 
                     bool reply_to_mcs_succss = await _primaryMessageWrapper.TryReplyAsync(replyMessage);
                     if (reply_to_mcs_succss)
+                    {
+                        MCSUseLogger.MessageOut(replyMessage, _primaryMessageWrapper.Id);
                         Utility.SystemLogger.SecsTransferLog($"Message Reply to MCS Finish");
+                    }
                     else
                     {
                         Utility.SystemLogger.SecsTransferLog($"Message Reply to MCS Fail..");

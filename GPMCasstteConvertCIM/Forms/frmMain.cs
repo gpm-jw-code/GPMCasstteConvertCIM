@@ -186,6 +186,9 @@ namespace GPMCasstteConvertCIM.Forms
                     API.KGAGVS.RackStatusAPI.Logger = Utility.SystemLogger;
                     API.KGAGVS.UserAuthAPI.Logger = Utility.SystemLogger;
                     Utility.SystemLogger.Info($"KGS Web Service = {API.KGAGVS.APIConfiguration.AGVSHostIP}:{API.KGAGVS.APIConfiguration.AGVSHostPORT}");
+                    MCSMessageHandler.MCSUseLogger.Info("Logger instance create test");
+                    MCSMessageHandler.MCSUseLogger.MessageOut(new SecsMessage(6, 9) { Name = "GPM TEST" }, 0);
+                    MCSMessageHandler.MCSUseLogger.MessageIn(new SecsMessage(6, 9) { Name = "GPM TEST" }, 0);
 #if logTest
                     for (int i = 0; i < 20; i++)
                     {

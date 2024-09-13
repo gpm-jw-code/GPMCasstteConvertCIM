@@ -127,14 +127,6 @@ namespace GPMCasstteConvertCIM.GPM_SECS
                     MsgSendOutInvokeHandle(message, true);
                     SecsMessage? secondaryMessage = null;
                     secondaryMessage = await secsGem?.SendAsync(message, cancellationToken);
-                    try
-                    {
-                        AddPrimaryMsgToSendBuffer(message, secondaryMessage);
-                    }
-                    catch (Exception ex)
-                    {
-                        Syslogger.Error("SECSBase SendAsync Error", ex);
-                    }
 
                     MsgSendOutInvokeHandle(secondaryMessage, false);
                     return secondaryMessage;
