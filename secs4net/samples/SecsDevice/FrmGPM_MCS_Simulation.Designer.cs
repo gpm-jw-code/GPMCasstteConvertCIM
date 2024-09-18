@@ -32,6 +32,8 @@
             button1 = new System.Windows.Forms.Button();
             btnS1F3 = new System.Windows.Forms.Button();
             btnS2F41PortTypeChange = new System.Windows.Forms.Button();
+            button3 = new System.Windows.Forms.Button();
+            button4 = new System.Windows.Forms.Button();
             SuspendLayout();
             // 
             // btnTransferMsgSend
@@ -78,11 +80,35 @@
             btnS2F41PortTypeChange.UseVisualStyleBackColor = true;
             btnS2F41PortTypeChange.Click += btnS2F41PortTypeChange_Click;
             // 
+            // button3
+            // 
+            button3.Location = new System.Drawing.Point(282, 177);
+            button3.Name = "button3";
+            button3.Size = new System.Drawing.Size(106, 38);
+            button3.TabIndex = 4;
+            button3.Text = "S2F49-Transfer 高優先度設備";
+            button3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
+            // 
+            // button4
+            // 
+            button4.Location = new System.Drawing.Point(394, 177);
+            button4.Name = "button4";
+            button4.Size = new System.Drawing.Size(106, 38);
+            button4.TabIndex = 5;
+            button4.Text = "S2F49-Transfer 低優先度設備";
+            button4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            button4.UseVisualStyleBackColor = true;
+            button4.Click += button4_Click;
+            // 
             // FrmGPM_MCS_Simulation
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(657, 282);
+            Controls.Add(button4);
+            Controls.Add(button3);
             Controls.Add(btnS2F41PortTypeChange);
             Controls.Add(btnS1F3);
             Controls.Add(button1);
@@ -100,5 +126,7 @@
         private System.Windows.Forms.Button btnS1F3;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button btnS2F41PortTypeChange;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button4;
     }
 }
