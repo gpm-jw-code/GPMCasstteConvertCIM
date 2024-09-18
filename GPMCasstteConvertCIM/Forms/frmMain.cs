@@ -77,6 +77,7 @@ namespace GPMCasstteConvertCIM.Forms
 
             Text = $"GPM AGVS CIM-V{Assembly.GetExecutingAssembly().GetName().Version.ToString()} {(Environment.Is64BitProcess ? "" : "(x86)")}-{Utility.SysConfigs.Project}";
             Äµ³ø¾¹IOª¬ºAToolStripMenuItem.Visible = Utility.ModbusDeviceConfigs.Enable;
+            StatusBarItemDisplayInit();
 
             Task.Run(async () =>
             {
@@ -216,6 +217,14 @@ namespace GPMCasstteConvertCIM.Forms
                 }));
             });
 
+        }
+
+        private void StatusBarItemDisplayInit()
+        {
+            labSysTime.Visible = Utility.SysConfigs.UI.statusBar.SystemTimeDisplay;
+            labWebServerUrl.Visible = Utility.SysConfigs.UI.statusBar.WebServerDisplay;
+            toolStripDropDownButton1.Visible = labS2F49QueueTimer.Visible = Utility.SysConfigs.UI.statusBar.S2F49TransferDisplay;
+            labCurrentEncodingName.Visible = Utility.SysConfigs.UI.statusBar.SECSEncodingDisplay;
         }
 
         private void AGVSMessageHandler_OnAGVSDDOSAttacking(object? sender, Queue<(DateTime Timestamp, int Size, SecsMessage message)> _trafficData)

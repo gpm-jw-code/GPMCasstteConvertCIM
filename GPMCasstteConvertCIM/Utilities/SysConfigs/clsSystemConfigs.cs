@@ -49,6 +49,7 @@ namespace GPMCasstteConvertCIM.Utilities.SysConfigs
         public Int32 ddoscountlimit { get; set; } = 20;
         public Configurations S2F49QueuingConfigurations { get; set; } = new Configurations();
         public EQLotIDMonitor.Configrations EQLotIDMonitorConfigrations { get; set; } = new EQLotIDMonitor.Configrations();
+        public UIConfiguration UI { get; set; } = new UIConfiguration();
         public enum PROJECT
         {
             U003, U007, YM_2F_AOI
