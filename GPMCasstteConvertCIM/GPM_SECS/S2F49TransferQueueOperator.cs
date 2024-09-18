@@ -30,13 +30,31 @@ namespace GPMCasstteConvertCIM.GPM_SECS
         internal static ConcurrentDictionary<DateTime, PrimaryMessageWrapper> queueingTransgerPrimaryMesWrappers = new ConcurrentDictionary<DateTime, PrimaryMessageWrapper>();
         internal static LoggerBase logger = new LoggerBase(null, Utility.SysConfigs.Log.SyslogFolder, "S2F49TransferQueue");
         internal static int InQueueCount => queueingTransgerPrimaryMesWrappers.Count;
-
         private static SemaphoreSlim _asyncSemaphoreSlim = new SemaphoreSlim(1, 1);
+
+        public static List<TransferCommandModel> transferCommandsRecord = new List<TransferCommandModel>();
 
         public static async Task Queueing(Secs4Net.PrimaryMessageWrapper _primaryMessageWrapper)
         {
             if (queueingTransgerPrimaryMesWrappers.TryAdd(DateTime.Now, _primaryMessageWrapper))
             {
+
+                if (_primaryMessageWrapper.PrimaryMessage.TryParseTransferInfo(out string carrierID, out string from, out string to))
+                {
+                    if (transferCommandsRecord.Count >= 50)
+                    {
+                        transferCommandsRecord.RemoveAt(0);
+                    }
+                    transferCommandsRecord.Add(new TransferCommandModel
+                    {
+                        CarrierID = carrierID,
+                        SourceID = from,
+                        DestinationID = to,
+                        Prority = 0,
+                        Time = DateTime.Now
+                    });
+                }
+
                 logger.Info($"{_primaryMessageWrapper.Id}-{_primaryMessageWrapper.PrimaryMessage.ToString()} Add to queue");
 
                 if (!_timer.IsRunning)

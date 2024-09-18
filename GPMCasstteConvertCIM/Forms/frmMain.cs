@@ -875,5 +875,11 @@ namespace GPMCasstteConvertCIM.Forms
             S2F49QueueTimeWindowSetupDialog dialog = new S2F49QueueTimeWindowSetupDialog();
             dialog.ShowDialog();
         }
+
+        private void transferCommandListToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmTransferCommandsViewer viewr = new frmTransferCommandsViewer();
+            viewr.Show();
+        }
     }
 }

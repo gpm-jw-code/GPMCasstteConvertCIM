@@ -108,8 +108,9 @@
             toolStripDropDownButton1 = new ToolStripDropDownButton();
             btnDisableS2F49TransgerQueue = new ToolStripMenuItem();
             btnEnableS2F49TransgerQueue = new ToolStripMenuItem();
-            btnClearS2F49TransferQueueing = new ToolStripMenuItem();
+            btnSettingS2F49QueueingTimeWindow = new ToolStripMenuItem();
             btnSendS2F49InQueueInstanly = new ToolStripMenuItem();
+            btnClearS2F49TransferQueueing = new ToolStripMenuItem();
             labS2F49QueueTimer = new ToolStripStatusLabel();
             labUnHandleExceptions = new ToolStripStatusLabel();
             labWebServerUrl = new ToolStripStatusLabel();
@@ -122,7 +123,7 @@
             cknOnlineModeIndi = new CheckBox();
             pnlLoading = new Panel();
             label7 = new Label();
-            btnSettingS2F49QueueingTimeWindow = new ToolStripMenuItem();
+            transferCommandListToolStripMenuItem = new ToolStripMenuItem();
             tabControl1.SuspendLayout();
             tabPage4.SuspendLayout();
             tabPage1.SuspendLayout();
@@ -1029,7 +1030,7 @@
             // toolStripDropDownButton1
             // 
             toolStripDropDownButton1.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            toolStripDropDownButton1.DropDownItems.AddRange(new ToolStripItem[] { btnDisableS2F49TransgerQueue, btnEnableS2F49TransgerQueue, btnSettingS2F49QueueingTimeWindow, btnSendS2F49InQueueInstanly, btnClearS2F49TransferQueueing });
+            toolStripDropDownButton1.DropDownItems.AddRange(new ToolStripItem[] { btnDisableS2F49TransgerQueue, btnEnableS2F49TransgerQueue, btnSettingS2F49QueueingTimeWindow, btnSendS2F49InQueueInstanly, btnClearS2F49TransferQueueing, transferCommandListToolStripMenuItem });
             toolStripDropDownButton1.ForeColor = Color.White;
             toolStripDropDownButton1.Image = (Image)resources.GetObject("toolStripDropDownButton1.Image");
             toolStripDropDownButton1.ImageTransparentColor = Color.Magenta;
@@ -1053,12 +1054,12 @@
             btnEnableS2F49TransgerQueue.Text = "啟用";
             btnEnableS2F49TransgerQueue.Click += btnEnableS2F49TransgerQueue_Click;
             // 
-            // btnClearS2F49TransferQueueing
+            // btnSettingS2F49QueueingTimeWindow
             // 
-            btnClearS2F49TransferQueueing.Name = "btnClearS2F49TransferQueueing";
-            btnClearS2F49TransferQueueing.Size = new Size(180, 22);
-            btnClearS2F49TransferQueueing.Text = "清空佇列(不發送)";
-            btnClearS2F49TransferQueueing.Click += btnClearS2F49TransferQueueing_Click;
+            btnSettingS2F49QueueingTimeWindow.Name = "btnSettingS2F49QueueingTimeWindow";
+            btnSettingS2F49QueueingTimeWindow.Size = new Size(180, 22);
+            btnSettingS2F49QueueingTimeWindow.Text = "設置時間窗長度";
+            btnSettingS2F49QueueingTimeWindow.Click += btnSettingS2F49QueueingTimeWindow_Click;
             // 
             // btnSendS2F49InQueueInstanly
             // 
@@ -1066,6 +1067,13 @@
             btnSendS2F49InQueueInstanly.Size = new Size(180, 22);
             btnSendS2F49InQueueInstanly.Text = "立即發送佇列命令";
             btnSendS2F49InQueueInstanly.Click += btnSendS2F49InQueueInstanly_Click;
+            // 
+            // btnClearS2F49TransferQueueing
+            // 
+            btnClearS2F49TransferQueueing.Name = "btnClearS2F49TransferQueueing";
+            btnClearS2F49TransferQueueing.Size = new Size(180, 22);
+            btnClearS2F49TransferQueueing.Text = "清空佇列(不發送)";
+            btnClearS2F49TransferQueueing.Click += btnClearS2F49TransferQueueing_Click;
             // 
             // labS2F49QueueTimer
             // 
@@ -1222,12 +1230,12 @@
             label7.Text = "Loading...";
             label7.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // btnSettingS2F49QueueingTimeWindow
+            // transferCommandListToolStripMenuItem
             // 
-            btnSettingS2F49QueueingTimeWindow.Name = "btnSettingS2F49QueueingTimeWindow";
-            btnSettingS2F49QueueingTimeWindow.Size = new Size(180, 22);
-            btnSettingS2F49QueueingTimeWindow.Text = "設置時間窗長度";
-            btnSettingS2F49QueueingTimeWindow.Click += btnSettingS2F49QueueingTimeWindow_Click;
+            transferCommandListToolStripMenuItem.Name = "transferCommandListToolStripMenuItem";
+            transferCommandListToolStripMenuItem.Size = new Size(180, 22);
+            transferCommandListToolStripMenuItem.Text = "任務列表";
+            transferCommandListToolStripMenuItem.Click += transferCommandListToolStripMenuItem_Click;
             // 
             // frmMain
             // 
@@ -1395,5 +1403,6 @@
         private ToolStripMenuItem btnSendS2F49InQueueInstanly;
         private ToolStripStatusLabel labS2F49QueueTimer;
         private ToolStripMenuItem btnSettingS2F49QueueingTimeWindow;
+        private ToolStripMenuItem transferCommandListToolStripMenuItem;
     }
 }
