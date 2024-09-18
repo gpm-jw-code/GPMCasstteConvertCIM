@@ -105,6 +105,12 @@
             label1 = new Label();
             statusStrip1 = new StatusStrip();
             toolStripStatusLabel1 = new ToolStripStatusLabel();
+            toolStripDropDownButton1 = new ToolStripDropDownButton();
+            btnDisableS2F49TransgerQueue = new ToolStripMenuItem();
+            btnEnableS2F49TransgerQueue = new ToolStripMenuItem();
+            btnClearS2F49TransferQueueing = new ToolStripMenuItem();
+            btnSendS2F49InQueueInstanly = new ToolStripMenuItem();
+            labS2F49QueueTimer = new ToolStripStatusLabel();
             labUnHandleExceptions = new ToolStripStatusLabel();
             labWebServerUrl = new ToolStripStatusLabel();
             labCurrentEncodingName = new ToolStripStatusLabel();
@@ -116,6 +122,7 @@
             cknOnlineModeIndi = new CheckBox();
             pnlLoading = new Panel();
             label7 = new Label();
+            btnSettingS2F49QueueingTimeWindow = new ToolStripMenuItem();
             tabControl1.SuspendLayout();
             tabPage4.SuspendLayout();
             tabPage1.SuspendLayout();
@@ -165,7 +172,7 @@
             tabControl1.Location = new Point(0, 0);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(1252, 643);
+            tabControl1.Size = new Size(1252, 642);
             tabControl1.SizeMode = TabSizeMode.Fixed;
             tabControl1.TabIndex = 1;
             // 
@@ -175,7 +182,7 @@
             tabPage4.Location = new Point(4, 34);
             tabPage4.Name = "tabPage4";
             tabPage4.Padding = new Padding(3);
-            tabPage4.Size = new Size(1244, 605);
+            tabPage4.Size = new Size(1244, 604);
             tabPage4.TabIndex = 3;
             tabPage4.Text = "Home(007)";
             tabPage4.UseVisualStyleBackColor = true;
@@ -187,7 +194,8 @@
             usceqStatus1.Location = new Point(3, 3);
             usceqStatus1.Margin = new Padding(4);
             usceqStatus1.Name = "usceqStatus1";
-            usceqStatus1.Size = new Size(1238, 599);
+            usceqStatus1.ShowMaintainAndPartsReplaceSignalColumn = false;
+            usceqStatus1.Size = new Size(1238, 598);
             usceqStatus1.TabIndex = 1;
             // 
             // tabPage1
@@ -198,7 +206,7 @@
             tabPage1.Location = new Point(4, 34);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(1244, 605);
+            tabPage1.Size = new Size(1244, 604);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "HOME";
             // 
@@ -218,7 +226,7 @@
             // 
             splitContainer2.Panel2.BackColor = Color.White;
             splitContainer2.Panel2.Controls.Add(panel2);
-            splitContainer2.Size = new Size(1238, 599);
+            splitContainer2.Size = new Size(1238, 598);
             splitContainer2.SplitterDistance = 911;
             splitContainer2.TabIndex = 13;
             // 
@@ -237,7 +245,7 @@
             tlpConverterContainer.RowCount = 2;
             tlpConverterContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tlpConverterContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tlpConverterContainer.Size = new Size(911, 599);
+            tlpConverterContainer.Size = new Size(911, 598);
             tlpConverterContainer.TabIndex = 11;
             // 
             // tlpSingleConvertsContainer
@@ -255,7 +263,7 @@
             tlpSingleConvertsContainer.Name = "tlpSingleConvertsContainer";
             tlpSingleConvertsContainer.RowCount = 1;
             tlpSingleConvertsContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tlpSingleConvertsContainer.Size = new Size(903, 292);
+            tlpSingleConvertsContainer.Size = new Size(903, 291);
             tlpSingleConvertsContainer.TabIndex = 12;
             // 
             // panel2
@@ -265,7 +273,7 @@
             panel2.Dock = DockStyle.Fill;
             panel2.Location = new Point(0, 0);
             panel2.Name = "panel2";
-            panel2.Size = new Size(323, 599);
+            panel2.Size = new Size(323, 598);
             panel2.TabIndex = 12;
             // 
             // pnlSyslogRtbContainer
@@ -279,7 +287,7 @@
             pnlSyslogRtbContainer.Location = new Point(0, 0);
             pnlSyslogRtbContainer.Name = "pnlSyslogRtbContainer";
             pnlSyslogRtbContainer.Padding = new Padding(1);
-            pnlSyslogRtbContainer.Size = new Size(323, 599);
+            pnlSyslogRtbContainer.Size = new Size(323, 598);
             pnlSyslogRtbContainer.TabIndex = 6;
             // 
             // btnClearInfoLog
@@ -302,7 +310,7 @@
             rtbSystemLogShow.ForeColor = Color.White;
             rtbSystemLogShow.Location = new Point(1, 1);
             rtbSystemLogShow.Name = "rtbSystemLogShow";
-            rtbSystemLogShow.Size = new Size(319, 595);
+            rtbSystemLogShow.Size = new Size(319, 594);
             rtbSystemLogShow.TabIndex = 0;
             rtbSystemLogShow.Text = "";
             // 
@@ -312,7 +320,7 @@
             tabPage3.Location = new Point(4, 34);
             tabPage3.Name = "tabPage3";
             tabPage3.Padding = new Padding(3);
-            tabPage3.Size = new Size(1244, 605);
+            tabPage3.Size = new Size(1244, 604);
             tabPage3.TabIndex = 2;
             tabPage3.Text = "系統警報";
             tabPage3.UseVisualStyleBackColor = true;
@@ -324,7 +332,7 @@
             uscAlarmTable1.Location = new Point(3, 3);
             uscAlarmTable1.Margin = new Padding(4);
             uscAlarmTable1.Name = "uscAlarmTable1";
-            uscAlarmTable1.Size = new Size(1238, 599);
+            uscAlarmTable1.Size = new Size(1238, 598);
             uscAlarmTable1.TabIndex = 0;
             // 
             // tabPage2
@@ -333,7 +341,7 @@
             tabPage2.Location = new Point(4, 34);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(1244, 605);
+            tabPage2.Size = new Size(1244, 604);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "LOG";
             tabPage2.UseVisualStyleBackColor = true;
@@ -357,7 +365,7 @@
             tableLayoutPanel1.RowCount = 2;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 41F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.Size = new Size(1238, 599);
+            tableLayoutPanel1.Size = new Size(1238, 598);
             tableLayoutPanel1.TabIndex = 2;
             // 
             // checkBox2
@@ -388,7 +396,7 @@
             rtbSecsHostLog.Location = new Point(0, 41);
             rtbSecsHostLog.Margin = new Padding(0);
             rtbSecsHostLog.Name = "rtbSecsHostLog";
-            rtbSecsHostLog.Size = new Size(412, 558);
+            rtbSecsHostLog.Size = new Size(412, 557);
             rtbSecsHostLog.TabIndex = 1;
             rtbSecsHostLog.Text = "";
             // 
@@ -400,7 +408,7 @@
             rtbSecsClientLog.Location = new Point(412, 41);
             rtbSecsClientLog.Margin = new Padding(0);
             rtbSecsClientLog.Name = "rtbSecsClientLog";
-            rtbSecsClientLog.Size = new Size(412, 558);
+            rtbSecsClientLog.Size = new Size(412, 557);
             rtbSecsClientLog.TabIndex = 2;
             rtbSecsClientLog.Text = "";
             // 
@@ -451,7 +459,7 @@
             rtbModbusTcpServerLog.Location = new Point(824, 41);
             rtbModbusTcpServerLog.Margin = new Padding(0);
             rtbModbusTcpServerLog.Name = "rtbModbusTcpServerLog";
-            rtbModbusTcpServerLog.Size = new Size(414, 558);
+            rtbModbusTcpServerLog.Size = new Size(414, 557);
             rtbModbusTcpServerLog.TabIndex = 7;
             rtbModbusTcpServerLog.Text = "";
             // 
@@ -461,7 +469,7 @@
             tabAGVSInfos.Location = new Point(4, 34);
             tabAGVSInfos.Name = "tabAGVSInfos";
             tabAGVSInfos.Padding = new Padding(3);
-            tabAGVSInfos.Size = new Size(1244, 605);
+            tabAGVSInfos.Size = new Size(1244, 604);
             tabAGVSInfos.TabIndex = 4;
             tabAGVSInfos.Text = "AGVs";
             tabAGVSInfos.UseVisualStyleBackColor = true;
@@ -473,7 +481,7 @@
             uscagVsInfo1.Location = new Point(3, 3);
             uscagVsInfo1.Margin = new Padding(4);
             uscagVsInfo1.Name = "uscagVsInfo1";
-            uscagVsInfo1.Size = new Size(1238, 599);
+            uscagVsInfo1.Size = new Size(1238, 598);
             uscagVsInfo1.TabIndex = 0;
             // 
             // tableLayoutPanel2
@@ -498,7 +506,7 @@
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 17F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel2.Size = new Size(711, 227);
+            tableLayoutPanel2.Size = new Size(711, 228);
             tableLayoutPanel2.TabIndex = 10;
             tableLayoutPanel2.Visible = false;
             // 
@@ -571,7 +579,7 @@
             dgvMsgFromAGVS.RowHeadersVisible = false;
             dgvMsgFromAGVS.RowHeadersWidth = 51;
             dgvMsgFromAGVS.RowTemplate.Height = 25;
-            dgvMsgFromAGVS.Size = new Size(348, 88);
+            dgvMsgFromAGVS.Size = new Size(348, 89);
             dgvMsgFromAGVS.TabIndex = 8;
             // 
             // primaryMessageSMLDataGridViewTextBoxColumn
@@ -653,7 +661,7 @@
             dgvActiveMsgToAGVS.RowHeadersVisible = false;
             dgvActiveMsgToAGVS.RowHeadersWidth = 51;
             dgvActiveMsgToAGVS.RowTemplate.Height = 25;
-            dgvActiveMsgToAGVS.Size = new Size(348, 88);
+            dgvActiveMsgToAGVS.Size = new Size(348, 89);
             dgvActiveMsgToAGVS.TabIndex = 9;
             // 
             // dataGridViewTextBoxColumn6
@@ -997,7 +1005,7 @@
             // 
             statusStrip1.BackColor = Color.FromArgb(0, 57, 155);
             statusStrip1.ImageScalingSize = new Size(20, 20);
-            statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel1, labUnHandleExceptions, labWebServerUrl, labCurrentEncodingName, labSysTime });
+            statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel1, toolStripDropDownButton1, labS2F49QueueTimer, labUnHandleExceptions, labWebServerUrl, labCurrentEncodingName, labSysTime });
             statusStrip1.Location = new Point(0, 816);
             statusStrip1.Name = "statusStrip1";
             statusStrip1.Size = new Size(1407, 22);
@@ -1012,12 +1020,61 @@
             toolStripStatusLabel1.LinkColor = Color.FromArgb(53, 53, 53);
             toolStripStatusLabel1.Margin = new Padding(0);
             toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            toolStripStatusLabel1.Size = new Size(1039, 22);
+            toolStripStatusLabel1.Size = new Size(835, 22);
             toolStripStatusLabel1.Spring = true;
             toolStripStatusLabel1.Text = "GPM AGV SYSTEM CIM";
             toolStripStatusLabel1.TextAlign = ContentAlignment.MiddleLeft;
-            toolStripStatusLabel1.Click += toolStripStatusLabel1_Click_1;
             toolStripStatusLabel1.MouseDown += toolStripStatusLabel1_MouseDown;
+            // 
+            // toolStripDropDownButton1
+            // 
+            toolStripDropDownButton1.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            toolStripDropDownButton1.DropDownItems.AddRange(new ToolStripItem[] { btnDisableS2F49TransgerQueue, btnEnableS2F49TransgerQueue, btnSettingS2F49QueueingTimeWindow, btnSendS2F49InQueueInstanly, btnClearS2F49TransferQueueing });
+            toolStripDropDownButton1.ForeColor = Color.White;
+            toolStripDropDownButton1.Image = (Image)resources.GetObject("toolStripDropDownButton1.Image");
+            toolStripDropDownButton1.ImageTransparentColor = Color.Magenta;
+            toolStripDropDownButton1.Name = "toolStripDropDownButton1";
+            toolStripDropDownButton1.Size = new Size(143, 20);
+            toolStripDropDownButton1.Text = "S2F49 Transfer Queue";
+            // 
+            // btnDisableS2F49TransgerQueue
+            // 
+            btnDisableS2F49TransgerQueue.Checked = true;
+            btnDisableS2F49TransgerQueue.CheckState = CheckState.Checked;
+            btnDisableS2F49TransgerQueue.Name = "btnDisableS2F49TransgerQueue";
+            btnDisableS2F49TransgerQueue.Size = new Size(180, 22);
+            btnDisableS2F49TransgerQueue.Text = "關閉";
+            btnDisableS2F49TransgerQueue.Click += btnDisableS2F49TransgerQueue_Click;
+            // 
+            // btnEnableS2F49TransgerQueue
+            // 
+            btnEnableS2F49TransgerQueue.Name = "btnEnableS2F49TransgerQueue";
+            btnEnableS2F49TransgerQueue.Size = new Size(180, 22);
+            btnEnableS2F49TransgerQueue.Text = "啟用";
+            btnEnableS2F49TransgerQueue.Click += btnEnableS2F49TransgerQueue_Click;
+            // 
+            // btnClearS2F49TransferQueueing
+            // 
+            btnClearS2F49TransferQueueing.Name = "btnClearS2F49TransferQueueing";
+            btnClearS2F49TransferQueueing.Size = new Size(180, 22);
+            btnClearS2F49TransferQueueing.Text = "清空佇列(不發送)";
+            btnClearS2F49TransferQueueing.Click += btnClearS2F49TransferQueueing_Click;
+            // 
+            // btnSendS2F49InQueueInstanly
+            // 
+            btnSendS2F49InQueueInstanly.Name = "btnSendS2F49InQueueInstanly";
+            btnSendS2F49InQueueInstanly.Size = new Size(180, 22);
+            btnSendS2F49InQueueInstanly.Text = "立即發送佇列命令";
+            btnSendS2F49InQueueInstanly.Click += btnSendS2F49InQueueInstanly_Click;
+            // 
+            // labS2F49QueueTimer
+            // 
+            labS2F49QueueTimer.BackColor = Color.Black;
+            labS2F49QueueTimer.ForeColor = Color.White;
+            labS2F49QueueTimer.Margin = new Padding(0, 0, 6, 0);
+            labS2F49QueueTimer.Name = "labS2F49QueueTimer";
+            labS2F49QueueTimer.Size = new Size(55, 22);
+            labS2F49QueueTimer.Text = "00:00:00";
             // 
             // labUnHandleExceptions
             // 
@@ -1102,7 +1159,7 @@
             // 
             splitContainer1.Panel2.Controls.Add(tableLayoutPanel2);
             splitContainer1.Size = new Size(1252, 684);
-            splitContainer1.SplitterDistance = 643;
+            splitContainer1.SplitterDistance = 642;
             splitContainer1.TabIndex = 12;
             // 
             // ckbRemoteModeIndi
@@ -1164,6 +1221,13 @@
             label7.TabIndex = 0;
             label7.Text = "Loading...";
             label7.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // btnSettingS2F49QueueingTimeWindow
+            // 
+            btnSettingS2F49QueueingTimeWindow.Name = "btnSettingS2F49QueueingTimeWindow";
+            btnSettingS2F49QueueingTimeWindow.Size = new Size(180, 22);
+            btnSettingS2F49QueueingTimeWindow.Text = "設置時間窗長度";
+            btnSettingS2F49QueueingTimeWindow.Click += btnSettingS2F49QueueingTimeWindow_Click;
             // 
             // frmMain
             // 
@@ -1324,5 +1388,12 @@
         private ToolStripMenuItem webServerExceptionToolStripMenuItem;
         private ToolStripMenuItem openAllModbusEmuToolStripMenuItem;
         private ToolStripStatusLabel labUnHandleExceptions;
+        private ToolStripDropDownButton toolStripDropDownButton1;
+        private ToolStripMenuItem btnEnableS2F49TransgerQueue;
+        private ToolStripMenuItem btnDisableS2F49TransgerQueue;
+        private ToolStripMenuItem btnClearS2F49TransferQueueing;
+        private ToolStripMenuItem btnSendS2F49InQueueInstanly;
+        private ToolStripStatusLabel labS2F49QueueTimer;
+        private ToolStripMenuItem btnSettingS2F49QueueingTimeWindow;
     }
 }

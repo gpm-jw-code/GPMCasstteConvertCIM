@@ -7,6 +7,9 @@ using Secs4Net.Sml;
 using static Secs4Net.Item;
 using GPMCasstteConvertCIM.GPM_SECS;
 using Microsoft.VisualBasic.Logging;
+using AGVSystemCommonNet6.Configuration;
+using Microsoft.Extensions.Hosting;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
 {
@@ -33,6 +36,25 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                 if (cmd == RCMD.NOTRANSFERNOTIFY)
                 {
                     NoTransferHandler(_primaryMessageWrapper);
+                    return;
+                }
+                if (cmd == RCMD.TRANSFER && Utility.SysConfigs.S2F49QueuingConfigurations.Enable)
+                {
+                    //< L L2
+                    //  <B HCACK 00 > *Host command acknowledge code
+                    //  <L L1>
+                    //>.
+                    SecsMessage replyMsg = new SecsMessage(2, 50, false)
+                    {
+                        SecsItem = L(
+                                        B((byte)HCACK.Acknowledge),
+                                        L()
+                                    )
+                    };
+                    string sml = replyMsg.ToSml();
+                    await _primaryMessageWrapper.TryReplyAsync(replyMsg);
+
+                    S2F49TransferQueueOperator.Queueing(_primaryMessageWrapper);
                     return;
                 }
             }
