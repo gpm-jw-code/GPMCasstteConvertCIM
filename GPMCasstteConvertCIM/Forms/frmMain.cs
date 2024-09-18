@@ -87,7 +87,6 @@ namespace GPMCasstteConvertCIM.Forms
                     if (Utility.SysConfigs.Project == Utilities.SysConfigs.clsSystemConfigs.PROJECT.U007 || Utility.SysConfigs.Project == Utilities.SysConfigs.clsSystemConfigs.PROJECT.YM_2F_AOI)
                     {
                         tabControl1.TabPages.RemoveAt(1);//把原本的HOME PAGE移除
-                        splitContainer1.Panel2.Controls.Add(pnlSyslogRtbContainer);//Move container of  LOG to the Main View(Home) of Project.U007
                     }
                     else
                         tabControl1.TabPages.RemoveAt(0);
@@ -108,11 +107,7 @@ namespace GPMCasstteConvertCIM.Forms
                     uscConnectionStates1.InitializeConnectionState();
 
                     DevicesManager.DevicesConnectionsOpts.SECS_HOST.logRichTextBox = rtbSecsHostLog;
-                    DevicesManager.DevicesConnectionsOpts.SECS_HOST.dgvRevBufferTable = dgvMsgFromAGVS;
-                    DevicesManager.DevicesConnectionsOpts.SECS_HOST.dgvSendBufferTable = dgvActiveMsgToAGVS;
                     DevicesManager.DevicesConnectionsOpts.SECS_CLIENT.logRichTextBox = rtbSecsClientLog;
-                    DevicesManager.DevicesConnectionsOpts.SECS_CLIENT.dgvRevBufferTable = dgvMsgFromMCS;
-                    DevicesManager.DevicesConnectionsOpts.SECS_CLIENT.dgvSendBufferTable = dgvActiveMsgToMCS;
 
 
                     CVUIRender();
@@ -196,7 +191,7 @@ namespace GPMCasstteConvertCIM.Forms
                     btnDisableS2F49TransgerQueue.CheckState = Utility.SysConfigs.S2F49QueuingConfigurations.Enable ? CheckState.Unchecked : CheckState.Checked;
                     btnEnableS2F49TransgerQueue.CheckState = !Utility.SysConfigs.S2F49QueuingConfigurations.Enable ? CheckState.Unchecked : CheckState.Checked;
 
-                    EQLotIDMonitor eQLotIDMonitor = new EQLotIDMonitor();
+                    EQLotIDMonitor eQLotIDMonitor = new EQLotIDMonitor(Utility.SysConfigs.EQLotIDMonitorConfigrations);
                     eQLotIDMonitor.OnUnknownIDInstalled += EQLotIDMonitor_OnUnknownIDInstalled;
                     eQLotIDMonitor.StartMonitor();
 
@@ -458,26 +453,6 @@ namespace GPMCasstteConvertCIM.Forms
                 };
                 emu.Show();
             }
-        }
-
-        private void Secs_client_MsgRecvBufferOnAdded(object? sender, EventArgs e)
-        {
-            dgvMsgFromMCS.Invalidate();
-        }
-
-        private void Secs_client_MsgSendBufferOnAdded(object? sender, EventArgs e)
-        {
-            dgvActiveMsgToMCS.Invalidate();
-        }
-
-        private void Secs_host_MsgRecvBufferOnAdded(object? sender, EventArgs e)
-        {
-            dgvMsgFromAGVS.Invalidate();
-        }
-
-        private void Secs_host_MsgSendBufferOnAdded(object? sender, EventArgs e)
-        {
-            dgvActiveMsgToAGVS.Invalidate();
         }
 
         private void CIMDevices_DeviceConnectionStateOnChanged(object? sender, DevicesManager.ConnectionStateChangeArgs e)

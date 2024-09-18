@@ -53,6 +53,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\KGSWebAGVSystemAPI\KGSWebAGVSystemAPI.csproj" />
     <ProjectReference Include="..\AGVSystemCommonNet6\AGVSystemCommonNet6.csproj" />
     <ProjectReference Include="..\secs4net\src\Secs4Net\Secs4Net.csproj" />
   </ItemGroup>

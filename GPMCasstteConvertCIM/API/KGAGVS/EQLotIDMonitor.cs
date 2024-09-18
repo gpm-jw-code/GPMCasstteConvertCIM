@@ -9,19 +9,36 @@ namespace GPMCasstteConvertCIM.API.KGAGVS
 {
     public class EQLotIDMonitor
     {
+
+        public class Configrations
+        {
+            public bool Enabled { get; set; } = false;
+            public string STATUS_INI_FILE_PATH { get; set; } = "C://CST//ini//Status.ini";
+
+        }
+
+        public Configrations Config { get; set; } = new Configrations();
+
+        public EQLotIDMonitor(Configrations config)
+        {
+            Config = config;
+        }
+
         //public const string STATUS_INI_FILE_PATH = @"C:\Users\USER\Documents";
-        public const string STATUS_INI_FILE_PATH = "C://CST//ini//Status.ini";
         static FileSystemWatcher _fileWatcher;
         Dictionary<string, CarrierIDState> UnknownIDStored = new Dictionary<string, CarrierIDState>();
         public event EventHandler<CarrierIDState> OnUnknownIDInstalled;
         public async Task StartMonitor()
         {
+            if (!Config.Enabled)
+                return;
+
             //ReadIni();
             InitIDStored();
             _ = Task.Run(() =>
             {
-                string INI_Folder = Path.GetDirectoryName(STATUS_INI_FILE_PATH);
-                string file = Path.GetFileName(STATUS_INI_FILE_PATH);
+                string INI_Folder = Path.GetDirectoryName(Config.STATUS_INI_FILE_PATH);
+                string file = Path.GetFileName(Config.STATUS_INI_FILE_PATH);
                 _fileWatcher = new FileSystemWatcher(INI_Folder, "Status.ini");
                 _fileWatcher.EnableRaisingEvents = true;
                 _fileWatcher.IncludeSubdirectories = true;
@@ -90,7 +107,7 @@ namespace GPMCasstteConvertCIM.API.KGAGVS
         private Dictionary<string, string> GetLotIDsFromIni()
         {
             FileIniDataParser parser = new FileIniDataParser();
-            IniParser.Model.IniData iniContext = parser.ReadFile(STATUS_INI_FILE_PATH);
+            IniParser.Model.IniData iniContext = parser.ReadFile(Config.STATUS_INI_FILE_PATH);
             Dictionary<string, string> LotIDDict = iniContext.Sections.ToDictionary(section => section.SectionName, section => iniContext[section.SectionName]["LotID"]);
 
             return LotIDDict.ToDictionary(k => k.Key, k => k.Value == null ? "" : k.Value);

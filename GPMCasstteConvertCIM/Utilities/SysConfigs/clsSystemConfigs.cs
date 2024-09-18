@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using GPMCasstteConvertCIM.API.KGAGVS;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
@@ -47,7 +48,7 @@ namespace GPMCasstteConvertCIM.Utilities.SysConfigs
         public Int32 ddoslimit { get; set; } = 1024;
         public Int32 ddoscountlimit { get; set; } = 20;
         public Configurations S2F49QueuingConfigurations { get; set; } = new Configurations();
-
+        public EQLotIDMonitor.Configrations EQLotIDMonitorConfigrations { get; set; } = new EQLotIDMonitor.Configrations();
         public enum PROJECT
         {
             U003, U007, YM_2F_AOI
