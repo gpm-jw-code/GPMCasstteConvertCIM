@@ -23,6 +23,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
         internal static event EventHandler OnAGVSOffline;
         internal static event EventHandler<Queue<(DateTime Timestamp, int Size, SecsMessage message)>> OnAGVSDDOSAttacking;
         internal static event EventHandler OnAGVSDDOSReconvery;
+        static MCSSecsLogger MCSUseLogger = new MCSSecsLogger(null, Utility.SysConfigs.Log.SyslogFolder, "SECS\\MCS");
         private static SECSBase MCS => DevicesManager.secs_host_for_mcs;
         private static SECSBase AGVS => DevicesManager.secs_client_for_agvs;
         private static AGVSSecsDDOSWatchDog SECSMsgWatchDog = new AGVSSecsDDOSWatchDog(Utility.SysConfigs.ddoschksec, Utility.SysConfigs.ddoslimit, Utility.SysConfigs.ddoscountlimit);
@@ -75,7 +76,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
             Utility.SystemLogger.SecsTransferLog($"Primary Mesaage Recieved From AGVS");
             (bool isSizeOverload, bool isCountOverload) DDOSMonitorResult = SECSMsgWatchDog.Monitor(_primaryMessageWrapper.PrimaryMessage);
 
-            DDOSHappend = DDOSMonitorResult.isSizeOverload || DDOSMonitorResult.isCountOverload;
+            DDOSHappend = DDOSMonitorResult.isSizeOverload;
             if (DDOSHappend)
             {
                 return;
@@ -131,10 +132,12 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                 }
             }
 
-            Utility.SystemLogger.SecsTransferLog($"Start Transfer To MCS");
+            Utility.SystemLogger.SecsTransferLog($"[S{S}F{F}] Start Transfer To MCS");
             MCS.MsgSendOutInvokeHandle(_primaryMessage_FromAGVS, true);
-            SecsMessage secondaryMsgFromMCS = await MCS.SendMsg(_primaryMessage_FromAGVS, msg_name: "AGVS->CIM");
 
+            MCSUseLogger.MessageOut(_primaryMessage_FromAGVS, _primaryMessageWrapper.Id);
+            SecsMessage secondaryMsgFromMCS = await MCS.SendMsg(_primaryMessage_FromAGVS, msg_name: "MCS->CIM");
+            MCSUseLogger.MessageIn(secondaryMsgFromMCS, _primaryMessageWrapper.Id);
 
             if (secondaryMsgFromMCS.S == 1 && secondaryMsgFromMCS.F == 4)
             {

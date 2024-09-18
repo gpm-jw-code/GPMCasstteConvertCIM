@@ -27,16 +27,7 @@ namespace SecsDevice
 
         private async void btnTransferMsgSend_Click(object sender, EventArgs e)
         {
-            SecsMessage rep = await _secsGem.SendAsync(new SecsMessage(2, 49)
-            {
-                SecsItem =
-                Item.L(
-                        Item.U4(),
-                        Item.A("OBJSPEC"),
-                        Item.A("TRANSFER"),
-                        Item.L()
-                    )
-            });
+            SecsMessage rep = await _secsGem.SendAsync(_CreateS2F49TransgerMesg("M123123123", "source", "destine"));
         }
         private async void button1_Click(object sender, EventArgs e)
         {
@@ -100,6 +91,90 @@ namespace SecsDevice
                        )
                   )
             });
+        }
+
+        private async void button3_Click(object sender, EventArgs e)
+        {
+            SecsMessage rep = await _secsGem.SendAsync(_CreateS2F49TransgerMesg("MHIGH000000", "SYL0271UL01", "LTHRACK002_SYS0016_12"));
+        }
+
+        private async void button4_Click(object sender, EventArgs e)
+        {
+            SecsMessage rep = await _secsGem.SendAsync(_CreateS2F49TransgerMesg("MLOW3333333", "LTHRACK002_SYS0016_20", "LTHRACK002_SYS0016_12"));
+        }
+
+        private SecsMessage _CreateS2F49TransgerMesg(string commandID, string source, string destine)
+        {
+            return new SecsMessage(2, 49)
+            {
+                SecsItem =
+                 Item.L(
+                         Item.U4(),
+                         Item.A("OBJSPEC"),
+                         Item.A("TRANSFER"),
+                         Item.L(
+                                 Item.L(
+                                         Item.A("COMMANDINFO"),
+                                         Item.L(
+                                                 Item.L(
+                                                         Item.A("COMMANDID"),
+                                                         Item.A(commandID)
+                                                       ),
+                                                 Item.L(
+                                                         Item.A("PRIORITY"),
+                                                         Item.U2(52)
+                                                       )
+                                               )
+                                       ),
+                                 Item.L(
+                                         Item.A("TRANSFERINFO"),
+                                         Item.L(
+                                                 Item.L(
+                                                         Item.A("CARRIERID"),
+                                                         Item.A("M000617281")
+                                                       ),
+                                                 Item.L(
+                                                         Item.A("SOURCE"),
+                                                         Item.A(source)
+                                                       ),
+                                                 Item.L(
+                                                         Item.A("DEST"),
+                                                         Item.A(destine)
+                                                       ),
+                                                 Item.L(
+                                                         Item.A("NEXTDEST"),
+                                                         Item.A("")
+                                                       )
+                                               )
+                                       ),
+                                 Item.L(
+                                         Item.A("TRANSFERINFO_CST"),
+                                         Item.L(
+                                                 Item.L(
+                                                         Item.A("LOT_ID"),
+                                                         Item.A("246SE007-04-00")
+                                                       ),
+                                                 Item.L(
+                                                         Item.A("CDAPURGE_FLAG"),
+                                                         Item.A("")
+                                                       ),
+                                                 Item.L(
+                                                         Item.A("BINDINGTYPE"),
+                                                         Item.U2(0)
+                                                       ),
+                                                 Item.L(
+                                                         Item.A("BINDINGKEY"),
+                                                         Item.A("202408141115029735904433")
+                                                       ),
+                                                 Item.L(
+                                                         Item.A("LIFE_FIX_FLAG"),
+                                                         Item.A("NO")
+                                                       )
+                                               )
+                                       )
+                               )
+                     )
+            };
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static GPMCasstteConvertCIM.GPM_SECS.S2F49TransferQueueOperator;
 
 namespace GPMCasstteConvertCIM.Utilities.SysConfigs
 {
@@ -43,6 +44,7 @@ namespace GPMCasstteConvertCIM.Utilities.SysConfigs
         public Int32 ddoschksec { get; set; } = 3;
         public Int32 ddoslimit { get; set; } = 1024;
         public Int32 ddoscountlimit { get; set; } = 20;
+        public Configurations S2F49QueuingConfigurations { get; set; } = new Configurations();
 
         public enum PROJECT
         {

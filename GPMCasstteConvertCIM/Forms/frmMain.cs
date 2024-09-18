@@ -101,8 +101,8 @@ namespace GPMCasstteConvertCIM.Forms
                     LoggerBase.logTimeUnit = Utility.SysConfigs.Log.LogFileUnit;
 
                     Utility.SystemLogger = new LoggerBase(rtbSystemLogShow, Utility.SysConfigs.Log.SyslogFolder, "Sys Log");
-
                     Utility.SystemLogger.Info("GPM CIM System Start");
+                    S2F49TransferQueueOperator.logger = new LoggerBase(null, Utility.SysConfigs.Log.SyslogFolder, "S2F49TransferQueue");
                     uscConnectionStates1.InitializeConnectionState();
 
                     DevicesManager.DevicesConnectionsOpts.SECS_HOST.logRichTextBox = rtbSecsHostLog;
@@ -187,6 +187,13 @@ namespace GPMCasstteConvertCIM.Forms
                     API.KGAGVS.RackStatusAPI.Logger = Utility.SystemLogger;
                     API.KGAGVS.UserAuthAPI.Logger = Utility.SystemLogger;
                     Utility.SystemLogger.Info($"KGS Web Service = {API.KGAGVS.APIConfiguration.AGVSHostIP}:{API.KGAGVS.APIConfiguration.AGVSHostPORT}");
+                    MCSMessageHandler.MCSUseLogger.Info("Logger instance create test");
+                    MCSMessageHandler.MCSUseLogger.MessageOut(new SecsMessage(6, 9) { Name = "GPM TEST" }, 0);
+                    MCSMessageHandler.MCSUseLogger.MessageIn(new SecsMessage(6, 9) { Name = "GPM TEST" }, 0);
+
+                    btnDisableS2F49TransgerQueue.CheckState = Utility.SysConfigs.S2F49QueuingConfigurations.Enable ? CheckState.Unchecked : CheckState.Checked;
+                    btnEnableS2F49TransgerQueue.CheckState = !Utility.SysConfigs.S2F49QueuingConfigurations.Enable ? CheckState.Unchecked : CheckState.Checked;
+
 #if logTest
                     for (int i = 0; i < 20; i++)
                     {
@@ -575,6 +582,7 @@ namespace GPMCasstteConvertCIM.Forms
             if (SECSState.IsRemote || SECSState.IsOnline == false)
             { clsAgvsAlarmDevice.AGVSLocal(); }
             labHotRun.Visible = Utility.IsHotRunMode;
+            labS2F49QueueTimer.Text = S2F49TransferQueueOperator._timer.Elapsed.ToString() + $"(Queueing:{S2F49TransferQueueOperator.InQueueCount})";
         }
 
         private void aGVS派車模擬器ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -832,9 +840,53 @@ namespace GPMCasstteConvertCIM.Forms
             }
         }
 
+        private void btnDisableS2F49TransgerQueue_Click(object sender, EventArgs e)
+        {
+            btnDisableS2F49TransgerQueue.CheckState = CheckState.Checked;
+            btnEnableS2F49TransgerQueue.CheckState = CheckState.Unchecked;
+            Utility.SysConfigs.S2F49QueuingConfigurations.Enable = false;
+            Utility.SaveConfigs();
+
+            S2F49TransferQueueOperator.logger.Info("使用者關閉S2F49 Transfer佇列功能");
+        }
+
+        private void btnEnableS2F49TransgerQueue_Click(object sender, EventArgs e)
+        {
+            btnDisableS2F49TransgerQueue.CheckState = CheckState.Unchecked;
+            btnEnableS2F49TransgerQueue.CheckState = CheckState.Checked;
+            Utility.SysConfigs.S2F49QueuingConfigurations.Enable = true;
+            Utility.SaveConfigs();
+            S2F49TransferQueueOperator.logger.Info("使用者啟用S2F49 Transfer佇列功能");
+        }
+
+        private void btnClearS2F49TransferQueueing_Click(object sender, EventArgs e)
+        {
+            S2F49TransferQueueOperator.ClearQueue();
+            S2F49TransferQueueOperator.logger.Info("使用者操作[清空]S2F49 Transfer佇列訊息");
+        }
+
+        private void btnSendS2F49InQueueInstanly_Click(object sender, EventArgs e)
+        {
+            S2F49TransferQueueOperator.SendMessageInstanly();
+            S2F49TransferQueueOperator.logger.Info("使用者操作[立即傳送]S2F49 Transfer佇列訊息");
+        }
+
+        private void btnSettingS2F49QueueingTimeWindow_Click(object sender, EventArgs e)
+        {
+            S2F49QueueTimeWindowSetupDialog dialog = new S2F49QueueTimeWindowSetupDialog();
+            dialog.ShowDialog();
+        }
+
+        private void transferCommandListToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmTransferCommandsViewer viewr = new frmTransferCommandsViewer();
+            viewr.Show();
+        }
+
         private void tlpSingleConvertsContainer_Paint(object sender, PaintEventArgs e)
         {
 
         }
+
     }
 }
