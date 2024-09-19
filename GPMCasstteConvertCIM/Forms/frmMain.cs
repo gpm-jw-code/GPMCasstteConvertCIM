@@ -74,6 +74,13 @@ namespace GPMCasstteConvertCIM.Forms
             API.KGAGVS.APIConfiguration.AGVSHostIP = Utility.SysConfigs.WebService.KGS_HOST_IP;
             API.KGAGVS.APIConfiguration.AGVSHostPORT = Utility.SysConfigs.WebService.KGS_HOST_PORT;
 
+            KGSWebAGVSystemAPI.Globals.KGSHotIP = Utility.SysConfigs.WebService.KGS_HOST_IP;
+            KGSWebAGVSystemAPI.Globals.KGSHotPort = Utility.SysConfigs.WebService.KGS_HOST_PORT;
+
+            WebAGVSystemDBBackgroundWorker webAGVSystemDBBackground = new WebAGVSystemDBBackgroundWorker(Utility.SysConfigs.KGSDBConnectionString);
+            webAGVSystemDBBackground.StartAsync(CancellationToken.None);
+            Utility.KGSWebAGVSystem = new frmKGSWebAGVSystem(webAGVSystemDBBackground);
+
 
             Text = $"GPM AGVS CIM-V{Assembly.GetExecutingAssembly().GetName().Version.ToString()} {(Environment.Is64BitProcess ? "" : "(x86)")}-{Utility.SysConfigs.Project}";
             Äµ³ø¾¹IOª¬ºAToolStripMenuItem.Visible = Utility.ModbusDeviceConfigs.Enable;
@@ -894,5 +901,9 @@ namespace GPMCasstteConvertCIM.Forms
 
         }
 
+        private void webAGVSystemToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Utility.KGSWebAGVSystem.Show();
+        }
     }
 }

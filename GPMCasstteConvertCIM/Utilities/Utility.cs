@@ -30,6 +30,8 @@ namespace GPMCasstteConvertCIM.Utilities
 
         internal static frmVirtualAGVS VirtualAGVS = new frmVirtualAGVS();
 
+        internal static frmKGSWebAGVSystem? KGSWebAGVSystem = null;
+
         internal static bool _IsHotRunMode = false;
         internal static bool IsHotRunMode
         {

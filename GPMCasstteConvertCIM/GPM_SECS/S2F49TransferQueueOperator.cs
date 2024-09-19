@@ -31,6 +31,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS
         internal static LoggerBase logger = new LoggerBase(null, Utility.SysConfigs.Log.SyslogFolder, "S2F49TransferQueue");
         internal static int InQueueCount => queueingTransgerPrimaryMesWrappers.Count;
         private static SemaphoreSlim _asyncSemaphoreSlim = new SemaphoreSlim(1, 1);
+        private static SemaphoreSlim _clearQueueSemaphoreSlim = new SemaphoreSlim(1, 1);
 
         public static List<TransferCommandModel> transferCommandsRecord = new List<TransferCommandModel>();
 
@@ -91,10 +92,18 @@ namespace GPMCasstteConvertCIM.GPM_SECS
                         }
                         await Task.Delay(100);
                     }
-                    PrimaryMessageWrapper[] _ii = queueingTransgerPrimaryMesWrappers.Values.ToArray();
-                    logger.Info($"There are {_ii.Length} S2F49 Transfer command now is in queue");
-                    queueingTransgerPrimaryMesWrappers.Clear();
-                    ActionWhenTimeWindowRecordFinish(_ii);
+                    try
+                    {
+                        await _clearQueueSemaphoreSlim.WaitAsync();
+                        PrimaryMessageWrapper[] _ii = queueingTransgerPrimaryMesWrappers.Values.ToArray();
+                        logger.Info($"There are {_ii.Length} S2F49 Transfer command now is in queue");
+                        queueingTransgerPrimaryMesWrappers.Clear();
+                        ActionWhenTimeWindowRecordFinish(_ii);
+                    }
+                    finally
+                    {
+                        _clearQueueSemaphoreSlim.Release();
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -180,12 +189,25 @@ namespace GPMCasstteConvertCIM.GPM_SECS
 
         }
 
-        internal static void ClearQueue()
+        internal static async Task ClearQueue()
         {
-            queueingTransgerPrimaryMesWrappers.Clear();
+            _ = Task.Run(async () =>
+            {
+                try
+                {
+                    await _clearQueueSemaphoreSlim.WaitAsync();
+                    queueingTransgerPrimaryMesWrappers.Clear();
 
-            _timer?.Stop();
-            _timer?.Reset();
+                    _timer?.Stop();
+                    _timer?.Reset();
+                }
+                finally
+                {
+                    await Task.Delay(200);
+                    _clearQueueSemaphoreSlim.Release();
+                }
+
+            });
         }
 
         internal static void SendMessageInstanly()

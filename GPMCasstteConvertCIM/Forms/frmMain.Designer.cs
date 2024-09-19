@@ -105,6 +105,7 @@
             rtbModbusTcpServerLog = new RichTextBox();
             tabAGVSInfos = new TabPage();
             uscagVsInfo1 = new UI_UserControls.UscAGVsInfo();
+            webAGVSystemToolStripMenuItem = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)primaryMessageWrapperBindingSource4).BeginInit();
             ((System.ComponentModel.ISupportInitialize)primaryMessageWrapperBindingSource1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)primaryMessageWrapperBindingSource3).BeginInit();
@@ -153,7 +154,7 @@
             GPMRDMenuStrip.BackColor = Color.FromArgb(53, 53, 53);
             GPMRDMenuStrip.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
             GPMRDMenuStrip.ImageScalingSize = new Size(20, 20);
-            GPMRDMenuStrip.Items.AddRange(new ToolStripItem[] { labRegionName, txbRegionNameEditInput, btnRegionNameEditedConfirm, btnCancelRegionNameEdit, toolStripComboBox_Emulators, toolStripMenuItem_AGVs_DB, 警報器IO狀態ToolStripMenuItem });
+            GPMRDMenuStrip.Items.AddRange(new ToolStripItem[] { labRegionName, txbRegionNameEditInput, btnRegionNameEditedConfirm, btnCancelRegionNameEdit, webAGVSystemToolStripMenuItem, toolStripComboBox_Emulators, toolStripMenuItem_AGVs_DB, 警報器IO狀態ToolStripMenuItem });
             GPMRDMenuStrip.Location = new Point(0, 0);
             GPMRDMenuStrip.Name = "GPMRDMenuStrip";
             GPMRDMenuStrip.Padding = new Padding(6, 2, 0, 6);
@@ -647,7 +648,7 @@
             tabPage4.Location = new Point(4, 34);
             tabPage4.Name = "tabPage4";
             tabPage4.Padding = new Padding(3);
-            tabPage4.Size = new Size(854, 348);
+            tabPage4.Size = new Size(1244, 646);
             tabPage4.TabIndex = 3;
             tabPage4.Text = "Home(007)";
             tabPage4.UseVisualStyleBackColor = true;
@@ -660,7 +661,7 @@
             usceqStatus1.Margin = new Padding(4);
             usceqStatus1.Name = "usceqStatus1";
             usceqStatus1.ShowMaintainAndPartsReplaceSignalColumn = false;
-            usceqStatus1.Size = new Size(848, 342);
+            usceqStatus1.Size = new Size(1238, 640);
             usceqStatus1.TabIndex = 1;
             // 
             // tabPage1
@@ -788,7 +789,7 @@
             tabPage3.Location = new Point(4, 34);
             tabPage3.Name = "tabPage3";
             tabPage3.Padding = new Padding(3);
-            tabPage3.Size = new Size(854, 348);
+            tabPage3.Size = new Size(1244, 646);
             tabPage3.TabIndex = 2;
             tabPage3.Text = "系統警報";
             tabPage3.UseVisualStyleBackColor = true;
@@ -800,7 +801,7 @@
             uscAlarmTable1.Location = new Point(3, 3);
             uscAlarmTable1.Margin = new Padding(4);
             uscAlarmTable1.Name = "uscAlarmTable1";
-            uscAlarmTable1.Size = new Size(848, 342);
+            uscAlarmTable1.Size = new Size(1238, 640);
             uscAlarmTable1.TabIndex = 0;
             // 
             // tabPage2
@@ -809,7 +810,7 @@
             tabPage2.Location = new Point(4, 34);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(854, 348);
+            tabPage2.Size = new Size(1244, 646);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "LOG";
             tabPage2.UseVisualStyleBackColor = true;
@@ -833,7 +834,7 @@
             tableLayoutPanel1.RowCount = 2;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 41F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.Size = new Size(848, 342);
+            tableLayoutPanel1.Size = new Size(1238, 640);
             tableLayoutPanel1.TabIndex = 2;
             // 
             // checkBox2
@@ -847,10 +848,10 @@
             checkBox2.FlatStyle = FlatStyle.Flat;
             checkBox2.Font = new Font("Microsoft JhengHei UI", 15F, FontStyle.Regular, GraphicsUnit.Point);
             checkBox2.ForeColor = Color.White;
-            checkBox2.Location = new Point(282, 0);
+            checkBox2.Location = new Point(412, 0);
             checkBox2.Margin = new Padding(0);
             checkBox2.Name = "checkBox2";
-            checkBox2.Size = new Size(282, 41);
+            checkBox2.Size = new Size(412, 41);
             checkBox2.TabIndex = 6;
             checkBox2.Text = "CIM<->AGVS";
             checkBox2.TextAlign = ContentAlignment.MiddleCenter;
@@ -864,7 +865,7 @@
             rtbSecsHostLog.Location = new Point(0, 41);
             rtbSecsHostLog.Margin = new Padding(0);
             rtbSecsHostLog.Name = "rtbSecsHostLog";
-            rtbSecsHostLog.Size = new Size(282, 301);
+            rtbSecsHostLog.Size = new Size(412, 599);
             rtbSecsHostLog.TabIndex = 1;
             rtbSecsHostLog.Text = "";
             // 
@@ -873,10 +874,10 @@
             rtbSecsClientLog.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             rtbSecsClientLog.BackColor = SystemColors.InfoText;
             rtbSecsClientLog.ForeColor = Color.White;
-            rtbSecsClientLog.Location = new Point(282, 41);
+            rtbSecsClientLog.Location = new Point(412, 41);
             rtbSecsClientLog.Margin = new Padding(0);
             rtbSecsClientLog.Name = "rtbSecsClientLog";
-            rtbSecsClientLog.Size = new Size(282, 301);
+            rtbSecsClientLog.Size = new Size(412, 599);
             rtbSecsClientLog.TabIndex = 2;
             rtbSecsClientLog.Text = "";
             // 
@@ -894,7 +895,7 @@
             checkBox1.Location = new Point(0, 0);
             checkBox1.Margin = new Padding(0);
             checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(282, 41);
+            checkBox1.Size = new Size(412, 41);
             checkBox1.TabIndex = 5;
             checkBox1.Text = "CIM<->MCS";
             checkBox1.TextAlign = ContentAlignment.MiddleCenter;
@@ -911,10 +912,10 @@
             checkBox5.FlatStyle = FlatStyle.Flat;
             checkBox5.Font = new Font("Microsoft JhengHei UI", 15F, FontStyle.Regular, GraphicsUnit.Point);
             checkBox5.ForeColor = Color.White;
-            checkBox5.Location = new Point(564, 0);
+            checkBox5.Location = new Point(824, 0);
             checkBox5.Margin = new Padding(0);
             checkBox5.Name = "checkBox5";
-            checkBox5.Size = new Size(284, 41);
+            checkBox5.Size = new Size(414, 41);
             checkBox5.TabIndex = 9;
             checkBox5.TextAlign = ContentAlignment.MiddleCenter;
             checkBox5.UseVisualStyleBackColor = false;
@@ -924,10 +925,10 @@
             rtbModbusTcpServerLog.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             rtbModbusTcpServerLog.BackColor = SystemColors.InfoText;
             rtbModbusTcpServerLog.ForeColor = Color.White;
-            rtbModbusTcpServerLog.Location = new Point(564, 41);
+            rtbModbusTcpServerLog.Location = new Point(824, 41);
             rtbModbusTcpServerLog.Margin = new Padding(0);
             rtbModbusTcpServerLog.Name = "rtbModbusTcpServerLog";
-            rtbModbusTcpServerLog.Size = new Size(284, 301);
+            rtbModbusTcpServerLog.Size = new Size(414, 599);
             rtbModbusTcpServerLog.TabIndex = 7;
             rtbModbusTcpServerLog.Text = "";
             // 
@@ -937,7 +938,7 @@
             tabAGVSInfos.Location = new Point(4, 34);
             tabAGVSInfos.Name = "tabAGVSInfos";
             tabAGVSInfos.Padding = new Padding(3);
-            tabAGVSInfos.Size = new Size(854, 348);
+            tabAGVSInfos.Size = new Size(1244, 646);
             tabAGVSInfos.TabIndex = 4;
             tabAGVSInfos.Text = "AGVs";
             tabAGVSInfos.UseVisualStyleBackColor = true;
@@ -949,8 +950,16 @@
             uscagVsInfo1.Location = new Point(3, 3);
             uscagVsInfo1.Margin = new Padding(4);
             uscagVsInfo1.Name = "uscagVsInfo1";
-            uscagVsInfo1.Size = new Size(848, 342);
+            uscagVsInfo1.Size = new Size(1238, 640);
             uscagVsInfo1.TabIndex = 0;
+            // 
+            // webAGVSystemToolStripMenuItem
+            // 
+            webAGVSystemToolStripMenuItem.ForeColor = Color.White;
+            webAGVSystemToolStripMenuItem.Name = "webAGVSystemToolStripMenuItem";
+            webAGVSystemToolStripMenuItem.Size = new Size(144, 45);
+            webAGVSystemToolStripMenuItem.Text = "WebAGVSystem";
+            webAGVSystemToolStripMenuItem.Click += webAGVSystemToolStripMenuItem_Click;
             // 
             // frmMain
             // 
@@ -1091,5 +1100,6 @@
         private RichTextBox rtbModbusTcpServerLog;
         private TabPage tabAGVSInfos;
         private UI_UserControls.UscAGVsInfo uscagVsInfo1;
+        private ToolStripMenuItem webAGVSystemToolStripMenuItem;
     }
 }
