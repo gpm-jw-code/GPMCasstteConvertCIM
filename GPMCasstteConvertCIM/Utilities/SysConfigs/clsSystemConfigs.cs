@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static GPMCasstteConvertCIM.DataBase.KGS_AGVs.WebAGVSystemDBBackgroundWorker;
 using static GPMCasstteConvertCIM.GPM_SECS.S2F49TransferQueueOperator;
 
 namespace GPMCasstteConvertCIM.Utilities.SysConfigs
@@ -50,6 +51,7 @@ namespace GPMCasstteConvertCIM.Utilities.SysConfigs
         public Configurations S2F49QueuingConfigurations { get; set; } = new Configurations();
         public EQLotIDMonitor.Configrations EQLotIDMonitorConfigrations { get; set; } = new EQLotIDMonitor.Configrations();
         public UIConfiguration UI { get; set; } = new UIConfiguration();
+        public CancelChargeTaskFunction CancelChargeTaskAuto { get; set; } = new CancelChargeTaskFunction();
         public enum PROJECT
         {
             U003, U007, YM_2F_AOI

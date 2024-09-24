@@ -44,16 +44,15 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                     //  <B HCACK 00 > *Host command acknowledge code
                     //  <L L1>
                     //>.
-                    SecsMessage replyMsg = new SecsMessage(2, 50, false)
-                    {
-                        SecsItem = L(
-                                        B((byte)HCACK.Acknowledge),
-                                        L()
-                                    )
-                    };
-                    string sml = replyMsg.ToSml();
-                    await _primaryMessageWrapper.TryReplyAsync(replyMsg);
-
+                    //SecsMessage replyMsg = new SecsMessage(2, 50, false)
+                    //{
+                    //    SecsItem = L(
+                    //                    B((byte)HCACK.Acknowledge),
+                    //                    L()
+                    //                )
+                    //};
+                    //string sml = replyMsg.ToSml();
+                    //await _primaryMessageWrapper.TryReplyAsync(replyMsg);
                     S2F49TransferQueueOperator.Queueing(_primaryMessageWrapper);
                     return;
                 }

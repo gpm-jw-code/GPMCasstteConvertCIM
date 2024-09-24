@@ -23,8 +23,19 @@ namespace GPMCasstteConvertCIM.Forms
 
         private void frmTransferCommandsViewer_Load(object sender, EventArgs e)
         {
-            transferCommands = new BindingList<TransferCommandModel>(S2F49TransferQueueOperator.transferCommandsRecord);
+            BindingTableData();
+        }
+
+        private void BindingTableData()
+        {
+            List<TransferCommandModel> ordered = S2F49TransferQueueOperator.transferCommandsRecord.OrderByDescending(t => t.Time).ToList();
+            transferCommands = new BindingList<TransferCommandModel>(ordered);
             dataGridView1.DataSource = transferCommands;
+        }
+
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            BindingTableData();
         }
     }
 }

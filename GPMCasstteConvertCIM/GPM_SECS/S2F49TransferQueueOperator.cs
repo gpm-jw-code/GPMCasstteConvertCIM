@@ -2,6 +2,7 @@
 using GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle;
 using GPMCasstteConvertCIM.Utilities;
 using Secs4Net;
+using Secs4Net.Sml;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -125,25 +126,25 @@ namespace GPMCasstteConvertCIM.GPM_SECS
                 logger.Info($"[{typeof(S2F49TransferQueueOperator).Name}] start send s2f49 queue to AGVS({_ii.Length})");
 
 
-                SecsMessage[] orderedS2F49Transfers = OrderByPrority(_ii);
+                List<(PrimaryMessageWrapper, SecsMessage)> orderedS2F49Transfers = OrderByPrority(_ii);
 
 
                 string _logDebug = "Transfer From/To Ordered : \r\n";
-                foreach (var item in orderedS2F49Transfers)
+                foreach ((PrimaryMessageWrapper wrapper, SecsMessage primaryMsg) in orderedS2F49Transfers)
                 {
-                    if (item.TryParseTransferInfo(out var carrierID, out var from, out var to))
+                    if (primaryMsg.TryParseTransferInfo(out var carrierID, out var from, out var to))
                     {
                         _logDebug += $"From {from} To {to} \r\n";
                     }
                 }
                 logger.Info(_logDebug);
 
-                foreach (var item in orderedS2F49Transfers)
+                foreach ((PrimaryMessageWrapper wrapper, SecsMessage primaryMsg) in orderedS2F49Transfers)
                 {
-                    item.TryParseTransferInfo(out var carrierID, out var from, out var to);
+                    primaryMsg.TryParseTransferInfo(out var carrierID, out var from, out var to);
                     logger.Info($"[{typeof(S2F49TransferQueueOperator).Name}].Carrier ({carrierID}) Transfer FROM [{from}] TO [{to}] start send s2f49 to AGVS");
                     await Task.Delay(600);
-                    SendPrimaryMesgFromQueueToAGV(item);
+                    SendPrimaryMesgFromQueueToAGV(wrapper);
                 }
             }
             catch (Exception ex)
@@ -153,25 +154,27 @@ namespace GPMCasstteConvertCIM.GPM_SECS
             //TODO: modify Prority of s2f49 transfer and send to kgs agvs .
         }
 
-        private static SecsMessage[] OrderByPrority(PrimaryMessageWrapper[] Wrappers)
+        private static List<(PrimaryMessageWrapper, SecsMessage)> OrderByPrority(PrimaryMessageWrapper[] Wrappers)
         {
-            List<SecsMessage> s2f49Collection = Wrappers.Select(wrap => wrap.PrimaryMessage).ToList();
+            List<(PrimaryMessageWrapper, SecsMessage)> s2f49Collection = Wrappers.Select(wrap => (wrap, wrap.PrimaryMessage)).ToList();
 
             configuration.HighPriorityPortID.ForEach(portID =>
             {
-                var highPriorityS2F49 = s2f49Collection.Where(s2f49 => s2f49.TryParseTransferInfo(out string carrierID, out var from, out var to) && (to == portID || from == portID)).ToList();
+                List<(PrimaryMessageWrapper, SecsMessage)> highPriorityS2F49 = s2f49Collection.Where(s2f49 => s2f49.Item2.TryParseTransferInfo(out string carrierID, out var from, out var to) && (to == portID || from == portID)).ToList();
                 if (highPriorityS2F49.Count > 0)
                 {
                     s2f49Collection.RemoveAll(s2f49 => highPriorityS2F49.Contains(s2f49));
                     s2f49Collection.InsertRange(0, highPriorityS2F49);
                 }
             });
-            return s2f49Collection.ToArray();
+            return s2f49Collection;
         }
 
-        private static async Task SendPrimaryMesgFromQueueToAGV(SecsMessage primaryMessage)
+        private static async Task SendPrimaryMesgFromQueueToAGV(PrimaryMessageWrapper mcsMsgWrapper)
         {
-            SecsMessage response = await DevicesManager.secs_client_for_agvs.SendMsg(primaryMessage);
+            logger.Info($"CIM->AGVS | {mcsMsgWrapper.PrimaryMessage.ToSml()}");
+            SecsMessage response = await DevicesManager.secs_client_for_agvs.SendMsg(mcsMsgWrapper.PrimaryMessage);
+            logger.Info($"AGVS->CIM | {response.ToSml()}");
             if (response.IsS9F7())
             {
                 logger.Error($"[{typeof(S2F49TransferQueueOperator).Name}] send s2f49 to AGVS fail");
@@ -180,7 +183,8 @@ namespace GPMCasstteConvertCIM.GPM_SECS
             {
                 logger.Info($"[{typeof(S2F49TransferQueueOperator).Name}] send s2f49 to AGVS success");
             }
-
+            logger.Info($"CIM->MCS | {response.ToSml()}");
+            await mcsMsgWrapper.TryReplyAsync(response);
         }
 
         private void GetTransferFromTo(SecsMessage S2F49Transfer)

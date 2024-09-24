@@ -162,11 +162,12 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     {
                         if (lastInterfaceClock != -1)
                         {
-
                             AlarmManager.AddWarning(ALARM_CODES.ALIVE_CLOCK_EQP_DOWN, Name, false);
                             Utility.SystemLogger.Info($"{Name} EQ Interface Clock Timeout=> ResetEQPHandshakeBits");
                             ResetEQPHandshakeBits();
-
+                            mcInterface.Close();
+                            mcInterface.loMCTcpCtrl.Close();
+                            await Task.Delay(1000);
                         }
                     }
                     else
@@ -316,7 +317,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             }
         }
 
-        private async void RetryConnectAsync()
+        private async Task RetryConnectAsync()
         {
             await Task.Delay(1);
             RetryTask = Task.Run(async () =>
@@ -399,6 +400,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 }
             }
         }
+
         protected async Task PLCMemorySyncTask()
         {
             _ = Task.Run(async () =>

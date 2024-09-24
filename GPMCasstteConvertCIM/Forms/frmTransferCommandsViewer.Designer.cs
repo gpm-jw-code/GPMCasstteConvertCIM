@@ -30,12 +30,13 @@
         {
             components = new System.ComponentModel.Container();
             dataGridView1 = new DataGridView();
-            transferCommandModelBindingSource = new BindingSource(components);
             timeDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             sourceIDDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             destinationIDDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             carrierIDDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             prorityDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            transferCommandModelBindingSource = new BindingSource(components);
+            btnRefresh = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)transferCommandModelBindingSource).BeginInit();
             SuspendLayout();
@@ -47,15 +48,11 @@
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { timeDataGridViewTextBoxColumn, sourceIDDataGridViewTextBoxColumn, destinationIDDataGridViewTextBoxColumn, carrierIDDataGridViewTextBoxColumn, prorityDataGridViewTextBoxColumn });
             dataGridView1.DataSource = transferCommandModelBindingSource;
-            dataGridView1.Location = new Point(6, 5);
+            dataGridView1.Location = new Point(6, 32);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowTemplate.Height = 25;
-            dataGridView1.Size = new Size(911, 523);
+            dataGridView1.Size = new Size(911, 496);
             dataGridView1.TabIndex = 0;
-            // 
-            // transferCommandModelBindingSource
-            // 
-            transferCommandModelBindingSource.DataSource = typeof(GPM_SECS.TransferCommandModel);
             // 
             // timeDataGridViewTextBoxColumn
             // 
@@ -88,12 +85,27 @@
             prorityDataGridViewTextBoxColumn.HeaderText = "優先權";
             prorityDataGridViewTextBoxColumn.Name = "prorityDataGridViewTextBoxColumn";
             // 
+            // transferCommandModelBindingSource
+            // 
+            transferCommandModelBindingSource.DataSource = typeof(GPM_SECS.TransferCommandModel);
+            // 
+            // btnRefresh
+            // 
+            btnRefresh.Location = new Point(6, 3);
+            btnRefresh.Name = "btnRefresh";
+            btnRefresh.Size = new Size(75, 23);
+            btnRefresh.TabIndex = 1;
+            btnRefresh.Text = "重新整理";
+            btnRefresh.UseVisualStyleBackColor = true;
+            btnRefresh.Click += btnRefresh_Click;
+            // 
             // frmTransferCommandsViewer
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Black;
             ClientSize = new Size(923, 535);
+            Controls.Add(btnRefresh);
             Controls.Add(dataGridView1);
             Name = "frmTransferCommandsViewer";
             Text = "搬運命令列表";
@@ -112,5 +124,6 @@
         private DataGridViewTextBoxColumn destinationIDDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn carrierIDDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn prorityDataGridViewTextBoxColumn;
+        private Button btnRefresh;
     }
 }

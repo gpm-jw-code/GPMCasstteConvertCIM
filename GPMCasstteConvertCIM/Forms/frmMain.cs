@@ -78,6 +78,7 @@ namespace GPMCasstteConvertCIM.Forms
             KGSWebAGVSystemAPI.Globals.KGSHotPort = Utility.SysConfigs.WebService.KGS_HOST_PORT;
 
             WebAGVSystemDBBackgroundWorker webAGVSystemDBBackground = new WebAGVSystemDBBackgroundWorker(Utility.SysConfigs.KGSDBConnectionString);
+            webAGVSystemDBBackground.CancelChargeFunctional = Utility.SysConfigs.CancelChargeTaskAuto;
             webAGVSystemDBBackground.StartAsync(CancellationToken.None);
             Utility.KGSWebAGVSystem = new frmKGSWebAGVSystem(webAGVSystemDBBackground);
 

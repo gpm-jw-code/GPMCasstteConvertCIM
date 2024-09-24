@@ -48,7 +48,8 @@ namespace GPMCasstteConvertCIM.GPM_SECS
                     _IsRemote = value;
                     if (value)
                     {
-                        EqLotIDMonitor.InitIDStored();
+                        if (EqLotIDMonitor.Config.Enabled)
+                            EqLotIDMonitor.InitIDStored();
                     }
                     if (_IsRemote && _IsOnline)
                     {
