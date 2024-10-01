@@ -180,7 +180,7 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
 
         }
 
-        protected override void WriteAGVHandshakeStatusToPLC(clsAGVHandshakeState agv_hs_status)
+        protected override void WriteAGVHandshakeStatusToPLCFromAGVHSMobusGateway(clsAGVHandshakeState agv_hs_status)
         {
             try
             {
@@ -197,28 +197,8 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
 
 
         }
-        protected override void SyncAGVSCoilsDataWorker()
-        {
-            string portNoName = $"PORT{Properties.PortNo + 1}";
-            List<CasstteConverter.Data.clsMemoryAddress> CIMLinkAddress = DevicesManager.cclink_master.LinkBitMap.FindAll(ad => ad.EQ_Name == ((clsCCLinkIE_Station)EQParent).Eq_Name && ad.EOwner == OWNER.CIM && ad.EScope.ToString() == portNoName && ad.Link_Modbus_Register_Number != -1);
-            foreach (var item in CIMLinkAddress)
-            {
-                try
-                {
-                    int register_num = item.Link_Modbus_Register_Number;
-                    var localCoilsAry = modbus_server.modbusSlave.DataStore.CoilDiscretes;
-                    //var localCoilsAry = modbus_server.coils.localArray;
-                    bool state = localCoilsAry[register_num + 1];
-                    AGVHandshakeIO(item, state);
-                    DevicesManager.cclink_master.CIMMemOptions.memoryTable.WriteOneBit(item.Address, state);
-                }
-                catch (Exception ex)
-                {
-                    Utility.SystemLogger.Error(ex.Message, ex, false);
-                }
-            }
-        }
-
+        protected override List<clsMemoryAddress> CIMLinkAddress => DevicesManager.cclink_master.LinkBitMap.FindAll(ad => ad.EQ_Name == ((clsCCLinkIE_Station)EQParent).Eq_Name && ad.EOwner == OWNER.CIM && ad.EScope.ToString() == portNoName && ad.Link_Modbus_Register_Number != -1);
+        protected override MemoryTable _CIMMemoryTable => DevicesManager.cclink_master.CIMMemOptions.memoryTable;
         public override void SyncModbusDataWorker()
         {
             Task.Run(async () =>

@@ -516,7 +516,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         {
             try
             {
-                var cimMap = simulation_mode ? CIMMemOptions.memoryTable : CIMMemOptions.memoryTable_read_back;
+                var cimMap = simulation_mode || Debugger.IsAttached ? CIMMemOptions.memoryTable : CIMMemOptions.memoryTable_read_back;
                 var eqMap = EQPMemOptions.memoryTable;
 
                 foreach (var item in LinkWordMap)

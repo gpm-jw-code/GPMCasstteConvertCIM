@@ -1,4 +1,5 @@
-﻿using GPMCasstteConvertCIM.Alarm;
+﻿using CIMComponent;
+using GPMCasstteConvertCIM.Alarm;
 using GPMCasstteConvertCIM.CasstteConverter.Data;
 using GPMCasstteConvertCIM.Devices;
 using GPMCasstteConvertCIM.Forms;
@@ -9,6 +10,7 @@ using Modbus.Device;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -295,19 +297,29 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 }
             }
         }
+        protected bool IsAGVHsStartFromHSGateway = false;
+
+        protected virtual List<clsMemoryAddress> CIMLinkAddress => EQParent.LinkBitMap.FindAll(ad => ad.EOwner == OWNER.CIM && ad.EScope.ToString() == portNoName && ad.Link_Modbus_Register_Number != -1);
+        protected virtual MemoryTable _CIMMemoryTable => this.CIMMemoryTable;
         protected virtual void SyncAGVSCoilsDataWorker()
         {
             string portNoName = $"PORT{Properties.PortNo + 1}";
-            List<clsMemoryAddress> CIMLinkAddress = EQParent.LinkBitMap.FindAll(ad => ad.EOwner == OWNER.CIM && ad.EScope.ToString() == portNoName && ad.Link_Modbus_Register_Number != -1);
-            foreach (var item in CIMLinkAddress)
+            foreach (clsMemoryAddress item in CIMLinkAddress)
             {
                 int register_num = item.Link_Modbus_Register_Number + 1;
                 try
                 {
-                    var localCoilsAry = modbus_server.modbusSlave.DataStore.CoilDiscretes;
+                    Modbus.Data.ModbusDataCollection<bool> localCoilsAry = modbus_server.modbusSlave.DataStore.CoilDiscretes;
                     bool state = localCoilsAry[register_num];
+                    bool isAGVValidONFromKGS = item.EProperty == PROPERTY.VALID && state;
+
+                    if (isAGVValidONFromKGS)
+                        IsAGVHsStartFromHSGateway = false;
+
+                    if (item.EProperty.IsAGVHSSignal() && IsAGVHsStartFromHSGateway)
+                        continue;
                     AGVHandshakeIO(item, state);
-                    CIMMemoryTable.WriteOneBit(item.Address, state);
+                    _CIMMemoryTable.WriteOneBit(item.Address, state);
                 }
                 catch (Exception ex)
                 {
@@ -317,21 +329,51 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         }
         private void Agv_handshake_modbus_master_OnAGVOutputsChanged(object? sender, bool[] agv_inputs)
         {
-            //要寫到PLC 
-            agv_hs_status.AGV_VALID = agv_inputs[0];
-            agv_hs_status.AGV_TR_REQ = agv_inputs[1];
-            agv_hs_status.AGV_BUSY = agv_inputs[2];
-            agv_hs_status.AGV_READY = agv_inputs[3];
-            agv_hs_status.AGV_COMPT = agv_inputs[4];
+            _ = Task.Run(async () =>
+            {
+                agv_hs_status.AGV_VALID = agv_inputs[0];
+                agv_hs_status.AGV_TR_REQ = agv_inputs[1];
+                agv_hs_status.AGV_BUSY = agv_inputs[2];
+                agv_hs_status.AGV_READY = agv_inputs[3];
+                agv_hs_status.AGV_COMPT = agv_inputs[4];
 
-            Utility.SystemLogger.Warning($"[{PortName}] AGV Handshake Signal Changed-{agv_hs_status.ToJson()}.");
+                if (agv_inputs[0] && !agv_inputs[1] && !agv_inputs[2] && !agv_inputs[3] && !agv_inputs[4])
+                {
+                    //AGV Valid ON, TR_REQ OFF, BUSY OFF, READY OFF => 表示AGV開始請求交握
+                    //要先暫停Modbus Server 從 KGS 同步AGV交握訊號
+                    IsAGVHsStartFromHSGateway = true;
+                    //確認AGV VALID已寫入PLC
+                    while (!_isValidONAlreadyWrittenToPLC())
+                    {
+                        await Task.Delay(100);
+                        WriteAGVHandshakeStatusToPLCFromAGVHSMobusGateway(agv_hs_status);
+                    }
 
-            WriteAGVHandshakeStatusToPLC(agv_hs_status);
+
+                    bool _isValidONAlreadyWrittenToPLC()
+                    {
+                        try
+                        {
+                            if (Debugger.IsAttached)
+                                return EQParent.CIMMemOptions.memoryTable.ReadOneBit(PortCIMBitAddress[PROPERTY.VALID]);
+                            return EQParent.CIMMemOptions.memoryTable_read_back.ReadOneBit(PortCIMBitAddress[PROPERTY.VALID]);
+                        }
+                        catch (Exception ex)
+                        {
+                            Utility.SystemLogger.Error($"[{PortName}] AGV Handshake Signal Changed-{agv_hs_status.ToJson()} Check AGV_VALID Written to PLC Fail.", ex);
+                            return false;
+                        }
+                    }
+                }
+                //要寫到PLC 
+                Utility.SystemLogger.Warning($"[{PortName}] AGV Handshake Signal Changed-{agv_hs_status.ToJson()}.");
+                WriteAGVHandshakeStatusToPLCFromAGVHSMobusGateway(agv_hs_status);
+            });
         }
 
-        protected virtual void WriteAGVHandshakeStatusToPLC(clsAGVHandshakeState agv_hs_status)
+        protected virtual void WriteAGVHandshakeStatusToPLCFromAGVHSMobusGateway(clsAGVHandshakeState agv_hs_status)
         {
-
+            //TODO 
             CIMMemoryTable.WriteOneBit(PortCIMBitAddress[PROPERTY.VALID], agv_hs_status.AGV_VALID);
             CIMMemoryTable.WriteOneBit(PortCIMBitAddress[PROPERTY.TR_REQ], agv_hs_status.AGV_TR_REQ);
             CIMMemoryTable.WriteOneBit(PortCIMBitAddress[PROPERTY.BUSY], agv_hs_status.AGV_BUSY);
