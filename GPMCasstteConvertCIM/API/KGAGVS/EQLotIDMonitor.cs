@@ -15,6 +15,13 @@ namespace GPMCasstteConvertCIM.API.KGAGVS
             public bool Enabled { get; set; } = false;
             public string STATUS_INI_FILE_PATH { get; set; } = "C://CST//ini//Status.ini";
 
+            /// <summary>
+            /// Key: KGS的設備名稱 , Value:派車顯示名稱
+            /// </summary>
+            public Dictionary<string, string> Monitor_Lot_Table { get; set; } = new Dictionary<string, string>()
+            {
+            };
+
         }
 
         public Configrations Config { get; set; } = new Configrations();
@@ -56,7 +63,7 @@ namespace GPMCasstteConvertCIM.API.KGAGVS
             }
 
             UnknownIDStored = lotIDs.ToDictionary(k => k.Key, k => new CarrierIDState { EQName = k.Key, CarrierID = k.Value });
-            foreach (var item in UnknownIDStored.Values)
+            foreach (CarrierIDState item in UnknownIDStored.Values)
             {
                 item.CarrierIDHasTUNBegin += Item_CarrierIDHasTUNBegin;
                 if (item.IsUnknownID)
@@ -64,6 +71,11 @@ namespace GPMCasstteConvertCIM.API.KGAGVS
                     Task.Run(async () =>
                     {
                         await Task.Delay(3000);
+                        if (Config.Monitor_Lot_Table.TryGetValue(item.EQName, out string _displayName))
+                            item.DisplayName = _displayName;
+                        else
+                            item.DisplayName = item.EQName;
+
                         OnUnknownIDInstalled?.Invoke(this, item);
                     });
 
@@ -88,6 +100,7 @@ namespace GPMCasstteConvertCIM.API.KGAGVS
         private void UnknownIDNotifier()
         {
             Dictionary<string, string> lotIDs = GetLotIDsFromIni();
+
             if (lotIDs.Any())
             {
                 foreach (var item in lotIDs)
@@ -109,8 +122,9 @@ namespace GPMCasstteConvertCIM.API.KGAGVS
             FileIniDataParser parser = new FileIniDataParser();
             IniParser.Model.IniData iniContext = parser.ReadFile(Config.STATUS_INI_FILE_PATH);
             Dictionary<string, string> LotIDDict = iniContext.Sections.ToDictionary(section => section.SectionName, section => iniContext[section.SectionName]["LotID"]);
+            Dictionary<string, string> lotIDs = LotIDDict.ToDictionary(k => k.Key, k => k.Value == null ? "" : k.Value);
+            return lotIDs.Where(pair => Config.Monitor_Lot_Table.ContainsKey(pair.Key)).ToDictionary(k => k.Key, k => k.Value);
 
-            return LotIDDict.ToDictionary(k => k.Key, k => k.Value == null ? "" : k.Value);
         }
 
 
@@ -119,6 +133,9 @@ namespace GPMCasstteConvertCIM.API.KGAGVS
         {
             private string _CarrierID = "";
             public string EQName { get; set; } = "";
+
+            public string DisplayName { get; set; } = "";
+
             public event EventHandler<string> CarrierIDHasTUNBegin;
             public string CarrierID
             {

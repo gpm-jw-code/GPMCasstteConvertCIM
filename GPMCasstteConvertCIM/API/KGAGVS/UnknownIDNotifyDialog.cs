@@ -22,7 +22,7 @@ namespace GPMCasstteConvertCIM.API.KGAGVS
         {
             linkLabel1.Links[0].LinkData = url;
             labCarrierID.Text = $"Carrier ID = [{e.CarrierID}]";
-            labNotifyText.Text = $"【{e.EQName}】Carrier ID 未知\r\n請至派車系統修改帳籍";
+            labNotifyText.Text = $"【{e.DisplayName}】Carrier ID 未知\r\n請至派車系統修改帳籍";
             base.ShowDialog();
         }
 

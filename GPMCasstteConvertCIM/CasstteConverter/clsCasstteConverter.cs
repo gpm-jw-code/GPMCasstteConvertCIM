@@ -116,7 +116,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         protected virtual void Item_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             clsMemoryAddress add = (clsMemoryAddress)sender;
-            if (add == null || add.EProperty == PROPERTY.Interface_Clock)
+            if (add == null)
                 return;
 
             var owner_str = add.EOwner == clsMemoryAddress.OWNER.CIM ? "CIM/AGVS" : "EQ";
@@ -347,21 +347,33 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         }
 
 
-        protected virtual void CIMInterfaceClockUpdate()
+        protected virtual async Task CIMInterfaceClockUpdate()
         {
-            Task.Run(async () =>
+            _ = Task.Run(async () =>
             {
                 while (true)
                 {
                     await Task.Delay(TimeSpan.FromSeconds(4));
 
-                    var interfaceClockAddress = LinkWordMap.FirstOrDefault(w => w.EOwner == clsMemoryAddress.OWNER.CIM && w.EProperty == PROPERTY.Interface_Clock);
-                    if (interfaceClockAddress != null)
+                    try
                     {
-                        int clock = (int)interfaceClockAddress.Value;
-                        int newClock = clock + 1;
-                        newClock = newClock == 256 ? 0 : newClock;
-                        CIMMemOptions.memoryTable.WriteBinary(interfaceClockAddress.Address, newClock);
+                        await cimMemoryTableWriteSemLock.WaitAsync();
+
+                        var interfaceClockAddress = LinkWordMap.FirstOrDefault(w => w.EOwner == clsMemoryAddress.OWNER.CIM && w.EProperty == PROPERTY.Interface_Clock);
+                        if (interfaceClockAddress != null)
+                        {
+                            int clock = (int)interfaceClockAddress.Value;
+                            int newClock = clock + 1;
+                            newClock = newClock == 256 ? 0 : newClock;
+                            CIMMemOptions.memoryTable.WriteBinary(interfaceClockAddress.Address, newClock);
+                        }
+                    }
+                    catch (Exception)
+                    {
+                    }
+                    finally
+                    {
+                        cimMemoryTableWriteSemLock.Release();
                     }
                 }
 
@@ -400,7 +412,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 }
             }
         }
-
+        internal SemaphoreSlim cimMemoryTableWriteSemLock = new SemaphoreSlim(1, 1);
         protected async Task PLCMemorySyncTask()
         {
             _ = Task.Run(async () =>
@@ -446,18 +458,30 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                                  }
                                  else
                                  {
-                                     PLC_IF_WRITE_Ret_Code = mxInterface.WriteBit(ref CIMMemOptions.memoryTable, CIMMemOptions.bitRegionName, CIMMemOptions.bitStartAddress_no_region, CIMMemOptions.bitSize);
-                                     PLC_IF_WRITE_Ret_Code = mxInterface.WriteWord(ref CIMMemOptions.memoryTable, CIMMemOptions.wordRegionName, CIMMemOptions.wordStartAddress_no_region, CIMMemOptions.wordSize);
-                                     if (PLC_IF_WRITE_Ret_Code == 0)
+                                     try
+                                     {
+                                         await cimMemoryTableWriteSemLock.WaitAsync();
+                                         PLC_IF_WRITE_Ret_Code = mxInterface.WriteBit(ref CIMMemOptions.memoryTable, CIMMemOptions.bitRegionName, CIMMemOptions.bitStartAddress_no_region, CIMMemOptions.bitSize);
+                                         PLC_IF_WRITE_Ret_Code = mxInterface.WriteWord(ref CIMMemOptions.memoryTable, CIMMemOptions.wordRegionName, CIMMemOptions.wordStartAddress_no_region, CIMMemOptions.wordSize);
+                                         if (PLC_IF_WRITE_Ret_Code == 0)
+                                         {
+
+                                             //讀回確認
+                                             PLC_IF_READ_Ret_Code = mxInterface.ReadBit(ref CIMMemOptions.memoryTable_read_back, CIMMemOptions.bitRegionName, CIMMemOptions.bitStartAddress_no_region, CIMMemOptions.bitSize);
+                                             PLC_IF_READ_Ret_Code = mxInterface.ReadWord(ref CIMMemOptions.memoryTable_read_back, CIMMemOptions.wordRegionName, CIMMemOptions.wordStartAddress_no_region, CIMMemOptions.wordSize);
+
+                                             PLC_IF_READ_Ret_Code = mxInterface.ReadBit(ref EQPMemOptions.memoryTable, EQPMemOptions.bitRegionName, EQPMemOptions.bitStartAddress_no_region, EQPMemOptions.bitSize);
+                                             PLC_IF_READ_Ret_Code = mxInterface.ReadWord(ref EQPMemOptions.memoryTable, EQPMemOptions.wordRegionName, EQPMemOptions.wordStartAddress_no_region, EQPMemOptions.wordSize);
+                                             IsPLCMemoryDataReadDone = PLC_IF_READ_Ret_Code == 0;
+                                         }
+                                     }
+                                     catch (Exception)
                                      {
 
-                                         //讀回確認
-                                         PLC_IF_READ_Ret_Code = mxInterface.ReadBit(ref CIMMemOptions.memoryTable_read_back, CIMMemOptions.bitRegionName, CIMMemOptions.bitStartAddress_no_region, CIMMemOptions.bitSize);
-                                         PLC_IF_READ_Ret_Code = mxInterface.ReadWord(ref CIMMemOptions.memoryTable_read_back, CIMMemOptions.wordRegionName, CIMMemOptions.wordStartAddress_no_region, CIMMemOptions.wordSize);
-
-                                         PLC_IF_READ_Ret_Code = mxInterface.ReadBit(ref EQPMemOptions.memoryTable, EQPMemOptions.bitRegionName, EQPMemOptions.bitStartAddress_no_region, EQPMemOptions.bitSize);
-                                         PLC_IF_READ_Ret_Code = mxInterface.ReadWord(ref EQPMemOptions.memoryTable, EQPMemOptions.wordRegionName, EQPMemOptions.wordStartAddress_no_region, EQPMemOptions.wordSize);
-                                         IsPLCMemoryDataReadDone = PLC_IF_READ_Ret_Code == 0;
+                                     }
+                                     finally
+                                     {
+                                         cimMemoryTableWriteSemLock.Release();
                                      }
                                  }
 

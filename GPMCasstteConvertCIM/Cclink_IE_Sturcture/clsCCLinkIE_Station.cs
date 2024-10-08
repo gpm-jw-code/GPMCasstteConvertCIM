@@ -66,31 +66,41 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
             PortModbusServersActive();
             // EQPInterfaceClockMonitor();
 
-            if (Eq_Name == EQ_NAMES.TS_1 | Eq_Name == EQ_NAMES.TS_2_1 | Eq_Name == EQ_NAMES.TS_2_2 | Eq_Name == EQ_NAMES.TS_3)
+            if (Eq_Name == EQ_NAMES.TS_1 || Eq_Name == EQ_NAMES.TS_2_1 || Eq_Name == EQ_NAMES.TS_2_2 || Eq_Name == EQ_NAMES.TS_3)
                 CIMInterfaceClockUpdate();
 
             DataSyncTask();
         }
 
-        protected override void CIMInterfaceClockUpdate()
+        protected override async Task CIMInterfaceClockUpdate()
         {
-            Task.Run(async () =>
+            _ = Task.Run(async () =>
             {
                 while (true)
                 {
                     await Task.Delay(TimeSpan.FromSeconds(4));
 
-                    var interfaceClockAddress = LinkWordMap.FirstOrDefault(w => w.EOwner == clsMemoryAddress.OWNER.CIM && w.EProperty == PROPERTY.Interface_Clock);
-                    if (interfaceClockAddress != null)
+                    try
                     {
-                        int clock = (int)interfaceClockAddress.Value;
-                        int newClock = clock + 1;
-                        newClock = newClock == 256 ? 0 : newClock;
-                        cclink_master.CIMMemOptions.memoryTable.WriteBinary(interfaceClockAddress.Address, newClock);
+                        await cimMemoryTableWriteSemLock.WaitAsync();
+                        clsMemoryAddress? interfaceClockAddress = LinkWordMap.FirstOrDefault(w => w.EOwner == clsMemoryAddress.OWNER.CIM && w.EProperty == PROPERTY.Interface_Clock);
+                        if (interfaceClockAddress != null)
+                        {
+                            int clock = (int)interfaceClockAddress.Value;
+                            int newClock = clock + 1;
+                            newClock = newClock == 256 ? 0 : newClock;
+                            cclink_master.CIMMemOptions.memoryTable.WriteBinary(interfaceClockAddress.Address, newClock);
+                        }
+                        else
+                        {
+                        }
                     }
-                    else
+                    catch (Exception)
                     {
-
+                    }
+                    finally
+                    {
+                        cimMemoryTableWriteSemLock.Release();
                     }
 
                 }
