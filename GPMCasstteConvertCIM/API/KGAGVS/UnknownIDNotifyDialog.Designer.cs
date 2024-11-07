@@ -28,10 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             labCarrierID = new Label();
             labNotifyText = new Label();
             btnAccept = new Button();
             linkLabel1 = new LinkLabel();
+            progressBar1 = new ProgressBar();
+            countDowntimer = new System.Windows.Forms.Timer(components);
             SuspendLayout();
             // 
             // labCarrierID
@@ -43,7 +46,7 @@
             labCarrierID.Location = new Point(0, 112);
             labCarrierID.Margin = new Padding(3, 0, 3, 5);
             labCarrierID.Name = "labCarrierID";
-            labCarrierID.Size = new Size(574, 80);
+            labCarrierID.Size = new Size(574, 59);
             labCarrierID.TabIndex = 7;
             labCarrierID.Text = "TUNXXXXXXX";
             labCarrierID.TextAlign = ContentAlignment.MiddleCenter;
@@ -61,16 +64,18 @@
             // 
             // btnAccept
             // 
+            btnAccept.Cursor = Cursors.Hand;
             btnAccept.DialogResult = DialogResult.OK;
             btnAccept.Dock = DockStyle.Bottom;
             btnAccept.FlatStyle = FlatStyle.System;
             btnAccept.Font = new Font("Microsoft JhengHei UI", 28F, FontStyle.Bold, GraphicsUnit.Point);
-            btnAccept.Location = new Point(0, 220);
+            btnAccept.Location = new Point(0, 210);
             btnAccept.Name = "btnAccept";
             btnAccept.Size = new Size(574, 86);
             btnAccept.TabIndex = 4;
             btnAccept.Text = "確定";
             btnAccept.UseVisualStyleBackColor = true;
+            btnAccept.Click += btnAccept_Click;
             // 
             // linkLabel1
             // 
@@ -78,14 +83,28 @@
             linkLabel1.Font = new Font("Microsoft JhengHei UI", 15F, FontStyle.Regular, GraphicsUnit.Point);
             linkLabel1.LinkBehavior = LinkBehavior.AlwaysUnderline;
             linkLabel1.LinkColor = Color.Black;
-            linkLabel1.Location = new Point(0, 192);
+            linkLabel1.Location = new Point(0, 171);
             linkLabel1.Name = "linkLabel1";
-            linkLabel1.Size = new Size(574, 28);
+            linkLabel1.Size = new Size(574, 39);
             linkLabel1.TabIndex = 8;
             linkLabel1.TabStop = true;
             linkLabel1.Text = "前往帳籍管理頁面";
             linkLabel1.TextAlign = ContentAlignment.MiddleCenter;
             linkLabel1.LinkClicked += linkLabel1_LinkClicked;
+            // 
+            // progressBar1
+            // 
+            progressBar1.Dock = DockStyle.Bottom;
+            progressBar1.Location = new Point(0, 296);
+            progressBar1.MarqueeAnimationSpeed = 1000;
+            progressBar1.Name = "progressBar1";
+            progressBar1.Size = new Size(574, 10);
+            progressBar1.Style = ProgressBarStyle.Continuous;
+            progressBar1.TabIndex = 9;
+            // 
+            // countDowntimer
+            // 
+            countDowntimer.Tick += countDowntimer_Tick;
             // 
             // UnknownIDNotifyDialog
             // 
@@ -95,12 +114,15 @@
             BackColor = Color.FromArgb(255, 128, 0);
             CancelButton = btnAccept;
             ClientSize = new Size(574, 306);
+            ControlBox = false;
             Controls.Add(labCarrierID);
             Controls.Add(linkLabel1);
             Controls.Add(labNotifyText);
             Controls.Add(btnAccept);
-            FormBorderStyle = FormBorderStyle.FixedToolWindow;
+            Controls.Add(progressBar1);
+            FormBorderStyle = FormBorderStyle.SizableToolWindow;
             Name = "UnknownIDNotifyDialog";
+            ShowIcon = false;
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Unknown ID 提醒";
             TopMost = true;
@@ -113,5 +135,7 @@
         private Label labNotifyText;
         private Button btnAccept;
         private LinkLabel linkLabel1;
+        private ProgressBar progressBar1;
+        private System.Windows.Forms.Timer countDowntimer;
     }
 }

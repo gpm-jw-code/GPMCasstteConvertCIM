@@ -42,6 +42,7 @@
             txbRegionNameEditInput = new ToolStripTextBox();
             btnRegionNameEditedConfirm = new ToolStripMenuItem();
             btnCancelRegionNameEdit = new ToolStripMenuItem();
+            webAGVSystemToolStripMenuItem = new ToolStripMenuItem();
             toolStripComboBox_Emulators = new ToolStripMenuItem();
             mCS模擬器ToolStripMenuItem = new ToolStripMenuItem();
             CVSimulatorsToolStripMenuItem = new ToolStripMenuItem();
@@ -105,7 +106,7 @@
             rtbModbusTcpServerLog = new RichTextBox();
             tabAGVSInfos = new TabPage();
             uscagVsInfo1 = new UI_UserControls.UscAGVsInfo();
-            webAGVSystemToolStripMenuItem = new ToolStripMenuItem();
+            mCSRemoteToolStripMenuItem = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)primaryMessageWrapperBindingSource4).BeginInit();
             ((System.ComponentModel.ISupportInitialize)primaryMessageWrapperBindingSource1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)primaryMessageWrapperBindingSource3).BeginInit();
@@ -175,7 +176,7 @@
             // 編輯ToolStripMenuItem
             // 
             編輯ToolStripMenuItem.Name = "編輯ToolStripMenuItem";
-            編輯ToolStripMenuItem.Size = new Size(154, 42);
+            編輯ToolStripMenuItem.Size = new Size(180, 42);
             編輯ToolStripMenuItem.Text = "編輯";
             編輯ToolStripMenuItem.Click += btnEditRegionName_Click;
             // 
@@ -211,6 +212,14 @@
             btnCancelRegionNameEdit.Text = "取消編輯";
             btnCancelRegionNameEdit.Visible = false;
             btnCancelRegionNameEdit.Click += btnCancelRegionNameEdit_Click;
+            // 
+            // webAGVSystemToolStripMenuItem
+            // 
+            webAGVSystemToolStripMenuItem.ForeColor = Color.White;
+            webAGVSystemToolStripMenuItem.Name = "webAGVSystemToolStripMenuItem";
+            webAGVSystemToolStripMenuItem.Size = new Size(144, 45);
+            webAGVSystemToolStripMenuItem.Text = "WebAGVSystem";
+            webAGVSystemToolStripMenuItem.Click += webAGVSystemToolStripMenuItem_Click;
             // 
             // toolStripComboBox_Emulators
             // 
@@ -276,7 +285,7 @@
             // 
             // dEBUGToolStripMenuItem
             // 
-            dEBUGToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { webServerExceptionToolStripMenuItem, openAllModbusEmuToolStripMenuItem });
+            dEBUGToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { webServerExceptionToolStripMenuItem, openAllModbusEmuToolStripMenuItem, mCSRemoteToolStripMenuItem });
             dEBUGToolStripMenuItem.Name = "dEBUGToolStripMenuItem";
             dEBUGToolStripMenuItem.Size = new Size(239, 24);
             dEBUGToolStripMenuItem.Text = "DEBUG";
@@ -953,13 +962,12 @@
             uscagVsInfo1.Size = new Size(1238, 640);
             uscagVsInfo1.TabIndex = 0;
             // 
-            // webAGVSystemToolStripMenuItem
+            // mCSRemoteToolStripMenuItem
             // 
-            webAGVSystemToolStripMenuItem.ForeColor = Color.White;
-            webAGVSystemToolStripMenuItem.Name = "webAGVSystemToolStripMenuItem";
-            webAGVSystemToolStripMenuItem.Size = new Size(144, 45);
-            webAGVSystemToolStripMenuItem.Text = "WebAGVSystem";
-            webAGVSystemToolStripMenuItem.Click += webAGVSystemToolStripMenuItem_Click;
+            mCSRemoteToolStripMenuItem.Name = "mCSRemoteToolStripMenuItem";
+            mCSRemoteToolStripMenuItem.Size = new Size(247, 24);
+            mCSRemoteToolStripMenuItem.Text = "MCS Remote";
+            mCSRemoteToolStripMenuItem.Click += mCSRemoteToolStripMenuItem_Click;
             // 
             // frmMain
             // 
@@ -1101,5 +1109,6 @@
         private TabPage tabAGVSInfos;
         private UI_UserControls.UscAGVsInfo uscagVsInfo1;
         private ToolStripMenuItem webAGVSystemToolStripMenuItem;
+        private ToolStripMenuItem mCSRemoteToolStripMenuItem;
     }
 }

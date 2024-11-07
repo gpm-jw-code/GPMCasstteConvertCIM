@@ -27,6 +27,7 @@ using GPMCasstteConvertCIM.AlarmDevice;
 using GPMCasstteConvertCIM.WebServer.Models;
 using AGVSystemCommonNet6.HttpTools;
 using GPMCasstteConvertCIM.API.KGAGVS;
+using System.Collections.Concurrent;
 namespace GPMCasstteConvertCIM.Forms
 {
     public partial class frmMain : Form
@@ -265,19 +266,45 @@ namespace GPMCasstteConvertCIM.Forms
             }
         }
 
+        private ConcurrentDictionary<string, UnknownIDNotifyDialog> ShowedTUNIDNotifies = new ConcurrentDictionary<string, UnknownIDNotifyDialog>();
 
-        private void EQLotIDMonitor_OnUnknownIDInstalled(object? sender, EQLotIDMonitor.CarrierIDState e)
+        private async void EQLotIDMonitor_OnUnknownIDInstalled(object? sender, EQLotIDMonitor.CarrierIDState e)
         {
+            //if (!SECSState.IsRemote && !Debugger.IsAttached)
+            //    return;
 
-            if (!SECSState.IsRemote && !Debugger.IsAttached)
-                return;
+            if (e.IsUnknownID)
+            {
+                Task.Factory.StartNew(async () =>
+               {
+                   if (ShowedTUNIDNotifies.TryGetValue(e.EQName, out UnknownIDNotifyDialog oldDialog))
+                       oldDialog.Dispose();
+                   await ShowTUNIDNotifyDialog(e);
+               });
+            }
+            else
+            {
+                ShowedTUNIDNotifies.TryRemove(e.EQName, out var diag);
+                diag?.Dispose();
+            }
+        }
 
+        private async Task ShowTUNIDNotifyDialog(EQLotIDMonitor.CarrierIDState e)
+        {
             UnknownIDNotifyDialog notifyDialog = new UnknownIDNotifyDialog()
             {
                 TopLevel = true,
                 TopMost = true,
             };
+            notifyDialog.OnAcceptButtonClicked += (sender, eqName) =>
+            {
+                if (ShowedTUNIDNotifies.TryRemove(eqName, out var diag))
+                    diag.Dispose();
+
+            };
+            ShowedTUNIDNotifies.TryAdd(e.EQName, notifyDialog);
             notifyDialog.ShowDialog(e, Utility.SysConfigs.MaterialManagementWebUrl);
+
         }
 
         private void UnHandleExpLabelAnimationStop()
@@ -905,6 +932,11 @@ namespace GPMCasstteConvertCIM.Forms
         private void webAGVSystemToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Utility.KGSWebAGVSystem.Show();
+        }
+
+        private void mCSRemoteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SECSState.EqLotIDMonitor.InitIDStored();
         }
     }
 }
