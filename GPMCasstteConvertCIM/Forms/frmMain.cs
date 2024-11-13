@@ -270,8 +270,8 @@ namespace GPMCasstteConvertCIM.Forms
 
         private async void EQLotIDMonitor_OnUnknownIDInstalled(object? sender, EQLotIDMonitor.CarrierIDState e)
         {
-            //if (!SECSState.IsRemote && !Debugger.IsAttached)
-            //    return;
+            if (!SECSState.IsRemote && !Debugger.IsAttached)
+                return;
 
             if (e.IsUnknownID)
             {
