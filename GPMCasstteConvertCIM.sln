@@ -21,7 +21,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CIMWatchDogMonitor", "CIMWa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CIMWatchDogMonitorTests", "CIMWatchDogMonitorTests\CIMWatchDogMonitorTests.csproj", "{97E8CCB9-A5D7-4E8D-B951-E5B4D1C1D35C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KGSWebAGVSystemAPI", "..\KGSWebAGVSystemAPI\KGSWebAGVSystemAPI.csproj", "{3E91700E-9A72-475F-BBB4-EA073CE8D2C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KGSWebAGVSystemAPI", "..\KGSWebAGVSystemAPI\KGSWebAGVSystemAPI.csproj", "{B264D3D4-421B-4C8B-A3AC-6DCFC7284199}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EquipmentManagment", "..\EquipmentManagment\EquipmentManagment.csproj", "{DBBB362F-BB09-4114-81B2-04B5CCD22E17}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -103,14 +105,22 @@ Global
 		{97E8CCB9-A5D7-4E8D-B951-E5B4D1C1D35C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{97E8CCB9-A5D7-4E8D-B951-E5B4D1C1D35C}.Release|x86.ActiveCfg = Release|Any CPU
 		{97E8CCB9-A5D7-4E8D-B951-E5B4D1C1D35C}.Release|x86.Build.0 = Release|Any CPU
-		{3E91700E-9A72-475F-BBB4-EA073CE8D2C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3E91700E-9A72-475F-BBB4-EA073CE8D2C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3E91700E-9A72-475F-BBB4-EA073CE8D2C0}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{3E91700E-9A72-475F-BBB4-EA073CE8D2C0}.Debug|x86.Build.0 = Debug|Any CPU
-		{3E91700E-9A72-475F-BBB4-EA073CE8D2C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3E91700E-9A72-475F-BBB4-EA073CE8D2C0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3E91700E-9A72-475F-BBB4-EA073CE8D2C0}.Release|x86.ActiveCfg = Release|Any CPU
-		{3E91700E-9A72-475F-BBB4-EA073CE8D2C0}.Release|x86.Build.0 = Release|Any CPU
+		{B264D3D4-421B-4C8B-A3AC-6DCFC7284199}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B264D3D4-421B-4C8B-A3AC-6DCFC7284199}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B264D3D4-421B-4C8B-A3AC-6DCFC7284199}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B264D3D4-421B-4C8B-A3AC-6DCFC7284199}.Debug|x86.Build.0 = Debug|Any CPU
+		{B264D3D4-421B-4C8B-A3AC-6DCFC7284199}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B264D3D4-421B-4C8B-A3AC-6DCFC7284199}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B264D3D4-421B-4C8B-A3AC-6DCFC7284199}.Release|x86.ActiveCfg = Release|Any CPU
+		{B264D3D4-421B-4C8B-A3AC-6DCFC7284199}.Release|x86.Build.0 = Release|Any CPU
+		{DBBB362F-BB09-4114-81B2-04B5CCD22E17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBBB362F-BB09-4114-81B2-04B5CCD22E17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBBB362F-BB09-4114-81B2-04B5CCD22E17}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DBBB362F-BB09-4114-81B2-04B5CCD22E17}.Debug|x86.Build.0 = Debug|Any CPU
+		{DBBB362F-BB09-4114-81B2-04B5CCD22E17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBBB362F-BB09-4114-81B2-04B5CCD22E17}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBBB362F-BB09-4114-81B2-04B5CCD22E17}.Release|x86.ActiveCfg = Release|Any CPU
+		{DBBB362F-BB09-4114-81B2-04B5CCD22E17}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

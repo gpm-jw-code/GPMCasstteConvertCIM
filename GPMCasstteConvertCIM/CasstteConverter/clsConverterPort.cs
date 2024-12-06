@@ -31,6 +31,9 @@ namespace GPMCasstteConvertCIM.CasstteConverter
     public partial class clsConverterPort : IModbusHSable, INotifyPropertyChanged
     {
         public static event EventHandler<clsConverterPort> OnWaitInReqRaiseButStatusError;
+
+        public bool CarrierEventReportNeedInOnlineRemote => Utility.SysConfigs.CarrierEventReportNeedInOnlineRemote;
+
         public clsConverterPort()
         {
         }
@@ -965,7 +968,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
                                 if (WIPINFO_BCR_ID != "" && !IsBCR_READ_ERROR() && PortExist)
                                 {
-                                    if (!SECSState.IsOnline || !SECSState.IsRemote)
+                                    if (CarrierEventReportNeedInOnlineRemote && (!SECSState.IsOnline || !SECSState.IsRemote))
                                     {
                                         wait_in_accept = true;
                                         Utility.SystemLogger.Info($"[{PortName}] CIM  Accept  Carrier Wait IN Request first because MCS isn't ONLINE _ REMOTE");
@@ -1125,7 +1128,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             [Newtonsoft.Json.JsonConverter(typeof(StringEnumConverter))]
             public CONVERTER_TYPE EQ_TYPE { get; }
             public bool PortHasCargo { get; }
-            public clsPortChangeToOutState(bool IsAGVSOnline ,bool IsMCSOnline, PortUnitType CurrentPortType, CONVERTER_TYPE EQ_TYPE, bool PortHasCargo)
+            public clsPortChangeToOutState(bool IsAGVSOnline, bool IsMCSOnline, PortUnitType CurrentPortType, CONVERTER_TYPE EQ_TYPE, bool PortHasCargo)
             {
                 this.IsAGVSRemote = IsAGVSOnline;
                 this.IsMCSRemote = IsMCSOnline;

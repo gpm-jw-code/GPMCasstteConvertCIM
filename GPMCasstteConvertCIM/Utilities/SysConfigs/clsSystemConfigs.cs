@@ -48,6 +48,9 @@ namespace GPMCasstteConvertCIM.Utilities.SysConfigs
         public Int32 ddoschksec { get; set; } = 3;
         public Int32 ddoslimit { get; set; } = 1024;
         public Int32 ddoscountlimit { get; set; } = 20;
+
+        public bool CarrierEventReportNeedInOnlineRemote { get; set; } = false;
+
         public Configurations S2F49QueuingConfigurations { get; set; } = new Configurations();
         public EQLotIDMonitor.Configrations EQLotIDMonitorConfigrations { get; set; } = new EQLotIDMonitor.Configrations();
         public UIConfiguration UI { get; set; } = new UIConfiguration();

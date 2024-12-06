@@ -24,7 +24,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         internal async Task<bool> SecsEventReport(CEID ceid, string carrier_id)
         {
-            if (!SECSState.IsOnline)
+            if (CarrierEventReportNeedInOnlineRemote && !SECSState.IsOnline)
             {
                 Utility.SystemLogger.Info($"MCS Offline, {ceid} Not Reported.");
                 return false;
@@ -56,7 +56,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             SecsMessage msgSend = await CreateMsgByCEID(ceid);
 
             //Offline
-            if (!SECSState.IsOnline && !SECSState.IsRemote)
+            if (CarrierEventReportNeedInOnlineRemote && !SECSState.IsOnline && !SECSState.IsRemote)
             {
                 if (ceid == CEID.CarrierWaitIn)
                 {
