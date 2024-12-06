@@ -54,8 +54,10 @@ namespace GPMCasstteConvertCIM.UI_UserControls
         {
             if (CstCVPort == null)
                 return;
-            txbWIP_BCR_ID.Text = CstCVPort.WIPINFO_BCR_ID;
+            if (!CstCVPort.EQParent.simulation_mode)
+                txbWIP_BCR_ID.Text = CstCVPort.WIPINFO_BCR_ID;
             txbOnPortID.Text = CstCVPort.CSTIDOnPort;
+
             txbPortID.Text = CstCVPort.Properties.PortID;
             labCurrentPortMode.Text = CstCVPort.EPortType.ToString() + $"({(int)CstCVPort.EPortType})";
             Color active_color = Color.SeaGreen;
@@ -107,6 +109,9 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             ChangeAGVAGVLDULDStatusText();
 
             labWaitIn.Text = !CstCVPort.wait_in_timer.IsRunning || !CstCVPort.CarrierWaitINSystemRequest ? "Wait In" : $"Wait In({Math.Round(CstCVPort.wait_in_timer.ElapsedMilliseconds / 1000.0, 2)})";
+
+            txbWIP_BCR_ID.ReadOnly = !CstCVPort.EQParent.simulation_mode;
+            btnUpdateCarrierID.Visible = StaUsersManager.CurrentUser.Group == StaUsersManager.USER_GROUP.GPM_RD;
         }
 
         private void ChangeAGVAGVLDULDStatusText()
@@ -211,6 +216,17 @@ namespace GPMCasstteConvertCIM.UI_UserControls
         private async void label2_Click_1(object sender, EventArgs e)
         {
             await CstCVPort.ModeChangeRequestHandshake(CstCVPort.EPortType == GPM_SECS.PortUnitType.Input ? GPM_SECS.PortUnitType.Output : GPM_SECS.PortUnitType.Input, "GPM_CIM");
+        }
+
+        private void txbWIP_BCR_ID_TextChanged(object sender, EventArgs e)
+        {
+            if (!CstCVPort.EQParent.simulation_mode)
+                return;
+        }
+
+        private void btnUpdateCarrierID_Click(object sender, EventArgs e)
+        {
+            CstCVPort.WIPINFO_BCR_ID = txbWIP_BCR_ID.Text;
         }
     }
 }

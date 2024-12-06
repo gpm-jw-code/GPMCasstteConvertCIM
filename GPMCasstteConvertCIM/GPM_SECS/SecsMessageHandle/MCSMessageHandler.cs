@@ -57,7 +57,6 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                     return;
                 }
             }
-
             TransmitMsgToAGVS(_primaryMessageWrapper);
 
         }
@@ -178,9 +177,9 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                 Utility.SystemLogger.SecsTransferLog($"Primary Mesaage From MCS : {primaryMsgFromMcs.ToSml()}");
 
 
-                SecsMessage replyMessage;
                 var S = primaryMsgFromMcs.S;
                 var F = primaryMsgFromMcs.F;
+                SecsMessage replyMessage = new SecsMessage(S, (byte)(F + 1), false);
                 var Name = $"S{S}F{F}";
 
                 if (S == 1 && F == 13)
@@ -427,7 +426,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                             A(port.PortExist ? port.CSTIDOnPort : ""),
                             A(port.Properties.PortID),
                             A(""),
-                            A(port.Properties.CarrierInstallTime.ToString("yyyyMMddHHmmssff")),
+                            A(port.PortExist ? port.Properties.CarrierInstallTime.ToString("yyyyMMddHHmmssff") : ""),
                             U2((ushort)(port.PortType == 0 ? 0 : 4))
                         );
             }

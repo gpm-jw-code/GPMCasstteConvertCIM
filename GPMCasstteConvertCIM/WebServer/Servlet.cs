@@ -100,6 +100,17 @@ namespace GPMCasstteConvertCIM.WebServer
                 if (OnPortTypeChangeRequest != null)
                     result = OnPortTypeChangeRequest(tagID, portType);
             }
+
+            if (lowerstring.Contains("/api/s2f49/accept"))
+            {
+                result = new clsResponse(0, "");
+            }
+            if (lowerstring.Contains("/api/s2f49/reject"))
+            {
+                string resultCode = request.QueryString["resultCode"].ToString();
+                result = new clsResponse(0, "");
+            }
+
             var responseStr = JsonConvert.SerializeObject(result);
             byte[] res = Encoding.UTF8.GetBytes(responseStr);
 

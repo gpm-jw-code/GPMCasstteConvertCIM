@@ -85,7 +85,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             for (int i = 0; i < eqOptions.Ports.Count; i++)
             {
                 var portProp = eqOptions.Ports[i];
-                PortDatas.Add(new clsConverterPort(portProp, this));
+                CreatePortInstance(portProp);
+
             }
             this.converterType = eqOptions.ConverterType;
             this.index = eqOptions.DeviceId;
@@ -98,6 +99,11 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             PLCMemorySyncTask();
             DataSyncTask();
             RegistMemoryAddressValuesChangedEvent();
+        }
+
+        protected virtual void CreatePortInstance(clsPortProperty portProp)
+        {
+            PortDatas.Add(new clsConverterPort(portProp, this));
         }
 
         protected void RegistMemoryAddressValuesChangedEvent()
@@ -150,7 +156,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         }
 
 
-        protected async void EQPInterfaceClockMonitor()
+        protected virtual async void EQPInterfaceClockMonitor()
         {
             _ = Task.Factory.StartNew(async () =>
             {
@@ -334,7 +340,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             });
         }
 
-        protected void DataSyncTask()
+        protected virtual void DataSyncTask()
         {
             _ = Task.Run(async () =>
             {
@@ -685,7 +691,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     //EQP word data
 
 
-                    EQPORT.PortType = (int)LinkWordMap.First(f => !f.IsCIMUse && f.EScope == port && f.EProperty == PROPERTY.Port_Type_Status).Value;
+                    UpdatePortType(port, EQPORT);
                     EQPORT.Port_Auto_Manual_Mode_Status = (int)LinkWordMap.First(f => !f.IsCIMUse && f.EScope == port && f.EProperty == PROPERTY.Port_Auto_Manual_Mode_Status).Value;
                     try
                     {
@@ -700,7 +706,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                         EQPORT.WIPInfo_BCR_ID_8 = (int)LinkWordMap.First(f => !f.IsCIMUse && f.EScope == port && f.EProperty == PROPERTY.WIP_Information_BCR_8).Value;
                         EQPORT.WIPInfo_BCR_ID_9 = (int)LinkWordMap.First(f => !f.IsCIMUse && f.EScope == port && f.EProperty == PROPERTY.WIP_Information_BCR_9).Value;
                         EQPORT.WIPInfo_BCR_ID_10 = (int)LinkWordMap.First(f => !f.IsCIMUse && f.EScope == port && f.EProperty == PROPERTY.WIP_Information_BCR_10).Value;
-                        EQPORT.WIPINFO_BCR_ID = EQPORT.GetWIPIDFromMem();
+                        UPdateCarrierIDFromMemeoryTable(EQPORT);
                         //EQPORT.WIPINFO_BCR_ID = IsSimulation ? EQPORT.Properties.PreviousOnPortID : EQPORT.GetWIPIDFromMem();
                     }
                     catch (Exception ex)
@@ -716,6 +722,16 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 Utility.SystemLogger.Error(ex.Message, ex);
             }
 
+        }
+
+        protected virtual void UpdatePortType(EQ_SCOPE port, clsConverterPort EQPORT)
+        {
+            EQPORT.PortType = (int)LinkWordMap.First(f => !f.IsCIMUse && f.EScope == port && f.EProperty == PROPERTY.Port_Type_Status).Value;
+        }
+
+        protected virtual void UPdateCarrierIDFromMemeoryTable(clsConverterPort EQPORT)
+        {
+            EQPORT.WIPINFO_BCR_ID = EQPORT.GetWIPIDFromMem();
         }
 
         /// <summary>

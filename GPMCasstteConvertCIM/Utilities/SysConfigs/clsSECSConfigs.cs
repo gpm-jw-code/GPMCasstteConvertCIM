@@ -86,5 +86,7 @@ namespace GPMCasstteConvertCIM.Utilities.SysConfigs
                 }
             }
         }
+
+        public bool IsGPMAsHost { get; internal set; }
     }
 }

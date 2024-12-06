@@ -1,5 +1,6 @@
 ﻿using GPMCasstteConvertCIM.CasstteConverter;
 using GPMCasstteConvertCIM.Cclink_IE_Sturcture;
+using GPMCasstteConvertCIM.Emulators;
 using GPMCasstteConvertCIM.Forms;
 using GPMCasstteConvertCIM.GPM_SECS;
 using GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle;
@@ -77,16 +78,16 @@ namespace GPMCasstteConvertCIM.Devices
         internal static void Connect()
         {
 
-            secs_for_mcs_test.OnPrimaryMessageRecieve += MCSMessageHandler.PrimaryMessageOnReceivedAsync;
-            secs_for_mcs_test.ConnectionChanged += new Action<ConnectionState>((state) => { });
-            secs_for_mcs_test.Active(new SecsGemOptions()
-            {
-                DeviceId = 1,
-                Port = 9000,
-                IsActive = false,
-                IpAddress = "127.0.0.1",
+            //secs_for_mcs_test.OnPrimaryMessageRecieve += MCSMessageHandler.PrimaryMessageOnReceivedAsync;
+            //secs_for_mcs_test.ConnectionChanged += new Action<ConnectionState>((state) => { });
+            //secs_for_mcs_test.Active(new SecsGemOptions()
+            //{
+            //    DeviceId = 1,
+            //    Port = 9000,
+            //    IsActive = false,
+            //    IpAddress = "127.0.0.1",
 
-            });
+            //});
 
             try
             {
@@ -151,7 +152,8 @@ namespace GPMCasstteConvertCIM.Devices
                 {
                     try
                     {
-                        var EQ = new clsCasstteConverter(option);
+
+                        var EQ = Utility.SysConfigs.Simulation ? new clsDeviceEmulator(option) : new clsCasstteConverter(option);
                         EQ.ConnectionStateChanged += CasstteConverter_ConnectionStateChanged;
                         EQ.ActiveAsync(option.ToMCIFOptions());
                         casstteConverters.Add(EQ);

@@ -32,7 +32,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         /// </summary>
         /// <param name="portUnitType"></param>
         /// <returns></returns>
-        internal async Task<bool> ModeChangeRequestHandshake(PortUnitType portUnitType, string requester_name = "MCS", bool no_change_if_current_type_is_req = true)
+        internal virtual async Task<bool> ModeChangeRequestHandshake(PortUnitType portUnitType, string requester_name = "MCS", bool no_change_if_current_type_is_req = true)
         {
             if (no_change_if_current_type_is_req && EPortType == portUnitType)
             {

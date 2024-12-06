@@ -72,6 +72,7 @@
             label6 = new Label();
             labAGVReadyToTransfer = new Label();
             labLDULDStatus = new Label();
+            btnUpdateCarrierID = new Button();
             flowLayoutPanel1.SuspendLayout();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
@@ -485,6 +486,7 @@
             txbWIP_BCR_ID.Size = new Size(178, 23);
             txbWIP_BCR_ID.TabIndex = 26;
             txbWIP_BCR_ID.TextAlign = HorizontalAlignment.Center;
+            txbWIP_BCR_ID.TextChanged += txbWIP_BCR_ID_TextChanged;
             // 
             // label1
             // 
@@ -510,7 +512,7 @@
             labUnloading.FlatStyle = FlatStyle.Flat;
             labUnloading.Font = new Font("Microsoft JhengHei UI", 7F, FontStyle.Regular, GraphicsUnit.Point);
             labUnloading.ForeColor = Color.White;
-            labUnloading.Location = new Point(353, 80);
+            labUnloading.Location = new Point(354, 80);
             labUnloading.Margin = new Padding(1);
             labUnloading.Name = "labUnloading";
             labUnloading.Size = new Size(58, 19);
@@ -527,7 +529,7 @@
             labLoading.FlatStyle = FlatStyle.Flat;
             labLoading.Font = new Font("Microsoft JhengHei UI", 7F, FontStyle.Regular, GraphicsUnit.Point);
             labLoading.ForeColor = Color.White;
-            labLoading.Location = new Point(413, 80);
+            labLoading.Location = new Point(414, 80);
             labLoading.Margin = new Padding(1);
             labLoading.Name = "labLoading";
             labLoading.Size = new Size(58, 19);
@@ -560,7 +562,7 @@
             labPortEventRepShow.FlatStyle = FlatStyle.Flat;
             labPortEventRepShow.Font = new Font("Microsoft JhengHei UI", 7F, FontStyle.Regular, GraphicsUnit.Point);
             labPortEventRepShow.ForeColor = Color.White;
-            labPortEventRepShow.Location = new Point(184, 54);
+            labPortEventRepShow.Location = new Point(185, 54);
             labPortEventRepShow.Margin = new Padding(1);
             labPortEventRepShow.Name = "labPortEventRepShow";
             labPortEventRepShow.Size = new Size(95, 24);
@@ -614,7 +616,7 @@
             labServiceStatusText.AutoSize = true;
             labServiceStatusText.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Bold, GraphicsUnit.Point);
             labServiceStatusText.ForeColor = Color.Red;
-            labServiceStatusText.Location = new Point(359, 293);
+            labServiceStatusText.Location = new Point(360, 293);
             labServiceStatusText.Name = "labServiceStatusText";
             labServiceStatusText.Size = new Size(144, 24);
             labServiceStatusText.TabIndex = 40;
@@ -639,7 +641,7 @@
             labPortTypeChgReq.FlatStyle = FlatStyle.Flat;
             labPortTypeChgReq.Font = new Font("Microsoft JhengHei UI", 11F, FontStyle.Regular, GraphicsUnit.Point);
             labPortTypeChgReq.ForeColor = Color.White;
-            labPortTypeChgReq.Location = new Point(340, 266);
+            labPortTypeChgReq.Location = new Point(341, 266);
             labPortTypeChgReq.Margin = new Padding(1);
             labPortTypeChgReq.Name = "labPortTypeChgReq";
             labPortTypeChgReq.Size = new Size(155, 24);
@@ -679,7 +681,7 @@
             labAGVReadyToTransfer.AutoSize = true;
             labAGVReadyToTransfer.Font = new Font("Microsoft JhengHei UI", 13F, FontStyle.Bold, GraphicsUnit.Point);
             labAGVReadyToTransfer.ForeColor = Color.White;
-            labAGVReadyToTransfer.Location = new Point(380, 34);
+            labAGVReadyToTransfer.Location = new Point(381, 34);
             labAGVReadyToTransfer.Name = "labAGVReadyToTransfer";
             labAGVReadyToTransfer.Size = new Size(126, 23);
             labAGVReadyToTransfer.TabIndex = 45;
@@ -691,7 +693,7 @@
             labLDULDStatus.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             labLDULDStatus.Font = new Font("Microsoft JhengHei UI", 13F, FontStyle.Bold, GraphicsUnit.Point);
             labLDULDStatus.ForeColor = Color.White;
-            labLDULDStatus.Location = new Point(353, 7);
+            labLDULDStatus.Location = new Point(354, 7);
             labLDULDStatus.Name = "labLDULDStatus";
             labLDULDStatus.Size = new Size(153, 23);
             labLDULDStatus.TabIndex = 46;
@@ -699,12 +701,25 @@
             labLDULDStatus.TextAlign = ContentAlignment.MiddleRight;
             labLDULDStatus.Visible = false;
             // 
+            // btnUpdateCarrierID
+            // 
+            btnUpdateCarrierID.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            btnUpdateCarrierID.Location = new Point(281, 265);
+            btnUpdateCarrierID.Name = "btnUpdateCarrierID";
+            btnUpdateCarrierID.Size = new Size(55, 23);
+            btnUpdateCarrierID.TabIndex = 47;
+            btnUpdateCarrierID.Text = "更新";
+            btnUpdateCarrierID.UseVisualStyleBackColor = true;
+            btnUpdateCarrierID.Visible = false;
+            btnUpdateCarrierID.Click += btnUpdateCarrierID_Click;
+            // 
             // UscConverterPortStatus
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoScroll = true;
             BackColor = Color.Gray;
+            Controls.Add(btnUpdateCarrierID);
             Controls.Add(labLDULDStatus);
             Controls.Add(labAGVReadyToTransfer);
             Controls.Add(txbOnPortID);
@@ -723,7 +738,7 @@
             Controls.Add(label1);
             Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             Name = "UscConverterPortStatus";
-            Size = new Size(509, 321);
+            Size = new Size(510, 321);
             flowLayoutPanel1.ResumeLayout(false);
             panel1.ResumeLayout(false);
             panel2.ResumeLayout(false);
@@ -778,5 +793,6 @@
         private Label label2;
         private Label label7;
         private Label labLDULDStatus;
+        private Button btnUpdateCarrierID;
     }
 }
