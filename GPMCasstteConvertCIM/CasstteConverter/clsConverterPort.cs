@@ -960,6 +960,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                         Task.Factory.StartNew(async () =>
                         {
                             await Task.Delay(1000);
+                            AGVsAcceptMCSTransferTaskReq = true;
+                            AGVsReplyMCSTransferTaskReqFlag = false;
                             Utility.SystemLogger.Info($"[{PortName}] -Carrier Wait In Request ON , With CST ID＝{CSTIDOnPort}");
 
                             bool wait_in_accept = false;
@@ -1006,6 +1008,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
                             (bool confirm, ALARM_CODES alarm_code) result = await CarrierWaitInReply(wait_in_accept, 30000);
                             AGVsReplyMCSTransferTaskReqFlag = false; //reset flag
+                            AGVsAcceptMCSTransferTaskReq = true; //reset flag
                             if (!wait_in_accept)
                             {
                                 await SecsEventReport(CEID.CarrierWaitOut);
