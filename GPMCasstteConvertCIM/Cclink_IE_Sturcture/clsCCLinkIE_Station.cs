@@ -271,6 +271,15 @@ namespace GPMCasstteConvertCIM.Cclink_IE_Sturcture
             }
         }
 
+        protected override void UpdateHostModeToPLCMemory(bool isRemote)
+        {
+            if (!PortCIMBitAddress.TryGetValue(PROPERTY.HOST_MODE, out string address))
+                return;
+            if (string.IsNullOrEmpty(address))
+                return;
+            DevicesManager.cclink_master.CIMMemOptions.memoryTable.WriteOneBit(address, isRemote);
+        }
+
         protected override void ReportBCRToAGVS(clsMemoryAddress? agvs_msg_1_address, clsMemoryAddress? agvs_msg_download_inedx_address, int[] bcr_id_ints)
         {
             DevicesManager.cclink_master.CIMMemOptions.memoryTable.WriteWord(agvs_msg_1_address.Address, ref bcr_id_ints);

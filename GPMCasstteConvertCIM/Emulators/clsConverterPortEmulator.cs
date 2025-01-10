@@ -65,10 +65,10 @@ namespace GPMCasstteConvertCIM.Emulators
                 }
             }
         }
-        protected override async Task CarrierWaitoutSecsGemReportProcess()
+        protected override async Task CarrierWaitoutSecsGemReportProcess(bool needWaitTransferCompletedReported = true, bool waitUnloadRequestOn = false)
         {
-            await SecsEventReport(CEID.CarrierWaitOut, CSTIDOnPort);
-
+            if (Properties.SecsReport)
+                await SecsEventReport(CEID.CarrierWaitOut, CSTIDOnPort);
             //return base.CarrierWaitoutSecsGemReportProcess();
         }
     }

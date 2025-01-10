@@ -46,7 +46,35 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             AGVSignals = new clsHS_Status_Signals();
             AGVSignals.OnValidSignalActive += AGVSignals_OnValidSignalActive;
             SECSState.OnMCSOnlineRemote += SECSState_OnMCSOnlineRemote;
+            SECSState.OnMCSRemoteModeChanged += SECSState_OnMCSRemoteModeChanged;
         }
+
+        private void SECSState_OnMCSRemoteModeChanged(object? sender, bool isRemote)
+        {
+            Task.Factory.StartNew(async () =>
+            {
+                await Task.Delay(1);
+                UpdateHostModeToPLCMemory(isRemote);
+            });
+        }
+
+        protected virtual void UpdateHostModeToPLCMemory(bool isRemote)
+        {
+            try
+            {
+                if (!PortCIMBitAddress.TryGetValue(PROPERTY.HOST_MODE, out string address))
+                    return;
+                if (string.IsNullOrEmpty(address))
+                    return;
+                CIMMemoryTable.WriteOneBit(address, isRemote);
+                Utility.SystemLogger.Info($"Port {PortName}: Update HOST_MODE bit to EQ : {(isRemote ? 1 : 0)}");
+            }
+            catch (Exception ex)
+            {
+                Utility.SystemLogger.Error($"Port {PortName}: Update HOST_MODE bit to EQ Exception Occur: {ex.Message}");
+            }
+        }
+
         public enum EQ_PORT_LD_STATE
         {
             Load,
@@ -761,7 +789,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 return;
             }
             //檢查ID
-            if (WIPINFO_BCR_ID == "" | IsBCR_READ_ERROR())
+            if (WIPINFO_BCR_ID == "" || IsBCR_READ_ERROR())
             {
                 if (IsBCR_READ_ERROR())
                     Utility.SystemLogger.Info($"Carrier Wait In and Carrier Exist But Carrier ID Is Empty");
@@ -957,6 +985,14 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     {
                         wait_in_timer.Restart();
                         CarrierInstallTime = DateTime.Now;
+
+                        if (EPortType == PortUnitType.Output)
+                        {
+                            Utility.SystemLogger.Warning($"[{PortName}] -OUTPUT 模式但轉換架發 wait in 時 直接完成交握 不可上報MCS");
+                            _ = HandleCarrierWaitInButNotInputModeSituation();
+                            return;
+                        }
+
                         Task.Factory.StartNew(async () =>
                         {
                             await Task.Delay(1000);
@@ -1028,6 +1064,17 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             }
         }
 
+        /// <summary>
+        /// 處理轉換架在Output 模式下上報Wait in : 先完成Wait in 交握，然後向MCS上報 Waitout
+        /// </summary>
+        /// <returns></returns>
+        private async Task HandleCarrierWaitInButNotInputModeSituation()
+        {
+            //OUTPUT 模式但轉換架發 wait in 時 直接完成交握 不可上報MCS
+            (bool confirm, ALARM_CODES alarm_code) result = await CarrierWaitInReply(false, 30000);
+            if (Properties.SecsReport)
+                await CarrierWaitoutSecsGemReportProcess(false, true);
+        }
 
         private bool _CarrierWaitOUTSystemRequest;
         public bool CarrierWaitOUTSystemRequest
@@ -1083,11 +1130,34 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             }
         }
 
-        protected virtual async Task CarrierWaitoutSecsGemReportProcess()
+        protected virtual async Task CarrierWaitoutSecsGemReportProcess(bool needWaitTransferCompletedReported = true, bool waitUnloadRequestOn = false)
         {
-            bool transfer_completed_reported = await WaitAGVSTransferCompleteReported();
+            bool transfer_completed_reported = needWaitTransferCompletedReported ? await WaitAGVSTransferCompleteReported() : true;
             if (transfer_completed_reported && PortExist)
             {
+                //等待 Unload_Request ON 
+
+                bool unload_request_on = waitUnloadRequestOn ? await WaitUnloadRequestON() : true;
+
+                async Task<bool> WaitUnloadRequestON()
+                {
+                    CancellationTokenSource cts = new CancellationTokenSource(TimeSpan.FromSeconds(30));
+                    while (!UnloadRequest)
+                    {
+                        try
+                        {
+                            await Task.Delay(1, cts.Token);
+                        }
+                        catch (Exception)
+                        {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+                if (!unload_request_on)
+                    Utility.SystemLogger.Info($"[{PortName}] [Before Wait out Report To_MCS - Wait Unload_Request Signal 'ON' Timeout!]");
+
                 await Task.Delay(3000);
                 var isCSTIDMismatch = WIPINFO_BCR_ID != CSTID_From_TransferCompletedReport;
                 bool IsBCRReadFail = IsBCR_READ_ERROR() || WIPINFO_BCR_ID == "";

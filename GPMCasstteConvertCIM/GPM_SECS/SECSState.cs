@@ -46,6 +46,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS
                 {
                     Utility.SystemLogger.Info($"AGVS/MCS Operation Mode Changed to {(value ? "Remote" : "Local")}");
                     _IsRemote = value;
+                    OnMCSRemoteModeChanged?.Invoke("", _IsRemote);
                     if (value)
                     {
                         if (EqLotIDMonitor.Config.Enabled)
@@ -61,5 +62,6 @@ namespace GPMCasstteConvertCIM.GPM_SECS
         }
 
         internal static event EventHandler OnMCSOnlineRemote;
+        internal static event EventHandler<bool> OnMCSRemoteModeChanged;
     }
 }

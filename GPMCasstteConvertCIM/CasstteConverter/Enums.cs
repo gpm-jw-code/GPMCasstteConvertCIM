@@ -143,6 +143,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             To_EQ_Low,
             CMD_reserve_Up,
             CMD_reserve_Low,
+            HOST_MODE,
             AGVS_MSG_DOWNLOAD_INDEX,
             AGVS_MSG_1,
             AGVS_MSG_17

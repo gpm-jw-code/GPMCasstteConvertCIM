@@ -3,7 +3,7 @@ Y0000,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Up,16,STK,
 Y0001,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT1,To_EQ_Low,17,STK,,,,,,,Y,1,Y0001
 Y0002,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Up,18,STK,,,,,,,Y,2,Y0002
 Y0003,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT1,CMD_reserve_Low,19,STK,,,,,,,Y,3,Y0003
-Y0004,AGVS,,Boolean,,,,,,,,,,,,Y,4,Y0004
+Y0004,AGVS,HOST_MODE,Boolean,5.2.2 Status Download by AGVS,PORT1,HOST_MODE,,STK,,,,,,,Y,4,Y0004
 Y0005,AGVS,,Boolean,,,,,,,,,,,,Y,5,Y0005
 Y0006,AGVS,,Boolean,,,,,,,,,,,,Y,6,Y0006
 Y0007,AGVS,,Boolean,,,,,,,,,,,,Y,7,Y0007
@@ -19,7 +19,7 @@ Y0010,AGVS,To EQ Up,Boolean,5.2.2 Status Download by AGVS,PORT2,To_EQ_Up,16,STK,
 Y0011,AGVS,To EQ Low,Boolean,5.2.2 Status Download by AGVS,PORT2,To_EQ_Low,17,STK,,,,,,,Y,17,Y0011
 Y0012,AGVS,CMD reserve Up,Boolean,5.2.2 Status Download by AGVS,PORT2,CMD_reserve_Up,18,STK,,,,,,,Y,18,Y0012
 Y0013,AGVS,CMD reserve Low,Boolean,5.2.2 Status Download by AGVS,PORT2,CMD_reserve_Low,19,STK,,,,,,,Y,19,Y0013
-Y0014,AGVS,,Boolean,,,,,,,,,,,,Y,20,Y0014
+Y0014,AGVS,HOST_MODE,Boolean,5.2.2 Status Download by AGVS,PORT2,HOST_MODE,,STK,,,,,,,Y,20,Y0014
 Y0015,AGVS,,Boolean,,,,,,,,,,,,Y,21,Y0015
 Y0016,AGVS,,Boolean,,,,,,,,,,,,Y,22,Y0016
 Y0017,AGVS,,Boolean,,,,,,,,,,,,Y,23,Y0017
