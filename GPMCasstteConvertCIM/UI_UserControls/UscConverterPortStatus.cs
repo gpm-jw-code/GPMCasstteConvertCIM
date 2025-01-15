@@ -112,6 +112,7 @@ namespace GPMCasstteConvertCIM.UI_UserControls
 
             txbWIP_BCR_ID.ReadOnly = !CstCVPort.EQParent.simulation_mode;
             btnUpdateCarrierID.Visible = StaUsersManager.CurrentUser.Group == StaUsersManager.USER_GROUP.GPM_RD;
+            labTagNumber.Text = CstCVPort.Properties.TagNumberInAGVS + "";
         }
 
         private void ChangeAGVAGVLDULDStatusText()

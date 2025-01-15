@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static GPMCasstteConvertCIM.CasstteConverter.Enums;
 
 namespace GPMCasstteConvertCIM.Emulators
 {
@@ -22,9 +23,48 @@ namespace GPMCasstteConvertCIM.Emulators
 
         internal override async Task<bool> ModeChangeRequestHandshake(PortUnitType portUnitType, string requester_name = "MCS", bool no_change_if_current_type_is_req = true)
         {
-            //return base.ModeChangeRequestHandshake(portUnitType, requester_name, no_change_if_current_type_is_req);
-            PortType = (int)portUnitType;
+            CancellationTokenSource cts = new CancellationTokenSource();
+            bool response = false;
+            _ = Task.Run(async () =>
+            {
+                response = await base.ModeChangeRequestHandshake(portUnitType, requester_name, no_change_if_current_type_is_req);
+                cts.Cancel();
+            });
+            await Task.Delay(220);
+            if (cts.IsCancellationRequested)
+            {
+                return response;
+            }
+            await _waitCimPortTypeChgRequestBitON(); //等待CIM Port Type CHange request bit flag ON
+            EQParent.EQPMemOptions.memoryTable.WriteOneBit(PortEQBitAddress[PROPERTY.Port_Mode_Change_Accept], true); //接受port type 變換
+            await Task.Delay(220);
+            await _waitCimPortTypeChgRequestBitOFF(); //等待CIM Port Type CHange request bit flag OFF, Finish handshake
+            EQParent.EQPMemOptions.memoryTable.WriteOneBit(PortEQBitAddress[PROPERTY.Port_Mode_Change_Accept], false); //清空接受訊號
+            //模擬EQ切換Port完成 狀態訊號上報
+            EQParent.EQPMemOptions.memoryTable.WriteBinary(PortEQWordAddress[PROPERTY.Port_Type_Status], portUnitType == PortUnitType.Input ? 0 : 1); //接受port type 變換
             return true;
+
+
+            async Task<bool> _waitCimPortTypeChgRequestBitON()
+            {
+                string Port_Mode_Change_Request_address_name = PortCIMBitAddress[PROPERTY.Port_Mode_Change_Request];
+                while (!EQParent.CIMMemOptions.memoryTable.ReadOneBit(Port_Mode_Change_Request_address_name))
+                {
+                    await Task.Delay(100);
+                }
+
+                return true;
+            }
+            async Task<bool> _waitCimPortTypeChgRequestBitOFF()
+            {
+                string Port_Mode_Change_Request_address_name = PortCIMBitAddress[PROPERTY.Port_Mode_Change_Request];
+                while (EQParent.CIMMemOptions.memoryTable.ReadOneBit(Port_Mode_Change_Request_address_name))
+                {
+                    await Task.Delay(100);
+                }
+
+                return true;
+            }
         }
         public override string WIPINFO_BCR_ID
         {

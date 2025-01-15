@@ -49,7 +49,7 @@ namespace GPMCasstteConvertCIM.Emulators
         }
         protected override void UpdatePortType(EQ_SCOPE port, clsConverterPort EQPORT)
         {
-            //base.UpdatePortType(port, EQPORT); DO NOTHING 因為要在UI上模擬更新
+            base.UpdatePortType(port, EQPORT); //DO NOTHING 因為要在UI上模擬更新
         }
         protected override void UPdateCarrierIDFromMemeoryTable(clsConverterPort EQPORT)
         {
