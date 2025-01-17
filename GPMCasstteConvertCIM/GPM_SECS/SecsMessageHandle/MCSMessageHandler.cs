@@ -224,19 +224,11 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                         if (primaryMsgFromMcs.TryParseTransferInfo(out string carrier_id, out string source, out string destine))
                         {
                             Utility.SystemLogger.Info($"AGVs {(AGVS_Accept_TransferTask ? "Accept" : "Reject")} Transfer Task (Carrier id={carrier_id},Source={source},Destine={destine})");
-                            var port_wait_in = DevicesManager.GetAllPorts().FirstOrDefault(port => port.Properties.PortID == source);
-                            if (port_wait_in != null)
-                            {
-                                if (AGVS_Accept_TransferTask || !port_wait_in.Properties.CarrierWaitOutWhenAGVSRefuseMCSMission)
-                                    port_wait_in.CstTransferAcceptInvoke();
-                                else
-                                    port_wait_in.CstTransferRejectInvoke();
-                            }
+                            DevicesManager.TryInvokePortCarrierInSystemState(source, AGVS_Accept_TransferTask);
                         }
                         else
                         {
                             Utility.SystemLogger.Warning($"Parse S2F49-{primaryMsgFromMcs.ToSml()} Fail");
-
                         }
                         //(bool confirm, ALARM_CODES alarmcode) handleResult = await TransferHandler(parameterGroups, _primaryMessageWrapper);
                     }

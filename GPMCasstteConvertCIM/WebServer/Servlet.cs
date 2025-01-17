@@ -42,6 +42,8 @@ namespace GPMCasstteConvertCIM.WebServer
         public static PorTypeChangeDelegate OnPortTypeChangeRequest;
 
         public static event EventHandler<int> OnAGVSHostModeChanged;
+        public static event EventHandler<(string? commandID, string? source, string? destine, string? carrierID)> OnAGVSAcceptTransferCommand;
+        public static event EventHandler<(string? commandID, string? source, string? destine, string? carrierID, int resultCode)> OnAGVSRejectTransferCommand;
 
         public MyServlet(string? logFolder)
         {
@@ -112,12 +114,15 @@ namespace GPMCasstteConvertCIM.WebServer
 
             if (lowerstring.Contains("/api/s2f49/accept"))
             {
-                result = new clsResponse(0, "");
+                GetTransferCommandInfo(jsonStr, out string? commandID, out string? sourceID, out string? destID, out string? carrierID, out int resultCode);
+                OnAGVSAcceptTransferCommand?.Invoke(null, (commandID, sourceID, destID, carrierID));
+                result = new clsResponse(200, "");
             }
             if (lowerstring.Contains("/api/s2f49/reject"))
             {
-                string resultCode = request.QueryString["resultCode"].ToString();
-                result = new clsResponse(0, "");
+                GetTransferCommandInfo(jsonStr, out string? commandID, out string? sourceID, out string? destID, out string? carrierID, out int resultCode);
+                OnAGVSRejectTransferCommand?.Invoke(null, (commandID, sourceID, destID, carrierID, resultCode));
+                result = new clsResponse(200, "");
             }
 
             var responseStr = JsonConvert.SerializeObject(result);
@@ -127,6 +132,23 @@ namespace GPMCasstteConvertCIM.WebServer
             response.Headers.Add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
             response.Headers.Add("Access-Control-Allow-Headers", "Content-Type, Accept");
             response.OutputStream.Write(res, 0, res.Length);
+        }
+
+        private void GetTransferCommandInfo(string jsonStr, out string? commandID, out string? sourceID, out string? destID, out string? carrierID, out int resultCode)
+        {
+            commandID = sourceID = destID = carrierID = "";
+            resultCode = -1;
+            JObject jObject = JObject.Parse(jsonStr);
+            if (jObject.TryGetValue("taskID", out JToken? val) && val != null)
+                commandID = val.Value<string>();
+            if (jObject.TryGetValue("sourceDeviceID", out val) && val != null)
+                sourceID = val.Value<string>();
+            if (jObject.TryGetValue("destDeviceID", out val) && val != null)
+                destID = val.Value<string>();
+            if (jObject.TryGetValue("carrierID", out val) && val != null)
+                carrierID = val.Value<string>();
+            if (jObject.TryGetValue("resultCode", out val) && val != null)
+                resultCode = val.Value<int>();
         }
 
         private static string GetBodyJson(HttpListenerRequest request)

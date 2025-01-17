@@ -185,6 +185,8 @@ namespace GPMCasstteConvertCIM.Forms
                     MyServlet.OnPortTypeChangeRequest += DevicesManager.PortTypeChangeHandler;
                     MyServlet.OnHotRunModeChangeRequest += HotRunRemoteControlHandle;
                     MyServlet.OnAGVSHostModeChanged += SECSState.HandleAGVSHostModeChanged;
+                    MyServlet.OnAGVSAcceptTransferCommand += DevicesManager.HandleAGVSAcceptTransferCommand;
+                    MyServlet.OnAGVSRejectTransferCommand += DevicesManager.HandleAGVSRejectTransferCommand;
                     GPM_SECS.SecsMessageHandle.AGVSMessageHandler.OnAGVSDDOSAttacking += AGVSMessageHandler_OnAGVSDDOSAttacking;
 
                     CIMWebServer.StartService(Utility.SysConfigs.WebService.HostUrl, Path.Combine(Utility.SysConfigs.Log.SyslogFolder, "WebServerLog"));

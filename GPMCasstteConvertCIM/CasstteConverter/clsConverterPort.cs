@@ -1019,10 +1019,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                                     if (mcs_accpet_wait_in && Properties.CarrierWaitInNeedWaitingS2F41OrS2F49)
                                     {
                                         Utility.SystemLogger.Info($"Wait S2F41 or S2F49 Message reachded and Accepted by AGVs");
-                                        wait_in_accept = await WaitTransferTaskDownloaded();
-                                        if (wait_in_accept)
-                                            Utility.SystemLogger.Info($"[{PortName}] {(AGVsReplyMCSTransferTaskReqFlag ? "S2F49_Transfer" : "S2F41_No_Transfer")} Message reachded!");
-                                        Utility.SystemLogger.Info($"[{PortName}] MCS {(wait_in_accept ? "Accept" : "Reject")} Carrier Wait IN Request..");
+                                        WAITIN_REJECT_TYPE waitResultOfTransferCommandState = await WaitTransferTaskDownloaded();
+                                        wait_in_accept = waitResultOfTransferCommandState == WAITIN_REJECT_TYPE.ACCEPT;
+                                        HandleWaitInResultInCheckTransferCommandStep(wait_in_accept, waitResultOfTransferCommandState);
+
                                     }
                                     else
                                     {
@@ -1061,6 +1061,26 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                         });
                     }
                 }
+            }
+        }
+
+        private void HandleWaitInResultInCheckTransferCommandStep(bool wait_in_accept, WAITIN_REJECT_TYPE waitResultOfTransferCommandState)
+        {
+            if (wait_in_accept)
+                log("Transfer command recieved By AGVS and AGVS Accept in time. Carrier wait in will accept and be transfered later");
+            else
+            {
+                if (waitResultOfTransferCommandState == WAITIN_REJECT_TYPE.AGVS_REJECT_TRANSFER_COMMAND)
+                    log("Transfer command recieved By AGVS but AGVS Reject. Carrier wait in will reject and carrier should be moved out manually later");
+                else if (waitResultOfTransferCommandState == WAITIN_REJECT_TYPE.WAIT_AGVS_GET_TRANSFER_COMMAND_TIMEOUT)
+                    log("Wait transfer command recieved By AGVS Timeout. Carrier wait in will reject and carrier should be moved out manually later");
+                else if (waitResultOfTransferCommandState == WAITIN_REJECT_TYPE.MCS_SEND_NO_TRANSFER_NOTIFY)
+                    log("MCS Send No Transfer Command Notify. Carrier wait in will reject and carrier should be moved out manually later");
+            }
+
+            void log(string message)
+            {
+                Utility.SystemLogger.Info($"HandleWaitInResultInCheckTransferCommandStep [{PortName}] {message}");
             }
         }
 

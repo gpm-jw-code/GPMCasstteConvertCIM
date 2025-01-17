@@ -324,6 +324,31 @@ namespace GPMCasstteConvertCIM.Devices
             return new clsResponse(0);
         }
 
+        internal static void HandleAGVSAcceptTransferCommand(object? sender, (string? commandID, string? source, string? destine, string? carrierID) e)
+        {
+            if (!string.IsNullOrEmpty(e.source))
+                TryInvokePortCarrierInSystemState(e.source, true);
+        }
+
+        internal static void HandleAGVSRejectTransferCommand(object? sender, (string? commandID, string? source, string? destine, string? carrierID, int resultCode) e)
+        {
+            if (!string.IsNullOrEmpty(e.source))
+                TryInvokePortCarrierInSystemState(e.source, false);
+        }
+
+
+        internal static void TryInvokePortCarrierInSystemState(string sourceDeviceID, bool AGVS_Accept_TransferTask)
+        {
+            clsConverterPort? port_wait_in = GetAllPorts().FirstOrDefault(port => port.Properties.PortID == sourceDeviceID);
+            if (port_wait_in != null)
+            {
+                if (AGVS_Accept_TransferTask || !port_wait_in.Properties.CarrierWaitOutWhenAGVSRefuseMCSMission)
+                    port_wait_in.CstTransferAcceptInvoke();
+                else
+                    port_wait_in.CstTransferRejectInvoke();
+            }
+        }
+
         internal static clsResponse PortTypeChangeHandler(int tagID, int portType)
         {
 

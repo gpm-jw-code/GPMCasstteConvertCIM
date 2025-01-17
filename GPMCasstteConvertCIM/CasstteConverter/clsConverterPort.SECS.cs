@@ -135,14 +135,20 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 await Task.Delay(1);
             }
         }
-
+        public enum WAITIN_REJECT_TYPE
+        {
+            ACCEPT,
+            WAIT_AGVS_GET_TRANSFER_COMMAND_TIMEOUT,
+            AGVS_REJECT_TRANSFER_COMMAND,
+            MCS_SEND_NO_TRANSFER_NOTIFY,
+        }
         public CancellationTokenSource WaitTransferTaskDownloadCts = new CancellationTokenSource();
         /// <summary>
         ///等待MCS有下Transfer任務給AGVS取當前Carrier。
         /// </summary>
         /// <param name="cst_id"></param>
         /// <returns></returns>
-        private async Task<bool> WaitTransferTaskDownloaded()
+        private async Task<WAITIN_REJECT_TYPE> WaitTransferTaskDownloaded()
         {
             WaitTransferTaskDownloadCts = new CancellationTokenSource(TimeSpan.FromSeconds(Debugger.IsAttached ? 5 : Properties.WaitS2F49CmdTimeoutSec));
             while (!AGVsReplyMCSTransferTaskReqFlag)
@@ -152,7 +158,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     NoTransferNotifyInovke(Properties.PortID, WIPINFO_BCR_ID, "Wait S2F41/49 Timeout");
                     Utility.SystemLogger.Warning($"{Properties.PortID} _ Carrier- {WIPINFO_BCR_ID} No body known where to go . No AGV To Transfer....");
                     NoTransferNotifyFlag = false; //reset flag
-                    return false;
+                    return WAITIN_REJECT_TYPE.WAIT_AGVS_GET_TRANSFER_COMMAND_TIMEOUT;
                 }
 
                 if (NoTransferNotifyFlag)
@@ -161,16 +167,22 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     NoTransferNotifyInovke(Properties.PortID, WIPINFO_BCR_ID, "MCS Send S2F41-NO Transfer Notify");
                     Utility.SystemLogger.Warning($"{Properties.PortID} _ Carrier- {WIPINFO_BCR_ID} MCS NO Transfer Notify. No AGV To Transfer...");
                     NoTransferNotifyFlag = false; //reset flag
-                    return false;
+                    return WAITIN_REJECT_TYPE.MCS_SEND_NO_TRANSFER_NOTIFY;
                 }
                 await Task.Delay(1);
             }
             WaitTransferTaskDownloadCts.Cancel();
-            Utility.SystemLogger.Warning($"{Properties.PortID} _ Carrier- {WIPINFO_BCR_ID} AGV Will Transfer this carrier later.");
-            return AGVsAcceptMCSTransferTaskReq;
+            if (AGVsAcceptMCSTransferTaskReq)
+            {
+                Utility.SystemLogger.Info($"{Properties.PortID} _ Carrier- {WIPINFO_BCR_ID} AGV Accept Transfer Command.");
+                return WAITIN_REJECT_TYPE.ACCEPT;
+            }
+            else
+            {
+                Utility.SystemLogger.Warning($"{Properties.PortID} _ Carrier- {WIPINFO_BCR_ID} AGV Reject Transfer Command.");
+                return WAITIN_REJECT_TYPE.AGVS_REJECT_TRANSFER_COMMAND;
+            }
         }
-
-
 
     }
 }
