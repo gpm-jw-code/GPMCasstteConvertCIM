@@ -93,6 +93,7 @@ namespace GPMCasstteConvertCIM.Alarm
         WebServer_Build_Fail,
         WebServer_Exception_Happend_When_Handling_Request,
         BCRID_SYNC_TO_AGVS_WORD_REGION_FAIL,
-        AGVS_DDOS
+        AGVS_DDOS,
+        Get_Host_Mode_From_AGVS_FAIL
     }
 }

@@ -54,6 +54,7 @@
             dEBUGToolStripMenuItem = new ToolStripMenuItem();
             webServerExceptionToolStripMenuItem = new ToolStripMenuItem();
             openAllModbusEmuToolStripMenuItem = new ToolStripMenuItem();
+            mCSRemoteToolStripMenuItem = new ToolStripMenuItem();
             toolStripMenuItem_AGVs_DB = new ToolStripMenuItem();
             警報器IO狀態ToolStripMenuItem = new ToolStripMenuItem();
             pnlSideLeft = new Panel();
@@ -106,7 +107,6 @@
             rtbModbusTcpServerLog = new RichTextBox();
             tabAGVSInfos = new TabPage();
             uscagVsInfo1 = new UI_UserControls.UscAGVsInfo();
-            mCSRemoteToolStripMenuItem = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)primaryMessageWrapperBindingSource4).BeginInit();
             ((System.ComponentModel.ISupportInitialize)primaryMessageWrapperBindingSource1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)primaryMessageWrapperBindingSource3).BeginInit();
@@ -176,7 +176,7 @@
             // 編輯ToolStripMenuItem
             // 
             編輯ToolStripMenuItem.Name = "編輯ToolStripMenuItem";
-            編輯ToolStripMenuItem.Size = new Size(180, 42);
+            編輯ToolStripMenuItem.Size = new Size(154, 42);
             編輯ToolStripMenuItem.Text = "編輯";
             編輯ToolStripMenuItem.Click += btnEditRegionName_Click;
             // 
@@ -303,6 +303,13 @@
             openAllModbusEmuToolStripMenuItem.Size = new Size(247, 24);
             openAllModbusEmuToolStripMenuItem.Text = "Open All Modbus Emu";
             openAllModbusEmuToolStripMenuItem.Click += openAllModbusEmuToolStripMenuItem_Click;
+            // 
+            // mCSRemoteToolStripMenuItem
+            // 
+            mCSRemoteToolStripMenuItem.Name = "mCSRemoteToolStripMenuItem";
+            mCSRemoteToolStripMenuItem.Size = new Size(247, 24);
+            mCSRemoteToolStripMenuItem.Text = "MCS Remote";
+            mCSRemoteToolStripMenuItem.Click += mCSRemoteToolStripMenuItem_Click;
             // 
             // toolStripMenuItem_AGVs_DB
             // 
@@ -608,7 +615,6 @@
             cknOnlineModeIndi.Text = "OFFLINE";
             cknOnlineModeIndi.TextAlign = ContentAlignment.MiddleCenter;
             cknOnlineModeIndi.UseVisualStyleBackColor = false;
-            cknOnlineModeIndi.CheckedChanged += cknOnlineModeIndi_CheckedChanged;
             cknOnlineModeIndi.Click += cknOnlineModeIndi_Click;
             // 
             // pnlLoading
@@ -961,13 +967,6 @@
             uscagVsInfo1.Name = "uscagVsInfo1";
             uscagVsInfo1.Size = new Size(1238, 640);
             uscagVsInfo1.TabIndex = 0;
-            // 
-            // mCSRemoteToolStripMenuItem
-            // 
-            mCSRemoteToolStripMenuItem.Name = "mCSRemoteToolStripMenuItem";
-            mCSRemoteToolStripMenuItem.Size = new Size(247, 24);
-            mCSRemoteToolStripMenuItem.Text = "MCS Remote";
-            mCSRemoteToolStripMenuItem.Click += mCSRemoteToolStripMenuItem_Click;
             // 
             // frmMain
             // 

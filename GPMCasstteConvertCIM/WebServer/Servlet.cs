@@ -41,7 +41,7 @@ namespace GPMCasstteConvertCIM.WebServer
         public delegate clsResponse PorTypeChangeDelegate(int tagID, int portType);
         public static PorTypeChangeDelegate OnPortTypeChangeRequest;
 
-
+        public static event EventHandler<int> OnAGVSHostModeChanged;
 
         public MyServlet(string? logFolder)
         {
@@ -99,6 +99,15 @@ namespace GPMCasstteConvertCIM.WebServer
                 int portType = int.Parse(request.QueryString.GetValues("portType").First());
                 if (OnPortTypeChangeRequest != null)
                     result = OnPortTypeChangeRequest(tagID, portType);
+            }
+
+            if (lowerstring.Contains("/api/host_mode"))
+            {
+                //{"mode":0} define : 0: Offline, 1: Online/Local, 2: Online/Remote
+                JObject jObject = JObject.Parse(jsonStr);
+                int mode = jObject["mode"].Value<int>();
+                OnAGVSHostModeChanged?.Invoke(null, mode);
+                result = new clsResponse(200, "Got it");
             }
 
             if (lowerstring.Contains("/api/s2f49/accept"))

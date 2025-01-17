@@ -184,6 +184,7 @@ namespace GPMCasstteConvertCIM.Forms
                     MyServlet.OnPortLDULDStatusChangeRequest += DevicesManager.PortLDULDStatusChangeHandle;
                     MyServlet.OnPortTypeChangeRequest += DevicesManager.PortTypeChangeHandler;
                     MyServlet.OnHotRunModeChangeRequest += HotRunRemoteControlHandle;
+                    MyServlet.OnAGVSHostModeChanged += SECSState.HandleAGVSHostModeChanged;
                     GPM_SECS.SecsMessageHandle.AGVSMessageHandler.OnAGVSDDOSAttacking += AGVSMessageHandler_OnAGVSDDOSAttacking;
 
                     CIMWebServer.StartService(Utility.SysConfigs.WebService.HostUrl, Path.Combine(Utility.SysConfigs.Log.SyslogFolder, "WebServerLog"));
@@ -206,6 +207,19 @@ namespace GPMCasstteConvertCIM.Forms
                     eQLotIDMonitor.StartMonitor();
 
                     SECSState.EqLotIDMonitor = eQLotIDMonitor;
+                    Task.Delay(5000).ContinueWith(async (t) =>
+                    {
+                        try
+                        {
+                            (bool isOnline, bool isRemote) = await API.GPMAGVS.HostMode.GetCurrentHostMode();
+                            SECSState.IsOnline = isOnline;
+                            SECSState.IsRemote = isRemote;
+                        }
+                        catch (Exception ex)
+                        {
+                            AlarmManager.AddAlarm(ALARM_CODES.Get_Host_Mode_From_AGVS_FAIL, "SYSTEM", true);
+                        }
+                    });
 
 #if logTest
                     for (int i = 0; i < 20; i++)
@@ -620,6 +634,10 @@ namespace GPMCasstteConvertCIM.Forms
             labWebServerUrl.BackColor = CIMWebServer.Servering ? Color.White : Color.Red;
             ckbRemoteModeIndi.Checked = SECSState.IsRemote;
             cknOnlineModeIndi.Checked = SECSState.IsOnline;
+
+            ckbRemoteModeIndi.Text = SECSState.IsRemote ? "REMOTE" : "LOCAL";
+            cknOnlineModeIndi.Text = SECSState.IsOnline ? "ONLINE" : "OFFLINE";
+
             if (SECSState.IsRemote || SECSState.IsOnline == false)
             { clsAgvsAlarmDevice.AGVSLocal(); }
             labHotRun.Visible = Utility.IsHotRunMode;
@@ -702,7 +720,6 @@ namespace GPMCasstteConvertCIM.Forms
 
         private void ckbRemoteModeIndi_CheckedChanged(object sender, EventArgs e)
         {
-            ckbRemoteModeIndi.Text = ckbRemoteModeIndi.Checked ? "REMOTE" : "LOCAL";
         }
 
         private void btnClearInfoLog_Click(object sender, EventArgs e)

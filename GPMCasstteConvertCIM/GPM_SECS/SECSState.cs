@@ -63,5 +63,22 @@ namespace GPMCasstteConvertCIM.GPM_SECS
 
         internal static event EventHandler OnMCSOnlineRemote;
         internal static event EventHandler<bool> OnMCSRemoteModeChanged;
+
+        internal static void HandleAGVSHostModeChanged(object? sender, int hostMode)
+        {
+            if (hostMode == 0)
+            {
+                IsOnline = IsRemote = false;
+            }
+            else if (hostMode == 1)
+            {
+                IsOnline = true;
+                IsRemote = false;
+            }
+            else if (hostMode == 2)
+            {
+                IsOnline = IsRemote = true;
+            }
+        }
     }
 }
