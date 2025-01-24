@@ -71,7 +71,7 @@ namespace GPMCasstteConvertCIM.Forms
 
             DBhelper.Initialize();
             Utility.LoadConfigs();
-
+            AGVController.Initialize(Utility.SysConfigs.AGVList);
             API.KGAGVS.APIConfiguration.AGVSHostIP = Utility.SysConfigs.WebService.KGS_HOST_IP;
             API.KGAGVS.APIConfiguration.AGVSHostPORT = Utility.SysConfigs.WebService.KGS_HOST_PORT;
 
@@ -209,6 +209,8 @@ namespace GPMCasstteConvertCIM.Forms
                     eQLotIDMonitor.StartMonitor();
 
                     SECSState.EqLotIDMonitor = eQLotIDMonitor;
+                    SECSState.OnMCSRemoteModeChanged += AGVController.HandleHostRemoteModeChanged;
+
                     Task.Delay(5000).ContinueWith(async (t) =>
                     {
                         try
