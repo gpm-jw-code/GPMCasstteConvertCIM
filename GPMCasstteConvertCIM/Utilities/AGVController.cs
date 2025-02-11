@@ -13,20 +13,26 @@ namespace GPMCasstteConvertCIM.Utilities
     internal static class AGVController
     {
         internal static List<AGVWrapper> aGVWrappers { get; private set; } = new List<AGVWrapper>();
-
-        internal static async void HandleHostRemoteModeChanged(object? sender, bool isRemoteMode)
-        {
-            await Task.Delay(1).ContinueWith(async t =>
-            {
-                await SwitchCSTReader(isRemoteMode);
-            });
-        }
+        internal static bool IsSwitchCSTAutomation => Utility.SysConfigs.Automation.SwitchVehicleCSTReaderWhenHostRemote;
 
         internal static void Initialize(List<clsAGVInfo> AGVList)
         {
             aGVWrappers = AGVList.Select(agv => new AGVWrapper(agv)).ToList();
         }
 
+        internal static async void HandleHostRemoteModeChanged(object? sender, bool isRemoteMode)
+        {
+            if (!IsSwitchCSTAutomation)
+            {
+                _LOG($"Switch CST Reader of vehicle when Remote now is disabled.");
+                return;
+            }
+
+            await Task.Delay(1).ContinueWith(async t =>
+            {
+                await SwitchCSTReader(isRemoteMode);
+            });
+        }
         internal static async Task SwitchCSTReader(bool enable)
         {
 

@@ -201,8 +201,6 @@ namespace GPMCasstteConvertCIM.Forms
                     MCSMessageHandler.MCSUseLogger.MessageOut(new SecsMessage(6, 9) { Name = "GPM TEST" }, 0);
                     MCSMessageHandler.MCSUseLogger.MessageIn(new SecsMessage(6, 9) { Name = "GPM TEST" }, 0);
 
-                    btnDisableS2F49TransgerQueue.CheckState = Utility.SysConfigs.S2F49QueuingConfigurations.Enable ? CheckState.Unchecked : CheckState.Checked;
-                    btnEnableS2F49TransgerQueue.CheckState = !Utility.SysConfigs.S2F49QueuingConfigurations.Enable ? CheckState.Unchecked : CheckState.Checked;
 
                     EQLotIDMonitor eQLotIDMonitor = new EQLotIDMonitor(Utility.SysConfigs.EQLotIDMonitorConfigrations);
                     eQLotIDMonitor.OnUnknownIDInstalled += EQLotIDMonitor_OnUnknownIDInstalled;
@@ -249,9 +247,12 @@ namespace GPMCasstteConvertCIM.Forms
         private void StatusBarItemDisplayInit()
         {
             labSysTime.Visible = Utility.SysConfigs.UI.statusBar.SystemTimeDisplay;
-            labWebServerUrl.Visible = Utility.SysConfigs.UI.statusBar.WebServerDisplay;
+            //labWebServerUrl.Visible = Utility.SysConfigs.UI.statusBar.WebServerDisplay;
             toolStripDropDownButton1.Visible = labS2F49QueueTimer.Visible = Utility.SysConfigs.UI.statusBar.S2F49TransferDisplay;
             labCurrentEncodingName.Visible = Utility.SysConfigs.UI.statusBar.SECSEncodingDisplay;
+            btnDisableS2F49TransgerQueue.CheckState = Utility.SysConfigs.S2F49QueuingConfigurations.Enable ? CheckState.Unchecked : CheckState.Checked;
+            btnEnableS2F49TransgerQueue.CheckState = !Utility.SysConfigs.S2F49QueuingConfigurations.Enable ? CheckState.Unchecked : CheckState.Checked;
+            tsmVehicleCstReaderSwitchAuto.CheckState = Utility.SysConfigs.Automation.SwitchVehicleCSTReaderWhenHostRemote ? CheckState.Checked : CheckState.Unchecked;
         }
 
         private void AGVSMessageHandler_OnAGVSDDOSAttacking(object? sender, Queue<(DateTime Timestamp, int Size, SecsMessage message)> _trafficData)
@@ -958,6 +959,14 @@ namespace GPMCasstteConvertCIM.Forms
         private void mCSRemoteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SECSState.EqLotIDMonitor.InitIDStored();
+        }
+
+        private void tsmVehicleCstReaderSwitchAuto_Click(object sender, EventArgs e)
+        {
+            bool _enable = tsmVehicleCstReaderSwitchAuto.CheckState == CheckState.Unchecked;
+            tsmVehicleCstReaderSwitchAuto.CheckState = _enable ? CheckState.Checked : CheckState.Unchecked;
+            Utility.SysConfigs.Automation.SwitchVehicleCSTReaderWhenHostRemote = _enable;
+            Utility.SaveConfigs();
         }
     }
 }

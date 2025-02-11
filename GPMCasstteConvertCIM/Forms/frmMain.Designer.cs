@@ -66,6 +66,8 @@
             label1 = new Label();
             statusStrip1 = new StatusStrip();
             toolStripStatusLabel1 = new ToolStripStatusLabel();
+            tsddAutomations = new ToolStripDropDownButton();
+            tsmVehicleCstReaderSwitchAuto = new ToolStripMenuItem();
             toolStripDropDownButton1 = new ToolStripDropDownButton();
             btnDisableS2F49TransgerQueue = new ToolStripMenuItem();
             btnEnableS2F49TransgerQueue = new ToolStripMenuItem();
@@ -429,7 +431,7 @@
             // 
             statusStrip1.BackColor = Color.FromArgb(0, 57, 155);
             statusStrip1.ImageScalingSize = new Size(20, 20);
-            statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel1, toolStripDropDownButton1, labS2F49QueueTimer, labUnHandleExceptions, labWebServerUrl, labCurrentEncodingName, labSysTime });
+            statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel1, tsddAutomations, toolStripDropDownButton1, labS2F49QueueTimer, labUnHandleExceptions, labWebServerUrl, labCurrentEncodingName, labSysTime });
             statusStrip1.Location = new Point(0, 816);
             statusStrip1.Name = "statusStrip1";
             statusStrip1.Size = new Size(1407, 22);
@@ -444,11 +446,29 @@
             toolStripStatusLabel1.LinkColor = Color.FromArgb(53, 53, 53);
             toolStripStatusLabel1.Margin = new Padding(0);
             toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            toolStripStatusLabel1.Size = new Size(939, 22);
+            toolStripStatusLabel1.Size = new Size(748, 22);
             toolStripStatusLabel1.Spring = true;
             toolStripStatusLabel1.Text = "GPM AGV SYSTEM CIM";
             toolStripStatusLabel1.TextAlign = ContentAlignment.MiddleLeft;
             toolStripStatusLabel1.MouseDown += toolStripStatusLabel1_MouseDown;
+            // 
+            // tsddAutomations
+            // 
+            tsddAutomations.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            tsddAutomations.DropDownItems.AddRange(new ToolStripItem[] { tsmVehicleCstReaderSwitchAuto });
+            tsddAutomations.ForeColor = Color.White;
+            tsddAutomations.Image = (Image)resources.GetObject("tsddAutomations.Image");
+            tsddAutomations.ImageTransparentColor = Color.Magenta;
+            tsddAutomations.Name = "tsddAutomations";
+            tsddAutomations.Size = new Size(87, 20);
+            tsddAutomations.Text = "Automation";
+            // 
+            // tsmVehicleCstReaderSwitchAuto
+            // 
+            tsmVehicleCstReaderSwitchAuto.Name = "tsmVehicleCstReaderSwitchAuto";
+            tsmVehicleCstReaderSwitchAuto.Size = new Size(269, 22);
+            tsmVehicleCstReaderSwitchAuto.Text = "AGV CST Reader自動切換(Remote)";
+            tsmVehicleCstReaderSwitchAuto.Click += tsmVehicleCstReaderSwitchAuto_Click;
             // 
             // toolStripDropDownButton1
             // 
@@ -1109,5 +1129,7 @@
         private UI_UserControls.UscAGVsInfo uscagVsInfo1;
         private ToolStripMenuItem webAGVSystemToolStripMenuItem;
         private ToolStripMenuItem mCSRemoteToolStripMenuItem;
+        private ToolStripDropDownButton tsddAutomations;
+        private ToolStripMenuItem tsmVehicleCstReaderSwitchAuto;
     }
 }

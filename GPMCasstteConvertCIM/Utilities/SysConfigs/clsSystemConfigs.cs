@@ -61,6 +61,7 @@ namespace GPMCasstteConvertCIM.Utilities.SysConfigs
         public EQLotIDMonitor.Configrations EQLotIDMonitorConfigrations { get; set; } = new EQLotIDMonitor.Configrations();
         public UIConfiguration UI { get; set; } = new UIConfiguration();
         public CancelChargeTaskFunction CancelChargeTaskAuto { get; set; } = new CancelChargeTaskFunction();
+        public clsAutomationConfiguration Automation { get; set; } = new clsAutomationConfiguration();
         public enum PROJECT
         {
             U003, U007, YM_2F_AOI
