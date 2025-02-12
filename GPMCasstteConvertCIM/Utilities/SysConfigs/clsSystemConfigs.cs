@@ -13,7 +13,7 @@ namespace GPMCasstteConvertCIM.Utilities.SysConfigs
 {
     public class clsSystemConfigs
     {
-        public bool Simulation { get; set; } = true;
+        public bool Simulation { get; set; } = false;
         public clsLogConfigs Log { get; set; } = new clsLogConfigs();
         public clsSECSConfigs SECS { get; set; } = new clsSECSConfigs();
         public bool EQLoadUnload_RequestSimulation { get; set; } = false;
@@ -45,11 +45,6 @@ namespace GPMCasstteConvertCIM.Utilities.SysConfigs
         public bool EqMaintainSignalSyncEnabled { get; set; } = false;
         public bool EqPartsReplacementSignalSyncEnabled { get; set; } = false;
         public bool showddosdialog { get; set; } = true;
-
-        /// <summary>
-        /// 當遠端模式切換時，是否切換AGV的CST Reader(呼叫AGV車載API)
-        /// </summary>
-        public bool SwitchCSTReaderOfAGVWhenRemoteModeChanged { get; set; } = false;
 
         public Int32 ddoschksec { get; set; } = 3;
         public Int32 ddoslimit { get; set; } = 1024;

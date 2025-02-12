@@ -22,6 +22,7 @@ namespace GPMCasstteConvertCIM.Utilities
 
         internal static async void HandleHostRemoteModeChanged(object? sender, bool isRemoteMode)
         {
+            _LOG($"Handle Host Remote/Local State changed, Is Remote now :{isRemoteMode}");
             if (!IsSwitchCSTAutomation)
             {
                 _LOG($"Switch CST Reader of vehicle when Remote now is disabled.");
@@ -35,10 +36,6 @@ namespace GPMCasstteConvertCIM.Utilities
         }
         internal static async Task SwitchCSTReader(bool enable)
         {
-
-            if (!Utility.SysConfigs.SwitchCSTReaderOfAGVWhenRemoteModeChanged)
-                return;
-
             if (!aGVWrappers.Any())
                 return;
 
