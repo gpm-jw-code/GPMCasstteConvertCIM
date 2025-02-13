@@ -1153,32 +1153,48 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         protected virtual async Task CarrierWaitoutSecsGemReportProcess(bool needWaitTransferCompletedReported = true, bool waitUnloadRequestOn = false)
         {
             bool transfer_completed_reported = needWaitTransferCompletedReported ? await WaitAGVSTransferCompleteReported() : true;
-            if (transfer_completed_reported && PortExist)
+            if (!PortExist)
             {
-                //等待 Unload_Request ON 
+                Utility.SystemLogger.Info($"{PortName}-Carrier Wait Out but No Cargo in EQ. Cariier Install and WaitOut doesn't report To MCS");
+                return;
+            }
 
-                bool unload_request_on = waitUnloadRequestOn ? await WaitUnloadRequestON() : true;
-
-                async Task<bool> WaitUnloadRequestON()
+            if (transfer_completed_reported)
+            {
+                try
                 {
-                    CancellationTokenSource cts = new CancellationTokenSource(TimeSpan.FromSeconds(30));
-                    while (!UnloadRequest)
-                    {
-                        try
-                        {
-                            await Task.Delay(1, cts.Token);
-                        }
-                        catch (Exception)
-                        {
-                            return false;
-                        }
-                    }
-                    return true;
-                }
-                if (!unload_request_on)
-                    Utility.SystemLogger.Info($"[{PortName}] [Before Wait out Report To_MCS - Wait Unload_Request Signal 'ON' Timeout!]");
+                    //等待 Unload_Request ON 
+                    bool unload_request_on = waitUnloadRequestOn ? await WaitUnloadRequestON() : true;
 
-                await Task.Delay(3000);
+                    async Task<bool> WaitUnloadRequestON()
+                    {
+                        CancellationTokenSource cts = new CancellationTokenSource(TimeSpan.FromSeconds(30));
+                        while (!UnloadRequest)
+                        {
+                            try
+                            {
+                                await Task.Delay(1, cts.Token);
+                            }
+                            catch (Exception)
+                            {
+                                return false;
+                            }
+                        }
+                        return true;
+                    }
+                    if (!unload_request_on)
+                        Utility.SystemLogger.Info($"[{PortName}] [Before Wait out Report To_MCS - Wait Unload_Request Signal 'ON' Timeout!]");
+                    await Task.Delay(3000);
+                }
+                finally
+                {
+                    Carrier_TransferCompletedFlag = false;
+                }
+            }
+            await CarrierWaitoutReportToMCS();
+
+            async Task CarrierWaitoutReportToMCS()
+            {
                 var isCSTIDMismatch = WIPINFO_BCR_ID != CSTID_From_TransferCompletedReport;
                 bool IsBCRReadFail = IsBCR_READ_ERROR() || WIPINFO_BCR_ID == "";
 
@@ -1209,12 +1225,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 await Task.Delay(1000);
                 Utility.SystemLogger.Info($"{PortName}-Carrier Wait Out Report to MCS with CSTID = {CSTIDOnPort}");
                 await SecsEventReport(CEID.CarrierWaitOut, CSTIDOnPort);
-                Carrier_TransferCompletedFlag = false;
                 CarrierInstallTime = DateTime.Now;
-            }
-            if (!PortExist)
-            {
-                Utility.SystemLogger.Info($"{PortName}-Carrier Wait Out but No Cargo in EQ. Cariier Install and WaitOut doesn't report To MCS");
             }
         }
 

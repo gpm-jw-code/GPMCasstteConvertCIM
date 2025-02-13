@@ -109,7 +109,7 @@ namespace GPMCasstteConvertCIM.Emulators
         {
             if (Properties.SecsReport)
                 await SecsEventReport(CEID.CarrierWaitOut, CSTIDOnPort);
-            //return base.CarrierWaitoutSecsGemReportProcess();
+            await base.CarrierWaitoutSecsGemReportProcess();
         }
     }
 }

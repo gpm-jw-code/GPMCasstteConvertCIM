@@ -44,6 +44,7 @@ namespace GPMCasstteConvertCIM.WebServer
         public static event EventHandler<int> OnAGVSHostModeChanged;
         public static event EventHandler<(string? commandID, string? source, string? destine, string? carrierID)> OnAGVSAcceptTransferCommand;
         public static event EventHandler<(string? commandID, string? source, string? destine, string? carrierID, int resultCode)> OnAGVSRejectTransferCommand;
+        public static event EventHandler<(string? commandID, string? source, string? destine, string? carrierID, int resultCode)> OnAGVSReportTransferCompleted;
 
         public MyServlet(string? logFolder)
         {
@@ -118,6 +119,7 @@ namespace GPMCasstteConvertCIM.WebServer
                 OnAGVSAcceptTransferCommand?.Invoke(null, (commandID, sourceID, destID, carrierID));
                 result = new clsResponse(200, "");
             }
+
             if (lowerstring.Contains("/api/s2f49/reject"))
             {
                 GetTransferCommandInfo(jsonStr, out string? commandID, out string? sourceID, out string? destID, out string? carrierID, out int resultCode);
@@ -125,6 +127,12 @@ namespace GPMCasstteConvertCIM.WebServer
                 result = new clsResponse(200, "");
             }
 
+            if (lowerstring.Contains("/api/s2f49/transfer_completed"))
+            {
+                GetTransferCommandInfo(jsonStr, out string? commandID, out string? sourceID, out string? destID, out string? carrierID, out int resultCode);
+                OnAGVSReportTransferCompleted?.Invoke(null, (commandID, sourceID, destID, carrierID, resultCode));
+                result = new clsResponse(200, "");
+            }
             var responseStr = JsonConvert.SerializeObject(result);
             byte[] res = Encoding.UTF8.GetBytes(responseStr);
 

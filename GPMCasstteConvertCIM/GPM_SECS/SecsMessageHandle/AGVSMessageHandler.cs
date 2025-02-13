@@ -182,7 +182,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS.SecsMessageHandle
                 }
                 if (IsTransferCompleteToTSReport)
                 {
-                    port.TransferCompletedInvoke(carrier_id_from_agvs_transferComplete);
+                    port.TransferCompletedInvoke(carrier_id_from_agvs_transferComplete, "From KG AGVS Secs Message ");
                 }
             }
             catch (Exception ex)

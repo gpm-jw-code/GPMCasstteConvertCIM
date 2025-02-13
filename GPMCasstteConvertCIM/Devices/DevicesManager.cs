@@ -337,6 +337,15 @@ namespace GPMCasstteConvertCIM.Devices
         }
 
 
+        internal static void HandleAGVSReportTransferCompleted(object? sender, (string? commandID, string? source, string? destine, string? carrierID, int resultCode) e)
+        {
+            if (!string.IsNullOrEmpty(e.destine) && !string.IsNullOrEmpty(e.carrierID))
+            {
+                Task.Factory.StartNew(async () => await TryInvokeTransferCompletedToPort(e.destine, e.carrierID));
+            }
+        }
+
+
         internal static void TryInvokePortCarrierInSystemState(string sourceDeviceID, bool AGVS_Accept_TransferTask)
         {
             clsConverterPort? port_wait_in = GetAllPorts().FirstOrDefault(port => port.Properties.PortID == sourceDeviceID);
@@ -347,6 +356,14 @@ namespace GPMCasstteConvertCIM.Devices
                 else
                     port_wait_in.CstTransferRejectInvoke();
             }
+        }
+
+        internal static async Task TryInvokeTransferCompletedToPort(string destineDeviceID, string? carrierID)
+        {
+            clsConverterPort? port = GetAllPorts().FirstOrDefault(port => port.Properties.PortID == destineDeviceID);
+            if (port == null)
+                return;
+            await port.TransferCompletedInvoke(carrierID, $"RESTFul Web API");
         }
 
         internal static clsResponse PortTypeChangeHandler(int tagID, int portType)

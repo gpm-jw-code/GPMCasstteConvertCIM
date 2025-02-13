@@ -227,7 +227,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         internal async Task<bool> WaitAGVSTransferCompleteReported()
         {
-            int timeout = Debugger.IsAttached ? 5 : 90;
+            int timeout = Debugger.IsAttached ? 15 : 90;
             CancellationTokenSource cts = new CancellationTokenSource(TimeSpan.FromSeconds(timeout));
             Utility.SystemLogger.Info($"{PortName} Wait AGVS Transfer Completed Reported(Timeout Setting = {timeout} sec)");
             while (!Carrier_TransferCompletedFlag)
@@ -286,9 +286,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             OnMCSNoTransferNotify?.Invoke(this, new Tuple<string, string, string>(carrier_id, cstid, reason));
         }
 
-        internal async void TransferCompletedInvoke(string carrier_id)
+        internal async Task TransferCompletedInvoke(string? carrier_id, string invokerName)
         {
-            Utility.SystemLogger.Info($"{PortName}- AGVS Transfer Cargo To {PortName} Compelted  |AGVS->MCS");
+            await Task.Delay(1);
+            Utility.SystemLogger.Info($"{PortName}- AGVS Transfer Cargo To {PortName} Compelted. Carrier ID = ({carrier_id}). Invoker Name={invokerName}");
             CSTID_From_TransferCompletedReport = CSTIDOnPort = carrier_id;
             Carrier_TransferCompletedFlag = true;
         }
