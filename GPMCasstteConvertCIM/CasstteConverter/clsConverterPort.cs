@@ -482,13 +482,21 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
                     if (value != "")
                     {
-                        string thisPortDUID = string.Empty;
+                        Utility.SystemLogger.Info($"Port {PortName} BCR ID Updated = {_WIPINFO_BCR_ID}");
+                        string thisPortDUID = _WIPINFO_BCR_ID;
                         bool isDUIDHappen = JudgeDUCSTORNOT(value, out var portsHasSameID);
                         if (isDUIDHappen)
                         {
-                            SetDUID(portsHasSameID, out thisPortDUID);
+                            try
+                            {
+                                Utility.SystemLogger.Info($"Port {PortName} BCR ID {_WIPINFO_BCR_ID} is repeated to {string.Join(",", portsHasSameID.Select(p => p.PortName))}");
+                                SetDUID(portsHasSameID, out thisPortDUID);
+                            }
+                            catch (Exception ex)
+                            {
+                                Utility.SystemLogger.Error(ex);
+                            }
                         }
-                        Utility.SystemLogger.Info($"Port {PortName} BCR ID Updated = {_WIPINFO_BCR_ID}");
                         WIPUPdateTime = DateTime.Now;
                         string cst = string.Empty;
                         if (IsBCR_READ_ERROR())
@@ -504,7 +512,11 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     {
                         BCRRetryTriggeringFlag = PortExist;
                         Utility.SystemLogger.Info($"Port {PortName} BCR ID Clear-ON PORT={CSTIDOnPort}");
-                        RemoveCarrier(CSTIDOnPort + "");
+                        Task.Factory.StartNew(async () =>
+                        {
+                            await RemoveCarrier(CSTIDOnPort + "");
+                            CSTIDOnPort = "";
+                        });
                     }
                 }
             }
@@ -983,6 +995,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     _CarrierWaitINSystemRequest = value;
                     if (_CarrierWaitINSystemRequest)
                     {
+                        Utility.SystemLogger.Info($"[{PortName}] -Carrier Wait In Request ON , With CST ID＝{CSTIDOnPort},Unload_Request:{UnloadRequest},Load_Request:{LoadRequest}");
                         wait_in_timer.Restart();
                         CarrierInstallTime = DateTime.Now;
 
@@ -995,10 +1008,9 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
                         Task.Factory.StartNew(async () =>
                         {
-                            await Task.Delay(1000);
+                            await Task.Delay(200);
                             AGVsAcceptMCSTransferTaskReq = true;
                             AGVsReplyMCSTransferTaskReqFlag = false;
-                            Utility.SystemLogger.Info($"[{PortName}] -Carrier Wait In Request ON , With CST ID＝{CSTIDOnPort}");
 
                             bool wait_in_accept = false;
                             if (Properties.SecsReport)
@@ -1014,7 +1026,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                                         return;
                                     }
 
-                                    bool mcs_accpet_wait_in = await SecsEventReport(CEID.CarrierWaitIn, WIPINFO_BCR_ID);
+                                    bool mcs_accpet_wait_in = await SecsEventReport(CEID.CarrierWaitIn, WIPINFO_BCR_ID);// just ack...
 
                                     if (mcs_accpet_wait_in && Properties.CarrierWaitInNeedWaitingS2F41OrS2F49)
                                     {
