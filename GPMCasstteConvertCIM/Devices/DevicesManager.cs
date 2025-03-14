@@ -337,11 +337,30 @@ namespace GPMCasstteConvertCIM.Devices
         }
 
 
+        internal static void HandleAGVSReportTransferInitialized(object? sender, (string? commandID, string? carrierID, string? carrierLoc, string? carrierZoneName, string dest) e)
+        {
+            if (e.commandID != null)
+            {
+                bool isLocalTask = !e.commandID.StartsWith("M", StringComparison.OrdinalIgnoreCase);
+                if (SECSState.IsRemote && isLocalTask)
+                {
+                    Task.Factory.StartNew(async () =>
+                    {
+                        await TryChangePortToLocalMode(e.dest);
+                    });
+                }
+            }
+        }
+
         internal static void HandleAGVSReportTransferCompleted(object? sender, (string? commandID, string? source, string? destine, string? carrierID, int resultCode) e)
         {
             if (!string.IsNullOrEmpty(e.destine) && !string.IsNullOrEmpty(e.carrierID))
             {
-                Task.Factory.StartNew(async () => await TryInvokeTransferCompletedToPort(e.destine, e.carrierID));
+                Task.Factory.StartNew(async () =>
+                {
+                    await TryInvokeTransferCompletedToPort(e.destine, e.carrierID);
+                    await TrySetPortInServiceToMcs(e.destine);
+                });
             }
         }
 
@@ -356,6 +375,32 @@ namespace GPMCasstteConvertCIM.Devices
                 else
                     port_wait_in.CstTransferRejectInvoke();
             }
+        }
+
+        internal static async Task<bool> TryChangePortToLocalMode(string deviceID)
+        {
+            clsConverterPort? port = GetAllPorts().FirstOrDefault(port => port.Properties.PortID == deviceID);
+            if (port == null)
+                return false;
+            bool disableReported = await TrySetPortOutOfServiceToMcs(deviceID); //先上報 Disable 避免
+            return await port.ModeChangeRequestHandshake(PortUnitType.Output, "Transfer Init_Local Order but now is Remote");
+        }
+
+
+        internal static async Task<bool> TrySetPortOutOfServiceToMcs(string deviceID)
+        {
+            clsConverterPort? port = GetAllPorts().FirstOrDefault(port => port.Properties.PortID == deviceID);
+            if (port == null)
+                return false;
+            return await port.SecsEventReport(CEID.PortOutOfServiceReport); //先上報 Disable 避免
+        }
+
+        internal static async Task<bool> TrySetPortInServiceToMcs(string deviceID)
+        {
+            clsConverterPort? port = GetAllPorts().FirstOrDefault(port => port.Properties.PortID == deviceID);
+            if (port == null)
+                return false;
+            return await port.SecsEventReport(CEID.PortInServiceReport); //先上報 Disable 避免
         }
 
         internal static async Task TryInvokeTransferCompletedToPort(string destineDeviceID, string? carrierID)

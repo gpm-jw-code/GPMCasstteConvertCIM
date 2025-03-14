@@ -42,7 +42,7 @@ namespace GPMCasstteConvertCIM.UI_UserControls
 
         private void StaUsersManager_OnRD_Login(object? sender, EventArgs e)
         {
-            labPortTypeChgReq.Visible = true;
+            labPortTypeChgReq.Visible = labPortEventRepShow.Visible = true;
         }
 
         public UscConverterPortStatus()

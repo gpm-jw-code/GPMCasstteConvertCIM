@@ -1,162 +1,161 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
-    <UseWindowsForms>true</UseWindowsForms>
-    <ImplicitUsings>enable</ImplicitUsings>
-	<AssemblyVersion>24.3.249.0</AssemblyVersion>
-    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
-    <FileVersion>11.1.2</FileVersion>
-    <ApplicationIcon>cimico.ico</ApplicationIcon>
-    <Platforms>AnyCPU;x86</Platforms>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net6.0-windows</TargetFramework>
+		<Nullable>enable</Nullable>
+		<UseWindowsForms>true</UseWindowsForms>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<AssemblyVersion>24.3.249.0</AssemblyVersion>
+		<AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+		<FileVersion>11.1.2</FileVersion>
+		<ApplicationIcon>cimico.ico</ApplicationIcon>
+		<Platforms>AnyCPU;x86</Platforms>
+		<ApplicationManifest>app.manifest</ApplicationManifest>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <Optimize>False</Optimize>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<Optimize>False</Optimize>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
-    <Optimize>False</Optimize>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+		<Optimize>False</Optimize>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <Optimize>False</Optimize>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<Optimize>False</Optimize>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
-    <Optimize>False</Optimize>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+		<Optimize>False</Optimize>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Content Include="cimico.ico" />
-  </ItemGroup>
+	<ItemGroup>
+		<Content Include="cimico.ico" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="ini-parser" Version="2.5.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.8">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.8" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.8">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.FileProviders.Physical" Version="7.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="NModbus4.Core" Version="1.0.2" />
-    <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
-    <PackageReference Include="System.IO.Ports" Version="7.0.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="ini-parser" Version="2.5.2" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.8">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.8" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.8">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.Extensions.FileProviders.Physical" Version="7.0.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+		<PackageReference Include="NModbus4.Core" Version="1.0.2" />
+		<PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
+		<PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
+		<PackageReference Include="System.IO.Ports" Version="7.0.0" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\KGSWebAGVSystemAPI\KGSWebAGVSystemAPI.csproj" />
-    <ProjectReference Include="..\AGVSystemCommonNet6\AGVSystemCommonNet6.csproj" />
-    <ProjectReference Include="..\secs4net\src\Secs4Net\Secs4Net.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\AGVSystemCommonNet6\AGVSystemCommonNet6.csproj" />
+		<ProjectReference Include="..\secs4net\src\Secs4Net\Secs4Net.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="CIMComponent">
-      <HintPath>src\CIMComponent.dll</HintPath>
-    </Reference>
-    <Reference Include="Secs4Net.Sml">
-      <HintPath>src\Secs4Net.Sml.dll</HintPath>
-    </Reference>
-    <Reference Include="websocket-sharp">
-      <HintPath>src\websocket-sharp.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-  </ItemGroup>
+	<ItemGroup>
+		<Reference Include="CIMComponent">
+			<HintPath>src\CIMComponent.dll</HintPath>
+		</Reference>
+		<Reference Include="Secs4Net.Sml">
+			<HintPath>src\Secs4Net.Sml.dll</HintPath>
+		</Reference>
+		<Reference Include="websocket-sharp">
+			<HintPath>src\websocket-sharp.dll</HintPath>
+			<Private>True</Private>
+		</Reference>
+	</ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="Properties\Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Update="Properties\Resources.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Resources.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Update="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Update="Properties\Resources.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Update="cimico_x86.ico">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="configs\AGVS_DB_Param.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="configs\DevicesConnections-U007.json">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="configs\DevicesConnections.json">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="configs\ModbusDeviceConfigs.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="configs\SystemConfigs.json">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="Interop.ACTMULTILib.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="src\agv_task_cmd_template.ps1">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="src\Map_U007\PLC_Bit_Map_CIM.csv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="src\Map_U007\PLC_Bit_Map_EQ.csv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="src\Map_U007\PLC_Word_Map_CIM.csv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="src\Map_U007\PLC_Word_Map_EQ.csv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="src\Map_YM_2F_AOI\PLC_Bit_Map_CIM.csv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="src\Map_YM_2F_AOI\PLC_Bit_Map_EQ.csv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="src\Map_YM_2F_AOI\PLC_Word_Map_CIM.csv">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="src\Map_YM_2F_AOI\PLC_Word_Map_EQ.csv">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="src\PLC_Bit_Map.csv">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="src\PLC_Bit_Map_CIM.csv">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="src\PLC_Bit_Map_EQ.csv">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="src\PLC_Word_Map.csv">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="src\PLC_Word_Map_CIM.csv">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="src\PLC_Word_Map_EQ.csv">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="start_dump.cmd">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+		<None Update="cimico_x86.ico">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="configs\AGVS_DB_Param.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="configs\DevicesConnections-U007.json">
+			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</None>
+		<None Update="configs\DevicesConnections.json">
+			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</None>
+		<None Update="configs\ModbusDeviceConfigs.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="configs\SystemConfigs.json">
+			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</None>
+		<None Update="Interop.ACTMULTILib.dll">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="src\agv_task_cmd_template.ps1">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="src\Map_U007\PLC_Bit_Map_CIM.csv">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="src\Map_U007\PLC_Bit_Map_EQ.csv">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="src\Map_U007\PLC_Word_Map_CIM.csv">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="src\Map_U007\PLC_Word_Map_EQ.csv">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="src\Map_YM_2F_AOI\PLC_Bit_Map_CIM.csv">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="src\Map_YM_2F_AOI\PLC_Bit_Map_EQ.csv">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="src\Map_YM_2F_AOI\PLC_Word_Map_CIM.csv">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="src\Map_YM_2F_AOI\PLC_Word_Map_EQ.csv">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="src\PLC_Bit_Map.csv">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="src\PLC_Bit_Map_CIM.csv">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="src\PLC_Bit_Map_EQ.csv">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="src\PLC_Word_Map.csv">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="src\PLC_Word_Map_CIM.csv">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="src\PLC_Word_Map_EQ.csv">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="start_dump.cmd">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
 	<Target Name="PreBuild" BeforeTargets="PreBuildEvent">
 		<!--<Exec Command="powershell.exe -ExecutionPolicy Bypass -File &quot;AutoVersionModify.ps1&quot;" />-->
 	</Target>

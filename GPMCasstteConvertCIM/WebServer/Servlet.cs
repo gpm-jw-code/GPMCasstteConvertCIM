@@ -45,6 +45,7 @@ namespace GPMCasstteConvertCIM.WebServer
         public static event EventHandler<(string? commandID, string? source, string? destine, string? carrierID)> OnAGVSAcceptTransferCommand;
         public static event EventHandler<(string? commandID, string? source, string? destine, string? carrierID, int resultCode)> OnAGVSRejectTransferCommand;
         public static event EventHandler<(string? commandID, string? source, string? destine, string? carrierID, int resultCode)> OnAGVSReportTransferCompleted;
+        public static event EventHandler<(string? commandID, string? carrierID, string? carrierLoc, string? carrierZoneName, string dest)> OnAGVSReportTransferInitialize;
 
         public MyServlet(string? logFolder)
         {
@@ -126,6 +127,12 @@ namespace GPMCasstteConvertCIM.WebServer
                 OnAGVSRejectTransferCommand?.Invoke(null, (commandID, sourceID, destID, carrierID, resultCode));
                 result = new clsResponse(200, "");
             }
+            if (lowerstring.Contains("/api/s2f49/transfer_initialize"))
+            {
+                ParseTransferInitializeContent(jsonStr, out string? commandID, out string? carrierID, out string? carrierLoc, out string? carrierZoneName, out string dest);
+                OnAGVSReportTransferInitialize?.Invoke(null, (commandID, carrierID, carrierLoc, carrierZoneName, dest));
+                result = new clsResponse(200, "");
+            }
 
             if (lowerstring.Contains("/api/s2f49/transfer_completed"))
             {
@@ -140,6 +147,22 @@ namespace GPMCasstteConvertCIM.WebServer
             response.Headers.Add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
             response.Headers.Add("Access-Control-Allow-Headers", "Content-Type, Accept");
             response.OutputStream.Write(res, 0, res.Length);
+        }
+
+        private void ParseTransferInitializeContent(string jsonStr, out string? commandID, out string? carrierID, out string? carrierLoc, out string? carrierZoneName, out string dest)
+        {
+            commandID = carrierID = carrierLoc = carrierZoneName = dest = "";
+            JObject jObject = JObject.Parse(jsonStr);
+            if (jObject.TryGetValue("commandID", out JToken? val) && val != null)
+                commandID = val.Value<string>();
+            if (jObject.TryGetValue("carrierID", out val) && val != null)
+                carrierID = val.Value<string>();
+            if (jObject.TryGetValue("carrierLoc", out val) && val != null)
+                carrierLoc = val.Value<string>();
+            if (jObject.TryGetValue("carrierZoneName", out val) && val != null)
+                carrierZoneName = val.Value<string>();
+            if (jObject.TryGetValue("dest", out val) && val != null)
+                dest = val.Value<string>();
         }
 
         private void GetTransferCommandInfo(string jsonStr, out string? commandID, out string? sourceID, out string? destID, out string? carrierID, out int resultCode)

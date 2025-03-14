@@ -187,6 +187,7 @@ namespace GPMCasstteConvertCIM.Forms
                     MyServlet.OnAGVSHostModeChanged += SECSState.HandleAGVSHostModeChanged;
                     MyServlet.OnAGVSAcceptTransferCommand += DevicesManager.HandleAGVSAcceptTransferCommand;
                     MyServlet.OnAGVSRejectTransferCommand += DevicesManager.HandleAGVSRejectTransferCommand;
+                    MyServlet.OnAGVSReportTransferInitialize += DevicesManager.HandleAGVSReportTransferInitialized;
                     MyServlet.OnAGVSReportTransferCompleted += DevicesManager.HandleAGVSReportTransferCompleted;
                     GPM_SECS.SecsMessageHandle.AGVSMessageHandler.OnAGVSDDOSAttacking += AGVSMessageHandler_OnAGVSDDOSAttacking;
 

@@ -1262,11 +1262,6 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             public bool IsAllowChangeToOutput(out string rejectMsg)
             {
                 rejectMsg = "Undefined";
-                if (IsMCSRemote && IsAGVSRemote)
-                {
-                    rejectMsg = "AGVS/MCS現在為'Remote',禁止在本地端切換為 OUTPUT";
-                    return false;
-                }
                 if (CurrentPortType == PortUnitType.Output)
                 {
                     rejectMsg = $"當前PORT TYPE 已經是 OUTPUT";
