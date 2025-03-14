@@ -461,7 +461,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         public DateTime WIPUPdateTime { get; set; } = DateTime.MinValue;
         internal bool IsBCR_READ_ERROR()
         {
-            bool IsErrorRead = _WIPINFO_BCR_ID.Contains("ERROR");
+            bool IsErrorRead = _WIPINFO_BCR_ID.ToUpper().Contains("ERR");
             if (IsErrorRead)
                 Utility.SystemLogger.Info($"TS Barcode Read Fail. {_WIPINFO_BCR_ID} Is Error");
             return IsErrorRead;
@@ -470,6 +470,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
         public string CSTIDOnPort = "";
         private string TUNID = "";
         private bool BCRRetryTriggeringFlag = false;
+        protected bool IsLastCstIDReadResultFailFlag = false;
         public virtual string WIPINFO_BCR_ID
         {
             get => _WIPINFO_BCR_ID;
@@ -499,14 +500,23 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                         }
                         WIPUPdateTime = DateTime.Now;
                         string cst = string.Empty;
-                        if (IsBCR_READ_ERROR())
+                        bool isReadFail = IsBCR_READ_ERROR();
+                        if (isReadFail)
                         {
                             TUNID = CreateTUNID();
                             cst = TUNID;
                         }
                         else
+                        {
+                            IsLastCstIDReadResultFailFlag = false;
                             cst = (isDUIDHappen ? thisPortDUID : value);
-                        InstallCarrier(cst + "");
+                        }
+                        Task.Factory.StartNew(async () =>
+                        {
+                            await InstallCarrier(cst + "");
+                            IsLastCstIDReadResultFailFlag = isReadFail;
+                        });
+
                     }
                     else
                     {
@@ -515,7 +525,9 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                         Task.Factory.StartNew(async () =>
                         {
                             await RemoveCarrier(CSTIDOnPort + "");
+                            IsLastCstIDReadResultFailFlag = CSTIDOnPort.ToUpper().Contains("ERR") || CSTIDOnPort.ToUpper().Contains("UN") || CSTIDOnPort.ToUpper().Contains("DU");
                             CSTIDOnPort = "";
+
                         });
                     }
                 }
@@ -826,11 +838,12 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         internal async Task RemoveCarrier(string cst_id, bool checkPortType = true, bool CallRemoveRackCarrierIDAPI = true)
         {
+            bool _isLastCstIDReadFailFlag = IsLastCstIDReadResultFailFlag;
             UpdateModbusBCRReport("", isClearBCR: true);
             Properties.IsInstalled = false;
             Properties.CarrierInstallTime = DateTime.MinValue;
             DevicesManager.SaveDeviceConnectionOpts();
-            Utility.SystemLogger.Info($"{PortName}-Remove Carrier_{cst_id}");
+            Utility.SystemLogger.Info($"{PortName}-Remove Carrier_{cst_id} Secs Report process start");
             //要上報MCS的條件 
             //1. 在設定檔中有設定需要判斷OUTPUT 且當下為OUTPUT
             //2. 在設定檔中有設定不需要判斷OUTPUT 
@@ -839,16 +852,15 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 Utility.SystemLogger.Warning($"[{PortName}]Carrier Remove Event not Report to MCS ,because 'NeverReportCarrierRemove' setting is actived.");
                 return;
             }
-            if (checkPortType == false || (!Properties.RemoveCarrierMCSReportOnlyInOUTPUTMODE || (Properties.RemoveCarrierMCSReportOnlyInOUTPUTMODE & EPortType == PortUnitType.Output)))
+            if (!_isLastCstIDReadFailFlag && checkPortType && Properties.RemoveCarrierMCSReportOnlyInOUTPUTMODE && EPortType != PortUnitType.Output)
             {
-                Utility.SystemLogger.Info($"[{PortName}] Carrier removed Report to MCS Start");
-                bool remove_reported = await SecsEventReport(CEID.CarrierRemovedCompletedReport, cst_id + "");
-                Utility.SystemLogger.Info($"[{PortName}] Carrier removed Report to MCS Result = {(remove_reported ? "Success" : "Fail")}");
+                Utility.SystemLogger.Warning($"[{PortName}] Only report carrier remove when OUPUT Mode actived. BCR ID Clear but Port Type ={EPortType}, Carrier removed not REPORT to MCS");
+                return;
             }
-            else
-            {
-                Utility.SystemLogger.Warning($"[{PortName}] BCR ID Clear but Port Type ={EPortType}, Carrier removed not REPORT to MCS");
-            }
+
+            Utility.SystemLogger.Info($"[{PortName}] Carrier removed Report to MCS Start");
+            bool remove_reported = await SecsEventReport(CEID.CarrierRemovedCompletedReport, CSTIDOnPort + "");
+            Utility.SystemLogger.Info($"[{PortName}] Carrier[{CSTIDOnPort}] removed Report to MCS Result = {(remove_reported ? "Success" : "Fail")}");
 
             if (Properties.IsConverter && Properties.ModifyAGVSCargoIDWithWebAPI && CallRemoveRackCarrierIDAPI)
             {
@@ -896,7 +908,23 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             DevicesManager.SaveDeviceConnectionOpts();
             Utility.SystemLogger.Info($"{PortName}-Install Carrier_{cst_id}");
             UpdateModbusBCRReport(cst_id);
-            await SecsEventReport(CEID.CarrierInstallCompletedReport, cst_id);
+
+            Task secsReportTask = Task.Factory.StartNew(async () =>
+            {
+                if (IsLastCstIDReadResultFailFlag)
+                {
+                    await SecsEventReport(CEID.CarrierInstallCompletedReport, cst_id);
+                    return;
+                }
+                bool ReportToMCSAllow = Properties.CarrierInstallReportToMCSOnlyPortTypeEqualINPUT ? EPortType == PortUnitType.Input : true;
+                if (!ReportToMCSAllow)
+                {
+                    Utility.SystemLogger.Warning($"{PortName}-[Carrier Install Report Not Presented]:因為已設置 '僅在INPUT模式下上報Carrier Installed 事件'，且當前PortType為 {EPortType}");
+                    return;
+                }
+                await SecsEventReport(CEID.CarrierInstallCompletedReport, cst_id);
+            });
+
             if (Properties.IsConverter && Properties.ModifyAGVSCargoIDWithWebAPI)
             {
                 _ = Task.Run(async () =>

@@ -66,45 +66,7 @@ namespace GPMCasstteConvertCIM.Emulators
                 return true;
             }
         }
-        public override string WIPINFO_BCR_ID
-        {
-            get => base.WIPINFO_BCR_ID;
-            set
-            {
-                string newVale = value + "";
-                if (_WIPINFO_BCR_ID != newVale)
-                {
-                    bool isNewAdd = string.IsNullOrEmpty(_WIPINFO_BCR_ID) && !string.IsNullOrEmpty(newVale);
-                    bool isRemoved = !string.IsNullOrEmpty(_WIPINFO_BCR_ID) && string.IsNullOrEmpty(newVale);
-                    bool isChanged = !string.IsNullOrEmpty(_WIPINFO_BCR_ID) && !string.IsNullOrEmpty(newVale);
-                    bool isReadFail = newVale.ToLower().Contains("error");
-                    if (isReadFail)
-                        newVale = "T" + base.CreateTUNID();
-
-                    if (isNewAdd)
-                    {
-                        SecsEventReport(CEID.CarrierInstallCompletedReport, newVale);
-                        Properties.CarrierInstallTime = DateTime.Now;
-                    }
-                    if (isRemoved)
-                    {
-                        SecsEventReport(CEID.CarrierRemovedCompletedReport, newVale);
-                    }
-
-                    if (isChanged)
-                    {
-                        SecsEventReport(CEID.CarrierRemovedCompletedReport, _WIPINFO_BCR_ID).ContinueWith(async t =>
-                        {
-                            SecsEventReport(CEID.CarrierInstallCompletedReport, newVale);
-                            Properties.CarrierInstallTime = DateTime.Now;
-                        });
-                    }
-                    CSTIDOnPort = _WIPINFO_BCR_ID = newVale;
-                    UpdateModbusBCRReport(newVale);
-
-                }
-            }
-        }
+        public override string WIPINFO_BCR_ID { get => base.WIPINFO_BCR_ID; set => base.WIPINFO_BCR_ID = value; }
         protected override async Task CarrierWaitoutSecsGemReportProcess(bool needWaitTransferCompletedReported = true, bool waitUnloadRequestOn = false)
         {
             if (Properties.SecsReport)

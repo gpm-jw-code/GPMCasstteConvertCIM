@@ -62,6 +62,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             /// </summary>
             public bool RemoveCarrierMCSReportOnlyInOUTPUTMODE { get; set; } = false;
 
+            public bool CarrierInstallReportToMCSOnlyPortTypeEqualINPUT { get; set; } = true;
+
             /// <summary>
             /// 不管怎樣都不向MCS上報Carrier Remove事件
             /// </summary>
