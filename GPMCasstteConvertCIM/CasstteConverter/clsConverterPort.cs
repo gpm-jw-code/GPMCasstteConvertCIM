@@ -501,20 +501,30 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                         WIPUPdateTime = DateTime.Now;
                         string cst = string.Empty;
                         bool isReadFail = IsBCR_READ_ERROR();
+                        IsLastCstIDReadResultFailFlag = isReadFail;
+                        bool removeIDFromOderByIDReadFail = false;
                         if (isReadFail)
                         {
+                            if (Debugger.IsAttached)
+                                CSTID_From_TransferCompletedReport = "TTTTESTID";
+                            removeIDFromOderByIDReadFail = !string.IsNullOrEmpty(CSTID_From_TransferCompletedReport);
                             TUNID = CreateTUNID();
                             cst = TUNID;
                         }
                         else
                         {
-                            IsLastCstIDReadResultFailFlag = false;
                             cst = (isDUIDHappen ? thisPortDUID : value);
                         }
+
                         Task.Factory.StartNew(async () =>
                         {
+                            if (removeIDFromOderByIDReadFail)
+                            {
+                                await RemoveCarrier(CSTID_From_TransferCompletedReport + "");
+                                CSTID_From_TransferCompletedReport = "";
+                                await Task.Delay(500);
+                            }
                             await InstallCarrier(cst + "");
-                            IsLastCstIDReadResultFailFlag = isReadFail;
                         });
 
                     }
@@ -843,7 +853,12 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             Properties.IsInstalled = false;
             Properties.CarrierInstallTime = DateTime.MinValue;
             DevicesManager.SaveDeviceConnectionOpts();
-            Utility.SystemLogger.Info($"{PortName}-Remove Carrier_{cst_id} Secs Report process start");
+            Utility.SystemLogger.Info($"{PortName}-Remove Carrier_{cst_id} Secs Report process start." +
+                $"\r\nIsLastCstIDReadResultFailFlag Flag = {IsLastCstIDReadResultFailFlag})" +
+                $"\r\n-EPortType={EPortType}" +
+                $"\r\n-PortExist={PortExist}" +
+                $"\r\n-checkPortType={checkPortType}" +
+                $"\r\n-Properties.RemoveCarrierMCSReportOnlyInOUTPUTMODE={Properties.RemoveCarrierMCSReportOnlyInOUTPUTMODE}");
             //要上報MCS的條件 
             //1. 在設定檔中有設定需要判斷OUTPUT 且當下為OUTPUT
             //2. 在設定檔中有設定不需要判斷OUTPUT 
@@ -859,8 +874,8 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             }
 
             Utility.SystemLogger.Info($"[{PortName}] Carrier removed Report to MCS Start");
-            bool remove_reported = await SecsEventReport(CEID.CarrierRemovedCompletedReport, CSTIDOnPort + "");
-            Utility.SystemLogger.Info($"[{PortName}] Carrier[{CSTIDOnPort}] removed Report to MCS Result = {(remove_reported ? "Success" : "Fail")}");
+            bool remove_reported = await SecsEventReport(CEID.CarrierRemovedCompletedReport, cst_id + "");
+            Utility.SystemLogger.Info($"[{PortName}] Carrier[{cst_id}] removed Report to MCS Result = {(remove_reported ? "Success" : "Fail")}");
 
             if (Properties.IsConverter && Properties.ModifyAGVSCargoIDWithWebAPI && CallRemoveRackCarrierIDAPI)
             {
