@@ -502,23 +502,25 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                         string cst = string.Empty;
                         bool isReadFail = IsBCR_READ_ERROR();
                         IsLastCstIDReadResultFailFlag = isReadFail;
-                        bool removeIDFromOderByIDReadFail = false;
+                        bool carrierRemoveReportForIDFromTransferCommand = false;
                         if (isReadFail)
                         {
                             if (Debugger.IsAttached)
                                 CSTID_From_TransferCompletedReport = "TTTTESTID";
-                            removeIDFromOderByIDReadFail = !string.IsNullOrEmpty(CSTID_From_TransferCompletedReport);
+                            carrierRemoveReportForIDFromTransferCommand = !string.IsNullOrEmpty(CSTID_From_TransferCompletedReport);
                             TUNID = CreateTUNID();
                             cst = TUNID;
                         }
                         else
                         {
+                            bool isReadMismatch = !string.IsNullOrEmpty(CSTID_From_TransferCompletedReport) && value != CSTID_From_TransferCompletedReport;
+                            carrierRemoveReportForIDFromTransferCommand = isReadMismatch;
                             cst = (isDUIDHappen ? thisPortDUID : value);
                         }
 
                         Task.Factory.StartNew(async () =>
                         {
-                            if (removeIDFromOderByIDReadFail)
+                            if (carrierRemoveReportForIDFromTransferCommand)
                             {
                                 await RemoveCarrier(CSTID_From_TransferCompletedReport + "");
                                 CSTID_From_TransferCompletedReport = "";
