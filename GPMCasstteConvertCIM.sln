@@ -13,9 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GPMAPPBackgroundWoker", "GP
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MultiModbusClientsEmulation", "MultiModbusClientsEmulation\MultiModbusClientsEmulation.csproj", "{C34B5C39-5312-477F-BBA1-F07DAA4837BC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AGVSystemCommonNet6", "AGVSystemCommonNet6\AGVSystemCommonNet6.csproj", "{C0E80457-1826-48AA-8EC2-D93B4089E290}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AGVSystemCommonNet6", "..\AGVSystemCommonNet6\AGVSystemCommonNet6.csproj", "{C0E80457-1826-48AA-8EC2-D93B4089E290}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RosBridgeClient", "RosBridgeClient\RosBridgeClient.csproj", "{FEBDD62A-9247-43C1-9287-57265CDC2AD3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RosBridgeClient", "..\RosBridgeClient\RosBridgeClient.csproj", "{FEBDD62A-9247-43C1-9287-57265CDC2AD3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CIMWatchDogMonitor", "CIMWatchDogMonitor\CIMWatchDogMonitor.csproj", "{BA9C3FB4-5AD0-4488-8208-796CAC8487B1}"
 EndProject
