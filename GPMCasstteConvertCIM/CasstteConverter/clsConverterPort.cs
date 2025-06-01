@@ -850,6 +850,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         internal async Task RemoveCarrier(string cst_id, bool checkPortType = true, bool CallRemoveRackCarrierIDAPI = true)
         {
+            bool _isManualMode = EPortAutoStatus == AUTO_MANUAL_MODE.MANUAL;
             bool _isLastCstIDReadFailFlag = IsLastCstIDReadResultFailFlag;
             UpdateModbusBCRReport("", isClearBCR: true);
             Properties.IsInstalled = false;
@@ -869,11 +870,15 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 Utility.SystemLogger.Warning($"[{PortName}]Carrier Remove Event not Report to MCS ,because 'NeverReportCarrierRemove' setting is actived.");
                 return;
             }
-            if (!_isLastCstIDReadFailFlag && checkPortType && Properties.RemoveCarrierMCSReportOnlyInOUTPUTMODE && EPortType != PortUnitType.Output)
+            if (!_isManualMode && !_isLastCstIDReadFailFlag && checkPortType && Properties.RemoveCarrierMCSReportOnlyInOUTPUTMODE && EPortType != PortUnitType.Output)
             {
                 Utility.SystemLogger.Warning($"[{PortName}] Only report carrier remove when OUPUT Mode actived. BCR ID Clear but Port Type ={EPortType}, Carrier removed not REPORT to MCS");
                 return;
             }
+
+            if (_isManualMode)
+                Utility.SystemLogger.Info($"[{PortName}] now is manual mode, Carrier removed event need report to MCS!!!");
+
 
             Utility.SystemLogger.Info($"[{PortName}] Carrier removed Report to MCS Start");
             bool remove_reported = await SecsEventReport(CEID.CarrierRemovedCompletedReport, cst_id + "");
