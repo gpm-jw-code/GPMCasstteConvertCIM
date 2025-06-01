@@ -19,8 +19,20 @@ namespace GPMCasstteConvertCIM
         ///  The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
+
+            //從參數中讀取是否啟動後將畫面最小化
+            bool isMinimized = false;
+            if (args.Length > 0)
+            {
+                string arg = args[0].ToLower();
+                if (arg == "-minimized" || arg == "-m")
+                {
+                    isMinimized = true;
+                }
+            }
+
             CheckProgramOpenState();
             //StartDump();
             ApplicationConfiguration.Initialize();
@@ -30,7 +42,7 @@ namespace GPMCasstteConvertCIM
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             // 設定應用程序線程的未捕捉異常處理
             Application.ThreadException += Application_ThreadException;
-            Application.Run(new frmMain());
+            Application.Run(new frmMain(isMinimize: isMinimized));
         }
 
         private static void StartDump()

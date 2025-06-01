@@ -62,7 +62,7 @@
             ckbHotRunMode = new CheckBox();
             btnOpenLoginFOrm = new Button();
             label6 = new Label();
-            uscConnectionStates1 = new UI_UserControls.UscConnectionStates();
+            uscConnectionStates1 = new GPMCasstteConvertCIM.UI_UserControls.UscConnectionStates();
             label1 = new Label();
             statusStrip1 = new StatusStrip();
             toolStripStatusLabel1 = new ToolStripStatusLabel();
@@ -81,14 +81,14 @@
             labCurrentEncodingName = new ToolStripStatusLabel();
             labSysTime = new ToolStripStatusLabel();
             SysTimer = new System.Windows.Forms.Timer(components);
-            uscAlarmShow1 = new UI_UserControls.UscAlarmShow();
+            uscAlarmShow1 = new GPMCasstteConvertCIM.UI_UserControls.UscAlarmShow();
             ckbRemoteModeIndi = new CheckBox();
             cknOnlineModeIndi = new CheckBox();
             pnlLoading = new Panel();
             label7 = new Label();
             tabControl1 = new TabControl();
             tabPage4 = new TabPage();
-            usceqStatus1 = new UI_UserControls.UscEQStatus();
+            usceqStatus1 = new GPMCasstteConvertCIM.UI_UserControls.UscEQStatus();
             tabPage1 = new TabPage();
             splitContainer2 = new SplitContainer();
             tlpConverterContainer = new TableLayoutPanel();
@@ -98,7 +98,7 @@
             btnClearInfoLog = new Button();
             rtbSystemLogShow = new RichTextBox();
             tabPage3 = new TabPage();
-            uscAlarmTable1 = new UI_UserControls.UscAlarmTable();
+            uscAlarmTable1 = new GPMCasstteConvertCIM.UI_UserControls.UscAlarmTable();
             tabPage2 = new TabPage();
             tableLayoutPanel1 = new TableLayoutPanel();
             checkBox2 = new CheckBox();
@@ -108,7 +108,12 @@
             checkBox5 = new CheckBox();
             rtbModbusTcpServerLog = new RichTextBox();
             tabAGVSInfos = new TabPage();
-            uscagVsInfo1 = new UI_UserControls.UscAGVsInfo();
+            uscagVsInfo1 = new GPMCasstteConvertCIM.UI_UserControls.UscAGVsInfo();
+            notifyIcon1 = new NotifyIcon(components);
+            contextMenuStripForSysTrayIcon = new ContextMenuStrip(components);
+            minimizeToSysTrayToolStripMenuItem = new ToolStripMenuItem();
+            toolStripSeparator1 = new ToolStripSeparator();
+            closeAppToolStripMenuItem = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)primaryMessageWrapperBindingSource4).BeginInit();
             ((System.ComponentModel.ISupportInitialize)primaryMessageWrapperBindingSource1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)primaryMessageWrapperBindingSource3).BeginInit();
@@ -133,6 +138,7 @@
             tabPage2.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
             tabAGVSInfos.SuspendLayout();
+            contextMenuStripForSysTrayIcon.SuspendLayout();
             SuspendLayout();
             // 
             // primaryMessageWrapperBindingSource4
@@ -446,7 +452,7 @@
             toolStripStatusLabel1.LinkColor = Color.FromArgb(53, 53, 53);
             toolStripStatusLabel1.Margin = new Padding(0);
             toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            toolStripStatusLabel1.Size = new Size(748, 22);
+            toolStripStatusLabel1.Size = new Size(852, 22);
             toolStripStatusLabel1.Spring = true;
             toolStripStatusLabel1.Text = "GPM AGV SYSTEM CIM";
             toolStripStatusLabel1.TextAlign = ContentAlignment.MiddleLeft;
@@ -988,6 +994,44 @@
             uscagVsInfo1.Size = new Size(1238, 640);
             uscagVsInfo1.TabIndex = 0;
             // 
+            // notifyIcon1
+            // 
+            notifyIcon1.ContextMenuStrip = contextMenuStripForSysTrayIcon;
+            notifyIcon1.Icon = (Icon)resources.GetObject("notifyIcon1.Icon");
+            notifyIcon1.Text = "GPM CIM Program Running";
+            notifyIcon1.Visible = true;
+            notifyIcon1.DoubleClick += notifyIcon1_DoubleClick;
+            // 
+            // contextMenuStripForSysTrayIcon
+            // 
+            contextMenuStripForSysTrayIcon.BackColor = Color.FromArgb(43, 43, 43);
+            contextMenuStripForSysTrayIcon.Font = new Font("微軟正黑體", 11F, FontStyle.Regular, GraphicsUnit.Point);
+            contextMenuStripForSysTrayIcon.Items.AddRange(new ToolStripItem[] { minimizeToSysTrayToolStripMenuItem, toolStripSeparator1, closeAppToolStripMenuItem });
+            contextMenuStripForSysTrayIcon.Name = "contextMenuStripForSysTrayIcon";
+            contextMenuStripForSysTrayIcon.ShowImageMargin = false;
+            contextMenuStripForSysTrayIcon.Size = new Size(159, 58);
+            // 
+            // minimizeToSysTrayToolStripMenuItem
+            // 
+            minimizeToSysTrayToolStripMenuItem.ForeColor = Color.White;
+            minimizeToSysTrayToolStripMenuItem.Name = "minimizeToSysTrayToolStripMenuItem";
+            minimizeToSysTrayToolStripMenuItem.Size = new Size(158, 24);
+            minimizeToSysTrayToolStripMenuItem.Text = "最小化至系統匣";
+            minimizeToSysTrayToolStripMenuItem.Click += minimizeToSysTrayToolStripMenuItem_Click;
+            // 
+            // toolStripSeparator1
+            // 
+            toolStripSeparator1.Name = "toolStripSeparator1";
+            toolStripSeparator1.Size = new Size(155, 6);
+            // 
+            // closeAppToolStripMenuItem
+            // 
+            closeAppToolStripMenuItem.ForeColor = Color.White;
+            closeAppToolStripMenuItem.Name = "closeAppToolStripMenuItem";
+            closeAppToolStripMenuItem.Size = new Size(158, 24);
+            closeAppToolStripMenuItem.Text = "關閉";
+            closeAppToolStripMenuItem.Click += closeAppToolStripMenuItem_Click;
+            // 
             // frmMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -1039,6 +1083,7 @@
             tabPage2.ResumeLayout(false);
             tableLayoutPanel1.ResumeLayout(false);
             tabAGVSInfos.ResumeLayout(false);
+            contextMenuStripForSysTrayIcon.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -1131,5 +1176,10 @@
         private ToolStripMenuItem mCSRemoteToolStripMenuItem;
         private ToolStripDropDownButton tsddAutomations;
         private ToolStripMenuItem tsmVehicleCstReaderSwitchAuto;
+        private NotifyIcon notifyIcon1;
+        private ContextMenuStrip contextMenuStripForSysTrayIcon;
+        private ToolStripMenuItem closeAppToolStripMenuItem;
+        private ToolStripMenuItem minimizeToSysTrayToolStripMenuItem;
+        private ToolStripSeparator toolStripSeparator1;
     }
 }

@@ -46,6 +46,11 @@ namespace GPMCasstteConvertCIM.Forms
             toolStripComboBox_Emulators.Visible = false;
         }
 
+        public frmMain(bool isMinimize) : this()
+        {
+            WindowState = isMinimize ? FormWindowState.Minimized : FormWindowState.Maximized;
+        }
+
         private void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
         {
             try
@@ -630,7 +635,7 @@ namespace GPMCasstteConvertCIM.Forms
             {
                 item.mcInterface?.Close();
             }
-
+            notifyIcon1.Dispose();
             Environment.Exit(0);
         }
 
@@ -862,6 +867,8 @@ namespace GPMCasstteConvertCIM.Forms
 
                 var _WindowState = this.WindowState;
                 Utility.SystemLogger.UIWindowState = _WindowState;
+                ShowInTaskbar = WindowState != FormWindowState.Minimized;
+
             }
             catch (Exception)
             {
@@ -969,6 +976,29 @@ namespace GPMCasstteConvertCIM.Forms
             tsmVehicleCstReaderSwitchAuto.CheckState = _enable ? CheckState.Checked : CheckState.Unchecked;
             Utility.SysConfigs.Automation.SwitchVehicleCSTReaderWhenHostRemote = _enable;
             Utility.SaveConfigs();
+        }
+
+        private void notifyIcon1_DoubleClick(object sender, EventArgs e)
+        {
+            this.SuspendLayout();
+            WindowState = FormWindowState.Maximized;
+            Task.Delay(400).ContinueWith(t =>
+            {
+                Invoke(() =>
+                {
+                    ResumeLayout();
+                });
+            });
+        }
+
+        private void closeAppToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Form1_FormClosing(sender, new FormClosingEventArgs(CloseReason.UserClosing, false));
+        }
+
+        private void minimizeToSysTrayToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            WindowState = FormWindowState.Minimized;
         }
     }
 }
