@@ -22,7 +22,7 @@ namespace GPMCasstteConvertCIM
         static void Main()
         {
             CheckProgramOpenState();
-            StartDump();
+            //StartDump();
             ApplicationConfiguration.Initialize();
             StartBGAPP();
             EnvironmentVariables.AddUserVariable("GPM_CIM_Path", Application.ExecutablePath);
